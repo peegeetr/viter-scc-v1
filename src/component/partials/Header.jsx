@@ -2,8 +2,7 @@ import React from "react";
 import { FaSignOutAlt, FaTimes, FaUserCircle } from "react-icons/fa";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { setIsLogout, setIsShow } from "../../store/StoreAction";
-import { StoreContext } from "../../store/StoreContext";
-import FbasLogoSm from "../svg/fbasLogoSm.jsx";
+import { StoreContext } from "../../store/StoreContext"; 
 import NewThingLogo from "../svg/NewThingLogo.jsx";
 import ModalLogout from "./modals/ModalLogout.jsx";
 
@@ -22,7 +21,8 @@ const Header = () => {
     <>
       <div className="fixed z-30 bg-primary w-full flex justify-between items-center h-16 px-3 border-solid border-b-2 border-primary">
         <h1>
-          <NewThingLogo />
+          {/* <NewThingLogo /> */}
+          logo
         </h1>
         <div className="flex justify-between items-center gap-3">
           <FaUserCircle className="w-9 h-9 text-white hidden md:block" />

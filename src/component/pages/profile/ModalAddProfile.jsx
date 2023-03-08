@@ -2,21 +2,15 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Form, Formik } from "formik";
 import React from "react";
 import { FaTimesCircle } from "react-icons/fa";
-import * as Yup from "yup";
-import {
-  setError,
-  setIsAdd,
-  setMessage,
-  setStartIndex,
-} from "../../../../store/StoreAction";
-import { StoreContext } from "../../../../store/StoreContext";
-import { fetchData } from "../../../helpers/fetchData";
-import { InputText } from "../../../helpers/FormInputs";
-import { closeModal } from "../../../helpers/functions-general.jsx";
-import { queryData } from "../../../helpers/queryData.jsx";
-import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
+import * as Yup from "yup"; 
+import { setError, setMessage } from "../../../store/StoreAction";
+import { StoreContext } from "../../../store/StoreContext";
+import { InputText } from "../../helpers/FormInputs";
+import { closeModal } from "../../helpers/functions-general";
+import { queryData } from "../../helpers/queryData";
+import ButtonSpinner from "../../partials/spinners/ButtonSpinner";
 
-const ModalAddMovement = ({ itemEdit }) => {
+const ModalAddProfile = ({ itemEdit }) => {
   const { dispatch } = React.useContext(StoreContext);
   const queryClient = useQueryClient();
   const [show, setShow] = React.useState("show");
@@ -43,15 +37,13 @@ const ModalAddMovement = ({ itemEdit }) => {
     closeModal(setShow, dispatch);
   };
 
-  const initVal = {
-    movement_aid: itemEdit ? itemEdit.movement_aid : "",
-    movement_name: itemEdit ? itemEdit.movement_name : "",
-    movement_church: itemEdit ? itemEdit.movement_church : "",
-    movement_name_old: itemEdit ? itemEdit.movement_name : "",
+  const initVal = { 
+    name: itemEdit ? itemEdit.name : "",
+    date: itemEdit ? itemEdit.date : "", 
   };
 
   const yupSchema = Yup.object({
-    movement_name: Yup.string().required("Required"),
+    name: Yup.string().required("Required"),
   });
 
   return (
@@ -62,7 +54,7 @@ const ModalAddMovement = ({ itemEdit }) => {
         <div className="p-1 w-[350px] rounded-b-2xl animate-slideUp ">
           <div className="flex justify-between items-center bg-primary p-3 rounded-t-2xl">
             <h3 className="text-white text-sm">
-              {itemEdit ? "Update" : "Add"} Movement
+              {itemEdit ? "Update" : "Add"} Profile
             </h3>
             <button
               type="button"
@@ -88,16 +80,16 @@ const ModalAddMovement = ({ itemEdit }) => {
                       <InputText
                         label="Name"
                         type="text"
-                        name="movement_name"
+                        name="name"
                         disabled={mutation.isLoading}
                       />
                     </div>
 
                     <div className="relative mb-5">
                       <InputText
-                        label="Church"
+                        label="Date"
                         type="text"
-                        name="movement_church"
+                        name="Date"
                         disabled={mutation.isLoading}
                       />
                     </div>
@@ -136,4 +128,4 @@ const ModalAddMovement = ({ itemEdit }) => {
   );
 };
 
-export default ModalAddMovement;
+export default ModalAddProfile;

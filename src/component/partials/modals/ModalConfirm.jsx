@@ -15,7 +15,7 @@ import ButtonSpinner from "../spinners/ButtonSpinner";
 const ModalConfirm = ({
   id,
   isDel,
-  mysqlApiDelete,
+  mysqlApiReset,
   mysqlApiArchive,
   msg,
   item,
@@ -28,7 +28,7 @@ const ModalConfirm = ({
 
   const mutation = useMutation({
     mutationFn: (values) =>
-      queryData(isDel ? mysqlApiDelete : mysqlApiArchive, "put", values),
+      queryData(isDel ? mysqlApiReset : mysqlApiArchive, "put", values),
     onSuccess: () => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: [queryKey] });

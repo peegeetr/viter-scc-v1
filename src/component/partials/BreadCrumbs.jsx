@@ -3,7 +3,7 @@ import { AiFillSetting } from "react-icons/ai";
 import { Link, useLocation } from "react-router-dom";
 import { setStartIndex } from "../../store/StoreAction";
 import { StoreContext } from "../../store/StoreContext";
-import { devNavUrl, UrlAdmin } from "../helpers/functions-general";
+import { devNavUrl, UrlSystem } from "../helpers/functions-general";
 
 const BreadCrumbs = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -12,7 +12,7 @@ const BreadCrumbs = () => {
   let currentLink = "";
 
   const crumbs = location.pathname
-    .replace("/dev-app/admin", "")
+    .replace("/dev-app/system", "")
     .split("/")
     .filter((crumb) => crumb !== "")
     .map((crumb, key) => {
@@ -25,7 +25,7 @@ const BreadCrumbs = () => {
           onClick={() => dispatch(setStartIndex(0))}
         >
           <Link
-            to={`${devNavUrl}/${UrlAdmin}${currentLink}`}
+            to={`${devNavUrl}/${UrlSystem}${currentLink}`}
             className="mr-2 text-base font-medium hover:text-primary capitalize"
           >
             {crumb}
@@ -37,9 +37,9 @@ const BreadCrumbs = () => {
   return (
     <>
       <ul className="my-2 flex items-center">
-        <span className="mr-1 text-primary">
+        {/* <span className="mr-1 text-primary">
           {crumbs.length === 1 ? "" : <AiFillSetting />}
-        </span>
+        </span> */}
         {crumbs.length === 1 ? "" : crumbs}
       </ul>
     </>

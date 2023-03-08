@@ -1,13 +1,13 @@
 import React from "react";
 import { setIsAdd } from "../../store/StoreAction.jsx";
 
-// Online URL dev
-export const devApiUrl =
-  "https://newthing.frontlineworshipcenter.org/dev-app/rest";
-export const devBaseImgUrl =
-  "https://newthing.frontlineworshipcenter.org/dev-app/img";
-export const devBaseUrl = "https://newthing.frontlineworshipcenter.org/dev-app";
-export const devNavUrl = "/dev-app";
+// // Online URL dev
+// export const devApiUrl =
+//   "https://scc.org/dev-app/rest";
+// export const devBaseImgUrl =
+//   "https://scc.org/dev-app/img";
+// export const devBaseUrl = "https://scc.org/dev-app";
+// export const devNavUrl = "/dev-app";
 
 // // // // Local URL dev
 // export const devApiUrl = "http://localhost/viter-newthing-v1/rest";
@@ -16,11 +16,12 @@ export const devNavUrl = "/dev-app";
 // export const devNavUrl = "/dev-app";
 
 // cy url
-// export const devApiUrl = "http://localhost/projects/viter-hris-v3/rest";
-// export const devBaseUrl = "http://localhost/projects/viter-hris-v3/public";
-// export const devNavUrl = "/dev-app";
+export const devApiUrl = "http://localhost/viter-scc-v1/rest";
+export const devBaseUrl = "http://localhost/viter-scc-v1/public";
+export const devNavUrl = "/dev-app";
 
 export const UrlAdmin = "admin";
+export const UrlSystem = "system";
 
 export const is_developer = "is_developer";
 

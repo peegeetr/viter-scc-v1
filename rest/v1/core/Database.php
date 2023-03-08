@@ -14,7 +14,7 @@ class Database
 
         // Localhost
         $host = "localhost";
-        $dbname = "ntp_v1";
+        $dbname = "scc";
         $username = "root";
         $password = "";
 

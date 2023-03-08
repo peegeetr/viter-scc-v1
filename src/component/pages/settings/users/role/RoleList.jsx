@@ -26,8 +26,7 @@ const RoleList = ({ setItemEdit }) => {
 
   const {
     isLoading,
-    isFetching,
-    status,
+    isFetching, 
     error,
     data: result,
   } = useQueryData(
@@ -65,7 +64,7 @@ const RoleList = ({ setItemEdit }) => {
   return (
     <>
       <div className="relative text-center overflow-x-auto z-0">
-        {isFetching && status !== "loading" && <FetchingSpinner />}
+        {isFetching && isLoading && <FetchingSpinner />}
         <table>
           <thead>
             <tr>
@@ -94,8 +93,7 @@ const RoleList = ({ setItemEdit }) => {
               </tr>
             )}
 
-            {result?.data.length &&
-              result?.data.map((item, key) => (
+            {result?.data.map((item, key) => (
                 <tr key={key}>
                   <td>{counter++}.</td>
                   <td>{item.role_name}</td>
@@ -108,7 +106,7 @@ const RoleList = ({ setItemEdit }) => {
                     )}
                   </td>
                   <td>
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-1">
                       {item.role_is_active === 1 ? (
                         <>
                           <button

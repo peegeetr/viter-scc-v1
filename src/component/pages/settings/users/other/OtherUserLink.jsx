@@ -2,13 +2,13 @@ import React from "react";
 import { FaUser } from "react-icons/fa";
 import { SlArrowRight } from "react-icons/sl";
 import { Link } from "react-router-dom";
-import { devNavUrl, UrlAdmin } from "../../../../helpers/functions-general";
+import { devNavUrl, UrlSystem } from "../../../../helpers/functions-general";
 
 const OtherUserLink = () => {
   return (
     <div className="group flex items-center justify-between border-b border-solid border-gray-300">
       <Link
-        to={`${devNavUrl}/${UrlAdmin}/settings/users/other`}
+        to={`${devNavUrl}/${UrlSystem}/settings/users/other`}
         className="w-full py-2"
       >
         <div className="flex items-center">
@@ -24,7 +24,7 @@ const OtherUserLink = () => {
       </Link>
 
       <Link
-        to={`${devNavUrl}/${UrlAdmin}/settings/users/other`}
+        to={`${devNavUrl}/${UrlSystem}/settings/users/other`}
         className="btn-action-table group-hover:bg-primary group-hover:text-white"
       >
         <SlArrowRight className="inline" />

@@ -1,21 +1,15 @@
 import React from "react";
 import { AiFillSetting } from "react-icons/ai";
-import {
-  FaBusinessTime,
-  FaCalendarAlt,
-  FaCalendarCheck,
-  FaEye,
-  FaInfoCircle,
-  FaNewspaper,
-  FaTasks,
+import { 
   FaUserCheck,
+  FaBusinessTime,
   FaUsers,
 } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { setIsShow } from "../../store/StoreAction";
 import { StoreContext } from "../../store/StoreContext";
-import { devNavUrl } from "../helpers/functions-general";
+import { devNavUrl, UrlSystem } from "../helpers/functions-general";
 
 const Navigation = ({ menu }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -34,19 +28,70 @@ const Navigation = ({ menu }) => {
         <ul className="text-sm mt-16 text-dark">
           <li
             className={
-              menu === "members"
-                ? "active"
-                : "hover:bg-gradient-to-r hover:from-gray-300 hover:to-gray-300"
+              menu === "dashboard"
+              ? "active"
+              : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
             }
           >
             <Link
-              to={`${devNavUrl}/admin/members`}
+              to={`${devNavUrl}/${UrlSystem}/dashboard`}
               className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
               onClick={handleShow}
-              data-tooltip="Overviews"
+              data-tooltip="Dashboard"
             >
               <MdDashboard className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
-              <span className="md:hidden lg:block">Members</span>
+              <span className="md:hidden lg:block">Dashboard</span>
+            </Link>
+          </li>
+          <li
+            className={
+              menu === "account"
+              ? "active"
+              : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
+            }
+          >
+            <Link
+              to={`${devNavUrl}/${UrlSystem}/account`}
+              className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
+              onClick={handleShow}
+              data-tooltip="Account"
+            >
+              <FaUserCheck className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
+              <span className="md:hidden lg:block">Account</span>
+            </Link>
+          </li>
+          <li
+            className={
+              menu === "profile"
+              ? "active"
+              : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
+            }
+          >
+            <Link
+              to={`${devNavUrl}/${UrlSystem}/profile`}
+              className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
+              onClick={handleShow}
+              data-tooltip="Profile"
+            >
+              <FaUsers className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
+              <span className="md:hidden lg:block">Profile</span>
+            </Link>
+          </li>
+          <li
+            className={
+              menu === "application"
+              ? "active"
+              : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
+            }
+          >
+            <Link
+              to={`${devNavUrl}/${UrlSystem}/application`}
+              className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
+              onClick={handleShow}
+              data-tooltip="Application"
+            >
+              <FaBusinessTime className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
+              <span className="md:hidden lg:block">Application</span>
             </Link>
           </li>
 
@@ -54,11 +99,11 @@ const Navigation = ({ menu }) => {
             className={
               menu === "settings"
                 ? "active"
-                : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary"
+                : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
             }
           >
             <Link
-              to={`${devNavUrl}/admin/settings`}
+              to={`${devNavUrl}/${UrlSystem}/settings`}
               className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
               onClick={handleShow}
               data-tooltip="Settings"

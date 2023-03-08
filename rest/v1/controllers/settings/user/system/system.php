@@ -5,8 +5,8 @@ require '../../../../core/header.php';
 require '../../../../core/Encryption.php';
 // use needed functions
 require '../../../../core/functions.php';
-// use notification template
-require '../../../../notification/verify-account.php';
+// // use notification template
+// require '../../../../notification/verify-account.php';
 // use needed classes
 require '../../../../models/settings/user/system/UserSystem.php';
 // get payload

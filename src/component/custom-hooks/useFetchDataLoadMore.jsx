@@ -49,12 +49,12 @@ const useFetchDataLoadMore = (url, url2, perPage, search) => {
       return;
     }
 
-    if (result.data.length === 0) {
+    if (result.length === 0) {
       setTotalResult([]);
       return;
     }
 
-    if (result.data.length > 0) {
+    if (result.length > 0) {
       setTotalResult(result.data.length);
     }
   };

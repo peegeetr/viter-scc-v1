@@ -107,30 +107,7 @@ const ModalAddSystemUser = ({ itemEdit, role }) => {
                         name="user_system_email"
                         disabled={loading}
                       />
-                    </div>
-                    <div className="relative mb-5">
-                      <InputSelect
-                        label="Role"
-                        name="user_system_role_id"
-                        disabled={loading}
-                      >
-                        <>
-                          {role.length > 0 ? (
-                            role.map((item, key) => {
-                              return (
-                                item.role_is_developer === 1 && (
-                                  <option key={key} value={item.role_aid}>
-                                    {item.role_name}
-                                  </option>
-                                )
-                              );
-                            })
-                          ) : (
-                            <option value="">No Data</option>
-                          )}
-                        </>
-                      </InputSelect>
-                    </div>
+                    </div> 
 
                     <div className="flex items-center gap-1 pt-5">
                       <button

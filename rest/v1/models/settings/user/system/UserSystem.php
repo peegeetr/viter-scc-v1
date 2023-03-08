@@ -23,8 +23,8 @@ class UserSystem
     public function __construct($db)
     {
         $this->connection = $db;
-        $this->tblUserSystem = "ntpv1_settings_user_system";
-        $this->tblRole = "ntpv1_settings_role";
+        $this->tblUserSystem = "sccv1_settings_user_system";
+        $this->tblRole = "sccv1_settings_role";
     }
 
     // create

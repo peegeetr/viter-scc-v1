@@ -4,7 +4,7 @@ import { SlArrowRight } from "react-icons/sl";
 import { Link } from "react-router-dom";
 import { setStartIndex } from "../../../../store/StoreAction";
 import { StoreContext } from "../../../../store/StoreContext";
-import { devNavUrl, UrlAdmin } from "../../../helpers/functions-general";
+import { devNavUrl, UrlSystem } from "../../../helpers/functions-general";
 
 const UserLink = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -15,7 +15,7 @@ const UserLink = () => {
       onClick={() => dispatch(setStartIndex(0))}
     >
       <Link
-        to={`${devNavUrl}/${UrlAdmin}/settings/users`}
+        to={`${devNavUrl}/${UrlSystem}/settings/users`}
         className="w-full py-2"
       >
         <div className="flex items-center">
@@ -31,7 +31,7 @@ const UserLink = () => {
       </Link>
 
       <Link
-        to={`${devNavUrl}/${UrlAdmin}/settings/users`}
+        to={`${devNavUrl}/${UrlSystem}/settings/users`}
         className="btn-action-table group-hover:bg-primary group-hover:text-white"
       >
         <SlArrowRight className="inline" />

@@ -17,9 +17,9 @@ class Role
     public function __construct($db)
     {
         $this->connection = $db;
-        $this->tblRole = "ntpv1_settings_role";
-        $this->tblUserSystem = "ntpv1_settings_user_system";
-        $this->tblUserOther = "ntpv1_settings_user_other";
+        $this->tblRole = "sccv1_settings_role";
+        $this->tblUserSystem = "sccv1_settings_user_system";
+        $this->tblUserOther = "sccv1_settings_user_other";
     }
 
     // create

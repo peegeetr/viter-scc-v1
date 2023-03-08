@@ -18,14 +18,14 @@ class UserOther
     public $employee_email;
     public $tblUserOther;
     public $tblRole;
-    public $tblEmployee;
+    public $tblMembers;
 
     public function __construct($db)
     {
         $this->connection = $db;
-        $this->tblUserOther = "ntpv1_settings_user_other";
-        $this->tblRole = "ntpv1_settings_role";
-        $this->tblEmployee = "ntpv1_employee";
+        $this->tblUserOther = "sccv1_settings_user_other";
+        $this->tblRole = "sccv1_settings_role";
+        $this->tblMembers = "sccv1_employee";
     }
 
     // create
@@ -78,7 +78,7 @@ class UserOther
             $sql .= "user.user_other_aid ";
             $sql .= "from {$this->tblUserOther} as user, ";
             $sql .= "{$this->tblRole} as role, ";
-            $sql .= "{$this->tblEmployee} as employee ";
+            $sql .= "{$this->tblMembers} as employee ";
             $sql .= "where user.user_other_role_id = role.role_aid ";
             $sql .= "and user.user_other_emp_id = employee.employee_aid ";
             $sql .= "order by user.user_other_is_active desc, ";
@@ -107,7 +107,7 @@ class UserOther
             $sql .= "user.user_other_aid ";
             $sql .= "from {$this->tblUserOther} as user, ";
             $sql .= "{$this->tblRole} as role, ";
-            $sql .= "{$this->tblEmployee} as employee ";
+            $sql .= "{$this->tblMembers} as employee ";
             $sql .= "where user.user_other_role_id = role.role_aid ";
             $sql .= "and user.user_other_emp_id = employee.employee_aid ";
             $sql .= "order by user.user_other_is_active desc, ";
@@ -140,7 +140,7 @@ class UserOther
             $sql .= "employee.employee_email ";
             $sql .= "from {$this->tblUserOther} as user, ";
             $sql .= "{$this->tblRole} as role, ";
-            $sql .= "{$this->tblEmployee} as employee ";
+            $sql .= "{$this->tblMembers} as employee ";
             $sql .= "where user.user_other_role_id = role.role_aid ";
             $sql .= "and user.user_other_emp_id = employee.employee_aid ";
             $sql .= "and employee.employee_email like :employee_email ";
@@ -161,7 +161,7 @@ class UserOther
         try {
             $sql = "select * from {$this->tblUserOther} as user, ";
             $sql .= "{$this->tblRole} as role, ";
-            $sql .= "{$this->tblEmployee} as employee ";
+            $sql .= "{$this->tblMembers} as employee ";
             $sql .= "where user.user_other_role_id = role.role_aid ";
             $sql .= "and user.user_other_emp_id = employee.employee_aid ";
             $sql .= "and ( employee.employee_fname like :employee_fname ";
@@ -258,7 +258,7 @@ class UserOther
     public function resetPassword()
     {
         try {
-            $sql = "update {$this->tblUserOther} other, {$this->tblEmployee} employee set ";
+            $sql = "update {$this->tblUserOther} other, {$this->tblMembers} employee set ";
             $sql .= "other.user_other_key = :user_other_key, ";
             $sql .= "other.user_other_datetime = :user_other_datetime ";
             $sql .= "where employee.employee_email  = :employee_email ";

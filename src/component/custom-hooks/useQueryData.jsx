@@ -8,6 +8,8 @@ const useQueryData = (endpoint, method, key = "", fd = {}, id = null) => {
     queryFn: () => queryData(endpoint, method, fd),
     retry: false,
     refetchOnWindowFocus: false,
+    always: true,
+    networkMode: 'always',
   });
 };
 
