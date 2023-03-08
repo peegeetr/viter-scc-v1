@@ -1,0 +1,55 @@
+RewriteEngine On
+# use for authentication
+RewriteCond %{HTTP:Authorization} ^(.+)$
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+
+Header set Access-Control-Allow-Origin *
+
+#department
+RewriteRule ^departments$ controllers/settings/department/department.php [L]
+RewriteRule ^departments/([0-9]+)$ controllers/settings/department/department.php?departmentid=$1 [L]
+RewriteRule ^departments/active/([0-9]+)$ controllers/settings/department/active.php?departmentid=$1 [L]
+RewriteRule ^departments/limit/([0-9]+)/([0-9]+)$ controllers/settings/department/limit.php?start=$1&total=$2 [L]
+RewriteRule ^departments/search/([A-Za-z0-9-]+)$ controllers/settings/department/search.php?search=$1 [L]
+
+#role
+RewriteRule ^roles$ controllers/settings/user/role/role.php [L]
+RewriteRule ^roles/([0-9]+)$ controllers/settings/user/role/role.php?roleid=$1 [L]
+RewriteRule ^roles/active/([0-9]+)$ controllers/settings/user/role/active.php?roleid=$1 [L]
+
+#user-system
+RewriteRule ^user-systems$ controllers/settings/user/system/system.php [L]
+RewriteRule ^user-systems/([0-9]+)$ controllers/settings/user/system/system.php?usersystemid=$1 [L]
+RewriteRule ^user-systems/active/([0-9]+)$ controllers/settings/user/system/active.php?usersystemid=$1 [L]
+RewriteRule ^user-systems/limit/([0-9]+)/([0-9]+)$ controllers/settings/user/system/limit.php?start=$1&total=$2 [L]
+RewriteRule ^user-systems/search/([A-Za-z0-9-]+)$ controllers/settings/user/system/search.php?search=$1 [L]
+RewriteRule ^user-systems/key/([A-Za-z0-9-]+)$ controllers/settings/user/system/key.php?usersystemkey=$1 [L]
+RewriteRule ^user-systems/password$ controllers/settings/user/system/set-password.php [L]
+RewriteRule ^user-systems/login$ controllers/settings/user/system/login.php [L]
+RewriteRule ^user-systems/token$ controllers/settings/user/system/token.php [L]
+RewriteRule ^user-systems/reset$ controllers/settings/user/system/reset-password.php [L]
+
+#user-other
+RewriteRule ^user-others$ controllers/settings/user/other/other.php [L]
+RewriteRule ^user-others/([0-9]+)$ controllers/settings/user/other/other.php?userotherid=$1 [L]
+RewriteRule ^user-others/active/([0-9]+)$ controllers/settings/user/other/active.php?userotherid=$1 [L]
+RewriteRule ^user-others/limit/([0-9]+)/([0-9]+)$ controllers/settings/user/other/limit.php?start=$1&total=$2 [L]
+RewriteRule ^user-others/search/([A-Za-z0-9-]+)$ controllers/settings/user/other/search.php?search=$1 [L]
+RewriteRule ^user-others/key/([A-Za-z0-9-]+)$ controllers/settings/user/other/key.php?userotherkey=$1 [L]
+RewriteRule ^user-others/password$ controllers/settings/user/other/set-password.php [L]
+RewriteRule ^user-others/login$ controllers/settings/user/other/login.php [L]
+RewriteRule ^user-others/token$ controllers/settings/user/other/token.php [L]
+RewriteRule ^user-others/reset$ controllers/settings/user/other/reset-password.php [L]
+
+
+
+
+#Movemoent
+RewriteRule ^movement$ controllers/settings/movement/movement.php [L]
+RewriteRule ^movement/([0-9]+)$ controllers/settings/movement/movement.php?movementid=$1 [L]
+RewriteRule ^movement/active/([0-9]+)$ controllers/settings/movement/active.php?movementid=$1 [L]
+RewriteRule ^movement/limit/([0-9]+)/([0-9]+)$ controllers/settings/movement/limit.php?start=$1&total=$2 [L]
+RewriteRule ^movement/search/([A-Za-z0-9-]+)$ controllers/settings/movement/search.php?search=$1 [L]
+RewriteRule ^movement/page/([0-9]+)$ controllers/settings/movement/page.php?start=$1 [L]
