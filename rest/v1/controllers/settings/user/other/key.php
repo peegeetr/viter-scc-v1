@@ -15,7 +15,7 @@ $response = new Response();
 $body = file_get_contents("php://input");
 $data = json_decode($body, true);
 // get $_GET data
-// check if user_otherempid is in the url e.g. /user_otheremp/1
+// check if userotherkey is in the url e.g. /userotherkey/1
 $error = [];
 $returnData = [];
 // validate api key

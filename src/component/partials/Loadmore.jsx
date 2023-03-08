@@ -1,29 +1,48 @@
 import React from "react";
 import ButtonSpinner from "./spinners/ButtonSpinner";
 
-const Loadmore = ({ handleLoad, loading, totalResult, result }) => {
-  if (totalResult === result.length && totalResult > 0 && result.length > 0) {
-    return <div className="my-6 p-1.5">End of list.</div>;
+const Loadmore = ({
+  fetchNextPage,
+  isFetchingNextPage,
+  hasNextPage,
+  result,
+  setPage,
+  page,
+  refView,
+}) => {
+  // console.log(page, result?.total_pages);
+  if (page === result?.total_pages) {
+    return (
+      <>
+        {isFetchingNextPage ? (
+          <button
+            type="button"
+            disabled={isFetchingNextPage}
+            className="h-full relative my-6 text-white p-1.5 rounded-full w-36 bg-gradient-to-t from-secondary to-primary hover:bg-gradient-to-r hover:from-primary hover:to-secondary disabled:opacity-50 disabled:hover:bg-primary disabled:hover:opacity-50 disabled:cursor-not-allowed"
+          >
+            <ButtonSpinner />
+          </button>
+        ) : (
+          <div className="my-6 p-1.5">End of list.</div>
+        )}
+      </>
+    );
   }
-  if (result.length > 0) {
+  if (hasNextPage) {
     return (
       <button
+        ref={refView}
         type="button"
-        disabled={loading}
-        onClick={handleLoad}
+        disabled={isFetchingNextPage}
+        onClick={() => {
+          setPage((prev) => prev + 1);
+          fetchNextPage();
+        }}
         className="h-full relative my-6 text-white p-1.5 rounded-full w-36 bg-gradient-to-t from-secondary to-primary hover:bg-gradient-to-r hover:from-primary hover:to-secondary disabled:opacity-50 disabled:hover:bg-primary disabled:hover:opacity-50 disabled:cursor-not-allowed"
       >
-        {loading ? (
-          <span>
-            <ButtonSpinner />
-          </span>
-        ) : (
-          <span>Load more</span>
-        )}
+        {isFetchingNextPage ? <ButtonSpinner /> : <span>Load more</span>}
       </button>
     );
-  } else {
-    return null;
   }
 };
 

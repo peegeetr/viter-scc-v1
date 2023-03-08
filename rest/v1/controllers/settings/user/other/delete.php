@@ -16,7 +16,8 @@ if (array_key_exists("userotherid", $_GET)) {
     checkId($user_other->user_other_aid);
     // delete
     $query = checkDelete($user_other);
-    returnSuccess($user_other, "User", $query);
+
+    returnSuccess($user_other, "User other", $query);
 }
 
 // return 404 error if endpoint not available

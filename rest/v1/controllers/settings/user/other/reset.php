@@ -1,13 +1,14 @@
 <?php
 // set http header
 require '../../../../core/header.php';
-require '../../../../core/Encryption.php';
 // use needed functions
 require '../../../../core/functions.php';
-// use notification template
-require '../../../../notification/reset-password.php';
 // use needed classes
 require '../../../../models/settings/user/other/UserOther.php';
+// use notification template
+require '../../../../notification/reset-password.php';
+// check database connection
+require '../../../../core/Encryption.php';
 // check database connection
 $conn = null;
 $conn = checkDbConnection();
@@ -19,7 +20,7 @@ $encrypt = new Encryption();
 $body = file_get_contents("php://input");
 $data = json_decode($body, true);
 // get $_GET data
-// check if usersystemid is in the url e.g. /usersystem/1
+// check if userotherid is in the url e.g. /user/1
 $error = [];
 $returnData = [];
 // validate api key
@@ -27,12 +28,11 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     checkApiKey();
     // check data
     checkPayload($data);
-    // get task id from query string
-    // get usersystemid from query string
+    // get task id from query string 
+    $password_link = "/create-password";
+    $user_other->user_other_email = trim($data["email"]);
     $user_other->user_other_key = $encrypt->doHash(rand());
     $user_other->user_other_datetime = date("Y-m-d H:i:s");
-    $user_other->employee_email = trim($data["email"]);
-    $password_link = "/other/create-password";
 
     $query = $user_other->readLogin();
     if ($query->rowCount() == 0) {
@@ -45,20 +45,15 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         exit;
     }
 
-    $mail = sendEmail(
+    sendEmail(
         $password_link,
-        $user_other->employee_email,
+        $user_other->user_other_email,
         $user_other->user_other_key
     );
-
-    $query = checkResetPassword($user_other);
+    $query = checkReset($user_other);
     http_response_code(200);
-    $returnData["data"] = [];
-    $returnData["count"] = $user_other->employee_email;
-    $returnData["success"] = true;
-    $response->setData($returnData);
-    $response->send();
-    exit;
+
+    returnSuccess($user_other, "User other", $query);
     // return 404 error if endpoint not available
     checkEndpoint();
 }

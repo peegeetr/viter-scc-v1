@@ -1,13 +1,14 @@
 <?php
 // set http header
 require '../../../../core/header.php';
-require '../../../../core/Encryption.php';
 // use needed functions
 require '../../../../core/functions.php';
-// use notification template
-require '../../../../notification/reset-password.php';
 // use needed classes
 require '../../../../models/settings/user/system/UserSystem.php';
+// use notification template
+require '../../../../notification/reset-password.php';
+// check database connection
+require '../../../../core/Encryption.php';
 // check database connection
 $conn = null;
 $conn = checkDbConnection();
@@ -19,7 +20,7 @@ $encrypt = new Encryption();
 $body = file_get_contents("php://input");
 $data = json_decode($body, true);
 // get $_GET data
-// check if usersystemid is in the url e.g. /usersystem/1
+// check if usersystemid is in the url e.g. /user/1
 $error = [];
 $returnData = [];
 // validate api key
@@ -27,13 +28,11 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     checkApiKey();
     // check data
     checkPayload($data);
-    // get task id from query string
-    // get usersystemid from query string
-
+    // get task id from query string 
+    $password_link = "/system/create-password";
+    $user_system->user_system_email = trim($data["email"]);
     $user_system->user_system_key = $encrypt->doHash(rand());
     $user_system->user_system_datetime = date("Y-m-d H:i:s");
-    $user_system->user_system_email = trim($data["email"]);
-    $password_link = "/system/create-password";
 
     $query = $user_system->readLogin();
     if ($query->rowCount() == 0) {
@@ -52,14 +51,10 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         $user_system->user_system_key
     );
 
-    $query = checkResetPassword($user_system);
+    $query = checkReset($user_system);
     http_response_code(200);
-    $returnData["data"] = [];
-    $returnData["count"] = $query->rowCount();
-    $returnData["success"] = true;
-    $response->setData($returnData);
-    $response->send();
-    exit;
+
+    returnSuccess($user_system, "User system", $query);
     // return 404 error if endpoint not available
     checkEndpoint();
 }

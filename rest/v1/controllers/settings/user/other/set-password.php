@@ -1,7 +1,11 @@
 <?php
+
+// use JWT
+require '../../../../jwt/vendor/autoload.php';
+// set encryption
+require '../../../../core/Encryption.php';
 // set http header
 require '../../../../core/header.php';
-require '../../../../core/Encryption.php';
 // use needed functions
 require '../../../../core/functions.php';
 // use needed classes
@@ -17,7 +21,7 @@ $encrypt = new Encryption();
 $body = file_get_contents("php://input");
 $data = json_decode($body, true);
 // get $_GET data
-// check if userotherkey is in the url e.g. /userother/1
+// check if usersystemkey is in the url e.g. /usersystem/1
 $error = [];
 $returnData = [];
 // validate api key

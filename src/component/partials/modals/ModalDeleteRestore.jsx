@@ -12,7 +12,7 @@ const ModalDeleteRestore = ({
   mysqlApiRestore,
   msg,
   item,
-  queryKey,
+  arrKey,
 }) => {
   const { dispatch } = React.useContext(StoreContext);
   const queryClient = useQueryClient();
@@ -24,10 +24,9 @@ const ModalDeleteRestore = ({
         isDel ? "delete" : "put",
         values
       ),
-
     onSuccess: () => {
       // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: [queryKey] });
+      queryClient.invalidateQueries({ queryKey: [arrKey] });
       dispatch(setIsRestore(false));
     },
   });
@@ -62,7 +61,7 @@ const ModalDeleteRestore = ({
             </span>
             <span className="text-sm font-bold">{msg} ?</span> <br />
             <span className="text-sm font-bold">{item}</span>
-            <p>{isDel ? "You can't undo this action." : ""}</p>
+            <p>You can't undo this action.</p>
             <div className="flex items-center gap-1 pt-5">
               <button
                 type="submit"

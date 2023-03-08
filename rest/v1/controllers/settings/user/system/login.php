@@ -4,8 +4,8 @@
 require '../../../../core/header.php';
 // use needed functions
 require '../../../../core/functions.php';
-// // use JWT
-// require '../../../../jwt/vendor/autoload.php';
+// use JWT
+require '../../../../jwt/vendor/autoload.php';
 // use needed classes
 require '../../../../models/settings/user/system/UserSystem.php';
 // check database connection
