@@ -8,7 +8,6 @@ function getHtmlVerifyAccount(
   $ROOT_DOMAIN
 ) {
   $html = '
-
 <style>
     @import url("https://fonts.cdnfonts.com/css/Helvetica Neue-neue-9");
     * {
@@ -32,16 +31,16 @@ function getHtmlVerifyAccount(
   </style>
   <body
     style="
-      background-color: #fff;
+      background-color: #f0f0f0;
       font-family: Helvetica Neue, sans-serif;
       line-height: 1.6;
       padding: 10px 0;
-     
+      background-color: #fff;
     "
   >
     <div style="width: 100%; max-width: 600px; margin: 10px auto">
-      <div style="padding: 10px 10px 0px">
-          <div
+    <div style="padding: 10px 10px 0px >
+        <div
           style="
             background-image: url(https://demo.frontlinebusiness.com.ph/dev/notification-images/bg-white.jpg);
             width: 170px;
@@ -82,7 +81,7 @@ function getHtmlVerifyAccount(
             Please confirm that you want to use
             <strong> ' . $email . '</strong> as account email address.
             Please click the button below to set your password
-            and start using the HR Information System.
+            and start using Online Payroll System.
           </p>
 
           <a

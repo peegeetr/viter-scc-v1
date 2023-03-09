@@ -146,7 +146,7 @@ class Role
     {
         try {
             $sql = "alter table {$this->tblRole} ";
-            $sql .= "add column IF NOT EXISTS role_is_{$column_name} boolean ";
+            $sql .= "add column role_is_{$column_name} boolean ";
             $sql .= "NOT NULL ";
             $query = $this->connection->query($sql);
         } catch (PDOException $ex) {
@@ -182,6 +182,7 @@ class Role
             $sql = "alter table {$this->tblRole} change ";
             $sql .= "role_is_{$column_name_old} ";
             $sql .= "role_is_{$column_name} boolean ";
+            $sql .= "NOT NULL ";
             $query = $this->connection->query($sql);
         } catch (PDOException $ex) {
             $query = false;
@@ -194,8 +195,7 @@ class Role
     {
         try {
             $sql = "alter table {$this->tblRole} ";
-            $sql .= "drop IF EXISTS role_is_{$column_name} ";
-
+            $sql .= "drop column role_is_{$column_name} ";
             $query = $this->connection->query($sql);
         } catch (PDOException $ex) {
             $query = false;
@@ -237,6 +237,7 @@ class Role
         return $query;
     }
 
+    // association
     public function checkUserOtherAssociation()
     {
         try {

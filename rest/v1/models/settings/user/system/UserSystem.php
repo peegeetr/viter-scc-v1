@@ -3,8 +3,7 @@ class UserSystem
 {
     public $user_system_aid;
     public $user_system_is_active;
-    public $user_system_fname;
-    public $user_system_lname;
+    public $user_system_name;
     public $user_system_email;
     public $user_system_role_id;
     public $user_system_key;
@@ -32,16 +31,14 @@ class UserSystem
     {
         try {
             $sql = "insert into {$this->tblUserSystem} ";
-            $sql .= "( user_system_fname, ";
-            $sql .= "user_system_lname, ";
+            $sql .= "( user_system_name, ";
             $sql .= "user_system_is_active, ";
             $sql .= "user_system_email, ";
             $sql .= "user_system_role_id, ";
             $sql .= "user_system_key, ";
             $sql .= "user_system_created, ";
             $sql .= "user_system_datetime ) values ( ";
-            $sql .= ":user_system_fname, ";
-            $sql .= ":user_system_lname, ";
+            $sql .= ":user_system_name, ";
             $sql .= ":user_system_is_active, ";
             $sql .= ":user_system_email, ";
             $sql .= ":user_system_role_id, ";
@@ -50,8 +47,7 @@ class UserSystem
             $sql .= ":user_system_datetime ) ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "user_system_fname" => $this->user_system_fname,
-                "user_system_lname" => $this->user_system_lname,
+                "user_system_name" => $this->user_system_name,
                 "user_system_is_active" => $this->user_system_is_active,
                 "user_system_email" => $this->user_system_email,
                 "user_system_role_id" => $this->user_system_role_id,
@@ -70,103 +66,19 @@ class UserSystem
     public function readAll()
     {
         try {
-            $sql = "select user.user_system_fname, ";
-            $sql .= "user.user_system_lname, ";
+            $sql = "select user.user_system_name, ";
             $sql .= "user.user_system_is_active, ";
             $sql .= "user.user_system_email, ";
             $sql .= "user.user_system_role_id, ";
             $sql .= "role.role_aid, ";
             $sql .= "role.role_name, ";
-            $sql .= "role.role_is_developer, ";
-            $sql .= "role.role_is_active, ";
             $sql .= "user.user_system_aid ";
             $sql .= "from {$this->tblUserSystem} as user, ";
             $sql .= "{$this->tblRole} as role ";
             $sql .= "where user.user_system_role_id = role.role_aid ";
             $sql .= "order by user.user_system_is_active desc, ";
-            $sql .= "user.user_system_fname asc ";
+            $sql .= "user.user_system_name asc ";
             $query = $this->connection->query($sql);
-        } catch (PDOException $ex) {
-            $query = false;
-        }
-        return $query;
-    }
-
-    // read limit
-    public function readLimit()
-    {
-        try {
-            $sql = "select user.user_system_fname, ";
-            $sql .= "user.user_system_lname, ";
-            $sql .= "user.user_system_is_active, ";
-            $sql .= "user.user_system_email, ";
-            $sql .= "user.user_system_role_id, ";
-            $sql .= "role.role_aid, ";
-            $sql .= "role.role_name, ";
-            $sql .= "role.role_is_developer, ";
-            $sql .= "role.role_is_active, ";
-            $sql .= "user.user_system_aid ";
-            $sql .= "from {$this->tblUserSystem} as user, ";
-            $sql .= "{$this->tblRole} as role ";
-            $sql .= "where user.user_system_role_id = role.role_aid ";
-            $sql .= "order by user.user_system_is_active desc, ";
-            $sql .= "user.user_system_fname asc ";
-            $sql .= "limit :start, ";
-            $sql .= ":total ";
-            $query = $this->connection->prepare($sql);
-            $query->execute([
-                "start" => $this->user_system_start - 1,
-                "total" => $this->user_system_total,
-            ]);
-        } catch (PDOException $ex) {
-            $query = false;
-        }
-        return $query;
-    }
-
-    // read login
-    public function readLogin()
-    {
-        try {
-            $sql = "select user.user_system_aid, ";
-            $sql .= "user.user_system_is_active, ";
-            $sql .= "user.user_system_fname, ";
-            $sql .= "user.user_system_lname, ";
-            $sql .= "user.user_system_email, ";
-            $sql .= "user.user_system_password, ";
-            $sql .= "role.* ";
-            $sql .= "from {$this->tblUserSystem} as user, ";
-            $sql .= "{$this->tblRole} as role ";
-            $sql .= "where user.user_system_role_id = role.role_aid ";
-            $sql .= "and user.user_system_email like :user_system_email ";
-            $sql .= "and user.user_system_is_active = 1 ";
-            $query = $this->connection->prepare($sql);
-            $query->execute([
-                "user_system_email" => $this->user_system_email,
-            ]);
-        } catch (PDOException $ex) {
-            $query = false;
-        }
-        return $query;
-    }
-
-    // search
-    public function search()
-    {
-        try {
-            $sql = "select * from {$this->tblUserSystem} as user, ";
-            $sql .= "{$this->tblRole} as role ";
-            $sql .= "where user.user_system_role_id = role.role_aid ";
-            $sql .= "and ( user.user_system_fname like :user_system_fname ";
-            $sql .= "or user.user_system_lname like :user_system_lname ";
-            $sql .= ") ";
-            $sql .= "order by user.user_system_is_active desc, ";
-            $sql .= "user.user_system_fname asc ";
-            $query = $this->connection->prepare($sql);
-            $query->execute([
-                "user_system_fname" => "{$this->user_system_search}%",
-                "user_system_lname" => "{$this->user_system_search}%",
-            ]);
         } catch (PDOException $ex) {
             $query = false;
         }
@@ -179,7 +91,7 @@ class UserSystem
         try {
             $sql = "select * from {$this->tblUserSystem} ";
             $sql .= "where user_system_aid = :user_system_aid ";
-            $sql .= "order by user_system_fname asc ";
+            $sql .= "order by user_system_nname asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "user_system_aid" => $this->user_system_aid,
@@ -189,82 +101,22 @@ class UserSystem
         }
         return $query;
     }
-
-    // read key
-    public function readKey()
-    {
-        try {
-            $sql = "select user_system_key from {$this->tblUserSystem} ";
-            $sql .= "where user_system_key = :user_system_key ";
-            $query = $this->connection->prepare($sql);
-            $query->execute([
-                "user_system_key" => $this->user_system_key,
-            ]);
-        } catch (PDOException $ex) {
-            $query = false;
-        }
-        return $query;
-    }
-
 
     // update
     public function update()
     {
         try {
             $sql = "update {$this->tblUserSystem} set ";
-            $sql .= "user_system_fname = :user_system_fname, ";
-            $sql .= "user_system_lname = :user_system_lname, ";
+            $sql .= "user_system_name = :user_system_name, ";
             $sql .= "user_system_email = :user_system_email, ";
             $sql .= "user_system_datetime = :user_system_datetime ";
             $sql .= "where user_system_aid  = :user_system_aid ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "user_system_fname" => $this->user_system_fname,
-                "user_system_lname" => $this->user_system_lname,
+                "user_system_name" => $this->user_system_name,
                 "user_system_email" => $this->user_system_email,
                 "user_system_datetime" => $this->user_system_datetime,
                 "user_system_aid" => $this->user_system_aid,
-            ]);
-        } catch (PDOException $ex) {
-            $query = false;
-        }
-        return $query;
-    }
-
-    // set password
-    public function setPassword()
-    {
-        try {
-            $sql = "update {$this->tblUserSystem} set ";
-            $sql .= "user_system_password = :user_system_password, ";
-            $sql .= "user_system_key = '', ";
-            $sql .= "user_system_datetime = :user_system_datetime ";
-            $sql .= "where user_system_key  = :user_system_key ";
-            $query = $this->connection->prepare($sql);
-            $query->execute([
-                "user_system_password" => $this->user_system_password,
-                "user_system_datetime" => $this->user_system_datetime,
-                "user_system_key" => $this->user_system_key,
-            ]);
-        } catch (PDOException $ex) {
-            $query = false;
-        }
-        return $query;
-    }
-
-    // reset password
-    public function resetPassword()
-    {
-        try {
-            $sql = "update {$this->tblUserSystem} set ";
-            $sql .= "user_system_key = :user_system_key, ";
-            $sql .= "user_system_datetime = :user_system_datetime ";
-            $sql .= "where user_system_email  = :user_system_email ";
-            $query = $this->connection->prepare($sql);
-            $query->execute([
-                "user_system_key" => $this->user_system_key,
-                "user_system_datetime" => $this->user_system_datetime,
-                "user_system_email" => $this->user_system_email,
             ]);
         } catch (PDOException $ex) {
             $query = false;
@@ -292,6 +144,47 @@ class UserSystem
         return $query;
     }
 
+    // reset
+    public function reset()
+    {
+        try {
+            $sql = "update {$this->tblUserSystem} set ";
+            $sql .= "user_system_key = :user_system_key, ";
+            $sql .= "user_system_datetime = :user_system_datetime ";
+            $sql .= "where user_system_email = :user_system_email ";
+            $sql .= "and user_system_is_active = 1 ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "user_system_key" => $this->user_system_key,
+                "user_system_datetime" => $this->user_system_datetime,
+                "user_system_email" => $this->user_system_email,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    // set password
+    public function setPassword()
+    {
+        try {
+            $sql = "update {$this->tblUserSystem} set ";
+            $sql .= "user_system_password = :user_system_password, ";
+            $sql .= "user_system_key = '', ";
+            $sql .= "user_system_datetime = :user_system_datetime ";
+            $sql .= "where user_system_key = :user_system_key ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "user_system_password" => $this->user_system_password,
+                "user_system_datetime" => $this->user_system_datetime,
+                "user_system_key" => $this->user_system_key,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
     // delete
     public function delete()
     {
@@ -310,6 +203,21 @@ class UserSystem
 
     // validator
 
+    // name
+    public function checkName()
+    {
+        try {
+            $sql = "select user_system_name from {$this->tblUserSystem} ";
+            $sql .= "where user_system_name = :user_system_name ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "user_system_name" => "{$this->user_system_name}",
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
     // email
     public function checkEmail()
     {
@@ -319,6 +227,47 @@ class UserSystem
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "user_system_email" => "{$this->user_system_email}",
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    // read login
+    public function readLogin()
+    {
+        try {
+            $sql = "select user.user_system_aid, ";
+            $sql .= "user.user_system_is_active, ";
+            $sql .= "user.user_system_name, ";
+            $sql .= "user.user_system_email, ";
+            $sql .= "user.user_system_password, ";
+            $sql .= "role.* ";
+            $sql .= "from {$this->tblUserSystem} as user, ";
+            $sql .= "{$this->tblRole} as role ";
+            $sql .= "where user.user_system_role_id = role.role_aid ";
+            $sql .= "and user.user_system_email like :user_system_email ";
+            $sql .= "and user.user_system_is_active = 1 ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "user_system_email" => $this->user_system_email,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    // read key
+    public function readKey()
+    {
+        try {
+            $sql = "select user_system_key from {$this->tblUserSystem} ";
+            $sql .= "where user_system_key = :user_system_key ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "user_system_key" => $this->user_system_key,
             ]);
         } catch (PDOException $ex) {
             $query = false;

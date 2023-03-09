@@ -1,18 +1,18 @@
 import React from "react";
-import { FaArchive, FaEdit, FaHistory, FaTrash } from "react-icons/fa";
+import { FaEdit, FaHistory, FaTrash, FaUserSlash } from "react-icons/fa";
+import { MdPassword } from "react-icons/md";
 import {
   setIsAdd,
   setIsConfirm,
   setIsRestore,
 } from "../../../../../store/StoreAction";
 import { StoreContext } from "../../../../../store/StoreContext";
-import useFetchDataLoadMore from "../../../../custom-hooks/useFetchDataLoadMore";
-import Loadmore from "../../../../partials/Loadmore";
+import useQueryData from "../../../../custom-hooks/useQueryData";
 import ModalConfirm from "../../../../partials/modals/ModalConfirm";
 import ModalDeleteRestore from "../../../../partials/modals/ModalDeleteRestore";
 import NoData from "../../../../partials/NoData";
-import SearchBar from "../../../../partials/SearchBar";
 import ServerError from "../../../../partials/ServerError";
+import FetchingSpinner from "../../../../partials/spinners/FetchingSpinner";
 import TableSpinner from "../../../../partials/spinners/TableSpinner";
 import StatusActive from "../../../../partials/status/StatusActive";
 import StatusInactive from "../../../../partials/status/StatusInactive";
@@ -22,23 +22,19 @@ const OtherUserList = ({ setItemEdit }) => {
   const [dataItem, setData] = React.useState(null);
   const [id, setId] = React.useState(null);
   const [isDel, setDel] = React.useState(false);
-  const search = React.useRef(null);
-  const perPage = 10;
-  const start = store.startIndex + 1;
+  const [isUser, setisUser] = React.useState(false);
   let counter = 0;
 
+  // use if not loadmore button undertime
   const {
-    loading,
-    handleLoad,
-    totalResult,
-    result,
-    handleSearch,
-    handleChange,
-  } = useFetchDataLoadMore(
-    `/v1/user-others/limit/${start}/${perPage}`,
-    "/v1/user-others",
-    perPage,
-    search
+    isLoading,
+    isFetching,
+    error,
+    data: otherUsers,
+  } = useQueryData(
+    `/v1/user-others`, // endpoint
+    "get", // method
+    "otherUsers" // key
   );
 
   const handleEdit = (item) => {
@@ -51,6 +47,15 @@ const OtherUserList = ({ setItemEdit }) => {
     setId(item.user_other_aid);
     setData(item);
     setDel(null);
+    setisUser(true);
+  };
+
+  const handleReset = (item) => {
+    dispatch(setIsConfirm(true));
+    setId(item.user_other_aid);
+    setData(item);
+    setDel(true);
+    setisUser(true);
   };
 
   const handleRestore = (item) => {
@@ -69,16 +74,8 @@ const OtherUserList = ({ setItemEdit }) => {
 
   return (
     <>
-      <SearchBar
-        search={search}
-        handleSearch={handleSearch}
-        handleChange={handleChange}
-        loading={loading}
-        result={result}
-        store={store}
-        url={`/v1/user-others/search/`}
-      />
       <div className="relative text-center overflow-x-auto z-0">
+        {isFetching && !isLoading && <FetchingSpinner />}
         <table>
           <thead>
             <tr>
@@ -91,105 +88,108 @@ const OtherUserList = ({ setItemEdit }) => {
             </tr>
           </thead>
           <tbody>
-            {result.length > 0 ? (
-              result.map((item, key) => {
-                counter++;
-                return (
-                  <tr key={key}>
-                    <td>{counter}1.</td>
-                    <td>
-                      {/* {item.user_other_lname}, {item.user_other_fname} */}
-                      Lumabas, Cyrene M
-                    </td>
-                    <td>{item.user_other_email}</td>
-                    <td>{item.role_name}</td>
-                    <td>
-                      {item.user_other_is_active === 1 ? (
-                        <StatusActive />
-                      ) : (
-                        <StatusInactive />
-                      )}
-                    </td>
-                    <td>
-                      <div className="flex items-center gap-1">
-                        {item.user_other_is_active === 1 ? (
-                          <>
-                            <button
-                              type="button"
-                              className="btn-action-table tooltip-action-table"
-                              data-tooltip="Edit"
-                              onClick={() => handleEdit(item)}
-                            >
-                              <FaEdit />
-                            </button>
-                            <button
-                              type="button"
-                              className="btn-action-table tooltip-action-table"
-                              data-tooltip="Archive"
-                              onClick={() => handleArchive(item)}
-                            >
-                              <FaArchive />
-                            </button>
-                          </>
-                        ) : (
-                          <>
-                            <button
-                              type="button"
-                              className="btn-action-table tooltip-action-table"
-                              data-tooltip="Restore"
-                              onClick={() => handleRestore(item)}
-                            >
-                              <FaHistory />
-                            </button>
-                            <button
-                              type="button"
-                              className="btn-action-table tooltip-action-table"
-                              data-tooltip="Delete"
-                              onClick={() => handleDelete(item)}
-                            >
-                              <FaTrash />
-                            </button>
-                          </>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })
-            ) : result === -1 ? (
+            {(isLoading || otherUsers?.data.length === 0) && (
+              <tr className="text-center ">
+                <td colSpan="100%" className="p-10">
+                  {isLoading && <TableSpinner />}
+                  <NoData />
+                </td>
+              </tr>
+            )}
+            {error && (
               <tr className="text-center ">
                 <td colSpan="100%" className="p-10">
                   <ServerError />
                 </td>
               </tr>
-            ) : (
-              <tr className="text-center ">
-                <td colSpan="100%" className="p-10">
-                  {loading && <TableSpinner />}
-                  <NoData />
-                </td>
-              </tr>
             )}
+            {otherUsers?.data.map((item, key) => {
+              counter++;
+              return (
+                <tr key={key}>
+                  <td>{counter}.</td>
+                  <td>{item.user_other_name}</td>
+                  <td>{item.user_other_email}</td>
+                  <td>{item.role_name}</td>
+                  <td>
+                    {item.user_other_is_active === 1 ? (
+                      <StatusActive />
+                    ) : (
+                      <StatusInactive />
+                    )}
+                  </td>
+                  <td>
+                    <div className="flex items-center gap-2">
+                      {item.user_other_is_active === 1 ? (
+                        <>
+                          <button
+                            type="button"
+                            className="btn-action-table tooltip-action-table"
+                            data-tooltip="Edit"
+                            onClick={() => handleEdit(item)}
+                          >
+                            <FaEdit />
+                          </button>
+                          <button
+                            type="button"
+                            className="btn-action-table tooltip-action-table"
+                            data-tooltip="Reset"
+                            onClick={() => handleReset(item)}
+                          >
+                            <MdPassword />
+                          </button>
+                          <button
+                            type="button"
+                            className="btn-action-table tooltip-action-table"
+                            data-tooltip="Archive"
+                            onClick={() => handleArchive(item)}
+                          >
+                            <FaUserSlash />
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          <button
+                            type="button"
+                            className="btn-action-table tooltip-action-table"
+                            data-tooltip="Restore"
+                            onClick={() => handleRestore(item)}
+                          >
+                            <FaHistory />
+                          </button>
+                          <button
+                            type="button"
+                            className="btn-action-table tooltip-action-table"
+                            data-tooltip="Delete"
+                            onClick={() => handleDelete(item)}
+                          >
+                            <FaTrash />
+                          </button>
+                        </>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
-
-        {!store.isSearch && (
-          <Loadmore
-            handleLoad={handleLoad}
-            loading={loading}
-            result={result}
-            totalResult={totalResult}
-          />
-        )}
       </div>
 
       {store.isConfirm && (
         <ModalConfirm
           id={id}
           isDel={isDel}
+          mysqlApiReset={`/v1/user-others/reset`}
           mysqlApiArchive={`/v1/user-others/active/${id}`}
-          msg={"Are you sure you want to archive this user"}
-          item={`"${dataItem.user_other_email}"`}
+          msg={
+            isDel
+              ? "Are you sure you want to reset this user"
+              : "Are you sure you want to archive this user"
+          }
+          item={`${dataItem.user_other_email}`}
+          role_id={`${dataItem.user_other_role_id}`}
+          arrKey="otherUsers"
         />
       )}
 
@@ -204,7 +204,9 @@ const OtherUserList = ({ setItemEdit }) => {
               ? "Are you sure you want to delete this user"
               : "Are you sure you want to restore this user"
           }
-          item={`"${dataItem.user_other_email}"`}
+          item={`${dataItem.user_other_email}`}
+          role_id={`${dataItem.user_other_role_id}`}
+          arrKey="otherUsers"
         />
       )}
     </>

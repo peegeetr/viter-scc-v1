@@ -1,47 +1,78 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Form, Formik } from "formik";
 import React from "react";
 import { FaTimesCircle } from "react-icons/fa";
 import * as Yup from "yup";
-import { setIsAdd, setStartIndex } from "../../../../../store/StoreAction";
+import {
+  setError,
+  setIsAdd,
+  setMessage,
+  setSuccess,
+} from "../../../../../store/StoreAction";
 import { StoreContext } from "../../../../../store/StoreContext";
-import { fetchData } from "../../../../helpers/fetchData";
-import { InputSelect, InputText } from "../../../../helpers/FormInputs";
-import { closeModal, consoleLog } from "../../../../helpers/functions-general";
+import { InputText } from "../../../../helpers/FormInputs";
+import { queryData } from "../../../../helpers/queryData";
 import ButtonSpinner from "../../../../partials/spinners/ButtonSpinner";
 
-const ModalAddSystemUser = ({ itemEdit, role }) => {
+const ModalAddSystemUser = ({ item, roleId }) => {
   const { store, dispatch } = React.useContext(StoreContext);
-  const [loading, setLoading] = React.useState(false);
-  const [show, setShow] = React.useState("show");
 
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: (values) =>
+      queryData(
+        item ? `/v1/user-systems/${item.user_system_aid}` : `/v1/user-systems`,
+        item ? "put" : "post",
+        values
+      ),
+    onSuccess: (data) => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ["userSystems"] });
+      // show success box
+      if (data.success) {
+        dispatch(setSuccess(true));
+        dispatch(
+          setMessage(
+            `Successfuly ${
+              item
+                ? "updated."
+                : "added, please check your email for verification."
+            }`
+          )
+        );
+      }
+      // show error box
+      if (!data.success) {
+        dispatch(setError(true));
+        dispatch(setMessage(data.error));
+      }
+    },
+  });
   const handleClose = () => {
-    closeModal(setShow, dispatch);
+    dispatch(setIsAdd(false));
   };
 
   const initVal = {
-    user_system_aid: itemEdit ? itemEdit.user_system_aid : "",
-    user_system_fname: itemEdit ? itemEdit.user_system_fname : "",
-    user_system_lname: itemEdit ? itemEdit.user_system_lname : "",
-    user_system_email: itemEdit ? itemEdit.user_system_email : "",
-    user_system_role_id: itemEdit ? itemEdit.user_system_role_id : "",
-    user_system_email_old: itemEdit ? itemEdit.user_system_email : "",
+    user_system_name: item ? item.user_system_name : "",
+    user_system_email: item ? item.user_system_email : "",
+    user_system_role_id: roleId,
+
+    user_system_name_old: item ? item.user_system_name : "",
+    user_system_email_old: item ? item.user_system_email : "",
   };
 
   const yupSchema = Yup.object({
-    user_system_fname: Yup.string().required("Required"),
-    user_system_lname: Yup.string().required("Required"),
+    user_system_name: Yup.string().required("Required"),
     user_system_email: Yup.string().required("Required").email("Invalid email"),
   });
 
   return (
     <>
-      <div
-        className={`modal fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center bg-dark z-50 animate-fadeIn ${show}`}
-      >
-        <div className="p-1 w-[350px] rounded-b-2xl animate-slideUp ">
+      <div className="fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center bg-dark bg-opacity-50 z-50">
+        <div className="p-1 w-[350px] rounded-b-2xl">
           <div className="flex justify-between items-center bg-primary p-3 rounded-t-2xl">
             <h3 className="text-white text-sm">
-              {itemEdit ? "Update" : "Add"} user
+              {item ? "Update" : "Add"} user
             </h3>
             <button
               type="button"
@@ -56,68 +87,39 @@ const ModalAddSystemUser = ({ itemEdit, role }) => {
               initialValues={initVal}
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
-                fetchData(
-                  setLoading,
-                  itemEdit
-                    ? `/v1/user-systems/${itemEdit.user_system_aid}`
-                    : "/v1/user-systems",
-                  values, // form data values
-                  null, // result set data
-                  itemEdit ? "Succesfully updated." : "Succesfully added.", // success msg
-                  "", // additional error msg if needed
-                  dispatch, // context api action
-                  store, // context api state
-                  true, // boolean to show success modal
-                  false, // boolean to show load more functionality button
-                  null, // navigate default value
-                  itemEdit ? "put" : "post"
-                );
-                dispatch(setStartIndex(0));
+                console.log(values);
+                mutation.mutate(values);
               }}
             >
               {(props) => {
-                role.length > 0 &&
-                  role.map((item) => {
-                    if (item.role_is_developer === 1) {
-                      props.values.user_system_role_id = item.role_aid;
-                    }
-                  });
                 return (
                   <Form>
-                    <div className="relative mb-6">
+                    <div className="relative my-5">
                       <InputText
-                        label="First name"
+                        label="Name"
                         type="text"
-                        name="user_system_fname"
-                        disabled={loading}
+                        name="user_system_name"
+                        disabled={mutation.isLoading}
                       />
                     </div>
-                    <div className="relative mb-6">
-                      <InputText
-                        label="Last name"
-                        type="text"
-                        name="user_system_lname"
-                        disabled={loading}
-                      />
-                    </div>
-                    <div className="relative mb-6">
+                    <div className="relative mb-5 ">
                       <InputText
                         label="Email"
                         type="text"
                         name="user_system_email"
-                        disabled={loading}
+                        disabled={mutation.isLoading}
                       />
-                    </div> 
+                    </div>
 
                     <div className="flex items-center gap-1 pt-5">
                       <button
                         type="submit"
-                        disabled={loading || !props.dirty}
+                        disabled={mutation.isLoading || !props.dirty}
                         className="btn-modal-submit relative"
                       >
-                        {loading ? (
+                        {mutation.isLoading ? (
                           <ButtonSpinner />
-                        ) : itemEdit ? (
+                        ) : item ? (
                           "Save"
                         ) : (
                           "Add"
@@ -125,9 +127,9 @@ const ModalAddSystemUser = ({ itemEdit, role }) => {
                       </button>
                       <button
                         type="reset"
-                        className="btn-modal-cancel"
+                        className="btn-modal-cancel cursor-pointer"
                         onClick={handleClose}
-                        disabled={loading}
+                        disabled={mutation.isLoading}
                       >
                         Cancel
                       </button>

@@ -22,7 +22,8 @@ const ModalConfirm = ({
   arrKey,
 }) => {
   const { store, dispatch } = React.useContext(StoreContext);
-  const link = getUserType(store.credentials.data.role_is_developer === 1);
+  // const link = getUserType(store.credentials.data.role_is_developer === 1);
+  const link = getUserType(1 === 1);
   const queryClient = useQueryClient();
   let message = isDel
     ? "Reseting your own password will make you automatically logged out."

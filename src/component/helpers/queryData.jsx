@@ -2,7 +2,6 @@ import { devApiUrl, devKey } from "./functions-general";
 
 export const queryData = (endpoint, method = "get", fd = {}) => {
   let url = devApiUrl + endpoint;
-  // let url = endpoint;
   let username = devKey;
   let password = "";
   let auth = btoa(`${username}:${password}`);

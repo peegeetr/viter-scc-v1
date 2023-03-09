@@ -2,13 +2,16 @@ import React from "react";
 import { FaPlusCircle } from "react-icons/fa";
 import { setIsAdd } from "../../../../../store/StoreAction";
 import { StoreContext } from "../../../../../store/StoreContext";
-import useLoadRole from "../../../../custom-hooks/useLoadRole";
+import useQueryData from "../../../../custom-hooks/useQueryData";
 import BreadCrumbs from "../../../../partials/BreadCrumbs";
 import Footer from "../../../../partials/Footer";
 import Header from "../../../../partials/Header";
 import ModalError from "../../../../partials/modals/ModalError";
 import ModalSuccess from "../../../../partials/modals/ModalSuccess";
 import Navigation from "../../../../partials/Navigation";
+import ServerError from "../../../../partials/ServerError";
+import FetchingSpinner from "../../../../partials/spinners/FetchingSpinner";
+import { getRoleIdDev } from "../function-users";
 import ModalAddSystemUser from "./ModalAddSystemUser";
 import SystemUserList from "./SystemUserList";
 
@@ -16,9 +19,16 @@ const SystemUser = () => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [itemEdit, setItemEdit] = React.useState(null);
 
-  const { role } = useLoadRole("/v1/roles", "get");
-
-  // consoleLog(result);
+  // use if not loadmore button undertime
+  const {
+    isLoading,
+    isFetching,
+    data: role,
+  } = useQueryData(
+    `/v1/roles`, // endpoint
+    "get", // method
+    "role" // key
+  );
 
   const handleAdd = () => {
     dispatch(setIsAdd(true));
@@ -29,12 +39,10 @@ const SystemUser = () => {
     <>
       <Header />
       <Navigation menu="settings" />
-      <div className="relative min-h-screen pt-20 ml-0 px-5 md:ml-20 lg:ml-40 lg:px-10">
-        {/* <h4 className="text-xl">Settings</h4> */}
-
-        <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2 ">
+      <div className="wrapper">
+        <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2">
           <BreadCrumbs />
-          <div className="flex items-center gap-1 self-baseline">
+          <div className="flex items-center gap-1">
             <button type="button" className="btn-primary" onClick={handleAdd}>
               <FaPlusCircle />
               <span>Add</span>
@@ -44,12 +52,20 @@ const SystemUser = () => {
         <hr />
 
         <div className="w-full pt-5 pb-20">
-          <SystemUserList setItemEdit={setItemEdit} />
+          {isFetching && !isLoading ? (
+            <FetchingSpinner />
+          ) : getRoleIdDev(role?.data) === -1 ? (
+            <ServerError />
+          ) : (
+            <SystemUserList setItemEdit={setItemEdit} />
+          )}
         </div>
         <Footer />
       </div>
 
-      {store.isAdd && <ModalAddSystemUser itemEdit={itemEdit} role={role} />}
+      {store.isAdd && (
+        <ModalAddSystemUser item={itemEdit} roleId={getRoleIdDev(role?.data)} />
+      )}
       {store.success && <ModalSuccess />}
       {store.error && <ModalError />}
     </>
