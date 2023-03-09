@@ -7,7 +7,7 @@ import {
   setForgotPassSuccess,
   setMessage,
   setStartIndex,
-  setSuccess
+  setSuccess,
 } from "../../../../store/StoreAction";
 import { StoreContext } from "../../../../store/StoreContext";
 import { fetchData } from "../../../helpers/fetchData";
@@ -19,41 +19,39 @@ import { queryData } from "../../../helpers/queryData";
 import { devNavUrl, UrlOtherUser } from "../../../helpers/functions-general";
 
 const ForgotPassword = () => {
-  const { store, dispatch } = React.useContext(StoreContext); 
+  const { store, dispatch } = React.useContext(StoreContext);
 
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: (values) =>
-      queryData(
-        `/v1/user-others/reset`,
-        "post",
-        values
-      ),
-      onSuccess: (data) => {
-        // Invalidate and refetch
-        queryClient.invalidateQueries({ queryKey: ["systemUser"] });
-        // show success box
-        if (data.success) {
-         
-          window.location.replace(
-            `${devNavUrl}/reset-password-success?redirect=/login`
-          );
-        }
-        // show error box
-        if (!data.success) {
-          dispatch(setError(true));
-          dispatch(setMessage(data.error && "Invalid email. Please use a registered one."));
-        }
-      },
-    });
+    mutationFn: (values) => queryData(`/v1/user-others/reset`, "post", values),
+    onSuccess: (data) => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ["systemUser"] });
+      // show success box
+      if (data.success) {
+        dispatch(setSuccess(true));
+        dispatch(
+          setMessage(`Please check your email to continue resetting password.`)
+        );
+      }
+      // show error box
+      if (!data.success) {
+        dispatch(setError(true));
+        dispatch(
+          setMessage(
+            data.error && "Invalid email. Please use a registered one."
+          )
+        );
+      }
+    },
+  });
   const initVal = {
-    email: "", 
+    email: "",
   };
 
   const yupSchema = Yup.object({
     email: Yup.string().required("Required"),
   });
- 
 
   return (
     <>
@@ -62,17 +60,14 @@ const ForgotPassword = () => {
         style={{ transform: "translateY(clamp(5rem,17vw,22rem))" }}
       >
         <div className="w-96 p-6">
-          <div className="flex justify-center">
-            {/* <FbsLogoLg /> */}
-          </div> 
+          <div className="flex justify-center">{/* <FbsLogoLg /> */}</div>
           <p className="mt-8 mb-5 text-lg font-bold">FORGOT PASSWORD</p>
           <Formik
             initialValues={initVal}
             validationSchema={yupSchema}
-            onSubmit={async (values, { setSubmitting, resetForm }) => { 
-                  // console.log(values, values.key);
-                  mutation.mutate(values);
-              
+            onSubmit={async (values, { setSubmitting, resetForm }) => {
+              // console.log(values, values.key);
+              mutation.mutate(values);
             }}
           >
             {(props) => {
@@ -100,13 +95,13 @@ const ForgotPassword = () => {
             }}
           </Formik>
           <p className="mt-2">
-            Go back to <Link
-                to={`${devNavUrl}/${UrlOtherUser}/login`}
-                className="w-full text-primary"
-              >
-                <u>Login</u>
-              </Link>
-             
+            Go back to{" "}
+            <Link
+              to={`${devNavUrl}/${UrlOtherUser}/login`}
+              className="w-full text-primary"
+            >
+              <u>Login</u>
+            </Link>
           </p>
         </div>
       </div>

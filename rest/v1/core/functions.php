@@ -15,7 +15,7 @@ function checkApiKey()
     $un_pw = explode(":", base64_decode($auth_array[1]));
     $un = $un_pw[0];
 
-    if ($un !== $apiKey["ntp_key"]) {
+    if ($un !== $apiKey["sccToken"]) {
         $response = new Response();
         $error = [];
         $response->setSuccess(false);
@@ -95,7 +95,6 @@ function checkIndex($jsonData, $index)
     ) {
         invalidInput();
     }
-
     return addslashes(trim($jsonData[$index]));
 }
 
@@ -148,6 +147,22 @@ function checkLimitId($start, $total)
     }
 }
 
+// create sucess
+function returnSuccess($object, $name, $query, $newCount = 0)
+{
+    $response = new Response();
+    $returnData = [];
+    $returnData["data"] = [];
+    $returnData["count"] = $query->rowCount();
+    $returnData["{$name} ID"] = $object->lastInsertedId;
+    $returnData["success"] = true;
+    $returnData["added"] = $newCount;
+    // return $returnData;
+    $response->setData($returnData);
+    $response->send();
+    exit;
+}
+
 // Create 
 function checkCreate($object)
 {
@@ -172,6 +187,15 @@ function checkLogin($object)
     }
     return $query;
 }
+
+// Set password
+function checkSetPassword($object)
+{
+    $query = $object->setPassword();
+    checkQuery($query, "There's a problem processing your request. (set password)");
+    return $query;
+}
+
 
 // Login access
 function loginAccess(
@@ -230,7 +254,7 @@ function token(
         try {
             $decoded = JWT::decode($token, $key, array('HS256'));
             ($object->user_system_email = $decoded->data->email
-                | $object->employee_email = $decoded->data->email);
+                | $object->user_other_email = $decoded->data->email);
             $result = checkLogin($object);
             $row = $result->fetch(PDO::FETCH_ASSOC);
 
@@ -304,28 +328,11 @@ function checkReadKey($object)
     checkQuery($query, "Empty records. (key)");
     return $query;
 }
-
 // Update 
 function checkUpdate($object)
 {
     $query = $object->update();
     checkQuery($query, "There's a problem processing your request. (update)");
-    return $query;
-}
-
-// Set password
-function checkSetPassword($object)
-{
-    $query = $object->setPassword();
-    checkQuery($query, "There's a problem processing your request. (set password)");
-    return $query;
-}
-
-// Reset password
-function checkResetPassword($object)
-{
-    $query = $object->resetPassword();
-    checkQuery($query, "There's a problem processing your request. (reset password)");
     return $query;
 }
 
@@ -337,29 +344,19 @@ function checkActive($object)
     return $query;
 }
 
+// Reset 
+function checkReset($object)
+{
+    $query = $object->reset();
+    checkQuery($query, "There's a problem processing your request. (reset)");
+    return $query;
+}
+
 // Delete 
 function checkDelete($object)
 {
     $query = $object->delete();
     checkQuery($query, "There's a problem processing your request. (delete)");
-    return $query;
-}
-
-// Approve
-
-function checkApprove($object)
-{
-    $query = $object->approve();
-    checkQuery($query, "There's a problem processing your request. (approve)");
-    return $query;
-}
-
-
-// Decline 
-function checkDecline($object)
-{
-    $query = $object->decline();
-    checkQuery($query, "There's a problem processing your request. (decline)");
     return $query;
 }
 
@@ -456,8 +453,13 @@ function checkExistence($count, $msg = "")
     }
 }
 
-
-
+// check association
+function isAssociated($object)
+{
+    $query = $object->checkAssociation();
+    $count = $query->rowCount();
+    checkExistence($count, "You cannot delete this item because it is already associated with other module.");
+}
 
 // check name
 function isNameExist($object, $name)
@@ -467,20 +469,13 @@ function isNameExist($object, $name)
     checkExistence($count, "{$name} already exist.");
 }
 
+
 // check email
 function isEmailExist($object, $email)
 {
     $query = $object->checkEmail();
     $count = $query->rowCount();
     checkExistence($count, "{$email} already exist.");
-}
-
-// check id
-function isIdExist($object)
-{
-    $query = $object->checkId();
-    $count = $query->rowCount();
-    checkExistence($count, "A record already exist.");
 }
 
 // compare name
@@ -499,35 +494,11 @@ function compareEmail($object, $email_old, $email)
     }
 }
 
-// check association
-function isAssociated($object)
-{
-    $query = $object->checkAssociation();
-    $count = $query->rowCount();
-    checkExistence($count, "You cannot delete this item because it is already associated with other module.");
-}
-
-// compare two values
 function compareTwoValues($object, $name_old, $name, $id_old, $id)
 {
     if (strtolower($name_old) !=  strtolower($name) || $id_old !=  $id) {
         isNameExist($object, $name);
     }
-}
-
-// return success
-function returnSuccess($object, $name, $query)
-{
-    $response = new Response();
-    $returnData = [];
-    $returnData["data"] = [];
-    $returnData["count"] = $query->rowCount();
-    $returnData["{$name} ID"] = $object->lastInsertedId;
-    $returnData["success"] = true;
-    // return $returnData;
-    $response->setData($returnData);
-    $response->send();
-    exit;
 }
 
 // return success
