@@ -24,7 +24,7 @@ export const devApiUrl = "http://localhost/cycy/viter-scc-v1/rest";
 export const devBaseUrl = "http://localhost/cycy/viter-scc-v1/public";
 export const devNavUrl = "/dev-app";
 
-export const UrlAdmin = "admin";
+export const UrlOtherUser = "other";
 export const UrlSystem = "system";
 
 export const is_developer = "is_developer";

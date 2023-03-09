@@ -13,10 +13,11 @@ const initVal = {
   isSearch: false,
   startIndex: 0,
   isCreatePassSuccess: false,
-  isForgetPassSuccess: false,
+  isForgotPassSuccess: false,
   isAdminForgetPassSuccess: false,
   isLogin: false,
   isLogout: false,
+  isAccountUpdated: false,
   credentials: {},
 };
 

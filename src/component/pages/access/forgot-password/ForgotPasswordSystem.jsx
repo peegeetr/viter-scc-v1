@@ -1,36 +1,56 @@
 import { Form, Formik } from "formik";
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import {
+  setError,
   setForgotPassSuccess,
-  setStartIndex,
+  setMessage,
+  setStartIndex
 } from "../../../../store/StoreAction";
 import { StoreContext } from "../../../../store/StoreContext";
 import { fetchData } from "../../../helpers/fetchData";
 import { InputText } from "../../../helpers/FormInputs";
-import { devApiUrl } from "../../../helpers/functions-general";
+import { devNavUrl, UrlSystem } from "../../../helpers/functions-general";
 import ModalError from "../../../partials/modals/ModalError";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
-import FbsLogoLg from "../../../svg/FbsLogoLg";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { queryData } from "../../../helpers/queryData";
 
 const ForgotPasswordSystem = () => {
   const { store, dispatch } = React.useContext(StoreContext);
-  const [loading, setLoading] = React.useState(false);
-  let navigate = useNavigate();
-
+  
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: (values) =>
+      queryData(
+        `/v1/user-systems/reset`,
+        "post",
+        values
+      ),
+      onSuccess: (data) => {
+        // Invalidate and refetch
+        queryClient.invalidateQueries({ queryKey: ["systemUser"] });
+        // show success box
+        if (data.success) { 
+          window.location.replace(
+            `${devNavUrl}/reset-password-success?redirect=/${UrlSystem}/login`
+          );
+        }
+        // show error box
+        if (!data.success) {
+          dispatch(setError(true));
+          dispatch(setMessage(data.error && "Invalid email. Please use a registered one."));
+        }
+      },
+    });
   const initVal = {
-    email: "",
-    redirect_link: "/reset-password-success?redirect=/system/login",
+    email: "", 
   };
 
   const yupSchema = Yup.object({
     email: Yup.string().required("Required"),
-  });
-
-  React.useEffect(() => {
-    dispatch(setForgotPassSuccess(true));
-  }, []);
+  }); 
 
   return (
     <>
@@ -40,32 +60,19 @@ const ForgotPasswordSystem = () => {
       >
         <div className="w-96 p-6">
           <div className="flex justify-center">
-            <FbsLogoLg />
+            {/* <FbsLogoLg /> */}
           </div>
           <h3 className="my-2 text-lg font-bold text-center text-primary">
-            ONLINE PAYROLL SYSTEM
+          SYSTEM USERS
           </h3>
           <p className="mt-8 mb-5 text-lg font-bold">DEVOPS FORGOT PASSWORD</p>
           <Formik
             initialValues={initVal}
             validationSchema={yupSchema}
-            onSubmit={async (values, { setSubmitting, resetForm }) => {
-              // console.log(values.user_system_email);
-              fetchData(
-                setLoading,
-                `${devApiUrl}/v1/user-systems/reset`,
-                values, // form data values
-                null, // result set data
-                "Please check your email to continue resetting password.", // success msg
-                "Invalid email. Please use a registered one.", // additional error msg if needed
-                dispatch, // context api action
-                store, // context api state
-                true, // boolean to show success modal
-                false, // boolean to show load more functionality button
-                navigate, // navigate default value
-                "post"
-              );
-              dispatch(setStartIndex(0));
+            onSubmit={async (values, { setSubmitting, resetForm }) => { 
+                  // console.log(values, values.key);
+                  mutation.mutate(values);
+              
             }}
           >
             {(props) => {
@@ -76,16 +83,16 @@ const ForgotPasswordSystem = () => {
                       label="Email"
                       type="text"
                       name="email"
-                      disabled={loading}
+                      disabled={mutation.isLoading}
                     />
                   </div>
                   <div className="flex items-center gap-1 pt-3">
                     <button
                       type="submit"
-                      disabled={loading || !props.dirty}
+                      disabled={mutation.isLoading || !props.dirty}
                       className="btn-modal-submit relative"
                     >
-                      {loading ? <ButtonSpinner /> : "Submit"}
+                      {mutation.isLoading ? <ButtonSpinner /> : "Submit"}
                     </button>
                   </div>
                 </Form>
@@ -93,16 +100,13 @@ const ForgotPasswordSystem = () => {
             }}
           </Formik>
           <p className="mt-2">
-            Go back to{" "}
-            <button
-              type="button"
-              onClick={() => {
-                navigate(-1);
-                dispatch(setStartIndex(0));
-              }}
-            >
-              <u className="text-primary">Login</u>
-            </button>
+            Go back to <Link
+                to={`${devNavUrl}/${UrlSystem}/login`}
+                className="w-full text-primary"
+              >
+                <u>Login</u>
+              </Link>
+             
           </p>
         </div>
       </div>

@@ -63,7 +63,7 @@ const ModalConfirm = ({
       (store.credentials.data.user_system_email === item ||
         store.credentials.data.user_other_email === item)
     ) {
-      localStorage.removeItem("fbsPayroll");
+      localStorage.removeItem("sccToken");
       store.credentials.data.role_is_developer === 1
         ? window.location.replace(`${link}/login`)
         : window.location.replace(`${link}/login`);

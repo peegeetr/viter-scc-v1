@@ -7,7 +7,7 @@ import {
   doList,
   doLoadmore,
   setStorageRoute,
-  UrlAdmin,
+  UrlSystem,
 } from "./functions-general";
 
 import {
@@ -15,7 +15,7 @@ import {
   setCreatePassSuccess,
   setCredentials,
   setError,
-  setForgetPassSuccess,
+  setForgotPassSuccess,
   setIsAdd,
   setIsConfirm,
   setIsLogin,
@@ -48,7 +48,7 @@ export const fetchData = async (
 
   // if result data is undefined or false
   if (data === undefined || !data) {
-    // setResult(-1);
+    setResult(-1); // set result to -1 for server error to show
     dispatch(setError(true));
     dispatch(setMessage("API / Network Error"));
     setLoading !== null && setLoading(false);
@@ -62,7 +62,6 @@ export const fetchData = async (
   // if result data is empty and success is false
   if (!data.success) {
     setLoading !== null && setLoading(false);
-    // setResult(-1);
     dispatch(setError(true));
     dispatch(setMessage(data.error));
     return;
@@ -98,64 +97,40 @@ export const fetchData = async (
     }
 
     // redirect to other page after request forgot password
-    if (store.isForgetPassSuccess) {
-      dispatch(setForgetPassSuccess(false));
-      window.location.replace(`${devNavUrl}/reset-password-success`);
+    if (store.isForgotPassSuccess) {
+      dispatch(setForgotPassSuccess(false));
+      console.log(fd);
+      window.location.replace(
+        `${devNavUrl}/forgot-password-verification?email=${fd.user_system_email}`
+      );
     }
 
     // redirect to other page after request forgot password for admin
     if (store.isAdminForgetPassSuccess) {
       dispatch(setAdminForgetPassSuccess(false));
       window.location.replace(
-        `${devNavUrl}/${UrlAdmin}/reset-password-success`
+        `${devNavUrl}/${UrlSystem}/reset-password-success`
       );
     }
 
     // redirect to other page after request forgot password
     if (store.isCreatePassSuccess) {
       dispatch(setCreatePassSuccess(false));
-      navigate(`${devNavUrl}/create-password-success`);
+      navigate(`${devNavUrl}${fd.redirect_link}`);
     }
 
     // redirect to other page after login
     if (store.isLogin) {
-      // dispatch(setCredentials(data.mail));
-      dispatch(
-        setCredentials(
-          data.mail.settings_account_aid,
-          data.mail.settings_account_email,
-          data.mail.settings_account_user_id,
-          data.mail.don_member_name === undefined
-            ? data.mail.don_admin_fname
-            : data.mail.don_member_name,
-          data.mail.don_admin_fname === undefined
-            ? ""
-            : data.mail.don_admin_fname,
-          data.mail.don_member_address === undefined
-            ? ""
-            : data.mail.don_member_address,
-          data.mail.don_member_city === undefined
-            ? ""
-            : data.mail.don_member_city,
-          data.mail.don_member_state === undefined
-            ? ""
-            : data.mail.don_member_state,
-          data.mail.don_member_zipcode === undefined
-            ? ""
-            : data.mail.don_member_zipcode,
-          data.mail.don_member_cus_id === undefined
-            ? ""
-            : data.mail.don_member_cus_id,
-          data.mail.account_role_aid,
-          data.mail.account_role_name,
-          data.mail.account_role_is_admin,
-          data.mail.account_role_is_member
-        )
-      );
-      setStorageRoute(data.data);
-      // setStorageRoute(data.data, data.mail);
+      delete data.data[0].user_other_password;
+      delete data.data[0].role_description;
+      delete data.data[0].role_created;
+      delete data.data[0].role_datetime;
+
+      dispatch(setCredentials(data.data[0]));
+
+      setStorageRoute(data.data[1]);
       dispatch(setIsLogin(false));
-      checkRoleToRedirect(navigate, data.mail);
+      checkRoleToRedirect(navigate, data.data[0]);
     }
   }
 };

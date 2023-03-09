@@ -1,7 +1,6 @@
 import { FaCheck } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { devNavUrl, getUrlParam } from "../../../helpers/functions-general";
-import FbsLogoLg from "../../../svg/FbsLogoLg";
 
 const ForgotPasswordVerification = () => {
   const email = getUrlParam().get("email");
@@ -15,7 +14,7 @@ const ForgotPasswordVerification = () => {
       >
         <div className="max-w-[25rem] w-full text-center p-6">
           <div className="flex justify-center ">
-            <FbsLogoLg />
+            {/* <FbsLogoLg /> */}
           </div>
           <FaCheck className="mx-auto text-6xl my-5 fill-green-600" />
           <h1 className="text-2xl uppercase mb-2">Reset Password Email Sent</h1>

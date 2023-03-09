@@ -1,25 +1,24 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-import { setCredentials, setError } from "../../../store/StoreAction";
+import { setCredentials } from "../../../store/StoreAction";
 import { StoreContext } from "../../../store/StoreContext";
-import fetchApi from "../../helpers/fetchApi";
 import { devApiUrl, devNavUrl } from "../../helpers/functions-general";
+import { queryData } from "../../helpers/queryData";
 import TableSpinner from "../../partials/spinners/TableSpinner";
 
 const ProtectedRouteSystem = ({ children }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [loading, setLoading] = React.useState(true);
   const [isAuth, setIsAuth] = React.useState("");
-  const fbsPayroll = JSON.parse(localStorage.getItem("fbsPayroll"));
+  const sccToken = JSON.parse(localStorage.getItem("sccToken"));
 
   React.useEffect(() => {
     const fetchLogin = async () => {
-      const login = await fetchApi(
+      const login = await queryData(
         devApiUrl + "/v1/user-systems/token",
-        {
-          token: fbsPayroll.token,
-        },
-        null,
+        {...values,
+          token: sccToken.token,
+        }, 
         "post"
       );
 
@@ -40,11 +39,11 @@ const ProtectedRouteSystem = ({ children }) => {
       delete login.data.role_datetime;
     };
 
-    if (fbsPayroll !== null) {
+    if (sccToken !== null) {
       fetchLogin();
     } else {
       setLoading(false);
-      localStorage.removeItem("fbsPayroll");
+      localStorage.removeItem("sccToken");
       setIsAuth("456");
     }
   }, [dispatch]);

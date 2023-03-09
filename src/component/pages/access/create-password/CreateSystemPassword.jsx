@@ -4,32 +4,34 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useNavigate } from "react-router";
 import * as Yup from "yup";
 import {
-  setCreatePassSuccess,
-  setStartIndex,
+  setCreatePassSuccess, setError, setMessage
 } from "../../../../store/StoreAction";
 import { StoreContext } from "../../../../store/StoreContext";
-import useLoadKey from "../../../custom-hooks/useLoadKey";
-import { fetchData } from "../../../helpers/fetchData";
 import { InputText } from "../../../helpers/FormInputs";
-import { devApiUrl, getUrlParam } from "../../../helpers/functions-general";
+import { getUrlParam, UrlSystem } from "../../../helpers/functions-general";
 import PageNotFound from "../../../partials/PageNotFound";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
 import ContentSpinner from "../../../partials/spinners/ContentSpinner";
-import FbsLogoLg from "../../../svg/FbsLogoLg";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import useQueryData from "../../../custom-hooks/useQueryData";
+import { queryData } from "../../../helpers/queryData";
 
 const CreateSystemPassword = () => {
-  const { store, dispatch } = React.useContext(StoreContext);
-  const [loading, setLoading] = React.useState(false);
+  const { store, dispatch } = React.useContext(StoreContext); 
   const [newPasswordShown, setNewPasswordShown] = React.useState(false);
   const [confirmPasswordShown, setConfirmPasswordShown] = React.useState(false);
   const navigate = useNavigate();
   const paramKey = getUrlParam().get("key");
-
-  const { key, keyLoading } = useLoadKey(
-    `${devApiUrl}/v1/user-systems/key/${paramKey}`,
-    "get"
+ 
+  // use if not loadmore button undertime
+  const {
+    isLoading, 
+    data: key,
+  } = useQueryData(
+    `/v1/user-systems/key/${paramKey}`, // endpoint
+    "get", // method
+    "key" // key
   );
-
   const toggleNewPassword = () => {
     setNewPasswordShown(!newPasswordShown);
   };
@@ -38,11 +40,34 @@ const CreateSystemPassword = () => {
     setConfirmPasswordShown(!confirmPasswordShown);
   };
 
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: (values) =>
+      queryData(
+        `/v1/user-systems/password`,
+        "put",
+        values
+      ),
+      onSuccess: (data) => {
+        // Invalidate and refetch
+        queryClient.invalidateQueries({ queryKey: ["systemUser"] });
+        // show success box
+        if (data.success) {
+          window.location.replace(
+            `${devNavUrl}/create-password-success?redirect=/${UrlSystem}/login`
+          );
+        }
+        // show error box
+        if (!data.success) {
+          dispatch(setError(true));
+          dispatch(setMessage(data.error));
+        }
+      },
+    });
   const initVal = {
     new_password: "",
     confirm_password: "",
-    key: paramKey,
-    redirect_link: "/create-password-success?redirect=/system/login",
+    key: paramKey, 
   };
 
   const yupSchema = Yup.object({
@@ -64,15 +89,14 @@ const CreateSystemPassword = () => {
 
   return (
     <>
-      {keyLoading ? (
-        <div className="relative h-screen">
-          <ContentSpinner />
-        </div>
-      ) : keyLoading &&
-        (key.length === 0 || paramKey === null || paramKey === "") ? (
-        <div className="relative h-screen">
-          <PageNotFound />
-        </div>
+    {isLoading ? (
+      <div className="relative h-screen">
+        <ContentSpinner />
+      </div>
+    ) : (key?.data.length === 0 || paramKey === null || paramKey === "") ? (
+      <div className="relative h-screen">
+        <PageNotFound />
+      </div>
       ) : (
         <div
           className="relative"
@@ -81,10 +105,10 @@ const CreateSystemPassword = () => {
           <div className="flex justify-center items-center ">
             <div className="w-96 p-6">
               <div className="flex justify-center">
-                <FbsLogoLg />
+                {/* <FbsLogoLg /> */}
               </div>
               <h3 className="my-2 text-lg font-bold text-center text-primary">
-                ONLINE PAYROLL SYSTEM
+                SYSTEM USERS
               </h3>
               <p className="mt-8 mb-5 text-lg font-bold">
                 DEVOPS CREATE PASSWORD
@@ -92,22 +116,9 @@ const CreateSystemPassword = () => {
               <Formik
                 initialValues={initVal}
                 validationSchema={yupSchema}
-                onSubmit={async (values, { setSubmitting, resetForm }) => {
-                  fetchData(
-                    setLoading,
-                    `${devApiUrl}/v1/user-systems/password`,
-                    values, // form data values
-                    null, // result set data
-                    "", // success msg
-                    "", // additional error msg if needed
-                    dispatch, // context api action
-                    store, // context api state
-                    true, // boolean to show success modal
-                    false, // boolean to show load more functionality button
-                    navigate, // navigate default value
-                    "put"
-                  );
-                  dispatch(setStartIndex(0));
+                onSubmit={async (values, { setSubmitting, resetForm }) => { 
+                  // console.log(values, values.key);
+                  mutation.mutate(values);
                 }}
               >
                 {(props) => {
@@ -118,7 +129,7 @@ const CreateSystemPassword = () => {
                           label="New password"
                           type={newPasswordShown ? "text" : "password"}
                           name="new_password"
-                          disabled={loading}
+                          disabled={mutation.isLoading}
                         />
                         {props.values.new_password && (
                           <span
@@ -134,7 +145,7 @@ const CreateSystemPassword = () => {
                           label="Confirm password"
                           type={confirmPasswordShown ? "text" : "password"}
                           name="confirm_password"
-                          disabled={loading || props.values.new_password === ""}
+                          disabled={mutation.isLoading || props.values.new_password === ""}
                         />
                         {props.values.confirm_password && (
                           <span
@@ -150,13 +161,13 @@ const CreateSystemPassword = () => {
                         <button
                           type="submit"
                           disabled={
-                            loading ||
+                            mutation.isLoading ||
                             props.values.new_password === "" ||
                             props.values.confirm_password === ""
                           }
                           className="btn-modal-submit relative"
                         >
-                          {loading ? <ButtonSpinner /> : "Save"}
+                          {mutation.isLoading ? <ButtonSpinner /> : "Save"}
                         </button>
                       </div>
                     </Form>

@@ -23,7 +23,7 @@ const useSystemIsLogin = (navigate) => {
       );
 
       if (typeof login === "undefined" || !login.success) {
-        localStorage.removeItem("fbsPayroll");
+        localStorage.removeItem("sccToken");
         setLoading(false);
       } else {
         setLoading(false);

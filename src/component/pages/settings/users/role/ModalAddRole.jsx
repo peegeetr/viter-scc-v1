@@ -10,8 +10,7 @@ import {
   setSuccess,
 } from "../../../../../store/StoreAction";
 import { StoreContext } from "../../../../../store/StoreContext";
-import { InputText, InputTextArea } from "../../../../helpers/FormInputs";
-import { devApiUrl } from "../../../../helpers/functions-general";
+import { InputText, InputTextArea } from "../../../../helpers/FormInputs"; 
 import { queryData } from "../../../../helpers/queryData";
 import ButtonSpinner from "../../../../partials/spinners/ButtonSpinner";
 
@@ -79,7 +78,7 @@ const ModalAddRole = ({ item }) => {
               initialValues={initVal}
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
-                console.log(values);
+                // console.log(values);
                 mutation.mutate(values);
               }}
             >
