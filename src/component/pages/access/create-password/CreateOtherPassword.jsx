@@ -3,7 +3,11 @@ import { Form, Formik } from "formik";
 import React from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import * as Yup from "yup";
-import { setError, setMessage, setSuccess } from "../../../../store/StoreAction";
+import {
+  setError,
+  setMessage,
+  setSuccess,
+} from "../../../../store/StoreAction";
 import { StoreContext } from "../../../../store/StoreContext";
 import useQueryData from "../../../custom-hooks/useQueryData";
 import { InputText } from "../../../helpers/FormInputs";
@@ -11,29 +15,27 @@ import {
   devNavUrl,
   getUrlParam,
   UrlOtherUser,
-  UrlSystem
+  UrlSystem,
 } from "../../../helpers/functions-general";
 import { queryData } from "../../../helpers/queryData";
 import PageNotFound from "../../../partials/PageNotFound";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
 import ContentSpinner from "../../../partials/spinners/ContentSpinner";
+import SccLogo from "../../../svg/SccLogo";
 
 const CreateOtherPassword = () => {
-  const { store, dispatch } = React.useContext(StoreContext); 
+  const { store, dispatch } = React.useContext(StoreContext);
   const [newPasswordShown, setNewPasswordShown] = React.useState(false);
-  const [confirmPasswordShown, setConfirmPasswordShown] = React.useState(false);  
+  const [confirmPasswordShown, setConfirmPasswordShown] = React.useState(false);
   const paramKey = getUrlParam().get("key");
 
   // use if not loadmore button undertime
-  const {
-    isLoading, 
-    data: key,
-  } = useQueryData(
+  const { isLoading, data: key } = useQueryData(
     `/v1/user-others/key/${paramKey}`, // endpoint
     "get", // method
     "key" // key
   );
- 
+
   const toggleNewPassword = () => {
     setNewPasswordShown(!newPasswordShown);
   };
@@ -45,31 +47,27 @@ const CreateOtherPassword = () => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: (values) =>
-      queryData(
-        `/v1/user-others/password`,
-        "put",
-        values
-      ),
-      onSuccess: (data) => {
-        // Invalidate and refetch
-        queryClient.invalidateQueries({ queryKey: ["otherUser"] });
-        // show success box
-        if (data.success) {
-          window.location.replace(
-            `${devNavUrl}/create-password-success?redirect=/${UrlOtherUser}/login`
-          );
-        }
-        // show error box
-        if (!data.success) {
-          dispatch(setError(true));
-          dispatch(setMessage(data.error));
-        }
-      },
-    });
+      queryData(`/v1/user-others/password`, "put", values),
+    onSuccess: (data) => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ["otherUser"] });
+      // show success box
+      if (data.success) {
+        window.location.replace(
+          `${devNavUrl}/create-password-success?redirect=/${UrlOtherUser}/login`
+        );
+      }
+      // show error box
+      if (!data.success) {
+        dispatch(setError(true));
+        dispatch(setMessage(data.error));
+      }
+    },
+  });
   const initVal = {
     new_password: "",
     confirm_password: "",
-    key: paramKey, 
+    key: paramKey,
   };
 
   const yupSchema = Yup.object({
@@ -84,14 +82,14 @@ const CreateOtherPassword = () => {
       .required("Required")
       .oneOf([Yup.ref("new_password"), null], "Passwords does not match."),
   });
- 
+
   return (
     <>
       {isLoading ? (
         <div className="relative h-screen">
           <ContentSpinner />
         </div>
-      ) : (key?.data.length === 0 || paramKey === null || paramKey === "") ? (
+      ) : key?.data.length === 0 || paramKey === null || paramKey === "" ? (
         <div className="relative h-screen">
           <PageNotFound />
         </div>
@@ -103,8 +101,11 @@ const CreateOtherPassword = () => {
           <div className="flex justify-center items-center ">
             <div className="w-96 p-6">
               <div className="flex justify-center">
-                {/* <FbsLogoLg /> */}
-              </div> 
+                <SccLogo />
+              </div>
+              <h3 className="my-2 text-lg font-bold text-center text-gray-500">
+                Sambahayan Cooperative
+              </h3>
               <p className="mt-8 mb-5 text-lg font-bold">CREATE PASSWORD</p>
               <Formik
                 initialValues={initVal}
@@ -112,7 +113,6 @@ const CreateOtherPassword = () => {
                 onSubmit={async (values, { setSubmitting, resetForm }) => {
                   // console.log(values, values.key);
                   mutation.mutate(values);
-                  
                 }}
               >
                 {(props) => {
@@ -139,7 +139,10 @@ const CreateOtherPassword = () => {
                           label="Confirm password"
                           type={confirmPasswordShown ? "text" : "password"}
                           name="confirm_password"
-                          disabled={mutation.isLoading || props.values.new_password === ""}
+                          disabled={
+                            mutation.isLoading ||
+                            props.values.new_password === ""
+                          }
                         />
                         {props.values.confirm_password && (
                           <span

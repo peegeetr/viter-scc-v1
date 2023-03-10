@@ -8,13 +8,11 @@ import { StoreContext } from "../../../../store/StoreContext";
 import useSystemIsLogin from "../../../custom-hooks/useSystemIsLogin";
 import { fetchData } from "../../../helpers/fetchData";
 import { InputText } from "../../../helpers/FormInputs";
-import {
-  devNavUrl,
-  UrlSystem
-} from "../../../helpers/functions-general";
+import { devNavUrl, UrlSystem } from "../../../helpers/functions-general";
 import ModalError from "../../../partials/modals/ModalError";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
 import TableSpinner from "../../../partials/spinners/TableSpinner";
+import SccLogo from "../../../svg/SccLogo";
 
 const SystemLogin = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -48,10 +46,10 @@ const SystemLogin = () => {
         >
           <div className="w-96 p-6">
             <div className="flex justify-center">
-              {/* <FbsLogoLg /> */}
+              <SccLogo />
             </div>
-            <h3 className="my-2 text-lg font-bold text-center text-primary">
-            SYSTEM USERS
+            <h3 className="my-2 text-lg font-bold text-center text-gray-500">
+              Sambahayan Cooperative
             </h3>
             <p className="mt-8 mb-5 text-lg font-bold">DEVOPS LOGIN</p>
             <Formik

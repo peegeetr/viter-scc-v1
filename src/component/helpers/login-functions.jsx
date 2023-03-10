@@ -1,9 +1,9 @@
-import { devNavUrl, UrlSystem } from "./functions-general";
+import { devNavUrl, UrlOtherUser, UrlSystem } from "./functions-general";
 
 export const checkRoleToRedirect = (navigate, data) => {
   data.role_is_developer === 1
-    ? navigate(`${devNavUrl}/${UrlSystem}/payroll`)
+    ? navigate(`${devNavUrl}/${UrlSystem}/dashboard`)
     : data.role_is_admin === 1
-    ? navigate(`${devNavUrl}/payroll`)
+    ? navigate(`${devNavUrl}/${UrlOtherUser}/dashboard`)
     : navigate(`${devNavUrl}/nopage`);
 };

@@ -14,13 +14,9 @@ const ProtectedRouteSystem = ({ children }) => {
 
   React.useEffect(() => {
     const fetchLogin = async () => {
-      const login = await queryData(
-        devApiUrl + "/v1/user-systems/token",
-        {...values,
-          token: sccToken.token,
-        }, 
-        "post"
-      );
+      const login = await queryData(`/v1/user-systems/token`, "post", {
+        token: sccToken.token,
+      });
 
       console.log(login);
       console.log(typeof login);

@@ -97,10 +97,7 @@ export const fetchFormData = (url, fd = {}) => {
 
 // storage after login
 export function setStorageRoute(jwt, data) {
-  localStorage.setItem(
-    "fwcdonationtoken",
-    JSON.stringify({ token: jwt, data })
-  );
+  localStorage.setItem("sccToken", JSON.stringify({ token: jwt, data }));
 }
 
 // formatting date

@@ -1,6 +1,7 @@
 import { FaCheck } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { devNavUrl, getUrlParam } from "../../../helpers/functions-general.jsx";
+import SccLogo from "../../../svg/SccLogo.jsx";
 const CreatePasswordSuccess = () => {
   const redirect = getUrlParam().get("redirect");
   return (
@@ -11,7 +12,7 @@ const CreatePasswordSuccess = () => {
       >
         <div className="max-w-[25rem] w-full text-center p-6">
           <div className="flex justify-center ">
-            {/* <FbsLogoLg /> */}
+            <SccLogo />
           </div>
           <FaCheck className="mx-auto text-6xl my-5 fill-green-600" />
           <h1 className="text-2xl uppercase mb-2">All Set</h1>

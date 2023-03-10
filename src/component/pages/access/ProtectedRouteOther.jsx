@@ -14,13 +14,9 @@ const ProtectedRouteOther = ({ children }) => {
 
   React.useEffect(() => {
     const fetchLogin = async () => {
-      const login = await queryData(
-        "/v1/user-others/token",
-        {...values,
-          token: sccToken.token,
-        }, 
-        "post"
-      );
+      const login = await queryData("/v1/user-others/token", "post", {
+        token: sccToken.token,
+      });
 
       console.log(login);
       console.log(typeof login);

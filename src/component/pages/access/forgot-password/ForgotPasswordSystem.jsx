@@ -17,6 +17,7 @@ import ModalError from "../../../partials/modals/ModalError";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { queryData } from "../../../helpers/queryData";
+import SccLogo from "../../../svg/SccLogo";
 
 const ForgotPasswordSystem = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -29,9 +30,8 @@ const ForgotPasswordSystem = () => {
       queryClient.invalidateQueries({ queryKey: ["systemUser"] });
       // show success box
       if (data.success) {
-        dispatch(setSuccess(true));
-        dispatch(
-          setMessage(`Please check your email to continue resetting password.`)
+        window.location.replace(
+          `${devNavUrl}/forgot-password-verification?redirect=/${UrlSystem}/login`
         );
       }
       // show error box
@@ -57,12 +57,14 @@ const ForgotPasswordSystem = () => {
     <>
       <div
         className="flex justify-center items-center"
-        style={{ transform: "translateY(clamp(5rem,17vw,22rem))" }}
+        style={{ transform: "translateY(clamp(5rem,15vw,22rem))" }}
       >
         <div className="w-96 p-6">
-          <div className="flex justify-center">{/* <FbsLogoLg /> */}</div>
-          <h3 className="my-2 text-lg font-bold text-center text-primary">
-            SYSTEM USERS
+          <div className="flex justify-center">
+            <SccLogo />
+          </div>
+          <h3 className="my-2 text-lg font-bold text-center text-gray-500">
+            Sambahayan Cooperative
           </h3>
           <p className="mt-8 mb-5 text-lg font-bold">DEVOPS FORGOT PASSWORD</p>
           <Formik

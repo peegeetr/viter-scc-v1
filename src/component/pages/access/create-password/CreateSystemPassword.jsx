@@ -4,30 +4,34 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useNavigate } from "react-router";
 import * as Yup from "yup";
 import {
-  setCreatePassSuccess, setError, setMessage
+  setCreatePassSuccess,
+  setError,
+  setMessage,
 } from "../../../../store/StoreAction";
 import { StoreContext } from "../../../../store/StoreContext";
 import { InputText } from "../../../helpers/FormInputs";
-import { getUrlParam, UrlSystem } from "../../../helpers/functions-general";
+import {
+  devNavUrl,
+  getUrlParam,
+  UrlSystem,
+} from "../../../helpers/functions-general";
 import PageNotFound from "../../../partials/PageNotFound";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
 import ContentSpinner from "../../../partials/spinners/ContentSpinner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useQueryData from "../../../custom-hooks/useQueryData";
 import { queryData } from "../../../helpers/queryData";
+import SccLogo from "../../../svg/SccLogo";
 
 const CreateSystemPassword = () => {
-  const { store, dispatch } = React.useContext(StoreContext); 
+  const { store, dispatch } = React.useContext(StoreContext);
   const [newPasswordShown, setNewPasswordShown] = React.useState(false);
   const [confirmPasswordShown, setConfirmPasswordShown] = React.useState(false);
   const navigate = useNavigate();
   const paramKey = getUrlParam().get("key");
- 
+
   // use if not loadmore button undertime
-  const {
-    isLoading, 
-    data: key,
-  } = useQueryData(
+  const { isLoading, data: key } = useQueryData(
     `/v1/user-systems/key/${paramKey}`, // endpoint
     "get", // method
     "key" // key
@@ -43,31 +47,27 @@ const CreateSystemPassword = () => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: (values) =>
-      queryData(
-        `/v1/user-systems/password`,
-        "put",
-        values
-      ),
-      onSuccess: (data) => {
-        // Invalidate and refetch
-        queryClient.invalidateQueries({ queryKey: ["systemUser"] });
-        // show success box
-        if (data.success) {
-          window.location.replace(
-            `${devNavUrl}/create-password-success?redirect=/${UrlSystem}/login`
-          );
-        }
-        // show error box
-        if (!data.success) {
-          dispatch(setError(true));
-          dispatch(setMessage(data.error));
-        }
-      },
-    });
+      queryData(`/v1/user-systems/password`, "put", values),
+    onSuccess: (data) => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ["systemUser"] });
+      // show success box
+      if (data.success) {
+        window.location.replace(
+          `${devNavUrl}/create-password-success?redirect=/${UrlSystem}/login`
+        );
+      }
+      // show error box
+      if (!data.success) {
+        dispatch(setError(true));
+        dispatch(setMessage(data.error));
+      }
+    },
+  });
   const initVal = {
     new_password: "",
     confirm_password: "",
-    key: paramKey, 
+    key: paramKey,
   };
 
   const yupSchema = Yup.object({
@@ -89,34 +89,35 @@ const CreateSystemPassword = () => {
 
   return (
     <>
-    {isLoading ? (
-      <div className="relative h-screen">
-        <ContentSpinner />
-      </div>
-    ) : (key?.data.length === 0 || paramKey === null || paramKey === "") ? (
-      <div className="relative h-screen">
-        <PageNotFound />
-      </div>
+      {isLoading ? (
+        <div className="relative h-screen">
+          <ContentSpinner />
+        </div>
+      ) : key?.data.length === 0 || paramKey === null || paramKey === "" ? (
+        <div className="relative h-screen">
+          <PageNotFound />
+        </div>
       ) : (
         <div
           className="relative"
-          style={{ transform: "translateY(clamp(5rem,12vw,15rem))" }}
+          style={{ transform: "translateY(clamp(5rem,8vw,15rem))" }}
         >
           <div className="flex justify-center items-center ">
             <div className="w-96 p-6">
               <div className="flex justify-center">
-                {/* <FbsLogoLg /> */}
+                <SccLogo />
               </div>
-              <h3 className="my-2 text-lg font-bold text-center text-primary">
-                SYSTEM USERS
+              <h3 className="my-2 text-lg font-bold text-center text-gray-500">
+                Sambahayan Cooperative
               </h3>
+
               <p className="mt-8 mb-5 text-lg font-bold">
                 DEVOPS CREATE PASSWORD
               </p>
               <Formik
                 initialValues={initVal}
                 validationSchema={yupSchema}
-                onSubmit={async (values, { setSubmitting, resetForm }) => { 
+                onSubmit={async (values, { setSubmitting, resetForm }) => {
                   // console.log(values, values.key);
                   mutation.mutate(values);
                 }}
@@ -145,7 +146,10 @@ const CreateSystemPassword = () => {
                           label="Confirm password"
                           type={confirmPasswordShown ? "text" : "password"}
                           name="confirm_password"
-                          disabled={mutation.isLoading || props.values.new_password === ""}
+                          disabled={
+                            mutation.isLoading ||
+                            props.values.new_password === ""
+                          }
                         />
                         {props.values.confirm_password && (
                           <span
