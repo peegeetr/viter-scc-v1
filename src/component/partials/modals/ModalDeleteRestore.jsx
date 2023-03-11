@@ -12,6 +12,7 @@ const ModalDeleteRestore = ({
   mysqlApiRestore,
   msg,
   item,
+  isApproved="active",
   arrKey,
 }) => {
   const { dispatch } = React.useContext(StoreContext);
@@ -39,6 +40,7 @@ const ModalDeleteRestore = ({
     // // mutate data
     mutation.mutate({
       isActive: 1,
+      isApproved,
     });
   };
 

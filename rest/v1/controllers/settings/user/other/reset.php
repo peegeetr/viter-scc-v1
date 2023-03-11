@@ -29,7 +29,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     // check data
     checkPayload($data);
     // get task id from query string 
-    $password_link = "/create-password";
+    $password_link = "/other/create-password";
     $user_other->user_other_email = trim($data["email"]);
     $user_other->user_other_key = $encrypt->doHash(rand());
     $user_other->user_other_datetime = date("Y-m-d H:i:s");

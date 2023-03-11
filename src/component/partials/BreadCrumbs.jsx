@@ -5,7 +5,7 @@ import { setStartIndex } from "../../store/StoreAction";
 import { StoreContext } from "../../store/StoreContext";
 import { devNavUrl, UrlSystem } from "../helpers/functions-general";
 
-const BreadCrumbs = () => {
+const BreadCrumbs = ({param=""}) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const location = useLocation();
 

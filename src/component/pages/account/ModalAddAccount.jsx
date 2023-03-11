@@ -3,14 +3,14 @@ import { Form, Formik } from "formik";
 import React from "react";
 import { FaTimesCircle } from "react-icons/fa";
 import * as Yup from "yup"; 
-import { setError, setMessage } from "../../../store/StoreAction";
+import { setError, setMessage, setSuccess } from "../../../store/StoreAction";
 import { StoreContext } from "../../../store/StoreContext";
-import { InputText } from "../../helpers/FormInputs";
+import { InputSelect, InputText } from "../../helpers/FormInputs";
 import { closeModal } from "../../helpers/functions-general";
 import { queryData } from "../../helpers/queryData";
 import ButtonSpinner from "../../partials/spinners/ButtonSpinner";
 
-const ModalAddAccount = ({ itemEdit }) => {
+const ModalAddAccount = ({ item }) => {
   const { dispatch } = React.useContext(StoreContext);
   const queryClient = useQueryClient();
   const [show, setShow] = React.useState("show");
@@ -18,32 +18,48 @@ const ModalAddAccount = ({ itemEdit }) => {
   const mutation = useMutation({
     mutationFn: (values) =>
       queryData(
-        itemEdit ? `/v1/movement/${itemEdit.movement_aid}` : "/v1/movement",
-        itemEdit ? "put" : "post",
+        item ? `/v1/members/${item.members_aid}` : "/v1/members",
+        item ? "put" : "post",
         values
       ),
     onSuccess: (data) => {
       // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ["movement"] });
+      queryClient.invalidateQueries({ queryKey: ["members"] });
+
+      // show success box
+      if (data.success) {
+        dispatch(setSuccess(true));
+        dispatch(setMessage(`Successfuly ${item ? "updated." : "added."}`));
+      }
 
       // show error box
       if (!data.success) {
         dispatch(setError(true));
         dispatch(setMessage(data.error));
       }
-    },
+    },  
   });
   const handleClose = () => {
     closeModal(setShow, dispatch);
   };
 
   const initVal = { 
-    name: itemEdit ? itemEdit.name : "",
-    date: itemEdit ? itemEdit.date : "", 
+    members_id:"2301-001",
+    members_pre_membership_date: item ? item.members_pre_membership_date : "",
+    members_first_name: item ? item.members_first_name : "", 
+    members_last_name: item ? item.members_last_name : "", 
+    members_middle_name: item ? item.members_middle_name : "", 
+    members_gender: item ? item.members_gender : "", 
+    members_birth_date: item ? item.members_birth_date : "", 
   };
 
   const yupSchema = Yup.object({
-    name: Yup.string().required("Required"),
+    members_pre_membership_date: Yup.string().required("Required"),
+    members_first_name: Yup.string().required("Required"),
+    members_last_name: Yup.string().required("Required"),
+    members_middle_name: Yup.string().required("Required"),
+    members_gender: Yup.string().required("Required"),
+    members_birth_date: Yup.string().required("Required"),
   });
 
   return (
@@ -54,7 +70,7 @@ const ModalAddAccount = ({ itemEdit }) => {
         <div className="p-1 w-[350px] rounded-b-2xl animate-slideUp ">
           <div className="flex justify-between items-center bg-primary p-3 rounded-t-2xl">
             <h3 className="text-white text-sm">
-              {itemEdit ? "Update" : "Add"} Account
+              {item ? "Update" : "Add"} Account
             </h3>
             <button
               type="button"
@@ -69,6 +85,7 @@ const ModalAddAccount = ({ itemEdit }) => {
               initialValues={initVal}
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
+                console.log(values)
                 // mutate data
                 mutation.mutate(values);
               }}
@@ -76,23 +93,64 @@ const ModalAddAccount = ({ itemEdit }) => {
               {(props) => {
                 return (
                   <Form className="pt-5">
-                    <div className="relative mb-5">
+                  <div className="relative mb-6">
                       <InputText
-                        label="Name"
+                        label="Pre Membership Date"
                         type="text"
-                        name="name"
+                        onFocus={(e) => (e.target.type = "date")}
+                        onBlur={(e) => (e.target.type = "text")}
+                        name="members_pre_membership_date"
                         disabled={mutation.isLoading}
                       />
+                    </div> 
+                    <div className="relative mb-5">
+                      <InputText
+                        label="Last Name"
+                        type="text"
+                        name="members_last_name"
+                        disabled={mutation.isLoading}
+                      />
+                    </div>
+                    <div className="relative mb-5">
+                      <InputText
+                        label="First Name"
+                        type="text"
+                        name="members_first_name"
+                        disabled={mutation.isLoading}
+                      />
+                    </div>
+                    <div className="relative mb-5">
+                      <InputText
+                        label="Middle Name"
+                        type="text"
+                        name="members_middle_name"
+                        disabled={mutation.isLoading}
+                      />
+                    </div>
+                    <div className="relative mb-5">
+                      <InputSelect
+                        label="Gender"
+                        type="text"
+                        name="members_gender"
+                        disabled={mutation.isLoading}
+                      >
+                        <option value="">--</option>
+                        <option value="female">Female</option>
+                        <option value="male">Male</option>
+                      </InputSelect>
                     </div>
 
-                    <div className="relative mb-5">
-                      <InputText
-                        label="Date"
-                        type="text"
-                        name="Date"
-                        disabled={mutation.isLoading}
-                      />
-                    </div>
+                    <div className="relative mb-6 mt-5">
+                        <InputText
+                          label="Birth Date"
+                          type="text"
+                          onFocus={(e) => (e.target.type = "date")}
+                          onBlur={(e) => (e.target.type = "text")}
+                          name="members_birth_date"
+                          disabled={mutation.isLoading}
+                        />
+                      </div> 
+
 
                     <div className="flex items-center gap-1 pt-3">
                       <button
@@ -102,7 +160,7 @@ const ModalAddAccount = ({ itemEdit }) => {
                       >
                         {mutation.isLoading ? (
                           <ButtonSpinner />
-                        ) : itemEdit ? (
+                        ) : item ? (
                           "Save"
                         ) : (
                           "Add"

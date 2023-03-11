@@ -2,9 +2,9 @@ import React from "react";
 import { setIsLogin } from "../../store/StoreAction";
 import { StoreContext } from "../../store/StoreContext";
 import { checkLocalStorage } from "../helpers/CheckLocalStorage";
-import fetchApi from "../helpers/fetchApi";
 import { devApiUrl } from "../helpers/functions-general";
 import { checkRoleToRedirect } from "../helpers/login-functions";
+import { queryData } from "../helpers/queryData";
 
 const useSystemIsLogin = (navigate) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -13,13 +13,12 @@ const useSystemIsLogin = (navigate) => {
   React.useEffect(() => {
     setLoading(true);
     const fetchLogin = async () => {
-      const login = await fetchApi(
-        devApiUrl + "/v1/user-systems/token",
+      const login = await queryData(
+        `/v1/user-systems/token`,
+        "post",
         {
           token: checkLocalStorage().token,
-        },
-        null,
-        "post"
+        }, 
       );
 
       if (typeof login === "undefined" || !login.success) {

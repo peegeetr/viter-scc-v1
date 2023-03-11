@@ -42,15 +42,12 @@ const SystemLogin = () => {
       ) : (
         <div
           className="flex justify-center items-center "
-          style={{ transform: "translateY(clamp(5rem,12vw,15rem))" }}
+          style={{ transform: "translateY(clamp(5rem,5vw,15rem))" }}
         >
           <div className="w-96 p-6">
             <div className="flex justify-center">
               <SccLogo />
-            </div>
-            <h3 className="my-2 text-lg font-bold text-center text-gray-500">
-              Sambahayan Cooperative
-            </h3>
+            </div> 
             <p className="mt-8 mb-5 text-lg font-bold">DEVOPS LOGIN</p>
             <Formik
               initialValues={initVal}

@@ -9,13 +9,13 @@ import { MdDashboard } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { setIsShow } from "../../store/StoreAction";
 import { StoreContext } from "../../store/StoreContext";
-import { devNavUrl, UrlSystem } from "../helpers/functions-general";
+import { devNavUrl, UrlOtherUser, UrlSystem } from "../helpers/functions-general";
 
 const Navigation = ({ menu }) => {
   const { store, dispatch } = React.useContext(StoreContext);
 
   const handleShow = () => {
-    dispatch(setIsShow(!store.isShow));
+    dispatch(setIsShow(!store.isShow)); 
   };
 
   return (
@@ -38,6 +38,7 @@ const Navigation = ({ menu }) => {
               className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
               onClick={handleShow}
               data-tooltip="Dashboard"
+               
             >
               <MdDashboard className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
               <span className="md:hidden lg:block">Dashboard</span>
@@ -62,21 +63,22 @@ const Navigation = ({ menu }) => {
           </li>
           <li
             className={
-              menu === "profile"
+              menu === "myaccount"
               ? "active"
               : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
             }
           >
             <Link
-              to={`${devNavUrl}/${UrlSystem}/profile`}
+              to={`${devNavUrl}/${UrlOtherUser}/account/details`}
               className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
               onClick={handleShow}
-              data-tooltip="Profile"
+              data-tooltip="My Account"
             >
-              <FaUsers className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
-              <span className="md:hidden lg:block">Profile</span>
+              <FaUserCheck className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
+              <span className="md:hidden lg:block">My Account</span>
             </Link>
           </li>
+           
           <li
             className={
               menu === "application"

@@ -1,13 +1,11 @@
 import { setError, setMessage } from "../../store/StoreAction";
-import fetchApi from "./fetchApi";
-import { devApiUrl } from "./functions-general";
+import { queryData } from "./queryData";
 
 export async function verifyRecaptcha(response, dispatch, setLoading) {
   setLoading(true);
-  const recapt = await fetchApi(
-    devApiUrl + "/recaptcha/verify-recaptcha.php",
-    { response },
-    dispatch
+  const recapt = await queryData(
+    `/recaptcha/verify-recaptcha.php`,"get",
+    { response }
   );
 
   console.log(recapt);

@@ -29,10 +29,9 @@ const ForgotPassword = () => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ["systemUser"] });
       // show success box
-      if (data.success) {
-        dispatch(setSuccess(true));
-        dispatch(
-          setMessage(`Please check your email to continue resetting password.`)
+      if (data.success) { 
+        window.location.replace(
+          `${devNavUrl}/forgot-password-verification?redirect=/login`
         );
       }
       // show error box
@@ -58,15 +57,12 @@ const ForgotPassword = () => {
     <>
       <div
         className="flex justify-center items-center"
-        style={{ transform: "translateY(clamp(5rem,17vw,22rem))" }}
+        style={{ transform: "translateY(clamp(5rem,10vw,22rem))" }}
       >
         <div className="w-96 p-6">
           <div className="flex justify-center">
             <SccLogo />
-          </div>
-          <h3 className="my-2 text-lg font-bold text-center text-gray-500">
-            Sambahayan Cooperative
-          </h3>
+          </div> 
           <p className="mt-8 mb-5 text-lg font-bold">FORGOT PASSWORD</p>
           <Formik
             initialValues={initVal}

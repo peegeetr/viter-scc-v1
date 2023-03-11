@@ -24,9 +24,9 @@ const ModalLogout = () => {
     setTimeout(() => {
       if (checkLocalStorage() !== null) {
         localStorage.removeItem("sccToken");
-        // store.credentials.data.role_is_developer === 1
-        //   ? window.location.replace(`${link}/login`)
-        //   : window.location.replace(`${link}/login`);
+        store.credentials.data.role_is_developer === 1
+          ? window.location.replace(`${link}/login`)
+          : window.location.replace(`${link}/login`);
         window.location.replace(`${devNavUrl}/${UrlOtherUser}/login`);
         return;
       }

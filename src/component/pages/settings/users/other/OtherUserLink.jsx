@@ -7,8 +7,7 @@ import { getUserType } from "../../../../helpers/functions-general";
 
 const OtherUserLink = () => {
   const { store, dispatch } = React.useContext(StoreContext);
-  // const link = getUserType(store.credentials.data.role_is_developer === 1);
-  const link = getUserType(1 === 1);
+  const link = getUserType(store.credentials.data.role_is_developer === 1); 
   return (
     <div className="group flex items-center justify-between border-b border-solid border-gray-300">
       <Link to={`${link}/settings/users/other`} className="w-full py-1">

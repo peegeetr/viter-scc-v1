@@ -1,7 +1,7 @@
 <?php
 define("USERNAME", "noreply@hris.frontlinebusiness.com.ph");
 define("PASSWORD", "b@11551gfN4b");
-define("FROM", "FBS Online Payroll");
+define("FROM", "Sambahayan Consumer Cooperative ");
 define("VERIFY_ACCOUNT", "Account Verification");
 define("RESET_PASSWORD", "Reset Password");
 define("DEVELOPER", "patrick.reyes@frontlinebusiness.com.ph");

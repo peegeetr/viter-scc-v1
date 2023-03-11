@@ -22,7 +22,7 @@ $user_other->user_other_role_id = addslashes(trim($data["user_other_role_id"]));
 $user_other->user_other_key = $encrypt->doHash(rand());
 $user_other->user_other_created = date("Y-m-d H:i:s");
 $user_other->user_other_datetime = date("Y-m-d H:i:s");
-$password_link = "/create-password";
+$password_link = "/other/create-password";
 // check email 
 isEmailExist($user_other, $user_other->user_other_email);
 // send email notification

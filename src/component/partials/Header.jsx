@@ -3,7 +3,7 @@ import { FaSignOutAlt, FaTimes, FaUserCircle } from "react-icons/fa";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { setIsLogout, setIsShow } from "../../store/StoreAction";
 import { StoreContext } from "../../store/StoreContext";
-import SccLogo from "../svg/SccLogo.jsx";
+import Logo from "../svg/Logo.jsx";
 import ModalLogout from "./modals/ModalLogout.jsx";
 
 const Header = () => {
@@ -20,7 +20,8 @@ const Header = () => {
   return (
     <>
       <div className="fixed z-30 bg-primary w-full flex justify-between items-center h-16 px-3 border-solid border-b-2 border-primary">
-        <h1 className="w-[50rem]">{/* <SccLogo /> */}</h1>
+          
+        <div className="w-[50rem] flex text-white items-center "><Logo /> <h1 className="ml-4">Sambahayan Consumer Cooperative</h1></div>
         <div className="flex justify-between items-center gap-3">
           <FaUserCircle className="w-9 h-9 text-white hidden md:block" />
           <div className="hidden md:block leading-normal text-white">

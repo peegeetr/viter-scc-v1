@@ -7,6 +7,7 @@ function getHtmlResetPassword(
   $ROOT_DOMAIN
 ) {
   $html = '
+   
   <style>
   @import url("https://fonts.cdnfonts.com/css/Helvetica Neue-neue-9");
   * {
@@ -37,7 +38,7 @@ function getHtmlResetPassword(
     background-color: #fff;
   "
 >
-  <div style="width: 100%; max-width: 500px; margin: 10px auto">
+  <div style="width: 100%; max-width: 600px; margin: 10px auto">
   <div style="padding: 10px 10px 0px">
       <div
         style="
@@ -69,23 +70,20 @@ function getHtmlResetPassword(
       <div
         style="
           padding: 20px;
-          border-top: 1px solid #f3f3f3;
-          color: #505050;
-          background-color: #f9f9f9;
-          border: 1px solid #ddd;
+          color: #505050; 
         "
       >
         <p style="margin-bottom: 20px; font-size: 15px">
           It looks like you need to reset your password using
           <strong>' . $email . '</strong> as account email address. Please
-          click the button below to reset your password and start using the Online Payroll System again.
+          click the button below to reset your password.
         </p>
 
         <a
           href="' . $ROOT_DOMAIN . '' . $password_link . '?key=' . $key . '"
           style="
             padding: 4px 25px;
-            background-color: #630b3c;
+            background-color: #00338f;
             color: #fff;
             display: inline-block;
             text-decoration: none;
@@ -93,7 +91,7 @@ function getHtmlResetPassword(
             border-radius: 30px;
             margin-bottom: 10px;
           "
-          >Reset</a
+          >Reset Password</a
         >
 
         <p style="margin-bottom: 10px; font-size: 15px">
@@ -123,15 +121,18 @@ function getHtmlResetPassword(
         border-top: 1px solid #ddd;
       "
     >
-      <p style="font-size: 10px; line-height: 1.4; opacity: 0.5">
-        &copy; ' . date("Y") . ' All Rights Reserved <br />
-        Frontline Business Solutions, Inc., Baloc Road, Brgy. San Ignacio
-        <br />
-        San Pablo City, 4000, Laguna, Philippines
-      </p>
+    <p style="font-size: 10px; line-height: 1.4; opacity: 0.5">
+      &copy; ' . date("Y") . ' All Rights Reserved <br />
+      Sambahayan Consumers Cooperative, Sitio Subac, Santo Nino
+      <br />
+      San Pablo CIty, Laguna Region IV-A (CALABARZON)
+      <br />CDA REG. NO. 9520-100400033760
+      <br />TIN NO. 620-402-542-00000
+    </p>
     </div>
   </div>
-</body>
+</body> 
+
 ';
   return $html;
 }
