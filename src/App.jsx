@@ -83,25 +83,25 @@ function App() {
             <Route
               path={`${devNavUrl}/${UrlSystem}/dashboard`}
               element={
-              // <ProtectedRouteSystem>
+              <ProtectedRouteSystem>
                 <Dashboard /> 
-                // </ProtectedRouteSystem>
+                </ProtectedRouteSystem>
               }
             />
             <Route
               path={`${devNavUrl}/${UrlSystem}/account`}
               element={
-              // <ProtectedRouteSystem>
+              <ProtectedRouteSystem>
                 <Account />
-                // </ProtectedRouteSystem>
+                </ProtectedRouteSystem>
               }
             /> 
             <Route
               path={`${devNavUrl}/${UrlSystem}/application`}
               element={
-              // <ProtectedRouteSystem>
+               <ProtectedRouteSystem>
                 <Application />
-                // </ProtectedRouteSystem>
+                 </ProtectedRouteSystem>
                 }
             />
             <Route
