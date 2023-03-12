@@ -160,6 +160,21 @@ class Members
         return $query;
     }
 
+    // read all 
+    public function readLastMemberId()
+    {
+        try {
+            $sql = "select * from "; 
+            $sql .= "{$this->tblMembers} ";  
+            $sql .= "order by members_last_name, ";
+            $sql .= "members_first_name desc ";
+            $query = $this->connection->query($sql);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    } 
+
     // read all not approved members
     public function readAll()
     {
