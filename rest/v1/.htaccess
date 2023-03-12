@@ -41,14 +41,33 @@ RewriteRule ^announcement/page/([0-9]+)$ controllers/dashboard/page.php?start=$1
 RewriteRule ^announcement/search/([A-Za-z0-9-]+)$ controllers/dashboard/search.php?search=$1 [L]
   
 #members
-RewriteRule ^members$ controllers/members/members.php [L]
-RewriteRule ^members/([0-9]+)$ controllers/members/members.php?membersid=$1 [L]
-RewriteRule ^members/([0-9]+)/([A-Za-z0-9-]+)$ controllers/members/members.php?membersid=$1&isUpdate=$2 [L]
-RewriteRule ^members/status/([0-9]+)$ controllers/members/status.php?membersid=$1 [L]
-RewriteRule ^members/page/([0-9]+)$ controllers/members/page.php?start=$1 [L]
-RewriteRule ^member/page/([0-9]+)/([A-Za-z0-9-]+)$ controllers/members/page.php?start=$1&approved=$2 [L]
-RewriteRule ^members/search/([A-Za-z0-9-]+)$ controllers/members/search.php?search=$1 [L]
+RewriteRule ^members$ controllers/account/members.php [L]
+RewriteRule ^members/([0-9]+)$ controllers/account/members.php?membersid=$1 [L]
+RewriteRule ^members/([0-9]+)/([A-Za-z0-9-]+)$ controllers/account/members.php?membersid=$1&isUpdate=$2 [L]
+RewriteRule ^members/status/([0-9]+)$ controllers/account/status.php?membersid=$1 [L]
+RewriteRule ^members/page/([0-9]+)$ controllers/account/page.php?start=$1 [L]
+RewriteRule ^member/page/([0-9]+)/([A-Za-z0-9-]+)$ controllers/account/page.php?start=$1&approved=$2 [L]
+RewriteRule ^members/search/([A-Za-z0-9-]+)$ controllers/account/search.php?search=$1 [L]
 
 #beneficiaries
-RewriteRule ^beneficiaries$ controllers/members/profile/beneficiaries/beneficiaries.php [L]
-RewriteRule ^beneficiaries/([0-9]+)$ controllers/members/profile/beneficiaries/beneficiaries.php?beneficiariesid=$1 [L] 
+RewriteRule ^beneficiaries$ controllers/account/details/beneficiaries/beneficiaries.php [L]
+RewriteRule ^beneficiaries/([0-9]+)$ controllers/account/details/beneficiaries/beneficiaries.php?beneficiariesid=$1 [L] 
+
+#savings
+RewriteRule ^savings$ controllers/account/details/savings/savings.php [L]
+RewriteRule ^savings/([0-9]+)$ controllers/account/details/savings/savings.php?savingsid=$1 [L] 
+RewriteRule ^savings/page/([0-9]+)/([0-9]+)$ controllers/account/details/savings/page.php?start=$1&membersid=$2 [L]
+RewriteRule ^savings/search/([A-Za-z0-9-]+)/([0-9]+)$ controllers/account/details/savings/search.php?search=$1&membersid=$2 [L]
+
+#capital share
+RewriteRule ^capital-share$ controllers/account/details/capital-share/capitalShare.php [L]
+RewriteRule ^capital-share/([0-9]+)$ controllers/account/details/capital-share/capitalShare.php?shareid=$1 [L] 
+RewriteRule ^capital-share/page/([0-9]+)/([0-9]+)$ controllers/account/details/capital-share/page.php?start=$1&membersid=$2 [L]
+RewriteRule ^capital-share/search/([A-Za-z0-9-]+)/([0-9]+)$ controllers/account/details/capital-share/search.php?search=$1&membersid=$2 [L]
+
+
+#file upload
+RewriteRule ^file$ controllers/files-upload/fileUpload.php [L]
+RewriteRule ^file/([0-9]+)$ controllers/files-upload/fileUpload.php?fileid=$1 [L] 
+RewriteRule ^file/page/([0-9]+)$ controllers/files-upload/page.php?start=$1 [L]
+RewriteRule ^file/search/([A-Za-z0-9-]+)$ controllers/files-upload/search.php?search=$1 [L]

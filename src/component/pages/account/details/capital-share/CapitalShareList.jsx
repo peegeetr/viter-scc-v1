@@ -1,20 +1,19 @@
+import { useInfiniteQuery } from "@tanstack/react-query";
 import React from "react";
-import { FaArchive, FaEdit, FaHistory, FaTrash } from "react-icons/fa";
+import { FaEdit, FaTrash } from "react-icons/fa";
+import { useInView } from "react-intersection-observer";
+import { setIsAdd, setIsRestore } from "../../../../../store/StoreAction";
 import { StoreContext } from "../../../../../store/StoreContext";
+import { formatDate } from "../../../../helpers/functions-general";
+import { queryDataInfinite } from "../../../../helpers/queryDataInfinite";
+import Loadmore from "../../../../partials/Loadmore";
+import ModalDeleteRestore from "../../../../partials/modals/ModalDeleteRestore";
 import NoData from "../../../../partials/NoData";
+import SearchBar from "../../../../partials/SearchBar";
 import ServerError from "../../../../partials/ServerError";
 import TableSpinner from "../../../../partials/spinners/TableSpinner";
-import StatusActive from "../../../../partials/status/StatusActive";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { useInView } from "react-intersection-observer";
-import { queryDataInfinite } from "../../../../helpers/queryDataInfinite";
-import { setIsAdd, setIsRestore } from "../../../../../store/StoreAction";
-import ModalDeleteRestore from "../../../../partials/modals/ModalDeleteRestore";
-import SearchBar from "../../../../partials/SearchBar";
-import Loadmore from "../../../../partials/Loadmore";
-import { formatDate } from "../../../../helpers/functions-general";
 
-const SavingsList = ({setItemEdit}) => {
+const CapitalShareList = ({setItemEdit}) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [dataItem, setData] = React.useState(null);
   const [id, setId] = React.useState(null);
@@ -35,11 +34,11 @@ const SavingsList = ({setItemEdit}) => {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ["savings", onSearch, store.isSearch],
+    queryKey: ["capital-share", onSearch, store.isSearch],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
-        `/v1/savings/search/${search.current.value}/${empid}`, // search endpoint
-        `/v1/savings/page/${pageParam}/${empid}`, // list endpoint
+        `/v1/capital-share/search/${search.current.value}/${empid}`, // search endpoint
+        `/v1/capital-share/page/${pageParam}/${empid}`, // list endpoint
         store.isSearch // search boolean
       ),
     getNextPageParam: (lastPage) => {
@@ -67,7 +66,7 @@ const SavingsList = ({setItemEdit}) => {
  
   const handleDelete = (item) => {
     dispatch(setIsRestore(true));
-    setId(item.savings_aid);
+    setId(item.capital_share_aid);
     setData(item);
     setDel(true);
   };
@@ -90,7 +89,7 @@ const SavingsList = ({setItemEdit}) => {
               <th>#</th>
               <th className="w-[15rem]">Date</th>
               <th className="w-[15rem]">Amount</th>
-              <th className="w-[15rem]">Savings Balance</th> 
+              <th className="w-[15rem]">Capital Share</th> 
               <th className="w-[15rem]">Total Amount</th>
               <th className="max-w-[5rem]">Actions</th>
             </tr>
@@ -116,11 +115,11 @@ const SavingsList = ({setItemEdit}) => {
                       {page.data.map((item, key) => (
                   <tr key={key} >
                     <td>{counter++}.</td>
-                    <td>{formatDate(item.savings_date)}</td>
-                    <td>{item.savings_amount}</td>
-                    <td> {item.savings_balance}
+                    <td>{formatDate(item.capital_share_date)}</td>
+                    <td>{item.capital_share_amount}</td>
+                    <td> {item.capital_share_balance}
                     </td>
-                    <td>{item.savings_total}</td>  
+                    <td>{item.capital_share_total}</td>  
                     <td>
                       <div className="flex items-center gap-1">  
                             <button
@@ -165,15 +164,15 @@ const SavingsList = ({setItemEdit}) => {
         <ModalDeleteRestore
           id={id}
           isDel={isDel}
-          mysqlApiDelete={`/v1/savings/${id}`} 
+          mysqlApiDelete={`/v1/capital-share/${id}`} 
           msg={ "Are you sure you want to delete " 
           }
-          item={`${dataItem.savings_date}`} 
-          arrKey="savings"
+          item={`${dataItem.capital_share_date}`} 
+          arrKey="capital-share"
         />
       )}
     </>
   );
 };
 
-export default SavingsList;
+export default CapitalShareList;

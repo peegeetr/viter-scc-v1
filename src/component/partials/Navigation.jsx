@@ -1,5 +1,6 @@
 import React from "react";
 import { AiFillSetting } from "react-icons/ai";
+import { TbFileDownload } from "react-icons/tb";
 import { 
   FaUserCheck,
   FaBusinessTime,
@@ -57,7 +58,7 @@ const Navigation = ({ menu }) => {
               onClick={handleShow}
               data-tooltip="Account"
             >
-              <FaUserCheck className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
+              <FaUsers className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
               <span className="md:hidden lg:block">Account</span>
             </Link>
           </li>
@@ -94,6 +95,24 @@ const Navigation = ({ menu }) => {
             >
               <FaBusinessTime className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
               <span className="md:hidden lg:block">Application</span>
+            </Link>
+          </li>
+           
+          <li
+            className={
+              menu === "fileUpload"
+              ? "active"
+              : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
+            }
+          >
+            <Link
+              to={`${devNavUrl}/${UrlSystem}/file-upload`}
+              className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
+              onClick={handleShow}
+              data-tooltip="File Upload"
+            >
+              <TbFileDownload className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
+              <span className="md:hidden lg:block">File Upload</span>
             </Link>
           </li>
 

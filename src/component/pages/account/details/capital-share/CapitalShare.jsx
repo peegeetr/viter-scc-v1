@@ -8,10 +8,10 @@ import Header from "../../../../partials/Header";
 import ModalError from "../../../../partials/modals/ModalError";
 import ModalSuccess from "../../../../partials/modals/ModalSuccess";
 import Navigation from "../../../../partials/Navigation";
-import ModalAddSavings from "./ModalAddSavings";
-import SavingsList from "./SavingsList";
+import CapitalShareList from "./CapitalShareList";
+import ModalAddCapitalShare from "./ModalAddCapitalShare"; 
 
-const Savings = () => {
+const CapitalShare = () => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [itemEdit, setItemEdit] = React.useState(null);
 
@@ -35,16 +35,17 @@ const Savings = () => {
         <hr />
 
         <div className="w-full pb-20 mt-3 ">
-          <SavingsList setItemEdit={setItemEdit} />
+          <CapitalShareList setItemEdit={setItemEdit} />
         </div>
         <Footer />
       </div>
 
-      {store.isAdd && <ModalAddSavings item={itemEdit}/>}
+
+      {store.isAdd && <ModalAddCapitalShare item={itemEdit}/>}
       {store.success && <ModalSuccess />}
       {store.error && <ModalError />}
     </>
   );
 };
 
-export default Savings;
+export default CapitalShare;

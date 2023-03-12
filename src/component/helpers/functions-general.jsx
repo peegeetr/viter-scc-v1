@@ -186,3 +186,5 @@ export const getUserType = (developer) => {
     : link = `${devNavUrl}/${UrlOtherUser}`;
   return link;
 };
+
+

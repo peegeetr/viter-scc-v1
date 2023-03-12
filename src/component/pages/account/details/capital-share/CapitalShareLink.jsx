@@ -5,12 +5,12 @@ import { Link } from "react-router-dom";
 import { StoreContext } from "../../../../../store/StoreContext";
 import { devNavUrl, UrlSystem } from "../../../../helpers/functions-general";
 
-const SavingsLink = () => {
+const CapitalShareLink = () => {
   const { store, dispatch } = React.useContext(StoreContext);
   return (
     <>
      <Link
-        to={`${devNavUrl}/${UrlSystem}/account/details/savings`}
+        to={`${devNavUrl}/${UrlSystem}/account/details/capital-share`}
         className="w-full py-2"
       >
         <div className="flex items-center">
@@ -26,7 +26,7 @@ const SavingsLink = () => {
       </Link>
 
       <Link
-        to={`${devNavUrl}/${UrlSystem}/account/details/savings`}
+        to={`${devNavUrl}/${UrlSystem}/account/details/capital-share`}
         className="btn-action-table group-hover:bg-primary group-hover:text-white"
       >
         <SlArrowRight className="inline" />
@@ -35,4 +35,4 @@ const SavingsLink = () => {
   );
 };
 
-export default SavingsLink;
+export default CapitalShareLink;

@@ -11,11 +11,13 @@ import OtherLogin from "./component/pages/access/login/OtherLogin";
 import SystemLogin from "./component/pages/access/login/SystemLogin";
 import ProtectedRouteSystem from "./component/pages/access/ProtectedRouteSystem";
 import Account from "./component/pages/account/Account";
+import CapitalShare from "./component/pages/account/details/capital-share/CapitalShare";
 import Deatils from "./component/pages/account/details/Details";
 import Profile from "./component/pages/account/details/profile/Profile";
 import Savings from "./component/pages/account/details/savings/Savings";
 import Application from "./component/pages/application/Application";
 import Dashboard from "./component/pages/dashboard/Dashboard";
+import FileUpload from "./component/pages/file-upload/FileUpload";
 import MyAccount from "./component/pages/my-account/MyAccount";
 import MyProfile from "./component/pages/my-account/profile/MyProfile";
 import SettingsLink from "./component/pages/settings/SettingsLink";
@@ -106,16 +108,46 @@ function App() {
             />
             <Route
               path={`${devNavUrl}/${UrlSystem}/account/details`}
-              element={<ProtectedRouteSystem><Deatils /></ProtectedRouteSystem>}
-            /> 
+              element={
+               <ProtectedRouteSystem>
+                <Deatils />
+                  </ProtectedRouteSystem>
+                }
+            />  
             <Route
               path={`${devNavUrl}/${UrlSystem}/account/details/profile`}
-              element={<ProtectedRouteSystem><Profile /></ProtectedRouteSystem>}
+              element={
+              <ProtectedRouteSystem>
+                <Profile />
+                  </ProtectedRouteSystem>
+                }
             />  
             
             <Route
               path={`${devNavUrl}/${UrlSystem}/account/details/savings`}
-              element={<ProtectedRouteSystem><Savings /></ProtectedRouteSystem>}
+              element={
+               <ProtectedRouteSystem>
+                <Savings />
+                </ProtectedRouteSystem>
+                }
+            /> 
+            
+            <Route
+              path={`${devNavUrl}/${UrlSystem}/account/details/capital-share`}
+              element={
+              <ProtectedRouteSystem>
+                <CapitalShare />
+                  </ProtectedRouteSystem>
+                }
+            /> 
+            
+            <Route
+              path={`${devNavUrl}/${UrlSystem}/file-upload`}
+              element={
+               <ProtectedRouteSystem>
+                <FileUpload />
+                </ProtectedRouteSystem>
+                }
             /> 
            
                {/* system settings */}
