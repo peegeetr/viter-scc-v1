@@ -1,20 +1,21 @@
 <?php
 class Beneficiaries
 {
-    public $beneficiaries_aid; 
+    public $beneficiaries_aid;
+    public $beneficiaries_employee_id;
     public $beneficiaries_name;
-    public $beneficiaries_description;
+    public $beneficiaries_relationship;
     public $beneficiaries_created;
     public $beneficiaries_datetime;
 
     public $connection;
     public $lastInsertedId;
-    public $tblBeneficiaries; 
+    public $tblBeneficiaries;
 
     public function __construct($db)
     {
         $this->connection = $db;
-        $this->tblBeneficiaries = "sccv1_settings_beneficiaries"; 
+        $this->tblBeneficiaries = "sccv1_settings_beneficiaries";
     }
 
     // create
@@ -22,12 +23,12 @@ class Beneficiaries
     {
         try {
             $sql = "insert into {$this->tblBeneficiaries} ";
-            $sql .= "( beneficiaries_name, "; 
+            $sql .= "( beneficiaries_name, ";
             $sql .= "beneficiaries_employee_id, ";
             $sql .= "beneficiaries_relationship, ";
             $sql .= "beneficiaries_created, ";
             $sql .= "beneficiaries_datetime ) values ( ";
-            $sql .= ":beneficiaries_name, "; 
+            $sql .= ":beneficiaries_name, ";
             $sql .= ":beneficiaries_employee_id, ";
             $sql .= ":beneficiaries_relationship, ";
             $sql .= ":beneficiaries_created, ";
@@ -65,10 +66,10 @@ class Beneficiaries
     public function readById()
     {
         try {
-            $sql = "select beneficiaries_employee_id, "; 
+            $sql = "select beneficiaries_employee_id, ";
             $sql .= "beneficiaries_name, ";
-            $sql .= "beneficiaries_relationship "; 
-            $sql .= "from {$this->tblBeneficiaries} "; 
+            $sql .= "beneficiaries_relationship ";
+            $sql .= "from {$this->tblBeneficiaries} ";
             $sql .= "where beneficiaries_employee_id = :beneficiaries_employee_id ";
             $sql .= "order by beneficiaries_name asc ";
             $query = $this->connection->prepare($sql);
@@ -102,7 +103,7 @@ class Beneficiaries
         }
         return $query;
     }
- 
+
     // delete
     public function delete()
     {
@@ -118,7 +119,7 @@ class Beneficiaries
         }
         return $query;
     }
- 
+
 
     // name
     public function checkName()
@@ -137,5 +138,4 @@ class Beneficiaries
         }
         return $query;
     }
- 
 }

@@ -1,22 +1,22 @@
 import React from "react";
 import { AiFillSetting } from "react-icons/ai";
 import { TbFileDownload } from "react-icons/tb";
-import { 
-  FaUserCheck,
-  FaBusinessTime,
-  FaUsers,
-} from "react-icons/fa";
+import { FaUserCheck, FaBusinessTime, FaUsers } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { setIsShow } from "../../store/StoreAction";
 import { StoreContext } from "../../store/StoreContext";
-import { devNavUrl, UrlOtherUser, UrlSystem } from "../helpers/functions-general";
+import {
+  devNavUrl,
+  UrlOtherUser,
+  UrlSystem,
+} from "../helpers/functions-general";
 
 const Navigation = ({ menu }) => {
   const { store, dispatch } = React.useContext(StoreContext);
 
   const handleShow = () => {
-    dispatch(setIsShow(!store.isShow)); 
+    dispatch(setIsShow(!store.isShow));
   };
 
   return (
@@ -30,8 +30,8 @@ const Navigation = ({ menu }) => {
           <li
             className={
               menu === "dashboard"
-              ? "active"
-              : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
+                ? "active"
+                : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
             }
           >
             <Link
@@ -39,17 +39,16 @@ const Navigation = ({ menu }) => {
               className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
               onClick={handleShow}
               data-tooltip="Dashboard"
-               
             >
               <MdDashboard className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
-              <span className="md:hidden lg:block">Dashboard</span>
+              <span className="md:hidden lg:block">Announcement</span>
             </Link>
           </li>
           <li
             className={
               menu === "account"
-              ? "active"
-              : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
+                ? "active"
+                : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
             }
           >
             <Link
@@ -59,14 +58,14 @@ const Navigation = ({ menu }) => {
               data-tooltip="Account"
             >
               <FaUsers className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
-              <span className="md:hidden lg:block">Account</span>
+              <span className="md:hidden lg:block">Members</span>
             </Link>
           </li>
           <li
             className={
               menu === "myaccount"
-              ? "active"
-              : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
+                ? "active"
+                : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
             }
           >
             <Link
@@ -79,12 +78,12 @@ const Navigation = ({ menu }) => {
               <span className="md:hidden lg:block">My Account</span>
             </Link>
           </li>
-           
+
           <li
             className={
               menu === "application"
-              ? "active"
-              : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
+                ? "active"
+                : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
             }
           >
             <Link
@@ -97,12 +96,12 @@ const Navigation = ({ menu }) => {
               <span className="md:hidden lg:block">Application</span>
             </Link>
           </li>
-           
+
           <li
             className={
               menu === "fileUpload"
-              ? "active"
-              : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
+                ? "active"
+                : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
             }
           >
             <Link

@@ -1,12 +1,23 @@
 import { Form, Formik } from "formik";
 import React from "react";
 import { AiFillCamera } from "react-icons/ai";
-import { FaArchive, FaEdit, FaHistory, FaTrash, FaUserCircle  } from "react-icons/fa";  
-import * as Yup from "yup"; 
-import { setIsAdd, setIsConfirm, setIsRestore } from "../../../../../store/StoreAction";
+import {
+  FaArchive,
+  FaEdit,
+  FaHistory,
+  FaTrash,
+  FaUserCircle,
+} from "react-icons/fa";
+import * as Yup from "yup";
+import {
+  setIsAdd,
+  setIsConfirm,
+  setIsRestore,
+} from "../../../../../store/StoreAction";
 import { StoreContext } from "../../../../../store/StoreContext";
 import useQueryData from "../../../../custom-hooks/useQueryData";
 import { InputFileUpload } from "../../../../helpers/FormInputs";
+import { formatDate } from "../../../../helpers/functions-general";
 import NoData from "../../../../partials/NoData";
 import ServerError from "../../../../partials/ServerError";
 import TableSpinner from "../../../../partials/spinners/TableSpinner";
@@ -39,15 +50,13 @@ const ProfileList = () => {
   );
 
   // use if not loadmore button undertime
-  const { 
-    data: beneficiaries,
-  } = useQueryData(
+  const { data: beneficiaries } = useQueryData(
     `/v1/beneficiaries/${eid}`,
     "get", // method
     "beneficiaries" // key
   );
 
-  const handleEdit = (item) => {  
+  const handleEdit = (item) => {
     setIsOpen(false);
     dispatch(setIsAdd(true));
     setItemEdit(item);
@@ -57,7 +66,7 @@ const ProfileList = () => {
     dispatch(setIsAdd(true));
     setItemEdit(item);
   };
-  const handleEditPresentAddress = (item) => { 
+  const handleEditPresentAddress = (item) => {
     setIsOpen(false);
     dispatch(setIsConfirm(true));
     setItemEdit(item);
@@ -67,7 +76,7 @@ const ProfileList = () => {
     dispatch(setIsConfirm(true));
     setItemEdit(item);
   };
-  const handleEditJobInfo = (item) => { 
+  const handleEditJobInfo = (item) => {
     setIsOpen(false);
     dispatch(setIsRestore(true));
     setItemEdit(item);
@@ -77,7 +86,6 @@ const ProfileList = () => {
     dispatch(setIsRestore(true));
     setItemEdit(item);
   };
-   
 
   const initVal = {};
 
@@ -140,26 +148,25 @@ const ProfileList = () => {
                   >
                     {(props) => {
                       return (
-                        <Form> 
-                            <button
-                              type="button"
-                              className="tooltip-action-table bottom-8 left-12"
-                              data-tooltip="Upload image"
-                            >
-                              <AiFillCamera className="rounded-full h-8 w-8 p-2 fill-white bg-sky-500" />
-                              <InputFileUpload
-                                name="photo"
-                                type="file"
-                                className="rounded-full h-8 w-8 absolute top-0 right-0 bottom-0 left-0 opacity-0 cursor-pointer"
-                              />
-                            </button> 
+                        <Form>
+                          <button
+                            type="button"
+                            className="tooltip-action-table bottom-8 left-12"
+                            data-tooltip="Upload image"
+                          >
+                            <AiFillCamera className="rounded-full h-8 w-8 p-2 fill-white bg-sky-500" />
+                            <InputFileUpload
+                              name="photo"
+                              type="file"
+                              className="rounded-full h-8 w-8 absolute top-0 right-0 bottom-0 left-0 opacity-0 cursor-pointer"
+                            />
+                          </button>
                         </Form>
                       );
                     }}
                   </Formik>
                 </div>
-                 
-                    
+
                 <div className="text-left grid grid-cols-2 md:grid-cols-[1fr_2fr] pl-2">
                   <p className="font-semibold">First Name :</p>
                   <p className="">{item.members_first_name}</p>
@@ -178,34 +185,34 @@ const ProfileList = () => {
                 </div>
               </div>
               <div className="bg-gray-200 p-2 mb-5 flex justify-between items-center">
-                <h4>Additional info</h4> 
-                  <button
-                    type="button"
-                    className="tooltip-action-table"
-                    data-tooltip="Edit"
-                    onClick={() => handleEditAdditionalInfo(item)}
-                  >
-                    <FaEdit />
-                  </button> 
+                <h4>Additional info</h4>
+                <button
+                  type="button"
+                  className="tooltip-action-table"
+                  data-tooltip="Edit"
+                  onClick={() => handleEditAdditionalInfo(item)}
+                >
+                  <FaEdit />
+                </button>
               </div>
               <div className="text-left grid  grid-cols-2 md:grid-cols-[1fr_2fr] mb-2 xs:pl-5 pl-2">
-                  <p className="font-semibold">Birth Place :</p>
-                  <p className=" capitalize">{item.members_birth_place}</p> 
-                  <p className="font-semibold">Marital Status :</p>
-                  <p className="">{item.members_civil_status}</p>
-                  <p className="font-semibold">Educational Attainment :</p>
-                  <p className="">{item.members_education_attainment}</p>
-               
-              </div> <div className="bg-gray-200 p-2 mb-5 flex justify-between items-center">
-                <h4>Permanent Address </h4> 
-                  <button
-                    type="button"
-                    className="tooltip-action-table"
-                    data-tooltip="Edit"
-                    onClick={() => handleEditPermanentAddress(item)}
-                  >
-                    <FaEdit />
-                  </button> 
+                <p className="font-semibold">Birth Place :</p>
+                <p className=" capitalize">{item.members_birth_place}</p>
+                <p className="font-semibold">Marital Status :</p>
+                <p className="">{item.members_civil_status}</p>
+                <p className="font-semibold">Educational Attainment :</p>
+                <p className="">{item.members_education_attainment}</p>
+              </div>{" "}
+              <div className="bg-gray-200 p-2 mb-5 flex justify-between items-center">
+                <h4>Permanent Address </h4>
+                <button
+                  type="button"
+                  className="tooltip-action-table"
+                  data-tooltip="Edit"
+                  onClick={() => handleEditPermanentAddress(item)}
+                >
+                  <FaEdit />
+                </button>
               </div>
               <div className="text-left grid  grid-cols-2 md:grid-cols-[1fr_2fr] mb-5 xs:pl-5 pl-2">
                 <p className="font-semibold">
@@ -217,18 +224,17 @@ const ProfileList = () => {
                 <p className="font-semibold">Mobile no. :</p>
                 <p className="">{item.members_permanent_mobile_no}</p>
               </div>
-              
               <div className="bg-gray-200 p-2 mb-5 flex justify-between items-center">
                 <h4>Present Address </h4>
-                 
-                  <button
-                    type="button"
-                    className="tooltip-action-table"
-                    data-tooltip="Edit"
-                    onClick={() => handleEditPresentAddress(item)}
-                  >
-                    <FaEdit />
-                  </button> 
+
+                <button
+                  type="button"
+                  className="tooltip-action-table"
+                  data-tooltip="Edit"
+                  onClick={() => handleEditPresentAddress(item)}
+                >
+                  <FaEdit />
+                </button>
               </div>
               <div className="text-left grid  grid-cols-2 md:grid-cols-[1fr_2fr] mb-5 xs:pl-5 pl-2">
                 <p className="font-semibold">
@@ -239,59 +245,55 @@ const ProfileList = () => {
                 <p className="">{item.members_present_zip_code}</p>
                 <p className="font-semibold">Mobile no. :</p>
                 <p className="">{item.members_present_mobile_no}</p>
-              </div> 
-              
+              </div>
               <div className="bg-gray-200 p-2 mb-5 flex justify-between items-center">
                 <h4>Spouse Information</h4>
-                 
-                  <button
-                    type="button"
-                    className="tooltip-action-table"
-                    data-tooltip="Edit"
-                    onClick={() => handleEditSpouseInfo(item)}
-                  >
-                    <FaEdit />
-                  </button> 
+
+                <button
+                  type="button"
+                  className="tooltip-action-table"
+                  data-tooltip="Edit"
+                  onClick={() => handleEditSpouseInfo(item)}
+                >
+                  <FaEdit />
+                </button>
               </div>
-              <div className="text-left grid  grid-cols-2 md:grid-cols-[1fr_2fr] mb-5 xs:pl-5 pl-2"> 
-              <p className="font-semibold">Occupation :</p>
-                  <p className="">{item.members_spouse_occupation}</p>
-              <p className="font-semibold">Income :</p>
-                  <p className="">{item.members_spouse_income}</p>
-              <p className="font-semibold">Net income :</p>
-                  <p className="">{item.members_spouse_net_income}</p> 
-              <p className="font-semibold">Properties owned :</p>
-                  <p className="">{item.members_properties_owned}</p> 
-              </div> 
+              <div className="text-left grid  grid-cols-2 md:grid-cols-[1fr_2fr] mb-5 xs:pl-5 pl-2">
+                <p className="font-semibold">Occupation :</p>
+                <p className="">{item.members_spouse_occupation}</p>
+                <p className="font-semibold">Income :</p>
+                <p className="">{item.members_spouse_income}</p>
+                <p className="font-semibold">Net income :</p>
+                <p className="">{item.members_spouse_net_income}</p>
+                <p className="font-semibold">Properties owned :</p>
+                <p className="">{item.members_properties_owned}</p>
+              </div>
               <div className="bg-gray-200 p-2 mb-5 flex justify-between items-center">
-                <h4>Job Information</h4> 
-                  <button
-                    type="button"
-                    className="tooltip-action-table"
-                    data-tooltip="Edit"
-                    onClick={() => handleEditJobInfo(item)}
-                  >
-                    <FaEdit />
-                  </button> 
+                <h4>Job Information</h4>
+                <button
+                  type="button"
+                  className="tooltip-action-table"
+                  data-tooltip="Edit"
+                  onClick={() => handleEditJobInfo(item)}
+                >
+                  <FaEdit />
+                </button>
               </div>
               <div className="text-left grid  grid-cols-2 md:grid-cols-[1fr_2fr] mb-2 xs:pl-5 pl-2">
-               
-              <p className="font-semibold">Position :</p>
-                  <p className="">{item.members_position}</p>
-              <p className="font-semibold">Income gross :</p>
-                  <p className="">{item.members_position}</p>
-              <p className="font-semibold">Income net :</p>
-                  <p className="">{item.members_position}</p> 
-                
-              <p className="font-semibold">Other Source of income :</p>
-                  <p className="">{item.members_other_source_income}</p>
-              <p className="font-semibold">Income gross :</p>
-                  <p className="">{item.members_other_income}</p>
-              <p className="font-semibold">Income net :</p>
-                  <p className="">{item.members_spouse_occupation}</p> 
-                
+                <p className="font-semibold">Position :</p>
+                <p className="">{item.members_position}</p>
+                <p className="font-semibold">Income gross :</p>
+                <p className="">{item.members_position}</p>
+                <p className="font-semibold">Income net :</p>
+                <p className="">{item.members_position}</p>
+
+                <p className="font-semibold">Other Source of income :</p>
+                <p className="">{item.members_other_source_income}</p>
+                <p className="font-semibold">Income gross :</p>
+                <p className="">{item.members_other_income}</p>
+                <p className="font-semibold">Income net :</p>
+                <p className="">{item.members_spouse_occupation}</p>
               </div>
-              
               {/* <div className="bg-gray-200 p-2 mb-5 flex justify-between items-center">
                 <h4>Beneficiaries</h4> 
                    
@@ -315,8 +317,6 @@ const ProfileList = () => {
               </div>
           );
         })} */}
-               
-
             </div>
           );
         })}
@@ -333,12 +333,14 @@ const ProfileList = () => {
         )}
       </div>
 
-      {store.isAdd && <ModalUpdateBasicInfo item={itemEdit} />} 
+      {store.isAdd && <ModalUpdateBasicInfo item={itemEdit} />}
       {store.isConfirm && <ModalUpdatePresentAddress item={itemEdit} />}
-      {store.isRestore && <ModalUpdateJobInfo item={itemEdit} />}   
-      {store.isAdd && isopen && <ModalUpdateAdditionalInfo item={itemEdit} />} 
-      {store.isConfirm && isopen && <ModalUpdatePermanentAddress item={itemEdit} />} 
-      {store.isRestore && isopen &&  <ModalUpdateSpouseInfo item={itemEdit} />}  
+      {store.isRestore && <ModalUpdateJobInfo item={itemEdit} />}
+      {store.isAdd && isopen && <ModalUpdateAdditionalInfo item={itemEdit} />}
+      {store.isConfirm && isopen && (
+        <ModalUpdatePermanentAddress item={itemEdit} />
+      )}
+      {store.isRestore && isopen && <ModalUpdateSpouseInfo item={itemEdit} />}
     </>
   );
 };

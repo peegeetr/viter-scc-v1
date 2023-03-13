@@ -15,14 +15,14 @@ import { setIsAdd } from "../../store/StoreAction.jsx";
 // export const devBaseImgUrl = "http://localhost/viter-newthing-v1/public/img";
 // export const devNavUrl = "/dev-app";
 
-// cy url
-export const devApiUrl = "http://localhost/viter-scc-v1/rest";
-export const devBaseUrl = "http://localhost/viter-scc-v1/public";
-export const devNavUrl = "/dev-app";
 // // cy url
-// export const devApiUrl = "http://localhost/cycy/viter-scc-v1/rest";
-// export const devBaseUrl = "http://localhost/cycy/viter-scc-v1/public";
+// export const devApiUrl = "http://localhost/viter-scc-v1/rest";
+// export const devBaseUrl = "http://localhost/viter-scc-v1/public";
 // export const devNavUrl = "/dev-app";
+// // cy url
+export const devApiUrl = "http://localhost/cycy/viter-scc-v1/rest";
+export const devBaseUrl = "http://localhost/cycy/viter-scc-v1/public";
+export const devNavUrl = "/dev-app";
 
 export const UrlOtherUser = "other";
 export const UrlSystem = "system";
@@ -182,9 +182,7 @@ export const formatLandlandNumber = (x) => {
 export const getUserType = (developer) => {
   let link = "";
   developer
-    ? link = `${devNavUrl}/${UrlSystem}`
-    : link = `${devNavUrl}/${UrlOtherUser}`;
+    ? (link = `${devNavUrl}/${UrlSystem}`)
+    : (link = `${devNavUrl}/${UrlOtherUser}`);
   return link;
 };
-
-

@@ -9,7 +9,7 @@ const CapitalShareLink = () => {
   const { store, dispatch } = React.useContext(StoreContext);
   return (
     <>
-     <Link
+      <Link
         to={`${devNavUrl}/${UrlSystem}/account/details/capital-share`}
         className="w-full py-2"
       >
@@ -17,7 +17,7 @@ const CapitalShareLink = () => {
           <span className="text-lg mr-4">
             <RiUserSharedFill />
           </span>
-          <span className="text-md font-bold">Share</span>
+          <span className="text-md font-bold">Capital Share</span>
         </div>
         <p className="ml-[35px] my-0">
           Manage what actions and capabilities every account are can perform in
@@ -30,8 +30,8 @@ const CapitalShareLink = () => {
         className="btn-action-table group-hover:bg-primary group-hover:text-white"
       >
         <SlArrowRight className="inline" />
-      </Link> 
-      </>
+      </Link>
+    </>
   );
 };
 

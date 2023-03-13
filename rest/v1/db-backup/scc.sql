@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 12, 2023 at 11:04 AM
--- Server version: 10.4.18-MariaDB
--- PHP Version: 8.0.3
+-- Generation Time: Mar 13, 2023 at 09:58 AM
+-- Server version: 10.4.22-MariaDB
+-- PHP Version: 8.1.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -48,7 +48,7 @@ INSERT INTO `sccv1_announcement` (`announcement_aid`, `announcement_name`, `anno
 (5, 'sdfsvv', 'asdf', 1, '2023-03-31', '2023-03-11 19:15:34', '2023-03-11 19:15:34'),
 (6, 'sdfsvva', 'asdf', 1, '2023-03-31', '2023-03-11 19:16:13', '2023-03-11 19:16:13'),
 (7, 'sdfsvvasss', 'asdf', 1, '2023-03-31', '2023-03-11 19:17:21', '2023-03-11 19:17:21'),
-(8, 'ass', 'asdf', 1, '2023-03-31', '2023-03-11 19:17:33', '2023-03-11 19:17:33'),
+(8, 'ass', 'asdf', 1, '2023-03-31', '2023-03-11 19:17:33', '2023-03-13 06:56:24'),
 (9, 'asssff', 'asdf', 1, '2023-03-31', '2023-03-11 19:18:12', '2023-03-11 19:18:12');
 
 -- --------------------------------------------------------
@@ -73,8 +73,8 @@ CREATE TABLE `sccv1_capital_share` (
 --
 
 INSERT INTO `sccv1_capital_share` (`capital_share_aid`, `capital_share_member_id`, `capital_share_amount`, `capital_share_balance`, `capital_share_total`, `capital_share_date`, `capital_share_created`, `capital_share_datetime`) VALUES
-(2, '2', '2000', '0', '0', '2023-03-31', '2023-03-12 08:58:54', '2023-03-12 09:01:21'),
-(3, '2', '2000', '0', '0', '2023-04-01', '2023-03-12 09:00:19', '2023-03-12 09:00:19');
+(2, '2', '500', '0', '0', '2023-03-31', '2023-03-12 08:58:54', '2023-03-13 16:19:25'),
+(3, '2', '5000', '0', '0', '2023-04-01', '2023-03-12 09:00:19', '2023-03-13 16:18:59');
 
 -- --------------------------------------------------------
 
@@ -159,17 +159,9 @@ CREATE TABLE `sccv1_members` (
 --
 
 INSERT INTO `sccv1_members` (`members_aid`, `members_id`, `members_is_approved`, `members_is_cancel`, `members_is_active`, `members_picture`, `members_first_name`, `members_last_name`, `members_middle_name`, `members_civil_status`, `members_gender`, `members_birth_place`, `members_birth_date`, `members_education_attainment`, `members_permanent_address`, `members_permanent_zip_code`, `members_permanent_mobile_no`, `members_present_address`, `members_present_zip_code`, `members_present_mobile_no`, `members_position`, `members_other_income`, `members_income_gross`, `members_other_source_income`, `members_spouse_occupation`, `members_income_net`, `members_spouse_income`, `members_spouse_net_income`, `members_properties_owned`, `members_pre_membership_date`, `members_created`, `members_datetime`) VALUES
-(1, '2301-001', 1, 0, 1, '', 'cycy', 'lu', 'me', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2023-03-10', '2023-03-11 04:00:50', '2023-03-11 20:46:23'),
-(2, '2301-001', 1, 0, 1, '', 'vdf', 'sfsd', 'sdfsdf', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2023-03-11', '2023-03-11 04:01:55', '2023-03-11 04:01:55'),
-(3, '2301-001', 1, 0, 1, '', 's', 'lkjdfg', 's', '', 'female', '', '2023-03-21', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2023-02-28', '2023-03-11 19:55:03', '2023-03-11 20:44:48'),
-(4, '2301-001', 0, 0, 1, '', 'dfd', 'lus', 'sdf', '', 'female', '', '2023-03-11', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2023-03-01', '2023-03-11 19:55:34', '2023-03-11 19:55:34'),
-(5, '2301-001', 1, 0, 1, '', 's', 'lu', 's', '', 'female', '', '2023-03-16', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2023-03-02', '2023-03-11 19:58:13', '2023-03-11 20:49:23'),
-(6, '2301-001', 1, 0, 1, '', 'cycy', 'lu', 's', '', 'female', '', '2023-03-30', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2023-03-01', '2023-03-11 20:01:57', '2023-03-11 20:47:35'),
-(7, '2301-001', 0, 1, 0, '', 'ss', 'lu', 's', '', 'female', '', '2023-03-11', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2023-03-01', '2023-03-11 20:02:51', '2023-03-11 20:53:37'),
-(8, '2301-001', 0, 1, 0, '', 'ss', 'lu', 'ss', '', 'female', '', '2023-03-11', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2023-03-01', '2023-03-11 20:02:56', '2023-03-11 20:53:41'),
-(9, '2301-001', 1, 0, 1, '', 'ss', 'lu', 'sss', '', 'female', '', '2023-03-11', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2023-03-01', '2023-03-11 20:03:02', '2023-03-11 20:53:43'),
-(10, '2301-001', 0, 0, 1, '', 'ss', 'lus', 'sss', '', 'female', '', '2023-03-11', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2023-03-01', '2023-03-11 20:03:11', '2023-03-11 20:03:11'),
-(11, '2301-001', 1, 0, 1, '', 'cs', 'lu', 'cs', '', 'female', '', '2023-03-07', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2023-03-01', '2023-03-11 20:09:19', '2023-03-11 20:46:06');
+(1, '23-02-001', 0, 0, 1, '', 'Ronaldo', 'Lumabas', 'Soalibio', '', 'male', '', '2023-01-04', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2023-02-28', '2023-03-13 16:55:35', '2023-03-13 16:55:35'),
+(2, '23-02-002', 0, 0, 1, '', 'cycy', 'Lumabas', 'Soalibio', '', 'male', '', '2023-01-04', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2023-02-28', '2023-03-13 16:55:42', '2023-03-13 16:55:42'),
+(3, '23-02-003', 0, 0, 1, '', 'zaicy', 'Lumabas', 'Soalibio', '', 'male', '', '2023-01-04', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2023-03-12', '2023-03-13 16:55:56', '2023-03-13 16:55:56');
 
 -- --------------------------------------------------------
 
@@ -268,7 +260,7 @@ CREATE TABLE `sccv1_settings_user_system` (
 --
 
 INSERT INTO `sccv1_settings_user_system` (`user_system_aid`, `user_system_is_active`, `user_system_name`, `user_system_email`, `user_system_role_id`, `user_system_key`, `user_system_password`, `user_system_created`, `user_system_datetime`) VALUES
-(5, 1, 'Cyrene', 'cyrene.lumabas@frontlinebusiness.com.ph', 12, '982aefeb57e6fc7d4a6f6b751da6ec7be5d3441d2e80c16baba1ceb1949d0b7b', '', '2023-03-09 16:35:26', '2023-03-11 18:41:53');
+(5, 1, 'Cyrene', 'cyrene.lumabas@frontlinebusiness.com.ph', 12, '', '$2y$10$1n5N4h/kUDBx.wPPl.5ZKeDbRD/h4VDYU9Ugb47T7lT4lIAzYXx66', '2023-03-09 16:35:26', '2023-03-13 06:55:16');
 
 --
 -- Indexes for dumped tables
@@ -360,7 +352,7 @@ ALTER TABLE `sccv1_legal_beneficiaries`
 -- AUTO_INCREMENT for table `sccv1_members`
 --
 ALTER TABLE `sccv1_members`
-  MODIFY `members_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `members_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `sccv1_savings`

@@ -41,9 +41,9 @@ RewriteRule ^announcement/page/([0-9]+)$ controllers/dashboard/page.php?start=$1
 RewriteRule ^announcement/search/([A-Za-z0-9-]+)$ controllers/dashboard/search.php?search=$1 [L]
   
 #members
-RewriteRule ^members$ controllers/account/members.php [L]
-RewriteRule ^members/([0-9]+)$ controllers/account/members.php?membersid=$1 [L]
-RewriteRule ^members/([0-9]+)/([A-Za-z0-9-]+)$ controllers/account/members.php?membersid=$1&isUpdate=$2 [L]
+RewriteRule ^members$ controllers/account/account.php [L]
+RewriteRule ^members/([0-9]+)$ controllers/account/account.php?membersid=$1 [L]
+RewriteRule ^members/([0-9]+)/([A-Za-z0-9-]+)$ controllers/account/account.php?membersid=$1&isUpdate=$2 [L]
 RewriteRule ^members/status/([0-9]+)$ controllers/account/status.php?membersid=$1 [L]
 RewriteRule ^members/page/([0-9]+)$ controllers/account/page.php?start=$1 [L]
 RewriteRule ^member/page/([0-9]+)/([A-Za-z0-9-]+)$ controllers/account/page.php?start=$1&approved=$2 [L]

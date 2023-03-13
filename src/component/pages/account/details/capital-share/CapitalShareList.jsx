@@ -13,7 +13,7 @@ import SearchBar from "../../../../partials/SearchBar";
 import ServerError from "../../../../partials/ServerError";
 import TableSpinner from "../../../../partials/spinners/TableSpinner";
 
-const CapitalShareList = ({setItemEdit}) => {
+const CapitalShareList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [dataItem, setData] = React.useState(null);
   const [id, setId] = React.useState(null);
@@ -21,10 +21,10 @@ const CapitalShareList = ({setItemEdit}) => {
   const [onSearch, setOnSearch] = React.useState(false);
   const [page, setPage] = React.useState(1);
   let counter = 1;
-  const search = React.useRef(null); 
-  const { ref, inView } = useInView(); 
+  const search = React.useRef(null);
+  const { ref, inView } = useInView();
   // use if with loadmore button and search bar
-  let empid=2;
+  let empid = 2;
   const {
     data: result,
     error,
@@ -49,7 +49,6 @@ const CapitalShareList = ({setItemEdit}) => {
     },
     refetchOnWindowFocus: false,
     networkMode: "always",
-
   });
 
   React.useEffect(() => {
@@ -63,7 +62,7 @@ const CapitalShareList = ({setItemEdit}) => {
     dispatch(setIsAdd(true));
     setItemEdit(item);
   };
- 
+
   const handleDelete = (item) => {
     dispatch(setIsRestore(true));
     setId(item.capital_share_aid);
@@ -72,8 +71,7 @@ const CapitalShareList = ({setItemEdit}) => {
   };
   return (
     <>
-    
-    <SearchBar
+      <SearchBar
         search={search}
         dispatch={dispatch}
         store={store}
@@ -82,69 +80,65 @@ const CapitalShareList = ({setItemEdit}) => {
         setOnSearch={setOnSearch}
         onSearch={onSearch}
       />
-       <div className="relative text-center overflow-x-auto z-0">
+      <div className="relative text-center overflow-x-auto z-0">
         <table>
           <thead>
             <tr>
               <th>#</th>
               <th className="w-[15rem]">Date</th>
-              <th className="w-[15rem]">Amount</th>
-              <th className="w-[15rem]">Capital Share</th> 
-              <th className="w-[15rem]">Total Amount</th>
+              <th className="w-[15rem]">Paid up Capital</th>
+              <th className="w-[15rem]">Total Capital Share</th>
               <th className="max-w-[5rem]">Actions</th>
             </tr>
           </thead>
-          <tbody>  
-              {(status === "loading" || result?.pages[0].data.length === 0) && (
-                <tr className="text-center ">
-                  <td colSpan="100%" className="p-10">
-                    {status === "loading" && <TableSpinner />}
-                    <NoData />
-                  </td>
-                </tr>
-              )}
-              {error && (
-                <tr className="text-center ">
-                  <td colSpan="100%" className="p-10">
-                    <ServerError />
-                  </td>
-                </tr>
-              )} 
-              {result?.pages.map((page, key) => (
-                    <React.Fragment key={key}>
-                      {page.data.map((item, key) => (
-                  <tr key={key} >
+          <tbody>
+            {(status === "loading" || result?.pages[0].data.length === 0) && (
+              <tr className="text-center ">
+                <td colSpan="100%" className="p-10">
+                  {status === "loading" && <TableSpinner />}
+                  <NoData />
+                </td>
+              </tr>
+            )}
+            {error && (
+              <tr className="text-center ">
+                <td colSpan="100%" className="p-10">
+                  <ServerError />
+                </td>
+              </tr>
+            )}
+            {result?.pages.map((page, key) => (
+              <React.Fragment key={key}>
+                {page.data.map((item, key) => (
+                  <tr key={key}>
                     <td>{counter++}.</td>
                     <td>{formatDate(item.capital_share_date)}</td>
                     <td>{item.capital_share_amount}</td>
-                    <td> {item.capital_share_balance}
-                    </td>
-                    <td>{item.capital_share_total}</td>  
+                    <td>{item.capital_share_total}</td>
                     <td>
-                      <div className="flex items-center gap-1">  
-                            <button
-                              type="button"
-                              className="btn-action-table tooltip-action-table"
-                              data-tooltip="Edit" 
-                              onClick={() => handleEdit(item)}
-                            >
-                              <FaEdit />
-                            </button>  
-                            <button
-                              type="button"
-                              className="btn-action-table tooltip-action-table"
-                              data-tooltip="Delete"
-                              onClick={() => handleDelete(item)}
-                            >
-                              <FaTrash />
-                            </button> 
+                      <div className="flex items-center gap-1">
+                        <button
+                          type="button"
+                          className="btn-action-table tooltip-action-table"
+                          data-tooltip="Edit"
+                          onClick={() => handleEdit(item)}
+                        >
+                          <FaEdit />
+                        </button>
+                        <button
+                          type="button"
+                          className="btn-action-table tooltip-action-table"
+                          data-tooltip="Delete"
+                          onClick={() => handleDelete(item)}
+                        >
+                          <FaTrash />
+                        </button>
                       </div>
                     </td>
-                  </tr> 
-                  ))}
-                </React.Fragment>
-              ))} 
- 
+                  </tr>
+                ))}
+              </React.Fragment>
+            ))}
           </tbody>
         </table>
         <Loadmore
@@ -156,18 +150,15 @@ const CapitalShareList = ({setItemEdit}) => {
           page={page}
           refView={ref}
         />
-                      </div>
-
-       
+      </div>
 
       {store.isRestore && (
         <ModalDeleteRestore
           id={id}
           isDel={isDel}
-          mysqlApiDelete={`/v1/capital-share/${id}`} 
-          msg={ "Are you sure you want to delete " 
-          }
-          item={`${dataItem.capital_share_date}`} 
+          mysqlApiDelete={`/v1/capital-share/${id}`}
+          msg={"Are you sure you want to delete "}
+          item={`${dataItem.capital_share_date}`}
           arrKey="capital-share"
         />
       )}
