@@ -10,7 +10,7 @@ import { InputText } from "../../../helpers/FormInputs";
 import {
   devApiUrl,
   devNavUrl,
-  UrlOtherUser,
+  UrlAdmin,
 } from "../../../helpers/functions-general";
 import ModalError from "../../../partials/modals/ModalError";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
@@ -121,7 +121,7 @@ const OtherLogin = () => {
             <p className="mt-5">
               Did you forget your password?{" "}
               <Link
-                to={`${devNavUrl}/${UrlOtherUser}/forgot-password`}
+                to={`${devNavUrl}/${UrlAdmin}/forgot-password`}
                 className="w-full text-primary"
               >
                 <u> Forgot password</u>

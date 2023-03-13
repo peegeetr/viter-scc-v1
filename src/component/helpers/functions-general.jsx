@@ -15,16 +15,17 @@ import { setIsAdd } from "../../store/StoreAction.jsx";
 // export const devBaseImgUrl = "http://localhost/viter-newthing-v1/public/img";
 // export const devNavUrl = "/dev-app";
 
-// // cy url
-// export const devApiUrl = "http://localhost/viter-scc-v1/rest";
-// export const devBaseUrl = "http://localhost/viter-scc-v1/public";
-// export const devNavUrl = "/dev-app";
-// // cy url
-export const devApiUrl = "http://localhost/cycy/viter-scc-v1/rest";
-export const devBaseUrl = "http://localhost/cycy/viter-scc-v1/public";
+// cy url
+export const devApiUrl = "http://localhost/viter-scc-v1/rest";
+export const devBaseUrl = "http://localhost/viter-scc-v1/public";
 export const devNavUrl = "/dev-app";
+// // cy url
+// export const devApiUrl = "http://localhost/cycy/viter-scc-v1/rest";
+// export const devBaseUrl = "http://localhost/cycy/viter-scc-v1/public";
+// export const devNavUrl = "/dev-app";
 
-export const UrlOtherUser = "other";
+export const UrlAdmin = "admin";
+export const UrlViewer = "viewer";
 export const UrlSystem = "system";
 
 export const is_developer = "is_developer";
@@ -179,10 +180,12 @@ export const formatLandlandNumber = (x) => {
 };
 
 // get user type
-export const getUserType = (developer) => {
+export const getUserType = (developer,admin) => {
   let link = "";
-  developer
+  developer ===1
     ? (link = `${devNavUrl}/${UrlSystem}`)
-    : (link = `${devNavUrl}/${UrlOtherUser}`);
+    :admin === 1
+    ?(link = `${devNavUrl}/${UrlAdmin}`)
+    :(link = `${devNavUrl}/${UrlViewer}`);
   return link;
 };

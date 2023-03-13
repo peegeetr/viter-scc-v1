@@ -12,6 +12,7 @@ import ModalDeleteRestore from "../../partials/modals/ModalDeleteRestore";
 import NoData from "../../partials/NoData";
 import SearchBar from "../../partials/SearchBar";
 import ServerError from "../../partials/ServerError";
+import FetchingSpinner from "../../partials/spinners/FetchingSpinner";
 import TableSpinner from "../../partials/spinners/TableSpinner";
 const FileUploadList = ({ setItemEdit }) => { 
   const { store, dispatch } = React.useContext(StoreContext);
@@ -21,6 +22,7 @@ const FileUploadList = ({ setItemEdit }) => {
   const [onSearch, setOnSearch] = React.useState(false);
   const [page, setPage] = React.useState(1);
   const search = React.useRef(null); 
+  let counter = 1;
   const { ref, inView } = useInView(); 
   // use if with loadmore button and search bar
   const {
@@ -80,34 +82,54 @@ const FileUploadList = ({ setItemEdit }) => {
         isFetching={isFetching}
         setOnSearch={setOnSearch}
         onSearch={onSearch}
-      />
-       <div className="rounded-md mb-8 order-1 md:order-0 border px-2">  
-          {result?.pages.map((page, key) => (
+      /> 
+           
+      <div className="relative text-center overflow-x-auto z-0">
+        {isFetching && !isFetchingNextPage && <FetchingSpinner />}
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th className="min-w-[15rem] w-[15rem]">File Name</th>
+              <th className="min-w-[15rem]">Link</th>
+              <th className="min-w-[10rem] w-[10rem]">Date</th>  
+              
+          {store.credentials.data.role_is_admin=== 1 ||store.credentials.data.role_is_developer===1 && 
+              <th className="max-w-[5rem]">Actions</th>}
+            </tr>
+          </thead>
+          <tbody>  
+              {(status === "loading" || result?.pages[0].data.length === 0) && (
+                <tr className="text-center ">
+                  <td colSpan="100%" className="p-10">
+                    {status === "loading" && <TableSpinner />}
+                    <NoData />
+                  </td>
+                </tr>
+              )}
+              {error && (
+                <tr className="text-center ">
+                  <td colSpan="100%" className="p-10">
+                    <ServerError />
+                  </td>
+                </tr>
+              )}
+
+              {result?.pages.map((page, key) => (
                 <React.Fragment key={key}>
                   {page.data.map((item, key) => (
-            <div
-              key={key}
-              className="mb-3 border-b border-solid border-gray-100 p-2 rounded-md relative"
-            >
-              <div className="grid  grid-cols-[50px_1fr] md:grid-cols-[70px_1fr] gap-2 items-center">
-                <div className="justify-self-center basis-20 ">
-                  <span className="text-3xl">
-                    <TbFileDownload />
-                  </span>
-                </div>
-
-                <div className="w-full py-1"> 
-                    <h2 >{item.file_upload_name}</h2> 
-                      <p>Link :
-                  <a href={item.file_upload_link} className="max-w-[650px] w-full m-0 cursor-pointer text-primary">
-                  <u>{item.file_upload_link}</u> 
-                  </a> 
-                        </p>
-
-                  <p className="text-xs">
-                    Date: {formatDate(item.file_upload_date)} 
-                  </p>
-                  <div className="flex items-center gap-1"> 
+                  <tr key={key} >
+                    <td> {counter++}.</td>
+                    <td>
+                      {item.file_upload_name}
+                    </td>
+                    <td className=" break-all"><a href={item.file_upload_link} className="underline text-primary">{item.file_upload_link}</a></td> 
+                    
+                    <td>{formatDate(item.file_upload_date)} 
+                    </td> 
+                    
+          {store.credentials.data.role_is_admin=== 1 ||store.credentials.data.role_is_developer===1 && 
+                    <td> <div className="flex items-center gap-1"> 
                             <button
                               type="button"
                               className="btn-action-table tooltip-action-table"
@@ -125,24 +147,15 @@ const FileUploadList = ({ setItemEdit }) => {
                               <FaTrash />
                             </button> 
                       </div> 
-                </div>
-              </div>
-            </div>
+                    </td>}
+                  </tr> 
                   ))}
                 </React.Fragment>
               ))}
-      
-      {(status === "loading" || result?.pages[0].data.length === 0) && (
-            <div className="relative">
-          {status === "loading" && <TableSpinner />} 
-                    <NoData />
-        </div>
-            )}
-            {error && (
-              
-        <ServerError iconSize={"6xl"} textSize={"xl"} />
-            )}
-            <div className="text-center">
+ 
+          </tbody>
+        </table>
+
         <Loadmore
           fetchNextPage={fetchNextPage}
           isFetchingNextPage={isFetchingNextPage}
@@ -151,11 +164,8 @@ const FileUploadList = ({ setItemEdit }) => {
           setPage={setPage}
           page={page}
           refView={ref}
-        /></div>
-         
- 
-      </div>
-             
+        />
+      </div>  
 
       {store.isRestore && (
         <ModalDeleteRestore

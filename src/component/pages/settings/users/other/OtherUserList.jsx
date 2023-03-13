@@ -37,6 +37,7 @@ const OtherUserList = ({ setItemEdit }) => {
     "otherUsers" // key
   );
 
+
   const handleEdit = (item) => {
     dispatch(setIsAdd(true));
     setItemEdit(item);
@@ -108,7 +109,7 @@ const OtherUserList = ({ setItemEdit }) => {
               return (
                 <tr key={key}>
                   <td>{counter}.</td>
-                  <td>{item.user_other_name}</td>
+                  <td>{`${item.members_last_name}, ${item.members_first_name}`}</td>
                   <td>{item.user_other_email}</td>
                   <td>{item.role_name}</td>
                   <td>

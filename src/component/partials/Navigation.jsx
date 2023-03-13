@@ -8,12 +8,14 @@ import { setIsShow } from "../../store/StoreAction";
 import { StoreContext } from "../../store/StoreContext";
 import {
   devNavUrl,
-  UrlOtherUser,
+  getUserType,
+  UrlAdmin,
   UrlSystem,
 } from "../helpers/functions-general";
 
 const Navigation = ({ menu }) => {
-  const { store, dispatch } = React.useContext(StoreContext);
+  const { store, dispatch } = React.useContext(StoreContext); 
+  const urlLink = getUserType(store.credentials.data.role_is_developer,store.credentials.data.role_is_admin);
 
   const handleShow = () => {
     dispatch(setIsShow(!store.isShow));
@@ -35,7 +37,7 @@ const Navigation = ({ menu }) => {
             }
           >
             <Link
-              to={`${devNavUrl}/${UrlSystem}/dashboard`}
+              to={`${urlLink}/dashboard`}
               className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
               onClick={handleShow}
               data-tooltip="Dashboard"
@@ -44,6 +46,8 @@ const Navigation = ({ menu }) => {
               <span className="md:hidden lg:block">Announcement</span>
             </Link>
           </li>
+          {store.credentials.data.role_is_admin=== 1 ||store.credentials.data.role_is_developer===1?
+          <>
           <li
             className={
               menu === "account"
@@ -52,7 +56,7 @@ const Navigation = ({ menu }) => {
             }
           >
             <Link
-              to={`${devNavUrl}/${UrlSystem}/account`}
+              to={`${urlLink}/account`}
               className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
               onClick={handleShow}
               data-tooltip="Account"
@@ -61,24 +65,7 @@ const Navigation = ({ menu }) => {
               <span className="md:hidden lg:block">Members</span>
             </Link>
           </li>
-          <li
-            className={
-              menu === "myaccount"
-                ? "active"
-                : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
-            }
-          >
-            <Link
-              to={`${devNavUrl}/${UrlOtherUser}/account/details`}
-              className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
-              onClick={handleShow}
-              data-tooltip="My Account"
-            >
-              <FaUserCheck className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
-              <span className="md:hidden lg:block">My Account</span>
-            </Link>
-          </li>
-
+          
           <li
             className={
               menu === "application"
@@ -87,7 +74,7 @@ const Navigation = ({ menu }) => {
             }
           >
             <Link
-              to={`${devNavUrl}/${UrlSystem}/application`}
+              to={`${urlLink}/application`}
               className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
               onClick={handleShow}
               data-tooltip="Application"
@@ -95,7 +82,26 @@ const Navigation = ({ menu }) => {
               <FaBusinessTime className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
               <span className="md:hidden lg:block">Application</span>
             </Link>
+          </li></>
+:
+          <li
+            className={
+              menu === "myaccount"
+                ? "active"
+                : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
+            }
+          >
+            <Link
+              to={`${urlLink}/account/details`}
+              className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
+              onClick={handleShow}
+              data-tooltip="My Account"
+            >
+              <FaUserCheck className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
+              <span className="md:hidden lg:block">My Account</span>
+            </Link>
           </li>
+}
 
           <li
             className={
@@ -105,16 +111,17 @@ const Navigation = ({ menu }) => {
             }
           >
             <Link
-              to={`${devNavUrl}/${UrlSystem}/file-upload`}
+              to={`${urlLink}/file-upload`}
               className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
               onClick={handleShow}
               data-tooltip="File Upload"
             >
               <TbFileDownload className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
-              <span className="md:hidden lg:block">File Upload</span>
+              <span className="md:hidden lg:block">Files</span>
             </Link>
           </li>
 
+          {store.credentials.data.role_is_admin=== 1 ||store.credentials.data.role_is_developer===1 &&
           <li
             className={
               menu === "settings"
@@ -123,7 +130,7 @@ const Navigation = ({ menu }) => {
             }
           >
             <Link
-              to={`${devNavUrl}/${UrlSystem}/settings`}
+              to={`${urlLink}/settings`}
               className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
               onClick={handleShow}
               data-tooltip="Settings"
@@ -131,7 +138,7 @@ const Navigation = ({ menu }) => {
               <AiFillSetting className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
               <span className="md:hidden lg:block">Settings</span>
             </Link>
-          </li>
+          </li>}
         </ul>
       </nav>
       <span

@@ -2,6 +2,7 @@ import React from "react";
 import Footer from "../../partials/Footer.jsx";
 import Header from "../../partials/Header.jsx";
 import Navigation from "../../partials/Navigation.jsx"; 
+import OtherUserLink from "./users/other/OtherUserLink.jsx";
 
 import UserLink from "./users/UserLink.jsx";
 
@@ -15,8 +16,10 @@ const SettingsLink = () => {
           {/* <BreadCrumbs /> */} 
         <hr />
         <ul className="pt-2 pb-20 relative">
-          <li className="py-1">
-            <UserLink />
+          <li className="py-1"> 
+          {store.credentials.data.role_is_admin=== 1 ||store.credentials.data.role_is_developer===1 
+          ? <UserLink />
+          : <OtherUserLink/>}
           </li> 
         </ul>
         <Footer />

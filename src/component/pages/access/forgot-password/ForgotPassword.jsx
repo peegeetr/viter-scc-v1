@@ -16,7 +16,7 @@ import ModalError from "../../../partials/modals/ModalError";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { queryData } from "../../../helpers/queryData";
-import { devNavUrl, UrlOtherUser } from "../../../helpers/functions-general";
+import { devNavUrl, UrlAdmin } from "../../../helpers/functions-general";
 import SccLogo from "../../../svg/SccLogo";
 
 const ForgotPassword = () => {
@@ -99,7 +99,7 @@ const ForgotPassword = () => {
           <p className="mt-2">
             Go back to{" "}
             <Link
-              to={`${devNavUrl}/${UrlOtherUser}/login`}
+              to={`${devNavUrl}/${UrlAdmin}/login`}
               className="w-full text-primary"
             >
               <u>Login</u>

@@ -21,9 +21,8 @@ const ModalConfirm = ({
   role_id,
   arrKey,
 }) => {
-  const { store, dispatch } = React.useContext(StoreContext);
-  const link = getUserType(1 === 1); 
-  // const link = getUserType(store.credentials.data.role_is_developer === 1); 
+  const { store, dispatch } = React.useContext(StoreContext); 
+  const urlLink = getUserType(store.credentials.data.role_is_developer,store.credentials.data.role_is_admin);
   const queryClient = useQueryClient();
   let message = isDel
     ? "Reseting your own password will make you automatically logged out."
@@ -57,19 +56,19 @@ const ModalConfirm = ({
       isDeveloper: isDeveloper,
     });
 
-    // // if reseting your own password
-    // if (
-    //   (arrKey === "userSystems" || arrKey === "otherUsers") &&
-    //   store.credentials.data.role_aid === Number(role_id) &&
-    //   (store.credentials.data.user_system_email === item ||
-    //     store.credentials.data.user_other_email === item)
-    // ) {
-    //   localStorage.removeItem("sccToken");
-    //   store.credentials.data.role_is_developer === 1
-    //     ? window.location.replace(`${link}/login`)
-    //     : window.location.replace(`${link}/login`);
-    //   return;
-    // }
+    // if reseting your own password
+    if (
+      (arrKey === "userSystems" || arrKey === "otherUsers") &&
+      store.credentials.data.role_aid === Number(role_id) &&
+      (store.credentials.data.user_system_email === item ||
+        store.credentials.data.user_other_email === item)
+    ) {
+      localStorage.removeItem("sccToken");
+      store.credentials.data.role_is_developer === 1
+        ? window.location.replace(`${urlLink}/login`)
+        : window.location.replace(`${urlLink}/login`);
+      return;
+    }
   };
 
   return (
@@ -89,20 +88,20 @@ const ModalConfirm = ({
             <span className="text-5xl text-red-700 ">
               <FaQuestionCircle className="my-0 mx-auto" />
             </span>
-            {/* {store.credentials.data.role_aid === Number(role_id) &&
+            {store.credentials.data.role_aid === Number(role_id) &&
             (store.credentials.data.user_system_email === item ||
               store.credentials.data.user_other_email === item) ? (
               <span className="text-sm font-bold">
                 {message} <br />
                 Do you still want to proceed?
               </span>
-            ) : ( */}
+            ) : (
               <>
                 <span className="text-sm font-bold">{msg}</span>
                 <br />
                 <span className="text-sm font-bold break-all">"{item}" ?</span>
               </>
-            {/* )} */}
+              )}  
             <p>You can't undo this action.</p>
             <div className="flex items-center gap-1 pt-5">
               <button

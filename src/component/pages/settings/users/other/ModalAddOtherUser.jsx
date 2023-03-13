@@ -10,11 +10,11 @@ import {
   setSuccess,
 } from "../../../../../store/StoreAction";
 import { StoreContext } from "../../../../../store/StoreContext";
-import { InputText } from "../../../../helpers/FormInputs";
+import { InputSelect, InputText } from "../../../../helpers/FormInputs";
 import { queryData } from "../../../../helpers/queryData";
 import ButtonSpinner from "../../../../partials/spinners/ButtonSpinner";
 
-const ModalAddOtherUser = ({ item, roleId }) => {
+const ModalAddOtherUser = ({ item, role, members }) => {
   const { store, dispatch } = React.useContext(StoreContext);
 
   const queryClient = useQueryClient();
@@ -55,7 +55,7 @@ const ModalAddOtherUser = ({ item, roleId }) => {
   const initVal = {
     user_other_name: item ? item.user_other_name : "",
     user_other_email: item ? item.user_other_email : "",
-    user_other_role_id: roleId,
+    user_other_role_id:  item ? item.user_other_role_id : "",
 
     user_other_name_old: item ? item.user_other_name : "",
     user_other_email_old: item ? item.user_other_email : "",
@@ -64,6 +64,7 @@ const ModalAddOtherUser = ({ item, roleId }) => {
   const yupSchema = Yup.object({
     user_other_name: Yup.string().required("Required"),
     user_other_email: Yup.string().required("Required").email("Invalid email"),
+    user_other_role_id: Yup.string().required("Required").email("Invalid email"),
   });
 
   return (
@@ -95,12 +96,24 @@ const ModalAddOtherUser = ({ item, roleId }) => {
                 return (
                   <Form>
                     <div className="relative my-5">
-                      <InputText
-                        label="Name"
-                        type="text"
-                        name="user_other_name"
-                        disabled={mutation.isLoading}
-                      />
+                    <InputSelect
+                      name="user_other_member_id"
+                      label="Name"
+                      disabled={mutation.isLoading}
+                      onFocus={(e) =>
+                        e.target.parentElement.classList.add("focused")
+                      }
+                    >
+                      <option value="">--</option> 
+                      {members.map((mItem, key) => {
+                        return (
+                          <option key={key} value={mItem.members_aid}>
+                            {`${mItem.members_last_name},
+                              ${mItem.members_first_name}`}
+                          </option>
+                        );
+                      })}
+                    </InputSelect> 
                     </div>
                     <div className="relative mb-5 mt-5">
                       <InputText
@@ -109,6 +122,26 @@ const ModalAddOtherUser = ({ item, roleId }) => {
                         name="user_other_email"
                         disabled={mutation.isLoading}
                       />
+                    </div>
+                    <div className="relative my-5">
+                    <InputSelect
+                      name="user_other_role_id"
+                      label="Role"
+                      disabled={mutation.isLoading}
+                      onFocus={(e) =>
+                        e.target.parentElement.classList.add("focused")
+                      }
+                    >
+                      <option value="">--</option> 
+                      {role.map((rItem, key) => {
+                        return (
+                          rItem.role_is_developer === 0 &&
+                          <option key={key} value={rItem.role_aid}>
+                             {rItem.role_name} 
+                          </option> 
+                        );
+                      })}
+                    </InputSelect> 
                     </div>
 
                     <div className="flex items-center gap-1 pt-5">

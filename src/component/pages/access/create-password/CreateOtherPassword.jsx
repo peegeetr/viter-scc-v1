@@ -14,7 +14,7 @@ import { InputText } from "../../../helpers/FormInputs";
 import {
   devNavUrl,
   getUrlParam,
-  UrlOtherUser,
+  UrlAdmin,
   UrlSystem,
 } from "../../../helpers/functions-general";
 import { queryData } from "../../../helpers/queryData";
@@ -54,7 +54,7 @@ const CreateOtherPassword = () => {
       // show success box
       if (data.success) {
         window.location.replace(
-          `${devNavUrl}/create-password-success?redirect=/${UrlOtherUser}/login`
+          `${devNavUrl}/create-password-success?redirect=/${UrlAdmin}/login`
         );
       }
       // show error box

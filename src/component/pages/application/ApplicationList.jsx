@@ -1,9 +1,12 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import React from "react";
-import { FaArchive, FaEdit, FaHistory, FaTrash } from "react-icons/fa";
+import { FaCheck, FaHistory, FaTrash } from "react-icons/fa";
+import { ImCross } from "react-icons/im";
 import { useInView } from "react-intersection-observer";
+import { Link } from "react-router-dom";
 import { setIsConfirm, setIsRestore } from "../../../store/StoreAction";
 import { StoreContext } from "../../../store/StoreContext";
+import { getUserType } from "../../helpers/functions-general";
 import { queryDataInfinite } from "../../helpers/queryDataInfinite";
 import Loadmore from "../../partials/Loadmore";
 import ModalApprovedCancel from "../../partials/modals/ModalApprovedCancel";
@@ -17,6 +20,7 @@ import StatusActive from "../../partials/status/StatusActive";
 
 const ApplicationList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
+  const urlLink = getUserType(store.credentials.data.role_is_developer,store.credentials.data.role_is_admin);
   const [dataItem, setData] = React.useState(null);
   const [id, setId] = React.useState(null);
   const [isDel, setDel] = React.useState(false);
@@ -145,13 +149,21 @@ const ApplicationList = () => {
                       <div className="flex items-center gap-1"> 
                       {item.members_is_active === 1 ?
                           <>
+                            
+                            <Link
+                              to={`${urlLink}/account/details`}
+                              className="btn-action-table tooltip-action-table"
+                              data-tooltip="Edit" 
+                            >
+                              <FaEdit />
+                            </Link>
                             <button
                               type="button"
                               className="btn-action-table tooltip-action-table"
                               data-tooltip="Approve"
                               onClick={() => handleApproved(item)}
                             >
-                              <FaEdit />
+                              <FaCheck />
                             </button>
                             <button
                               type="button"
@@ -159,7 +171,7 @@ const ApplicationList = () => {
                               data-tooltip="Cancel"
                               onClick={() => handleCancel(item)}
                             >
-                              <FaArchive />
+                              <ImCross />
                             </button>
                           </> :
                           <>

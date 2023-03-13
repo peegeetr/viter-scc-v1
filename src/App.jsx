@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { devNavUrl, UrlOtherUser, UrlSystem } from "./component/helpers/functions-general";
+import { devNavUrl, UrlAdmin, UrlSystem } from "./component/helpers/functions-general";
 import CreateOtherPassword from "./component/pages/access/create-password/CreateOtherPassword";
 import CreatePasswordSuccess from "./component/pages/access/create-password/CreatePasswordSuccess";
 import CreateSystemPassword from "./component/pages/access/create-password/CreateSystemPassword";
@@ -9,6 +9,7 @@ import ForgotPasswordSystem from "./component/pages/access/forgot-password/Forgo
 import ForgotPasswordVerification from "./component/pages/access/forgot-password/ForgotPasswordVerification";
 import OtherLogin from "./component/pages/access/login/OtherLogin";
 import SystemLogin from "./component/pages/access/login/SystemLogin";
+import ProtectedRouteOther from "./component/pages/access/ProtectedRouteOther";
 import ProtectedRouteSystem from "./component/pages/access/ProtectedRouteSystem";
 import Account from "./component/pages/account/Account";
 import CapitalShare from "./component/pages/account/details/capital-share/CapitalShare";
@@ -53,15 +54,15 @@ function App() {
             <Route path={`/${devNavUrl}/login`} 
               element={<OtherLogin />}
               />
-            <Route path={`/${devNavUrl}/${UrlOtherUser}/login`} 
+            <Route path={`/${devNavUrl}/${UrlAdmin}/login`} 
               element={<OtherLogin />}
               />
               
             <Route
-              path={`${devNavUrl}/${UrlOtherUser}/create-password`}
+              path={`${devNavUrl}/${UrlAdmin}/create-password`}
               element={<CreateOtherPassword />}
             />
-            <Route path={`/${devNavUrl}/${UrlOtherUser}/forgot-password`} 
+            <Route path={`/${devNavUrl}/${UrlAdmin}/forgot-password`} 
               element={<ForgotPassword />}
               />
               
@@ -153,15 +154,27 @@ function App() {
                {/* system settings */}
             <Route
               path={`${devNavUrl}/${UrlSystem}/settings`}
-              element={<ProtectedRouteSystem><SettingsLink /></ProtectedRouteSystem>}
+              element={
+              <ProtectedRouteSystem>
+                <SettingsLink />
+                </ProtectedRouteSystem>
+                }
             />
             <Route
               path={`${devNavUrl}/${UrlSystem}/settings/users`}
-              element={<ProtectedRouteSystem><UserPage /></ProtectedRouteSystem>}
+              element={
+              <ProtectedRouteSystem>
+                <UserPage />
+                </ProtectedRouteSystem>
+                }
             />
             <Route
               path={`${devNavUrl}/${UrlSystem}/settings/users/system`}
-              element={<ProtectedRouteSystem><SystemUser /></ProtectedRouteSystem>}
+              element={
+              <ProtectedRouteSystem>
+                <SystemUser />
+                </ProtectedRouteSystem>
+                }
             />
             <Route
               path={`${devNavUrl}/${UrlSystem}/settings/users/other`}
@@ -173,20 +186,88 @@ function App() {
             />
             <Route
               path={`${devNavUrl}/${UrlSystem}/settings/users/role`}
-              element={<ProtectedRouteSystem><Role /></ProtectedRouteSystem>}
+              element={
+              <ProtectedRouteSystem>
+                <Role />
+                </ProtectedRouteSystem>
+                }
             />
 
-            {/* other user */}
+            {/* admin user */}  
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/dashboard`}
+              element={
+              <ProtectedRouteOther>
+                <Dashboard /> 
+                </ProtectedRouteOther>
+              }
+            />
             
             <Route
-              path={`${devNavUrl}/${UrlOtherUser}/account/details`}
-              element={<MyAccount />}
+              path={`${devNavUrl}/${UrlAdmin}/account/details`}
+              element={
+                <ProtectedRouteOther><MyAccount />
+                </ProtectedRouteOther>}
             /> 
             <Route
-              path={`${devNavUrl}/${UrlOtherUser}/account/details/profile`}
-              element={<MyProfile />}
+              path={`${devNavUrl}/${UrlAdmin}/account/details/profile`}
+              element={
+                <ProtectedRouteOther><MyProfile />
+                </ProtectedRouteOther>}
             /> 
-          
+            
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/account/details/savings`}
+              element={
+               <ProtectedRouteOther>
+                <Savings />
+                </ProtectedRouteOther>
+                }
+            /> 
+            
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/account/details/capital-share`}
+              element={
+              <ProtectedRouteOther>
+                <CapitalShare />
+                  </ProtectedRouteOther>
+                }
+            /> 
+            
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/file-upload`}
+              element={
+               <ProtectedRouteOther>
+                <FileUpload />
+                </ProtectedRouteOther>
+                }
+            /> 
+            {/* system settings */}
+         <Route
+           path={`${devNavUrl}/${UrlAdmin}/settings`}
+           element={
+           <ProtectedRouteOther>
+             <SettingsLink />
+             </ProtectedRouteOther>
+             }
+         />
+         <Route
+           path={`${devNavUrl}/${UrlAdmin}/settings/users`}
+           element={
+           <ProtectedRouteOther>
+             <UserPage />
+             </ProtectedRouteOther>
+             }
+         />
+         <Route
+           path={`${devNavUrl}/${UrlAdmin}/settings/users/other`}
+           element={
+           <ProtectedRouteOther>
+             <OtherUser />
+           </ProtectedRouteOther>
+           }
+         />
+           
           </Routes>
         </Router>
       </StoreProvider>

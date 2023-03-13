@@ -6,11 +6,11 @@ import { StoreContext } from "../../../../../store/StoreContext";
 import { getUserType } from "../../../../helpers/functions-general";
 
 const SystemUserLink = () => {
-  const { store, dispatch } = React.useContext(StoreContext); 
-  const link = getUserType(store.credentials.data.role_is_developer === 1);
+  const { store, dispatch } = React.useContext(StoreContext);
+  const urlLink = getUserType(store.credentials.data.role_is_developer,store.credentials.data.role_is_admin);
   return (
     <div className="group flex items-center justify-between border-b border-solid border-gray-300">
-      <Link to={`${link}/settings/users/system`} className="w-full py-1">
+      <Link to={`${urlLink}/settings/users/system`} className="w-full py-1">
         <div className="flex items-center">
           <span className="text-lg mr-4">
             <FaUserCog />
@@ -24,7 +24,7 @@ const SystemUserLink = () => {
       </Link>
 
       <Link
-        to={`${link}/settings/users/system`}
+        to={`${urlLink}/settings/users/system`}
         className="btn-action-table group-hover:bg-primary group-hover:text-white"
       >
         <SlArrowRight className="inline" />

@@ -26,9 +26,11 @@ const UserPage = () => {
           <li className="py-1" onClick={() => dispatch(setStartIndex(0))}>
             <OtherUserLink />
           </li>
-          <li className="py-1" onClick={() => dispatch(setStartIndex(0))}>
-            <RoleLink />
-          </li>
+          {store.credentials.data.role_is_developer===1  &&
+         <li className="py-1" onClick={() => dispatch(setStartIndex(0))}>
+         <RoleLink />
+       </li>}
+          
         </ul>
         <Footer />
       </div>
