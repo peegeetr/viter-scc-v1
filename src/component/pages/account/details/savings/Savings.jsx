@@ -1,4 +1,4 @@
-import React from "react"; 
+import React from "react";
 import { FaPlusCircle } from "react-icons/fa";
 import { setIsAdd } from "../../../../../store/StoreAction";
 import { StoreContext } from "../../../../../store/StoreContext";
@@ -23,15 +23,16 @@ const Savings = () => {
     <>
       <Header />
       <Navigation menu="account" />
-      <div className="wrapper ">
+      <div className="wrapper">
         <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2">
-        <BreadCrumbs param={`${location.search}`} /> <div className="flex items-center gap-1">
+          <BreadCrumbs param={`${location.search}`} />{" "}
+          <div className="flex items-center gap-1">
             <button type="button" className="btn-primary" onClick={handleAdd}>
               <FaPlusCircle />
               <span>Add</span>
             </button>
           </div>
-          </div>
+        </div>
         <hr />
 
         <div className="w-full pb-20 mt-3 ">
@@ -40,7 +41,7 @@ const Savings = () => {
         <Footer />
       </div>
 
-      {store.isAdd && <ModalAddSavings item={itemEdit}/>}
+      {store.isAdd && <ModalAddSavings item={itemEdit} />}
       {store.success && <ModalSuccess />}
       {store.error && <ModalError />}
     </>

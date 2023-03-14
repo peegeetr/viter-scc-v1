@@ -3,16 +3,30 @@ import { AiFillSetting } from "react-icons/ai";
 import { Link, useLocation } from "react-router-dom";
 import { setStartIndex } from "../../store/StoreAction";
 import { StoreContext } from "../../store/StoreContext";
-import { devNavUrl, UrlSystem } from "../helpers/functions-general";
+import {
+  devNavUrl,
+  getUserType,
+  UrlSystem,
+} from "../helpers/functions-general";
 
-const BreadCrumbs = ({param=""}) => {
+const BreadCrumbs = ({ param = "" }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const location = useLocation();
+  const urlLink = getUserType(
+    store.credentials.data.role_is_developer,
+    store.credentials.data.role_is_admin
+  );
 
+  const removeDev =
+    store.credentials.data.role_is_developer === 1
+      ? "/dev-app/system"
+      : store.credentials.data.role_is_admin === 1
+      ? "/dev-app/admin"
+      : "/dev-app/viewer";
   let currentLink = "";
 
   const crumbs = location.pathname
-    .replace("/dev-app/system", "")
+    .replace(`${removeDev}`, "")
     .split("/")
     .filter((crumb) => crumb !== "")
     .map((crumb, key) => {
@@ -25,7 +39,7 @@ const BreadCrumbs = ({param=""}) => {
           onClick={() => dispatch(setStartIndex(0))}
         >
           <Link
-            to={`${devNavUrl}/${UrlSystem}${currentLink}`}
+            to={`${urlLink}${currentLink}`}
             className="mr-2 text-base font-medium hover:text-primary capitalize"
           >
             {crumb}

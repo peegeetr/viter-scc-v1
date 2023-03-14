@@ -3,16 +3,21 @@ import { RiUserSharedFill } from "react-icons/ri";
 import { SlArrowRight } from "react-icons/sl";
 import { Link } from "react-router-dom";
 import { StoreContext } from "../../../../../store/StoreContext";
-import { devNavUrl, UrlSystem } from "../../../../helpers/functions-general";
+import {
+  devNavUrl,
+  getUserType,
+  UrlSystem,
+} from "../../../../helpers/functions-general";
 
 const SavingsLink = () => {
   const { store, dispatch } = React.useContext(StoreContext);
+  const urlLink = getUserType(
+    store.credentials.data.role_is_developer,
+    store.credentials.data.role_is_admin
+  );
   return (
     <>
-      <Link
-        to={`${devNavUrl}/${UrlSystem}/account/details/savings`}
-        className="w-full py-2"
-      >
+      <Link to={`${urlLink}/account/details/savings`} className="w-full py-2">
         <div className="flex items-center">
           <span className="text-lg mr-4">
             <RiUserSharedFill />
@@ -26,7 +31,7 @@ const SavingsLink = () => {
       </Link>
 
       <Link
-        to={`${devNavUrl}/${UrlSystem}/account/details/savings`}
+        to={`${urlLink}/account/details/savings`}
         className="btn-action-table group-hover:bg-primary group-hover:text-white"
       >
         <SlArrowRight className="inline" />

@@ -49,14 +49,30 @@ export const InputText = ({ label, ...props }) => {
 export const InputSelect = ({ label, onChange, ...props }) => {
   const [field, meta] = useField(props);
 
+  if (props.name === "user_other_member_id") {
+    return (
+      <>
+        <label htmlFor={props.id || props.name}>{label}</label>
+
+        <select
+          {...field}
+          {...props}
+          className={meta.touched && meta.error ? "error-show" : null}
+          onChange={(e) => {
+            onChange(e);
+            field.onChange(e);
+          }}
+        />
+
+        {meta.touched && meta.error ? (
+          <span className="error-show">{meta.error}</span>
+        ) : null}
+      </>
+    );
+  }
   return (
     <>
-      <label
-        htmlFor={props.id || props.name}
-        className={meta.touched && meta.error ? "error-show" : null}
-      >
-        {label}
-      </label>
+      <label htmlFor={props.id || props.name}>{label}</label>
 
       <select
         {...field}

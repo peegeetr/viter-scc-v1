@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import React from "react";
-import { FaCheck, FaHistory, FaTrash } from "react-icons/fa";
+import { FaCheck, FaEdit, FaHistory, FaTrash } from "react-icons/fa";
 import { ImCross } from "react-icons/im";
 import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
@@ -20,15 +20,18 @@ import StatusActive from "../../partials/status/StatusActive";
 
 const ApplicationList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
-  const urlLink = getUserType(store.credentials.data.role_is_developer,store.credentials.data.role_is_admin);
+  const urlLink = getUserType(
+    store.credentials.data.role_is_developer,
+    store.credentials.data.role_is_admin
+  );
   const [dataItem, setData] = React.useState(null);
   const [id, setId] = React.useState(null);
   const [isDel, setDel] = React.useState(false);
   let counter = 1;
   const [onSearch, setOnSearch] = React.useState(false);
   const [page, setPage] = React.useState(1);
-  const search = React.useRef(null); 
-  const { ref, inView } = useInView(); 
+  const search = React.useRef(null);
+  const { ref, inView } = useInView();
   // use if with loadmore button and search bar
   const {
     data: result,
@@ -63,7 +66,6 @@ const ApplicationList = () => {
     }
   }, [inView]);
 
- 
   const handleApproved = (item) => {
     dispatch(setIsConfirm(true));
     setId(item.members_aid);
@@ -94,8 +96,7 @@ const ApplicationList = () => {
 
   return (
     <>
-    
-    <SearchBar
+      <SearchBar
         search={search}
         dispatch={dispatch}
         store={store}
@@ -111,49 +112,48 @@ const ApplicationList = () => {
             <tr>
               <th>#</th>
               <th className="w-[15rem]">Name</th>
-              <th className="w-[15rem]">Account no.</th> 
+              <th className="w-[15rem]">Account no.</th>
               <th>Status</th>
               <th className="max-w-[5rem]">Actions</th>
             </tr>
           </thead>
-          <tbody>  
-              {(status === "loading" || result?.pages[0].data.length === 0) && (
-                <tr className="text-center ">
-                  <td colSpan="100%" className="p-10">
-                    {status === "loading" && <TableSpinner />}
-                    <NoData />
-                  </td>
-                </tr>
-              )}
-              {error && (
-                <tr className="text-center ">
-                  <td colSpan="100%" className="p-10">
-                    <ServerError />
-                  </td>
-                </tr>
-              )}
+          <tbody>
+            {(status === "loading" || result?.pages[0].data.length === 0) && (
+              <tr className="text-center ">
+                <td colSpan="100%" className="p-10">
+                  {status === "loading" && <TableSpinner />}
+                  <NoData />
+                </td>
+              </tr>
+            )}
+            {error && (
+              <tr className="text-center ">
+                <td colSpan="100%" className="p-10">
+                  <ServerError />
+                </td>
+              </tr>
+            )}
 
-              {result?.pages.map((page, key) => (
-                <React.Fragment key={key}>
-                  {page.data.map((item, key) => (
-                  <tr key={key} >
+            {result?.pages.map((page, key) => (
+              <React.Fragment key={key}>
+                {page.data.map((item, key) => (
+                  <tr key={key}>
                     <td> {counter++}.</td>
                     <td>
                       {`${item.members_last_name}, ${item.members_first_name}`}
                     </td>
-                    <td>{item.members_id}</td> 
-                    <td> 
-                        <StatusActive /> 
+                    <td>{item.members_id}</td>
+                    <td>
+                      <StatusActive />
                     </td>
                     <td>
-                      <div className="flex items-center gap-1"> 
-                      {item.members_is_active === 1 ?
+                      <div className="flex items-center gap-1">
+                        {item.members_is_active === 1 ? (
                           <>
-                            
                             <Link
-                              to={`${urlLink}/account/details`}
+                              to={`${urlLink}/application/profile?memberid=${item.members_aid}`}
                               className="btn-action-table tooltip-action-table"
-                              data-tooltip="Edit" 
+                              data-tooltip="Edit"
                             >
                               <FaEdit />
                             </Link>
@@ -173,7 +173,8 @@ const ApplicationList = () => {
                             >
                               <ImCross />
                             </button>
-                          </> :
+                          </>
+                        ) : (
                           <>
                             <button
                               type="button"
@@ -191,14 +192,14 @@ const ApplicationList = () => {
                             >
                               <FaTrash />
                             </button>
-                          </> }
+                          </>
+                        )}
                       </div>
                     </td>
-                  </tr> 
-                  ))}
-                </React.Fragment>
-              ))}
- 
+                  </tr>
+                ))}
+              </React.Fragment>
+            ))}
           </tbody>
         </table>
 
@@ -212,18 +213,20 @@ const ApplicationList = () => {
           refView={ref}
         />
       </div>
- 
+
       {store.isConfirm && (
         <ModalApprovedCancel
           id={id}
           isDel={isDel}
           mysqlApiApproved={`/v1/members/status/${id}`}
           mysqlApiCancel={`/v1/members/status/${id}`}
-          msg={ isDel
-            ?"Are you sure you want to approved "
-            :"Are you sure you want to cancel "}
-          item={`${dataItem.members_last_name}, ${dataItem.members_first_name}`} 
-          isApproved={isDel?"approved":"cancel"}
+          msg={
+            isDel
+              ? "Are you sure you want to approved "
+              : "Are you sure you want to cancel "
+          }
+          item={`${dataItem.members_last_name}, ${dataItem.members_first_name}`}
+          isApproved={isDel ? "approved" : "cancel"}
           arrKey="members"
         />
       )}
@@ -239,7 +242,7 @@ const ApplicationList = () => {
               ? "Are you sure you want to delete this members"
               : "Are you sure you want to restore this members"
           }
-          item={`${dataItem.members_last_name}, ${dataItem.members_first_name}`} 
+          item={`${dataItem.members_last_name}, ${dataItem.members_first_name}`}
           isApproved="cancel"
           arrKey="members"
         />

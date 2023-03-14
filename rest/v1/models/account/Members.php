@@ -243,10 +243,7 @@ class Members
         try {
             $sql = "select * from ";
             $sql .= "{$this->tblMembers} ";
-            $sql .= "where members_is_approved = 1 ";
-            $sql .= "and members_is_cancel = 0 ";
-            $sql .= "and members_is_active = 1 ";
-            $sql .= "and members_aid = :members_aid ";
+            $sql .= "where members_aid = :members_aid ";
             $sql .= "order by members_is_active desc, ";
             $sql .= "members_last_name, ";
             $sql .= "members_first_name asc ";

@@ -1,5 +1,5 @@
 import React from "react";
-import { FaArchive, FaEdit, FaHistory, FaTrash } from "react-icons/fa"; 
+import { FaArchive, FaEdit, FaHistory, FaTrash } from "react-icons/fa";
 import { StoreContext } from "../../../store/StoreContext";
 import NoData from "../../partials/NoData";
 import ServerError from "../../partials/ServerError";
@@ -9,24 +9,36 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import SearchBar from "../../partials/SearchBar";
 import Loadmore from "../../partials/Loadmore";
 import TableSpinner from "../../partials/spinners/TableSpinner";
-import { queryDataInfinite } from "../../helpers/queryDataInfinite"; 
-import { setIsAdd, setIsConfirm, setIsRestore } from "../../../store/StoreAction";
+import { queryDataInfinite } from "../../helpers/queryDataInfinite";
+import {
+  setIsAdd,
+  setIsConfirm,
+  setIsRestore,
+} from "../../../store/StoreAction";
 import ModalConfirm from "../../partials/modals/ModalConfirm";
 import ModalDeleteRestore from "../../partials/modals/ModalDeleteRestore";
 import { Link } from "react-router-dom";
-import { devNavUrl, UrlSystem } from "../../helpers/functions-general";
+import {
+  devNavUrl,
+  getUserType,
+  UrlSystem,
+} from "../../helpers/functions-general";
 import FetchingSpinner from "../../partials/spinners/FetchingSpinner";
 
 const AccountList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
+  const urlLink = getUserType(
+    store.credentials.data.role_is_developer,
+    store.credentials.data.role_is_admin
+  );
   const [dataItem, setData] = React.useState(null);
   const [id, setId] = React.useState(null);
   const [isDel, setDel] = React.useState(false);
-  let counter = 1; 
+  let counter = 1;
   const [onSearch, setOnSearch] = React.useState(false);
   const [page, setPage] = React.useState(1);
-  const search = React.useRef(null); 
-  const { ref, inView } = useInView(); 
+  const search = React.useRef(null);
+  const { ref, inView } = useInView();
   // use if with loadmore button and search bar
   const {
     data: result,
@@ -50,7 +62,7 @@ const AccountList = () => {
       }
       return;
     },
-    refetchOnWindowFocus: false, 
+    refetchOnWindowFocus: false,
     networkMode: "always",
   });
 
@@ -60,7 +72,6 @@ const AccountList = () => {
       fetchNextPage();
     }
   }, [inView]);
- 
 
   const handleArchive = (item) => {
     dispatch(setIsConfirm(true));
@@ -85,8 +96,7 @@ const AccountList = () => {
 
   return (
     <>
-    
-    <SearchBar
+      <SearchBar
         search={search}
         dispatch={dispatch}
         store={store}
@@ -102,48 +112,48 @@ const AccountList = () => {
             <tr>
               <th>#</th>
               <th className="w-[15rem]">Name</th>
-              <th className="w-[15rem]">Account no.</th> 
+              <th className="w-[15rem]">Account no.</th>
               <th>Status</th>
               <th className="max-w-[5rem]">Actions</th>
             </tr>
           </thead>
-          <tbody>  
-              {(status === "loading" || result?.pages[0].data.length === 0) && (
-                <tr className="text-center ">
-                  <td colSpan="100%" className="p-10">
-                    {status === "loading" && <TableSpinner />}
-                    <NoData />
-                  </td>
-                </tr>
-              )}
-              {error && (
-                <tr className="text-center ">
-                  <td colSpan="100%" className="p-10">
-                    <ServerError />
-                  </td>
-                </tr>
-              )}
+          <tbody>
+            {(status === "loading" || result?.pages[0].data.length === 0) && (
+              <tr className="text-center ">
+                <td colSpan="100%" className="p-10">
+                  {status === "loading" && <TableSpinner />}
+                  <NoData />
+                </td>
+              </tr>
+            )}
+            {error && (
+              <tr className="text-center ">
+                <td colSpan="100%" className="p-10">
+                  <ServerError />
+                </td>
+              </tr>
+            )}
 
-              {result?.pages.map((page, key) => (
-                <React.Fragment key={key}>
-                  {page.data.map((item, key) => (
-                  <tr key={key} >
+            {result?.pages.map((page, key) => (
+              <React.Fragment key={key}>
+                {page.data.map((item, key) => (
+                  <tr key={key}>
                     <td> {counter++}.</td>
                     <td>
                       {`${item.members_last_name}, ${item.members_first_name}`}
                     </td>
-                    <td>{item.members_id}</td> 
-                    <td> 
-                        <StatusActive /> 
+                    <td>{item.members_id}</td>
+                    <td>
+                      <StatusActive />
                     </td>
                     <td>
-                      <div className="flex items-center gap-1"> 
-                      {item.members_is_active === 1 ?
+                      <div className="flex items-center gap-1">
+                        {item.members_is_active === 1 ? (
                           <>
                             <Link
-                              to={`${devNavUrl}/${UrlSystem}/account/details`}
+                              to={`${urlLink}/account/details?memberid=${item.members_aid}`}
                               className="btn-action-table tooltip-action-table"
-                              data-tooltip="Edit" 
+                              data-tooltip="Edit"
                             >
                               <FaEdit />
                             </Link>
@@ -155,7 +165,8 @@ const AccountList = () => {
                             >
                               <FaArchive />
                             </button>
-                          </> :
+                          </>
+                        ) : (
                           <>
                             <button
                               type="button"
@@ -173,14 +184,14 @@ const AccountList = () => {
                             >
                               <FaTrash />
                             </button>
-                          </> }
+                          </>
+                        )}
                       </div>
                     </td>
-                  </tr> 
-                  ))}
-                </React.Fragment>
-              ))}
- 
+                  </tr>
+                ))}
+              </React.Fragment>
+            ))}
           </tbody>
         </table>
 
@@ -194,14 +205,14 @@ const AccountList = () => {
           refView={ref}
         />
       </div>
- 
+
       {store.isConfirm && (
         <ModalConfirm
           id={id}
           isDel={isDel}
           mysqlApiArchive={`/v1/members/status/${id}`}
           msg={"Are you sure you want to archive this members"}
-          item={`${dataItem.members_last_name}, ${dataItem.members_first_name}`} 
+          item={`${dataItem.members_last_name}, ${dataItem.members_first_name}`}
           arrKey="members"
         />
       )}
@@ -217,7 +228,7 @@ const AccountList = () => {
               ? "Are you sure you want to delete this members"
               : "Are you sure you want to restore this members"
           }
-          item={`${dataItem.members_last_name}, ${dataItem.members_first_name}`} 
+          item={`${dataItem.members_last_name}, ${dataItem.members_first_name}`}
           arrKey="members"
         />
       )}

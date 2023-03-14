@@ -1,13 +1,7 @@
 import { Form, Formik } from "formik";
 import React from "react";
 import { AiFillCamera } from "react-icons/ai";
-import {
-  FaArchive,
-  FaEdit,
-  FaHistory,
-  FaTrash,
-  FaUserCircle,
-} from "react-icons/fa";
+import { FaEdit, FaUserCircle } from "react-icons/fa";
 import * as Yup from "yup";
 import {
   setIsAdd,
@@ -17,11 +11,10 @@ import {
 import { StoreContext } from "../../../../../store/StoreContext";
 import useQueryData from "../../../../custom-hooks/useQueryData";
 import { InputFileUpload } from "../../../../helpers/FormInputs";
-import { formatDate } from "../../../../helpers/functions-general";
+import { formatDate, getUrlParam } from "../../../../helpers/functions-general";
 import NoData from "../../../../partials/NoData";
 import ServerError from "../../../../partials/ServerError";
 import TableSpinner from "../../../../partials/spinners/TableSpinner";
-import StatusActive from "../../../../partials/status/StatusActive";
 import ModalUpdateAdditionalInfo from "./ModalUpdateAdditionalInfo";
 import ModalUpdateBasicInfo from "./ModalUpdateBasicInfo";
 import ModalUpdateJobInfo from "./ModalUpdateJobInfo";
@@ -29,33 +22,19 @@ import ModalUpdatePermanentAddress from "./ModalUpdatePermanentAddress";
 import ModalUpdatePresentAddress from "./ModalUpdatePresentAddress";
 import ModalUpdateSpouseInfo from "./ModalUpdateSpouseInfo";
 
-const ProfileList = () => {
+const ProfileList = ({ members, isLoading, error }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [itemEdit, setItemEdit] = React.useState(null);
   const [isopen, setIsOpen] = React.useState(false);
-  let counter = 1;
-
-  // const eid = getUrlParam().get("membersid");
-  const eid = 2;
-
-  // use if not loadmore button undertime
-  const {
-    isLoading,
-    error,
-    data: members,
-  } = useQueryData(
-    `/v1/members/${eid}`,
-    "get", // method
-    "members" // key
-  );
+  const memberid = getUrlParam().get("memberid");
 
   // use if not loadmore button undertime
   const { data: beneficiaries } = useQueryData(
-    `/v1/beneficiaries/${eid}`,
+    `/v1/beneficiaries/${memberid}`,
     "get", // method
     "beneficiaries" // key
   );
-
+  console.log("members", members);
   const handleEdit = (item) => {
     setIsOpen(false);
     dispatch(setIsAdd(true));
@@ -99,7 +78,7 @@ const ProfileList = () => {
             <div key={key} className="relative w-full max-w-[750px]">
               <div className="bg-gray-200 p-2 mb-5 flex justify-between items-center mt-5">
                 <h4>Basic Information</h4>
-                {eid === null ? (
+                {memberid === null ? (
                   ""
                 ) : (
                   <button

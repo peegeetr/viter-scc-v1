@@ -17,7 +17,8 @@ const Deatils = () => {
 
         <hr />
         <div className="w-full pt-5 pb-20">
-        <DetailsLink/></div>
+          <DetailsLink />
+        </div>
         <Footer />
       </div>
     </>
