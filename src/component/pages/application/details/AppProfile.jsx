@@ -24,7 +24,6 @@ const AppProfile = () => {
     "get", // method
     "members" // key
   );
-  console.log("123", members?.data);
   return (
     <>
       <Header />

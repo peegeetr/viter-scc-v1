@@ -10,6 +10,8 @@ const initVal = {
   isConfirm: false,
   isRestore: false,
   isAdd: false,
+  isEditProfile: false,
+  isBeneficiaries: false,
   isSearch: false,
   startIndex: 0,
   isCreatePassSuccess: false,

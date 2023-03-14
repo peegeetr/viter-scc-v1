@@ -51,7 +51,7 @@ RewriteRule ^members/search/([A-Za-z0-9-]+)$ controllers/account/search.php?sear
 
 #beneficiaries
 RewriteRule ^beneficiaries$ controllers/account/details/beneficiaries/beneficiaries.php [L]
-RewriteRule ^beneficiaries/([0-9]+)$ controllers/account/details/beneficiaries/beneficiaries.php?beneficiariesid=$1 [L] 
+RewriteRule ^beneficiaries/([0-9]+)$ controllers/account/details/beneficiaries/beneficiaries.php?memberid=$1 [L] 
 
 #savings
 RewriteRule ^savings$ controllers/account/details/savings/savings.php [L]

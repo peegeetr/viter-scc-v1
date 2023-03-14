@@ -61,6 +61,20 @@ export const setIsAdd = (val) => {
   };
 };
 
+export const setIsBeneficiaries = (val) => {
+  return {
+    type: "IS_BENEFICIARIES",
+    payload: val,
+  };
+};
+
+export const setIsEditProfile = (val) => {
+  return {
+    type: "IS_EDIT_PROFILE",
+    payload: val,
+  };
+};
+
 export const setIsSearch = (val) => {
   return {
     type: "IS_SEARCH",

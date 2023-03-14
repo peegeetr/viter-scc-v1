@@ -15,7 +15,7 @@ class Beneficiaries
     public function __construct($db)
     {
         $this->connection = $db;
-        $this->tblBeneficiaries = "sccv1_settings_beneficiaries";
+        $this->tblBeneficiaries = "sccv1_legal_beneficiaries";
     }
 
     // create
@@ -74,7 +74,7 @@ class Beneficiaries
             $sql .= "order by beneficiaries_name asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "beneficiaries_aid" => $this->beneficiaries_aid,
+                "beneficiaries_employee_id" => $this->beneficiaries_employee_id,
             ]);
         } catch (PDOException $ex) {
             $query = false;

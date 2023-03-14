@@ -1,11 +1,13 @@
 import { Form, Formik } from "formik";
 import React from "react";
 import { AiFillCamera } from "react-icons/ai";
-import { FaEdit, FaUserCircle } from "react-icons/fa";
+import { FaEdit, FaPlusCircle, FaUserCircle } from "react-icons/fa";
 import * as Yup from "yup";
 import {
   setIsAdd,
+  setIsBeneficiaries,
   setIsConfirm,
+  setIsEditProfile,
   setIsRestore,
 } from "../../../../../store/StoreAction";
 import { StoreContext } from "../../../../../store/StoreContext";
@@ -24,6 +26,7 @@ import ModalUpdateSpouseInfo from "./ModalUpdateSpouseInfo";
 
 const ProfileList = ({ members, isLoading, error }) => {
   const { store, dispatch } = React.useContext(StoreContext);
+  const [dataItem, setData] = React.useState(null);
   const [itemEdit, setItemEdit] = React.useState(null);
   const [isopen, setIsOpen] = React.useState(false);
   const memberid = getUrlParam().get("memberid");
@@ -34,7 +37,7 @@ const ProfileList = ({ members, isLoading, error }) => {
     "get", // method
     "beneficiaries" // key
   );
-  console.log("members", members);
+  console.log("beneficiaries", beneficiaries);
   const handleEdit = (item) => {
     setIsOpen(false);
     dispatch(setIsAdd(true));
@@ -57,13 +60,29 @@ const ProfileList = ({ members, isLoading, error }) => {
   };
   const handleEditJobInfo = (item) => {
     setIsOpen(false);
-    dispatch(setIsRestore(true));
+    dispatch(setIsEditProfile(true));
     setItemEdit(item);
   };
   const handleEditSpouseInfo = (item) => {
     setIsOpen(true);
-    dispatch(setIsRestore(true));
+    dispatch(setIsEditProfile(true));
     setItemEdit(item);
+  };
+
+  const handleAddBeneficiaries = () => {
+    dispatch(setIsBeneficiaries(true));
+    setItemEdit(null);
+  };
+
+  const handleEditBeneficiaries = () => {
+    dispatch(setIsBeneficiaries(true));
+    setItemEdit(item);
+  };
+  const handleDelete = (item) => {
+    dispatch(setIsRestore(true));
+    setId(item.beneficiaries_aid);
+    setData(item);
+    setDel(true);
   };
 
   const initVal = {};
@@ -273,29 +292,77 @@ const ProfileList = ({ members, isLoading, error }) => {
                 <p className="font-semibold">Income net :</p>
                 <p className="">{item.members_spouse_occupation}</p>
               </div>
-              {/* <div className="bg-gray-200 p-2 mb-5 flex justify-between items-center">
-                <h4>Beneficiaries</h4> 
-                   
-              </div>
+              <div className="bg-gray-200 p-2 flex justify-between items-center">
+                <h4>Beneficiaries</h4>
 
-              {beneficiaries?.data.map((item, key) => {
-          return (
-              <div className="text-left grid  grid-cols-2 md:grid-cols-[1fr_1fr] mb-2 xs:pl-5 pl-2"
-              key={key} > 
-                   <div className="flex items-center">
-                    <p>{counter++}.</p>
-                    <button
-                    type="button"
-                    className="tooltip-action-table"
-                    data-tooltip="Edit"
-                  >
-                    <FaEdit />
-                  </button> 
-              <p className="font-semibold m-0">Name : <span className="font-light">{item.beneficiaries_name}</span></p></div>
-              <p className="font-semibold m-0">Relation : <span className="font-light">{item.beneficiaries_relationship}</span></p>  
+                <button
+                  type="button"
+                  className=" btn-primary !py-[3px] "
+                  onClick={handleAddBeneficiaries}
+                >
+                  <FaPlusCircle />
+                  <span>Add</span>
+                </button>
               </div>
-          );
-        })} */}
+              <div className="relative text-center overflow-x-auto z-0">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Name</th>
+                      <th>Relation ship</th>
+                      <th className="max-w-[5rem]">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {(isLoading || beneficiaries?.data.length === 0) && (
+                      <tr className="text-center ">
+                        <td colSpan="100%" className="p-10">
+                          {isLoading && <TableSpinner />}
+                          <NoData />
+                        </td>
+                      </tr>
+                    )}
+                    {error && (
+                      <tr className="text-center ">
+                        <td colSpan="100%" className="p-10">
+                          <ServerError />
+                        </td>
+                      </tr>
+                    )}
+                    {beneficiaries?.data.map((item, key) => {
+                      counter++;
+                      return (
+                        <tr key={key}>
+                          <td>{counter++}.</td>
+                          <td>{item.beneficiaries_name}</td>
+                          <td>{item.beneficiaries_relationship}</td>
+                          <td>
+                            <div className="flex items-center gap-1">
+                              <button
+                                type="button"
+                                className="btn-action-table tooltip-action-table"
+                                data-tooltip="Edit"
+                                onClick={() => handleEditBeneficiaries(item)}
+                              >
+                                <FaEdit />
+                              </button>
+                              <button
+                                type="button"
+                                className="btn-action-table tooltip-action-table"
+                                data-tooltip="Delete"
+                                onClick={() => handleDelete(item)}
+                              >
+                                <FaTrash />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
             </div>
           );
         })}
@@ -314,12 +381,24 @@ const ProfileList = ({ members, isLoading, error }) => {
 
       {store.isAdd && <ModalUpdateBasicInfo item={itemEdit} />}
       {store.isConfirm && <ModalUpdatePresentAddress item={itemEdit} />}
-      {store.isRestore && <ModalUpdateJobInfo item={itemEdit} />}
+      {store.isEditProfile && <ModalUpdateJobInfo item={itemEdit} />}
       {store.isAdd && isopen && <ModalUpdateAdditionalInfo item={itemEdit} />}
       {store.isConfirm && isopen && (
         <ModalUpdatePermanentAddress item={itemEdit} />
       )}
-      {store.isRestore && isopen && <ModalUpdateSpouseInfo item={itemEdit} />}
+      {store.isEditProfile && isopen && (
+        <ModalUpdateSpouseInfo item={itemEdit} />
+      )}
+      {store.isRestore && (
+        <ModalDeleteRestore
+          id={id}
+          isDel={isDel}
+          mysqlApiDelete={`/v1/beneficiaries/${id}`}
+          msg={"Are you sure you want to delete this "}
+          item={`${dataItem.beneficiaries_name}`}
+          arrKey="beneficiaries"
+        />
+      )}
     </>
   );
 };
