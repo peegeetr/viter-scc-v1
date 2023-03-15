@@ -1,7 +1,7 @@
 import { Form, Formik } from "formik";
 import React from "react";
 import { AiFillCamera } from "react-icons/ai";
-import { FaEdit, FaPlusCircle, FaUserCircle } from "react-icons/fa";
+import { FaEdit, FaPlusCircle, FaTrash, FaUserCircle } from "react-icons/fa";
 import * as Yup from "yup";
 import {
   setIsAdd,
@@ -14,9 +14,11 @@ import { StoreContext } from "../../../../../store/StoreContext";
 import useQueryData from "../../../../custom-hooks/useQueryData";
 import { InputFileUpload } from "../../../../helpers/FormInputs";
 import { formatDate, getUrlParam } from "../../../../helpers/functions-general";
+import ModalDeleteRestore from "../../../../partials/modals/ModalDeleteRestore";
 import NoData from "../../../../partials/NoData";
 import ServerError from "../../../../partials/ServerError";
 import TableSpinner from "../../../../partials/spinners/TableSpinner";
+import ModalAddBeneficiaries from "./ModalAddBeneficiaries";
 import ModalUpdateAdditionalInfo from "./ModalUpdateAdditionalInfo";
 import ModalUpdateBasicInfo from "./ModalUpdateBasicInfo";
 import ModalUpdateJobInfo from "./ModalUpdateJobInfo";
@@ -26,10 +28,14 @@ import ModalUpdateSpouseInfo from "./ModalUpdateSpouseInfo";
 
 const ProfileList = ({ members, isLoading, error }) => {
   const { store, dispatch } = React.useContext(StoreContext);
+  const [id, setId] = React.useState(null);
+  const [isDel, setDel] = React.useState(false);
   const [dataItem, setData] = React.useState(null);
   const [itemEdit, setItemEdit] = React.useState(null);
+  const [itemBeneficiaries, setItemBeneficiaries] = React.useState(null);
   const [isopen, setIsOpen] = React.useState(false);
   const memberid = getUrlParam().get("memberid");
+  let counter = 0;
 
   // use if not loadmore button undertime
   const { data: beneficiaries } = useQueryData(
@@ -38,6 +44,7 @@ const ProfileList = ({ members, isLoading, error }) => {
     "beneficiaries" // key
   );
   console.log("beneficiaries", beneficiaries);
+
   const handleEdit = (item) => {
     setIsOpen(false);
     dispatch(setIsAdd(true));
@@ -71,17 +78,17 @@ const ProfileList = ({ members, isLoading, error }) => {
 
   const handleAddBeneficiaries = () => {
     dispatch(setIsBeneficiaries(true));
-    setItemEdit(null);
+    setItemBeneficiaries(null);
   };
 
-  const handleEditBeneficiaries = () => {
+  const handleEditBeneficiaries = (itemB) => {
     dispatch(setIsBeneficiaries(true));
-    setItemEdit(item);
+    setItemBeneficiaries(itemB);
   };
-  const handleDelete = (item) => {
+  const handleDelete = (itemB) => {
     dispatch(setIsRestore(true));
-    setId(item.beneficiaries_aid);
-    setData(item);
+    setId(itemB.beneficiaries_aid);
+    setData(itemB);
     setDel(true);
   };
 
@@ -330,20 +337,20 @@ const ProfileList = ({ members, isLoading, error }) => {
                         </td>
                       </tr>
                     )}
-                    {beneficiaries?.data.map((item, key) => {
+                    {beneficiaries?.data.map((itemB, key) => {
                       counter++;
                       return (
                         <tr key={key}>
                           <td>{counter++}.</td>
-                          <td>{item.beneficiaries_name}</td>
-                          <td>{item.beneficiaries_relationship}</td>
+                          <td>{itemB.beneficiaries_name}</td>
+                          <td>{itemB.beneficiaries_relationship}</td>
                           <td>
                             <div className="flex items-center gap-1">
                               <button
                                 type="button"
                                 className="btn-action-table tooltip-action-table"
                                 data-tooltip="Edit"
-                                onClick={() => handleEditBeneficiaries(item)}
+                                onClick={() => handleEditBeneficiaries(itemB)}
                               >
                                 <FaEdit />
                               </button>
@@ -351,7 +358,7 @@ const ProfileList = ({ members, isLoading, error }) => {
                                 type="button"
                                 className="btn-action-table tooltip-action-table"
                                 data-tooltip="Delete"
-                                onClick={() => handleDelete(item)}
+                                onClick={() => handleDelete(itemB)}
                               >
                                 <FaTrash />
                               </button>
@@ -389,12 +396,16 @@ const ProfileList = ({ members, isLoading, error }) => {
       {store.isEditProfile && isopen && (
         <ModalUpdateSpouseInfo item={itemEdit} />
       )}
+      {store.isBeneficiaries && (
+        <ModalAddBeneficiaries item={itemBeneficiaries} memberid={memberid} />
+      )}
+
       {store.isRestore && (
         <ModalDeleteRestore
           id={id}
           isDel={isDel}
           mysqlApiDelete={`/v1/beneficiaries/${id}`}
-          msg={"Are you sure you want to delete this "}
+          msg={"Are you sure you want to delete "}
           item={`${dataItem.beneficiaries_name}`}
           arrKey="beneficiaries"
         />

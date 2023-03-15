@@ -67,6 +67,7 @@ class Beneficiaries
     {
         try {
             $sql = "select beneficiaries_employee_id, ";
+            $sql .= "beneficiaries_aid, ";
             $sql .= "beneficiaries_name, ";
             $sql .= "beneficiaries_relationship ";
             $sql .= "from {$this->tblBeneficiaries} ";

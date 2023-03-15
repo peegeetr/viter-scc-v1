@@ -5,12 +5,12 @@ $conn = checkDbConnection();
 // make instance of classes
 $beneficiaries = new Beneficiaries($conn);
 // get $_GET data
-// check if memberid is in the url e.g. /beneficiaries/1
+// check if beneficiariesid is in the url e.g. /beneficiaries/1
 $error = [];
 $returnData = [];
-if (array_key_exists("memberid", $_GET)) {
+if (array_key_exists("beneficiariesid", $_GET)) {
     // get task id from query string
-    $beneficiaries->beneficiaries_employee_id = $_GET['memberid'];
+    $beneficiaries->beneficiaries_employee_id = $_GET['beneficiariesid'];
     //check to see if task id in query string is not empty and is number, if not return json error
     checkId($beneficiaries->beneficiaries_employee_id);
     $query = checkReadById($beneficiaries);
