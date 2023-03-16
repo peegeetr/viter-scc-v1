@@ -12,7 +12,10 @@ import { setIsAdd, setIsRestore } from "../../../../../store/StoreAction";
 import ModalDeleteRestore from "../../../../partials/modals/ModalDeleteRestore";
 import SearchBar from "../../../../partials/SearchBar";
 import Loadmore from "../../../../partials/Loadmore";
-import { formatDate } from "../../../../helpers/functions-general";
+import {
+  formatDate,
+  numberWithCommas,
+} from "../../../../helpers/functions-general";
 
 const SavingsList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -115,9 +118,9 @@ const SavingsList = ({ setItemEdit }) => {
                   <tr key={key}>
                     <td>{counter++}.</td>
                     <td>{formatDate(item.savings_date)}</td>
-                    <td>{item.savings_amount}</td>
-                    <td> {item.savings_balance}</td>
-                    <td>{item.savings_total}</td>
+                    <td>{numberWithCommas(item.savings_deposite)}</td>
+                    <td> {numberWithCommas(item.savings_withdrawal)}</td>
+                    <td>{numberWithCommas(item.savings_interest)}</td>
                     <td>
                       <div className="flex items-center gap-1">
                         <button

@@ -33,11 +33,7 @@ const Profile = () => {
         <hr />
 
         <div className="w-full pb-20">
-          <ProfileList
-            members={members?.data}
-            isLoading={isLoading}
-            error={error}
-          />
+          <ProfileList members={members} isLoading={isLoading} error={error} />
         </div>
         <Footer />
       </div>

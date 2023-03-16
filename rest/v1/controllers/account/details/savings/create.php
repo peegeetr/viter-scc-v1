@@ -11,16 +11,17 @@ if (array_key_exists("savingsid", $_GET)) {
 // check data
 checkPayload($data);
 // get data
- 
+
 $savings->savings_member_id = checkIndex($data, "savings_member_id");
-$savings->savings_amount = checkIndex($data, "savings_amount");
-$savings->savings_balance = checkIndex($data, "savings_balance");
-$savings->savings_total = checkIndex($data, "savings_total");
-$savings->savings_date = checkIndex($data, "savings_date"); 
+$savings->savings_deposite = checkIndex($data, "savings_deposite");
+$savings->savings_withdrawal = checkIndex($data, "savings_withdrawal");
+$savings->savings_interest = checkIndex($data, "savings_interest");
+$savings->savings_date = checkIndex($data, "savings_date");
+$savings->savings_category = checkIndex($data, "savings_category");
 $savings->savings_created = date("Y-m-d H:i:s");
-$savings->savings_datetime = date("Y-m-d H:i:s"); 
- 
+$savings->savings_datetime = date("Y-m-d H:i:s");
+
 // create
-$query = checkCreate($savings); 
+$query = checkCreate($savings);
 
 returnSuccess($savings, "savings", $query);

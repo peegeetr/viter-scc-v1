@@ -5,19 +5,24 @@ import { Link } from "react-router-dom";
 import { StoreContext } from "../../../../../store/StoreContext";
 import {
   devNavUrl,
+  getUrlParam,
   getUserType,
   UrlSystem,
 } from "../../../../helpers/functions-general";
 
 const SavingsLink = () => {
   const { store, dispatch } = React.useContext(StoreContext);
+  const memberid = getUrlParam().get("memberid");
   const urlLink = getUserType(
     store.credentials.data.role_is_developer,
     store.credentials.data.role_is_admin
   );
   return (
     <>
-      <Link to={`${urlLink}/account/details/savings`} className="w-full py-2">
+      <Link
+        to={`${urlLink}/account/details/savings?memberid=${memberid}`}
+        className="w-full py-2"
+      >
         <div className="flex items-center">
           <span className="text-lg mr-4">
             <RiUserSharedFill />
@@ -31,7 +36,7 @@ const SavingsLink = () => {
       </Link>
 
       <Link
-        to={`${urlLink}/account/details/savings`}
+        to={`${urlLink}/account/details/savings?memberid=${memberid}`}
         className="btn-action-table group-hover:bg-primary group-hover:text-white"
       >
         <SlArrowRight className="inline" />

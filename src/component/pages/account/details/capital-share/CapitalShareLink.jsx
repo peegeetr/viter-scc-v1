@@ -5,12 +5,14 @@ import { Link } from "react-router-dom";
 import { StoreContext } from "../../../../../store/StoreContext";
 import {
   devNavUrl,
+  getUrlParam,
   getUserType,
   UrlSystem,
 } from "../../../../helpers/functions-general";
 
 const CapitalShareLink = () => {
   const { store, dispatch } = React.useContext(StoreContext);
+  const memberid = getUrlParam().get("memberid");
   const urlLink = getUserType(
     store.credentials.data.role_is_developer,
     store.credentials.data.role_is_admin
@@ -18,7 +20,7 @@ const CapitalShareLink = () => {
   return (
     <>
       <Link
-        to={`${urlLink}/account/details/capital-share`}
+        to={`${urlLink}/account/details/capital-share?memberid=${memberid}`}
         className="w-full py-2"
       >
         <div className="flex items-center">
@@ -34,7 +36,7 @@ const CapitalShareLink = () => {
       </Link>
 
       <Link
-        to={`${urlLink}/account/details/capital-share`}
+        to={`${urlLink}/account/details/capital-share?memberid=${memberid}`}
         className="btn-action-table group-hover:bg-primary group-hover:text-white"
       >
         <SlArrowRight className="inline" />

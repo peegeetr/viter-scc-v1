@@ -1,13 +1,8 @@
 import React from "react";
-import { AiFillSetting } from "react-icons/ai";
 import { Link, useLocation } from "react-router-dom";
 import { setStartIndex } from "../../store/StoreAction";
 import { StoreContext } from "../../store/StoreContext";
-import {
-  devNavUrl,
-  getUserType,
-  UrlSystem,
-} from "../helpers/functions-general";
+import { getUserType } from "../helpers/functions-general";
 
 const BreadCrumbs = ({ param = "" }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -39,7 +34,7 @@ const BreadCrumbs = ({ param = "" }) => {
           onClick={() => dispatch(setStartIndex(0))}
         >
           <Link
-            to={`${urlLink}${currentLink}`}
+            to={`${urlLink}${currentLink}${param}`}
             className="mr-2 text-base font-medium hover:text-primary capitalize"
           >
             {crumb}

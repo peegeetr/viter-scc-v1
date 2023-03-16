@@ -49,7 +49,10 @@ export const InputText = ({ label, ...props }) => {
 export const InputSelect = ({ label, onChange, ...props }) => {
   const [field, meta] = useField(props);
 
-  if (props.name === "user_other_member_id") {
+  if (
+    props.name === "user_other_member_id" ||
+    props.name === "savings_category"
+  ) {
     return (
       <>
         <label htmlFor={props.id || props.name}>{label}</label>
