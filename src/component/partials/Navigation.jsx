@@ -14,8 +14,11 @@ import {
 } from "../helpers/functions-general";
 
 const Navigation = ({ menu }) => {
-  const { store, dispatch } = React.useContext(StoreContext); 
-  const urlLink = getUserType(store.credentials.data.role_is_developer,store.credentials.data.role_is_admin);
+  const { store, dispatch } = React.useContext(StoreContext);
+  const urlLink = getUserType(
+    store.credentials.data.role_is_developer,
+    store.credentials.data.role_is_admin
+  );
 
   const handleShow = () => {
     dispatch(setIsShow(!store.isShow));
@@ -46,62 +49,64 @@ const Navigation = ({ menu }) => {
               <span className="md:hidden lg:block">Announcement</span>
             </Link>
           </li>
-          {store.credentials.data.role_is_admin=== 1 ||store.credentials.data.role_is_developer===1?
-          <>
-          <li
-            className={
-              menu === "account"
-                ? "active"
-                : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
-            }
-          >
-            <Link
-              to={`${urlLink}/account`}
-              className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
-              onClick={handleShow}
-              data-tooltip="Account"
+          {store.credentials.data.role_is_admin === 1 ||
+          store.credentials.data.role_is_developer === 1 ? (
+            <>
+              <li
+                className={
+                  menu === "account"
+                    ? "active"
+                    : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
+                }
+              >
+                <Link
+                  to={`${urlLink}/account`}
+                  className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
+                  onClick={handleShow}
+                  data-tooltip="Account"
+                >
+                  <FaUsers className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
+                  <span className="md:hidden lg:block">Members</span>
+                </Link>
+              </li>
+
+              <li
+                className={
+                  menu === "application"
+                    ? "active"
+                    : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
+                }
+              >
+                <Link
+                  to={`${urlLink}/application`}
+                  className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
+                  onClick={handleShow}
+                  data-tooltip="Application"
+                >
+                  <FaBusinessTime className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
+                  <span className="md:hidden lg:block">Application</span>
+                </Link>
+              </li>
+            </>
+          ) : (
+            <li
+              className={
+                menu === "myaccount"
+                  ? "active"
+                  : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
+              }
             >
-              <FaUsers className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
-              <span className="md:hidden lg:block">Members</span>
-            </Link>
-          </li>
-          
-          <li
-            className={
-              menu === "application"
-                ? "active"
-                : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
-            }
-          >
-            <Link
-              to={`${urlLink}/application`}
-              className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
-              onClick={handleShow}
-              data-tooltip="Application"
-            >
-              <FaBusinessTime className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
-              <span className="md:hidden lg:block">Application</span>
-            </Link>
-          </li></>
-:
-          <li
-            className={
-              menu === "myaccount"
-                ? "active"
-                : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
-            }
-          >
-            <Link
-              to={`${urlLink}/account/details`}
-              className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
-              onClick={handleShow}
-              data-tooltip="My Account"
-            >
-              <FaUserCheck className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
-              <span className="md:hidden lg:block">My Account</span>
-            </Link>
-          </li>
-}
+              <Link
+                to={`${urlLink}/account/details`}
+                className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
+                onClick={handleShow}
+                data-tooltip="My Account"
+              >
+                <FaUserCheck className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
+                <span className="md:hidden lg:block">My Account</span>
+              </Link>
+            </li>
+          )}
 
           <li
             className={
@@ -121,24 +126,45 @@ const Navigation = ({ menu }) => {
             </Link>
           </li>
 
-          {store.credentials.data.role_is_admin=== 1 ||store.credentials.data.role_is_developer===1 &&
-          <li
-            className={
-              menu === "settings"
-                ? "active"
-                : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
-            }
-          >
-            <Link
-              to={`${urlLink}/settings`}
-              className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
-              onClick={handleShow}
-              data-tooltip="Settings"
-            >
-              <AiFillSetting className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
-              <span className="md:hidden lg:block">Settings</span>
-            </Link>
-          </li>}
+          {(store.credentials.data.role_is_admin === 1 ||
+            store.credentials.data.role_is_developer === 1) && (
+            <>
+              <li
+                className={
+                  menu === "product"
+                    ? "active"
+                    : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
+                }
+              >
+                <Link
+                  to={`${urlLink}/product`}
+                  className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
+                  onClick={handleShow}
+                  data-tooltip="product"
+                >
+                  <FaBusinessTime className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
+                  <span className="md:hidden lg:block">Product</span>
+                </Link>
+              </li>
+              <li
+                className={
+                  menu === "settings"
+                    ? "active"
+                    : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
+                }
+              >
+                <Link
+                  to={`${urlLink}/settings`}
+                  className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
+                  onClick={handleShow}
+                  data-tooltip="Settings"
+                >
+                  <AiFillSetting className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
+                  <span className="md:hidden lg:block">Settings</span>
+                </Link>
+              </li>
+            </>
+          )}
         </ul>
       </nav>
       <span

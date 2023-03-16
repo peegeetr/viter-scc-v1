@@ -86,6 +86,7 @@ const CapitalShareList = ({ setItemEdit }) => {
             <tr>
               <th>#</th>
               <th className="w-[15rem]">Date</th>
+              <th className="w-[15rem]">OR</th>
               <th className="w-[15rem]">Paid up Capital</th>
               <th className="w-[15rem]">Total Capital Share</th>
               <th className="max-w-[5rem]">Actions</th>
@@ -113,8 +114,9 @@ const CapitalShareList = ({ setItemEdit }) => {
                   <tr key={key}>
                     <td>{counter++}.</td>
                     <td>{formatDate(item.capital_share_date)}</td>
-                    <td>{item.capital_share_amount}</td>
-                    <td>{item.capital_share_total}</td>
+                    <td>{item.capital_share_or}</td>
+                    <td>{item.capital_share_paid_up}</td>
+                    <td>{item.capital_share_total_amount}</td>
                     <td>
                       <div className="flex items-center gap-1">
                         <button

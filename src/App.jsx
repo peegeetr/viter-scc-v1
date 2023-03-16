@@ -26,6 +26,7 @@ import Dashboard from "./component/pages/dashboard/Dashboard";
 import FileUpload from "./component/pages/file-upload/FileUpload";
 import MyAccount from "./component/pages/my-account/MyAccount";
 import MyProfile from "./component/pages/my-account/profile/MyProfile";
+import Product from "./component/pages/product/Product";
 import SettingsLink from "./component/pages/settings/SettingsLink";
 import OtherUser from "./component/pages/settings/users/other/OtherUser";
 import Role from "./component/pages/settings/users/role/Role";
@@ -180,6 +181,14 @@ function App() {
               element={
                 <ProtectedRouteSystem>
                   <FileUpload />
+                </ProtectedRouteSystem>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlSystem}/product`}
+              element={
+                <ProtectedRouteSystem>
+                  <Product />
                 </ProtectedRouteSystem>
               }
             />
