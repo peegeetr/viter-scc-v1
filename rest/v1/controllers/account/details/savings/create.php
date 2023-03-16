@@ -18,6 +18,7 @@ $savings->savings_withdrawal = checkIndex($data, "savings_withdrawal");
 $savings->savings_interest = checkIndex($data, "savings_interest");
 $savings->savings_date = checkIndex($data, "savings_date");
 $savings->savings_category = checkIndex($data, "savings_category");
+$savings->savings_or = checkIndex($data, "savings_or");
 $savings->savings_created = date("Y-m-d H:i:s");
 $savings->savings_datetime = date("Y-m-d H:i:s");
 

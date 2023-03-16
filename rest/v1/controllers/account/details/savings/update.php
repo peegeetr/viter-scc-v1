@@ -18,6 +18,7 @@ if (array_key_exists("savingsid", $_GET)) {
     $savings->savings_interest = checkIndex($data, "savings_interest");
     $savings->savings_date = checkIndex($data, "savings_date");
     $savings->savings_category = checkIndex($data, "savings_category");
+    $savings->savings_or = checkIndex($data, "savings_or");
     $savings->savings_datetime = date("Y-m-d H:i:s");
 
     //check to see if task id in query string is not empty and is number, if not return json error

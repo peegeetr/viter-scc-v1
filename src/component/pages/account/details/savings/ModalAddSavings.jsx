@@ -63,13 +63,16 @@ const ModalAddSavings = ({ item }) => {
     savings_deposite: item ? item.savings_deposite : "0",
     savings_withdrawal: item ? item.savings_withdrawal : "0",
     savings_interest: item ? item.savings_interest : "0",
+    savings_or: item ? item.savings_or : "0",
     savings_member_id: item ? item.savings_member_id : memberid,
+    savings_or: item ? item.savings_or : "",
   };
 
   const yupSchema = Yup.object({
     savings_deposite: category === "0" && Yup.string().required("Required"),
     savings_withdrawal: category === "1" && Yup.string().required("Required"),
     savings_date: Yup.string().required("Required"),
+    savings_or: Yup.string().required("Required"),
   });
   return (
     <>
@@ -128,6 +131,14 @@ const ModalAddSavings = ({ item }) => {
                         onFocus={(e) => (e.target.type = "date")}
                         onBlur={(e) => (e.target.type = "text")}
                         name="savings_date"
+                        disabled={mutation.isLoading}
+                      />
+                    </div>
+                    <div className="relative mb-5">
+                      <InputText
+                        label="OR"
+                        type="text"
+                        name="savings_or"
                         disabled={mutation.isLoading}
                       />
                     </div>

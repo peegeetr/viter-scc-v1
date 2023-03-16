@@ -89,6 +89,7 @@ const SavingsList = ({ setItemEdit }) => {
           <thead>
             <tr>
               <th>#</th>
+              <th className="w-[15rem]">OR number</th>
               <th className="w-[15rem]">Date</th>
               <th className="w-[15rem]">Saving Deposit</th>
               <th className="w-[15rem]">Withdrawal</th>
@@ -117,9 +118,26 @@ const SavingsList = ({ setItemEdit }) => {
                 {page.data.map((item, key) => (
                   <tr key={key}>
                     <td>{counter++}.</td>
+                    <td>{item.savings_or}</td>
                     <td>{formatDate(item.savings_date)}</td>
-                    <td>{numberWithCommas(item.savings_deposite)}</td>
-                    <td> {numberWithCommas(item.savings_withdrawal)}</td>
+                    <td
+                      className={
+                        item.savings_deposite > 0 ? "text-green-500" : ""
+                      }
+                    >
+                      {item.savings_deposite > 0
+                        ? numberWithCommas(item.savings_deposite)
+                        : ""}
+                    </td>
+                    <td
+                      className={
+                        item.savings_withdrawal > 0 ? "text-orange-500" : ""
+                      }
+                    >
+                      {item.savings_withdrawal > 0
+                        ? numberWithCommas(item.savings_withdrawal)
+                        : ""}
+                    </td>
                     <td>{numberWithCommas(item.savings_interest)}</td>
                     <td>
                       <div className="flex items-center gap-1">

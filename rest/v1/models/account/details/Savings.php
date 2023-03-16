@@ -7,6 +7,7 @@ class Savings
     public $savings_withdrawal;
     public $savings_interest;
     public $savings_date;
+    public $savings_or;
     public $savings_category;
     public $savings_created;
     public $savings_datetime;
@@ -35,6 +36,7 @@ class Savings
             $sql .= "savings_withdrawal, ";
             $sql .= "savings_interest, ";
             $sql .= "savings_date, ";
+            $sql .= "savings_or, ";
             $sql .= "savings_category, ";
             $sql .= "savings_created, ";
             $sql .= "savings_datetime ) values ( ";
@@ -43,6 +45,7 @@ class Savings
             $sql .= ":savings_withdrawal, ";
             $sql .= ":savings_interest, ";
             $sql .= ":savings_date, ";
+            $sql .= ":savings_or, ";
             $sql .= ":savings_category, ";
             $sql .= ":savings_created, ";
             $sql .= ":savings_datetime ) ";
@@ -53,6 +56,7 @@ class Savings
                 "savings_withdrawal" => $this->savings_withdrawal,
                 "savings_interest" => $this->savings_interest,
                 "savings_date" => $this->savings_date,
+                "savings_or" => $this->savings_or,
                 "savings_category" => $this->savings_category,
                 "savings_created" => $this->savings_created,
                 "savings_datetime" => $this->savings_datetime,
@@ -150,6 +154,7 @@ class Savings
             $sql .= "savings_deposite = :savings_deposite, ";
             $sql .= "savings_interest = :savings_interest, ";
             $sql .= "savings_date = :savings_date, ";
+            $sql .= "savings_or = :savings_or, ";
             $sql .= "savings_category = :savings_category, ";
             $sql .= "savings_datetime = :savings_datetime ";
             $sql .= "where savings_aid  = :savings_aid ";
@@ -159,6 +164,7 @@ class Savings
                 "savings_deposite" => $this->savings_deposite,
                 "savings_interest" => $this->savings_interest,
                 "savings_date" => $this->savings_date,
+                "savings_or" => $this->savings_or,
                 "savings_category" => $this->savings_category,
                 "savings_datetime" => $this->savings_datetime,
                 "savings_aid" => $this->savings_aid,
