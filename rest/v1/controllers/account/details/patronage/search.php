@@ -1,27 +1,29 @@
 <?php
 
 // set http header
-require '../../core/header.php';
+require '../../../../core/header.php';
 // use needed functions
-require '../../core/functions.php';
+require '../../../../core/functions.php';
+require 'functions.php'; 
 // use needed classes
-require '../../models/products/Products.php';
+require '../../../../models/account/details/Savings.php';  
 // check database connection
 $conn = null;
 $conn = checkDbConnection();
 // make instance of classes
-$product = new Product($conn);
+$savings = new Savings($conn);
 $response = new Response();
 // // validate api key
 if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     checkApiKey();
-    if (array_key_exists("search", $_GET)) {
+    if (array_key_exists("search", $_GET) && array_key_exists("membersid", $_GET)) {
         // get data
         // get task id from query string
-        $product->product_search = $_GET['search'];
+        $savings->savings_member_id = $_GET['membersid'];
+        $savings->savings_search = $_GET['search'];
         //check to see if search keyword in query string is not empty and less than 50 chars
-        checkKeyword($product->product_search);
-        $query = checkSearch($product);
+        checkKeyword($savings->savings_search);
+        $query = checkSearch($savings);
         http_response_code(200);
         getQueriedData($query);
     }

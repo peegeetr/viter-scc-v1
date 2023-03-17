@@ -21,13 +21,13 @@ const ModalAddProduct = ({ item }) => {
   const mutation = useMutation({
     mutationFn: (values) =>
       queryData(
-        item ? `/v1/file/${item.file_upload_aid}` : `/v1/file`,
+        item ? `/v1/product/${item.product_aid}` : `/v1/product `,
         item ? "put" : "post",
         values
       ),
     onSuccess: (data) => {
       // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ["file"] });
+      queryClient.invalidateQueries({ queryKey: ["product"] });
       // show success box
       if (data.success) {
         dispatch(setSuccess(true));
@@ -45,15 +45,17 @@ const ModalAddProduct = ({ item }) => {
   };
 
   const initVal = {
-    file_upload_name: item ? item.file_upload_name : "",
-    file_upload_link: item ? item.file_upload_link : "",
-    file_upload_date: item ? item.file_upload_date : "",
+    product_item_name: item ? item.product_item_name : "",
+    product_quantity: item ? item.product_quantity : "",
+    product_date: item ? item.product_date : "",
+    product_price: item ? item.product_price : "",
   };
 
   const yupSchema = Yup.object({
-    file_upload_name: Yup.string().required("Required"),
-    file_upload_link: Yup.string().required("Required"),
-    file_upload_date: Yup.string().required("Required"),
+    product_item_name: Yup.string().required("Required"),
+    product_quantity: Yup.string().required("Required"),
+    product_date: Yup.string().required("Required"),
+    product_price: Yup.string().required("Required"),
   });
 
   return (
@@ -62,7 +64,7 @@ const ModalAddProduct = ({ item }) => {
         <div className="p-1 w-[350px] rounded-b-2xl">
           <div className="flex justify-between items-center bg-primary p-3 rounded-t-2xl">
             <h3 className="text-white text-sm">
-              {item ? "Update" : "Add"} file_upload
+              {item ? "Update" : "Add"} products
             </h3>
             <button
               type="button"
@@ -86,30 +88,37 @@ const ModalAddProduct = ({ item }) => {
                   <Form>
                     <div className="relative my-5">
                       <InputText
-                        label="Name"
-                        type="text"
-                        name="file_upload_name"
-                        disabled={mutation.isLoading}
-                      />
-                    </div>
-                    <div className="relative my-5">
-                      <InputText
-                        label="Link"
-                        type="text"
-                        name="file_upload_link"
-                        disabled={mutation.isLoading}
-                      />
-                    </div>
-
-                    <div className="relative mb-6 mt-5">
-                      <InputText
                         label="Date"
                         type="text"
                         onFocus={(e) => (e.target.type = "date")}
                         onBlur={(e) => (e.target.type = "text")}
-                        name="file_upload_date"
+                        name="product_date"
                         disabled={mutation.isLoading}
                       />
+                      <div className="relative my-5">
+                        <InputText
+                          label="Products Name"
+                          type="text"
+                          name="product_item_name"
+                          disabled={mutation.isLoading}
+                        />
+                      </div>
+                      <div className="relative my-5">
+                        <InputText
+                          label="Quantity"
+                          type="text"
+                          name="product_quantity"
+                          disabled={mutation.isLoading}
+                        />
+                      </div>
+                      <div className="relative my-5">
+                        <InputText
+                          label="Price"
+                          type="text"
+                          name="product_price"
+                          disabled={mutation.isLoading}
+                        />
+                      </div>
                     </div>
 
                     <div className="flex items-center gap-1 pt-5">

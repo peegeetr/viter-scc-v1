@@ -6,7 +6,7 @@ import ProductList from "./ProductList.jsx";
 import { FaPlusCircle } from "react-icons/fa";
 import { setIsAdd } from "../../../store/StoreAction.jsx";
 import { StoreContext } from "../../../store/StoreContext.jsx";
-import ModalAddFileUpload from "./ModalAddFileUpload.jsx";
+import ModalAddProduct from "./ModalAddProduct.jsx";
 import ModalSuccess from "../../partials/modals/ModalSuccess.jsx";
 import ModalError from "../../partials/modals/ModalError.jsx";
 

@@ -1,29 +1,34 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
 import React from "react";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaArchive, FaEdit, FaHistory, FaTrash } from "react-icons/fa";
+import { StoreContext } from "../../../../../store/StoreContext";
+import NoData from "../../../../partials/NoData";
+import ServerError from "../../../../partials/ServerError";
+import TableSpinner from "../../../../partials/spinners/TableSpinner";
+import StatusActive from "../../../../partials/status/StatusActive";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
-import { setIsAdd, setIsRestore } from "../../../store/StoreAction";
-import { StoreContext } from "../../../store/StoreContext";
-import { formatDate } from "../../helpers/functions-general";
-import { queryDataInfinite } from "../../helpers/queryDataInfinite";
-import Loadmore from "../../partials/Loadmore";
-import ModalDeleteRestore from "../../partials/modals/ModalDeleteRestore";
-import NoData from "../../partials/NoData";
-import SearchBar from "../../partials/SearchBar";
-import ServerError from "../../partials/ServerError";
-import FetchingSpinner from "../../partials/spinners/FetchingSpinner";
-import TableSpinner from "../../partials/spinners/TableSpinner";
-const ProductList = ({ setItemEdit }) => {
+import { queryDataInfinite } from "../../../../helpers/queryDataInfinite";
+import { setIsAdd, setIsRestore } from "../../../../../store/StoreAction";
+import ModalDeleteRestore from "../../../../partials/modals/ModalDeleteRestore";
+import SearchBar from "../../../../partials/SearchBar";
+import Loadmore from "../../../../partials/Loadmore";
+import {
+  formatDate,
+  numberWithCommas,
+} from "../../../../helpers/functions-general";
+
+const PatronageList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [dataItem, setData] = React.useState(null);
   const [id, setId] = React.useState(null);
   const [isDel, setDel] = React.useState(false);
   const [onSearch, setOnSearch] = React.useState(false);
   const [page, setPage] = React.useState(1);
-  const search = React.useRef(null);
   let counter = 1;
+  const search = React.useRef(null);
   const { ref, inView } = useInView();
   // use if with loadmore button and search bar
+  let empid = 2;
   const {
     data: result,
     error,
@@ -33,11 +38,11 @@ const ProductList = ({ setItemEdit }) => {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ["product", onSearch, store.isSearch],
+    queryKey: ["savings", onSearch, store.isSearch],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
-        `/v1/product/search/${search.current.value}`, // search endpoint
-        `/v1/product/page/${pageParam}`, // list endpoint
+        `/v1/savings/search/${search.current.value}/${empid}`, // search endpoint
+        `/v1/savings/page/${pageParam}/${empid}`, // list endpoint
         store.isSearch // search boolean
       ),
     getNextPageParam: (lastPage) => {
@@ -64,11 +69,10 @@ const ProductList = ({ setItemEdit }) => {
 
   const handleDelete = (item) => {
     dispatch(setIsRestore(true));
-    setId(item.product_aid);
+    setId(item.savings_aid);
     setData(item);
     setDel(true);
   };
-
   return (
     <>
       <SearchBar
@@ -80,19 +84,16 @@ const ProductList = ({ setItemEdit }) => {
         setOnSearch={setOnSearch}
         onSearch={onSearch}
       />
-
       <div className="relative text-center overflow-x-auto z-0">
-        {isFetching && !isFetchingNextPage && <FetchingSpinner />}
         <table>
           <thead>
             <tr>
               <th>#</th>
-              <th className="min-w-[15rem] w-[15rem]">Products</th>
-              <th className="min-w-[15rem] w-[15rem]">Date</th>
-              <th className="min-w-[15rem]">Quantity</th>
-              <th className="min-w-[15rem]">Sold </th>
-              <th className="min-w-[10rem] w-[10rem]">Price</th>
-
+              <th className="w-[15rem]">OR number</th>
+              <th className="w-[15rem]">Date</th>
+              <th className="w-[15rem]">Product Name</th>
+              <th className="w-[15rem]">Quantity</th>
+              <th className="w-[15rem]">Price</th>
               <th className="max-w-[5rem]">Actions</th>
             </tr>
           </thead>
@@ -112,17 +113,32 @@ const ProductList = ({ setItemEdit }) => {
                 </td>
               </tr>
             )}
-
             {result?.pages.map((page, key) => (
               <React.Fragment key={key}>
                 {page.data.map((item, key) => (
                   <tr key={key}>
-                    <td> {counter++}.</td>
-                    <td>{item.product_item_name}</td>
-                    <td>{formatDate(item.product_date)}</td>
-                    <td className=" break-all">{item.product_quantity}</td>
-                    <td className=" break-all">{item.product_sold_quantity}</td>
-                    <td className=" break-all">{item.product_price}</td>
+                    <td>{counter++}.</td>
+                    <td>{item.savings_or}</td>
+                    <td>{formatDate(item.savings_date)}</td>
+                    <td
+                      className={
+                        item.savings_deposite > 0 ? "text-green-500" : ""
+                      }
+                    >
+                      {item.savings_deposite > 0
+                        ? numberWithCommas(item.savings_deposite)
+                        : ""}
+                    </td>
+                    <td
+                      className={
+                        item.savings_withdrawal > 0 ? "text-orange-500" : ""
+                      }
+                    >
+                      {item.savings_withdrawal > 0
+                        ? numberWithCommas(item.savings_withdrawal)
+                        : ""}
+                    </td>
+                    <td>{numberWithCommas(item.savings_interest)}</td>
                     <td>
                       <div className="flex items-center gap-1">
                         <button
@@ -149,8 +165,6 @@ const ProductList = ({ setItemEdit }) => {
             ))}
           </tbody>
         </table>
-      </div>
-      <div className="text-center">
         <Loadmore
           fetchNextPage={fetchNextPage}
           isFetchingNextPage={isFetchingNextPage}
@@ -166,14 +180,14 @@ const ProductList = ({ setItemEdit }) => {
         <ModalDeleteRestore
           id={id}
           isDel={isDel}
-          mysqlApiDelete={`/v1/product/${id}`}
+          mysqlApiDelete={`/v1/savings/${id}`}
           msg={"Are you sure you want to delete "}
-          item={`${dataItem.product_upload_name}`}
-          arrKey="product"
+          item={`${dataItem.savings_date}`}
+          arrKey="savings"
         />
       )}
     </>
   );
 };
 
-export default ProductList;
+export default PatronageList;

@@ -3,22 +3,23 @@
 $conn = null;
 $conn = checkDbConnection();
 // make instance of classes
-$product = new Product($conn);
+$patronage = new Patronage($conn);
 // get $_GET data
-// check if productid is in the url e.g. /jobtitle/1
+// check if patronageid is in the url e.g. /jobtitle/1
 $error = [];
 $returnData = [];
-if (array_key_exists("productid", $_GET)) {
+if (array_key_exists("patronageid", $_GET)) {
 
     // get task id from query string
-    $product->product_aid  = $_GET['productid'];
+    $patronage->patronage_aid = $_GET['patronageid'];
 
     //check to see if task id in query string is not empty and is number, if not return json error
-    checkId($product->product_aid);
-    // delete
-    $query = checkDelete($product);
+    checkId($patronage->patronage_aid);
 
-    returnSuccess($product, "product", $query);
+    // delete
+    $query = checkDelete($patronage);
+
+    returnSuccess($patronage, "patronage", $query);
 }
 
 // return 404 error if endpoint not available

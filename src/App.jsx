@@ -18,6 +18,7 @@ import ProtectedRouteSystem from "./component/pages/access/ProtectedRouteSystem"
 import Account from "./component/pages/account/Account";
 import CapitalShare from "./component/pages/account/details/capital-share/CapitalShare";
 import Deatils from "./component/pages/account/details/Details";
+import Patronage from "./component/pages/account/details/patronage/Patronage";
 import Profile from "./component/pages/account/details/profile/Profile";
 import Savings from "./component/pages/account/details/savings/Savings";
 import Application from "./component/pages/application/Application";
@@ -172,6 +173,14 @@ function App() {
               element={
                 <ProtectedRouteSystem>
                   <CapitalShare />
+                </ProtectedRouteSystem>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlSystem}/account/details/patronage`}
+              element={
+                <ProtectedRouteSystem>
+                  <Patronage />
                 </ProtectedRouteSystem>
               }
             />
