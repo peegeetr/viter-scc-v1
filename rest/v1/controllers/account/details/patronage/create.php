@@ -5,7 +5,7 @@ $conn = checkDbConnection();
 // make instance of classes
 $patronage = new Patronage($conn);
 // get should not be present
-if (array_key_exists("savingsid", $_GET)) {
+if (array_key_exists("patronageid", $_GET)) {
     checkEndpoint();
 }
 // check data
@@ -24,4 +24,4 @@ $patronage->patronage_datetime = date("Y-m-d H:i:s");
 // create
 $query = checkCreate($patronage);
 
-returnSuccess($patronage, "savings", $query);
+returnSuccess($patronage, "patronage", $query);

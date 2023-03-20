@@ -3,29 +3,28 @@
 $conn = null;
 $conn = checkDbConnection();
 // make instance of classes
-$savings = new Savings($conn);
+$patronage = new Patronage($conn);
 // get $_GET data
-// check if savingsid is in the url e.g. /savingsid/1
+// check if patronageid is in the url e.g. /patronageid/1
 $error = [];
 $returnData = [];
-if (array_key_exists("savingsid", $_GET)) {
+if (array_key_exists("patronageid", $_GET)) {
     // check data
     checkPayload($data);
-    // get savingsid from query string
-    $savings->savings_aid = $_GET['savingsid'];
-    $savings->savings_deposite = checkIndex($data, "savings_deposite");
-    $savings->savings_withdrawal = checkIndex($data, "savings_withdrawal");
-    $savings->savings_interest = checkIndex($data, "savings_interest");
-    $savings->savings_date = checkIndex($data, "savings_date");
-    $savings->savings_category = checkIndex($data, "savings_category");
-    $savings->savings_or = checkIndex($data, "savings_or");
-    $savings->savings_datetime = date("Y-m-d H:i:s");
+    // get patronageid from query string
+    $patronage->patronage_aid = $_GET['patronageid'];
+    $patronage->patronage_product_id = checkIndex($data, "patronage_product_id");
+    $patronage->patronage_product_quantity = checkIndex($data, "patronage_product_quantity");
+    $patronage->patronage_product_amount = checkIndex($data, "patronage_product_amount");
+    $patronage->patronage_date = checkIndex($data, "patronage_date");
+    $patronage->patronage_or = checkIndex($data, "patronage_or");
+    $patronage->patronage_datetime = date("Y-m-d H:i:s");
 
     //check to see if task id in query string is not empty and is number, if not return json error
-    checkId($savings->savings_aid);
+    checkId($patronage->patronage_aid);
     // update
-    $query = checkUpdate($savings);
-    returnSuccess($savings, "savings", $query);
+    $query = checkUpdate($patronage);
+    returnSuccess($patronage, "patronage", $query);
 }
 
 // return 404 error if endpoint not available

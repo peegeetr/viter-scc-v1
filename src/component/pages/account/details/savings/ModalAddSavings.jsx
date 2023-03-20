@@ -63,7 +63,7 @@ const ModalAddSavings = ({ item }) => {
     savings_deposite: item ? item.savings_deposite : "0",
     savings_withdrawal: item ? item.savings_withdrawal : "0",
     savings_interest: item ? item.savings_interest : "0",
-    savings_or: item ? item.savings_or : "0",
+    savings_or: item ? item.savings_or : "",
     savings_member_id: item ? item.savings_member_id : memberid,
     savings_or: item ? item.savings_or : "",
   };

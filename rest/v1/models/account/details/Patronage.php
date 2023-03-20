@@ -13,16 +13,18 @@ class Patronage
 
     public $connection;
     public $lastInsertedId;
-    public $savings_start;
+    public $patronage_start;
     public $total;
-    public $savings_search;
+    public $patronage_search;
     public $currentYear;
     public $tblPatronage;
+    public $tblProduct;
 
     public function __construct($db)
     {
         $this->connection = $db;
         $this->tblPatronage = "sccv1_members_patronage";
+        $this->tblProduct = "sccv1_product";
     }
 
     // create
@@ -93,8 +95,8 @@ class Patronage
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "patronage_member_id" => $this->patronage_member_id,
-                "patronage_date" => "{$this->savings_search}%",
-                "patronage_product_id" => "{$this->savings_search}%",
+                "patronage_date" => "{$this->patronage_search}%",
+                "patronage_product_id" => "{$this->patronage_search}%",
             ]);
         } catch (PDOException $ex) {
             $query = false;
@@ -106,9 +108,20 @@ class Patronage
     public function readById()
     {
         try {
-            $sql = "select * from ";
-            $sql .= "{$this->tblPatronage} ";
-            $sql .= "where patronage_member_id = :patronage_member_id ";
+            $sql = "select patronage.patronage_aid, ";
+            $sql .= "patronage.patronage_member_id, ";
+            $sql .= "patronage.patronage_product_id, ";
+            $sql .= "patronage.patronage_product_quantity, ";
+            $sql .= "patronage.patronage_product_amount, ";
+            $sql .= "patronage.patronage_date, ";
+            $sql .= "patronage.patronage_or, ";
+            $sql .= "product.product_sold_quantity, ";
+            $sql .= "product.product_item_name, ";
+            $sql .= "product.product_price ";
+            $sql .= "from {$this->tblPatronage} as patronage, ";
+            $sql .= "{$this->tblProduct} as product ";
+            $sql .= "where patronage.patronage_member_id = :patronage_member_id ";
+            $sql .= "and patronage.patronage_product_id = product.product_aid  ";
             $sql .= "order by patronage_date desc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
@@ -123,17 +136,27 @@ class Patronage
     public function readLimitById()
     {
         try {
-            $sql = "select * from ";
-            $sql .= "{$this->tblPatronage} ";
-            $sql .= "where patronage_member_id = :patronage_member_id ";
-            $sql .= "order by patronage_date desc,";
-            $sql .= "patronage_member_id asc ";
+            $sql = "select patronage.patronage_aid, ";
+            $sql .= "patronage.patronage_member_id, ";
+            $sql .= "patronage.patronage_product_id, ";
+            $sql .= "patronage.patronage_product_quantity, ";
+            $sql .= "patronage.patronage_product_amount, ";
+            $sql .= "patronage.patronage_date, ";
+            $sql .= "patronage.patronage_or, ";
+            $sql .= "product.product_sold_quantity, ";
+            $sql .= "product.product_item_name, ";
+            $sql .= "product.product_price ";
+            $sql .= "from {$this->tblPatronage} as patronage, ";
+            $sql .= "{$this->tblProduct} as product ";
+            $sql .= "where patronage.patronage_member_id = :patronage_member_id ";
+            $sql .= "and patronage.patronage_product_id = product.product_aid  ";
+            $sql .= "order by patronage_date desc ";
             $sql .= "limit :start, ";
             $sql .= ":total ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "patronage_member_id" => $this->patronage_member_id,
-                "start" => $this->savings_start - 1,
+                "start" => $this->patronage_start - 1,
                 "total" => $this->total,
             ]);
         } catch (PDOException $ex) {

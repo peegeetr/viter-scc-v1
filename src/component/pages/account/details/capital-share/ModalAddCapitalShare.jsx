@@ -10,16 +10,30 @@ import {
   setSuccess,
 } from "../../../../../store/StoreAction";
 import { StoreContext } from "../../../../../store/StoreContext";
+import useQueryData from "../../../../custom-hooks/useQueryData";
 import { InputText } from "../../../../helpers/FormInputs";
+import { getUrlParam } from "../../../../helpers/functions-general";
 import { queryData } from "../../../../helpers/queryData";
 import ButtonSpinner from "../../../../partials/spinners/ButtonSpinner";
+import { computeTotalCapital } from "./functions-capital-share";
 
 const ModalAddCapitalShare = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
+  const memberid = getUrlParam().get("memberid");
 
   const queryClient = useQueryClient();
   const [show, setShow] = React.useState("show");
 
+  // use if not loadmore button undertime
+  const { data: capitalShare } = useQueryData(
+    `/v1/capital-share`, // endpoint
+    "get", // method
+    "payslip" // key
+  );
+
+  const computedUndertime = item ? "" : computeTotalCapital(capitalShare, item);
+
+  console.log("computedUndertime", computedUndertime);
   const mutation = useMutation({
     mutationFn: (values) =>
       queryData(
@@ -53,9 +67,9 @@ const ModalAddCapitalShare = ({ item }) => {
   const initVal = {
     capital_share_or: item ? item.capital_share_or : "",
     capital_share_date: item ? item.capital_share_date : "",
-    capital_share_total_amount: item ? item.capital_share_total_amount : "0",
+    capital_share_total_amount: "",
     capital_share_paid_up: item ? item.capital_share_paid_up : "",
-    capital_share_member_id: item ? item.capital_share_member_id : "2",
+    capital_share_member_id: item ? item.capital_share_member_id : memberid,
   };
 
   const yupSchema = Yup.object({
@@ -93,6 +107,9 @@ const ModalAddCapitalShare = ({ item }) => {
               }}
             >
               {(props) => {
+                props.values.capital_share_total_amount =
+                  Number(props.values.capital_share_paid_up) +
+                  Number(computedUndertime);
                 return (
                   <Form className="">
                     <div className="relative my-5">

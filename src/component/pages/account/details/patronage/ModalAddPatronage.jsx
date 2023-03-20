@@ -10,6 +10,7 @@ import {
   setSuccess,
 } from "../../../../../store/StoreAction";
 import { StoreContext } from "../../../../../store/StoreContext";
+import useQueryData from "../../../../custom-hooks/useQueryData";
 import { InputSelect, InputText } from "../../../../helpers/FormInputs";
 import { getUrlParam } from "../../../../helpers/functions-general";
 import { queryData } from "../../../../helpers/queryData";
@@ -18,23 +19,29 @@ import ButtonSpinner from "../../../../partials/spinners/ButtonSpinner";
 const ModalAddPatronage = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const memberid = getUrlParam().get("memberid");
-  const [category, setCategory] = React.useState(
-    item ? item.savings_category : ""
+  const [productPrice, setproductPrice] = React.useState(
+    item ? item.product_price : ""
   );
 
+  // use if not loadmore button undertime
+  const { data: PatronageId, isLoading } = useQueryData(
+    `/v1/product`, // endpoint
+    "get", // method
+    "payslip" // key
+  );
   const queryClient = useQueryClient();
   const [show, setShow] = React.useState("show");
 
   const mutation = useMutation({
     mutationFn: (values) =>
       queryData(
-        item ? `/v1/savings/${item.savings_aid}` : `/v1/savings`,
+        item ? `/v1/patronage/${item.patronage_aid}` : `/v1/patronage`,
         item ? "put" : "post",
         values
       ),
     onSuccess: (data) => {
       // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ["savings"] });
+      queryClient.invalidateQueries({ queryKey: ["patronage"] });
 
       // show success box
       if (data.success) {
@@ -49,30 +56,29 @@ const ModalAddPatronage = ({ item }) => {
       }
     },
   });
+
+  const handlePrice = async (e, props) => {
+    // get employee id
+    setproductPrice(e.target.options[e.target.selectedIndex].id);
+  };
   const handleClose = () => {
     dispatch(setIsAdd(false));
   };
 
-  const handleCategory = async (e, props) => {
-    // get employee id
-    setCategory(e.target.value);
-  };
   const initVal = {
-    savings_category: item ? item.savings_category : "",
-    savings_date: item ? item.savings_date : "",
-    savings_deposite: item ? item.savings_deposite : "0",
-    savings_withdrawal: item ? item.savings_withdrawal : "0",
-    savings_interest: item ? item.savings_interest : "0",
-    savings_or: item ? item.savings_or : "0",
-    savings_member_id: item ? item.savings_member_id : memberid,
-    savings_or: item ? item.savings_or : "",
+    patronage_product_id: item ? item.patronage_product_id : "",
+    patronage_member_id: item ? item.patronage_member_id : memberid,
+    patronage_or: item ? item.patronage_or : "",
+    patronage_product_quantity: item ? item.patronage_product_quantity : "",
+    patronage_product_amount: "",
+    patronage_date: item ? item.patronage_date : "",
   };
 
   const yupSchema = Yup.object({
-    savings_deposite: category === "0" && Yup.string().required("Required"),
-    savings_withdrawal: category === "1" && Yup.string().required("Required"),
-    savings_date: Yup.string().required("Required"),
-    savings_or: Yup.string().required("Required"),
+    patronage_product_id: Yup.string().required("Required"),
+    patronage_product_quantity: Yup.string().required("Required"),
+    patronage_date: Yup.string().required("Required"),
+    patronage_or: Yup.string().required("Required"),
   });
   return (
     <>
@@ -82,7 +88,7 @@ const ModalAddPatronage = ({ item }) => {
         <div className="p-1 w-[350px] rounded-b-2xl animate-slideUp ">
           <div className="flex justify-between items-center bg-primary p-3 rounded-t-2xl">
             <h3 className="text-white text-sm">
-              {item ? "Update" : "Add"} Savings
+              {item ? "Update" : "Add"} patronage
             </h3>
             <button
               type="button"
@@ -103,26 +109,44 @@ const ModalAddPatronage = ({ item }) => {
               }}
             >
               {(props) => {
-                // props.values.savings_deposite =
-                //   category === "0" ? props.values.savings_deposite : "0";
-                // props.values.savings_withdrawal =
-                //   category === "1" ? props.values.savings_withdrawal : "0";
+                props.values.patronage_product_amount =
+                  Number(props.values.patronage_product_quantity) *
+                  Number(productPrice);
                 return (
                   <Form className="">
                     <div className="relative my-5">
                       <InputSelect
-                        name="savings_category"
-                        label="Category"
-                        onChange={handleCategory}
+                        name="patronage_product_id"
+                        label="Product"
+                        onChange={handlePrice}
                         disabled={mutation.isLoading}
                         onFocus={(e) =>
                           e.target.parentElement.classList.add("focused")
                         }
                       >
-                        <option value="">--</option>
-                        <option value="0">Savings Deposite</option>
-                        <option value="1">Savings Withdrawal</option>
+                        <option value="">
+                          {isLoading ? "Loading..." : "--"}
+                        </option>
+                        {PatronageId?.data.map((pItem, key) => {
+                          return (
+                            <option
+                              key={key}
+                              value={pItem.product_aid}
+                              id={pItem.product_price}
+                            >
+                              {`${pItem.product_item_name}`}
+                            </option>
+                          );
+                        })}
                       </InputSelect>
+                    </div>
+                    <div className="relative mb-5">
+                      <InputText
+                        label="Quality"
+                        type="text"
+                        name="patronage_product_quantity"
+                        disabled={mutation.isLoading}
+                      />
                     </div>
                     <div className="relative mb-6 mt-5">
                       <InputText
@@ -130,7 +154,7 @@ const ModalAddPatronage = ({ item }) => {
                         type="text"
                         onFocus={(e) => (e.target.type = "date")}
                         onBlur={(e) => (e.target.type = "text")}
-                        name="savings_date"
+                        name="patronage_date"
                         disabled={mutation.isLoading}
                       />
                     </div>
@@ -138,36 +162,10 @@ const ModalAddPatronage = ({ item }) => {
                       <InputText
                         label="OR"
                         type="text"
-                        name="savings_or"
+                        name="patronage_or"
                         disabled={mutation.isLoading}
                       />
                     </div>
-                    {category !== "" && (
-                      <>
-                        {category === "0" && (
-                          <div className="relative mb-5">
-                            <InputText
-                              label="Amount Deposite"
-                              type="text"
-                              name="savings_deposite"
-                              disabled={mutation.isLoading}
-                            />
-                          </div>
-                        )}
-
-                        {category === "1" && (
-                          <div className="relative mb-5">
-                            <InputText
-                              label="Amount Withdraw"
-                              type="text"
-                              name="savings_withdrawal"
-                              disabled={mutation.isLoading}
-                            />
-                          </div>
-                        )}
-                      </>
-                    )}
-
                     <div className="flex items-center gap-1 pt-3">
                       <button
                         type="submit"

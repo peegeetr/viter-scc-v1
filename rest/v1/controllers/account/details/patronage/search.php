@@ -4,14 +4,14 @@
 require '../../../../core/header.php';
 // use needed functions
 require '../../../../core/functions.php';
-require 'functions.php'; 
+require 'functions.php';
 // use needed classes
-require '../../../../models/account/details/Savings.php';  
+require '../../../../models/account/details/Patronage.php';
 // check database connection
 $conn = null;
 $conn = checkDbConnection();
 // make instance of classes
-$savings = new Savings($conn);
+$patronage = new Patronage($conn);
 $response = new Response();
 // // validate api key
 if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
@@ -19,11 +19,11 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     if (array_key_exists("search", $_GET) && array_key_exists("membersid", $_GET)) {
         // get data
         // get task id from query string
-        $savings->savings_member_id = $_GET['membersid'];
-        $savings->savings_search = $_GET['search'];
+        $patronage->patronage_member_id = $_GET['membersid'];
+        $patronage->patronage_search = $_GET['search'];
         //check to see if search keyword in query string is not empty and less than 50 chars
-        checkKeyword($savings->savings_search);
-        $query = checkSearch($savings);
+        checkKeyword($patronage->patronage_search);
+        $query = checkSearch($patronage);
         http_response_code(200);
         getQueriedData($query);
     }

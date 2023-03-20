@@ -141,7 +141,7 @@ class CapitalShare
     {
         try {
             $sql = "update {$this->tblCapitalShare} set ";
-            $sql .= "capital_share_total_amount	 = :capital_share_total_amount	, ";
+            $sql .= "capital_share_total_amount	= :capital_share_total_amount	, ";
             $sql .= "capital_share_paid_up = :capital_share_paid_up, ";
             $sql .= "capital_share_or = :capital_share_or, ";
             $sql .= "capital_share_date = :capital_share_date, ";

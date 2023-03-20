@@ -38,11 +38,11 @@ const PatronageList = ({ setItemEdit }) => {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ["savings", onSearch, store.isSearch],
+    queryKey: ["patronage", onSearch, store.isSearch],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
-        `/v1/savings/search/${search.current.value}/${empid}`, // search endpoint
-        `/v1/savings/page/${pageParam}/${empid}`, // list endpoint
+        `/v1/patronage/search/${search.current.value}/${empid}`, // search endpoint
+        `/v1/patronage/page/${pageParam}/${empid}`, // list endpoint
         store.isSearch // search boolean
       ),
     getNextPageParam: (lastPage) => {
@@ -69,7 +69,7 @@ const PatronageList = ({ setItemEdit }) => {
 
   const handleDelete = (item) => {
     dispatch(setIsRestore(true));
-    setId(item.savings_aid);
+    setId(item.patronage_aid);
     setData(item);
     setDel(true);
   };
@@ -118,27 +118,11 @@ const PatronageList = ({ setItemEdit }) => {
                 {page.data.map((item, key) => (
                   <tr key={key}>
                     <td>{counter++}.</td>
-                    <td>{item.savings_or}</td>
-                    <td>{formatDate(item.savings_date)}</td>
-                    <td
-                      className={
-                        item.savings_deposite > 0 ? "text-green-500" : ""
-                      }
-                    >
-                      {item.savings_deposite > 0
-                        ? numberWithCommas(item.savings_deposite)
-                        : ""}
-                    </td>
-                    <td
-                      className={
-                        item.savings_withdrawal > 0 ? "text-orange-500" : ""
-                      }
-                    >
-                      {item.savings_withdrawal > 0
-                        ? numberWithCommas(item.savings_withdrawal)
-                        : ""}
-                    </td>
-                    <td>{numberWithCommas(item.savings_interest)}</td>
+                    <td>{item.patronage_or}</td>
+                    <td>{formatDate(item.patronage_date)}</td>
+                    <td>{item.product_item_name}</td>
+                    <td>{item.patronage_product_quantity}</td>
+                    <td>{numberWithCommas(item.patronage_product_amount)}</td>
                     <td>
                       <div className="flex items-center gap-1">
                         <button
@@ -180,10 +164,10 @@ const PatronageList = ({ setItemEdit }) => {
         <ModalDeleteRestore
           id={id}
           isDel={isDel}
-          mysqlApiDelete={`/v1/savings/${id}`}
+          mysqlApiDelete={`/v1/patronage/${id}`}
           msg={"Are you sure you want to delete "}
-          item={`${dataItem.savings_date}`}
-          arrKey="savings"
+          item={`${dataItem.patronage_date}`}
+          arrKey="patronage"
         />
       )}
     </>

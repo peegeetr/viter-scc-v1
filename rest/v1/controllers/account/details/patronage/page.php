@@ -4,14 +4,14 @@
 require '../../../../core/header.php';
 // use needed functions
 require '../../../../core/functions.php';
-require 'functions.php'; 
+require 'functions.php';
 // use needed classes
-require '../../../../models/account/details/Savings.php'; 
+require '../../../../models/account/details/Patronage.php';
 // check database connection
 $conn = null;
 $conn = checkDbConnection();
 // make instance of classes
-$savings = new Savings($conn);
+$patronage = new Patronage($conn);
 $response = new Response();
 // validate api key
 if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
@@ -20,21 +20,21 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     if (array_key_exists("start", $_GET) && array_key_exists("membersid", $_GET)) {
         // get data
         // get task id from query string
-        $savings->savings_member_id = $_GET['membersid'];
-        $savings->savings_start = $_GET['start'];
-        $savings->total = 5;
+        $patronage->patronage_member_id = $_GET['membersid'];
+        $patronage->patronage_start = $_GET['start'];
+        $patronage->total = 5;
         //check to see if task id in query string is not empty and is number, if not return json error
-        checkLimitId($savings->savings_start, $savings->total);
-        $query = checkReadLimitById($savings);
-        $total_result = checkReadById($savings);
+        checkLimitId($patronage->patronage_start, $patronage->total);
+        $query = checkReadLimitById($patronage);
+        $total_result = checkReadById($patronage);
         http_response_code(200);
 
         $returnData["data"] = getResultData($query);
         $returnData["count"] = $query->rowCount();
         $returnData["total"] = $total_result->rowCount();
-        $returnData["per_page"] = $savings->total;
-        $returnData["page"] = (int)$savings->savings_start;
-        $returnData["total_pages"] = ceil($total_result->rowCount() / $savings->total);
+        $returnData["per_page"] = $patronage->total;
+        $returnData["page"] = (int)$patronage->patronage_start;
+        $returnData["total_pages"] = ceil($total_result->rowCount() / $patronage->total);
         $returnData["success"] = true;
         $response->setData($returnData);
         $response->send();

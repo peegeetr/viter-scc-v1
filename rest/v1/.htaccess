@@ -65,6 +65,12 @@ RewriteRule ^capital-share/([0-9]+)$ controllers/account/details/capital-share/c
 RewriteRule ^capital-share/page/([0-9]+)/([0-9]+)$ controllers/account/details/capital-share/page.php?start=$1&membersid=$2 [L]
 RewriteRule ^capital-share/search/([A-Za-z0-9-]+)/([0-9]+)$ controllers/account/details/capital-share/search.php?search=$1&membersid=$2 [L]
 
+#patronage
+RewriteRule ^patronage$ controllers/account/details/patronage/patronage.php [L]
+RewriteRule ^patronage/([0-9]+)$ controllers/account/details/patronage/patronage.php?patronageid=$1 [L] 
+RewriteRule ^patronage/page/([0-9]+)/([0-9]+)$ controllers/account/details/patronage/page.php?start=$1&membersid=$2 [L]
+RewriteRule ^patronage/search/([A-Za-z0-9-]+)/([0-9]+)$ controllers/account/details/patronage/search.php?search=$1&membersid=$2 [L]
+
 
 #file upload
 RewriteRule ^file$ controllers/files-upload/fileUpload.php [L]
