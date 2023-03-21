@@ -15,7 +15,7 @@ import { InputText } from "../../../../helpers/FormInputs";
 import { getUrlParam } from "../../../../helpers/functions-general";
 import { queryData } from "../../../../helpers/queryData";
 import ButtonSpinner from "../../../../partials/spinners/ButtonSpinner";
-import { computeTotalCapital } from "./functions-capital-share";
+import { computeTotalCapital } from "../functions-capital-share";
 
 const ModalAddCapitalShare = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -31,7 +31,9 @@ const ModalAddCapitalShare = ({ item }) => {
     "payslip" // key
   );
 
-  const computedUndertime = computeTotalCapital(capitalShare, item);
+  const computedUndertime = item
+    ? computeTotalCapital(capitalShare) - Number(item.capital_share_paid_up)
+    : computeTotalCapital(capitalShare);
 
   console.log("computedUndertime", computedUndertime);
   const mutation = useMutation({

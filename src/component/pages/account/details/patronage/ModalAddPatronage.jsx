@@ -15,6 +15,7 @@ import { InputSelect, InputText } from "../../../../helpers/FormInputs";
 import { getUrlParam } from "../../../../helpers/functions-general";
 import { queryData } from "../../../../helpers/queryData";
 import ButtonSpinner from "../../../../partials/spinners/ButtonSpinner";
+import { computeQuantity } from "../functions-capital-share";
 
 const ModalAddPatronage = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -134,7 +135,9 @@ const ModalAddPatronage = ({ item }) => {
                               value={pItem.product_aid}
                               id={pItem.product_price}
                             >
-                              {`${pItem.product_item_name}`}
+                              {`${pItem.product_item_name} (${computeQuantity(
+                                pItem
+                              )})`}
                             </option>
                           );
                         })}

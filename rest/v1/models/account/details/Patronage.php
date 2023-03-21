@@ -80,6 +80,27 @@ class Patronage
         return $query;
     }
 
+    // read all pending
+    public function readAllByProduct()
+    {
+        try {
+            $sql = "select product_aid, ";
+            $sql .= "product_item_name, ";
+            $sql .= "product_quantity, ";
+            $sql .= "product_sold_quantity, ";
+            $sql .= "{$this->tblProduct} ";
+            $sql .= "where product_aid = :product_aid ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "product_aid" => $this->patronage_product_id,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+
 
     // search not approved members
     public function search()
@@ -175,7 +196,7 @@ class Patronage
             $sql .= "patronage_date = :patronage_date, ";
             $sql .= "patronage_or = :patronage_or, ";
             $sql .= "patronage_datetime = :patronage_datetime ";
-            $sql .= "where patronage_aid  = :patronage_aid ";
+            $sql .= "where patronage_aid = :patronage_aid ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "patronage_product_quantity" => $this->patronage_product_quantity,
@@ -185,6 +206,24 @@ class Patronage
                 "patronage_or" => $this->patronage_or,
                 "patronage_datetime" => $this->patronage_datetime,
                 "patronage_aid" => $this->patronage_aid,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    // update
+    public function updateQunatity($sold)
+    {
+        try {
+            $sql = "update {$this->tblProduct} set ";
+            $sql .= "product_sold_quantity = :product_sold_quantity, ";
+            $sql .= "where patronage_aid = :patronage_aid ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "product_sold_quantity" => $this->$sold,
+                "patronage_aid" => $this->patronage_product_id,
             ]);
         } catch (PDOException $ex) {
             $query = false;

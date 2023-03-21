@@ -149,7 +149,7 @@ class CapitalShare
             $sql .= "where capital_share_aid  = :capital_share_aid ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "capital_share_total_amount	" => $this->capital_share_total_amount,
+                "capital_share_total_amount" => $this->capital_share_total_amount,
                 "capital_share_paid_up" => $this->capital_share_paid_up,
                 "capital_share_or" => $this->capital_share_or,
                 "capital_share_date" => $this->capital_share_date,
