@@ -15,6 +15,7 @@ class Patronage
     public $lastInsertedId;
     public $patronage_start;
     public $total;
+    public $sold;
     public $patronage_search;
     public $currentYear;
     public $tblPatronage;
@@ -87,7 +88,7 @@ class Patronage
             $sql = "select product_aid, ";
             $sql .= "product_item_name, ";
             $sql .= "product_quantity, ";
-            $sql .= "product_sold_quantity, ";
+            $sql .= "product_sold_quantity from ";
             $sql .= "{$this->tblProduct} ";
             $sql .= "where product_aid = :product_aid ";
             $query = $this->connection->prepare($sql);
@@ -214,7 +215,7 @@ class Patronage
     }
 
     // update
-    public function updateQunatity($sold)
+    public function updateQunatity()
     {
         try {
             $sql = "update {$this->tblProduct} set ";
@@ -222,7 +223,7 @@ class Patronage
             $sql .= "where patronage_aid = :patronage_aid ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "product_sold_quantity" => $this->$sold,
+                "product_sold_quantity" => $this->sold,
                 "patronage_aid" => $this->patronage_product_id,
             ]);
         } catch (PDOException $ex) {

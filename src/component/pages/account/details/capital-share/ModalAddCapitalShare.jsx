@@ -31,11 +31,20 @@ const ModalAddCapitalShare = ({ item }) => {
     "payslip" // key
   );
 
+  let totalAmount =
+    item &&
+    Number(item.capital_share_total_amount) -
+      Number(item.capital_share_paid_up);
+
   const computedUndertime = item
-    ? computeTotalCapital(capitalShare) - Number(item.capital_share_paid_up)
+    ? totalAmount
     : computeTotalCapital(capitalShare);
 
-  console.log("computedUndertime", computedUndertime);
+  console.log(
+    "computedUndertime",
+    totalAmount,
+    computeTotalCapital(capitalShare)
+  );
   const mutation = useMutation({
     mutationFn: (values) =>
       queryData(

@@ -15,7 +15,7 @@ import { InputSelect, InputText } from "../../../../helpers/FormInputs";
 import { getUrlParam } from "../../../../helpers/functions-general";
 import { queryData } from "../../../../helpers/queryData";
 import ButtonSpinner from "../../../../partials/spinners/ButtonSpinner";
-import { computeQuantity } from "../functions-capital-share";
+import { computeQuantity, computeTotalSold } from "../functions-capital-share";
 
 const ModalAddPatronage = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -23,6 +23,7 @@ const ModalAddPatronage = ({ item }) => {
   const [productPrice, setproductPrice] = React.useState(
     item ? item.product_price : ""
   );
+  const [sold, setSold] = React.useState("");
 
   // use if not loadmore button undertime
   const { data: PatronageId, isLoading } = useQueryData(
@@ -72,6 +73,7 @@ const ModalAddPatronage = ({ item }) => {
     patronage_or: item ? item.patronage_or : "",
     patronage_product_quantity: item ? item.patronage_product_quantity : "",
     patronage_product_amount: "",
+    total_product_quantity: "",
     patronage_date: item ? item.patronage_date : "",
   };
 
@@ -105,11 +107,14 @@ const ModalAddPatronage = ({ item }) => {
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
                 console.log(values);
+                setSold(computeTotalSold(values, PatronageId));
+                console.log("total", computeTotalSold(values, PatronageId));
                 // mutate data
                 mutation.mutate(values);
               }}
             >
               {(props) => {
+                props.values.total_product_quantity = sold;
                 props.values.patronage_product_amount =
                   Number(props.values.patronage_product_quantity) *
                   Number(productPrice);

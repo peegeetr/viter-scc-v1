@@ -4,7 +4,10 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 import { useInView } from "react-intersection-observer";
 import { setIsAdd, setIsRestore } from "../../../../../store/StoreAction";
 import { StoreContext } from "../../../../../store/StoreContext";
-import { formatDate } from "../../../../helpers/functions-general";
+import {
+  formatDate,
+  numberWithCommas,
+} from "../../../../helpers/functions-general";
 import { queryDataInfinite } from "../../../../helpers/queryDataInfinite";
 import Loadmore from "../../../../partials/Loadmore";
 import ModalDeleteRestore from "../../../../partials/modals/ModalDeleteRestore";
@@ -116,7 +119,7 @@ const CapitalShareList = ({ setItemEdit }) => {
                     <td>{formatDate(item.capital_share_date)}</td>
                     <td>{item.capital_share_or}</td>
                     <td>{item.capital_share_paid_up}</td>
-                    <td>{item.capital_share_total_amount}</td>
+                    <td>{numberWithCommas(item.capital_share_total_amount)}</td>
                     <td>
                       <div className="flex items-center gap-1">
                         <button

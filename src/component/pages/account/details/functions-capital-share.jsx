@@ -14,3 +14,17 @@ export const computeQuantity = (item) => {
     Number(item.product_quantity) - Number(item.product_sold_quantity);
   return finalAmount;
 };
+
+// Total quantity
+export const computeTotalSold = (item, PatronageId) => {
+  let finalAmount = item.patronage_product_quantity;
+
+  PatronageId?.data.map((pItem) => {
+    if (item.patronage_product_id === pItem.product_aid)
+      finalAmount =
+        Number(pItem.product_sold_quantity) +
+        Number(item.patronage_product_quantity);
+  });
+  console.log(finalAmount);
+  return finalAmount;
+};

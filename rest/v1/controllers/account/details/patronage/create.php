@@ -18,19 +18,12 @@ $patronage->patronage_product_quantity = checkIndex($data, "patronage_product_qu
 $patronage->patronage_product_amount = checkIndex($data, "patronage_product_amount");
 $patronage->patronage_date = checkIndex($data, "patronage_date");
 $patronage->patronage_or = checkIndex($data, "patronage_or");
+$patronage->sold = checkIndex($data, "total_product_quantity");
 $patronage->patronage_created = date("Y-m-d H:i:s");
 $patronage->patronage_datetime = date("Y-m-d H:i:s");
 
-$result = $patronage->readAllByProduct();
-
-if ($result->rowCount() > 0) {
-    $row = $result->fetch(PDO::FETCH_ASSOC);
-    extract($row);
-    $sold = $product_sold_quantity + $patronage->patronage_product_quantity;
-    $query = checkUpdateQunatity($patronage, $sold);
-}
-
 // create
 $query = checkCreate($patronage);
+$query = checkUpdateQunatity($patronage);
 
 returnSuccess($patronage, "patronage", $query);
