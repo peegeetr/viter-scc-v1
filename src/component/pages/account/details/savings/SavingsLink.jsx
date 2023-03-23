@@ -20,7 +20,11 @@ const SavingsLink = () => {
   return (
     <>
       <Link
-        to={`${urlLink}/account/details/savings?memberid=${memberid}`}
+        to={
+          store.credentials.data.role_is_developer === 1
+            ? `${urlLink}/account/details/savings?memberid=${memberid}`
+            : `${urlLink}/details/savings`
+        }
         className="w-full py-2"
       >
         <div className="flex items-center">
@@ -36,7 +40,11 @@ const SavingsLink = () => {
       </Link>
 
       <Link
-        to={`${urlLink}/account/details/savings?memberid=${memberid}`}
+        to={
+          store.credentials.data.role_is_developer === 1
+            ? `${urlLink}/account/details/savings?memberid=${memberid}`
+            : `${urlLink}/details/savings`
+        }
         className="btn-action-table group-hover:bg-primary group-hover:text-white"
       >
         <SlArrowRight className="inline" />

@@ -3,20 +3,11 @@ import { Form, Formik } from "formik";
 import React from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import * as Yup from "yup";
-import {
-  setError,
-  setMessage,
-  setSuccess,
-} from "../../../../store/StoreAction";
+import { setError, setMessage } from "../../../../store/StoreAction";
 import { StoreContext } from "../../../../store/StoreContext";
 import useQueryData from "../../../custom-hooks/useQueryData";
 import { InputText } from "../../../helpers/FormInputs";
-import {
-  devNavUrl,
-  getUrlParam,
-  UrlAdmin,
-  UrlSystem,
-} from "../../../helpers/functions-general";
+import { devNavUrl, getUrlParam } from "../../../helpers/functions-general";
 import { queryData } from "../../../helpers/queryData";
 import PageNotFound from "../../../partials/PageNotFound";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
@@ -53,8 +44,9 @@ const CreateOtherPassword = () => {
       queryClient.invalidateQueries({ queryKey: ["otherUser"] });
       // show success box
       if (data.success) {
+        localStorage.removeItem("sccToken");
         window.location.replace(
-          `${devNavUrl}/create-password-success?redirect=/${UrlAdmin}/login`
+          `${devNavUrl}/create-password-success?redirect=/login`
         );
       }
       // show error box
@@ -102,7 +94,7 @@ const CreateOtherPassword = () => {
             <div className="w-96 p-6">
               <div className="flex justify-center">
                 <SccLogo />
-              </div> 
+              </div>
               <p className="mt-8 mb-5 text-lg font-bold">CREATE PASSWORD</p>
               <Formik
                 initialValues={initVal}

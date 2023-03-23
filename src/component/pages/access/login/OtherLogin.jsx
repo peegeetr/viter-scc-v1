@@ -51,7 +51,7 @@ const OtherLogin = () => {
           <div className="w-96 p-6">
             <div className="flex justify-center">
               <SccLogo />
-            </div> 
+            </div>
             <p className="mt-8 mb-5 text-lg font-bold">LOGIN</p>
             <Formik
               initialValues={initVal}
@@ -121,7 +121,7 @@ const OtherLogin = () => {
             <p className="mt-5">
               Did you forget your password?{" "}
               <Link
-                to={`${devNavUrl}/${UrlAdmin}/forgot-password`}
+                to={`${devNavUrl}/forgot-password`}
                 className="w-full text-primary"
               >
                 <u> Forgot password</u>

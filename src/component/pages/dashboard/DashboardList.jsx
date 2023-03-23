@@ -131,48 +131,50 @@ const DashboardList = ({ setItemEdit }) => {
                           {item.announcement_name}
                         </p>
                       </div>
-                      <div className="flex items-center gap-1">
-                        {item.announcement_is_active === 1 && (
-                          <>
-                            <button
-                              type="button"
-                              className="btn-action-table tooltip-action-table"
-                              data-tooltip="Edit"
-                              onClick={() => handleEdit(item)}
-                            >
-                              <FaEdit />
-                            </button>
-                            <button
-                              type="button"
-                              className="btn-action-table tooltip-action-table"
-                              data-tooltip="Archive"
-                              onClick={() => handleArchive(item)}
-                            >
-                              <FaArchive />
-                            </button>{" "}
-                          </>
-                        )}
-                        {item.announcement_is_active === 0 && (
-                          <>
-                            <button
-                              type="button"
-                              className="btn-action-table tooltip-action-table"
-                              data-tooltip="Restore"
-                              onClick={() => handleRestore(item)}
-                            >
-                              <FaHistory />
-                            </button>
-                            <button
-                              type="button"
-                              className="btn-action-table tooltip-action-table"
-                              data-tooltip="Delete"
-                              onClick={() => handleDelete(item)}
-                            >
-                              <FaTrash />
-                            </button>
-                          </>
-                        )}
-                      </div>
+                      {store.credentials.data.role_is_member === 0 && (
+                        <div className="flex items-center gap-1">
+                          {item.announcement_is_active === 1 && (
+                            <>
+                              <button
+                                type="button"
+                                className="btn-action-table tooltip-action-table"
+                                data-tooltip="Edit"
+                                onClick={() => handleEdit(item)}
+                              >
+                                <FaEdit />
+                              </button>
+                              <button
+                                type="button"
+                                className="btn-action-table tooltip-action-table"
+                                data-tooltip="Archive"
+                                onClick={() => handleArchive(item)}
+                              >
+                                <FaArchive />
+                              </button>{" "}
+                            </>
+                          )}
+                          {item.announcement_is_active === 0 && (
+                            <>
+                              <button
+                                type="button"
+                                className="btn-action-table tooltip-action-table"
+                                data-tooltip="Restore"
+                                onClick={() => handleRestore(item)}
+                              >
+                                <FaHistory />
+                              </button>
+                              <button
+                                type="button"
+                                className="btn-action-table tooltip-action-table"
+                                data-tooltip="Delete"
+                                onClick={() => handleDelete(item)}
+                              >
+                                <FaTrash />
+                              </button>
+                            </>
+                          )}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>

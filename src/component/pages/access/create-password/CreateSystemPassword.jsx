@@ -106,7 +106,7 @@ const CreateSystemPassword = () => {
             <div className="w-96 p-6">
               <div className="flex justify-center">
                 <SccLogo />
-              </div> 
+              </div>
 
               <p className="mt-8 mb-5 text-lg font-bold">
                 DEVOPS CREATE PASSWORD

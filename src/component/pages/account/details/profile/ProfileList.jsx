@@ -35,11 +35,14 @@ const ProfileList = ({ members, isLoading, error }) => {
   const [itemBeneficiaries, setItemBeneficiaries] = React.useState(null);
   const [isopen, setIsOpen] = React.useState(false);
   const memberid = getUrlParam().get("memberid");
+
+  let memId = memberid === null ? store.credentials.data.members_aid : memberid;
+
   let counter = 0;
 
   // use if not loadmore button undertime
   const { data: beneficiaries } = useQueryData(
-    `/v1/beneficiaries/${memberid}`,
+    `/v1/beneficiaries/${memId}`,
     "get", // method
     "beneficiaries" // key
   );

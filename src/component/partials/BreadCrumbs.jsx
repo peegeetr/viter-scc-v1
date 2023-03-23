@@ -17,7 +17,7 @@ const BreadCrumbs = ({ param = "" }) => {
       ? "/dev-app/system"
       : store.credentials.data.role_is_admin === 1
       ? "/dev-app/admin"
-      : "/dev-app/viewer";
+      : "/dev-app/member";
   let currentLink = "";
 
   const crumbs = location.pathname

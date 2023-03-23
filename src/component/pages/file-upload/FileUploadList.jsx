@@ -14,16 +14,16 @@ import SearchBar from "../../partials/SearchBar";
 import ServerError from "../../partials/ServerError";
 import FetchingSpinner from "../../partials/spinners/FetchingSpinner";
 import TableSpinner from "../../partials/spinners/TableSpinner";
-const FileUploadList = ({ setItemEdit }) => { 
+const FileUploadList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [dataItem, setData] = React.useState(null);
   const [id, setId] = React.useState(null);
   const [isDel, setDel] = React.useState(false);
   const [onSearch, setOnSearch] = React.useState(false);
   const [page, setPage] = React.useState(1);
-  const search = React.useRef(null); 
+  const search = React.useRef(null);
   let counter = 1;
-  const { ref, inView } = useInView(); 
+  const { ref, inView } = useInView();
   // use if with loadmore button and search bar
   const {
     data: result,
@@ -49,7 +49,6 @@ const FileUploadList = ({ setItemEdit }) => {
     },
     refetchOnWindowFocus: false,
     networkMode: "always",
-
   });
 
   React.useEffect(() => {
@@ -62,7 +61,7 @@ const FileUploadList = ({ setItemEdit }) => {
   const handleEdit = (item) => {
     dispatch(setIsAdd(true));
     setItemEdit(item);
-  }; 
+  };
 
   const handleDelete = (item) => {
     dispatch(setIsRestore(true));
@@ -72,9 +71,8 @@ const FileUploadList = ({ setItemEdit }) => {
   };
 
   return (
-    <> 
-    
-    <SearchBar
+    <>
+      <SearchBar
         search={search}
         dispatch={dispatch}
         store={store}
@@ -82,8 +80,8 @@ const FileUploadList = ({ setItemEdit }) => {
         isFetching={isFetching}
         setOnSearch={setOnSearch}
         onSearch={onSearch}
-      /> 
-           
+      />
+
       <div className="relative text-center overflow-x-auto z-0">
         {isFetching && !isFetchingNextPage && <FetchingSpinner />}
         <table>
@@ -92,67 +90,75 @@ const FileUploadList = ({ setItemEdit }) => {
               <th>#</th>
               <th className="min-w-[15rem] w-[15rem]">File Name</th>
               <th className="min-w-[15rem]">Link</th>
-              <th className="min-w-[10rem] w-[10rem]">Date</th>  
-              
-          {store.credentials.data.role_is_admin=== 1 ||store.credentials.data.role_is_developer===1 && 
-              <th className="max-w-[5rem]">Actions</th>}
+              <th className="min-w-[10rem] w-[10rem]">Date</th>
+
+              {(store.credentials.data.role_is_admin === 1 ||
+                store.credentials.data.role_is_developer === 1) && (
+                <th className="max-w-[5rem]">Actions</th>
+              )}
             </tr>
           </thead>
-          <tbody>  
-              {(status === "loading" || result?.pages[0].data.length === 0) && (
-                <tr className="text-center ">
-                  <td colSpan="100%" className="p-10">
-                    {status === "loading" && <TableSpinner />}
-                    <NoData />
-                  </td>
-                </tr>
-              )}
-              {error && (
-                <tr className="text-center ">
-                  <td colSpan="100%" className="p-10">
-                    <ServerError />
-                  </td>
-                </tr>
-              )}
+          <tbody>
+            {(status === "loading" || result?.pages[0].data.length === 0) && (
+              <tr className="text-center ">
+                <td colSpan="100%" className="p-10">
+                  {status === "loading" && <TableSpinner />}
+                  <NoData />
+                </td>
+              </tr>
+            )}
+            {error && (
+              <tr className="text-center ">
+                <td colSpan="100%" className="p-10">
+                  <ServerError />
+                </td>
+              </tr>
+            )}
 
-              {result?.pages.map((page, key) => (
-                <React.Fragment key={key}>
-                  {page.data.map((item, key) => (
-                  <tr key={key} >
+            {result?.pages.map((page, key) => (
+              <React.Fragment key={key}>
+                {page.data.map((item, key) => (
+                  <tr key={key}>
                     <td> {counter++}.</td>
-                    <td>
-                      {item.file_upload_name}
+                    <td>{item.file_upload_name}</td>
+                    <td className=" break-all">
+                      <a
+                        href={item.file_upload_link}
+                        className="underline text-primary"
+                      >
+                        {item.file_upload_link}
+                      </a>
                     </td>
-                    <td className=" break-all"><a href={item.file_upload_link} className="underline text-primary">{item.file_upload_link}</a></td> 
-                    
-                    <td>{formatDate(item.file_upload_date)} 
-                    </td> 
-                    
-          {store.credentials.data.role_is_admin=== 1 ||store.credentials.data.role_is_developer===1 && 
-                    <td> <div className="flex items-center gap-1"> 
-                            <button
-                              type="button"
-                              className="btn-action-table tooltip-action-table"
-                              data-tooltip="Edit"
-                              onClick={() => handleEdit(item)}
-                            >
-                              <FaEdit />
-                            </button> 
-                            <button
-                              type="button"
-                              className="btn-action-table tooltip-action-table"
-                              data-tooltip="Delete"
-                              onClick={() => handleDelete(item)}
-                            >
-                              <FaTrash />
-                            </button> 
-                      </div> 
-                    </td>}
-                  </tr> 
-                  ))}
-                </React.Fragment>
-              ))}
- 
+
+                    <td>{formatDate(item.file_upload_date)}</td>
+
+                    {(store.credentials.data.role_is_admin === 1 ||
+                      store.credentials.data.role_is_developer === 1) && (
+                      <td>
+                        <div className="flex items-center gap-1">
+                          <button
+                            type="button"
+                            className="btn-action-table tooltip-action-table"
+                            data-tooltip="Edit"
+                            onClick={() => handleEdit(item)}
+                          >
+                            <FaEdit />
+                          </button>
+                          <button
+                            type="button"
+                            className="btn-action-table tooltip-action-table"
+                            data-tooltip="Delete"
+                            onClick={() => handleDelete(item)}
+                          >
+                            <FaTrash />
+                          </button>
+                        </div>
+                      </td>
+                    )}
+                  </tr>
+                ))}
+              </React.Fragment>
+            ))}
           </tbody>
         </table>
 
@@ -165,16 +171,15 @@ const FileUploadList = ({ setItemEdit }) => {
           page={page}
           refView={ref}
         />
-      </div>  
+      </div>
 
       {store.isRestore && (
         <ModalDeleteRestore
           id={id}
           isDel={isDel}
-          mysqlApiDelete={`/v1/file/${id}`} 
-          msg={ "Are you sure you want to delete this file" 
-          }
-          item={`${dataItem.file_upload_name}`} 
+          mysqlApiDelete={`/v1/file/${id}`}
+          msg={"Are you sure you want to delete this file"}
+          item={`${dataItem.file_upload_name}`}
           arrKey="file"
         />
       )}

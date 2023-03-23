@@ -21,7 +21,11 @@ const ProfileLink = () => {
   return (
     <>
       <Link
-        to={`${urlLink}/account/details/profile?memberid=${memberid}`}
+        to={
+          store.credentials.data.role_is_developer === 1
+            ? `${urlLink}/account/details/profile?memberid=${memberid}`
+            : `${urlLink}/details/profile`
+        }
         className="w-full py-2"
       >
         <div className="flex items-center">
@@ -36,7 +40,11 @@ const ProfileLink = () => {
         </p>
       </Link>
       <Link
-        to={`${urlLink}/account/details/profile?memberid=${memberid}`}
+        to={
+          store.credentials.data.role_is_developer === 1
+            ? `${urlLink}/account/details/profile?memberid=${memberid}`
+            : `${urlLink}/details/profile`
+        }
         className="btn-action-table group-hover:bg-primary group-hover:text-white"
       >
         <SlArrowRight className="inline" />

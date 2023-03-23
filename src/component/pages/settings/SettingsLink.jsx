@@ -19,8 +19,7 @@ const SettingsLink = () => {
         <hr />
         <ul className="pt-2 pb-20 relative">
           <li className="py-1">
-            {store.credentials.data.role_is_admin === 1 ||
-            store.credentials.data.role_is_developer === 1 ? (
+            {store.credentials.data.role_is_developer === 1 ? (
               <UserLink />
             ) : (
               <OtherUserLink />

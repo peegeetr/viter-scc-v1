@@ -25,7 +25,7 @@ export const devBaseUrl = "http://localhost/cycy/viter-scc-v1/public";
 export const devNavUrl = "/dev-app";
 
 export const UrlAdmin = "admin";
-export const UrlViewer = "viewer";
+export const UrlMember = "member";
 export const UrlSystem = "system";
 
 export const is_developer = "is_developer";
@@ -186,6 +186,6 @@ export const getUserType = (developer, admin) => {
     ? (link = `${devNavUrl}/${UrlSystem}`)
     : admin === 1
     ? (link = `${devNavUrl}/${UrlAdmin}`)
-    : (link = `${devNavUrl}/${UrlViewer}`);
+    : (link = `${devNavUrl}/${UrlMember}`);
   return link;
 };

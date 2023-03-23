@@ -97,7 +97,7 @@ const Navigation = ({ menu }) => {
               }
             >
               <Link
-                to={`${urlLink}/account/details`}
+                to={`${urlLink}/details`}
                 className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
                 onClick={handleShow}
                 data-tooltip="My Account"

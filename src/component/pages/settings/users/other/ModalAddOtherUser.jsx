@@ -66,10 +66,8 @@ const ModalAddOtherUser = ({ item, role, members }) => {
 
   const yupSchema = Yup.object({
     user_other_member_id: Yup.string().required("Required"),
+    user_other_role_id: Yup.string().required("Required"),
     user_other_email: Yup.string().required("Required").email("Invalid email"),
-    user_other_role_id: Yup.string()
-      .required("Required")
-      .email("Invalid email"),
   });
 
   return (

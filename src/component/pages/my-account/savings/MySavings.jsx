@@ -1,36 +1,35 @@
 import React from "react";
+import { FaPlusCircle } from "react-icons/fa";
 import { StoreContext } from "../../../../store/StoreContext";
-import useQueryData from "../../../custom-hooks/useQueryData";
 import BreadCrumbs from "../../../partials/BreadCrumbs";
 import Footer from "../../../partials/Footer";
 import Header from "../../../partials/Header";
 import ModalError from "../../../partials/modals/ModalError";
 import ModalSuccess from "../../../partials/modals/ModalSuccess";
 import Navigation from "../../../partials/Navigation";
-import ProfileList from "../../account/details/profile/ProfileList";
+import SavingsList from "../../account/details/savings/SavingsList";
 
-const MyProfile = () => {
+const MySavings = () => {
   const { store, dispatch } = React.useContext(StoreContext);
-  // use if not loadmore button undertime
-  const {
-    isLoading,
-    error,
-    data: members,
-  } = useQueryData(
-    `/v1/members/${store.credentials.data.members_aid}`,
-    "get", // method
-    "members" // key
-  );
+
   return (
     <>
       <Header />
-      <Navigation menu="myaccount" />
+      <Navigation menu="account" />
       <div className="wrapper">
-        <BreadCrumbs />
+        <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2">
+          <BreadCrumbs />{" "}
+          <div className="flex items-center gap-1">
+            <button type="button" className="btn-primary">
+              <FaPlusCircle />
+              <span>Add</span>
+            </button>
+          </div>
+        </div>
         <hr />
 
-        <div className="w-full pb-20">
-          <ProfileList members={members} isLoading={isLoading} error={error} />
+        <div className="w-full pb-20 mt-3 ">
+          <SavingsList />
         </div>
         <Footer />
       </div>
@@ -41,4 +40,4 @@ const MyProfile = () => {
   );
 };
 
-export default MyProfile;
+export default MySavings;

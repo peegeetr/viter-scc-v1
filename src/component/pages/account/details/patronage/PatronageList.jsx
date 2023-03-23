@@ -14,6 +14,7 @@ import SearchBar from "../../../../partials/SearchBar";
 import Loadmore from "../../../../partials/Loadmore";
 import {
   formatDate,
+  getUrlParam,
   numberWithCommas,
 } from "../../../../helpers/functions-general";
 
@@ -26,9 +27,10 @@ const PatronageList = ({ setItemEdit }) => {
   const [page, setPage] = React.useState(1);
   let counter = 1;
   const search = React.useRef(null);
+  const memberid = getUrlParam().get("memberid");
   const { ref, inView } = useInView();
   // use if with loadmore button and search bar
-  let empid = 2;
+  let empid = memberid === null ? store.credentials.data.members_aid : memberid;
   const {
     data: result,
     error,

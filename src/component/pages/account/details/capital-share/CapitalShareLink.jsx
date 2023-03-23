@@ -20,7 +20,11 @@ const CapitalShareLink = () => {
   return (
     <>
       <Link
-        to={`${urlLink}/account/details/capital-share?memberid=${memberid}`}
+        to={
+          store.credentials.data.role_is_developer === 1
+            ? `${urlLink}/account/details/capital-share?memberid=${memberid}`
+            : `${urlLink}/details/capital-share`
+        }
         className="w-full py-2"
       >
         <div className="flex items-center">
@@ -36,7 +40,11 @@ const CapitalShareLink = () => {
       </Link>
 
       <Link
-        to={`${urlLink}/account/details/capital-share?memberid=${memberid}`}
+        to={
+          store.credentials.data.role_is_developer === 1
+            ? `${urlLink}/account/details/capital-share?memberid=${memberid}`
+            : `${urlLink}/details/capital-share`
+        }
         className="btn-action-table group-hover:bg-primary group-hover:text-white"
       >
         <SlArrowRight className="inline" />

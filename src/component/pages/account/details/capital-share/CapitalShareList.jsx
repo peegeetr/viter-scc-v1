@@ -6,6 +6,7 @@ import { setIsAdd, setIsRestore } from "../../../../../store/StoreAction";
 import { StoreContext } from "../../../../../store/StoreContext";
 import {
   formatDate,
+  getUrlParam,
   numberWithCommas,
 } from "../../../../helpers/functions-general";
 import { queryDataInfinite } from "../../../../helpers/queryDataInfinite";
@@ -23,11 +24,12 @@ const CapitalShareList = ({ setItemEdit }) => {
   const [isDel, setDel] = React.useState(false);
   const [onSearch, setOnSearch] = React.useState(false);
   const [page, setPage] = React.useState(1);
+  const memberid = getUrlParam().get("memberid");
   let counter = 1;
   const search = React.useRef(null);
   const { ref, inView } = useInView();
   // use if with loadmore button and search bar
-  let empid = 2;
+  let empid = memberid === null ? store.credentials.data.members_aid : memberid;
   const {
     data: result,
     error,

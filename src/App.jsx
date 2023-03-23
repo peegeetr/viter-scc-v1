@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import {
   devNavUrl,
   UrlAdmin,
+  UrlMember,
   UrlSystem,
 } from "./component/helpers/functions-general";
 import CreateOtherPassword from "./component/pages/access/create-password/CreateOtherPassword";
@@ -25,8 +26,11 @@ import Application from "./component/pages/application/Application";
 import AppProfile from "./component/pages/application/details/AppProfile";
 import Dashboard from "./component/pages/dashboard/Dashboard";
 import FileUpload from "./component/pages/file-upload/FileUpload";
+import MyCapitalShare from "./component/pages/my-account/capital-share/MyCapitalShare";
 import MyAccount from "./component/pages/my-account/MyAccount";
+import MyPatronage from "./component/pages/my-account/patronage/MyPatronage";
 import MyProfile from "./component/pages/my-account/profile/MyProfile";
+import MySavings from "./component/pages/my-account/savings/MySavings";
 import Product from "./component/pages/product/Product";
 import SettingsLink from "./component/pages/settings/SettingsLink";
 import OtherUser from "./component/pages/settings/users/other/OtherUser";
@@ -57,17 +61,13 @@ function App() {
             {/* login other user */}
             <Route path={`/${devNavUrl}`} element={<OtherLogin />} />
             <Route path={`/${devNavUrl}/login`} element={<OtherLogin />} />
-            <Route
-              path={`/${devNavUrl}/${UrlAdmin}/login`}
-              element={<OtherLogin />}
-            />
 
             <Route
-              path={`${devNavUrl}/${UrlAdmin}/create-password`}
+              path={`${devNavUrl}/create-password`}
               element={<CreateOtherPassword />}
             />
             <Route
-              path={`/${devNavUrl}/${UrlAdmin}/forgot-password`}
+              path={`/${devNavUrl}/forgot-password`}
               element={<ForgotPassword />}
             />
 
@@ -244,6 +244,68 @@ function App() {
               }
             />
 
+            {/* member user */}
+            <Route
+              path={`${devNavUrl}/${UrlMember}/dashboard`}
+              element={
+                <ProtectedRouteOther>
+                  <Dashboard />
+                </ProtectedRouteOther>
+              }
+            />
+
+            <Route
+              path={`${devNavUrl}/${UrlMember}/details`}
+              element={
+                <ProtectedRouteOther>
+                  <MyAccount />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlMember}/details/profile`}
+              element={
+                <ProtectedRouteOther>
+                  <MyProfile />
+                </ProtectedRouteOther>
+              }
+            />
+
+            <Route
+              path={`${devNavUrl}/${UrlMember}/details/savings`}
+              element={
+                <ProtectedRouteOther>
+                  <MySavings />
+                </ProtectedRouteOther>
+              }
+            />
+
+            <Route
+              path={`${devNavUrl}/${UrlMember}/details/capital-share`}
+              element={
+                <ProtectedRouteOther>
+                  <MyCapitalShare />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlMember}/details/patronage`}
+              element={
+                <ProtectedRouteOther>
+                  <MyPatronage />
+                </ProtectedRouteOther>
+              }
+            />
+
+            <Route
+              path={`${devNavUrl}/${UrlMember}/file-upload`}
+              element={
+                <ProtectedRouteOther>
+                  <FileUpload />
+                </ProtectedRouteOther>
+              }
+            />
+
             {/* admin user */}
             <Route
               path={`${devNavUrl}/${UrlAdmin}/dashboard`}
@@ -283,7 +345,7 @@ function App() {
               path={`${devNavUrl}/${UrlAdmin}/account/details/profile`}
               element={
                 <ProtectedRouteOther>
-                  <MyProfile />
+                  <Profile />
                 </ProtectedRouteOther>
               }
             />
@@ -305,7 +367,30 @@ function App() {
                 </ProtectedRouteOther>
               }
             />
-
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/account/details/patronage`}
+              element={
+                <ProtectedRouteOther>
+                  <Patronage />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/application/profile`}
+              element={
+                <ProtectedRouteOther>
+                  <AppProfile />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/product`}
+              element={
+                <ProtectedRouteOther>
+                  <Product />
+                </ProtectedRouteOther>
+              }
+            />
             <Route
               path={`${devNavUrl}/${UrlAdmin}/file-upload`}
               element={
@@ -324,15 +409,7 @@ function App() {
               }
             />
             <Route
-              path={`${devNavUrl}/${UrlAdmin}/settings/users`}
-              element={
-                <ProtectedRouteOther>
-                  <UserPage />
-                </ProtectedRouteOther>
-              }
-            />
-            <Route
-              path={`${devNavUrl}/${UrlAdmin}/settings/users/other`}
+              path={`${devNavUrl}/${UrlAdmin}/settings/other`}
               element={
                 <ProtectedRouteOther>
                   <OtherUser />

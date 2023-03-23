@@ -7,12 +7,12 @@ import {
   devNavUrl,
   getUserType,
   UrlAdmin,
+  UrlSystem,
 } from "../../helpers/functions-general";
 import ButtonSpinner from "../spinners/ButtonSpinner";
 
 const ModalLogout = () => {
-  const { store, dispatch } = React.useContext(StoreContext); 
-  const urlLink = getUserType(store.credentials.data.role_is_developer,store.credentials.data.role_is_admin);
+  const { store, dispatch } = React.useContext(StoreContext);
   const [loading, setLoading] = React.useState(false);
 
   const handleClose = () => {
@@ -25,9 +25,8 @@ const ModalLogout = () => {
       if (checkLocalStorage() !== null) {
         localStorage.removeItem("sccToken");
         store.credentials.data.role_is_developer === 1
-          ? window.location.replace(`${urlLink}/login`)
-          : window.location.replace(`${urlLink}/login`);
-        window.location.replace(`${devNavUrl}/${UrlAdmin}/login`);
+          ? window.location.replace(`${devNavUrl}/${UrlSystem}/login`)
+          : window.location.replace(`${devNavUrl}/login`);
         return;
       }
       setLoading(false);
