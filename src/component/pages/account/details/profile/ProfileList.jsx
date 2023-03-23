@@ -194,14 +194,16 @@ const ProfileList = ({ members, isLoading, error }) => {
               </div>
               <div className="bg-gray-200 p-2 mb-5 flex justify-between items-center">
                 <h4>Additional info</h4>
-                <button
-                  type="button"
-                  className="tooltip-action-table"
-                  data-tooltip="Edit"
-                  onClick={() => handleEditAdditionalInfo(item)}
-                >
-                  <FaEdit />
-                </button>
+                {store.credentials.data.role_is_member === 0 && (
+                  <button
+                    type="button"
+                    className="tooltip-action-table"
+                    data-tooltip="Edit"
+                    onClick={() => handleEditAdditionalInfo(item)}
+                  >
+                    <FaEdit />
+                  </button>
+                )}
               </div>
               <div className="text-left grid  grid-cols-2 md:grid-cols-[1fr_2fr] mb-2 xs:pl-5 pl-2">
                 <p className="font-semibold">Birth Place :</p>
@@ -213,14 +215,16 @@ const ProfileList = ({ members, isLoading, error }) => {
               </div>{" "}
               <div className="bg-gray-200 p-2 mb-5 flex justify-between items-center">
                 <h4>Permanent Address </h4>
-                <button
-                  type="button"
-                  className="tooltip-action-table"
-                  data-tooltip="Edit"
-                  onClick={() => handleEditPermanentAddress(item)}
-                >
-                  <FaEdit />
-                </button>
+                {store.credentials.data.role_is_member === 0 && (
+                  <button
+                    type="button"
+                    className="tooltip-action-table"
+                    data-tooltip="Edit"
+                    onClick={() => handleEditPermanentAddress(item)}
+                  >
+                    <FaEdit />
+                  </button>
+                )}
               </div>
               <div className="text-left grid  grid-cols-2 md:grid-cols-[1fr_2fr] mb-5 xs:pl-5 pl-2">
                 <p className="font-semibold">
@@ -235,14 +239,16 @@ const ProfileList = ({ members, isLoading, error }) => {
               <div className="bg-gray-200 p-2 mb-5 flex justify-between items-center">
                 <h4>Present Address </h4>
 
-                <button
-                  type="button"
-                  className="tooltip-action-table"
-                  data-tooltip="Edit"
-                  onClick={() => handleEditPresentAddress(item)}
-                >
-                  <FaEdit />
-                </button>
+                {store.credentials.data.role_is_member === 0 && (
+                  <button
+                    type="button"
+                    className="tooltip-action-table"
+                    data-tooltip="Edit"
+                    onClick={() => handleEditPresentAddress(item)}
+                  >
+                    <FaEdit />
+                  </button>
+                )}
               </div>
               <div className="text-left grid  grid-cols-2 md:grid-cols-[1fr_2fr] mb-5 xs:pl-5 pl-2">
                 <p className="font-semibold">
@@ -257,14 +263,16 @@ const ProfileList = ({ members, isLoading, error }) => {
               <div className="bg-gray-200 p-2 mb-5 flex justify-between items-center">
                 <h4>Spouse Information</h4>
 
-                <button
-                  type="button"
-                  className="tooltip-action-table"
-                  data-tooltip="Edit"
-                  onClick={() => handleEditSpouseInfo(item)}
-                >
-                  <FaEdit />
-                </button>
+                {store.credentials.data.role_is_member === 0 && (
+                  <button
+                    type="button"
+                    className="tooltip-action-table"
+                    data-tooltip="Edit"
+                    onClick={() => handleEditSpouseInfo(item)}
+                  >
+                    <FaEdit />
+                  </button>
+                )}
               </div>
               <div className="text-left grid  grid-cols-2 md:grid-cols-[1fr_2fr] mb-5 xs:pl-5 pl-2">
                 <p className="font-semibold">Occupation :</p>
@@ -278,14 +286,16 @@ const ProfileList = ({ members, isLoading, error }) => {
               </div>
               <div className="bg-gray-200 p-2 mb-5 flex justify-between items-center">
                 <h4>Job Information</h4>
-                <button
-                  type="button"
-                  className="tooltip-action-table"
-                  data-tooltip="Edit"
-                  onClick={() => handleEditJobInfo(item)}
-                >
-                  <FaEdit />
-                </button>
+                {store.credentials.data.role_is_member === 0 && (
+                  <button
+                    type="button"
+                    className="tooltip-action-table"
+                    data-tooltip="Edit"
+                    onClick={() => handleEditJobInfo(item)}
+                  >
+                    <FaEdit />
+                  </button>
+                )}
               </div>
               <div className="text-left grid  grid-cols-2 md:grid-cols-[1fr_2fr] mb-2 xs:pl-5 pl-2">
                 <p className="font-semibold">Position :</p>
@@ -305,14 +315,16 @@ const ProfileList = ({ members, isLoading, error }) => {
               <div className="bg-gray-200 p-2 flex justify-between items-center">
                 <h4>Beneficiaries</h4>
 
-                <button
-                  type="button"
-                  className=" btn-primary !py-[3px] "
-                  onClick={handleAddBeneficiaries}
-                >
-                  <FaPlusCircle />
-                  <span>Add</span>
-                </button>
+                {store.credentials.data.role_is_member === 0 && (
+                  <button
+                    type="button"
+                    className=" btn-primary !py-[3px] "
+                    onClick={handleAddBeneficiaries}
+                  >
+                    <FaPlusCircle />
+                    <span>Add</span>
+                  </button>
+                )}
               </div>
               <div className="relative text-center overflow-x-auto z-0">
                 <table>
@@ -321,7 +333,9 @@ const ProfileList = ({ members, isLoading, error }) => {
                       <th>#</th>
                       <th>Name</th>
                       <th>Relation ship</th>
-                      <th className="max-w-[5rem]">Actions</th>
+                      {store.credentials.data.role_is_member === 0 && (
+                        <th className="max-w-[5rem]">Actions</th>
+                      )}
                     </tr>
                   </thead>
                   <tbody>
@@ -347,26 +361,29 @@ const ProfileList = ({ members, isLoading, error }) => {
                           <td>{counter++}.</td>
                           <td>{itemB.beneficiaries_name}</td>
                           <td>{itemB.beneficiaries_relationship}</td>
-                          <td>
-                            <div className="flex items-center gap-1">
-                              <button
-                                type="button"
-                                className="btn-action-table tooltip-action-table"
-                                data-tooltip="Edit"
-                                onClick={() => handleEditBeneficiaries(itemB)}
-                              >
-                                <FaEdit />
-                              </button>
-                              <button
-                                type="button"
-                                className="btn-action-table tooltip-action-table"
-                                data-tooltip="Delete"
-                                onClick={() => handleDelete(itemB)}
-                              >
-                                <FaTrash />
-                              </button>
-                            </div>
-                          </td>
+
+                          {store.credentials.data.role_is_member === 0 && (
+                            <td>
+                              <div className="flex items-center gap-1">
+                                <button
+                                  type="button"
+                                  className="btn-action-table tooltip-action-table"
+                                  data-tooltip="Edit"
+                                  onClick={() => handleEditBeneficiaries(itemB)}
+                                >
+                                  <FaEdit />
+                                </button>
+                                <button
+                                  type="button"
+                                  className="btn-action-table tooltip-action-table"
+                                  data-tooltip="Delete"
+                                  onClick={() => handleDelete(itemB)}
+                                >
+                                  <FaTrash />
+                                </button>
+                              </div>
+                            </td>
+                          )}
                         </tr>
                       );
                     })}

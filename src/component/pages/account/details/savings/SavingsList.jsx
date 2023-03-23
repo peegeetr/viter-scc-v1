@@ -97,7 +97,9 @@ const SavingsList = ({ setItemEdit }) => {
               <th className="w-[15rem]">Saving Deposit</th>
               <th className="w-[15rem]">Withdrawal</th>
               <th className="w-[15rem]">Savings Interest</th>
-              <th className="max-w-[5rem]">Actions</th>
+              {store.credentials.data.role_is_member === 0 && (
+                <th className="max-w-[5rem]">Actions</th>
+              )}
             </tr>
           </thead>
           <tbody>
@@ -142,26 +144,28 @@ const SavingsList = ({ setItemEdit }) => {
                         : ""}
                     </td>
                     <td>{numberWithCommas(item.savings_interest)}</td>
-                    <td>
-                      <div className="flex items-center gap-1">
-                        <button
-                          type="button"
-                          className="btn-action-table tooltip-action-table"
-                          data-tooltip="Edit"
-                          onClick={() => handleEdit(item)}
-                        >
-                          <FaEdit />
-                        </button>
-                        <button
-                          type="button"
-                          className="btn-action-table tooltip-action-table"
-                          data-tooltip="Delete"
-                          onClick={() => handleDelete(item)}
-                        >
-                          <FaTrash />
-                        </button>
-                      </div>
-                    </td>
+                    {store.credentials.data.role_is_member === 0 && (
+                      <td>
+                        <div className="flex items-center gap-1">
+                          <button
+                            type="button"
+                            className="btn-action-table tooltip-action-table"
+                            data-tooltip="Edit"
+                            onClick={() => handleEdit(item)}
+                          >
+                            <FaEdit />
+                          </button>
+                          <button
+                            type="button"
+                            className="btn-action-table tooltip-action-table"
+                            data-tooltip="Delete"
+                            onClick={() => handleDelete(item)}
+                          >
+                            <FaTrash />
+                          </button>
+                        </div>
+                      </td>
+                    )}
                   </tr>
                 ))}
               </React.Fragment>

@@ -57,6 +57,7 @@ const ModalAddCapitalShare = ({ item }) => {
     onSuccess: (data) => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ["capital-share"] });
+      dispatch(setIsAdd(false));
 
       // show success box
       if (data.success) {

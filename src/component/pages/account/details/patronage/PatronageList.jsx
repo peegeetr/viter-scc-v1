@@ -96,7 +96,9 @@ const PatronageList = ({ setItemEdit }) => {
               <th className="w-[15rem]">Product Name</th>
               <th className="w-[15rem]">Quantity</th>
               <th className="w-[15rem]">Price</th>
-              <th className="max-w-[5rem]">Actions</th>
+              {store.credentials.data.role_is_member === 0 && (
+                <th className="max-w-[5rem]">Actions</th>
+              )}
             </tr>
           </thead>
           <tbody>
@@ -125,26 +127,28 @@ const PatronageList = ({ setItemEdit }) => {
                     <td>{item.product_item_name}</td>
                     <td>{item.patronage_product_quantity}</td>
                     <td>{numberWithCommas(item.patronage_product_amount)}</td>
-                    <td>
-                      <div className="flex items-center gap-1">
-                        <button
-                          type="button"
-                          className="btn-action-table tooltip-action-table"
-                          data-tooltip="Edit"
-                          onClick={() => handleEdit(item)}
-                        >
-                          <FaEdit />
-                        </button>
-                        <button
-                          type="button"
-                          className="btn-action-table tooltip-action-table"
-                          data-tooltip="Delete"
-                          onClick={() => handleDelete(item)}
-                        >
-                          <FaTrash />
-                        </button>
-                      </div>
-                    </td>
+                    {store.credentials.data.role_is_member === 0 && (
+                      <td>
+                        <div className="flex items-center gap-1">
+                          <button
+                            type="button"
+                            className="btn-action-table tooltip-action-table"
+                            data-tooltip="Edit"
+                            onClick={() => handleEdit(item)}
+                          >
+                            <FaEdit />
+                          </button>
+                          <button
+                            type="button"
+                            className="btn-action-table tooltip-action-table"
+                            data-tooltip="Delete"
+                            onClick={() => handleDelete(item)}
+                          >
+                            <FaTrash />
+                          </button>
+                        </div>
+                      </td>
+                    )}
                   </tr>
                 ))}
               </React.Fragment>

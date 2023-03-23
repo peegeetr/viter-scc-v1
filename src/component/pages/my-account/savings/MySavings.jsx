@@ -15,16 +15,10 @@ const MySavings = () => {
   return (
     <>
       <Header />
-      <Navigation menu="account" />
+      <Navigation menu="myaccount" />
       <div className="wrapper">
         <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2">
           <BreadCrumbs />{" "}
-          <div className="flex items-center gap-1">
-            <button type="button" className="btn-primary">
-              <FaPlusCircle />
-              <span>Add</span>
-            </button>
-          </div>
         </div>
         <hr />
 
