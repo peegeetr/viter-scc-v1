@@ -6,7 +6,10 @@ class Product
     public $product_date;
     public $product_quantity;
     public $product_sold_quantity;
+    public $product_market_price;
     public $product_price;
+    public $product_scc_price;
+    public $product_profit;
     public $product_created;
     public $product_datetime;
 
@@ -33,12 +36,18 @@ class Product
             $sql .= "product_date, ";
             $sql .= "product_quantity, ";
             $sql .= "product_price, ";
+            $sql .= "product_market_price, ";
+            $sql .= "product_profit, ";
+            $sql .= "product_scc_price, ";
             $sql .= "product_created, ";
             $sql .= "product_datetime ) values ( ";
             $sql .= ":product_item_name, ";
             $sql .= ":product_date, ";
             $sql .= ":product_quantity, ";
             $sql .= ":product_price, ";
+            $sql .= ":product_market_price, ";
+            $sql .= ":product_scc_price, ";
+            $sql .= ":product_profit, ";
             $sql .= ":product_created, ";
             $sql .= ":product_datetime ) ";
             $query = $this->connection->prepare($sql);
@@ -47,6 +56,9 @@ class Product
                 "product_date" => $this->product_date,
                 "product_quantity" => $this->product_quantity,
                 "product_price" => $this->product_price,
+                "product_scc_price" => $this->product_scc_price,
+                "product_market_price" => $this->product_market_price,
+                "product_profit" => $this->product_profit,
                 "product_created" => $this->product_created,
                 "product_datetime" => $this->product_datetime,
             ]);
@@ -139,6 +151,9 @@ class Product
             $sql .= "product_date = :product_date, ";
             $sql .= "product_quantity = :product_quantity, ";
             $sql .= "product_price = :product_price, ";
+            $sql .= "product_scc_price = :product_scc_price, ";
+            $sql .= "product_market_price = :product_market_price, ";
+            $sql .= "product_profit = :product_profit, ";
             $sql .= "product_datetime = :product_datetime ";
             $sql .= "where product_aid = :product_aid ";
             $query = $this->connection->prepare($sql);
@@ -147,6 +162,9 @@ class Product
                 "product_date" => $this->product_date,
                 "product_quantity" => $this->product_quantity,
                 "product_price" => $this->product_price,
+                "product_scc_price" => $this->product_scc_price,
+                "product_market_price" => $this->product_market_price,
+                "product_profit" => $this->product_profit,
                 "product_datetime" => $this->product_datetime,
                 "product_aid" => $this->product_aid,
             ]);

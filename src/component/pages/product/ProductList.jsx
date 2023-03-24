@@ -89,9 +89,12 @@ const ProductList = ({ setItemEdit }) => {
               <th>#</th>
               <th className="min-w-[15rem] w-[15rem]">Products</th>
               <th className="min-w-[15rem] w-[15rem]">Date</th>
-              <th className="min-w-[15rem]">Quantity</th>
-              <th className="min-w-[15rem]">Sold </th>
-              <th className="min-w-[10rem] w-[10rem]">Price</th>
+              <th className="min-w-[5rem]">Quantity</th>
+              <th className="min-w-[5rem]">Sold </th>
+              <th className="min-w-[10rem] w-[10rem]">Supplier Price</th>
+              <th className="min-w-[10rem] w-[10rem]">Member Price</th>
+              <th className="min-w-[10rem] w-[10rem]">Market Price</th>
+              <th className="min-w-[10rem] w-[10rem]">SCC Profit</th>
 
               <th className="max-w-[5rem]">Actions</th>
             </tr>
@@ -123,6 +126,9 @@ const ProductList = ({ setItemEdit }) => {
                     <td className=" break-all">{item.product_quantity}</td>
                     <td className=" break-all">{item.product_sold_quantity}</td>
                     <td className=" break-all">{item.product_price}</td>
+                    <td className=" break-all">{item.product_scc_price}</td>
+                    <td className=" break-all">{item.product_market_price}</td>
+                    <td className=" break-all">{item.product_profit}</td>
                     <td>
                       <div className="flex items-center gap-1">
                         <button

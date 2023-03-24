@@ -49,6 +49,9 @@ const ModalAddProduct = ({ item }) => {
     product_quantity: item ? item.product_quantity : "",
     product_date: item ? item.product_date : "",
     product_price: item ? item.product_price : "",
+    product_scc_price: item ? item.product_scc_price : "",
+    product_market_price: item ? item.product_market_price : "",
+    product_profit: "",
   };
 
   const yupSchema = Yup.object({
@@ -56,6 +59,8 @@ const ModalAddProduct = ({ item }) => {
     product_quantity: Yup.string().required("Required"),
     product_date: Yup.string().required("Required"),
     product_price: Yup.string().required("Required"),
+    product_scc_price: Yup.string().required("Required"),
+    product_market_price: Yup.string().required("Required"),
   });
 
   return (
@@ -84,6 +89,9 @@ const ModalAddProduct = ({ item }) => {
               }}
             >
               {(props) => {
+                props.values.product_profit =
+                  Number(props.values.product_scc_price) -
+                  Number(props.values.product_price);
                 return (
                   <Form>
                     <div className="relative my-5">
@@ -113,9 +121,25 @@ const ModalAddProduct = ({ item }) => {
                       </div>
                       <div className="relative my-5">
                         <InputText
-                          label="Price"
+                          label="Supplier Price"
                           type="text"
                           name="product_price"
+                          disabled={mutation.isLoading}
+                        />
+                      </div>
+                      <div className="relative my-5">
+                        <InputText
+                          label="Member Price"
+                          type="text"
+                          name="product_scc_price"
+                          disabled={mutation.isLoading}
+                        />
+                      </div>
+                      <div className="relative my-5">
+                        <InputText
+                          label="Market Price"
+                          type="text"
+                          name="product_market_price"
                           disabled={mutation.isLoading}
                         />
                       </div>
