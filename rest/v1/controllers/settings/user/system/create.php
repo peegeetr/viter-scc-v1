@@ -23,7 +23,7 @@ $user_system->user_system_key = $encrypt->doHash(rand());
 $user_system->user_system_created = date("Y-m-d H:i:s");
 $user_system->user_system_datetime = date("Y-m-d H:i:s");
 
-$password_link = "/dev-app/system/create-password";
+$password_link = "/system/create-password";
 // check email
 isEmailExist($user_system, $user_system->user_system_email);
 // send email notification

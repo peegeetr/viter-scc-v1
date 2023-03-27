@@ -22,10 +22,10 @@ $user_other->user_other_role_id = checkIndex($data, "user_other_role_id");
 $user_other->user_other_key = $encrypt->doHash(rand());
 $user_other->user_other_created = date("Y-m-d H:i:s");
 $user_other->user_other_datetime = date("Y-m-d H:i:s");
-$password_link = "/dev-app/create-password";
+$password_link = "/create-password";
 
 $name = checkIndex($data, "name");
-$name = "/dev-app/create-password";
+$name = "/create-password";
 // check email 
 isEmailExist($user_other, $user_other->user_other_email);
 // send email notification

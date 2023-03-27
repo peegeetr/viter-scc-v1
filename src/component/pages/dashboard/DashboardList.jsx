@@ -23,6 +23,8 @@ import ModalDeleteRestore from "../../partials/modals/ModalDeleteRestore";
 import SearchBar from "../../partials/SearchBar";
 import ServerError from "../../partials/ServerError";
 import TableSpinner from "../../partials/spinners/TableSpinner";
+import StatusActive from "../../partials/status/StatusActive";
+import StatusInactive from "../../partials/status/StatusInactive";
 const DashboardList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [dataItem, setData] = React.useState(null);
@@ -131,6 +133,15 @@ const DashboardList = ({ setItemEdit }) => {
                           {item.announcement_name}
                         </p>
                       </div>
+                      {store.credentials.data.role_is_member === 0 && (
+                        <p className="text-xs max-w-[650px] w-full m-0">
+                          {item.announcement_is_active === 1 ? (
+                            <StatusActive />
+                          ) : (
+                            <StatusInactive />
+                          )}
+                        </p>
+                      )}
                       {store.credentials.data.role_is_member === 0 && (
                         <div className="flex items-center gap-1">
                           {item.announcement_is_active === 1 && (

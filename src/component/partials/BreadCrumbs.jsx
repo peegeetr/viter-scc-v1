@@ -14,10 +14,10 @@ const BreadCrumbs = ({ param = "" }) => {
 
   const removeDev =
     store.credentials.data.role_is_developer === 1
-      ? "/dev-app/system"
+      ? "/system"
       : store.credentials.data.role_is_admin === 1
-      ? "/dev-app/admin"
-      : "/dev-app/member";
+      ? "/admin"
+      : "/member";
   let currentLink = "";
 
   const crumbs = location.pathname
