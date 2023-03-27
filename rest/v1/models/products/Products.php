@@ -37,8 +37,8 @@ class Product
             $sql .= "product_quantity, ";
             $sql .= "product_price, ";
             $sql .= "product_market_price, ";
-            $sql .= "product_profit, ";
             $sql .= "product_scc_price, ";
+            $sql .= "product_profit, ";
             $sql .= "product_created, ";
             $sql .= "product_datetime ) values ( ";
             $sql .= ":product_item_name, ";

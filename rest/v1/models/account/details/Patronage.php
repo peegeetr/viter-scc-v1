@@ -219,12 +219,12 @@ class Patronage
     {
         try {
             $sql = "update {$this->tblProduct} set ";
-            $sql .= "product_sold_quantity = :product_sold_quantity, ";
-            $sql .= "where patronage_aid = :patronage_aid ";
+            $sql .= "product_sold_quantity = :product_sold_quantity ";
+            $sql .= "where product_aid = :product_aid ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "product_sold_quantity" => $this->sold,
-                "patronage_aid" => $this->patronage_product_id,
+                "product_aid" => $this->patronage_product_id,
             ]);
         } catch (PDOException $ex) {
             $query = false;

@@ -93,8 +93,8 @@ const ProductList = ({ setItemEdit }) => {
               <th className="min-w-[5rem]">Sold </th>
               <th className="min-w-[10rem] w-[10rem]">Supplier Price</th>
               <th className="min-w-[10rem] w-[10rem]">Member Price</th>
-              <th className="min-w-[10rem] w-[10rem]">Market Price</th>
               <th className="min-w-[10rem] w-[10rem]">SCC Profit</th>
+              <th className="min-w-[10rem] w-[10rem]">Market Price</th>
 
               <th className="max-w-[5rem]">Actions</th>
             </tr>
@@ -123,12 +123,12 @@ const ProductList = ({ setItemEdit }) => {
                     <td> {counter++}.</td>
                     <td>{item.product_item_name}</td>
                     <td>{formatDate(item.product_date)}</td>
-                    <td className=" break-all">{item.product_quantity}</td>
-                    <td className=" break-all">{item.product_sold_quantity}</td>
-                    <td className=" break-all">{item.product_price}</td>
-                    <td className=" break-all">{item.product_scc_price}</td>
-                    <td className=" break-all">{item.product_market_price}</td>
-                    <td className=" break-all">{item.product_profit}</td>
+                    <td>{item.product_quantity}</td>
+                    <td>{item.product_sold_quantity}</td>
+                    <td>{item.product_price}</td>
+                    <td>{item.product_scc_price}</td>
+                    <td>{item.product_profit}</td>
+                    <td>{item.product_market_price}</td>
                     <td>
                       <div className="flex items-center gap-1">
                         <button

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 13, 2023 at 09:58 AM
+-- Generation Time: Mar 27, 2023 at 10:01 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -60,9 +60,9 @@ INSERT INTO `sccv1_announcement` (`announcement_aid`, `announcement_name`, `anno
 CREATE TABLE `sccv1_capital_share` (
   `capital_share_aid` int(11) NOT NULL,
   `capital_share_member_id` varchar(20) NOT NULL,
-  `capital_share_amount` varchar(20) NOT NULL,
-  `capital_share_balance` varchar(20) NOT NULL,
-  `capital_share_total` varchar(20) NOT NULL,
+  `capital_share_paid_up` varchar(20) NOT NULL,
+  `capital_share_total_amount` varchar(20) NOT NULL,
+  `capital_share_or` varchar(20) NOT NULL,
   `capital_share_date` varchar(20) NOT NULL,
   `capital_share_created` datetime NOT NULL,
   `capital_share_datetime` datetime NOT NULL
@@ -72,9 +72,12 @@ CREATE TABLE `sccv1_capital_share` (
 -- Dumping data for table `sccv1_capital_share`
 --
 
-INSERT INTO `sccv1_capital_share` (`capital_share_aid`, `capital_share_member_id`, `capital_share_amount`, `capital_share_balance`, `capital_share_total`, `capital_share_date`, `capital_share_created`, `capital_share_datetime`) VALUES
-(2, '2', '500', '0', '0', '2023-03-31', '2023-03-12 08:58:54', '2023-03-13 16:19:25'),
-(3, '2', '5000', '0', '0', '2023-04-01', '2023-03-12 09:00:19', '2023-03-13 16:18:59');
+INSERT INTO `sccv1_capital_share` (`capital_share_aid`, `capital_share_member_id`, `capital_share_paid_up`, `capital_share_total_amount`, `capital_share_or`, `capital_share_date`, `capital_share_created`, `capital_share_datetime`) VALUES
+(21, '2', '5000', '5000', '12364798', '2023-03-01', '2023-03-23 06:54:44', '2023-03-23 06:54:44'),
+(25, '2', '500', '5500', '12364798', '2023-03-02', '2023-03-24 06:49:23', '2023-03-24 06:50:42'),
+(27, '2', '500', '6000', '12364798', '2023-03-06', '2023-03-24 06:49:45', '2023-03-24 06:49:45'),
+(28, '2', '500', '6500', '12364798', '2023-03-07', '2023-03-24 06:50:23', '2023-03-24 06:50:23'),
+(29, '2', '500', '7000', '12364798', '2023-03-08', '2023-03-24 06:50:56', '2023-03-24 06:50:56');
 
 -- --------------------------------------------------------
 
@@ -112,6 +115,13 @@ CREATE TABLE `sccv1_legal_beneficiaries` (
   `beneficiaries_created` datetime NOT NULL,
   `beneficiaries_datetime` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `sccv1_legal_beneficiaries`
+--
+
+INSERT INTO `sccv1_legal_beneficiaries` (`beneficiaries_aid`, `beneficiaries_employee_id`, `beneficiaries_name`, `beneficiaries_relationship`, `beneficiaries_created`, `beneficiaries_datetime`) VALUES
+(2, '1', 'cycy', 'sistera', '2023-03-16 07:08:40', '2023-03-16 16:12:34');
 
 -- --------------------------------------------------------
 
@@ -159,9 +169,61 @@ CREATE TABLE `sccv1_members` (
 --
 
 INSERT INTO `sccv1_members` (`members_aid`, `members_id`, `members_is_approved`, `members_is_cancel`, `members_is_active`, `members_picture`, `members_first_name`, `members_last_name`, `members_middle_name`, `members_civil_status`, `members_gender`, `members_birth_place`, `members_birth_date`, `members_education_attainment`, `members_permanent_address`, `members_permanent_zip_code`, `members_permanent_mobile_no`, `members_present_address`, `members_present_zip_code`, `members_present_mobile_no`, `members_position`, `members_other_income`, `members_income_gross`, `members_other_source_income`, `members_spouse_occupation`, `members_income_net`, `members_spouse_income`, `members_spouse_net_income`, `members_properties_owned`, `members_pre_membership_date`, `members_created`, `members_datetime`) VALUES
-(1, '23-02-001', 0, 0, 1, '', 'Ronaldo', 'Lumabas', 'Soalibio', '', 'male', '', '2023-01-04', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2023-02-28', '2023-03-13 16:55:35', '2023-03-13 16:55:35'),
-(2, '23-02-002', 0, 0, 1, '', 'cycy', 'Lumabas', 'Soalibio', '', 'male', '', '2023-01-04', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2023-02-28', '2023-03-13 16:55:42', '2023-03-13 16:55:42'),
+(1, '2301-001', 0, 0, 1, '', 'Ronaldo', 'Lumaba', 'Soalibio', '', 'male', '', '2023-01-04', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2023-02-28', '2023-03-13 16:55:35', '2023-03-14 16:56:41'),
+(2, '23-02-002', 1, 0, 1, '', 'cycy', 'Lumabas', 'Soalibio', '', 'male', '', '2023-01-04', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2023-02-28', '2023-03-13 16:55:42', '2023-03-13 16:59:12'),
 (3, '23-02-003', 0, 0, 1, '', 'zaicy', 'Lumabas', 'Soalibio', '', 'male', '', '2023-01-04', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2023-03-12', '2023-03-13 16:55:56', '2023-03-13 16:55:56');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sccv1_members_patronage`
+--
+
+CREATE TABLE `sccv1_members_patronage` (
+  `patronage_aid` int(11) NOT NULL,
+  `patronage_product_id` varchar(20) NOT NULL,
+  `patronage_member_id` varchar(20) NOT NULL,
+  `patronage_or` varchar(100) NOT NULL,
+  `patronage_product_quantity` varchar(20) NOT NULL,
+  `patronage_product_amount` varchar(20) NOT NULL,
+  `patronage_date` varchar(20) NOT NULL,
+  `patronage_created` datetime NOT NULL,
+  `patronage_datetime` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `sccv1_members_patronage`
+--
+
+INSERT INTO `sccv1_members_patronage` (`patronage_aid`, `patronage_product_id`, `patronage_member_id`, `patronage_or`, `patronage_product_quantity`, `patronage_product_amount`, `patronage_date`, `patronage_created`, `patronage_datetime`) VALUES
+(2, '2', '2', '1236547989', '2', '200', '2023-03-01', '2023-03-27 15:58:41', '2023-03-27 15:58:41');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sccv1_product`
+--
+
+CREATE TABLE `sccv1_product` (
+  `product_aid` int(11) NOT NULL,
+  `product_item_name` varchar(20) NOT NULL,
+  `product_date` varchar(20) NOT NULL,
+  `product_quantity` varchar(20) NOT NULL,
+  `product_sold_quantity` varchar(20) NOT NULL,
+  `product_price` varchar(20) NOT NULL,
+  `product_scc_price` varchar(20) NOT NULL,
+  `product_profit` varchar(20) NOT NULL,
+  `product_market_price` varchar(20) NOT NULL,
+  `product_created` datetime NOT NULL,
+  `product_datetime` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `sccv1_product`
+--
+
+INSERT INTO `sccv1_product` (`product_aid`, `product_item_name`, `product_date`, `product_quantity`, `product_sold_quantity`, `product_price`, `product_scc_price`, `product_profit`, `product_market_price`, `product_created`, `product_datetime`) VALUES
+(2, 'rice', '2023-03-27', '5', '2', '100', '150', '50', '200', '2023-03-27 07:05:21', '2023-03-27 07:05:21');
 
 -- --------------------------------------------------------
 
@@ -173,9 +235,11 @@ CREATE TABLE `sccv1_savings` (
   `savings_aid` int(11) NOT NULL,
   `savings_member_id` varchar(20) NOT NULL,
   `savings_date` varchar(20) NOT NULL,
-  `savings_amount` varchar(20) NOT NULL,
-  `savings_balance` varchar(20) NOT NULL,
-  `savings_total` varchar(20) NOT NULL,
+  `savings_category` varchar(2) NOT NULL,
+  `savings_deposite` varchar(20) NOT NULL,
+  `savings_withdrawal` varchar(20) NOT NULL,
+  `savings_interest` varchar(20) NOT NULL,
+  `savings_or` varchar(100) NOT NULL,
   `savings_created` datetime NOT NULL,
   `savings_datetime` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -184,8 +248,10 @@ CREATE TABLE `sccv1_savings` (
 -- Dumping data for table `sccv1_savings`
 --
 
-INSERT INTO `sccv1_savings` (`savings_aid`, `savings_member_id`, `savings_date`, `savings_amount`, `savings_balance`, `savings_total`, `savings_created`, `savings_datetime`) VALUES
-(2, '2', '2023-03-01', '200', '0', '0', '2023-03-12 07:54:34', '2023-03-12 07:54:34');
+INSERT INTO `sccv1_savings` (`savings_aid`, `savings_member_id`, `savings_date`, `savings_category`, `savings_deposite`, `savings_withdrawal`, `savings_interest`, `savings_or`, `savings_created`, `savings_datetime`) VALUES
+(5, '2', '2023-03-01', '0', '1000', '0', '0', '3456356tyhg', '2023-03-16 16:48:53', '2023-03-16 17:03:42'),
+(6, '2', '2023-03-16', '0', '1000', '0', '0', 'ss34534566', '2023-03-16 16:53:10', '2023-03-16 17:03:32'),
+(7, '2', '2023-03-16', '1', '0', '500', '0', '2426erter', '2023-03-16 16:53:31', '2023-03-16 17:03:38');
 
 -- --------------------------------------------------------
 
@@ -200,17 +266,19 @@ CREATE TABLE `sccv1_settings_role` (
   `role_description` text NOT NULL,
   `role_created` varchar(20) NOT NULL,
   `role_datetime` datetime NOT NULL,
-  `role_is_developer` tinyint(1) DEFAULT NULL,
-  `role_is_admin` tinyint(1) NOT NULL
+  `role_is_developer` tinyint(1) NOT NULL,
+  `role_is_admin` tinyint(1) NOT NULL,
+  `role_is_member` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `sccv1_settings_role`
 --
 
-INSERT INTO `sccv1_settings_role` (`role_aid`, `role_is_active`, `role_name`, `role_description`, `role_created`, `role_datetime`, `role_is_developer`, `role_is_admin`) VALUES
-(12, 1, 'Developer', 'for admin.', '2023-03-09 16:03:26', '2023-03-09 16:09:27', 1, 0),
-(13, 1, 'admin', 'for developer', '2023-03-09 16:25:26', '2023-03-09 16:25:26', 0, 1);
+INSERT INTO `sccv1_settings_role` (`role_aid`, `role_is_active`, `role_name`, `role_description`, `role_created`, `role_datetime`, `role_is_developer`, `role_is_admin`, `role_is_member`) VALUES
+(12, 1, 'Developer', 'for admin.', '2023-03-09 16:03:26', '2023-03-23 16:20:06', 1, 0, 0),
+(13, 1, 'admin', 'for developer', '2023-03-09 16:25:26', '2023-03-09 16:25:26', 0, 1, 0),
+(14, 1, 'member', 'for member', '2023-03-23 16:17:15', '2023-03-23 16:17:15', 0, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -221,7 +289,7 @@ INSERT INTO `sccv1_settings_role` (`role_aid`, `role_is_active`, `role_name`, `r
 CREATE TABLE `sccv1_settings_user_other` (
   `user_other_aid` int(11) NOT NULL,
   `user_other_is_active` tinyint(1) NOT NULL,
-  `user_other_name` varchar(50) NOT NULL,
+  `user_other_member_id` varchar(20) NOT NULL,
   `user_other_email` varchar(200) NOT NULL,
   `user_other_role_id` int(11) NOT NULL,
   `user_other_key` varchar(255) NOT NULL,
@@ -234,8 +302,9 @@ CREATE TABLE `sccv1_settings_user_other` (
 -- Dumping data for table `sccv1_settings_user_other`
 --
 
-INSERT INTO `sccv1_settings_user_other` (`user_other_aid`, `user_other_is_active`, `user_other_name`, `user_other_email`, `user_other_role_id`, `user_other_key`, `user_other_password`, `user_other_created`, `user_other_datetime`) VALUES
-(9, 1, 'cyrene lumabass', 'cyrenemlumabas@gmail.com', 13, '32f2a222822f3c5492cb5ffbab75bbda85feb79b8a09dee8fc922ee58e16d29e', '', '2023-03-09 16:38:45', '2023-03-09 16:38:45');
+INSERT INTO `sccv1_settings_user_other` (`user_other_aid`, `user_other_is_active`, `user_other_member_id`, `user_other_email`, `user_other_role_id`, `user_other_key`, `user_other_password`, `user_other_created`, `user_other_datetime`) VALUES
+(9, 1, '2', 'cyrenemlumabas@gmail.com', 13, '', '$2y$10$Wsq8tTePhUDCmKqhsWuvNuXD7NICwGlnf4krXQzhIkhOk1bPREGza', '2023-03-09 16:38:45', '2023-03-23 06:49:44'),
+(10, 1, '3', 'cyrene.lumabas@frontlinebusiness.com.ph', 14, '', '$2y$10$g/zE/UpZWrfsQ.mJ2KSkkOGezAwVvJSdgjeXknWI/VOyDoSl4/uLm', '2023-03-23 16:21:35', '2023-03-23 16:27:08');
 
 -- --------------------------------------------------------
 
@@ -297,6 +366,18 @@ ALTER TABLE `sccv1_members`
   ADD PRIMARY KEY (`members_aid`);
 
 --
+-- Indexes for table `sccv1_members_patronage`
+--
+ALTER TABLE `sccv1_members_patronage`
+  ADD PRIMARY KEY (`patronage_aid`);
+
+--
+-- Indexes for table `sccv1_product`
+--
+ALTER TABLE `sccv1_product`
+  ADD PRIMARY KEY (`product_aid`);
+
+--
 -- Indexes for table `sccv1_savings`
 --
 ALTER TABLE `sccv1_savings`
@@ -334,7 +415,7 @@ ALTER TABLE `sccv1_announcement`
 -- AUTO_INCREMENT for table `sccv1_capital_share`
 --
 ALTER TABLE `sccv1_capital_share`
-  MODIFY `capital_share_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `capital_share_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `sccv1_file_upload`
@@ -346,7 +427,7 @@ ALTER TABLE `sccv1_file_upload`
 -- AUTO_INCREMENT for table `sccv1_legal_beneficiaries`
 --
 ALTER TABLE `sccv1_legal_beneficiaries`
-  MODIFY `beneficiaries_aid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `beneficiaries_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `sccv1_members`
@@ -355,22 +436,34 @@ ALTER TABLE `sccv1_members`
   MODIFY `members_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `sccv1_members_patronage`
+--
+ALTER TABLE `sccv1_members_patronage`
+  MODIFY `patronage_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `sccv1_product`
+--
+ALTER TABLE `sccv1_product`
+  MODIFY `product_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `sccv1_savings`
 --
 ALTER TABLE `sccv1_savings`
-  MODIFY `savings_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `savings_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `sccv1_settings_role`
 --
 ALTER TABLE `sccv1_settings_role`
-  MODIFY `role_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `role_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `sccv1_settings_user_other`
 --
 ALTER TABLE `sccv1_settings_user_other`
-  MODIFY `user_other_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `user_other_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `sccv1_settings_user_system`

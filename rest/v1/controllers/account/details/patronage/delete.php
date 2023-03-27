@@ -12,10 +12,13 @@ if (array_key_exists("patronageid", $_GET)) {
 
     // get task id from query string
     $patronage->patronage_aid = $_GET['patronageid'];
+    // $patronage->patronage_product_id = $data['patronage_product_id'];
+    // $patronage->sold = $data['total_product_quantity'];
 
     //check to see if task id in query string is not empty and is number, if not return json error
     checkId($patronage->patronage_aid);
-
+    // // update sold if remove
+    // checkUpdateQunatity($patronage);
     // delete
     $query = checkDelete($patronage);
 
