@@ -121,7 +121,7 @@ const DashboardList = ({ setItemEdit }) => {
                       </span>
                     </div>
 
-                    <div className="w-full py-1 flex items-center justify-between">
+                    <div className="w-full py-1 md:flex block items-center justify-between">
                       <div>
                         <small className="text-xs ">
                           Date: {formatDate(item.announcement_created)}
@@ -132,16 +132,16 @@ const DashboardList = ({ setItemEdit }) => {
                         <p className="text-xs max-w-[650px] w-full m-0">
                           {item.announcement_name}
                         </p>
+                        {store.credentials.data.role_is_member === 0 && (
+                          <p className="text-xs max-w-[650px] py-2 w-full m-0">
+                            {item.announcement_is_active === 1 ? (
+                              <StatusActive />
+                            ) : (
+                              <StatusInactive />
+                            )}
+                          </p>
+                        )}
                       </div>
-                      {store.credentials.data.role_is_member === 0 && (
-                        <p className="text-xs max-w-[650px] w-full m-0">
-                          {item.announcement_is_active === 1 ? (
-                            <StatusActive />
-                          ) : (
-                            <StatusInactive />
-                          )}
-                        </p>
-                      )}
                       {store.credentials.data.role_is_member === 0 && (
                         <div className="flex items-center gap-1">
                           {item.announcement_is_active === 1 && (

@@ -7,20 +7,20 @@ class Announcement
     public $announcement_is_active;
     public $announcement_date;
     public $announcement_created;
-    public $announcement_datetime; 
+    public $announcement_datetime;
 
     public $connection;
-    public $lastInsertedId; 
+    public $lastInsertedId;
     public $announcement_start;
     public $announcement_total;
     public $announcement_search;
     public $currentYear;
-    public $tblAnnouncement; 
+    public $tblAnnouncement;
 
     public function __construct($db)
     {
         $this->connection = $db;
-        $this->tblAnnouncement = "sccv1_announcement"; 
+        $this->tblAnnouncement = "sccv1_announcement";
     }
 
     // create
@@ -31,13 +31,13 @@ class Announcement
             $sql .= "( announcement_name, ";
             $sql .= "announcement_description, ";
             $sql .= "announcement_is_active, ";
-            $sql .= "announcement_date, "; 
+            $sql .= "announcement_date, ";
             $sql .= "announcement_created, ";
             $sql .= "announcement_datetime ) values ( ";
             $sql .= ":announcement_name, ";
             $sql .= ":announcement_description, ";
             $sql .= ":announcement_is_active, ";
-            $sql .= ":announcement_date, "; 
+            $sql .= ":announcement_date, ";
             $sql .= ":announcement_created, ";
             $sql .= ":announcement_datetime ) ";
             $query = $this->connection->prepare($sql);
@@ -45,7 +45,7 @@ class Announcement
                 "announcement_name" => $this->announcement_name,
                 "announcement_description" => $this->announcement_description,
                 "announcement_is_active" => $this->announcement_is_active,
-                "announcement_date" => $this->announcement_date, 
+                "announcement_date" => $this->announcement_date,
                 "announcement_created" => $this->announcement_created,
                 "announcement_datetime" => $this->announcement_datetime,
             ]);
@@ -60,25 +60,28 @@ class Announcement
     public function readAll()
     {
         try {
-            $sql = "select * from "; 
+            $sql = "select * from ";
             $sql .= "{$this->tblAnnouncement} ";
             // $sql .= "where announcement_is_active = 1 ";
-            $sql .= "order by announcement_date desc ";
+            $sql .= "order by announcement_is_active, ";
+            $sql .= "announcement_name asc, ";
+            $sql .= "announcement_date desc ";
             $query = $this->connection->query($sql);
         } catch (PDOException $ex) {
             $query = false;
         }
         return $query;
-    } 
-    
+    }
+
     public function readLimit()
     {
         try {
-            $sql = "select * from "; 
+            $sql = "select * from ";
             $sql .= "{$this->tblAnnouncement} ";
             // $sql .= "where announcement_is_active = 1 ";
-            $sql .= "order by announcement_date desc,";
-            $sql .= "announcement_name asc ";
+            $sql .= "order by announcement_is_active, ";
+            $sql .= "announcement_name asc, ";
+            $sql .= "announcement_date desc ";
             $sql .= "limit :start, ";
             $sql .= ":total ";
             $query = $this->connection->prepare($sql);
@@ -91,12 +94,12 @@ class Announcement
         }
         return $query;
     }
- 
+
     // search not approved members
     public function search()
     {
         try {
-            $sql = "select * from "; 
+            $sql = "select * from ";
             $sql .= "{$this->tblAnnouncement} ";
             $sql .= "where announcement_name like :announcement_name ";
             $sql .= "or announcement_date like :announcement_date ";
@@ -111,12 +114,12 @@ class Announcement
             $query = false;
         }
         return $query;
-    } 
+    }
     // read by id
     public function readById()
     {
         try {
-            $sql = "select * from "; 
+            $sql = "select * from ";
             $sql .= "{$this->tblAnnouncement} ";
             $sql .= "where announcement_is_active = 1 ";
             $sql .= "and announcement_aid = :announcement_aid ";
@@ -145,7 +148,7 @@ class Announcement
             $query->execute([
                 "announcement_name" => $this->announcement_name,
                 "announcement_description" => $this->announcement_description,
-                "announcement_date" => $this->announcement_date, 
+                "announcement_date" => $this->announcement_date,
                 "announcement_datetime" => $this->announcement_datetime,
                 "announcement_aid" => $this->announcement_aid,
             ]);
@@ -154,7 +157,7 @@ class Announcement
         }
         return $query;
     }
- 
+
     // name
     public function checkName()
     {
@@ -209,5 +212,4 @@ class Announcement
         }
         return $query;
     }
-
 }
