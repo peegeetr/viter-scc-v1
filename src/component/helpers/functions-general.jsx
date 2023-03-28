@@ -1,28 +1,26 @@
 import React from "react";
 import { setIsAdd } from "../../store/StoreAction.jsx";
 
-// // Online URL dev
-// export const devApiUrl =
-//   "https://scc.org/dev-app/rest";
-// export const devBaseImgUrl =
-//   "https://scc.org/dev-app/img";
-// export const devBaseUrl = "https://scc.org/dev-app";
-// export const devNavUrl = "/dev-app";
+// Online URL dev
+export const devApiUrl = "https://scc.frontlinebusiness.com.ph/rest";
+export const devBaseImgUrl = "https://scc.frontlinebusiness.com.ph/img";
+export const devBaseUrl = "https://scc.frontlinebusiness.com.ph";
+export const devNavUrl = "";
 
 // // // // Local URL dev
 // export const devApiUrl = "http://localhost/viter-newthing-v1/rest";
 // export const devBaseUrl = "http://localhost/viter-newthing-v1/public";
 // export const devBaseImgUrl = "http://localhost/viter-newthing-v1/public/img";
-// export const devNavUrl = "/dev-app";
+// export const devNavUrl = "";
 
 // cy url
 // export const devApiUrl = "http://localhost/viter-scc-v1/rest";
 // export const devBaseUrl = "http://localhost/viter-scc-v1/public";
-// export const devNavUrl = "/dev-app";
+// export const devNavUrl = "";
 // cy url
-export const devApiUrl = "http://localhost/cycy/viter-scc-v1/rest";
-export const devBaseUrl = "http://localhost/cycy/viter-scc-v1/public";
-export const devNavUrl = "";
+// export const devApiUrl = "http://localhost/cycy/viter-scc-v1/rest";
+// export const devBaseUrl = "http://localhost/cycy/viter-scc-v1/public";
+// export const devNavUrl = "";
 
 export const UrlAdmin = "admin";
 export const UrlMember = "member";

@@ -9,7 +9,7 @@ define("ADMIN", "jhonny.dichoso@frontlinebusiness.com.ph");
 
 // local 
 define("ROOT_DOMAIN", "http://127.0.0.1:5173");
-// define("IMAGES_URL", "http://localhost:3000/dev-app/img");
+// define("IMAGES_URL", "http://localhost:3000/img");
 
 // dev online 
 define("IMAGES_URL", "http://127.0.0.1:5173/img");
