@@ -32,6 +32,7 @@ import MyPatronage from "./component/pages/my-account/patronage/MyPatronage";
 import MyProfile from "./component/pages/my-account/profile/MyProfile";
 import MySavings from "./component/pages/my-account/savings/MySavings";
 import Product from "./component/pages/product/Product";
+import NetSurPlus from "./component/pages/settings/net-surplus/NetSurPlus";
 import SettingsLink from "./component/pages/settings/SettingsLink";
 import OtherUser from "./component/pages/settings/users/other/OtherUser";
 import Role from "./component/pages/settings/users/role/Role";
@@ -208,6 +209,14 @@ function App() {
               element={
                 <ProtectedRouteSystem>
                   <SettingsLink />
+                </ProtectedRouteSystem>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlSystem}/settings/net-surplus`}
+              element={
+                <ProtectedRouteSystem>
+                  <NetSurPlus />
                 </ProtectedRouteSystem>
               }
             />

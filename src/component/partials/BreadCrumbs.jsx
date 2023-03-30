@@ -22,8 +22,10 @@ const BreadCrumbs = ({ param = "" }) => {
 
   const crumbs = location.pathname
     .replace(`${removeDev}`, "")
+    .replace("-", " ")
     .split("/")
     .filter((crumb) => crumb !== "")
+
     .map((crumb, key) => {
       currentLink += `/${crumb}`;
 

@@ -3,6 +3,7 @@ import { StoreContext } from "../../../store/StoreContext.jsx";
 import Footer from "../../partials/Footer.jsx";
 import Header from "../../partials/Header.jsx";
 import Navigation from "../../partials/Navigation.jsx";
+import NetSurplusLink from "./net-surplus/NetSurplusLink.jsx";
 import OtherUserLink from "./users/other/OtherUserLink.jsx";
 
 import UserLink from "./users/UserLink.jsx";
@@ -24,6 +25,9 @@ const SettingsLink = () => {
             ) : (
               <OtherUserLink />
             )}
+          </li>
+          <li className="py-1">
+            <NetSurplusLink />
           </li>
         </ul>
         <Footer />
