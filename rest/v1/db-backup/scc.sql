@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 27, 2023 at 10:01 AM
+-- Generation Time: Apr 05, 2023 at 10:41 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -48,7 +48,7 @@ INSERT INTO `sccv1_announcement` (`announcement_aid`, `announcement_name`, `anno
 (5, 'sdfsvv', 'asdf', 1, '2023-03-31', '2023-03-11 19:15:34', '2023-03-11 19:15:34'),
 (6, 'sdfsvva', 'asdf', 1, '2023-03-31', '2023-03-11 19:16:13', '2023-03-11 19:16:13'),
 (7, 'sdfsvvasss', 'asdf', 1, '2023-03-31', '2023-03-11 19:17:21', '2023-03-11 19:17:21'),
-(8, 'ass', 'asdf', 1, '2023-03-31', '2023-03-11 19:17:33', '2023-03-13 06:56:24'),
+(8, 'ass', 'asdf', 0, '2023-03-31', '2023-03-11 19:17:33', '2023-03-28 06:51:54'),
 (9, 'asssff', 'asdf', 1, '2023-03-31', '2023-03-11 19:18:12', '2023-03-11 19:18:12');
 
 -- --------------------------------------------------------
@@ -74,10 +74,9 @@ CREATE TABLE `sccv1_capital_share` (
 
 INSERT INTO `sccv1_capital_share` (`capital_share_aid`, `capital_share_member_id`, `capital_share_paid_up`, `capital_share_total_amount`, `capital_share_or`, `capital_share_date`, `capital_share_created`, `capital_share_datetime`) VALUES
 (21, '2', '5000', '5000', '12364798', '2023-03-01', '2023-03-23 06:54:44', '2023-03-23 06:54:44'),
-(25, '2', '500', '5500', '12364798', '2023-03-02', '2023-03-24 06:49:23', '2023-03-24 06:50:42'),
-(27, '2', '500', '6000', '12364798', '2023-03-06', '2023-03-24 06:49:45', '2023-03-24 06:49:45'),
-(28, '2', '500', '6500', '12364798', '2023-03-07', '2023-03-24 06:50:23', '2023-03-24 06:50:23'),
-(29, '2', '500', '7000', '12364798', '2023-03-08', '2023-03-24 06:50:56', '2023-03-24 06:50:56');
+(30, '2', '600', '5600', '12364798', '2023-04-05', '2023-04-05 16:26:34', '2023-04-05 16:27:16'),
+(31, '2', '500', '6000', '12364798', '2023-04-06', '2023-04-05 16:26:52', '2023-04-05 16:26:52'),
+(32, '2', '500', '6500', '23654', '2023-04-07', '2023-04-05 16:27:06', '2023-04-05 16:27:06');
 
 -- --------------------------------------------------------
 
@@ -196,7 +195,8 @@ CREATE TABLE `sccv1_members_patronage` (
 --
 
 INSERT INTO `sccv1_members_patronage` (`patronage_aid`, `patronage_product_id`, `patronage_member_id`, `patronage_or`, `patronage_product_quantity`, `patronage_product_amount`, `patronage_date`, `patronage_created`, `patronage_datetime`) VALUES
-(2, '2', '2', '1236547989', '2', '200', '2023-03-01', '2023-03-27 15:58:41', '2023-03-27 15:58:41');
+(3, '3', '2', '1236547989', '3', '300', '2023-04-05', '2023-04-05 16:27:52', '2023-04-05 16:29:09'),
+(4, '3', '2', '1236547989', '2', '200', '2023-04-05', '2023-04-05 16:35:35', '2023-04-05 16:35:35');
 
 -- --------------------------------------------------------
 
@@ -209,6 +209,7 @@ CREATE TABLE `sccv1_product` (
   `product_item_name` varchar(20) NOT NULL,
   `product_date` varchar(20) NOT NULL,
   `product_quantity` varchar(20) NOT NULL,
+  `product_remaining_quantity` varchar(20) NOT NULL,
   `product_sold_quantity` varchar(20) NOT NULL,
   `product_price` varchar(20) NOT NULL,
   `product_scc_price` varchar(20) NOT NULL,
@@ -222,8 +223,8 @@ CREATE TABLE `sccv1_product` (
 -- Dumping data for table `sccv1_product`
 --
 
-INSERT INTO `sccv1_product` (`product_aid`, `product_item_name`, `product_date`, `product_quantity`, `product_sold_quantity`, `product_price`, `product_scc_price`, `product_profit`, `product_market_price`, `product_created`, `product_datetime`) VALUES
-(2, 'rice', '2023-03-27', '5', '2', '100', '150', '50', '200', '2023-03-27 07:05:21', '2023-03-27 07:05:21');
+INSERT INTO `sccv1_product` (`product_aid`, `product_item_name`, `product_date`, `product_quantity`, `product_remaining_quantity`, `product_sold_quantity`, `product_price`, `product_scc_price`, `product_profit`, `product_market_price`, `product_created`, `product_datetime`) VALUES
+(3, 'rice', '2023-04-04', '20', '20', '2', '100', '150', '50', '200', '2023-04-04 16:24:57', '2023-04-04 16:24:57');
 
 -- --------------------------------------------------------
 
@@ -252,6 +253,31 @@ INSERT INTO `sccv1_savings` (`savings_aid`, `savings_member_id`, `savings_date`,
 (5, '2', '2023-03-01', '0', '1000', '0', '0', '3456356tyhg', '2023-03-16 16:48:53', '2023-03-16 17:03:42'),
 (6, '2', '2023-03-16', '0', '1000', '0', '0', 'ss34534566', '2023-03-16 16:53:10', '2023-03-16 17:03:32'),
 (7, '2', '2023-03-16', '1', '0', '500', '0', '2426erter', '2023-03-16 16:53:31', '2023-03-16 17:03:38');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sccv1_settings_netsurplus`
+--
+
+CREATE TABLE `sccv1_settings_netsurplus` (
+  `net_surplus_aid` int(11) NOT NULL,
+  `net_surplus_id` varchar(20) NOT NULL,
+  `net_surplus_amount` varchar(20) NOT NULL,
+  `net_surplus_total_capital` varchar(20) NOT NULL,
+  `net_surplus_total_profit` varchar(20) NOT NULL,
+  `net_surplus_dividend` varchar(20) NOT NULL,
+  `net_surplus_patronage_refund` varchar(20) NOT NULL,
+  `net_surplus_created` datetime NOT NULL,
+  `net_surplus_datetime` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `sccv1_settings_netsurplus`
+--
+
+INSERT INTO `sccv1_settings_netsurplus` (`net_surplus_aid`, `net_surplus_id`, `net_surplus_amount`, `net_surplus_total_capital`, `net_surplus_total_profit`, `net_surplus_dividend`, `net_surplus_patronage_refund`, `net_surplus_created`, `net_surplus_datetime`) VALUES
+(2, 'NS-2023-001', '1000', '0', '0', '0', '0', '2023-04-05 16:10:00', '2023-04-05 16:10:00');
 
 -- --------------------------------------------------------
 
@@ -384,6 +410,12 @@ ALTER TABLE `sccv1_savings`
   ADD PRIMARY KEY (`savings_aid`);
 
 --
+-- Indexes for table `sccv1_settings_netsurplus`
+--
+ALTER TABLE `sccv1_settings_netsurplus`
+  ADD PRIMARY KEY (`net_surplus_aid`);
+
+--
 -- Indexes for table `sccv1_settings_role`
 --
 ALTER TABLE `sccv1_settings_role`
@@ -415,7 +447,7 @@ ALTER TABLE `sccv1_announcement`
 -- AUTO_INCREMENT for table `sccv1_capital_share`
 --
 ALTER TABLE `sccv1_capital_share`
-  MODIFY `capital_share_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `capital_share_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `sccv1_file_upload`
@@ -439,19 +471,25 @@ ALTER TABLE `sccv1_members`
 -- AUTO_INCREMENT for table `sccv1_members_patronage`
 --
 ALTER TABLE `sccv1_members_patronage`
-  MODIFY `patronage_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `patronage_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `sccv1_product`
 --
 ALTER TABLE `sccv1_product`
-  MODIFY `product_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `product_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `sccv1_savings`
 --
 ALTER TABLE `sccv1_savings`
   MODIFY `savings_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `sccv1_settings_netsurplus`
+--
+ALTER TABLE `sccv1_settings_netsurplus`
+  MODIFY `net_surplus_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `sccv1_settings_role`
