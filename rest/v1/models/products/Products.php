@@ -5,6 +5,7 @@ class Product
     public $product_item_name;
     public $product_date;
     public $product_quantity;
+    public $product_remaining_quantity;
     public $product_sold_quantity;
     public $product_market_price;
     public $product_price;
@@ -35,6 +36,7 @@ class Product
             $sql .= "( product_item_name, ";
             $sql .= "product_date, ";
             $sql .= "product_quantity, ";
+            $sql .= "product_remaining_quantity, ";
             $sql .= "product_price, ";
             $sql .= "product_market_price, ";
             $sql .= "product_scc_price, ";
@@ -44,6 +46,7 @@ class Product
             $sql .= ":product_item_name, ";
             $sql .= ":product_date, ";
             $sql .= ":product_quantity, ";
+            $sql .= ":product_remaining_quantity, ";
             $sql .= ":product_price, ";
             $sql .= ":product_market_price, ";
             $sql .= ":product_scc_price, ";
@@ -55,6 +58,7 @@ class Product
                 "product_item_name" => $this->product_item_name,
                 "product_date" => $this->product_date,
                 "product_quantity" => $this->product_quantity,
+                "product_remaining_quantity" => $this->product_remaining_quantity,
                 "product_price" => $this->product_price,
                 "product_scc_price" => $this->product_scc_price,
                 "product_market_price" => $this->product_market_price,

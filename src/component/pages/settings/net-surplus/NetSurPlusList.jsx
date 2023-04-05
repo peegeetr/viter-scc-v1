@@ -14,7 +14,7 @@ import ServerError from "../../../partials/ServerError.jsx";
 import FetchingSpinner from "../../../partials/spinners/FetchingSpinner.jsx";
 import TableSpinner from "../../../partials/spinners/TableSpinner.jsx";
 
-const NetSurPlusList = () => {
+const NetSurPlusList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [dataItem, setData] = React.useState(null);
   const [id, setId] = React.useState(null);
@@ -34,11 +34,11 @@ const NetSurPlusList = () => {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ["product", onSearch, store.isSearch],
+    queryKey: ["net-surplus", onSearch, store.isSearch],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
-        `/v1/product/search/${search.current.value}`, // search endpoint
-        `/v1/product/page/${pageParam}`, // list endpoint
+        `/v1/net-surplus/search/${search.current.value}`, // search endpoint
+        `/v1/net-surplus/page/${pageParam}`, // list endpoint
         store.isSearch // search boolean
       ),
     getNextPageParam: (lastPage) => {
@@ -65,7 +65,7 @@ const NetSurPlusList = () => {
 
   const handleDelete = (item) => {
     dispatch(setIsRestore(true));
-    setId(item.product_aid);
+    setId(item.net_surplus_aid);
     setData(item);
     setDel(true);
   };
@@ -87,14 +87,13 @@ const NetSurPlusList = () => {
           <thead>
             <tr>
               <th>#</th>
-              <th className="min-w-[15rem] w-[15rem]">Products</th>
-              <th className="min-w-[15rem] w-[15rem]">Date</th>
-              <th className="min-w-[5rem]">Quantity</th>
-              <th className="min-w-[5rem]">Sold </th>
-              <th className="min-w-[10rem] w-[10rem]">Supplier Price</th>
-              <th className="min-w-[10rem] w-[10rem]">Member Price</th>
-              <th className="min-w-[10rem] w-[10rem]">SCC Profit</th>
-              <th className="min-w-[10rem] w-[10rem]">Market Price</th>
+              <th className="min-w-[15rem] w-[15rem]">Net Surplus Id</th>
+              <th className="min-w-[15rem] w-[15rem]">Net Surplus Amount</th>
+              <th className="min-w-[5rem]">Total Capital</th>
+              <th className="min-w-[5rem]">Total Profit </th>
+              <th className="min-w-[10rem] w-[10rem]">Patronage 30%</th>
+              <th className="min-w-[10rem] w-[10rem]">Dividend 70%</th>
+              <th className="min-w-[10rem] w-[10rem]">Created</th>
 
               <th className="max-w-[5rem]">Actions</th>
             </tr>
@@ -121,14 +120,16 @@ const NetSurPlusList = () => {
                 {page.data.map((item, key) => (
                   <tr key={key}>
                     <td> {counter++}.</td>
-                    <td>{item.product_item_name}</td>
-                    <td>{formatDate(item.product_date)}</td>
-                    <td>{item.product_quantity}</td>
-                    <td>{item.product_sold_quantity}</td>
-                    <td>{item.product_price}</td>
-                    <td>{item.product_scc_price}</td>
-                    <td>{item.product_profit}</td>
-                    <td>{item.product_market_price}</td>
+                    <td>{item.net_surplus_id}</td>
+                    <td>{item.net_surplus_amount}</td>
+                    <td>{item.net_surplus_total_capital}</td>
+                    <td>{item.net_surplus_total_profit}</td>
+                    <td>{item.net_surplus_patronage_refund}</td>
+                    <td>{item.net_surplus_dividend}</td>
+                    <td>
+                      {formatDate(item.net_surplus_created)}{" "}
+                      {item.net_surplus_created.split(" ")[1]}
+                    </td>
                     <td>
                       <div className="flex items-center gap-1">
                         <button
@@ -172,10 +173,10 @@ const NetSurPlusList = () => {
         <ModalDeleteRestore
           id={id}
           isDel={isDel}
-          mysqlApiDelete={`/v1/product/${id}`}
+          mysqlApiDelete={`/v1/net-surplus/${id}`}
           msg={"Are you sure you want to delete "}
-          item={`${dataItem.product_upload_name}`}
-          arrKey="product"
+          item={`${dataItem.net_surplus_id}`}
+          arrKey="net-surplus"
         />
       )}
     </>

@@ -15,6 +15,7 @@ checkPayload($data);
 $product->product_item_name = checkIndex($data, "product_item_name");
 $product->product_date = checkIndex($data, "product_date");
 $product->product_quantity = checkIndex($data, "product_quantity");
+$product->product_remaining_quantity = checkIndex($data, "product_quantity");
 $product->product_price = checkIndex($data, "product_price");
 $product->product_scc_price = checkIndex($data, "product_scc_price");
 $product->product_profit = checkIndex($data, "product_profit");

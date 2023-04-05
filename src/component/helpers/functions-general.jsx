@@ -1,11 +1,11 @@
 import React from "react";
 import { setIsAdd } from "../../store/StoreAction.jsx";
 
-// Online URL dev
-export const devApiUrl = "https://scc.frontlinebusiness.com.ph/rest";
-export const devBaseImgUrl = "https://scc.frontlinebusiness.com.ph/img";
-export const devBaseUrl = "https://scc.frontlinebusiness.com.ph";
-export const devNavUrl = "";
+// // Online URL dev
+// export const devApiUrl = "https://scc.frontlinebusiness.com.ph/rest";
+// export const devBaseImgUrl = "https://scc.frontlinebusiness.com.ph/img";
+// export const devBaseUrl = "https://scc.frontlinebusiness.com.ph";
+// export const devNavUrl = "";
 
 // // // // Local URL dev
 // export const devApiUrl = "http://localhost/viter-newthing-v1/rest";
@@ -18,9 +18,9 @@ export const devNavUrl = "";
 // export const devBaseUrl = "http://localhost/viter-scc-v1/public";
 // export const devNavUrl = "";
 // cy url
-// export const devApiUrl = "http://localhost/cycy/viter-scc-v1/rest";
-// export const devBaseUrl = "http://localhost/cycy/viter-scc-v1/public";
-// export const devNavUrl = "";
+export const devApiUrl = "http://localhost/cycy/viter-scc-v1/rest";
+export const devBaseUrl = "http://localhost/cycy/viter-scc-v1/public";
+export const devNavUrl = "";
 
 export const UrlAdmin = "admin";
 export const UrlMember = "member";
@@ -186,4 +186,10 @@ export const getUserType = (developer, admin) => {
     ? (link = `${devNavUrl}/${UrlAdmin}`)
     : (link = `${devNavUrl}/${UrlMember}`);
   return link;
+};
+
+export const getDateNow = () => {
+  return new Date(new Date().toString().split("GMT")[0] + " UTC")
+    .toISOString()
+    .split("T")[0];
 };

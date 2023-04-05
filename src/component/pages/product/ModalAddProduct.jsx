@@ -13,6 +13,7 @@ import { StoreContext } from "../../../store/StoreContext";
 import { InputText, InputTextArea } from "../../helpers/FormInputs";
 import { queryData } from "../../helpers/queryData";
 import ButtonSpinner from "../../partials/spinners/ButtonSpinner";
+import { getDateNow } from "../../helpers/functions-general";
 
 const ModalAddProduct = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -47,7 +48,7 @@ const ModalAddProduct = ({ item }) => {
   const initVal = {
     product_item_name: item ? item.product_item_name : "",
     product_quantity: item ? item.product_quantity : "",
-    product_date: item ? item.product_date : "",
+    product_date: item ? item.product_date : getDateNow(),
     product_price: item ? item.product_price : "",
     product_scc_price: item ? item.product_scc_price : "",
     product_market_price: item ? item.product_market_price : "",

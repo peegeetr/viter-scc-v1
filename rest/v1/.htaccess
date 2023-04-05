@@ -78,8 +78,14 @@ RewriteRule ^file/([0-9]+)$ controllers/files-upload/fileUpload.php?fileid=$1 [L
 RewriteRule ^file/page/([0-9]+)$ controllers/files-upload/page.php?start=$1 [L]
 RewriteRule ^file/search/([A-Za-z0-9-]+)$ controllers/files-upload/search.php?search=$1 [L]
 
-#products upload
+#products
 RewriteRule ^product$ controllers/products/products.php [L]
 RewriteRule ^product/([0-9]+)$ controllers/products/products.php?productid=$1 [L] 
 RewriteRule ^product/page/([0-9]+)$ controllers/products/page.php?start=$1 [L]
 RewriteRule ^product/search/([A-Za-z0-9-]+)$ controllers/products/search.php?search=$1 [L]
+
+#Net Surplus
+RewriteRule ^net-surplus$ controllers/settings/net-surplus/net-surplus.php [L]
+RewriteRule ^net-surplus/([0-9]+)$ controllers/settings/net-surplus/net-surplus.php?netId=$1 [L] 
+RewriteRule ^net-surplus/page/([0-9]+)$ controllers/settings/net-surplus/page.php?start=$1 [L]
+RewriteRule ^net-surplus/search/([A-Za-z0-9-]+)$ controllers/settings/net-surplus/search.php?search=$1 [L]

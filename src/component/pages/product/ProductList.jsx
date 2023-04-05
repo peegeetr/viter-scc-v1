@@ -90,6 +90,7 @@ const ProductList = ({ setItemEdit }) => {
               <th className="min-w-[15rem] w-[15rem]">Products</th>
               <th className="min-w-[15rem] w-[15rem]">Date</th>
               <th className="min-w-[5rem]">Quantity</th>
+              <th className="min-w-[5rem]">Remaining Quantity</th>
               <th className="min-w-[5rem]">Sold </th>
               <th className="min-w-[10rem] w-[10rem]">Supplier Price</th>
               <th className="min-w-[10rem] w-[10rem]">Member Price</th>
@@ -124,6 +125,7 @@ const ProductList = ({ setItemEdit }) => {
                     <td>{item.product_item_name}</td>
                     <td>{formatDate(item.product_date)}</td>
                     <td>{item.product_quantity}</td>
+                    <td>{item.product_remaining_quantity}</td>
                     <td>{item.product_sold_quantity}</td>
                     <td>{item.product_price}</td>
                     <td>{item.product_scc_price}</td>
