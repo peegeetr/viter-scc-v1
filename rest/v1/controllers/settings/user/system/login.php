@@ -28,11 +28,12 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     $key = "jwt_admin_ko_ito";
 
     $result = checkLogin($user_system);
+    $isDev = true;
 
     $row = $result->fetch(PDO::FETCH_ASSOC);
     extract($row);
 
-    loginAccess($password, $user_system_password, $user_system_email, $row, $result, $key);
+    loginAccess($password, $user_system_password, $user_system_email, $row, $result, $key, $isDev);
 }
 
 http_response_code(200);

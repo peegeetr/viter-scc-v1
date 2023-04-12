@@ -20,9 +20,13 @@ if (array_key_exists("patronageid", $_GET)) {
     $patronage->patronage_or = checkIndex($data, "patronage_or");
     $patronage->patronage_datetime = date("Y-m-d H:i:s");
 
+    $patronage->sold_product = checkIndex($data, "soldProduct");
+    $patronage->remaining_quantity = checkIndex($data, "remainingQuantity");
     //check to see if task id in query string is not empty and is number, if not return json error
     checkId($patronage->patronage_aid);
-    // update
+    // update product
+    checkUpdateQunatity($patronage);
+    // update 
     $query = checkUpdate($patronage);
     returnSuccess($patronage, "patronage", $query);
 }

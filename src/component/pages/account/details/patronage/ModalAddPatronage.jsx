@@ -15,21 +15,29 @@ import { InputSelect, InputText } from "../../../../helpers/FormInputs";
 import { getUrlParam } from "../../../../helpers/functions-general";
 import { queryData } from "../../../../helpers/queryData";
 import ButtonSpinner from "../../../../partials/spinners/ButtonSpinner";
-import { computeQuantity, computeTotalSold } from "../functions-capital-share";
+import {
+  computeRemainingQuantity,
+  computeSoldProduct,
+} from "./functions-patronage";
 
 const ModalAddPatronage = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const memberid = getUrlParam().get("memberid");
   const [productPrice, setproductPrice] = React.useState(
-    item ? item.product_price : ""
+    item ? item.product_scc_price : ""
   );
-  const [sold, setSold] = React.useState("");
 
+  // // use if not loadmore button undertime
+  // const { data: SoldPatronage } = useQueryData(
+  //   `/v1/patronage`, // endpoint
+  //   "get", // method
+  //   "SoldPatronage" // key
+  // );
   // use if not loadmore button undertime
-  const { data: PatronageId, isLoading } = useQueryData(
+  const { data: productId, isLoading } = useQueryData(
     `/v1/product`, // endpoint
     "get", // method
-    "payslip" // key
+    "productId" // key
   );
   const queryClient = useQueryClient();
   const [show, setShow] = React.useState("show");
@@ -47,6 +55,7 @@ const ModalAddPatronage = ({ item }) => {
 
       // show success box
       if (data.success) {
+        dispatch(setIsAdd(false));
         dispatch(setSuccess(true));
         dispatch(setMessage(`Successfuly ${item ? "updated." : "added."}`));
       }
@@ -59,10 +68,12 @@ const ModalAddPatronage = ({ item }) => {
     },
   });
 
+  console.log("productId", productId);
   const handlePrice = async (e, props) => {
     // get employee id
     setproductPrice(e.target.options[e.target.selectedIndex].id);
   };
+
   const handleClose = () => {
     dispatch(setIsAdd(false));
   };
@@ -72,8 +83,8 @@ const ModalAddPatronage = ({ item }) => {
     patronage_member_id: item ? item.patronage_member_id : memberid,
     patronage_or: item ? item.patronage_or : "",
     patronage_product_quantity: item ? item.patronage_product_quantity : "",
+    patronage_product_quantity_old: item ? item.patronage_product_quantity : "",
     patronage_product_amount: "",
-    total_product_quantity: "",
     patronage_date: item ? item.patronage_date : "",
   };
 
@@ -107,14 +118,21 @@ const ModalAddPatronage = ({ item }) => {
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
                 console.log(values);
-                setSold(computeTotalSold(values, PatronageId));
-                console.log("total", computeTotalSold(values, PatronageId));
+                let soldProduct = computeSoldProduct(item, values, productId);
+                let remainingQuantity = computeRemainingQuantity(
+                  item,
+                  values,
+                  productId
+                );
                 // mutate data
-                mutation.mutate(values);
+                mutation.mutate({
+                  ...values,
+                  soldProduct,
+                  remainingQuantity,
+                });
               }}
             >
               {(props) => {
-                props.values.total_product_quantity = sold;
                 props.values.patronage_product_amount =
                   Number(props.values.patronage_product_quantity) *
                   Number(productPrice);
@@ -133,16 +151,14 @@ const ModalAddPatronage = ({ item }) => {
                         <option value="">
                           {isLoading ? "Loading..." : "--"}
                         </option>
-                        {PatronageId?.data.map((pItem, key) => {
+                        {productId?.data.map((pItem, key) => {
                           return (
                             <option
                               key={key}
                               value={pItem.product_aid}
                               id={pItem.product_price}
                             >
-                              {`${pItem.product_item_name} (${computeQuantity(
-                                pItem
-                              )})`}
+                              {`${pItem.product_item_name} (${pItem.product_remaining_quantity})`}
                             </option>
                           );
                         })}
@@ -150,7 +166,7 @@ const ModalAddPatronage = ({ item }) => {
                     </div>
                     <div className="relative mb-5">
                       <InputText
-                        label="Quality"
+                        label="Quantity"
                         type="text"
                         name="patronage_product_quantity"
                         disabled={mutation.isLoading}

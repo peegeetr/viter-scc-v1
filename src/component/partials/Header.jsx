@@ -37,10 +37,16 @@ const Header = () => {
             <span>{store.credentials.data.role_name}</span>
           </div>
           <span className="border-l-2 h-12 border-white"></span>
-          <button onClick={handleLogout}>
-            <FaSignOutAlt className="w-5 h-5 text-white mx-5 hidden md:block" />
-          </button>
-          <span className="btn-action-table md:hidden" onClick={handleShow}>
+          <div
+            className="hidden md:block btn-action-table hover:bg-white hover:text-primary"
+            onClick={handleLogout}
+          >
+            <FaSignOutAlt className="w-5 h-5 hidden md:block " />
+          </div>
+          <span
+            className="btn-action-table md:hidden hover:bg-white hover:text-primary"
+            onClick={handleShow}
+          >
             {store.isShow ? <FaTimes /> : <GiHamburgerMenu />}
           </span>
         </div>

@@ -7,10 +7,10 @@ import { StoreContext } from "../../../store/StoreContext";
 import { formatDate } from "../../helpers/functions-general";
 import { queryDataInfinite } from "../../helpers/queryDataInfinite";
 import Loadmore from "../../partials/Loadmore";
-import ModalDeleteRestore from "../../partials/modals/ModalDeleteRestore";
 import NoData from "../../partials/NoData";
 import SearchBar from "../../partials/SearchBar";
 import ServerError from "../../partials/ServerError";
+import ModalDeleteRestore from "../../partials/modals/ModalDeleteRestore";
 import FetchingSpinner from "../../partials/spinners/FetchingSpinner";
 import TableSpinner from "../../partials/spinners/TableSpinner";
 const ProductList = ({ setItemEdit }) => {
@@ -23,6 +23,7 @@ const ProductList = ({ setItemEdit }) => {
   const search = React.useRef(null);
   let counter = 1;
   const { ref, inView } = useInView();
+
   // use if with loadmore button and search bar
   const {
     data: result,
@@ -127,6 +128,7 @@ const ProductList = ({ setItemEdit }) => {
                     <td>{item.product_quantity}</td>
                     <td>{item.product_remaining_quantity}</td>
                     <td>{item.product_sold_quantity}</td>
+                    {/* <td>{item.product_sold_quantity}</td> */}
                     <td>{item.product_price}</td>
                     <td>{item.product_scc_price}</td>
                     <td>{item.product_profit}</td>

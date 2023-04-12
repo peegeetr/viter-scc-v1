@@ -9,20 +9,22 @@ export const computeTotalCapital = (capitalShare) => {
 };
 
 // Total quantity
-export const computeQuantity = (item) => {
-  let finalAmount =
-    Number(item.product_quantity) - Number(item.product_sold_quantity);
+export const computeQuantity = (RemainingPatronage) => {
+  let finalAmount = 0;
+  RemainingPatronage?.data.map((sold) => {
+    finalAmount += Number(sold.patronage_product_quantity);
+  });
   return finalAmount;
 };
 
 // Total quantity
 export const computeTotalSold = (item, PatronageId) => {
-  let finalAmount = item.patronage_product_quantity;
+  let finalAmount = 0;
 
   PatronageId?.data.map((pItem) => {
     if (item.patronage_product_id === pItem.product_aid)
       finalAmount =
-        Number(pItem.product_sold_quantity) +
+        Number(pItem.product_remaining_quantity) -
         Number(item.patronage_product_quantity);
   });
   console.log(finalAmount);

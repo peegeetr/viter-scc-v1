@@ -11,11 +11,13 @@ class Patronage
     public $patronage_created;
     public $patronage_datetime;
 
+    public $sold_product;
+    public $remaining_quantity;
+
     public $connection;
     public $lastInsertedId;
     public $patronage_start;
     public $total;
-    public $sold;
     public $patronage_search;
     public $currentYear;
     public $tblPatronage;
@@ -139,6 +141,7 @@ class Patronage
             $sql .= "patronage.patronage_or, ";
             $sql .= "product.product_sold_quantity, ";
             $sql .= "product.product_item_name, ";
+            $sql .= "product.product_scc_price, ";
             $sql .= "product.product_price ";
             $sql .= "from {$this->tblPatronage} as patronage, ";
             $sql .= "{$this->tblProduct} as product ";
@@ -167,6 +170,7 @@ class Patronage
             $sql .= "patronage.patronage_or, ";
             $sql .= "product.product_sold_quantity, ";
             $sql .= "product.product_item_name, ";
+            $sql .= "product.product_scc_price, ";
             $sql .= "product.product_price ";
             $sql .= "from {$this->tblPatronage} as patronage, ";
             $sql .= "{$this->tblProduct} as product ";
@@ -219,11 +223,13 @@ class Patronage
     {
         try {
             $sql = "update {$this->tblProduct} set ";
-            $sql .= "product_sold_quantity = :product_sold_quantity ";
+            $sql .= "product_sold_quantity = :product_sold_quantity, ";
+            $sql .= "product_remaining_quantity = :product_remaining_quantity ";
             $sql .= "where product_aid = :product_aid ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "product_sold_quantity" => $this->sold,
+                "product_sold_quantity" => $this->sold_product,
+                "product_remaining_quantity" => $this->remaining_quantity,
                 "product_aid" => $this->patronage_product_id,
             ]);
         } catch (PDOException $ex) {

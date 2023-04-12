@@ -1,22 +1,21 @@
-import React from "react";
-import { FaArchive, FaEdit, FaHistory, FaTrash } from "react-icons/fa";
-import { StoreContext } from "../../../../../store/StoreContext";
-import NoData from "../../../../partials/NoData";
-import ServerError from "../../../../partials/ServerError";
-import TableSpinner from "../../../../partials/spinners/TableSpinner";
-import StatusActive from "../../../../partials/status/StatusActive";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import React from "react";
+import { FaEdit, FaTrash } from "react-icons/fa";
 import { useInView } from "react-intersection-observer";
-import { queryDataInfinite } from "../../../../helpers/queryDataInfinite";
 import { setIsAdd, setIsRestore } from "../../../../../store/StoreAction";
-import ModalDeleteRestore from "../../../../partials/modals/ModalDeleteRestore";
-import SearchBar from "../../../../partials/SearchBar";
-import Loadmore from "../../../../partials/Loadmore";
+import { StoreContext } from "../../../../../store/StoreContext";
 import {
   formatDate,
   getUrlParam,
   numberWithCommas,
 } from "../../../../helpers/functions-general";
+import { queryDataInfinite } from "../../../../helpers/queryDataInfinite";
+import Loadmore from "../../../../partials/Loadmore";
+import NoData from "../../../../partials/NoData";
+import SearchBar from "../../../../partials/SearchBar";
+import ServerError from "../../../../partials/ServerError";
+import ModalDeleteRestore from "../../../../partials/modals/ModalDeleteRestore";
+import TableSpinner from "../../../../partials/spinners/TableSpinner";
 
 const PatronageList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);

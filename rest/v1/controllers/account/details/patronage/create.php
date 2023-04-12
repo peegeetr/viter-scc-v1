@@ -21,7 +21,8 @@ $patronage->patronage_or = checkIndex($data, "patronage_or");
 $patronage->patronage_created = date("Y-m-d H:i:s");
 $patronage->patronage_datetime = date("Y-m-d H:i:s");
 
-$patronage->sold = checkIndex($data, "total_product_quantity");
+$patronage->sold_product = checkIndex($data, "soldProduct");
+$patronage->remaining_quantity = checkIndex($data, "remainingQuantity");
 // create
 checkUpdateQunatity($patronage);
 $query = checkCreate($patronage);
