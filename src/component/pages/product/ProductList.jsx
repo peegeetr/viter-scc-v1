@@ -91,7 +91,7 @@ const ProductList = ({ setItemEdit }) => {
               <th className="min-w-[15rem] w-[15rem]">Products</th>
               <th className="min-w-[15rem] w-[15rem]">Date</th>
               <th className="min-w-[5rem]">Quantity</th>
-              <th className="min-w-[5rem]">Remaining Quantity</th>
+              <th className="min-w-[10rem]">Remaining Quantity</th>
               <th className="min-w-[5rem]">Sold </th>
               <th className="min-w-[10rem] w-[10rem]">Supplier Price</th>
               <th className="min-w-[10rem] w-[10rem]">Member Price</th>
