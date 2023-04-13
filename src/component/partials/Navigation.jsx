@@ -148,6 +148,23 @@ const Navigation = ({ menu }) => {
               </li>
               <li
                 className={
+                  menu === "inventory"
+                    ? "active"
+                    : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
+                }
+              >
+                <Link
+                  to={`${urlLink}/inventory`}
+                  className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
+                  onClick={handleShow}
+                  data-tooltip="Inventory"
+                >
+                  <AiFillSetting className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
+                  <span className="md:hidden lg:block">Inventory</span>
+                </Link>
+              </li>
+              <li
+                className={
                   menu === "settings"
                     ? "active"
                     : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"

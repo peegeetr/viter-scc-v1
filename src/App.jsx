@@ -41,6 +41,7 @@ import UserPage from "./component/pages/settings/users/UserPage";
 import PageNotFound from "./component/partials/PageNotFound";
 
 import { StoreProvider } from "./store/StoreContext";
+import InventoryDetails from "./component/pages/Inventory/InventoryDetails";
 
 function App() {
   // Create a client
@@ -209,6 +210,14 @@ function App() {
               element={
                 <ProtectedRouteSystem>
                   <SettingsLink />
+                </ProtectedRouteSystem>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlSystem}/inventory`}
+              element={
+                <ProtectedRouteSystem>
+                  <InventoryDetails />
                 </ProtectedRouteSystem>
               }
             />
