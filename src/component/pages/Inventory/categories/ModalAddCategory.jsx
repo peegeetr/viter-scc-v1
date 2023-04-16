@@ -2,28 +2,28 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Form, Formik } from "formik";
 import React from "react";
 import { FaTimesCircle } from "react-icons/fa";
-import * as Yup from "yup";
-import { setError, setIsAdd, setMessage, setSuccess } from "../../../store/StoreAction";
-import { StoreContext } from "../../../store/StoreContext";
-import { InputText, InputTextArea } from "../../helpers/FormInputs";
-import { queryData } from "../../helpers/queryData";
-import ButtonSpinner from "../../partials/spinners/ButtonSpinner";
+import * as Yup from "yup"; 
+import { StoreContext } from "../../../../store/StoreContext";
+import { queryData } from "../../../helpers/queryData";
+import { setError, setIsAdd, setMessage, setSuccess } from "../../../../store/StoreAction";
+import { InputText } from "../../../helpers/FormInputs";
+import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
  
 
-const ModalAddFileUpload = ({ item }) => {
+const ModalAddCategory = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
 
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: (values) =>
       queryData(
-        item ? `/v1/file/${item.file_upload_aid}` : `/v1/file`,
+        item ? `/v1/category/${item.product_category_aid}` : `/v1/category`,
         item ? "put" : "post",
         values
       ),
     onSuccess: (data) => {
       // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ["file"] });
+      queryClient.invalidateQueries({ queryKey: ["category"] });
       // show success box
       if (data.success) {
         dispatch(setSuccess(true));
@@ -41,16 +41,14 @@ const ModalAddFileUpload = ({ item }) => {
   };
 
   const initVal = { 
-    file_upload_name: item ? item.file_upload_name : "",
-    file_upload_link: item ? item.file_upload_link : "",
-    file_upload_date: item ? item.file_upload_date : "",
+    product_category_name: item ? item.product_category_name : "", 
+
+    product_category_name_old: item ? item.product_category_name : "", 
  
   };
 
   const yupSchema = Yup.object({
-    file_upload_name: Yup.string().required("Required"),
-    file_upload_link: Yup.string().required("Required"),
-    file_upload_date: Yup.string().required("Required"),
+    product_category_name: Yup.string().required("Required"),  
   });
 
   return (
@@ -59,7 +57,7 @@ const ModalAddFileUpload = ({ item }) => {
         <div className="p-1 w-[350px] rounded-b-2xl">
           <div className="flex justify-between items-center bg-primary p-3 rounded-t-2xl">
             <h3 className="text-white text-sm">
-              {item ? "Update" : "Add"} file_upload
+              {item ? "Update" : "Add"} category_upload
             </h3>
             <button
               type="button"
@@ -85,29 +83,10 @@ const ModalAddFileUpload = ({ item }) => {
                       <InputText
                         label="Name"
                         type="text"
-                        name="file_upload_name"
+                        name="product_category_name"
                         disabled={mutation.isLoading}
                       />
-                    </div> 
-                    <div className="relative my-5">
-                      <InputText
-                        label="Link"
-                        type="text"
-                        name="file_upload_link"
-                        disabled={mutation.isLoading}
-                      />
-                    </div>
-                    
-                    <div className="relative mb-6 mt-5">
-                        <InputText
-                          label="Date"
-                          type="text"
-                          onFocus={(e) => (e.target.type = "date")}
-                          onBlur={(e) => (e.target.type = "text")}
-                          name="file_upload_date"
-                          disabled={mutation.isLoading}
-                        />
-                      </div> 
+                    </div>  
 
                     <div className="flex items-center gap-1 pt-5">
                       <button
@@ -143,4 +122,4 @@ const ModalAddFileUpload = ({ item }) => {
   );
 };
 
-export default ModalAddFileUpload;
+export default ModalAddCategory;

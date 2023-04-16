@@ -24,24 +24,15 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `sccv1_product`
+-- Table structure for table `sccv1_product_category`
 --
 
-CREATE TABLE `sccv1_product` (
-  `product_aid` int(11) NOT NULL,
-  `product_number` varchar(100) NOT NULL,
-  `product_item_name` varchar(20) NOT NULL,
-  `product_date` varchar(20) NOT NULL,
-  `product_quantity` varchar(20) NOT NULL,
-  `product_supplier_id` varchar(20) NOT NULL,
-  `product_sold_quantity` varchar(20) NOT NULL,
-  `product_remaining_quantity` varchar(20) NOT NULL,
-  `product_price` varchar(20) NOT NULL,
-  `product_scc_price` varchar(20) NOT NULL,
-  `product_profit` varchar(20) NOT NULL,
-  `product_market_price` varchar(20) NOT NULL,
-  `product_created` datetime NOT NULL,
-  `product_datetime` datetime NOT NULL
+CREATE TABLE `sccv1_product_category` (
+  `product_category_aid` int(11) NOT NULL,
+  `product_category_name` varchar(100) NOT NULL,
+  `product_category_is_active` tinyint(1) NOT NULL,
+  `product_category_created` datetime NOT NULL,
+  `product_category_datetime` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -49,20 +40,20 @@ CREATE TABLE `sccv1_product` (
 --
 
 --
--- Indexes for table `sccv1_product`
+-- Indexes for table `sccv1_product_category`
 --
-ALTER TABLE `sccv1_product`
-  ADD PRIMARY KEY (`product_aid`);
+ALTER TABLE `sccv1_product_category`
+  ADD PRIMARY KEY (`product_category_aid`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `sccv1_product`
+-- AUTO_INCREMENT for table `sccv1_product_category`
 --
-ALTER TABLE `sccv1_product`
-  MODIFY `product_aid` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `sccv1_product_category`
+  MODIFY `product_category_aid` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

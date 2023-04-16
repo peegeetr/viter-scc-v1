@@ -1,11 +1,11 @@
 <?php
 
 // set http header
-require '../../core/header.php';
+require '../../../core/header.php';
 // use needed functions
-require '../../core/functions.php';
+require '../../../core/functions.php';
 // use needed classes
-require '../../models/products/Products.php';
+require '../../../models/inventory/products/Products.php';
 // check database connection
 $conn = null;
 $conn = checkDbConnection();

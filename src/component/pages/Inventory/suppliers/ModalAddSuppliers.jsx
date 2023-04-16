@@ -2,28 +2,28 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Form, Formik } from "formik";
 import React from "react";
 import { FaTimesCircle } from "react-icons/fa";
-import * as Yup from "yup";
-import { setError, setIsAdd, setMessage, setSuccess } from "../../../store/StoreAction";
-import { StoreContext } from "../../../store/StoreContext";
-import { InputText, InputTextArea } from "../../helpers/FormInputs";
-import { queryData } from "../../helpers/queryData";
-import ButtonSpinner from "../../partials/spinners/ButtonSpinner";
+import * as Yup from "yup"; 
+import { StoreContext } from "../../../../store/StoreContext";
+import { queryData } from "../../../helpers/queryData";
+import { setError, setIsAdd, setMessage, setSuccess } from "../../../../store/StoreAction";
+import { InputText } from "../../../helpers/FormInputs";
+import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
  
 
-const ModalAddFileUpload = ({ item }) => {
+const ModalAddSuppliers = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
 
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: (values) =>
       queryData(
-        item ? `/v1/file/${item.file_upload_aid}` : `/v1/file`,
+        item ? `/v1/suppliers/${item.suppliers_aid}` : `/v1/suppliers`,
         item ? "put" : "post",
         values
       ),
     onSuccess: (data) => {
       // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ["file"] });
+      queryClient.invalidateQueries({ queryKey: ["suppliers"] });
       // show success box
       if (data.success) {
         dispatch(setSuccess(true));
@@ -41,16 +41,20 @@ const ModalAddFileUpload = ({ item }) => {
   };
 
   const initVal = { 
-    file_upload_name: item ? item.file_upload_name : "",
-    file_upload_link: item ? item.file_upload_link : "",
-    file_upload_date: item ? item.file_upload_date : "",
+    suppliers_company_name: item ? item.suppliers_company_name : "", 
+    suppliers_company_address: item ? item.suppliers_company_address : "", 
+    suppliers_contact_person: item ? item.suppliers_contact_person : "", 
+    suppliers_contact_num: item ? item.suppliers_contact_num : "", 
+    
+    suppliers_company_name_old: item ? item.suppliers_company_name : "", 
  
   };
 
   const yupSchema = Yup.object({
-    file_upload_name: Yup.string().required("Required"),
-    file_upload_link: Yup.string().required("Required"),
-    file_upload_date: Yup.string().required("Required"),
+    suppliers_company_name: Yup.string().required("Required"), 
+    suppliers_company_address: Yup.string().required("Required"), 
+    suppliers_contact_person: Yup.string().required("Required"), 
+    suppliers_contact_num: Yup.string().required("Required"), 
   });
 
   return (
@@ -83,31 +87,36 @@ const ModalAddFileUpload = ({ item }) => {
                   <Form>
                     <div className="relative my-5">
                       <InputText
-                        label="Name"
+                        label="Company Name"
                         type="text"
-                        name="file_upload_name"
+                        name="suppliers_company_name"
                         disabled={mutation.isLoading}
                       />
-                    </div> 
+                    </div>  
                     <div className="relative my-5">
                       <InputText
-                        label="Link"
+                        label="Company Address"
                         type="text"
-                        name="file_upload_link"
+                        name="suppliers_company_address"
                         disabled={mutation.isLoading}
                       />
-                    </div>
-                    
-                    <div className="relative mb-6 mt-5">
-                        <InputText
-                          label="Date"
-                          type="text"
-                          onFocus={(e) => (e.target.type = "date")}
-                          onBlur={(e) => (e.target.type = "text")}
-                          name="file_upload_date"
-                          disabled={mutation.isLoading}
-                        />
-                      </div> 
+                    </div>  
+                    <div className="relative my-5">
+                      <InputText
+                        label="Contact Person"
+                        type="text"
+                        name="suppliers_contact_person"
+                        disabled={mutation.isLoading}
+                      />
+                    </div>  
+                    <div className="relative my-5">
+                      <InputText
+                        label="Contact Number"
+                        type="text"
+                        name="suppliers_contact_num"
+                        disabled={mutation.isLoading}
+                      />
+                    </div>  
 
                     <div className="flex items-center gap-1 pt-5">
                       <button
@@ -143,4 +152,4 @@ const ModalAddFileUpload = ({ item }) => {
   );
 };
 
-export default ModalAddFileUpload;
+export default ModalAddSuppliers;

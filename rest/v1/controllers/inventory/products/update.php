@@ -14,12 +14,8 @@ if (array_key_exists("productid", $_GET)) {
     // get productid from query string
     $product->product_aid = $_GET['productid'];
     $product->product_item_name = checkIndex($data, "product_item_name");
-    $product->product_date = checkIndex($data, "product_date");
-    $product->product_quantity = checkIndex($data, "product_quantity");
-    $product->product_price = checkIndex($data, "product_price");
-    $product->product_scc_price = checkIndex($data, "product_scc_price");
-    $product->product_profit = checkIndex($data, "product_profit");
-    $product->product_market_price = checkIndex($data, "product_market_price");
+    $product->product_supplier_id = checkIndex($data, "product_supplier_id");
+    $product->product_date = checkIndex($data, "product_date"); 
     $product->product_datetime = date("Y-m-d H:i:s");
 
     //check to see if task id in query string is not empty and is number, if not return json error

@@ -129,23 +129,7 @@ const Navigation = ({ menu }) => {
           {(store.credentials.data.role_is_admin === 1 ||
             store.credentials.data.role_is_developer === 1) && (
             <>
-              <li
-                className={
-                  menu === "product"
-                    ? "active"
-                    : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
-                }
-              >
-                <Link
-                  to={`${urlLink}/product`}
-                  className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
-                  onClick={handleShow}
-                  data-tooltip="product"
-                >
-                  <FaBusinessTime className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
-                  <span className="md:hidden lg:block">Product</span>
-                </Link>
-              </li>
+               
               <li
                 className={
                   menu === "inventory"

@@ -1,11 +1,11 @@
 <?php
 
 // set http header
-require '../../core/header.php';
+require '../../../core/header.php';
 // use needed functions
-require '../../core/functions.php';
+require '../../../core/functions.php'; 
 // use needed classes
-require '../../models/products/Products.php';
+require '../../../models/inventory/suppliers/Suppliers.php'; 
 // get payload
 $body = file_get_contents("php://input");
 $data = json_decode($body, true);

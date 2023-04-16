@@ -1,11 +1,13 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import {
-  devNavUrl,
   UrlAdmin,
   UrlMember,
   UrlSystem,
+  devNavUrl,
 } from "./component/helpers/functions-general";
+import ProtectedRouteOther from "./component/pages/access/ProtectedRouteOther";
+import ProtectedRouteSystem from "./component/pages/access/ProtectedRouteSystem";
 import CreateOtherPassword from "./component/pages/access/create-password/CreateOtherPassword";
 import CreatePasswordSuccess from "./component/pages/access/create-password/CreatePasswordSuccess";
 import CreateSystemPassword from "./component/pages/access/create-password/CreateSystemPassword";
@@ -14,11 +16,9 @@ import ForgotPasswordSystem from "./component/pages/access/forgot-password/Forgo
 import ForgotPasswordVerification from "./component/pages/access/forgot-password/ForgotPasswordVerification";
 import OtherLogin from "./component/pages/access/login/OtherLogin";
 import SystemLogin from "./component/pages/access/login/SystemLogin";
-import ProtectedRouteOther from "./component/pages/access/ProtectedRouteOther";
-import ProtectedRouteSystem from "./component/pages/access/ProtectedRouteSystem";
 import Account from "./component/pages/account/Account";
-import CapitalShare from "./component/pages/account/details/capital-share/CapitalShare";
 import Deatils from "./component/pages/account/details/Details";
+import CapitalShare from "./component/pages/account/details/capital-share/CapitalShare";
 import Patronage from "./component/pages/account/details/patronage/Patronage";
 import Profile from "./component/pages/account/details/profile/Profile";
 import Savings from "./component/pages/account/details/savings/Savings";
@@ -26,22 +26,28 @@ import Application from "./component/pages/application/Application";
 import AppProfile from "./component/pages/application/details/AppProfile";
 import Dashboard from "./component/pages/dashboard/Dashboard";
 import FileUpload from "./component/pages/file-upload/FileUpload";
-import MyCapitalShare from "./component/pages/my-account/capital-share/MyCapitalShare";
 import MyAccount from "./component/pages/my-account/MyAccount";
+import MyCapitalShare from "./component/pages/my-account/capital-share/MyCapitalShare";
 import MyPatronage from "./component/pages/my-account/patronage/MyPatronage";
 import MyProfile from "./component/pages/my-account/profile/MyProfile";
 import MySavings from "./component/pages/my-account/savings/MySavings";
-import Product from "./component/pages/product/Product";
-import NetSurPlus from "./component/pages/settings/net-surplus/NetSurPlus";
 import SettingsLink from "./component/pages/settings/SettingsLink";
+import NetSurPlus from "./component/pages/settings/net-surplus/NetSurPlus";
+import UserPage from "./component/pages/settings/users/UserPage";
 import OtherUser from "./component/pages/settings/users/other/OtherUser";
 import Role from "./component/pages/settings/users/role/Role";
 import SystemUser from "./component/pages/settings/users/system/SystemUser";
-import UserPage from "./component/pages/settings/users/UserPage";
 import PageNotFound from "./component/partials/PageNotFound";
 
-import { StoreProvider } from "./store/StoreContext";
 import InventoryDetails from "./component/pages/Inventory/InventoryDetails";
+import Category from "./component/pages/Inventory/categories/Category";
+import Orders from "./component/pages/Inventory/orders/Orders";
+import Products from "./component/pages/Inventory/products/Products";
+import Reports from "./component/pages/Inventory/reports/Reports";
+import Sales from "./component/pages/Inventory/sales/Sales";
+import Stocks from "./component/pages/Inventory/stocks/Stocks";
+import Suppliers from "./component/pages/Inventory/suppliers/Suppliers";
+import { StoreProvider } from "./store/StoreContext";
 
 function App() {
   // Create a client
@@ -194,15 +200,7 @@ function App() {
                   <FileUpload />
                 </ProtectedRouteSystem>
               }
-            />
-            <Route
-              path={`${devNavUrl}/${UrlSystem}/product`}
-              element={
-                <ProtectedRouteSystem>
-                  <Product />
-                </ProtectedRouteSystem>
-              }
-            />
+            /> 
 
             {/* system settings */}
             <Route
@@ -218,6 +216,70 @@ function App() {
               element={
                 <ProtectedRouteSystem>
                   <InventoryDetails />
+                </ProtectedRouteSystem>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlSystem}/inventory/category`}
+              element={
+                <ProtectedRouteSystem>
+                  <Category />
+                </ProtectedRouteSystem>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlSystem}/inventory/orders`}
+              element={
+                <ProtectedRouteSystem>
+                  <Orders />
+                </ProtectedRouteSystem>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlSystem}/inventory/products`}
+              element={
+                <ProtectedRouteSystem>
+                  <Products />
+                </ProtectedRouteSystem>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlSystem}/inventory/stocks`}
+              element={
+                <ProtectedRouteSystem>
+                  <Stocks />
+                </ProtectedRouteSystem>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlSystem}/inventory/reports`}
+              element={
+                <ProtectedRouteSystem>
+                  <Reports />
+                </ProtectedRouteSystem>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlSystem}/inventory/sales`}
+              element={
+                <ProtectedRouteSystem>
+                  <Sales />
+                </ProtectedRouteSystem>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlSystem}/inventory/suppliers`}
+              element={
+                <ProtectedRouteSystem>
+                  <Suppliers />
+                </ProtectedRouteSystem>
+              }
+            /> 
+            <Route
+              path={`${devNavUrl}/${UrlSystem}/inventory/category`}
+              element={
+                <ProtectedRouteSystem>
+                  <Category />
                 </ProtectedRouteSystem>
               }
             />
@@ -400,15 +462,7 @@ function App() {
                   <AppProfile />
                 </ProtectedRouteOther>
               }
-            />
-            <Route
-              path={`${devNavUrl}/${UrlAdmin}/product`}
-              element={
-                <ProtectedRouteOther>
-                  <Product />
-                </ProtectedRouteOther>
-              }
-            />
+            /> 
             <Route
               path={`${devNavUrl}/${UrlAdmin}/file-upload`}
               element={

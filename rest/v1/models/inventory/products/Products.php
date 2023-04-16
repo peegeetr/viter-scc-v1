@@ -2,9 +2,11 @@
 class Product
 {
     public $product_aid;
+    public $product_number;
     public $product_item_name;
     public $product_date;
     public $product_quantity;
+    public $product_supplier_id;
     public $product_remaining_quantity;
     public $product_sold_quantity;
     public $product_market_price;
@@ -34,35 +36,23 @@ class Product
         try {
             $sql = "insert into {$this->tblProduct} ";
             $sql .= "( product_item_name, ";
-            $sql .= "product_date, ";
-            $sql .= "product_quantity, ";
-            $sql .= "product_remaining_quantity, ";
-            $sql .= "product_price, ";
-            $sql .= "product_market_price, ";
-            $sql .= "product_scc_price, ";
-            $sql .= "product_profit, ";
+            $sql .= "product_number, ";
+            $sql .= "product_supplier_id, "; 
+            $sql .= "product_date, "; 
             $sql .= "product_created, ";
             $sql .= "product_datetime ) values ( ";
             $sql .= ":product_item_name, ";
-            $sql .= ":product_date, ";
-            $sql .= ":product_quantity, ";
-            $sql .= ":product_remaining_quantity, ";
-            $sql .= ":product_price, ";
-            $sql .= ":product_market_price, ";
-            $sql .= ":product_scc_price, ";
-            $sql .= ":product_profit, ";
+            $sql .= ":product_number, ";
+            $sql .= ":product_supplier_id, ";
+            $sql .= ":product_date, "; 
             $sql .= ":product_created, ";
             $sql .= ":product_datetime ) ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "product_item_name" => $this->product_item_name,
-                "product_date" => $this->product_date,
-                "product_quantity" => $this->product_quantity,
-                "product_remaining_quantity" => $this->product_remaining_quantity,
-                "product_price" => $this->product_price,
-                "product_scc_price" => $this->product_scc_price,
-                "product_market_price" => $this->product_market_price,
-                "product_profit" => $this->product_profit,
+                "product_number" => $this->product_number,
+                "product_supplier_id" => $this->product_supplier_id,
+                "product_date" => $this->product_date, 
                 "product_created" => $this->product_created,
                 "product_datetime" => $this->product_datetime,
             ]);
@@ -151,24 +141,16 @@ class Product
     {
         try {
             $sql = "update {$this->tblProduct} set ";
-            $sql .= "product_item_name = :product_item_name, ";
-            $sql .= "product_date = :product_date, ";
-            $sql .= "product_quantity = :product_quantity, ";
-            $sql .= "product_price = :product_price, ";
-            $sql .= "product_scc_price = :product_scc_price, ";
-            $sql .= "product_market_price = :product_market_price, ";
-            $sql .= "product_profit = :product_profit, ";
+            $sql .= "product_item_name = :product_item_name, "; 
+            $sql .= "product_supplier_id = :product_supplier_id, ";
+            $sql .= "product_date = :product_date, "; 
             $sql .= "product_datetime = :product_datetime ";
             $sql .= "where product_aid = :product_aid ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "product_item_name" => $this->product_item_name,
-                "product_date" => $this->product_date,
-                "product_quantity" => $this->product_quantity,
-                "product_price" => $this->product_price,
-                "product_scc_price" => $this->product_scc_price,
-                "product_market_price" => $this->product_market_price,
-                "product_profit" => $this->product_profit,
+                "product_date" => $this->product_date, 
+                "product_supplier_id" => $this->product_supplier_id, 
                 "product_datetime" => $this->product_datetime,
                 "product_aid" => $this->product_aid,
             ]);
@@ -189,6 +171,21 @@ class Product
             $query->execute([
                 "product_aid" => $this->product_aid,
             ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    
+    // read all 
+    public function readLastProductId()
+    {
+        try {
+            $sql = "select * from ";
+            $sql .= "{$this->tblProduct} ";
+            $sql .= "order by product_aid desc ";
+            $query = $this->connection->query($sql);
         } catch (PDOException $ex) {
             $query = false;
         }

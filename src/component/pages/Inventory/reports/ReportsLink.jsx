@@ -15,7 +15,7 @@ const ReportsLink = () => {
       onClick={() => dispatch(setStartIndex(0))}
     >
       <Link
-        to={`${devNavUrl}/${UrlSystem}/inventory/report`}
+        to={`${devNavUrl}/${UrlSystem}/inventory/reports`}
         className="w-full py-2"
       >
         <div className="flex items-center">
@@ -31,7 +31,7 @@ const ReportsLink = () => {
       </Link>
 
       <Link
-        to={`${devNavUrl}/${UrlSystem}/inventory/report`}
+        to={`${devNavUrl}/${UrlSystem}/inventory/reports`}
         className="btn-action-table group-hover:bg-primary group-hover:text-white"
       >
         <SlArrowRight className="inline" />
