@@ -50,7 +50,7 @@ const ModalAddSuppliersProducts = ({ item }) => {
   };
 
   const initVal = {
-    suppliers_products_id: supplierId,
+    suppliers_products_suppliers_id: supplierId,
     suppliers_products_name: item ? item.suppliers_products_name : "",
     suppliers_products_price: item ? item.suppliers_products_price : "",
 

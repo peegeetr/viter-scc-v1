@@ -22,7 +22,7 @@ const ProductsList = ({ setItemEdit }) => {
   const search = React.useRef(null);
   let counter = 1;
   const { ref, inView } = useInView();
- 
+
   // use if with loadmore button and search bar
   const {
     data: result,
@@ -64,7 +64,7 @@ const ProductsList = ({ setItemEdit }) => {
 
   const handleDelete = (item) => {
     dispatch(setIsRestore(true));
-    setId(item.product_upload_aid);
+    setId(item.product_aid);
     setData(item);
     setDel(true);
   };
@@ -85,11 +85,13 @@ const ProductsList = ({ setItemEdit }) => {
         {/* {isFetching && !isFetchingNextPage && <FetchingSpinner />} */}
         <table>
           <thead>
-          <tr>
+            <tr>
               <th>#</th>
-              <th className="min-w-[15rem]">Products Number</th>
-              <th className="min-w-[15rem]">Products</th>
-              <th className="min-w-[15rem]">Date</th> 
+              <th className="min-w-[15rem]">Product Number</th>
+              <th className="min-w-[15rem]">Product Name</th>
+              <th className="min-w-[15rem]">Supplier Price</th>
+              <th className="min-w-[15rem]">SCC Price</th>
+              <th className="min-w-[15rem]">Market Price</th>
               <th className="max-w-[5rem]">Actions</th>
             </tr>
           </thead>
@@ -114,31 +116,33 @@ const ProductsList = ({ setItemEdit }) => {
               <React.Fragment key={key}>
                 {page.data.map((item, key) => (
                   <tr key={key}>
-                  <td> {counter++}.</td>
-                  <td>{item.product_number}</td>
-                  <td>{item.product_item_name}</td>
-                  <td>{formatDate(item.product_date)}</td> 
-                  <td>
-                    <div className="flex items-center gap-1">
-                      <button
-                        type="button"
-                        className="btn-action-table tooltip-action-table"
-                        data-tooltip="Edit"
-                        onClick={() => handleEdit(item)}
-                      >
-                        <FaEdit />
-                      </button>
-                      <button
-                        type="button"
-                        className="btn-action-table tooltip-action-table"
-                        data-tooltip="Delete"
-                        onClick={() => handleDelete(item)}
-                      >
-                        <FaTrash />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
+                    <td> {counter++}.</td>
+                    <td>{item.product_number}</td>
+                    <td>{item.suppliers_products_name}</td>
+                    <td>{item.suppliers_products_price}</td>
+                    <td>{item.product_scc_price}</td>
+                    <td>{item.product_market_price}</td>
+                    <td>
+                      <div className="flex items-center gap-1">
+                        <button
+                          type="button"
+                          className="btn-action-table tooltip-action-table"
+                          data-tooltip="Edit"
+                          onClick={() => handleEdit(item)}
+                        >
+                          <FaEdit />
+                        </button>
+                        <button
+                          type="button"
+                          className="btn-action-table tooltip-action-table"
+                          data-tooltip="Delete"
+                          onClick={() => handleDelete(item)}
+                        >
+                          <FaTrash />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
                 ))}
               </React.Fragment>
             ))}
@@ -161,8 +165,8 @@ const ProductsList = ({ setItemEdit }) => {
           id={id}
           isDel={isDel}
           mysqlApiDelete={`/v1/product/${id}`}
-          msg={"Are you sure you want to delete this product"}
-          item={`${dataItem.product_upload_name}`}
+          msg={"Are you sure you want to delete "}
+          item={`${dataItem.product_number}`}
           arrKey="product"
         />
       )}

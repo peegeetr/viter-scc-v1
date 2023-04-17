@@ -12,24 +12,25 @@ if (array_key_exists("fileid", $_GET)) {
 checkPayload($data);
 // get data
 
-$product->product_item_name = checkIndex($data, "product_item_name");
 $product->product_supplier_id = checkIndex($data, "product_supplier_id");
-$product->product_date = checkIndex($data, "product_date"); 
+$product->product_supplier_product_id = checkIndex($data, "product_supplier_product_id");
+$product->product_scc_price = checkIndex($data, "product_scc_price");
+$product->product_market_price = checkIndex($data, "product_market_price");
 $product->product_created = date("Y-m-d H:i:s");
 $product->product_datetime = date("Y-m-d H:i:s");
 
-// create member id format ex. (Prod-001) 
+// create product id format ex. (Prod-001) 
 $formattedProductId = "";
 $id = "";
-$memberLastId = $members->readLastProductId();
-if ($memberLastId->rowCount() == 0) {
+$productLastId = $product->readLastProductId();
+if ($productLastId->rowCount() == 0) {
     // create new id
     $formattedProductId = "Prod" . "-" . "001";
 } else {
 
-    $row = $memberLastId->fetch(PDO::FETCH_ASSOC);
+    $row = $productLastId->fetch(PDO::FETCH_ASSOC);
     extract($row);
-    // member_id from existing record ex. (Prod-001)
+    // product_id from existing record ex. (Prod-001)
     $existingMeberId = explode("-", $product_number);
 
     $lastId =  intval($existingMeberId[1]) + 1;

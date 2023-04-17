@@ -52,6 +52,7 @@ export const InputSelect = ({ label, onChange, ...props }) => {
   if (
     props.name === "user_other_member_id" ||
     props.name === "savings_category" ||
+    props.name === "product_supplier_id" ||
     props.name === "patronage_product_id"
   ) {
     return (

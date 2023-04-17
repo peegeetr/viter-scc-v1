@@ -4,7 +4,7 @@ class SuppliersProducts
     public $suppliers_products_aid;
     public $suppliers_products_name;
     public $suppliers_products_price;
-    public $suppliers_products_id;
+    public $suppliers_products_suppliers_id;
     public $suppliers_products_created;
     public $suppliers_products_datetime;
 
@@ -15,11 +15,13 @@ class SuppliersProducts
     public $suppliers_products_search;
     public $currentYear;
     public $tblSuppliersProducts;
+    public $tblSuppliers;
 
     public function __construct($db)
     {
         $this->connection = $db;
         $this->tblSuppliersProducts = "sccv1_suppliers_products";
+        $this->tblSuppliers = "sccv1_suppliers";
     }
 
     // create
@@ -29,19 +31,19 @@ class SuppliersProducts
             $sql = "insert into {$this->tblSuppliersProducts} ";
             $sql .= "( suppliers_products_name, ";
             $sql .= "suppliers_products_price, ";
-            $sql .= "suppliers_products_id, ";
+            $sql .= "suppliers_products_suppliers_id, ";
             $sql .= "suppliers_products_created, ";
             $sql .= "suppliers_products_datetime ) values ( ";
             $sql .= ":suppliers_products_name, ";
             $sql .= ":suppliers_products_price, ";
-            $sql .= ":suppliers_products_id, ";
+            $sql .= ":suppliers_products_suppliers_id, ";
             $sql .= ":suppliers_products_created, ";
             $sql .= ":suppliers_products_datetime ) ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "suppliers_products_name" => $this->suppliers_products_name,
                 "suppliers_products_price" => $this->suppliers_products_price,
-                "suppliers_products_id" => $this->suppliers_products_id,
+                "suppliers_products_suppliers_id" => $this->suppliers_products_suppliers_id,
                 "suppliers_products_created" => $this->suppliers_products_created,
                 "suppliers_products_datetime" => $this->suppliers_products_datetime,
             ]);
@@ -108,11 +110,32 @@ class SuppliersProducts
         try {
             $sql = "select * from ";
             $sql .= "{$this->tblSuppliersProducts} ";
-            $sql .= "where suppliers_products_aid  = :suppliers_products_aid  ";
+            $sql .= "where suppliers_products_aid = :suppliers_products_aid  ";
             $sql .= "order by suppliers_products_name asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "suppliers_products_aid " => $this->suppliers_products_aid,
+                "suppliers_products_aid" => $this->suppliers_products_aid,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+    // read by id
+    public function readBySupplierId()
+    {
+        try {
+            $sql = "select * from ";
+            $sql .= "{$this->tblSuppliersProducts} as supplierProduct, ";
+            $sql .= "{$this->tblSuppliers} as supplier ";
+            $sql .= "where supplierProduct.suppliers_products_suppliers_id = :suppliers_products_suppliers_id ";
+            $sql .= "and supplier.suppliers_aid = :suppliers_aid ";
+            $sql .= "and supplierProduct.suppliers_products_suppliers_id = supplier.suppliers_aid ";
+            $sql .= "order by supplierProduct.suppliers_products_name asc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "suppliers_products_suppliers_id" => $this->suppliers_products_suppliers_id,
+                "suppliers_aid" => $this->suppliers_products_suppliers_id,
             ]);
         } catch (PDOException $ex) {
             $query = false;
@@ -127,14 +150,14 @@ class SuppliersProducts
             $sql = "update {$this->tblSuppliersProducts} set ";
             $sql .= "suppliers_products_name = :suppliers_products_name, ";
             $sql .= "suppliers_products_price = :suppliers_products_price, ";
-            $sql .= "suppliers_products_id = :suppliers_products_id, ";
+            $sql .= "suppliers_products_suppliers_id = :suppliers_products_suppliers_id, ";
             $sql .= "suppliers_products_datetime = :suppliers_products_datetime ";
             $sql .= "where suppliers_products_aid = :suppliers_products_aid ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "suppliers_products_name" => $this->suppliers_products_name,
                 "suppliers_products_price" => $this->suppliers_products_price,
-                "suppliers_products_id" => $this->suppliers_products_id,
+                "suppliers_products_suppliers_id" => $this->suppliers_products_suppliers_id,
                 "suppliers_products_datetime" => $this->suppliers_products_datetime,
                 "suppliers_products_aid" => $this->suppliers_products_aid,
             ]);

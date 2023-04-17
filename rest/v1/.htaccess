@@ -107,6 +107,7 @@ RewriteRule ^suppliers/search/([A-Za-z0-9-]+)$ controllers/inventory/suppliers/s
 #suppliers product
 RewriteRule ^suppliers-product$ controllers/inventory/suppliers/product/suppliers-product.php [L]
 RewriteRule ^suppliers-product/([0-9]+)$ controllers/inventory/suppliers/product/suppliers-product.php?supplierProductsid=$1 [L] 
+RewriteRule ^suppliers-product/by-supplier-id/([0-9]+)$ controllers/inventory/suppliers/product/supplier-product-by-id.php?supplierProductsid=$1 [L] 
 RewriteRule ^suppliers-product/page/([0-9]+)$ controllers/inventory/suppliers/product/page.php?start=$1 [L]
 RewriteRule ^suppliers-product/search/([A-Za-z0-9-]+)$ controllers/inventory/suppliers/product/search.php?search=$1 [L]
  

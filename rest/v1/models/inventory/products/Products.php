@@ -3,16 +3,11 @@ class Product
 {
     public $product_aid;
     public $product_number;
-    public $product_item_name;
-    public $product_date;
-    public $product_quantity;
     public $product_supplier_id;
-    public $product_remaining_quantity;
+    public $product_supplier_product_id;
+    public $product_scc_price;
     public $product_sold_quantity;
     public $product_market_price;
-    public $product_price;
-    public $product_scc_price;
-    public $product_profit;
     public $product_created;
     public $product_datetime;
 
@@ -23,11 +18,15 @@ class Product
     public $product_search;
     public $currentYear;
     public $tblProduct;
+    public $tblSuppliersProducts;
+    public $tblSuppliers;
 
     public function __construct($db)
     {
         $this->connection = $db;
         $this->tblProduct = "sccv1_product";
+        $this->tblSuppliersProducts = "sccv1_suppliers_products";
+        $this->tblSuppliers = "sccv1_suppliers";
     }
 
     // create
@@ -35,24 +34,27 @@ class Product
     {
         try {
             $sql = "insert into {$this->tblProduct} ";
-            $sql .= "( product_item_name, ";
-            $sql .= "product_number, ";
-            $sql .= "product_supplier_id, "; 
-            $sql .= "product_date, "; 
+            $sql .= "( product_number, ";
+            $sql .= "product_supplier_id, ";
+            $sql .= "product_supplier_product_id, ";
+            $sql .= "product_scc_price, ";
+            $sql .= "product_market_price, ";
             $sql .= "product_created, ";
             $sql .= "product_datetime ) values ( ";
-            $sql .= ":product_item_name, ";
             $sql .= ":product_number, ";
             $sql .= ":product_supplier_id, ";
-            $sql .= ":product_date, "; 
+            $sql .= ":product_supplier_product_id, ";
+            $sql .= ":product_scc_price, ";
+            $sql .= ":product_market_price, ";
             $sql .= ":product_created, ";
             $sql .= ":product_datetime ) ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "product_item_name" => $this->product_item_name,
                 "product_number" => $this->product_number,
                 "product_supplier_id" => $this->product_supplier_id,
-                "product_date" => $this->product_date, 
+                "product_supplier_product_id" => $this->product_supplier_product_id,
+                "product_scc_price" => $this->product_scc_price,
+                "product_market_price" => $this->product_market_price,
                 "product_created" => $this->product_created,
                 "product_datetime" => $this->product_datetime,
             ]);
@@ -67,10 +69,24 @@ class Product
     public function readAll()
     {
         try {
-            $sql = "select * from ";
-            $sql .= "{$this->tblProduct} ";
-            $sql .= "order by product_date desc, ";
-            $sql .= "product_item_name asc ";
+            $sql = "select product.product_number, ";
+            $sql .= "product.product_aid, ";
+            $sql .= "product.product_market_price, ";
+            $sql .= "product.product_scc_price, ";
+            $sql .= "product.product_supplier_id, ";
+            $sql .= "product.product_supplier_product_id, ";
+            $sql .= "supplierProduct.suppliers_products_aid, ";
+            $sql .= "supplierProduct.suppliers_products_name, ";
+            $sql .= "supplierProduct.suppliers_products_price, ";
+            $sql .= "supplier.suppliers_company_name ";
+            $sql .= "from ";
+            $sql .= "{$this->tblProduct} as product, ";
+            $sql .= "{$this->tblSuppliersProducts} as supplierProduct, ";
+            $sql .= "{$this->tblSuppliers} as supplier ";
+            $sql .= "where product.product_supplier_product_id = supplier.suppliers_aid ";
+            $sql .= "and product.product_supplier_product_id = supplierProduct.suppliers_products_aid ";
+            $sql .= "and supplier.suppliers_aid = supplierProduct.suppliers_products_suppliers_id ";
+            $sql .= "order by product.product_number asc ";
             $query = $this->connection->query($sql);
         } catch (PDOException $ex) {
             $query = false;
@@ -81,10 +97,24 @@ class Product
     public function readLimit()
     {
         try {
-            $sql = "select * from ";
-            $sql .= "{$this->tblProduct} ";
-            $sql .= "order by product_date desc, ";
-            $sql .= "product_item_name asc ";
+            $sql = "select product.product_number, ";
+            $sql .= "product.product_aid, ";
+            $sql .= "product.product_market_price, ";
+            $sql .= "product.product_scc_price, ";
+            $sql .= "product.product_supplier_id, ";
+            $sql .= "product.product_supplier_product_id, ";
+            $sql .= "supplierProduct.suppliers_products_aid, ";
+            $sql .= "supplierProduct.suppliers_products_name, ";
+            $sql .= "supplierProduct.suppliers_products_price, ";
+            $sql .= "supplier.suppliers_company_name ";
+            $sql .= "from ";
+            $sql .= "{$this->tblProduct} as product, ";
+            $sql .= "{$this->tblSuppliersProducts} as supplierProduct, ";
+            $sql .= "{$this->tblSuppliers} as supplier ";
+            $sql .= "where product.product_supplier_product_id = supplier.suppliers_aid ";
+            $sql .= "and product.product_supplier_product_id = supplierProduct.suppliers_products_aid ";
+            $sql .= "and supplier.suppliers_aid = supplierProduct.suppliers_products_suppliers_id ";
+            $sql .= "order by product.product_number asc ";
             $sql .= "limit :start, ";
             $sql .= ":total ";
             $query = $this->connection->prepare($sql);
@@ -104,14 +134,13 @@ class Product
         try {
             $sql = "select * from ";
             $sql .= "{$this->tblProduct} ";
-            $sql .= "where product_item_name like :product_item_name ";
-            $sql .= "or product_date like :product_date ";
-            $sql .= "order by product_date desc, ";
-            $sql .= "product_item_name asc ";
+            $sql .= "where product_number like :product_number ";
+            // $sql .= "or product_date like :product_date ";
+            $sql .= "order by product_number asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "product_item_name" => "{$this->product_search}%",
-                "product_date" => "{$this->product_search}%",
+                "product_number" => "{$this->product_search}%",
+                // "product_date" => "{$this->product_search}%",
             ]);
         } catch (PDOException $ex) {
             $query = false;
@@ -125,7 +154,7 @@ class Product
             $sql = "select * from ";
             $sql .= "{$this->tblProduct} ";
             $sql .= "where product_aid = :product_aid  ";
-            $sql .= "order by product_sold_quantity desc ";
+            $sql .= "order by product_number desc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "product_aid " => $this->product_aid,
@@ -141,16 +170,18 @@ class Product
     {
         try {
             $sql = "update {$this->tblProduct} set ";
-            $sql .= "product_item_name = :product_item_name, "; 
+            $sql .= "product_supplier_product_id = :product_supplier_product_id, ";
             $sql .= "product_supplier_id = :product_supplier_id, ";
-            $sql .= "product_date = :product_date, "; 
+            $sql .= "product_scc_price = :product_scc_price, ";
+            $sql .= "product_market_price = :product_market_price, ";
             $sql .= "product_datetime = :product_datetime ";
             $sql .= "where product_aid = :product_aid ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "product_item_name" => $this->product_item_name,
-                "product_date" => $this->product_date, 
-                "product_supplier_id" => $this->product_supplier_id, 
+                "product_supplier_product_id" => $this->product_supplier_product_id,
+                "product_scc_price" => $this->product_scc_price,
+                "product_market_price" => $this->product_market_price,
+                "product_supplier_id" => $this->product_supplier_id,
                 "product_datetime" => $this->product_datetime,
                 "product_aid" => $this->product_aid,
             ]);
@@ -177,7 +208,7 @@ class Product
         return $query;
     }
 
-    
+
     // read all 
     public function readLastProductId()
     {

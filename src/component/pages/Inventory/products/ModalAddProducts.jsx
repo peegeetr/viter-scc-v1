@@ -3,21 +3,22 @@ import { Form, Formik } from "formik";
 import React from "react";
 import { FaTimesCircle } from "react-icons/fa";
 import * as Yup from "yup";
-import { StoreContext } from "../../../../store/StoreContext";
-import { queryData } from "../../../helpers/queryData";
 import {
   setError,
   setIsAdd,
   setMessage,
   setSuccess,
 } from "../../../../store/StoreAction";
-import { InputSelect, InputText } from "../../../helpers/FormInputs";
-import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
-import { getDateNow } from "../../../helpers/functions-general";
+import { StoreContext } from "../../../../store/StoreContext";
 import useQueryData from "../../../custom-hooks/useQueryData";
+import { InputSelect, InputText } from "../../../helpers/FormInputs";
+import { queryData } from "../../../helpers/queryData";
+import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
 
 const ModalAddProducts = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
+  const [isSupplierProduct, setSupplierProduct] = React.useState([]);
+  const [isProdLoading, setProdLoading] = React.useState(false);
 
   // use if not loadmore button undertime
   const { data: suppliers, isLoading } = useQueryData(
@@ -52,16 +53,29 @@ const ModalAddProducts = ({ item }) => {
     dispatch(setIsAdd(false));
   };
 
+  const handleSupplier = async (e, props) => {
+    let supplierId = e.target.value;
+    setProdLoading(true);
+    const results = await queryData(
+      `/v1/suppliers-product/by-supplier-id/${supplierId}`
+    );
+    if (results.data) {
+      setProdLoading(false);
+      setSupplierProduct(results.data);
+    }
+  };
   const initVal = {
     product_supplier_id: item ? item.product_supplier_id : "",
     product_supplier_product_id: item ? item.product_supplier_product_id : "",
-    product_price: "",
-    product_scc_price: "",
+    product_scc_price: item ? item.product_scc_price : "",
+    product_market_price: item ? item.product_market_price : "",
   };
 
   const yupSchema = Yup.object({
     product_supplier_id: Yup.string().required("Required"),
     product_supplier_product_id: Yup.string().required("Required"),
+    product_scc_price: Yup.string().required("Required"),
+    product_market_price: Yup.string().required("Required"),
   });
 
   return (
@@ -96,6 +110,7 @@ const ModalAddProducts = ({ item }) => {
                       <InputSelect
                         name="product_supplier_id"
                         label="Supplier"
+                        onChange={handleSupplier}
                         disabled={mutation.isLoading}
                       >
                         <option value="">
@@ -118,13 +133,15 @@ const ModalAddProducts = ({ item }) => {
                         disabled={mutation.isLoading}
                       >
                         <option value="">
-                          {isLoading ? "Loading..." : "--"}
+                          {isProdLoading ? "Loading..." : "--"}
                         </option>
-                        {suppliers?.data.map((sItem, key) => {
+                        {isSupplierProduct?.map((spItem, key) => {
                           return (
-                            <option key={key} value={sItem.suppliers_aid}>
-                              {" "}
-                              {`${sItem.suppliers_company_name} `}
+                            <option
+                              key={key}
+                              value={spItem.suppliers_products_aid}
+                            >
+                              {`${spItem.suppliers_products_name} `}
                             </option>
                           );
                         })}
@@ -132,9 +149,17 @@ const ModalAddProducts = ({ item }) => {
                     </div>
                     <div className="relative my-5">
                       <InputText
-                        label="Products Name"
+                        label="Scc Price"
                         type="text"
-                        name="product_item_name"
+                        name="product_scc_price"
+                        disabled={mutation.isLoading}
+                      />
+                    </div>
+                    <div className="relative my-5">
+                      <InputText
+                        label="Market Price"
+                        type="text"
+                        name="product_market_price"
                         disabled={mutation.isLoading}
                       />
                     </div>
