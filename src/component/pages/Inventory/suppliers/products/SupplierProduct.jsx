@@ -1,17 +1,17 @@
 import React from "react";
-import { StoreContext } from "../../../../store/StoreContext";
-import { setIsAdd } from "../../../../store/StoreAction";
-import Header from "../../../partials/Header";
-import Navigation from "../../../partials/Navigation";
+import { StoreContext } from "../../../../../store/StoreContext";
+import Header from "../../../../partials/Header";
+import Navigation from "../../../../partials/Navigation";
+import BreadCrumbs from "../../../../partials/BreadCrumbs";
+import Footer from "../../../../partials/Footer";
+import ModalSuccess from "../../../../partials/modals/ModalSuccess";
+import ModalError from "../../../../partials/modals/ModalError";
+import SupplierProductList from "./SupplierProductList";
 import { FaPlusCircle } from "react-icons/fa";
-import SuppliersList from "./SuppliersList";
-import Footer from "../../../partials/Footer";
-import ModalAddSuppliers from "./ModalAddSuppliers";
-import BreadCrumbs from "../../../partials/BreadCrumbs";
-import ModalSuccess from "../../../partials/modals/ModalSuccess";
-import ModalError from "../../../partials/modals/ModalError";
+import { setIsAdd } from "../../../../../store/StoreAction";
+import ModalAddSuppliersProducts from "./ModalAddSuppliersProducts";
 
-const Suppliers = () => {
+const SupplierProduct = () => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [itemEdit, setItemEdit] = React.useState(null);
 
@@ -19,12 +19,11 @@ const Suppliers = () => {
     dispatch(setIsAdd(true));
     setItemEdit(null);
   };
-
   return (
     <>
       <Header />
-      <Navigation menu="inventory" />{" "}
-      <div className="wrapper">
+      <Navigation menu="myaccount" />
+      <div className="wrapper ">
         <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2 ">
           {/* <h4 className="text-xl mb-3">Suppliers</h4> */}
           <BreadCrumbs />
@@ -38,18 +37,19 @@ const Suppliers = () => {
             </div>
           )}
         </div>
-
         <hr />
-        <div className="w-full pt-5 pb-20">
-          <SuppliersList setItemEdit={setItemEdit} />
+
+        <div className="w-full pb-20 mt-3 ">
+          <SupplierProductList setItemEdit={setItemEdit} />
         </div>
         <Footer />
       </div>
-      {store.isAdd && <ModalAddSuppliers item={itemEdit} />}
+
+      {store.isAdd && <ModalAddSuppliersProducts item={itemEdit} />}
       {store.success && <ModalSuccess />}
       {store.error && <ModalError />}
     </>
   );
 };
 
-export default Suppliers;
+export default SupplierProduct;

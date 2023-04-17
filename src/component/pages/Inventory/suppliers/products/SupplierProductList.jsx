@@ -2,19 +2,17 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import React from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { useInView } from "react-intersection-observer";
-import { setIsAdd, setIsRestore } from "../../../../store/StoreAction";
-import { StoreContext } from "../../../../store/StoreContext";
-import { queryDataInfinite } from "../../../helpers/queryDataInfinite";
-import Loadmore from "../../../partials/Loadmore";
-import NoData from "../../../partials/NoData";
-import SearchBar from "../../../partials/SearchBar";
-import ServerError from "../../../partials/ServerError";
-import ModalDeleteRestore from "../../../partials/modals/ModalDeleteRestore";
-import TableSpinner from "../../../partials/spinners/TableSpinner";
-import StatusActive from "../../../partials/status/StatusActive";
-import StatusInactive from "../../../partials/status/StatusInactive";
+import { setIsAdd, setIsRestore } from "../../../../../store/StoreAction";
+import { StoreContext } from "../../../../../store/StoreContext";
+import { queryDataInfinite } from "../../../../helpers/queryDataInfinite";
+import Loadmore from "../../../../partials/Loadmore";
+import NoData from "../../../../partials/NoData";
+import SearchBar from "../../../../partials/SearchBar";
+import ServerError from "../../../../partials/ServerError";
+import ModalDeleteRestore from "../../../../partials/modals/ModalDeleteRestore";
+import TableSpinner from "../../../../partials/spinners/TableSpinner";
 
-const CategoryList = ({ setItemEdit }) => {
+const SupplierProductList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [dataItem, setData] = React.useState(null);
   const [id, setId] = React.useState(null);
@@ -34,11 +32,11 @@ const CategoryList = ({ setItemEdit }) => {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ["category", onSearch, store.isSearch],
+    queryKey: ["suppliers-product", onSearch, store.isSearch],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
-        `/v1/category/search/${search.current.value}`, // search endpoint
-        `/v1/category/page/${pageParam}`, // list endpoint
+        `/v1/suppliers-product/search/${search.current.value}`, // search endpoint
+        `/v1/suppliers-product/page/${pageParam}`, // list endpoint
         store.isSearch // search boolean
       ),
     getNextPageParam: (lastPage) => {
@@ -65,7 +63,7 @@ const CategoryList = ({ setItemEdit }) => {
 
   const handleDelete = (item) => {
     dispatch(setIsRestore(true));
-    setId(item.product_category_aid);
+    setId(item.suppliers_aid);
     setData(item);
     setDel(true);
   };
@@ -88,8 +86,8 @@ const CategoryList = ({ setItemEdit }) => {
           <thead>
             <tr>
               <th>#</th>
-              <th className="min-w-[15rem]">Category</th>
-              <th className="min-w-[5rem]">Status</th>
+              <th className="min-w-[15rem]">Product Name</th>
+              <th className="min-w-[15rem]">Product Price</th>
 
               {(store.credentials.data.role_is_admin === 1 ||
                 store.credentials.data.role_is_developer === 1) && (
@@ -119,14 +117,8 @@ const CategoryList = ({ setItemEdit }) => {
                 {page.data.map((item, key) => (
                   <tr key={key}>
                     <td> {counter++}.</td>
-                    <td>{item.product_category_name}</td>
-                    <td>
-                      {item.product_category_is_active === 1 ? (
-                        <StatusActive />
-                      ) : (
-                        <StatusInactive />
-                      )}
-                    </td>
+                    <td>{item.suppliers_products_name}</td>
+                    <td>{item.suppliers_products_price}</td>
 
                     {(store.credentials.data.role_is_admin === 1 ||
                       store.credentials.data.role_is_developer === 1) && (
@@ -157,7 +149,8 @@ const CategoryList = ({ setItemEdit }) => {
             ))}
           </tbody>
         </table>
-
+      </div>
+      <div className="text-center">
         <Loadmore
           fetchNextPage={fetchNextPage}
           isFetchingNextPage={isFetchingNextPage}
@@ -173,14 +166,14 @@ const CategoryList = ({ setItemEdit }) => {
         <ModalDeleteRestore
           id={id}
           isDel={isDel}
-          mysqlApiDelete={`/v1/category/${id}`}
-          msg={"Are you sure you want to delete "}
-          item={`${dataItem.product_category_name}`}
-          arrKey="category"
+          mysqlApiDelete={`/v1/suppliers/${id}`}
+          msg={"Are you sure you want to delete this suppliers"}
+          item={`${dataItem.suppliers_company_name}`}
+          arrKey="suppliers"
         />
       )}
     </>
   );
 };
 
-export default CategoryList;
+export default SupplierProductList;

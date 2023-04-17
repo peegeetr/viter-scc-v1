@@ -48,6 +48,7 @@ import Sales from "./component/pages/Inventory/sales/Sales";
 import Stocks from "./component/pages/Inventory/stocks/Stocks";
 import Suppliers from "./component/pages/Inventory/suppliers/Suppliers";
 import { StoreProvider } from "./store/StoreContext";
+import SupplierProduct from "./component/pages/Inventory/suppliers/products/SupplierProduct";
 
 function App() {
   // Create a client
@@ -200,7 +201,7 @@ function App() {
                   <FileUpload />
                 </ProtectedRouteSystem>
               }
-            /> 
+            />
 
             {/* system settings */}
             <Route
@@ -274,7 +275,15 @@ function App() {
                   <Suppliers />
                 </ProtectedRouteSystem>
               }
-            /> 
+            />
+            <Route
+              path={`${devNavUrl}/${UrlSystem}/inventory/suppliers/products`}
+              element={
+                <ProtectedRouteSystem>
+                  <SupplierProduct />
+                </ProtectedRouteSystem>
+              }
+            />
             <Route
               path={`${devNavUrl}/${UrlSystem}/inventory/category`}
               element={
@@ -462,7 +471,7 @@ function App() {
                   <AppProfile />
                 </ProtectedRouteOther>
               }
-            /> 
+            />
             <Route
               path={`${devNavUrl}/${UrlAdmin}/file-upload`}
               element={

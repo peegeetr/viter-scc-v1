@@ -96,12 +96,17 @@ RewriteRule ^category/([0-9]+)$ controllers/inventory/category/category.php?cate
 RewriteRule ^category/active/([0-9]+)$ controllers/inventory/category/active.php?categoryid=$1 [L]
 RewriteRule ^category/page/([0-9]+)$ controllers/inventory/category/page.php?start=$1 [L]
 RewriteRule ^category/search/([A-Za-z0-9-]+)$ controllers/inventory/category/search.php?search=$1 [L]
-  
-
+   
 #suppliers 
 RewriteRule ^suppliers$ controllers/inventory/suppliers/suppliers.php [L]
 RewriteRule ^suppliers/([0-9]+)$ controllers/inventory/suppliers/suppliers.php?supplierid=$1 [L]
 RewriteRule ^suppliers/active/([0-9]+)$ controllers/inventory/suppliers/active.php?supplierid=$1 [L]
 RewriteRule ^suppliers/page/([0-9]+)$ controllers/inventory/suppliers/page.php?start=$1 [L]
 RewriteRule ^suppliers/search/([A-Za-z0-9-]+)$ controllers/inventory/suppliers/search.php?search=$1 [L]
+  
+#suppliers product
+RewriteRule ^suppliers-product$ controllers/inventory/suppliers/product/suppliers-product.php [L]
+RewriteRule ^suppliers-product/([0-9]+)$ controllers/inventory/suppliers/product/suppliers-product.php?supplierProductsid=$1 [L] 
+RewriteRule ^suppliers-product/page/([0-9]+)$ controllers/inventory/suppliers/product/page.php?start=$1 [L]
+RewriteRule ^suppliers-product/search/([A-Za-z0-9-]+)$ controllers/inventory/suppliers/product/search.php?search=$1 [L]
  

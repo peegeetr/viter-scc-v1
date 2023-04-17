@@ -3,31 +3,35 @@ import { Form, Formik } from "formik";
 import React from "react";
 import { FaTimesCircle } from "react-icons/fa";
 import * as Yup from "yup";
-import { StoreContext } from "../../../../store/StoreContext";
-import { queryData } from "../../../helpers/queryData";
+import { StoreContext } from "../../../../../store/StoreContext";
+import { queryData } from "../../../../helpers/queryData";
 import {
   setError,
   setIsAdd,
   setMessage,
   setSuccess,
-} from "../../../../store/StoreAction";
-import { InputText } from "../../../helpers/FormInputs";
-import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
+} from "../../../../../store/StoreAction";
+import { InputText } from "../../../../helpers/FormInputs";
+import ButtonSpinner from "../../../../partials/spinners/ButtonSpinner";
+import { getUrlParam } from "../../../../helpers/functions-general";
 
-const ModalAddCategory = ({ item }) => {
+const ModalAddSuppliersProducts = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
+  const supplierId = getUrlParam().get("supplierId");
 
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: (values) =>
       queryData(
-        item ? `/v1/category/${item.product_category_aid}` : `/v1/category`,
+        item
+          ? `/v1/suppliers-product/${item.suppliers_products_aid}`
+          : `/v1/suppliers-product`,
         item ? "put" : "post",
         values
       ),
     onSuccess: (data) => {
       // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ["category"] });
+      queryClient.invalidateQueries({ queryKey: ["suppliers-product"] });
       // show success box
       if (data.success) {
         dispatch(setIsAdd(false));
@@ -46,13 +50,16 @@ const ModalAddCategory = ({ item }) => {
   };
 
   const initVal = {
-    product_category_name: item ? item.product_category_name : "",
+    suppliers_products_id: supplierId,
+    suppliers_products_name: item ? item.suppliers_products_name : "",
+    suppliers_products_price: item ? item.suppliers_products_price : "",
 
-    product_category_name_old: item ? item.product_category_name : "",
+    suppliers_products_name_old: item ? item.suppliers_products_name : "",
   };
 
   const yupSchema = Yup.object({
-    product_category_name: Yup.string().required("Required"),
+    suppliers_products_name: Yup.string().required("Required"),
+    suppliers_products_price: Yup.string().required("Required"),
   });
 
   return (
@@ -61,7 +68,7 @@ const ModalAddCategory = ({ item }) => {
         <div className="p-1 w-[350px] rounded-b-2xl">
           <div className="flex justify-between items-center bg-primary p-3 rounded-t-2xl">
             <h3 className="text-white text-sm">
-              {item ? "Update" : "Add"} Category
+              {item ? "Update" : "Add"} Products
             </h3>
             <button
               type="button"
@@ -85,9 +92,17 @@ const ModalAddCategory = ({ item }) => {
                   <Form>
                     <div className="relative my-5">
                       <InputText
-                        label="Name"
+                        label="Product Name"
                         type="text"
-                        name="product_category_name"
+                        name="suppliers_products_name"
+                        disabled={mutation.isLoading}
+                      />
+                    </div>
+                    <div className="relative my-5">
+                      <InputText
+                        label="Product Price"
+                        type="text"
+                        name="suppliers_products_price"
                         disabled={mutation.isLoading}
                       />
                     </div>
@@ -126,4 +141,4 @@ const ModalAddCategory = ({ item }) => {
   );
 };
 
-export default ModalAddCategory;
+export default ModalAddSuppliersProducts;

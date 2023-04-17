@@ -2,13 +2,17 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Form, Formik } from "formik";
 import React from "react";
 import { FaTimesCircle } from "react-icons/fa";
-import * as Yup from "yup"; 
+import * as Yup from "yup";
 import { StoreContext } from "../../../../store/StoreContext";
 import { queryData } from "../../../helpers/queryData";
-import { setError, setIsAdd, setMessage, setSuccess } from "../../../../store/StoreAction";
+import {
+  setError,
+  setIsAdd,
+  setMessage,
+  setSuccess,
+} from "../../../../store/StoreAction";
 import { InputText } from "../../../helpers/FormInputs";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
- 
 
 const ModalAddSuppliers = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -26,6 +30,7 @@ const ModalAddSuppliers = ({ item }) => {
       queryClient.invalidateQueries({ queryKey: ["suppliers"] });
       // show success box
       if (data.success) {
+        dispatch(setIsAdd(false));
         dispatch(setSuccess(true));
         dispatch(setMessage(`Successfuly ${item ? "updated." : "added."}`));
       }
@@ -34,27 +39,26 @@ const ModalAddSuppliers = ({ item }) => {
         dispatch(setError(true));
         dispatch(setMessage(data.error));
       }
-    }, 
+    },
   });
   const handleClose = () => {
     dispatch(setIsAdd(false));
   };
 
-  const initVal = { 
-    suppliers_company_name: item ? item.suppliers_company_name : "", 
-    suppliers_company_address: item ? item.suppliers_company_address : "", 
-    suppliers_contact_person: item ? item.suppliers_contact_person : "", 
-    suppliers_contact_num: item ? item.suppliers_contact_num : "", 
-    
-    suppliers_company_name_old: item ? item.suppliers_company_name : "", 
- 
+  const initVal = {
+    suppliers_company_name: item ? item.suppliers_company_name : "",
+    suppliers_company_address: item ? item.suppliers_company_address : "",
+    suppliers_contact_person: item ? item.suppliers_contact_person : "",
+    suppliers_contact_num: item ? item.suppliers_contact_num : "",
+
+    suppliers_company_name_old: item ? item.suppliers_company_name : "",
   };
 
   const yupSchema = Yup.object({
-    suppliers_company_name: Yup.string().required("Required"), 
-    suppliers_company_address: Yup.string().required("Required"), 
-    suppliers_contact_person: Yup.string().required("Required"), 
-    suppliers_contact_num: Yup.string().required("Required"), 
+    suppliers_company_name: Yup.string().required("Required"),
+    suppliers_company_address: Yup.string().required("Required"),
+    suppliers_contact_person: Yup.string().required("Required"),
+    suppliers_contact_num: Yup.string().required("Required"),
   });
 
   return (
@@ -63,7 +67,7 @@ const ModalAddSuppliers = ({ item }) => {
         <div className="p-1 w-[350px] rounded-b-2xl">
           <div className="flex justify-between items-center bg-primary p-3 rounded-t-2xl">
             <h3 className="text-white text-sm">
-              {item ? "Update" : "Add"} file_upload
+              {item ? "Update" : "Add"} Supplier
             </h3>
             <button
               type="button"
@@ -92,7 +96,7 @@ const ModalAddSuppliers = ({ item }) => {
                         name="suppliers_company_name"
                         disabled={mutation.isLoading}
                       />
-                    </div>  
+                    </div>
                     <div className="relative my-5">
                       <InputText
                         label="Company Address"
@@ -100,7 +104,7 @@ const ModalAddSuppliers = ({ item }) => {
                         name="suppliers_company_address"
                         disabled={mutation.isLoading}
                       />
-                    </div>  
+                    </div>
                     <div className="relative my-5">
                       <InputText
                         label="Contact Person"
@@ -108,7 +112,7 @@ const ModalAddSuppliers = ({ item }) => {
                         name="suppliers_contact_person"
                         disabled={mutation.isLoading}
                       />
-                    </div>  
+                    </div>
                     <div className="relative my-5">
                       <InputText
                         label="Contact Number"
@@ -116,7 +120,7 @@ const ModalAddSuppliers = ({ item }) => {
                         name="suppliers_contact_num"
                         disabled={mutation.isLoading}
                       />
-                    </div>  
+                    </div>
 
                     <div className="flex items-center gap-1 pt-5">
                       <button

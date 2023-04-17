@@ -11,16 +11,15 @@ if (array_key_exists("categoryid", $_GET)) {
 // check data
 checkPayload($data);
 // get data
- 
+
 $category->product_category_name = checkIndex($data, "product_category_name");
-$category->product_category_product_id = checkIndex($data, "product_category_product_id");
 $category->product_category_is_active = 1;
 $category->product_category_created = date("Y-m-d H:i:s");
-$category->product_category_datetime = date("Y-m-d H:i:s"); 
+$category->product_category_datetime = date("Y-m-d H:i:s");
 
 // check name
 isNameExist($category, $category->product_category_name);
 // create
-$query = checkCreate($category); 
+$query = checkCreate($category);
 
 returnSuccess($category, "Category", $query);

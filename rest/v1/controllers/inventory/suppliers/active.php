@@ -2,9 +2,9 @@
 // set http header
 require '../../../core/header.php';
 // use needed functions
-require '../../../core/functions.php'; 
+require '../../../core/functions.php';
 // use needed classes
-require '../../../models/inventory/suppliers/Suppliers.php'; 
+require '../../../models/inventory/suppliers/Suppliers.php';
 // check database connection
 $conn = null;
 $conn = checkDbConnection();
@@ -30,7 +30,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         $suppliers->suppliers_datetime = date("Y-m-d H:i:s");
         //check to see if task id in query string is not empty and is number, if not return json error
         checkId($suppliers->suppliers_aid);
- 
+
         $query = checkActive($suppliers);
         http_response_code(200);
 

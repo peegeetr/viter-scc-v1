@@ -1,4 +1,4 @@
-import React from "react"; 
+import React from "react";
 import { StoreContext } from "../../../../store/StoreContext";
 import { setIsAdd } from "../../../../store/StoreAction";
 import Header from "../../../partials/Header";
@@ -8,6 +8,8 @@ import ProductsList from "./ProductsList";
 import Footer from "../../../partials/Footer";
 import ModalAddProducts from "./ModalAddProducts";
 import BreadCrumbs from "../../../partials/BreadCrumbs";
+import ModalSuccess from "../../../partials/modals/ModalSuccess";
+import ModalError from "../../../partials/modals/ModalError";
 
 const Products = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -25,7 +27,7 @@ const Products = () => {
       <div className="wrapper">
         <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2 ">
           {/* <h4 className="text-xl mb-3">Products</h4> */}
-        <BreadCrumbs />
+          <BreadCrumbs />
 
           {store.credentials.data.role_is_member === 0 && (
             <div className="flex items-center gap-1 self-baseline">

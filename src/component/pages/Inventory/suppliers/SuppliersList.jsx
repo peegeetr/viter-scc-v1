@@ -13,6 +13,9 @@ import ModalDeleteRestore from "../../../partials/modals/ModalDeleteRestore";
 import TableSpinner from "../../../partials/spinners/TableSpinner";
 import StatusActive from "../../../partials/status/StatusActive";
 import StatusInactive from "../../../partials/status/StatusInactive";
+import { Link } from "react-router-dom";
+import { UrlSystem, devNavUrl } from "../../../helpers/functions-general";
+import { SlArrowRight } from "react-icons/sl";
 
 const suppliersList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -88,11 +91,11 @@ const suppliersList = ({ setItemEdit }) => {
           <thead>
             <tr>
               <th>#</th>
-              <th className="min-w-[15rem]">Company Name</th>  
-              <th className="min-w-[15rem]">Company Address</th>  
-              <th className="min-w-[15rem]">Contact Person</th>  
-              <th className="min-w-[15rem]">Contact Number</th>  
-              <th className="min-w-[15rem]">Status</th>  
+              <th className="min-w-[15rem]">Company Name</th>
+              <th className="min-w-[15rem]">Company Address</th>
+              <th className="min-w-[15rem]">Contact Person</th>
+              <th className="min-w-[15rem]">Contact Number</th>
+              <th className="min-w-[15rem]">Status</th>
 
               {(store.credentials.data.role_is_admin === 1 ||
                 store.credentials.data.role_is_developer === 1) && (
@@ -122,18 +125,29 @@ const suppliersList = ({ setItemEdit }) => {
                 {page.data.map((item, key) => (
                   <tr key={key}>
                     <td> {counter++}.</td>
-                    <td>{item.suppliers_company_name}</td>  
-                    <td>{item.suppliers_company_address}</td>  
-                    <td>{item.suppliers_contact_person}</td>  
-                    <td>{item.suppliers_contact_num}</td>  
-                    <td>{item.suppliers_is_active === "1"
-                    ?<StatusActive/>
-                    :<StatusInactive/>}</td>  
+                    <td>{item.suppliers_company_name}</td>
+                    <td>{item.suppliers_company_address}</td>
+                    <td>{item.suppliers_contact_person}</td>
+                    <td>{item.suppliers_contact_num}</td>
+                    <td>
+                      {item.suppliers_is_active === 1 ? (
+                        <StatusActive />
+                      ) : (
+                        <StatusInactive />
+                      )}
+                    </td>
 
                     {(store.credentials.data.role_is_admin === 1 ||
                       store.credentials.data.role_is_developer === 1) && (
                       <td>
                         <div className="flex items-center gap-1">
+                          <Link
+                            to={`${devNavUrl}/${UrlSystem}/inventory/suppliers/products?supplierId=${item.suppliers_aid}`}
+                            className="btn-action-table tooltip-action-table"
+                            data-tooltip="View"
+                          >
+                            <SlArrowRight className="inline" />
+                          </Link>
                           <button
                             type="button"
                             className="btn-action-table tooltip-action-table"

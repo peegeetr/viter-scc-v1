@@ -13,14 +13,14 @@ import { setIsAdd } from "../../store/StoreAction.jsx";
 // export const devBaseImgUrl = "http://localhost/viter-newthing-v1/public/img";
 // export const devNavUrl = "";
 
-// cy url
-export const devApiUrl = "http://localhost/viter-scc-v1/rest";
-export const devBaseUrl = "http://localhost/viter-scc-v1/public";
-export const devNavUrl = "";
 // // cy url
-// export const devApiUrl = "http://localhost/cycy/viter-scc-v1/rest";
-// export const devBaseUrl = "http://localhost/cycy/viter-scc-v1/public";
+// export const devApiUrl = "http://localhost/viter-scc-v1/rest";
+// export const devBaseUrl = "http://localhost/viter-scc-v1/public";
 // export const devNavUrl = "";
+// cy url
+export const devApiUrl = "http://localhost/cycy/viter-scc-v1/rest";
+export const devBaseUrl = "http://localhost/cycy/viter-scc-v1/public";
+export const devNavUrl = "";
 
 export const UrlAdmin = "admin";
 export const UrlMember = "member";

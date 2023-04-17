@@ -3,8 +3,7 @@ class Category
 {
     public $product_category_aid;
     public $product_category_name;
-    public $product_category_product_id;
-    public $product_category_is_active; 
+    public $product_category_is_active;
     public $product_category_created;
     public $product_category_datetime;
 
@@ -28,20 +27,17 @@ class Category
         try {
             $sql = "insert into {$this->tblCategory} ";
             $sql .= "( product_category_name, ";
-            $sql .= "product_category_product_id, ";
-            $sql .= "product_category_is_active, "; 
+            $sql .= "product_category_is_active, ";
             $sql .= "product_category_created, ";
             $sql .= "product_category_datetime ) values ( ";
             $sql .= ":product_category_name, ";
-            $sql .= ":product_category_product_id, ";
-            $sql .= ":product_category_is_active, "; 
+            $sql .= ":product_category_is_active, ";
             $sql .= ":product_category_created, ";
             $sql .= ":product_category_datetime ) ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "product_category_name" => $this->product_category_name,
-                "product_category_product_id" => $this->product_category_product_id,
-                "product_category_is_active" => $this->product_category_is_active, 
+                "product_category_is_active" => $this->product_category_is_active,
                 "product_category_created" => $this->product_category_created,
                 "product_category_datetime" => $this->product_category_datetime,
             ]);
@@ -57,9 +53,9 @@ class Category
     {
         try {
             $sql = "select * from ";
-            $sql .= "{$this->tblCategory} "; 
+            $sql .= "{$this->tblCategory} ";
             $sql .= "order by product_category_is_active, ";
-            $sql .= "product_category_name asc "; 
+            $sql .= "product_category_name asc ";
             $query = $this->connection->query($sql);
         } catch (PDOException $ex) {
             $query = false;
@@ -71,7 +67,7 @@ class Category
     {
         try {
             $sql = "select * from ";
-            $sql .= "{$this->tblCategory} "; 
+            $sql .= "{$this->tblCategory} ";
             $sql .= "order by product_category_is_active, ";
             $sql .= "product_category_name asc ";
             $sql .= "limit :start, ";
@@ -93,11 +89,11 @@ class Category
         try {
             $sql = "select * from ";
             $sql .= "{$this->tblCategory} ";
-            $sql .= "where product_category_name like :product_category_name "; 
+            $sql .= "where product_category_name like :product_category_name ";
             $sql .= "order by product_category_name asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "product_category_name" => "{$this->product_category_search}%", 
+                "product_category_name" => "{$this->product_category_search}%",
             ]);
         } catch (PDOException $ex) {
             $query = false;
@@ -129,13 +125,11 @@ class Category
         try {
             $sql = "update {$this->tblCategory} set ";
             $sql .= "product_category_name = :product_category_name, ";
-            $sql .= "product_category_product_id = :product_category_product_id, "; 
             $sql .= "product_category_datetime = :product_category_datetime ";
             $sql .= "where product_category_aid  = :product_category_aid ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "product_category_name" => $this->product_category_name,
-                "product_category_product_id" => $this->product_category_product_id, 
                 "product_category_datetime" => $this->product_category_datetime,
                 "product_category_aid" => $this->product_category_aid,
             ]);
@@ -150,10 +144,10 @@ class Category
     {
         try {
             $sql = "select product_category_name from {$this->tblCategory} ";
-            $sql .= "where product_category_name = :product_category_name "; 
+            $sql .= "where product_category_name = :product_category_name ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "product_category_name" => "{$this->product_category_name}", 
+                "product_category_name" => "{$this->product_category_name}",
             ]);
         } catch (PDOException $ex) {
             $query = false;

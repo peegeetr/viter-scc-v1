@@ -2,15 +2,19 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Form, Formik } from "formik";
 import React from "react";
 import { FaTimesCircle } from "react-icons/fa";
-import * as Yup from "yup"; 
+import * as Yup from "yup";
 import { StoreContext } from "../../../../store/StoreContext";
 import { queryData } from "../../../helpers/queryData";
-import { setError, setIsAdd, setMessage, setSuccess } from "../../../../store/StoreAction";
+import {
+  setError,
+  setIsAdd,
+  setMessage,
+  setSuccess,
+} from "../../../../store/StoreAction";
 import { InputSelect, InputText } from "../../../helpers/FormInputs";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
 import { getDateNow } from "../../../helpers/functions-general";
 import useQueryData from "../../../custom-hooks/useQueryData";
- 
 
 const ModalAddProducts = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -49,17 +53,16 @@ const ModalAddProducts = ({ item }) => {
   };
 
   const initVal = {
-    product_item_name: item ? item.product_item_name : "",
-    product_supplier_id: item ? item.product_supplier_id : "", 
-    product_date: item ? item.product_date : getDateNow(), 
+    product_supplier_id: item ? item.product_supplier_id : "",
+    product_supplier_product_id: item ? item.product_supplier_product_id : "",
+    product_price: "",
+    product_scc_price: "",
   };
 
   const yupSchema = Yup.object({
-    product_item_name: Yup.string().required("Required"),
-    product_supplier_id: Yup.string().required("Required"), 
-    product_date: Yup.string().required("Required"), 
+    product_supplier_id: Yup.string().required("Required"),
+    product_supplier_product_id: Yup.string().required("Required"),
   });
-
 
   return (
     <>
@@ -90,44 +93,51 @@ const ModalAddProducts = ({ item }) => {
                 return (
                   <Form>
                     <div className="relative my-5">
-                      <InputText
-                        label="Date"
-                        type="text"
-                        onFocus={(e) => (e.target.type = "date")}
-                        onBlur={(e) => (e.target.type = "text")}
-                        name="product_date"
-                        disabled={mutation.isLoading}
-                      />
-                    </div>
-                    <div className="relative my-5">
                       <InputSelect
                         name="product_supplier_id"
-                        label="Supplier" 
-                        disabled={mutation.isLoading}  
+                        label="Supplier"
+                        disabled={mutation.isLoading}
                       >
                         <option value="">
                           {isLoading ? "Loading..." : "--"}
                         </option>
                         {suppliers?.data.map((sItem, key) => {
                           return (
-                            <option
-                              key={key}
-                              value={sItem.suppliers_aid} 
-                            > {`${sItem.suppliers_company_name} `} 
+                            <option key={key} value={sItem.suppliers_aid}>
+                              {" "}
+                              {`${sItem.suppliers_company_name} `}
                             </option>
                           );
                         })}
                       </InputSelect>
                     </div>
-                      <div className="relative my-5">
-                        <InputText
-                          label="Products Name"
-                          type="text"
-                          name="product_item_name"
-                          disabled={mutation.isLoading}
-                        />
-                      </div> 
-                      
+                    <div className="relative my-5">
+                      <InputSelect
+                        name="product_supplier_product_id"
+                        label="Supplier Product"
+                        disabled={mutation.isLoading}
+                      >
+                        <option value="">
+                          {isLoading ? "Loading..." : "--"}
+                        </option>
+                        {suppliers?.data.map((sItem, key) => {
+                          return (
+                            <option key={key} value={sItem.suppliers_aid}>
+                              {" "}
+                              {`${sItem.suppliers_company_name} `}
+                            </option>
+                          );
+                        })}
+                      </InputSelect>
+                    </div>
+                    <div className="relative my-5">
+                      <InputText
+                        label="Products Name"
+                        type="text"
+                        name="product_item_name"
+                        disabled={mutation.isLoading}
+                      />
+                    </div>
 
                     <div className="flex items-center gap-1 pt-5">
                       <button
