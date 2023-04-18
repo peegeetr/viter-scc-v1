@@ -3,23 +3,24 @@
 $conn = null;
 $conn = checkDbConnection();
 // make instance of classes
-$category = new Category($conn);
+$patronage = new Patronage($conn);
 // get $_GET data
-// check if categoryid is in the url e.g. /jobtitle/1
+// check if patronageid is in the url e.g. /jobtitle/1
 $error = [];
 $returnData = [];
-if (array_key_exists("categoryid", $_GET)) {
+if (array_key_exists("patronageid", $_GET)) {
 
     // get task id from query string
-    $category->product_category_aid = $_GET['categoryid'];
+    $patronage->patronage_aid = $_GET['patronageid'];
 
     //check to see if task id in query string is not empty and is number, if not return json error
-    checkId($category->product_category_aid);
- 
+    checkId($patronage->patronage_aid);
+    // // update sold if remove
+    // checkUpdateQunatity($patronage);
     // delete
-    $query = checkDelete($category);
+    $query = checkDelete($patronage);
 
-    returnSuccess($category, "Category", $query);
+    returnSuccess($patronage, "patronage", $query);
 }
 
 // return 404 error if endpoint not available

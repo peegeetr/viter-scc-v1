@@ -32,11 +32,11 @@ const StocksList = ({ setItemEdit }) => {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ["file", onSearch, store.isSearch],
+    queryKey: ["stocks", onSearch, store.isSearch],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
-        `/v1/file/search/${search.current.value}`, // search endpoint
-        `/v1/file/page/${pageParam}`, // list endpoint
+        `/v1/stocks/search/${search.current.value}`, // search endpoint
+        `/v1/stocks/page/${pageParam}`, // list endpoint
         store.isSearch // search boolean
       ),
     getNextPageParam: (lastPage) => {
@@ -63,7 +63,7 @@ const StocksList = ({ setItemEdit }) => {
 
   const handleDelete = (item) => {
     dispatch(setIsRestore(true));
-    setId(item.file_upload_aid);
+    setId(item.stocks_aid);
     setData(item);
     setDel(true);
   };
@@ -86,12 +86,13 @@ const StocksList = ({ setItemEdit }) => {
           <thead>
             <tr>
               <th>#</th>
-              <th className="min-w-[15rem] ">Category</th>  
+              <th className="min-w-[15rem]">Stock Number</th>
+              <th className="min-w-[15rem]">Product Number</th>
+              <th className="min-w-[15rem]">Product Name</th>
+              <th className="min-w-[15rem]">Quantity</th>
+              <th className="min-w-[15rem]">Remaining Quantity</th>
 
-              {(store.credentials.data.role_is_admin === 1 ||
-                store.credentials.data.role_is_developer === 1) && (
-                <th className="max-w-[5rem]">Actions</th>
-              )}
+              <th className="max-w-[5rem]">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -116,31 +117,32 @@ const StocksList = ({ setItemEdit }) => {
                 {page.data.map((item, key) => (
                   <tr key={key}>
                     <td> {counter++}.</td>
-                    <td>{item.file_upload_name}</td>  
+                    <td>{item.stocks_number}</td>
+                    <td>{item.product_number}</td>
+                    <td>{item.suppliers_products_name}</td>
+                    <td>{item.stocks_quantity}</td>
+                    <td>{"0"}</td>
 
-                    {(store.credentials.data.role_is_admin === 1 ||
-                      store.credentials.data.role_is_developer === 1) && (
-                      <td>
-                        <div className="flex items-center gap-1">
-                          <button
-                            type="button"
-                            className="btn-action-table tooltip-action-table"
-                            data-tooltip="Edit"
-                            onClick={() => handleEdit(item)}
-                          >
-                            <FaEdit />
-                          </button>
-                          <button
-                            type="button"
-                            className="btn-action-table tooltip-action-table"
-                            data-tooltip="Delete"
-                            onClick={() => handleDelete(item)}
-                          >
-                            <FaTrash />
-                          </button>
-                        </div>
-                      </td>
-                    )}
+                    <td>
+                      <div className="flex items-center gap-1">
+                        <button
+                          type="button"
+                          className="btn-action-table tooltip-action-table"
+                          data-tooltip="Edit"
+                          onClick={() => handleEdit(item)}
+                        >
+                          <FaEdit />
+                        </button>
+                        <button
+                          type="button"
+                          className="btn-action-table tooltip-action-table"
+                          data-tooltip="Delete"
+                          onClick={() => handleDelete(item)}
+                        >
+                          <FaTrash />
+                        </button>
+                      </div>
+                    </td>
                   </tr>
                 ))}
               </React.Fragment>
@@ -163,10 +165,10 @@ const StocksList = ({ setItemEdit }) => {
         <ModalDeleteRestore
           id={id}
           isDel={isDel}
-          mysqlApiDelete={`/v1/file/${id}`}
-          msg={"Are you sure you want to delete this file"}
-          item={`${dataItem.file_upload_name}`}
-          arrKey="file"
+          mysqlApiDelete={`/v1/stocks/${id}`}
+          msg={"Are you sure you want to delete this stocks"}
+          item={`${dataItem.suppliers_products_name}`}
+          arrKey="stocks"
         />
       )}
     </>

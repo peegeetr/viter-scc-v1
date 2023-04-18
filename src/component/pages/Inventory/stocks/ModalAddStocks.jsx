@@ -2,13 +2,18 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Form, Formik } from "formik";
 import React from "react";
 import { FaTimesCircle } from "react-icons/fa";
-import * as Yup from "yup"; 
+import * as Yup from "yup";
 import { StoreContext } from "../../../../store/StoreContext";
 import { queryData } from "../../../helpers/queryData";
-import { setError, setIsAdd, setMessage, setSuccess } from "../../../../store/StoreAction";
-import { InputText } from "../../../helpers/FormInputs";
+import {
+  setError,
+  setIsAdd,
+  setMessage,
+  setSuccess,
+} from "../../../../store/StoreAction";
+import { InputSelect, InputText } from "../../../helpers/FormInputs";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
- 
+import useQueryData from "../../../custom-hooks/useQueryData";
 
 const ModalAddStocks = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -17,15 +22,16 @@ const ModalAddStocks = ({ item }) => {
   const mutation = useMutation({
     mutationFn: (values) =>
       queryData(
-        item ? `/v1/file/${item.file_upload_aid}` : `/v1/file`,
+        item ? `/v1/stocks/${item.stocks_aid}` : `/v1/stocks`,
         item ? "put" : "post",
         values
       ),
     onSuccess: (data) => {
       // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ["file"] });
+      queryClient.invalidateQueries({ queryKey: ["stocks"] });
       // show success box
       if (data.success) {
+        dispatch(setIsAdd(false));
         dispatch(setSuccess(true));
         dispatch(setMessage(`Successfuly ${item ? "updated." : "added."}`));
       }
@@ -34,19 +40,26 @@ const ModalAddStocks = ({ item }) => {
         dispatch(setError(true));
         dispatch(setMessage(data.error));
       }
-    }, 
+    },
   });
   const handleClose = () => {
     dispatch(setIsAdd(false));
   };
 
-  const initVal = { 
-    file_upload_name: item ? item.file_upload_name : "", 
- 
+  // use if not loadmore button undertime
+  const { isFetching: loadingProduct, data: productStock } = useQueryData(
+    `/v1/product`, // endpoint
+    "get", // method
+    "product-stock" // key
+  );
+  const initVal = {
+    stocks_product_id: item ? item.stocks_product_id : "",
+    stocks_quantity: item ? item.stocks_quantity : "",
   };
 
   const yupSchema = Yup.object({
-    file_upload_name: Yup.string().required("Required"), 
+    stocks_product_id: Yup.string().required("Required"),
+    stocks_quantity: Yup.string().required("Required"),
   });
 
   return (
@@ -55,7 +68,7 @@ const ModalAddStocks = ({ item }) => {
         <div className="p-1 w-[350px] rounded-b-2xl">
           <div className="flex justify-between items-center bg-primary p-3 rounded-t-2xl">
             <h3 className="text-white text-sm">
-              {item ? "Update" : "Add"} file_upload
+              {item ? "Update" : "Add"} Stocks
             </h3>
             <button
               type="button"
@@ -78,13 +91,31 @@ const ModalAddStocks = ({ item }) => {
                 return (
                   <Form>
                     <div className="relative my-5">
+                      <InputSelect
+                        name="stocks_product_id"
+                        label="Product"
+                        disabled={mutation.isLoading}
+                      >
+                        <option value="" hidden>
+                          {loadingProduct ? "Loading..." : "--"}
+                        </option>
+                        {productStock?.data.map((sItem, key) => {
+                          return (
+                            <option key={key} value={sItem.product_aid}>
+                              {`${sItem.suppliers_products_name} `}
+                            </option>
+                          );
+                        })}
+                      </InputSelect>
+                    </div>
+                    <div className="relative my-5">
                       <InputText
-                        label="Name"
+                        label="Quantity"
                         type="text"
-                        name="file_upload_name"
+                        name="stocks_quantity"
                         disabled={mutation.isLoading}
                       />
-                    </div>  
+                    </div>
 
                     <div className="flex items-center gap-1 pt-5">
                       <button

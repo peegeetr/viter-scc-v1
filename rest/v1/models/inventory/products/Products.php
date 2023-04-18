@@ -132,15 +132,30 @@ class Product
     public function search()
     {
         try {
-            $sql = "select * from ";
-            $sql .= "{$this->tblProduct} ";
-            $sql .= "where product_number like :product_number ";
-            // $sql .= "or product_date like :product_date ";
+            $sql = "select product.product_number, ";
+            $sql .= "product.product_aid, ";
+            $sql .= "product.product_market_price, ";
+            $sql .= "product.product_scc_price, ";
+            $sql .= "product.product_supplier_id, ";
+            $sql .= "product.product_supplier_product_id, ";
+            $sql .= "supplierProduct.suppliers_products_aid, ";
+            $sql .= "supplierProduct.suppliers_products_name, ";
+            $sql .= "supplierProduct.suppliers_products_price, ";
+            $sql .= "supplier.suppliers_company_name ";
+            $sql .= "from ";
+            $sql .= "{$this->tblProduct} as product, ";
+            $sql .= "{$this->tblSuppliersProducts} as supplierProduct, ";
+            $sql .= "{$this->tblSuppliers} as supplier ";
+            $sql .= "where product.product_supplier_product_id = supplier.suppliers_aid ";
+            $sql .= "and product.product_supplier_product_id = supplierProduct.suppliers_products_aid ";
+            $sql .= "and supplier.suppliers_aid = supplierProduct.suppliers_products_suppliers_id ";
+            $sql .= "and (product.product_number like :product_number ";
+            $sql .= "or supplierProduct.suppliers_products_name like :suppliers_products_name) ";
             $sql .= "order by product_number asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "product_number" => "{$this->product_search}%",
-                // "product_date" => "{$this->product_search}%",
+                "suppliers_products_name" => "{$this->product_search}%",
             ]);
         } catch (PDOException $ex) {
             $query = false;

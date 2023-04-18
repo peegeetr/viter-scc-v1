@@ -22,7 +22,7 @@ const SupplierProduct = () => {
   return (
     <>
       <Header />
-      <Navigation menu="myaccount" />
+      <Navigation menu="inventory" />
       <div className="wrapper ">
         <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2 ">
           {/* <h4 className="text-xl mb-3">Suppliers</h4> */}

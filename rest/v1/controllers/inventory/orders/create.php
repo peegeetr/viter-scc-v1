@@ -3,24 +3,24 @@
 $conn = null;
 $conn = checkDbConnection();
 // make instance of classes
-$category = new Category($conn);
+$patronage = new Patronage($conn);
 // get should not be present
-if (array_key_exists("categoryid", $_GET)) {
+if (array_key_exists("patronageid", $_GET)) {
     checkEndpoint();
 }
 // check data
 checkPayload($data);
 // get data
- 
-$category->product_category_name = checkIndex($data, "product_category_name");
-$category->product_category_product_id = checkIndex($data, "product_category_product_id");
-$category->product_category_is_active = 1;
-$category->product_category_created = date("Y-m-d H:i:s");
-$category->product_category_datetime = date("Y-m-d H:i:s"); 
 
-// check name
-isNameExist($category, $category->product_category_name);
-// create
-$query = checkCreate($category); 
+$patronage->patronage_member_id = checkIndex($data, "patronage_member_id");
+$patronage->patronage_product_id = checkIndex($data, "patronage_product_id");
+$patronage->patronage_product_quantity = checkIndex($data, "patronage_product_quantity");
+$patronage->patronage_date = checkIndex($data, "patronage_date");
+$patronage->patronage_or = checkIndex($data, "patronage_or");
+$patronage->patronage_created = date("Y-m-d H:i:s");
+$patronage->patronage_datetime = date("Y-m-d H:i:s");
 
-returnSuccess($category, "Category", $query);
+// create 
+$query = checkCreate($patronage);
+
+returnSuccess($patronage, "patronage", $query);

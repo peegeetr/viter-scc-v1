@@ -6,7 +6,7 @@ require '../../../../core/header.php';
 require '../../../../core/functions.php';
 require 'functions.php';
 // use needed classes
-require '../../../../models/account/details/Patronage.php';
+require '../../../../models/inventory/orders/Patronage.php';
 // check database connection
 $conn = null;
 $conn = checkDbConnection();
@@ -23,7 +23,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         $patronage->patronage_search = $_GET['search'];
         //check to see if search keyword in query string is not empty and less than 50 chars
         checkKeyword($patronage->patronage_search);
-        $query = checkSearch($patronage);
+        $query = checkSearchById($patronage);
         http_response_code(200);
         getQueriedData($query);
     }

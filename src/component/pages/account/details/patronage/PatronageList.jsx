@@ -42,8 +42,8 @@ const PatronageList = ({ setItemEdit }) => {
     queryKey: ["patronage", onSearch, store.isSearch],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
-        `/v1/patronage/search/${search.current.value}/${empid}`, // search endpoint
-        `/v1/patronage/page/${pageParam}/${empid}`, // list endpoint
+        `/v1/patronage/search/by-employee-id/${search.current.value}/${empid}`, // search endpoint
+        `/v1/patronage/page/by-employee-id/${pageParam}/${empid}`, // list endpoint
         store.isSearch // search boolean
       ),
     getNextPageParam: (lastPage) => {

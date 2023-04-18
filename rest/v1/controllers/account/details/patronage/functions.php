@@ -8,10 +8,10 @@ function checkReadLimitById($object)
     return $query;
 }
 
-// Read qunatity
-function checkUpdateQunatity($object)
+// Search by id
+function checkSearchById($object)
 {
-    $query = $object->updateQunatity();
-    checkQuery($query, "Empty records. (Update quantity)");
+    $query = $object->searchById();
+    checkQuery($query, "Empty records. (Search by id)");
     return $query;
 }

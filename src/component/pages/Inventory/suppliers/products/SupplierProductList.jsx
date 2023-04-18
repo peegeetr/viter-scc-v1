@@ -87,6 +87,7 @@ const SupplierProductList = ({ setItemEdit }) => {
             <tr>
               <th>#</th>
               <th className="min-w-[15rem]">Product Name</th>
+              <th className="min-w-[15rem]">Product Category</th>
               <th className="min-w-[15rem]">Product Price</th>
 
               {(store.credentials.data.role_is_admin === 1 ||
@@ -118,6 +119,7 @@ const SupplierProductList = ({ setItemEdit }) => {
                   <tr key={key}>
                     <td> {counter++}.</td>
                     <td>{item.suppliers_products_name}</td>
+                    <td>{item.product_category_name}</td>
                     <td>{item.suppliers_products_price}</td>
 
                     {(store.credentials.data.role_is_admin === 1 ||

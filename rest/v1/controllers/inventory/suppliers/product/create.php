@@ -14,6 +14,7 @@ checkPayload($data);
 
 $suppliersProducts->suppliers_products_name = checkIndex($data, "suppliers_products_name");
 $suppliersProducts->suppliers_products_price = checkIndex($data, "suppliers_products_price");
+$suppliersProducts->suppliers_products_category_id = checkIndex($data, "suppliers_products_category_id");
 $suppliersProducts->suppliers_products_suppliers_id = checkIndex($data, "suppliers_products_suppliers_id");
 $suppliersProducts->suppliers_products_created = date("Y-m-d H:i:s");
 $suppliersProducts->suppliers_products_datetime = date("Y-m-d H:i:s");

@@ -38,7 +38,6 @@ class Patronage
             $sql .= "( patronage_member_id, ";
             $sql .= "patronage_product_id, ";
             $sql .= "patronage_product_quantity, ";
-            $sql .= "patronage_product_amount, ";
             $sql .= "patronage_date, ";
             $sql .= "patronage_or, ";
             $sql .= "patronage_created, ";
@@ -46,7 +45,6 @@ class Patronage
             $sql .= ":patronage_member_id, ";
             $sql .= ":patronage_product_id, ";
             $sql .= ":patronage_product_quantity, ";
-            $sql .= ":patronage_product_amount, ";
             $sql .= ":patronage_date, ";
             $sql .= ":patronage_or, ";
             $sql .= ":patronage_created, ";
@@ -56,7 +54,6 @@ class Patronage
                 "patronage_member_id" => $this->patronage_member_id,
                 "patronage_product_id" => $this->patronage_product_id,
                 "patronage_product_quantity" => $this->patronage_product_quantity,
-                "patronage_product_amount" => $this->patronage_product_amount,
                 "patronage_date" => $this->patronage_date,
                 "patronage_or" => $this->patronage_or,
                 "patronage_created" => $this->patronage_created,
@@ -128,25 +125,34 @@ class Patronage
         return $query;
     }
 
+    // search not approved members
+    public function searchById()
+    {
+        try {
+            $sql = "select * ";
+            $sql .= "from {$this->tblPatronage} ";
+            $sql .= "where patronage_member_id = :patronage_member_id ";
+            $sql .= "and patronage_date like :patronage_date ";
+            $sql .= "order by patronage_date desc, ";
+            $sql .= "patronage_member_id asc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "patronage_member_id" => $this->patronage_member_id,
+                "patronage_date" => "{$this->patronage_search}%",
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
     // read by id
     public function readById()
     {
         try {
-            $sql = "select patronage.patronage_aid, ";
-            $sql .= "patronage.patronage_member_id, ";
-            $sql .= "patronage.patronage_product_id, ";
-            $sql .= "patronage.patronage_product_quantity, ";
-            $sql .= "patronage.patronage_product_amount, ";
-            $sql .= "patronage.patronage_date, ";
-            $sql .= "patronage.patronage_or, ";
-            $sql .= "product.product_sold_quantity, ";
-            $sql .= "product.product_item_name, ";
-            $sql .= "product.product_scc_price, ";
-            $sql .= "product.product_price ";
-            $sql .= "from {$this->tblPatronage} as patronage, ";
-            $sql .= "{$this->tblProduct} as product ";
-            $sql .= "where patronage.patronage_member_id = :patronage_member_id ";
-            $sql .= "and patronage.patronage_product_id = product.product_aid  ";
+            $sql = "select * ";
+            $sql .= "from {$this->tblPatronage} ";
+            $sql .= "where patronage_member_id = :patronage_member_id ";
             $sql .= "order by patronage_date desc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
@@ -161,21 +167,9 @@ class Patronage
     public function readLimitById()
     {
         try {
-            $sql = "select patronage.patronage_aid, ";
-            $sql .= "patronage.patronage_member_id, ";
-            $sql .= "patronage.patronage_product_id, ";
-            $sql .= "patronage.patronage_product_quantity, ";
-            $sql .= "patronage.patronage_product_amount, ";
-            $sql .= "patronage.patronage_date, ";
-            $sql .= "patronage.patronage_or, ";
-            $sql .= "product.product_sold_quantity, ";
-            $sql .= "product.product_item_name, ";
-            $sql .= "product.product_scc_price, ";
-            $sql .= "product.product_price ";
-            $sql .= "from {$this->tblPatronage} as patronage, ";
-            $sql .= "{$this->tblProduct} as product ";
-            $sql .= "where patronage.patronage_member_id = :patronage_member_id ";
-            $sql .= "and patronage.patronage_product_id = product.product_aid  ";
+            $sql = "select * ";
+            $sql .= "from {$this->tblPatronage} ";
+            $sql .= "where patronage_member_id = :patronage_member_id ";
             $sql .= "order by patronage_date desc ";
             $sql .= "limit :start, ";
             $sql .= ":total ";
@@ -190,6 +184,64 @@ class Patronage
         }
         return $query;
     }
+    // // read by id
+    // public function readById()
+    // {
+    //     try {
+    //         $sql = "select patronage.patronage_aid, ";
+    //         $sql .= "patronage.patronage_member_id, ";
+    //         $sql .= "patronage.patronage_product_id, ";
+    //         $sql .= "patronage.patronage_product_quantity, ";
+    //         $sql .= "patronage.patronage_product_amount, ";
+    //         $sql .= "patronage.patronage_date, ";
+    //         $sql .= "patronage.patronage_or, ";
+    //         $sql .= "product.product_market_price, ";
+    //         $sql .= "product.product_scc_price  ";
+    //         $sql .= "from {$this->tblPatronage} as patronage, ";
+    //         $sql .= "{$this->tblProduct} as product ";
+    //         $sql .= "where patronage.patronage_member_id = :patronage_member_id ";
+    //         $sql .= "and patronage.patronage_product_id = product.product_aid ";
+    //         $sql .= "order by patronage.patronage_date desc, ";
+    //         $query = $this->connection->prepare($sql);
+    //         $query->execute([
+    //             "patronage_member_id" => $this->patronage_member_id,
+    //         ]);
+    //     } catch (PDOException $ex) {
+    //         $query = false;
+    //     }
+    //     return $query;
+    // }
+
+    // public function readLimitById()
+    // {
+    //     try {
+    //         $sql = "select patronage.patronage_aid, ";
+    //         $sql .= "patronage.patronage_member_id, ";
+    //         $sql .= "patronage.patronage_product_id, ";
+    //         $sql .= "patronage.patronage_product_quantity, ";
+    //         $sql .= "patronage.patronage_product_amount, ";
+    //         $sql .= "patronage.patronage_date, ";
+    //         $sql .= "patronage.patronage_or, ";
+    //         $sql .= "product.product_market_price, ";
+    //         $sql .= "product.product_scc_price  ";
+    //         $sql .= "from {$this->tblPatronage} as patronage, ";
+    //         $sql .= "{$this->tblProduct} as product ";
+    //         $sql .= "where patronage.patronage_member_id = :patronage_member_id ";
+    //         $sql .= "and patronage.patronage_product_id = product.product_aid ";
+    //         $sql .= "order by patronage.patronage_date desc ";
+    //         $sql .= "limit :start, ";
+    //         $sql .= ":total ";
+    //         $query = $this->connection->prepare($sql);
+    //         $query->execute([
+    //             "patronage_member_id" => $this->patronage_member_id,
+    //             "start" => $this->patronage_start - 1,
+    //             "total" => $this->total,
+    //         ]);
+    //     } catch (PDOException $ex) {
+    //         $query = false;
+    //     }
+    //     return $query;
+    // }
     // update
     public function update()
     {

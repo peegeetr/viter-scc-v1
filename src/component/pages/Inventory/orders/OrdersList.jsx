@@ -32,11 +32,11 @@ const OrdersList = ({ setItemEdit }) => {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ["file", onSearch, store.isSearch],
+    queryKey: ["orders", onSearch, store.isSearch],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
-        `/v1/file/search/${search.current.value}`, // search endpoint
-        `/v1/file/page/${pageParam}`, // list endpoint
+        `/v1/orders/search/${search.current.value}`, // search endpoint
+        `/v1/orders/page/${pageParam}`, // list endpoint
         store.isSearch // search boolean
       ),
     getNextPageParam: (lastPage) => {
@@ -86,7 +86,7 @@ const OrdersList = ({ setItemEdit }) => {
           <thead>
             <tr>
               <th>#</th>
-              <th className="min-w-[15rem] ">Category</th>  
+              <th className="min-w-[15rem] ">Category</th>
 
               {(store.credentials.data.role_is_admin === 1 ||
                 store.credentials.data.role_is_developer === 1) && (
@@ -116,7 +116,7 @@ const OrdersList = ({ setItemEdit }) => {
                 {page.data.map((item, key) => (
                   <tr key={key}>
                     <td> {counter++}.</td>
-                    <td>{item.file_upload_name}</td>  
+                    <td>{item.file_upload_name}</td>
 
                     {(store.credentials.data.role_is_admin === 1 ||
                       store.credentials.data.role_is_developer === 1) && (
@@ -163,7 +163,7 @@ const OrdersList = ({ setItemEdit }) => {
         <ModalDeleteRestore
           id={id}
           isDel={isDel}
-          mysqlApiDelete={`/v1/file/${id}`}
+          mysqlApiDelete={`/v1/orders/${id}`}
           msg={"Are you sure you want to delete this file"}
           item={`${dataItem.file_upload_name}`}
           arrKey="file"

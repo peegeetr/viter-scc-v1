@@ -66,12 +66,9 @@ RewriteRule ^capital-share/page/([0-9]+)/([0-9]+)$ controllers/account/details/c
 RewriteRule ^capital-share/search/([A-Za-z0-9-]+)/([0-9]+)$ controllers/account/details/capital-share/search.php?search=$1&membersid=$2 [L]
 
 #patronage
-RewriteRule ^patronage$ controllers/account/details/patronage/patronage.php [L]
-RewriteRule ^patronage/([0-9]+)$ controllers/account/details/patronage/patronage.php?patronageid=$1 [L] 
-RewriteRule ^patronage/page/([0-9]+)/([0-9]+)$ controllers/account/details/patronage/page.php?start=$1&membersid=$2 [L]
-RewriteRule ^patronage/search/([A-Za-z0-9-]+)/([0-9]+)$ controllers/account/details/patronage/search.php?search=$1&membersid=$2 [L]
-
-
+RewriteRule ^patronage/page/by-employee-id/([0-9]+)/([0-9]+)$ controllers/account/details/patronage/page-by-employee-id.php?start=$1&membersid=$2 [L]
+RewriteRule ^patronage/search/by-employee-id/([A-Za-z0-9-]+)/([0-9]+)$ controllers/account/details/patronage/search-by-employee-id.php?search=$1&membersid=$2 [L]
+ 
 #file upload
 RewriteRule ^file$ controllers/files-upload/fileUpload.php [L]
 RewriteRule ^file/([0-9]+)$ controllers/files-upload/fileUpload.php?fileid=$1 [L] 
@@ -83,6 +80,12 @@ RewriteRule ^product$ controllers/inventory/products/products.php [L]
 RewriteRule ^product/([0-9]+)$ controllers/inventory/products/products.php?productid=$1 [L] 
 RewriteRule ^product/page/([0-9]+)$ controllers/inventory/products/page.php?start=$1 [L]
 RewriteRule ^product/search/([A-Za-z0-9-]+)$ controllers/inventory/products/search.php?search=$1 [L]
+
+#stocks
+RewriteRule ^stocks$ controllers/inventory/stocks/stocks.php [L]
+RewriteRule ^stocks/([0-9]+)$ controllers/inventory/stocks/stocks.php?stockid=$1 [L] 
+RewriteRule ^stocks/page/([0-9]+)$ controllers/inventory/stocks/page.php?start=$1 [L]
+RewriteRule ^stocks/search/([A-Za-z0-9-]+)$ controllers/inventory/stocks/search.php?search=$1 [L]
 
 #Net Surplus
 RewriteRule ^net-surplus$ controllers/settings/net-surplus/net-surplus.php [L]
@@ -96,6 +99,13 @@ RewriteRule ^category/([0-9]+)$ controllers/inventory/category/category.php?cate
 RewriteRule ^category/active/([0-9]+)$ controllers/inventory/category/active.php?categoryid=$1 [L]
 RewriteRule ^category/page/([0-9]+)$ controllers/inventory/category/page.php?start=$1 [L]
 RewriteRule ^category/search/([A-Za-z0-9-]+)$ controllers/inventory/category/search.php?search=$1 [L]
+
+#orders 
+RewriteRule ^orders$ controllers/inventory/orders/orders.php [L]
+RewriteRule ^orders/([0-9]+)$ controllers/inventory/orders/orders.php?patronageid=$1 [L]
+RewriteRule ^orders/active/([0-9]+)$ controllers/inventory/orders/active.php?patronageid=$1 [L]
+RewriteRule ^orders/page/([0-9]+)$ controllers/inventory/orders/page.php?start=$1 [L]
+RewriteRule ^orders/search/([A-Za-z0-9-]+)$ controllers/inventory/orders/search.php?search=$1 [L]
    
 #suppliers 
 RewriteRule ^suppliers$ controllers/inventory/suppliers/suppliers.php [L]

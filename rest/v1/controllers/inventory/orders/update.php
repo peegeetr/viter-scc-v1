@@ -3,28 +3,30 @@
 $conn = null;
 $conn = checkDbConnection();
 // make instance of classes
-$category = new Category($conn);
+$patronage = new Patronage($conn);
 // get $_GET data
-// check if categoryid is in the url e.g. /categoryid/1
+// check if patronageid is in the url e.g. /patronageid/1
 $error = [];
 $returnData = [];
-if (array_key_exists("categoryid", $_GET)) {
+if (array_key_exists("patronageid", $_GET)) {
     // check data
-    checkPayload($data); 
-    // get categoryid from query string
-    $category->product_category_aid  = $_GET['categoryid'];
-    $category->product_category_name = checkIndex($data, "product_category_name");
-    $category->product_category_product_id = checkIndex($data, "product_category_product_id");
-    $category->product_category_datetime = date("Y-m-d H:i:s");
+    checkPayload($data);
+    // get patronageid from query string
+    $patronage->patronage_aid = $_GET['patronageid'];
+    $patronage->patronage_product_id = checkIndex($data, "patronage_product_id");
+    $patronage->patronage_product_quantity = checkIndex($data, "patronage_product_quantity");
+    $patronage->patronage_product_amount = checkIndex($data, "patronage_product_amount");
+    $patronage->patronage_date = checkIndex($data, "patronage_date");
+    $patronage->patronage_or = checkIndex($data, "patronage_or");
+    $patronage->patronage_datetime = date("Y-m-d H:i:s");
 
-    $product_category_name_old = checkIndex($data, "product_category_name_old");
+    $patronage->sold_product = checkIndex($data, "soldProduct");
+    $patronage->remaining_quantity = checkIndex($data, "remainingQuantity");
     //check to see if task id in query string is not empty and is number, if not return json error
-    checkId($category->product_category_aid );
-    // check name
-    compareName($category, $product_category_name_old, $category->product_category_name);
-    // update
-    $query = checkUpdate($category);
-    returnSuccess($category, "Category", $query);
+    checkId($patronage->patronage_aid);
+    // update 
+    $query = checkUpdate($patronage);
+    returnSuccess($patronage, "patronage", $query);
 }
 
 // return 404 error if endpoint not available

@@ -27,12 +27,6 @@ const ModalAddPatronage = ({ item }) => {
     item ? item.product_scc_price : ""
   );
 
-  // // use if not loadmore button undertime
-  // const { data: SoldPatronage } = useQueryData(
-  //   `/v1/patronage`, // endpoint
-  //   "get", // method
-  //   "SoldPatronage" // key
-  // );
   // use if not loadmore button undertime
   const { data: productId, isLoading } = useQueryData(
     `/v1/product`, // endpoint
@@ -45,7 +39,7 @@ const ModalAddPatronage = ({ item }) => {
   const mutation = useMutation({
     mutationFn: (values) =>
       queryData(
-        item ? `/v1/patronage/${item.patronage_aid}` : `/v1/patronage`,
+        item ? `/v1/orders/${item.patronage_aid}` : `/v1/orders`,
         item ? "put" : "post",
         values
       ),
@@ -67,25 +61,23 @@ const ModalAddPatronage = ({ item }) => {
       }
     },
   });
-
-  console.log("productId", productId);
-  const handlePrice = async (e, props) => {
-    // get employee id
-    setproductPrice(e.target.options[e.target.selectedIndex].id);
-  };
+  // use if not loadmore button undertime
+  const { isFetching: loadingProduct, data: productPatronage } = useQueryData(
+    `/v1/product`, // endpoint
+    "get", // method
+    "product-patronage" // key
+  );
 
   const handleClose = () => {
     dispatch(setIsAdd(false));
   };
 
   const initVal = {
-    patronage_product_id: item ? item.patronage_product_id : "",
     patronage_member_id: item ? item.patronage_member_id : memberid,
-    patronage_or: item ? item.patronage_or : "",
+    patronage_product_id: item ? item.patronage_product_id : "",
     patronage_product_quantity: item ? item.patronage_product_quantity : "",
-    patronage_product_quantity_old: item ? item.patronage_product_quantity : "",
-    patronage_product_amount: "",
     patronage_date: item ? item.patronage_date : "",
+    patronage_or: item ? item.patronage_or : "",
   };
 
   const yupSchema = Yup.object({
@@ -118,47 +110,27 @@ const ModalAddPatronage = ({ item }) => {
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
                 console.log(values);
-                let soldProduct = computeSoldProduct(item, values, productId);
-                let remainingQuantity = computeRemainingQuantity(
-                  item,
-                  values,
-                  productId
-                );
+
                 // mutate data
-                mutation.mutate({
-                  ...values,
-                  soldProduct,
-                  remainingQuantity,
-                });
+                mutation.mutate(values);
               }}
             >
               {(props) => {
-                props.values.patronage_product_amount =
-                  Number(props.values.patronage_product_quantity) *
-                  Number(productPrice);
                 return (
                   <Form className="">
                     <div className="relative my-5">
                       <InputSelect
                         name="patronage_product_id"
                         label="Product"
-                        onChange={handlePrice}
                         disabled={mutation.isLoading}
-                        onFocus={(e) =>
-                          e.target.parentElement.classList.add("focused")
-                        }
                       >
-                        <option value="">
-                          {isLoading ? "Loading..." : "--"}
+                        <option value="" hidden>
+                          {loadingProduct ? "Loading..." : "--"}
                         </option>
-                        {productId?.data.map((pItem, key) => {
+                        {productPatronage?.data.map((sItem, key) => {
                           return (
-                            <option
-                              key={key}
-                              value={pItem.product_aid}
-                              id={pItem.product_price}
-                            >
-                              {`${pItem.product_item_name} (${pItem.product_remaining_quantity})`}
+                            <option key={key} value={sItem.product_aid}>
+                              {`${sItem.suppliers_products_name} `}
                             </option>
                           );
                         })}

@@ -53,6 +53,9 @@ const ModalAddSuppliersProducts = ({ item }) => {
     suppliers_products_suppliers_id: supplierId,
     suppliers_products_name: item ? item.suppliers_products_name : "",
     suppliers_products_price: item ? item.suppliers_products_price : "",
+    suppliers_products_category_id: item
+      ? item.suppliers_products_category_id
+      : "",
 
     suppliers_products_name_old: item ? item.suppliers_products_name : "",
   };
@@ -60,6 +63,7 @@ const ModalAddSuppliersProducts = ({ item }) => {
   const yupSchema = Yup.object({
     suppliers_products_name: Yup.string().required("Required"),
     suppliers_products_price: Yup.string().required("Required"),
+    suppliers_products_category_id: Yup.string().required("Required"),
   });
 
   return (
@@ -95,6 +99,14 @@ const ModalAddSuppliersProducts = ({ item }) => {
                         label="Product Name"
                         type="text"
                         name="suppliers_products_name"
+                        disabled={mutation.isLoading}
+                      />
+                    </div>
+                    <div className="relative my-5">
+                      <InputText
+                        label="Product Category"
+                        type="text"
+                        name="suppliers_products_category_id"
                         disabled={mutation.isLoading}
                       />
                     </div>

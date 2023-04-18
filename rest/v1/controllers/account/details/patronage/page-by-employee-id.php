@@ -6,7 +6,7 @@ require '../../../../core/header.php';
 require '../../../../core/functions.php';
 require 'functions.php';
 // use needed classes
-require '../../../../models/account/details/Patronage.php';
+require '../../../../models/inventory/orders/Patronage.php';
 // check database connection
 $conn = null;
 $conn = checkDbConnection();

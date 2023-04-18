@@ -18,7 +18,10 @@ import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
 const ModalAddProducts = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [isSupplierProduct, setSupplierProduct] = React.useState([]);
-  const [isProdLoading, setProdLoading] = React.useState(false);
+  const [isSupProdId, setSupProdId] = React.useState(
+    item ? item.product_supplier_product_id : "0"
+  );
+  // const [isProdLoading, setProdLoading] = React.useState(false);
 
   // use if not loadmore button undertime
   const { data: suppliers, isLoading } = useQueryData(
@@ -53,14 +56,19 @@ const ModalAddProducts = ({ item }) => {
     dispatch(setIsAdd(false));
   };
 
+  // use if not loadmore button undertime
+  const { isFetching: loadingSupProd, data: SupProd } = useQueryData(
+    `/v1/suppliers-product/by-supplier-id/${isSupProdId}`, // endpoint
+    "get", // method
+    "SupProd" // key
+  );
+  console.log(isSupplierProduct, isSupProdId);
   const handleSupplier = async (e, props) => {
     let supplierId = e.target.value;
-    setProdLoading(true);
     const results = await queryData(
       `/v1/suppliers-product/by-supplier-id/${supplierId}`
     );
     if (results.data) {
-      setProdLoading(false);
       setSupplierProduct(results.data);
     }
   };
@@ -113,7 +121,7 @@ const ModalAddProducts = ({ item }) => {
                         onChange={handleSupplier}
                         disabled={mutation.isLoading}
                       >
-                        <option value="">
+                        <option value="" hidden>
                           {isLoading ? "Loading..." : "--"}
                         </option>
                         {suppliers?.data.map((sItem, key) => {
@@ -133,18 +141,29 @@ const ModalAddProducts = ({ item }) => {
                         disabled={mutation.isLoading}
                       >
                         <option value="">
-                          {isProdLoading ? "Loading..." : "--"}
+                          {loadingSupProd ? "Loading..." : "--"}
                         </option>
-                        {isSupplierProduct?.map((spItem, key) => {
-                          return (
-                            <option
-                              key={key}
-                              value={spItem.suppliers_products_aid}
-                            >
-                              {`${spItem.suppliers_products_name} `}
-                            </option>
-                          );
-                        })}
+                        {item
+                          ? SupProd?.data.map((spItem, key) => {
+                              return (
+                                <option
+                                  key={key}
+                                  value={spItem.suppliers_products_aid}
+                                >
+                                  {`${spItem.suppliers_products_name} `}
+                                </option>
+                              );
+                            })
+                          : isSupplierProduct?.map((spItem, key) => {
+                              return (
+                                <option
+                                  key={key}
+                                  value={spItem.suppliers_products_aid}
+                                >
+                                  {`${spItem.suppliers_products_name} `}
+                                </option>
+                              );
+                            })}
                       </InputSelect>
                     </div>
                     <div className="relative my-5">
