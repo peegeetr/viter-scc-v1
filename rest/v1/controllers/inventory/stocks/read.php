@@ -3,24 +3,24 @@
 $conn = null;
 $conn = checkDbConnection();
 // make instance of classes
-$product = new Product($conn);
+$stocks = new Stocks($conn);
 // get $_GET data
-// check if productid is in the url e.g. /file_upload/1
+// check if stockid is in the url e.g. /file_upload/1
 $error = [];
 $returnData = [];
-if (array_key_exists("productid", $_GET)) {
+if (array_key_exists("stockid", $_GET)) {
     // get task id from query string
-    $product->product_aid = $_GET['productid'];
+    $stocks->stocks_aid = $_GET['stockid'];
     //check to see if task id in query string is not empty and is number, if not return json error
-    checkId($product->product_aid);
-    $query = checkReadById($product);
+    checkId($stocks->stocks_aid);
+    $query = checkReadById($stocks);
     http_response_code(200);
     getQueriedData($query);
 }
 
 // if request is a GET e.g. /file_upload
 if (empty($_GET)) {
-    $query = checkReadAll($product);
+    $query = checkReadAll($stocks);
     http_response_code(200);
     getQueriedData($query);
 }

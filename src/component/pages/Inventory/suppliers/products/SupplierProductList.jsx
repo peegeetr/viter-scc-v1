@@ -88,7 +88,7 @@ const SupplierProductList = ({ setItemEdit }) => {
               <th>#</th>
               <th className="min-w-[15rem]">Product Name</th>
               <th className="min-w-[15rem]">Product Category</th>
-              <th className="min-w-[15rem]">Product Price</th>
+              <th className="min-w-[15rem]">Supplier Price</th>
 
               {(store.credentials.data.role_is_admin === 1 ||
                 store.credentials.data.role_is_developer === 1) && (
