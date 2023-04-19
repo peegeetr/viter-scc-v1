@@ -62,7 +62,6 @@ const ModalAddProducts = ({ item }) => {
     "get", // method
     "SupProd" // key
   );
-  console.log(isSupplierProduct, isSupProdId);
   const handleSupplier = async (e, props) => {
     let supplierId = e.target.value;
     const results = await queryData(

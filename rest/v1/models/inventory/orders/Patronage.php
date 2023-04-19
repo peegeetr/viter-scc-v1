@@ -22,12 +22,14 @@ class Patronage
     public $currentYear;
     public $tblPatronage;
     public $tblProduct;
+    public $tblSuppliersProducts;
 
     public function __construct($db)
     {
         $this->connection = $db;
         $this->tblPatronage = "sccv1_members_patronage";
         $this->tblProduct = "sccv1_product";
+        $this->tblSuppliersProducts = "sccv1_suppliers_products";
     }
 
     // create
@@ -38,6 +40,7 @@ class Patronage
             $sql .= "( patronage_member_id, ";
             $sql .= "patronage_product_id, ";
             $sql .= "patronage_product_quantity, ";
+            $sql .= "patronage_product_amount, ";
             $sql .= "patronage_date, ";
             $sql .= "patronage_or, ";
             $sql .= "patronage_created, ";
@@ -45,6 +48,7 @@ class Patronage
             $sql .= ":patronage_member_id, ";
             $sql .= ":patronage_product_id, ";
             $sql .= ":patronage_product_quantity, ";
+            $sql .= ":patronage_product_amount, ";
             $sql .= ":patronage_date, ";
             $sql .= ":patronage_or, ";
             $sql .= ":patronage_created, ";
@@ -54,6 +58,7 @@ class Patronage
                 "patronage_member_id" => $this->patronage_member_id,
                 "patronage_product_id" => $this->patronage_product_id,
                 "patronage_product_quantity" => $this->patronage_product_quantity,
+                "patronage_product_amount" => $this->patronage_product_amount,
                 "patronage_date" => $this->patronage_date,
                 "patronage_or" => $this->patronage_or,
                 "patronage_created" => $this->patronage_created,
@@ -130,15 +135,20 @@ class Patronage
     {
         try {
             $sql = "select * ";
-            $sql .= "from {$this->tblPatronage} ";
-            $sql .= "where patronage_member_id = :patronage_member_id ";
-            $sql .= "and patronage_date like :patronage_date ";
-            $sql .= "order by patronage_date desc, ";
-            $sql .= "patronage_member_id asc ";
+            $sql .= "from {$this->tblPatronage} as patronage, ";
+            $sql .= "{$this->tblProduct} as product, ";
+            $sql .= "{$this->tblSuppliersProducts} as suppliersProducts ";
+            $sql .= "where patronage.patronage_member_id = :patronage_member_id ";
+            $sql .= "and product.product_supplier_product_id = patronage.patronage_product_id ";
+            $sql .= "and suppliersProducts.suppliers_products_aid = product.product_supplier_product_id ";
+            $sql .= "and (MONTHNAME(patronage.patronage_date) like :patronage_date ";
+            $sql .= "or suppliersProducts.suppliers_products_name like :suppliers_products_name) ";
+            $sql .= "order by patronage.patronage_date desc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "patronage_member_id" => $this->patronage_member_id,
                 "patronage_date" => "{$this->patronage_search}%",
+                "suppliers_products_name" => "{$this->patronage_search}%",
             ]);
         } catch (PDOException $ex) {
             $query = false;
@@ -151,9 +161,13 @@ class Patronage
     {
         try {
             $sql = "select * ";
-            $sql .= "from {$this->tblPatronage} ";
-            $sql .= "where patronage_member_id = :patronage_member_id ";
-            $sql .= "order by patronage_date desc ";
+            $sql .= "from {$this->tblPatronage} as patronage, ";
+            $sql .= "{$this->tblProduct} as product, ";
+            $sql .= "{$this->tblSuppliersProducts} as suppliersProducts ";
+            $sql .= "where patronage.patronage_member_id = :patronage_member_id ";
+            $sql .= "and product.product_supplier_product_id = patronage.patronage_product_id ";
+            $sql .= "and suppliersProducts.suppliers_products_aid = product.product_supplier_product_id ";
+            $sql .= "order by patronage.patronage_date desc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "patronage_member_id" => $this->patronage_member_id,
@@ -168,9 +182,13 @@ class Patronage
     {
         try {
             $sql = "select * ";
-            $sql .= "from {$this->tblPatronage} ";
-            $sql .= "where patronage_member_id = :patronage_member_id ";
-            $sql .= "order by patronage_date desc ";
+            $sql .= "from {$this->tblPatronage} as patronage, ";
+            $sql .= "{$this->tblProduct} as product, ";
+            $sql .= "{$this->tblSuppliersProducts} as suppliersProducts ";
+            $sql .= "where patronage.patronage_member_id = :patronage_member_id ";
+            $sql .= "and product.product_supplier_product_id = patronage.patronage_product_id ";
+            $sql .= "and suppliersProducts.suppliers_products_aid = product.product_supplier_product_id ";
+            $sql .= "order by patronage.patronage_date desc ";
             $sql .= "limit :start, ";
             $sql .= ":total ";
             $query = $this->connection->prepare($sql);

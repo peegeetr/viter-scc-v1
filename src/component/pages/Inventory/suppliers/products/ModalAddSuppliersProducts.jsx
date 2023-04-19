@@ -11,14 +11,15 @@ import {
   setMessage,
   setSuccess,
 } from "../../../../../store/StoreAction";
-import { InputText } from "../../../../helpers/FormInputs";
+import { InputSelect, InputText } from "../../../../helpers/FormInputs";
 import ButtonSpinner from "../../../../partials/spinners/ButtonSpinner";
 import { getUrlParam } from "../../../../helpers/functions-general";
+import useQueryData from "../../../../custom-hooks/useQueryData";
 
 const ModalAddSuppliersProducts = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const supplierId = getUrlParam().get("supplierId");
-
+  console.log(item);
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: (values) =>
@@ -49,6 +50,12 @@ const ModalAddSuppliersProducts = ({ item }) => {
     dispatch(setIsAdd(false));
   };
 
+  // use if not loadmore button undertime
+  const { isLoading, data: categoryId } = useQueryData(
+    `/v1/category`, // endpoint
+    "get", // method
+    "categoryId" // key
+  );
   const initVal = {
     suppliers_products_suppliers_id: supplierId,
     suppliers_products_name: item ? item.suppliers_products_name : "",
@@ -103,12 +110,25 @@ const ModalAddSuppliersProducts = ({ item }) => {
                       />
                     </div>
                     <div className="relative my-5">
-                      <InputText
-                        label="Product Category"
-                        type="text"
+                      <InputSelect
                         name="suppliers_products_category_id"
+                        label="Product Category"
                         disabled={mutation.isLoading}
-                      />
+                      >
+                        <option value="" hidden>
+                          {isLoading ? "Loading..." : "--"}
+                        </option>
+                        {categoryId?.data.map((cItem, key) => {
+                          return (
+                            <option
+                              key={key}
+                              value={cItem.product_category_aid}
+                            >
+                              {`${cItem.product_category_name} `}
+                            </option>
+                          );
+                        })}
+                      </InputSelect>
                     </div>
                     <div className="relative my-5">
                       <InputText

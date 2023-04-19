@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 15, 2023 at 04:53 AM
--- Server version: 10.4.18-MariaDB
--- PHP Version: 8.0.3
+-- Generation Time: Apr 19, 2023 at 10:37 AM
+-- Server version: 10.4.22-MariaDB
+-- PHP Version: 8.1.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -39,6 +39,13 @@ CREATE TABLE `sccv1_suppliers` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
+-- Dumping data for table `sccv1_suppliers`
+--
+
+INSERT INTO `sccv1_suppliers` (`suppliers_aid`, `suppliers_company_name`, `suppliers_is_active`, `suppliers_company_address`, `suppliers_contact_person`, `suppliers_contact_num`, `suppliers_created`, `suppliers_datetime`) VALUES
+(1, 'fbs', 1, 'Brgy, San Ignaio', 'maja', '031231324657', '2023-04-19 16:29:03', '2023-04-19 16:29:03');
+
+--
 -- Indexes for dumped tables
 --
 
@@ -56,7 +63,7 @@ ALTER TABLE `sccv1_suppliers`
 -- AUTO_INCREMENT for table `sccv1_suppliers`
 --
 ALTER TABLE `sccv1_suppliers`
-  MODIFY `suppliers_aid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `suppliers_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

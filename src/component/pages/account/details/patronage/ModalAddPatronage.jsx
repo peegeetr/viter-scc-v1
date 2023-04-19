@@ -15,24 +15,14 @@ import { InputSelect, InputText } from "../../../../helpers/FormInputs";
 import { getUrlParam } from "../../../../helpers/functions-general";
 import { queryData } from "../../../../helpers/queryData";
 import ButtonSpinner from "../../../../partials/spinners/ButtonSpinner";
-import {
-  computeRemainingQuantity,
-  computeSoldProduct,
-} from "./functions-patronage";
 
 const ModalAddPatronage = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const memberid = getUrlParam().get("memberid");
-  const [productPrice, setproductPrice] = React.useState(
-    item ? item.product_scc_price : ""
+  const [price, setPrice] = React.useState(
+    item ? item.patronage_product_amount : ""
   );
 
-  // use if not loadmore button undertime
-  const { data: productId, isLoading } = useQueryData(
-    `/v1/product`, // endpoint
-    "get", // method
-    "productId" // key
-  );
   const queryClient = useQueryClient();
   const [show, setShow] = React.useState("show");
 
@@ -72,10 +62,15 @@ const ModalAddPatronage = ({ item }) => {
     dispatch(setIsAdd(false));
   };
 
+  const handlePrice = async (e, props) => {
+    // get employee id
+    setPrice(e.target.options[e.target.selectedIndex].id);
+  };
   const initVal = {
     patronage_member_id: item ? item.patronage_member_id : memberid,
     patronage_product_id: item ? item.patronage_product_id : "",
     patronage_product_quantity: item ? item.patronage_product_quantity : "",
+    patronage_product_amount: item ? item.patronage_product_amount : "",
     patronage_date: item ? item.patronage_date : "",
     patronage_or: item ? item.patronage_or : "",
   };
@@ -116,12 +111,15 @@ const ModalAddPatronage = ({ item }) => {
               }}
             >
               {(props) => {
+                props.values.patronage_product_amount =
+                  price * props.values.patronage_product_quantity;
                 return (
                   <Form className="">
                     <div className="relative my-5">
                       <InputSelect
                         name="patronage_product_id"
                         label="Product"
+                        onChange={handlePrice}
                         disabled={mutation.isLoading}
                       >
                         <option value="" hidden>
@@ -129,7 +127,11 @@ const ModalAddPatronage = ({ item }) => {
                         </option>
                         {productPatronage?.data.map((sItem, key) => {
                           return (
-                            <option key={key} value={sItem.product_aid}>
+                            <option
+                              key={key}
+                              value={sItem.product_aid}
+                              id={sItem.suppliers_products_price}
+                            >
                               {`${sItem.suppliers_products_name} `}
                             </option>
                           );

@@ -67,6 +67,7 @@ class SuppliersProducts
             $sql = "select ";
             $sql .= "suppliersProducts.suppliers_products_name, ";
             $sql .= "suppliersProducts.suppliers_products_price, ";
+            $sql .= "suppliersProducts.suppliers_products_category_id, ";
             $sql .= "category.product_category_name ";
             $sql .= "from ";
             $sql .= "{$this->tblSuppliersProducts} as suppliersProducts, ";
@@ -86,6 +87,7 @@ class SuppliersProducts
             $sql = "select ";
             $sql .= "suppliersProducts.suppliers_products_name, ";
             $sql .= "suppliersProducts.suppliers_products_price, ";
+            $sql .= "suppliersProducts.suppliers_products_category_id, ";
             $sql .= "category.product_category_name ";
             $sql .= "from ";
             $sql .= "{$this->tblSuppliersProducts} as suppliersProducts, ";
@@ -112,6 +114,7 @@ class SuppliersProducts
             $sql = "select ";
             $sql .= "suppliersProducts.suppliers_products_name, ";
             $sql .= "suppliersProducts.suppliers_products_price, ";
+            $sql .= "suppliersProducts.suppliers_products_category_id, ";
             $sql .= "category.product_category_name ";
             $sql .= "from ";
             $sql .= "{$this->tblSuppliersProducts} as suppliersProducts, ";

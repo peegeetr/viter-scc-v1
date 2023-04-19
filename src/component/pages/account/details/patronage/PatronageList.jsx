@@ -74,6 +74,7 @@ const PatronageList = ({ setItemEdit }) => {
     setData(item);
     setDel(true);
   };
+  console.log(result);
   return (
     <>
       <SearchBar
@@ -123,7 +124,7 @@ const PatronageList = ({ setItemEdit }) => {
                     <td>{counter++}.</td>
                     <td>{item.patronage_or}</td>
                     <td>{formatDate(item.patronage_date)}</td>
-                    <td>{item.product_item_name}</td>
+                    <td>{item.suppliers_products_name}</td>
                     <td>{item.patronage_product_quantity}</td>
                     <td>{numberWithCommas(item.patronage_product_amount)}</td>
                     {store.credentials.data.role_is_member === 0 && (
