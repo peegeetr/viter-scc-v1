@@ -11,6 +11,7 @@ import SearchBar from "../../../../partials/SearchBar";
 import ServerError from "../../../../partials/ServerError";
 import ModalDeleteRestore from "../../../../partials/modals/ModalDeleteRestore";
 import TableSpinner from "../../../../partials/spinners/TableSpinner";
+import { getUrlParam } from "../../../../helpers/functions-general";
 
 const SupplierProductList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -19,6 +20,7 @@ const SupplierProductList = ({ setItemEdit }) => {
   const [isDel, setDel] = React.useState(false);
   const [onSearch, setOnSearch] = React.useState(false);
   const [page, setPage] = React.useState(1);
+  const supplierId = getUrlParam().get("supplierId");
   const search = React.useRef(null);
   let counter = 1;
   const { ref, inView } = useInView();
@@ -36,7 +38,7 @@ const SupplierProductList = ({ setItemEdit }) => {
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
         `/v1/suppliers-product/search/${search.current.value}`, // search endpoint
-        `/v1/suppliers-product/page/${pageParam}`, // list endpoint
+        `/v1/suppliers-product/page/supplier-id/${pageParam}/${supplierId}`, // list endpoint
         store.isSearch // search boolean
       ),
     getNextPageParam: (lastPage) => {
@@ -63,7 +65,7 @@ const SupplierProductList = ({ setItemEdit }) => {
 
   const handleDelete = (item) => {
     dispatch(setIsRestore(true));
-    setId(item.suppliers_aid);
+    setId(item.suppliers_products_aid);
     setData(item);
     setDel(true);
   };
@@ -168,10 +170,10 @@ const SupplierProductList = ({ setItemEdit }) => {
         <ModalDeleteRestore
           id={id}
           isDel={isDel}
-          mysqlApiDelete={`/v1/suppliers/${id}`}
-          msg={"Are you sure you want to delete this suppliers"}
-          item={`${dataItem.suppliers_company_name}`}
-          arrKey="suppliers"
+          mysqlApiDelete={`/v1/suppliers-product/${id}`}
+          msg={"Are you sure you want to delete "}
+          item={`${dataItem.suppliers_products_name}`}
+          arrKey="suppliers-product"
         />
       )}
     </>

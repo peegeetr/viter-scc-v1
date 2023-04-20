@@ -12,6 +12,40 @@ if (array_key_exists("supplierProductsid", $_GET)) {
 checkPayload($data);
 // get data
 
+// create product id format ex. (Prod-001) 
+$formattedProductId = "";
+$id = "";
+$productLastId = $suppliersProducts->readLastProductId();
+if ($productLastId->rowCount() == 0) {
+    // create new id
+    $formattedProductId = "Prod" . "-" . "001";
+} else {
+
+    $row = $productLastId->fetch(PDO::FETCH_ASSOC);
+    extract($row);
+    // product_id from existing record ex. (Prod-001)
+    $existingMeberId = explode("-", $suppliers_products_number);
+
+    $lastId =  intval($existingMeberId[1]) + 1;
+    if ($lastId < 10) {
+        $id = "00" . $lastId;
+    } elseif ($lastId < 100) {
+        $id = "0" . $lastId;
+    } else {
+        $id = $lastId;
+    }
+
+    $formattedProductId =  "Prod" . "-" . $id;
+}
+
+
+
+//check to see if search keyword in query string is not empty and less than 50 chars
+checkKeyword($formattedProductId);
+
+
+$suppliersProducts->suppliers_products_number = $formattedProductId;
+
 $suppliersProducts->suppliers_products_name = checkIndex($data, "suppliers_products_name");
 $suppliersProducts->suppliers_products_price = checkIndex($data, "suppliers_products_price");
 $suppliersProducts->suppliers_products_category_id = checkIndex($data, "suppliers_products_category_id");

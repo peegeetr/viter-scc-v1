@@ -11,9 +11,11 @@ import SearchBar from "../../../partials/SearchBar";
 import ServerError from "../../../partials/ServerError";
 import ModalDeleteRestore from "../../../partials/modals/ModalDeleteRestore";
 import TableSpinner from "../../../partials/spinners/TableSpinner";
+import ModalUpdateProducts from "./ModalUpdateProducts";
 
-const ProductsList = ({ setItemEdit }) => {
+const ProductsList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
+  const [itemEdit, setItemEdit] = React.useState(null);
   const [dataItem, setData] = React.useState(null);
   const [id, setId] = React.useState(null);
   const [isDel, setDel] = React.useState(false);
@@ -33,11 +35,11 @@ const ProductsList = ({ setItemEdit }) => {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ["product", onSearch, store.isSearch],
+    queryKey: ["all-product", onSearch, store.isSearch],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
-        `/v1/product/search/${search.current.value}`, // search endpoint
-        `/v1/product/page/${pageParam}`, // list endpoint
+        `/v1/suppliers-product/search/${search.current.value}`, // search endpoint
+        `/v1/suppliers-product/page/${pageParam}`, // list endpoint
         store.isSearch // search boolean
       ),
     getNextPageParam: (lastPage) => {
@@ -117,11 +119,11 @@ const ProductsList = ({ setItemEdit }) => {
                 {page.data.map((item, key) => (
                   <tr key={key}>
                     <td> {counter++}.</td>
-                    <td>{item.product_number}</td>
+                    <td>{item.suppliers_products_number}</td>
                     <td>{item.suppliers_products_name}</td>
                     <td>{item.suppliers_products_price}</td>
-                    <td>{item.product_scc_price}</td>
-                    <td>{item.product_market_price}</td>
+                    <td>{item.suppliers_products_scc_price}</td>
+                    <td>{item.suppliers_products_market_price}</td>
                     <td>
                       <div className="flex items-center gap-1">
                         <button
@@ -161,6 +163,7 @@ const ProductsList = ({ setItemEdit }) => {
         />
       </div>
 
+      {store.isAdd && <ModalUpdateProducts item={itemEdit} />}
       {store.isRestore && (
         <ModalDeleteRestore
           id={id}
