@@ -47,10 +47,10 @@ const ModalAddStocks = ({ item }) => {
   };
 
   // use if not loadmore button undertime
-  const { isFetching: loadingProduct, data: productStock } = useQueryData(
-    `/v1/product`, // endpoint
+  const { isFetching: loadingProduct, data: products } = useQueryData(
+    `/v1/suppliers-product`, // endpoint
     "get", // method
-    "product-stock" // key
+    "products" // key
   );
   const initVal = {
     stocks_product_id: item ? item.stocks_product_id : "",
@@ -99,9 +99,13 @@ const ModalAddStocks = ({ item }) => {
                         <option value="" hidden>
                           {loadingProduct ? "Loading..." : "--"}
                         </option>
-                        {productStock?.data.map((sItem, key) => {
+                        {products?.data.map((sItem, key) => {
                           return (
-                            <option key={key} value={sItem.product_aid}>
+                            <option
+                              key={key}
+                              value={sItem.suppliers_products_aid}
+                              id={sItem.suppliers_products_number}
+                            >
                               {`${sItem.suppliers_products_name} `}
                             </option>
                           );

@@ -480,6 +480,87 @@ function App() {
                 </ProtectedRouteOther>
               }
             />
+            {/* admin invetory */}
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/inventory`}
+              element={
+                <ProtectedRouteOther>
+                  <InventoryDetails />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/inventory/category`}
+              element={
+                <ProtectedRouteOther>
+                  <Category />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/inventory/orders`}
+              element={
+                <ProtectedRouteOther>
+                  <Orders />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/inventory/products`}
+              element={
+                <ProtectedRouteOther>
+                  <Products />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/inventory/stocks`}
+              element={
+                <ProtectedRouteOther>
+                  <Stocks />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/inventory/reports`}
+              element={
+                <ProtectedRouteOther>
+                  <Reports />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/inventory/sales`}
+              element={
+                <ProtectedRouteOther>
+                  <Sales />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/inventory/suppliers`}
+              element={
+                <ProtectedRouteOther>
+                  <Suppliers />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/inventory/suppliers/products`}
+              element={
+                <ProtectedRouteOther>
+                  <SupplierProduct />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/inventory/category`}
+              element={
+                <ProtectedRouteOther>
+                  <Category />
+                </ProtectedRouteOther>
+              }
+            />
             {/* system settings */}
             <Route
               path={`${devNavUrl}/${UrlAdmin}/settings`}

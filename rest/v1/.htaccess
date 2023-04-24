@@ -75,11 +75,9 @@ RewriteRule ^file/([0-9]+)$ controllers/files-upload/fileUpload.php?fileid=$1 [L
 RewriteRule ^file/page/([0-9]+)$ controllers/files-upload/page.php?start=$1 [L]
 RewriteRule ^file/search/([A-Za-z0-9-]+)$ controllers/files-upload/search.php?search=$1 [L]
 
-#products
-RewriteRule ^product$ controllers/inventory/products/products.php [L]
-RewriteRule ^product/([0-9]+)$ controllers/inventory/products/products.php?productid=$1 [L] 
+#products 
 RewriteRule ^product/page/([0-9]+)$ controllers/inventory/products/page.php?start=$1 [L]
-RewriteRule ^product/search/([A-Za-z0-9-]+)$ controllers/inventory/products/search.php?search=$1 [L]
+RewriteRule ^product/([0-9]+)$ controllers/inventory/products/update-price.php?supplierProductsId=$1 [L]  
 
 #stocks
 RewriteRule ^stocks$ controllers/inventory/stocks/stocks.php [L]

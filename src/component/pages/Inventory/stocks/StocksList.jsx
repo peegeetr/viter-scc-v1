@@ -118,7 +118,7 @@ const StocksList = ({ setItemEdit }) => {
                   <tr key={key}>
                     <td> {counter++}.</td>
                     <td>{item.stocks_number}</td>
-                    <td>{item.product_number}</td>
+                    <td>{item.suppliers_products_name}</td>
                     <td>{item.suppliers_products_name}</td>
                     <td>{item.stocks_quantity}</td>
                     <td>{"0"}</td>

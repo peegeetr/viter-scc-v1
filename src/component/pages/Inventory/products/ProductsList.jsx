@@ -39,7 +39,7 @@ const ProductsList = () => {
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
         `/v1/suppliers-product/search/${search.current.value}`, // search endpoint
-        `/v1/suppliers-product/page/${pageParam}`, // list endpoint
+        `/v1/product/page/${pageParam}`, // list endpoint
         store.isSearch // search boolean
       ),
     getNextPageParam: (lastPage) => {
@@ -62,13 +62,6 @@ const ProductsList = () => {
   const handleEdit = (item) => {
     dispatch(setIsAdd(true));
     setItemEdit(item);
-  };
-
-  const handleDelete = (item) => {
-    dispatch(setIsRestore(true));
-    setId(item.product_aid);
-    setData(item);
-    setDel(true);
   };
 
   return (
@@ -134,14 +127,6 @@ const ProductsList = () => {
                         >
                           <FaEdit />
                         </button>
-                        <button
-                          type="button"
-                          className="btn-action-table tooltip-action-table"
-                          data-tooltip="Delete"
-                          onClick={() => handleDelete(item)}
-                        >
-                          <FaTrash />
-                        </button>
                       </div>
                     </td>
                   </tr>
@@ -164,16 +149,6 @@ const ProductsList = () => {
       </div>
 
       {store.isAdd && <ModalUpdateProducts item={itemEdit} />}
-      {store.isRestore && (
-        <ModalDeleteRestore
-          id={id}
-          isDel={isDel}
-          mysqlApiDelete={`/v1/product/${id}`}
-          msg={"Are you sure you want to delete "}
-          item={`${dataItem.product_number}`}
-          arrKey="product"
-        />
-      )}
     </>
   );
 };

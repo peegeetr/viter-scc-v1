@@ -10,28 +10,23 @@ import {
   setSuccess,
 } from "../../../../store/StoreAction";
 import { StoreContext } from "../../../../store/StoreContext";
-import useQueryData from "../../../custom-hooks/useQueryData";
-import { InputSelect, InputText } from "../../../helpers/FormInputs";
+import { InputText } from "../../../helpers/FormInputs";
 import { queryData } from "../../../helpers/queryData";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
 
 const ModalUpdateProducts = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
-  // const [isProdLoading, setProdLoading] = React.useState(false);
 
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: (values) =>
-      queryData(
-        `/v1/suppliers-product/update/${item.suppliers_products_aid}`,
-        "put",
-        values
-      ),
+      queryData(`/v1/product/${item.suppliers_products_aid}`, "put", values),
     onSuccess: (data) => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ["all-product"] });
       // show success box
       if (data.success) {
+        dispatch(setIsAdd(false));
         dispatch(setSuccess(true));
         dispatch(setMessage(`Successfuly updated.`));
       }
@@ -107,13 +102,8 @@ const ModalUpdateProducts = ({ item }) => {
                         disabled={mutation.isLoading || !props.dirty}
                         className="btn-modal-submit relative"
                       >
-                        {mutation.isLoading ? (
-                          <ButtonSpinner />
-                        ) : item ? (
-                          "Save"
-                        ) : (
-                          "Add"
-                        )}
+                        {mutation.isLoading && <ButtonSpinner />}
+                        Save
                       </button>
                       <button
                         type="reset"
