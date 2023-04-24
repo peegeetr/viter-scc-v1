@@ -104,7 +104,6 @@ const ModalAddStocks = ({ item }) => {
                             <option
                               key={key}
                               value={sItem.suppliers_products_aid}
-                              id={sItem.suppliers_products_number}
                             >
                               {`${sItem.suppliers_products_name} `}
                             </option>

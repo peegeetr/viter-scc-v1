@@ -1,8 +1,12 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import React from "react";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaArchive, FaEdit, FaHistory, FaTrash } from "react-icons/fa";
 import { useInView } from "react-intersection-observer";
-import { setIsAdd, setIsRestore } from "../../../../store/StoreAction";
+import {
+  setIsAdd,
+  setIsConfirm,
+  setIsRestore,
+} from "../../../../store/StoreAction";
 import { StoreContext } from "../../../../store/StoreContext";
 import { queryDataInfinite } from "../../../helpers/queryDataInfinite";
 import Loadmore from "../../../partials/Loadmore";
@@ -11,6 +15,9 @@ import SearchBar from "../../../partials/SearchBar";
 import ServerError from "../../../partials/ServerError";
 import ModalDeleteRestore from "../../../partials/modals/ModalDeleteRestore";
 import TableSpinner from "../../../partials/spinners/TableSpinner";
+import ModalConfirm from "../../../partials/modals/ModalConfirm";
+import StatusActive from "../../../partials/status/StatusActive";
+import StatusInactive from "../../../partials/status/StatusInactive";
 
 const StocksList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -61,6 +68,20 @@ const StocksList = ({ setItemEdit }) => {
     setItemEdit(item);
   };
 
+  const handleArchive = (item) => {
+    dispatch(setIsConfirm(true));
+    setId(item.stocks_aid);
+    setData(item);
+    setDel(null);
+  };
+
+  const handleRestore = (item) => {
+    dispatch(setIsRestore(true));
+    setId(item.stocks_aid);
+    setData(item);
+    setDel(null);
+  };
+
   const handleDelete = (item) => {
     dispatch(setIsRestore(true));
     setId(item.stocks_aid);
@@ -91,6 +112,7 @@ const StocksList = ({ setItemEdit }) => {
               <th className="min-w-[15rem]">Product Name</th>
               <th className="min-w-[15rem]">Quantity</th>
               <th className="min-w-[15rem]">Remaining Quantity</th>
+              <th className="min-w-[15rem]">status</th>
 
               <th className="max-w-[5rem]">Actions</th>
             </tr>
@@ -118,29 +140,59 @@ const StocksList = ({ setItemEdit }) => {
                   <tr key={key}>
                     <td> {counter++}.</td>
                     <td>{item.stocks_number}</td>
-                    <td>{item.suppliers_products_name}</td>
+                    <td>{item.suppliers_products_number}</td>
                     <td>{item.suppliers_products_name}</td>
                     <td>{item.stocks_quantity}</td>
                     <td>{"0"}</td>
-
+                    <td>
+                      {item.stocks_is_active === 1 ? (
+                        <StatusActive />
+                      ) : (
+                        <StatusInactive />
+                      )}
+                    </td>
                     <td>
                       <div className="flex items-center gap-1">
-                        <button
-                          type="button"
-                          className="btn-action-table tooltip-action-table"
-                          data-tooltip="Edit"
-                          onClick={() => handleEdit(item)}
-                        >
-                          <FaEdit />
-                        </button>
-                        <button
-                          type="button"
-                          className="btn-action-table tooltip-action-table"
-                          data-tooltip="Delete"
-                          onClick={() => handleDelete(item)}
-                        >
-                          <FaTrash />
-                        </button>
+                        {item.stocks_is_active === 1 && (
+                          <>
+                            <button
+                              type="button"
+                              className="btn-action-table tooltip-action-table"
+                              data-tooltip="Edit"
+                              onClick={() => handleEdit(item)}
+                            >
+                              <FaEdit />
+                            </button>
+                            <button
+                              type="button"
+                              className="btn-action-table tooltip-action-table"
+                              data-tooltip="Archive"
+                              onClick={() => handleArchive(item)}
+                            >
+                              <FaArchive />
+                            </button>{" "}
+                          </>
+                        )}
+                        {item.stocks_is_active === 0 && (
+                          <>
+                            <button
+                              type="button"
+                              className="btn-action-table tooltip-action-table"
+                              data-tooltip="Restore"
+                              onClick={() => handleRestore(item)}
+                            >
+                              <FaHistory />
+                            </button>
+                            <button
+                              type="button"
+                              className="btn-action-table tooltip-action-table"
+                              data-tooltip="Delete"
+                              onClick={() => handleDelete(item)}
+                            >
+                              <FaTrash />
+                            </button>
+                          </>
+                        )}
                       </div>
                     </td>
                   </tr>
@@ -161,12 +213,28 @@ const StocksList = ({ setItemEdit }) => {
         />
       </div>
 
+      {store.isConfirm && (
+        <ModalConfirm
+          id={id}
+          isDel={isDel}
+          mysqlApiArchive={`/v1/stocks/active/${id}`}
+          msg={"Are you sure you want to archive "}
+          item={`${dataItem.suppliers_products_name}`}
+          arrKey="stocks"
+        />
+      )}
+
       {store.isRestore && (
         <ModalDeleteRestore
           id={id}
           isDel={isDel}
           mysqlApiDelete={`/v1/stocks/${id}`}
-          msg={"Are you sure you want to delete this stocks"}
+          mysqlApiRestore={`/v1/stocks/active/${id}`}
+          msg={
+            isDel
+              ? "Are you sure you want to delete "
+              : "Are you sure you want to restore "
+          }
           item={`${dataItem.suppliers_products_name}`}
           arrKey="stocks"
         />

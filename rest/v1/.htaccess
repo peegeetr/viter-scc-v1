@@ -82,6 +82,7 @@ RewriteRule ^product/([0-9]+)$ controllers/inventory/products/update-price.php?s
 #stocks
 RewriteRule ^stocks$ controllers/inventory/stocks/stocks.php [L]
 RewriteRule ^stocks/([0-9]+)$ controllers/inventory/stocks/stocks.php?stockid=$1 [L] 
+RewriteRule ^stocks/active/([0-9]+)$ controllers/inventory/stocks/active.php?stockid=$1 [L]
 RewriteRule ^stocks/page/([0-9]+)$ controllers/inventory/stocks/page.php?start=$1 [L]
 RewriteRule ^stocks/search/([A-Za-z0-9-]+)$ controllers/inventory/stocks/search.php?search=$1 [L]
 

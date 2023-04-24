@@ -3,6 +3,7 @@ class Stocks
 {
     public $stocks_aid;
     public $stocks_number;
+    public $stocks_is_active;
     public $stocks_product_id;
     public $stocks_quantity;
     public $stocks_price;
@@ -33,11 +34,13 @@ class Stocks
         try {
             $sql = "insert into {$this->tblStocks} ";
             $sql .= "( stocks_number, ";
+            $sql .= "stocks_is_active, ";
             $sql .= "stocks_product_id, ";
             $sql .= "stocks_quantity, ";
             $sql .= "stocks_created, ";
             $sql .= "stocks_datetime ) values ( ";
             $sql .= ":stocks_number, ";
+            $sql .= ":stocks_is_active, ";
             $sql .= ":stocks_product_id, ";
             $sql .= ":stocks_quantity, ";
             $sql .= ":stocks_created, ";
@@ -45,6 +48,7 @@ class Stocks
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "stocks_number" => $this->stocks_number,
+                "stocks_is_active" => $this->stocks_is_active,
                 "stocks_product_id" => $this->stocks_product_id,
                 "stocks_quantity" => $this->stocks_quantity,
                 "stocks_created" => $this->stocks_created,
@@ -63,12 +67,16 @@ class Stocks
         try {
             $sql = "select stocks.stocks_number, ";
             $sql .= "stocks.stocks_quantity, ";
+            $sql .= "stocks.stocks_aid, ";
+            $sql .= "stocks.stocks_is_active, ";
+            $sql .= "stocks.stocks_product_id, ";
+            $sql .= "supplierProduct.suppliers_products_number, ";
             $sql .= "supplierProduct.suppliers_products_name, ";
             $sql .= "supplierProduct.suppliers_products_price ";
             $sql .= "from ";
             $sql .= "{$this->tblStocks} as stocks, ";
             $sql .= "{$this->tblSuppliersProducts} as supplierProduct ";
-            $sql .= "where stocks.stocks_product_id = supplierProduct.suppliers_products_suppliers_id ";
+            $sql .= "where stocks.stocks_product_id = supplierProduct.suppliers_products_aid ";
             $sql .= "order by stocks.stocks_number asc ";
             $query = $this->connection->query($sql);
         } catch (PDOException $ex) {
@@ -82,12 +90,16 @@ class Stocks
         try {
             $sql = "select stocks.stocks_number, ";
             $sql .= "stocks.stocks_quantity, ";
+            $sql .= "stocks.stocks_aid, ";
+            $sql .= "stocks.stocks_is_active, ";
+            $sql .= "stocks.stocks_product_id, ";
+            $sql .= "supplierProduct.suppliers_products_number, ";
             $sql .= "supplierProduct.suppliers_products_name, ";
             $sql .= "supplierProduct.suppliers_products_price ";
             $sql .= "from ";
             $sql .= "{$this->tblStocks} as stocks, ";
             $sql .= "{$this->tblSuppliersProducts} as supplierProduct ";
-            $sql .= "where stocks.stocks_product_id = supplierProduct.suppliers_products_suppliers_id ";
+            $sql .= "where stocks.stocks_product_id = supplierProduct.suppliers_products_aid ";
             $sql .= "order by stocks.stocks_number asc ";
             $sql .= "limit :start, ";
             $sql .= ":total ";
@@ -108,12 +120,16 @@ class Stocks
         try {
             $sql = "select stocks.stocks_number, ";
             $sql .= "stocks.stocks_quantity, ";
+            $sql .= "stocks.stocks_aid, ";
+            $sql .= "stocks.stocks_is_active, ";
+            $sql .= "stocks.stocks_product_id, ";
+            $sql .= "supplierProduct.suppliers_products_number, ";
             $sql .= "supplierProduct.suppliers_products_name, ";
             $sql .= "supplierProduct.suppliers_products_price ";
             $sql .= "from ";
             $sql .= "{$this->tblStocks} as stocks, ";
             $sql .= "{$this->tblSuppliersProducts} as supplierProduct ";
-            $sql .= "where stocks.stocks_product_id = supplierProduct.suppliers_products_suppliers_id ";
+            $sql .= "where stocks.stocks_product_id = supplierProduct.suppliers_products_aid ";
             $sql .= "and (stocks.stocks_number like :stocks_number ";
             $sql .= "or supplierProduct.suppliers_products_name like :suppliers_products_name) ";
             $sql .= "order by stocks_number asc ";
@@ -151,13 +167,11 @@ class Stocks
         try {
             $sql = "update {$this->tblStocks} set ";
             $sql .= "stocks_product_id = :stocks_product_id, ";
-            $sql .= "stocks_price = :stocks_price, ";
             $sql .= "stocks_quantity = :stocks_quantity, ";
             $sql .= "stocks_datetime = :stocks_datetime ";
             $sql .= "where stocks_aid = :stocks_aid ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "stocks_price" => $this->stocks_price,
                 "stocks_product_id" => $this->stocks_product_id,
                 "stocks_quantity" => $this->stocks_quantity,
                 "stocks_datetime" => $this->stocks_datetime,
@@ -195,6 +209,27 @@ class Stocks
             $sql .= "{$this->tblStocks} ";
             $sql .= "order by stocks_aid desc ";
             $query = $this->connection->query($sql);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+
+    // active
+    public function active()
+    {
+        try {
+            $sql = "update {$this->tblStocks} set ";
+            $sql .= "stocks_is_active = :stocks_is_active, ";
+            $sql .= "stocks_datetime = :stocks_datetime ";
+            $sql .= "where stocks_aid = :stocks_aid ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "stocks_is_active" => $this->stocks_is_active,
+                "stocks_datetime" => $this->stocks_datetime,
+                "stocks_aid" => $this->stocks_aid,
+            ]);
         } catch (PDOException $ex) {
             $query = false;
         }
