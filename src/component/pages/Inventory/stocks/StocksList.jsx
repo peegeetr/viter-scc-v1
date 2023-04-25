@@ -18,6 +18,7 @@ import TableSpinner from "../../../partials/spinners/TableSpinner";
 import ModalConfirm from "../../../partials/modals/ModalConfirm";
 import StatusActive from "../../../partials/status/StatusActive";
 import StatusInactive from "../../../partials/status/StatusInactive";
+import { formatDate } from "../../../helpers/functions-general";
 
 const StocksList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -109,9 +110,10 @@ const StocksList = ({ setItemEdit }) => {
               <th>#</th>
               <th className="min-w-[15rem]">Stock Number</th>
               <th className="min-w-[15rem]">Product Number</th>
+              <th className="min-w-[15rem]">Supplier</th>
               <th className="min-w-[15rem]">Product Name</th>
               <th className="min-w-[15rem]">Quantity</th>
-              <th className="min-w-[15rem]">Remaining Quantity</th>
+              <th className="min-w-[15rem]">Created date</th>
               <th className="min-w-[15rem]">status</th>
 
               <th className="max-w-[5rem]">Actions</th>
@@ -141,19 +143,20 @@ const StocksList = ({ setItemEdit }) => {
                     <td> {counter++}.</td>
                     <td>{item.stocks_number}</td>
                     <td>{item.suppliers_products_number}</td>
+                    <td>{item.suppliers_company_name}</td>
                     <td>{item.suppliers_products_name}</td>
                     <td>{item.stocks_quantity}</td>
-                    <td>{"0"}</td>
+                    <td>{formatDate(item.stocks_created)}</td>
                     <td>
-                      {item.stocks_is_active === 1 ? (
-                        <StatusActive />
+                      {item.stocks_is_pending === 1 ? (
+                        <StatusInactive text="pending" />
                       ) : (
-                        <StatusInactive />
+                        <StatusActive text="completed" />
                       )}
                     </td>
                     <td>
                       <div className="flex items-center gap-1">
-                        {item.stocks_is_active === 1 && (
+                        {item.stocks_is_pending === 1 && (
                           <>
                             <button
                               type="button"
@@ -173,7 +176,7 @@ const StocksList = ({ setItemEdit }) => {
                             </button>{" "}
                           </>
                         )}
-                        {item.stocks_is_active === 0 && (
+                        {item.stocks_is_pending === 0 && (
                           <>
                             <button
                               type="button"

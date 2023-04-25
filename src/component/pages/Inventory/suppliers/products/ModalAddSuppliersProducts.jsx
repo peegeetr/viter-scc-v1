@@ -138,7 +138,7 @@ const ModalAddSuppliersProducts = ({ item }) => {
                     </div>
                     <div className="relative my-5">
                       <InputText
-                        label="Product Price"
+                        label="Supplier Price"
                         type="text"
                         name="suppliers_products_price"
                         disabled={mutation.isLoading}

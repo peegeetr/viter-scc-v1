@@ -1,6 +1,6 @@
+import React from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Form, Formik } from "formik";
-import React from "react";
 import { FaTimesCircle } from "react-icons/fa";
 import * as Yup from "yup";
 import { StoreContext } from "../../../../store/StoreContext";
@@ -17,6 +17,7 @@ import useQueryData from "../../../custom-hooks/useQueryData";
 
 const ModalAddStocks = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
+  const [supplierId, setSupplierId] = React.useState([]);
 
   const queryClient = useQueryClient();
   const mutation = useMutation({
@@ -47,17 +48,31 @@ const ModalAddStocks = ({ item }) => {
   };
 
   // use if not loadmore button undertime
+  const { isFetching: loadingSupplier, data: supplierData } = useQueryData(
+    `/v1/suppliers`, // endpoint
+    "get", // method
+    "supplierData" // key
+  );
+
+  // use if not loadmore button undertime
   const { isFetching: loadingProduct, data: products } = useQueryData(
-    `/v1/suppliers-product`, // endpoint
+    `/v1/suppliers-product/${supplierId}`, // endpoint
     "get", // method
     "products" // key
   );
+
+  const handleSupplierProduct = async (e, props) => {
+    // get employee id
+    setSupplierId(e.target.value);
+  };
   const initVal = {
+    supplier_id: item ? item.supplier_id : "",
     stocks_product_id: item ? item.stocks_product_id : "",
     stocks_quantity: item ? item.stocks_quantity : "",
   };
 
   const yupSchema = Yup.object({
+    supplier_id: Yup.string().required("Required"),
     stocks_product_id: Yup.string().required("Required"),
     stocks_quantity: Yup.string().required("Required"),
   });
@@ -92,23 +107,54 @@ const ModalAddStocks = ({ item }) => {
                   <Form>
                     <div className="relative my-5">
                       <InputSelect
-                        name="stocks_product_id"
-                        label="Product"
+                        name="supplier_id"
+                        label="Supplier"
+                        onChange={handleSupplierProduct}
                         disabled={mutation.isLoading}
                       >
                         <option value="" hidden>
                           {loadingProduct ? "Loading..." : "--"}
                         </option>
-                        {products?.data.map((sItem, key) => {
+                        {supplierData?.data.map((sItem, key) => {
                           return (
-                            <option
-                              key={key}
-                              value={sItem.suppliers_products_aid}
-                            >
-                              {`${sItem.suppliers_products_name} `}
+                            <option key={key} value={sItem.suppliers_aid}>
+                              {`${sItem.suppliers_company_name} `}
                             </option>
                           );
                         })}
+                      </InputSelect>
+                    </div>
+                    <div className="relative my-5">
+                      <InputSelect
+                        name="stocks_product_id"
+                        label="Supplier Product"
+                        disabled={mutation.isLoading}
+                      >
+                        <option value="" hidden>
+                          {loadingProduct ? "Loading..." : "--"}
+                        </option>
+
+                        {item
+                          ? products?.data.map((sItem, key) => {
+                              return (
+                                <option
+                                  key={key}
+                                  value={sItem.suppliers_products_aid}
+                                >
+                                  {`${sItem.suppliers_products_name} `}
+                                </option>
+                              );
+                            })
+                          : products?.data.map((sItem, key) => {
+                              return (
+                                <option
+                                  key={key}
+                                  value={sItem.suppliers_products_aid}
+                                >
+                                  {`${sItem.suppliers_products_name} `}
+                                </option>
+                              );
+                            })}
                       </InputSelect>
                     </div>
                     <div className="relative my-5">

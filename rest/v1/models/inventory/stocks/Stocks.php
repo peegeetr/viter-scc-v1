@@ -3,7 +3,7 @@ class Stocks
 {
     public $stocks_aid;
     public $stocks_number;
-    public $stocks_is_active;
+    public $stocks_is_pending;
     public $stocks_product_id;
     public $stocks_quantity;
     public $stocks_price;
@@ -34,13 +34,13 @@ class Stocks
         try {
             $sql = "insert into {$this->tblStocks} ";
             $sql .= "( stocks_number, ";
-            $sql .= "stocks_is_active, ";
+            $sql .= "stocks_is_pending, ";
             $sql .= "stocks_product_id, ";
             $sql .= "stocks_quantity, ";
             $sql .= "stocks_created, ";
             $sql .= "stocks_datetime ) values ( ";
             $sql .= ":stocks_number, ";
-            $sql .= ":stocks_is_active, ";
+            $sql .= ":stocks_is_pending, ";
             $sql .= ":stocks_product_id, ";
             $sql .= ":stocks_quantity, ";
             $sql .= ":stocks_created, ";
@@ -48,7 +48,7 @@ class Stocks
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "stocks_number" => $this->stocks_number,
-                "stocks_is_active" => $this->stocks_is_active,
+                "stocks_is_pending" => $this->stocks_is_pending,
                 "stocks_product_id" => $this->stocks_product_id,
                 "stocks_quantity" => $this->stocks_quantity,
                 "stocks_created" => $this->stocks_created,
@@ -68,15 +68,19 @@ class Stocks
             $sql = "select stocks.stocks_number, ";
             $sql .= "stocks.stocks_quantity, ";
             $sql .= "stocks.stocks_aid, ";
-            $sql .= "stocks.stocks_is_active, ";
+            $sql .= "stocks.stocks_created, ";
+            $sql .= "stocks.stocks_is_pending, ";
             $sql .= "stocks.stocks_product_id, ";
+            $sql .= "suppliers.suppliers_company_name, ";
             $sql .= "supplierProduct.suppliers_products_number, ";
             $sql .= "supplierProduct.suppliers_products_name, ";
             $sql .= "supplierProduct.suppliers_products_price ";
             $sql .= "from ";
             $sql .= "{$this->tblStocks} as stocks, ";
+            $sql .= "{$this->tblSuppliers} as suppliers, ";
             $sql .= "{$this->tblSuppliersProducts} as supplierProduct ";
             $sql .= "where stocks.stocks_product_id = supplierProduct.suppliers_products_aid ";
+            $sql .= "and suppliers.suppliers_aid = supplierProduct.suppliers_products_suppliers_id ";
             $sql .= "order by stocks.stocks_number asc ";
             $query = $this->connection->query($sql);
         } catch (PDOException $ex) {
@@ -91,15 +95,19 @@ class Stocks
             $sql = "select stocks.stocks_number, ";
             $sql .= "stocks.stocks_quantity, ";
             $sql .= "stocks.stocks_aid, ";
-            $sql .= "stocks.stocks_is_active, ";
+            $sql .= "stocks.stocks_created, ";
+            $sql .= "stocks.stocks_is_pending, ";
             $sql .= "stocks.stocks_product_id, ";
+            $sql .= "suppliers.suppliers_company_name, ";
             $sql .= "supplierProduct.suppliers_products_number, ";
             $sql .= "supplierProduct.suppliers_products_name, ";
             $sql .= "supplierProduct.suppliers_products_price ";
             $sql .= "from ";
             $sql .= "{$this->tblStocks} as stocks, ";
+            $sql .= "{$this->tblSuppliers} as suppliers, ";
             $sql .= "{$this->tblSuppliersProducts} as supplierProduct ";
             $sql .= "where stocks.stocks_product_id = supplierProduct.suppliers_products_aid ";
+            $sql .= "and suppliers.suppliers_aid = supplierProduct.suppliers_products_suppliers_id ";
             $sql .= "order by stocks.stocks_number asc ";
             $sql .= "limit :start, ";
             $sql .= ":total ";
@@ -121,22 +129,30 @@ class Stocks
             $sql = "select stocks.stocks_number, ";
             $sql .= "stocks.stocks_quantity, ";
             $sql .= "stocks.stocks_aid, ";
-            $sql .= "stocks.stocks_is_active, ";
+            $sql .= "stocks.stocks_created, ";
+            $sql .= "stocks.stocks_is_pending, ";
             $sql .= "stocks.stocks_product_id, ";
+            $sql .= "suppliers.suppliers_company_name, ";
             $sql .= "supplierProduct.suppliers_products_number, ";
             $sql .= "supplierProduct.suppliers_products_name, ";
             $sql .= "supplierProduct.suppliers_products_price ";
             $sql .= "from ";
             $sql .= "{$this->tblStocks} as stocks, ";
+            $sql .= "{$this->tblSuppliers} as suppliers, ";
             $sql .= "{$this->tblSuppliersProducts} as supplierProduct ";
             $sql .= "where stocks.stocks_product_id = supplierProduct.suppliers_products_aid ";
+            $sql .= "and suppliers.suppliers_aid = supplierProduct.suppliers_products_suppliers_id ";
             $sql .= "and (stocks.stocks_number like :stocks_number ";
+            $sql .= "or supplierProduct.suppliers_products_number like :suppliers_products_number ";
+            $sql .= "or suppliers.suppliers_company_name like :suppliers_company_name ";
             $sql .= "or supplierProduct.suppliers_products_name like :suppliers_products_name) ";
             $sql .= "order by stocks_number asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "stocks_number" => "{$this->stocks_search}%",
+                "suppliers_products_number" => "{$this->stocks_search}%",
                 "suppliers_products_name" => "{$this->stocks_search}%",
+                "suppliers_company_name" => "{$this->stocks_search}%",
             ]);
         } catch (PDOException $ex) {
             $query = false;
@@ -221,12 +237,12 @@ class Stocks
     {
         try {
             $sql = "update {$this->tblStocks} set ";
-            $sql .= "stocks_is_active = :stocks_is_active, ";
+            $sql .= "stocks_is_pending = :stocks_is_pending, ";
             $sql .= "stocks_datetime = :stocks_datetime ";
             $sql .= "where stocks_aid = :stocks_aid ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "stocks_is_active" => $this->stocks_is_active,
+                "stocks_is_pending" => $this->stocks_is_pending,
                 "stocks_datetime" => $this->stocks_datetime,
                 "stocks_aid" => $this->stocks_aid,
             ]);
