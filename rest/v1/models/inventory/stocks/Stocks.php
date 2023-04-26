@@ -72,6 +72,7 @@ class Stocks
             $sql .= "stocks.stocks_is_pending, ";
             $sql .= "stocks.stocks_product_id, ";
             $sql .= "suppliers.suppliers_company_name, ";
+            $sql .= "suppliers.suppliers_aid, ";
             $sql .= "supplierProduct.suppliers_products_number, ";
             $sql .= "supplierProduct.suppliers_products_name, ";
             $sql .= "supplierProduct.suppliers_products_price ";
@@ -99,6 +100,7 @@ class Stocks
             $sql .= "stocks.stocks_is_pending, ";
             $sql .= "stocks.stocks_product_id, ";
             $sql .= "suppliers.suppliers_company_name, ";
+            $sql .= "suppliers.suppliers_aid, ";
             $sql .= "supplierProduct.suppliers_products_number, ";
             $sql .= "supplierProduct.suppliers_products_name, ";
             $sql .= "supplierProduct.suppliers_products_price ";
@@ -133,6 +135,7 @@ class Stocks
             $sql .= "stocks.stocks_is_pending, ";
             $sql .= "stocks.stocks_product_id, ";
             $sql .= "suppliers.suppliers_company_name, ";
+            $sql .= "suppliers.suppliers_aid, ";
             $sql .= "supplierProduct.suppliers_products_number, ";
             $sql .= "supplierProduct.suppliers_products_name, ";
             $sql .= "supplierProduct.suppliers_products_price ";

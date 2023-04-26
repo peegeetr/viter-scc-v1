@@ -17,7 +17,8 @@ import useQueryData from "../../../custom-hooks/useQueryData";
 
 const ModalAddStocks = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
-  const [supplierId, setSupplierId] = React.useState([]);
+  const [supplierProductId, setSupplierProductId] = React.useState([]);
+  const [loading, setSelLoading] = React.useState(false);
 
   const queryClient = useQueryClient();
   const mutation = useMutation({
@@ -46,27 +47,26 @@ const ModalAddStocks = ({ item }) => {
   const handleClose = () => {
     dispatch(setIsAdd(false));
   };
-
   // use if not loadmore button undertime
-  const { isFetching: loadingSupplier, data: supplierData } = useQueryData(
+  const { isLoading: loadingSupplier, data: supplierData } = useQueryData(
     `/v1/suppliers`, // endpoint
     "get", // method
     "supplierData" // key
   );
-
-  // use if not loadmore button undertime
-  const { isFetching: loadingProduct, data: products } = useQueryData(
-    `/v1/suppliers-product/${supplierId}`, // endpoint
-    "get", // method
-    "products" // key
-  );
-
+  // get employee id
   const handleSupplierProduct = async (e, props) => {
-    // get employee id
-    setSupplierId(e.target.value);
+    let supplierId = e.target.value;
+    setSelLoading(true);
+    const results = await queryData(
+      `/v1/suppliers-product/read-supplier-id/${supplierId}`
+    );
+    if (results.data) {
+      setSelLoading(false);
+      setSupplierProductId(results.data);
+    }
   };
   const initVal = {
-    supplier_id: item ? item.supplier_id : "",
+    supplier_id: item ? item.suppliers_aid : "",
     stocks_product_id: item ? item.stocks_product_id : "",
     stocks_quantity: item ? item.stocks_quantity : "",
   };
@@ -113,7 +113,7 @@ const ModalAddStocks = ({ item }) => {
                         disabled={mutation.isLoading}
                       >
                         <option value="" hidden>
-                          {loadingProduct ? "Loading..." : "--"}
+                          {loading ? "Loading..." : "--"}
                         </option>
                         {supplierData?.data.map((sItem, key) => {
                           return (
@@ -131,30 +131,18 @@ const ModalAddStocks = ({ item }) => {
                         disabled={mutation.isLoading}
                       >
                         <option value="" hidden>
-                          {loadingProduct ? "Loading..." : "--"}
+                          {loading ? "Loading..." : "--"}
                         </option>
-
-                        {item
-                          ? products?.data.map((sItem, key) => {
-                              return (
-                                <option
-                                  key={key}
-                                  value={sItem.suppliers_products_aid}
-                                >
-                                  {`${sItem.suppliers_products_name} `}
-                                </option>
-                              );
-                            })
-                          : products?.data.map((sItem, key) => {
-                              return (
-                                <option
-                                  key={key}
-                                  value={sItem.suppliers_products_aid}
-                                >
-                                  {`${sItem.suppliers_products_name} `}
-                                </option>
-                              );
-                            })}
+                        {supplierProductId?.map((sItem, key) => {
+                          return (
+                            <option
+                              key={key}
+                              value={sItem.suppliers_products_aid}
+                            >
+                              {`${sItem.suppliers_products_name} `}
+                            </option>
+                          );
+                        })}
                       </InputSelect>
                     </div>
                     <div className="relative my-5">

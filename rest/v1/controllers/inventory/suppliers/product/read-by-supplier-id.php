@@ -40,6 +40,16 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         $response->send();
         exit;
     }
+
+    if (array_key_exists("supplierid", $_GET)) {
+        // get data 
+        $suppliersProducts->suppliers_products_suppliers_id = $_GET['supplierid'];
+
+        checkId($suppliersProducts->suppliers_products_suppliers_id);
+        $query = checkReadBySupplierId($suppliersProducts);
+        http_response_code(200);
+        getQueriedData($query);
+    }
     // return 404 error if endpoint not available
     checkEndpoint();
 }

@@ -163,7 +163,7 @@ class SuppliersProducts
         try {
             $sql = "select * from ";
             $sql .= "{$this->tblSuppliersProducts} ";
-            $sql .= "where suppliers_products_aid = :suppliers_products_aid  ";
+            $sql .= "where suppliers_products_aid = :suppliers_products_aid ";
             $sql .= "order by suppliers_products_name asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
