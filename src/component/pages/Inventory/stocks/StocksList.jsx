@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import React from "react";
-import { FaArchive, FaEdit, FaHistory, FaTrash } from "react-icons/fa";
+import { FaCheck, FaHistory, FaTrash } from "react-icons/fa";
 import { useInView } from "react-intersection-observer";
 import {
   setIsAdd,
@@ -8,17 +8,17 @@ import {
   setIsRestore,
 } from "../../../../store/StoreAction";
 import { StoreContext } from "../../../../store/StoreContext";
+import { formatDate } from "../../../helpers/functions-general";
 import { queryDataInfinite } from "../../../helpers/queryDataInfinite";
 import Loadmore from "../../../partials/Loadmore";
 import NoData from "../../../partials/NoData";
 import SearchBar from "../../../partials/SearchBar";
 import ServerError from "../../../partials/ServerError";
+import ModalConfirm from "../../../partials/modals/ModalConfirm";
 import ModalDeleteRestore from "../../../partials/modals/ModalDeleteRestore";
 import TableSpinner from "../../../partials/spinners/TableSpinner";
-import ModalConfirm from "../../../partials/modals/ModalConfirm";
 import StatusActive from "../../../partials/status/StatusActive";
-import StatusInactive from "../../../partials/status/StatusInactive";
-import { formatDate } from "../../../helpers/functions-general";
+import StatusPending from "../../../partials/status/StatusPending";
 
 const StocksList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -69,14 +69,14 @@ const StocksList = ({ setItemEdit }) => {
     setItemEdit(item);
   };
 
-  const handleArchive = (item) => {
+  const handlePending = (item) => {
     dispatch(setIsConfirm(true));
     setId(item.stocks_aid);
     setData(item);
     setDel(null);
   };
 
-  const handleRestore = (item) => {
+  const handleComplete = (item) => {
     dispatch(setIsRestore(true));
     setId(item.stocks_aid);
     setData(item);
@@ -114,7 +114,7 @@ const StocksList = ({ setItemEdit }) => {
               <th className="min-w-[15rem]">Product Name</th>
               <th className="min-w-[15rem]">Quantity</th>
               <th className="min-w-[15rem]">Created date</th>
-              <th className="min-w-[15rem]">status</th>
+              <th className="min-w-[15rem]">Status</th>
 
               <th className="max-w-[5rem]">Actions</th>
             </tr>
@@ -149,31 +149,31 @@ const StocksList = ({ setItemEdit }) => {
                     <td>{formatDate(item.stocks_created)}</td>
                     <td>
                       {item.stocks_is_pending === 1 ? (
-                        <StatusInactive text="pending" />
+                        <StatusPending />
                       ) : (
-                        <StatusActive text="completed" />
+                        <StatusActive text="Paid" />
                       )}
                     </td>
                     <td>
                       <div className="flex items-center gap-1">
                         {item.stocks_is_pending === 1 && (
                           <>
-                            <button
+                            {/* <button
                               type="button"
                               className="btn-action-table tooltip-action-table"
                               data-tooltip="Edit"
                               onClick={() => handleEdit(item)}
                             >
                               <FaEdit />
-                            </button>
+                            </button> */}
                             <button
                               type="button"
                               className="btn-action-table tooltip-action-table"
-                              data-tooltip="Archive"
-                              onClick={() => handleArchive(item)}
+                              data-tooltip="Paid"
+                              onClick={() => handlePending(item)}
                             >
-                              <FaArchive />
-                            </button>{" "}
+                              <FaCheck />
+                            </button>
                           </>
                         )}
                         {item.stocks_is_pending === 0 && (
@@ -181,21 +181,21 @@ const StocksList = ({ setItemEdit }) => {
                             <button
                               type="button"
                               className="btn-action-table tooltip-action-table"
-                              data-tooltip="Restore"
-                              onClick={() => handleRestore(item)}
+                              data-tooltip="Pending"
+                              onClick={() => handleComplete(item)}
                             >
                               <FaHistory />
                             </button>
-                            <button
-                              type="button"
-                              className="btn-action-table tooltip-action-table"
-                              data-tooltip="Delete"
-                              onClick={() => handleDelete(item)}
-                            >
-                              <FaTrash />
-                            </button>
                           </>
                         )}
+                        <button
+                          type="button"
+                          className="btn-action-table tooltip-action-table"
+                          data-tooltip="Delete"
+                          onClick={() => handleDelete(item)}
+                        >
+                          <FaTrash />
+                        </button>
                       </div>
                     </td>
                   </tr>
@@ -204,7 +204,8 @@ const StocksList = ({ setItemEdit }) => {
             ))}
           </tbody>
         </table>
-
+      </div>
+      <div className="text-center">
         <Loadmore
           fetchNextPage={fetchNextPage}
           isFetchingNextPage={isFetchingNextPage}
@@ -221,7 +222,7 @@ const StocksList = ({ setItemEdit }) => {
           id={id}
           isDel={isDel}
           mysqlApiArchive={`/v1/stocks/active/${id}`}
-          msg={"Are you sure you want to archive "}
+          msg={"Are you sure you want to complete payment "}
           item={`${dataItem.suppliers_products_name}`}
           arrKey="stocks"
         />
@@ -236,7 +237,7 @@ const StocksList = ({ setItemEdit }) => {
           msg={
             isDel
               ? "Are you sure you want to delete "
-              : "Are you sure you want to restore "
+              : "Are you sure you want to restore payment "
           }
           item={`${dataItem.suppliers_products_name}`}
           arrKey="stocks"

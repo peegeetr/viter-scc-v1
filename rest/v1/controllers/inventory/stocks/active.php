@@ -21,11 +21,11 @@ $returnData = [];
 // validate api key
 if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     checkApiKey();
-    if (array_key_exists("stocksid", $_GET)) {
+    if (array_key_exists("stockid", $_GET)) {
         // check data
         checkPayload($data);
         // get task id from query string
-        $stocks->stocks_aid = $_GET['stocksid'];
+        $stocks->stocks_aid = $_GET['stockid'];
         $stocks->stocks_is_pending = trim($data["isActive"]);
         $stocks->stocks_datetime = date("Y-m-d H:i:s");
         //check to see if task id in query string is not empty and is number, if not return json error
@@ -33,7 +33,6 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
 
         $query = checkActive($stocks);
         http_response_code(200);
-
         returnSuccess($stocks, "stocks", $query);
     }
     // return 404 error if endpoint not available
