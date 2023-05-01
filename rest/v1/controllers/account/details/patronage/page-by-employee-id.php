@@ -6,12 +6,12 @@ require '../../../../core/header.php';
 require '../../../../core/functions.php';
 require 'functions.php';
 // use needed classes
-require '../../../../models/inventory/orders/Patronage.php';
+require '../../../../models/inventory/orders/Orders.php';
 // check database connection
 $conn = null;
 $conn = checkDbConnection();
 // make instance of classes
-$patronage = new Patronage($conn);
+$order = new Orders($conn);
 $response = new Response();
 // validate api key
 if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
@@ -20,21 +20,21 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     if (array_key_exists("start", $_GET) && array_key_exists("membersid", $_GET)) {
         // get data
         // get task id from query string
-        $patronage->patronage_member_id = $_GET['membersid'];
-        $patronage->patronage_start = $_GET['start'];
-        $patronage->total = 5;
+        $order->orders_member_id = $_GET['membersid'];
+        $order->orders_start = $_GET['start'];
+        $order->total = 5;
         //check to see if task id in query string is not empty and is number, if not return json error
-        checkLimitId($patronage->patronage_start, $patronage->total);
-        $query = checkReadLimitById($patronage);
-        $total_result = checkReadById($patronage);
+        checkLimitId($order->orders_start, $order->total);
+        $query = checkReadLimitById($order);
+        $total_result = checkReadById($order);
         http_response_code(200);
 
         $returnData["data"] = getResultData($query);
         $returnData["count"] = $query->rowCount();
         $returnData["total"] = $total_result->rowCount();
-        $returnData["per_page"] = $patronage->total;
-        $returnData["page"] = (int)$patronage->patronage_start;
-        $returnData["total_pages"] = ceil($total_result->rowCount() / $patronage->total);
+        $returnData["per_page"] = $order->total;
+        $returnData["page"] = (int)$order->orders_start;
+        $returnData["total_pages"] = ceil($total_result->rowCount() / $order->total);
         $returnData["success"] = true;
         $response->setData($returnData);
         $response->send();

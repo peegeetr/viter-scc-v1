@@ -6,12 +6,12 @@ require '../../../../core/header.php';
 require '../../../../core/functions.php';
 require 'functions.php';
 // use needed classes
-require '../../../../models/inventory/orders/Patronage.php';
+require '../../../../models/inventory/orders/Orders.php';
 // check database connection
 $conn = null;
 $conn = checkDbConnection();
 // make instance of classes
-$patronage = new Patronage($conn);
+$order = new Orders($conn);
 $response = new Response();
 // // validate api key
 if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
@@ -19,11 +19,11 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     if (array_key_exists("search", $_GET) && array_key_exists("membersid", $_GET)) {
         // get data
         // get task id from query string
-        $patronage->patronage_member_id = $_GET['membersid'];
-        $patronage->patronage_search = $_GET['search'];
+        $order->orders_member_id = $_GET['membersid'];
+        $order->orders_search = $_GET['search'];
         //check to see if search keyword in query string is not empty and less than 50 chars
-        checkKeyword($patronage->patronage_search);
-        $query = checkSearchById($patronage);
+        checkKeyword($order->orders_search);
+        $query = checkSearchById($order);
         http_response_code(200);
         getQueriedData($query);
     }

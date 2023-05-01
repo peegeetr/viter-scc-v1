@@ -5,12 +5,12 @@ require '../../../core/header.php';
 // use needed functions
 require '../../../core/functions.php';
 // use needed classes
-require '../../../models/inventory/orders/Patronage.php';
+require '../../../models/inventory/orders/Orders.php';
 // check database connection
 $conn = null;
 $conn = checkDbConnection();
 // make instance of classes
-$patronage = new Patronage($conn);
+$order = new Orders($conn);
 $response = new Response();
 // validate api key
 if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
@@ -19,20 +19,20 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     if (array_key_exists("start", $_GET)) {
         // get data
         // get task id from query string
-        $patronage->$patronage_start = $_GET['start'];
-        $patronage->$patronage_total = 5;
+        $order->$orders_start = $_GET['start'];
+        $order->$orders_total = 5;
         //check to see if task id in query string is not empty and is number, if not return json error
-        checkLimitId($patronage->$patronage_start, $patronage->$patronage_total);
-        $query = checkReadLimit($patronage);
-        $total_result = checkReadAll($patronage);
+        checkLimitId($order->$orders_start, $order->$orders_total);
+        $query = checkReadLimit($order);
+        $total_result = checkReadAll($order);
         http_response_code(200);
 
         $returnData["data"] = getResultData($query);
         $returnData["count"] = $query->rowCount();
         $returnData["total"] = $total_result->rowCount();
-        $returnData["per_page"] = $patronage->$patronage_total;
-        $returnData["page"] = (int)$patronage->$patronage_start;
-        $returnData["total_pages"] = ceil($total_result->rowCount() / $patronage->$patronage_total);
+        $returnData["per_page"] = $order->$orders_total;
+        $returnData["page"] = (int)$order->$orders_start;
+        $returnData["total_pages"] = ceil($total_result->rowCount() / $order->$orders_total);
         $returnData["success"] = true;
         $response->setData($returnData);
         $response->send();
