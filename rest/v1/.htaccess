@@ -48,6 +48,7 @@ RewriteRule ^members/status/([0-9]+)$ controllers/account/status.php?membersid=$
 RewriteRule ^members/page/([0-9]+)$ controllers/account/page.php?start=$1 [L]
 RewriteRule ^member/page/([0-9]+)/([A-Za-z0-9-]+)$ controllers/account/page.php?start=$1&approved=$2 [L]
 RewriteRule ^members/search/([A-Za-z0-9-]+)$ controllers/account/search.php?search=$1 [L]
+RewriteRule ^members/approved$ controllers/account/read-all-approved.php [L]
 
 #beneficiaries
 RewriteRule ^beneficiaries$ controllers/account/details/beneficiaries/beneficiaries.php [L]

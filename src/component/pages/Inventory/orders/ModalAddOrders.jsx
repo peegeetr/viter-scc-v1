@@ -14,10 +14,14 @@ import {
 import { InputSelect, InputText } from "../../../helpers/FormInputs";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
 import useQueryData from "../../../custom-hooks/useQueryData";
+import { getDateNow } from "../../../helpers/functions-general";
 
 const ModalAddOrders = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [supplierProductId, setSupplierProductId] = React.useState([]);
+  const [priceId, setPriceId] = React.useState(
+    item ? item.suppliers_products_scc_price : ""
+  );
   const [loading, setSelLoading] = React.useState(false);
 
   const queryClient = useQueryClient();
@@ -48,6 +52,14 @@ const ModalAddOrders = ({ item }) => {
   };
 
   // use if not loadmore button undertime
+  const { isLoading: loadingMemberApproved, data: memberApproved } =
+    useQueryData(
+      `/v1/members/approved`, // endpoint
+      "get", // method
+      "memberApproved" // key
+    );
+
+  // use if not loadmore button undertime
   const { isLoading: loadingCategory, data: categoryData } = useQueryData(
     `/v1/category`, // endpoint
     "get", // method
@@ -56,6 +68,7 @@ const ModalAddOrders = ({ item }) => {
   // get employee id
   const handleSupplierProduct = async (e, props) => {
     let categoryId = e.target.value;
+    setPriceId(e.target.options[e.target.selectedIndex].id);
     setSelLoading(true);
     const results = await queryData(
       `/v1/suppliers-product/read-category-id/${categoryId}`
@@ -64,21 +77,24 @@ const ModalAddOrders = ({ item }) => {
       setSelLoading(false);
       setSupplierProductId(results.data);
     }
-    console.log(results, supplierProductId);
   };
   const initVal = {
     orders_member_id: item ? item.orders_member_id : "",
     orders_product_id: item ? item.orders_product_id : "",
     orders_product_quantity: item ? item.orders_product_quantity : "",
     orders_product_amount: item ? item.orders_product_amount : "",
-    orders_date: item ? item.orders_date : "",
+    orders_date: item ? item.orders_date : getDateNow(),
     orders_or: item ? item.orders_or : "",
     category_id: item ? item.suppliers_products_category_id : "",
   };
 
   const yupSchema = Yup.object({
+    orders_member_id: Yup.string().required("Required"),
     orders_product_id: Yup.string().required("Required"),
     orders_product_quantity: Yup.string().required("Required"),
+    category_id: Yup.string().required("Required"),
+    orders_date: Yup.string().required("Required"),
+    orders_or: Yup.string().required("Required"),
   });
 
   return (
@@ -107,8 +123,39 @@ const ModalAddOrders = ({ item }) => {
               }}
             >
               {(props) => {
+                props.values.orders_product_amount =
+                  props.values.orders_product_quantity * priceId;
                 return (
                   <Form>
+                    <div className="relative mb-6 mt-5">
+                      <InputText
+                        label="Date"
+                        type="text"
+                        onFocus={(e) => (e.target.type = "date")}
+                        onBlur={(e) => (e.target.type = "text")}
+                        name="orders_date"
+                        disabled={mutation.isLoading}
+                      />
+                    </div>
+                    <div className="relative my-5">
+                      <InputSelect
+                        name="orders_member_id"
+                        label="Member"
+                        onChange={handleSupplierProduct}
+                        disabled={mutation.isLoading}
+                      >
+                        <option value="" hidden>
+                          {loading ? "Loading..." : "--"}
+                        </option>
+                        {memberApproved?.data.map((cItem, key) => {
+                          return (
+                            <option key={key} value={cItem.members_aid}>
+                              {`${cItem.members_last_name}, ${cItem.members_first_name} `}
+                            </option>
+                          );
+                        })}
+                      </InputSelect>
+                    </div>
                     <div className="relative my-5">
                       <InputSelect
                         name="category_id"
@@ -133,7 +180,7 @@ const ModalAddOrders = ({ item }) => {
                     </div>
                     <div className="relative my-5">
                       <InputSelect
-                        name="stocks_product_id"
+                        name="orders_product_id"
                         label="Supplier Product"
                         disabled={mutation.isLoading}
                       >
@@ -145,12 +192,29 @@ const ModalAddOrders = ({ item }) => {
                             <option
                               key={key}
                               value={pItem.suppliers_products_aid}
+                              id={pItem.suppliers_products_scc_price}
                             >
                               {`${pItem.suppliers_products_name} `}
                             </option>
                           );
                         })}
                       </InputSelect>
+                    </div>
+                    <div className="relative my-5">
+                      <InputText
+                        label="Quantity"
+                        type="text"
+                        name="orders_product_quantity"
+                        disabled={mutation.isLoading}
+                      />
+                    </div>
+                    <div className="relative my-5">
+                      <InputText
+                        label="OR Number"
+                        type="text"
+                        name="orders_or"
+                        disabled={mutation.isLoading}
+                      />
                     </div>
 
                     <div className="flex items-center gap-1 pt-5">

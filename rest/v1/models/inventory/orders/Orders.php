@@ -77,9 +77,21 @@ class Orders
     public function readAll()
     {
         try {
-            $sql = "select * from ";
-            $sql .= "{$this->tblOrders} ";
-            $sql .= "order by orders_date desc ";
+            $sql = "select suppliersProducts.suppliers_products_aid, ";
+            $sql .= "suppliersProducts.suppliers_products_scc_price, ";
+            $sql .= "suppliersProducts.suppliers_products_category_id, ";
+            $sql .= "suppliersProducts.suppliers_products_name, ";
+            $sql .= "orders.orders_number, ";
+            $sql .= "orders.orders_product_id, ";
+            $sql .= "orders.orders_or, ";
+            $sql .= "orders.orders_product_quantity, ";
+            $sql .= "orders.orders_product_amount, ";
+            $sql .= "orders.orders_date, ";
+            $sql .= "orders.orders_member_id ";
+            $sql .= "from {$this->tblOrders} as orders, ";
+            $sql .= "{$this->tblSuppliersProducts} as suppliersProducts ";
+            $sql .= "where orders.orders_product_id = suppliersProducts.suppliers_products_aid  ";
+            $sql .= "order by orders.orders_date desc ";
             $query = $this->connection->query($sql);
         } catch (PDOException $ex) {
             $query = false;
@@ -90,15 +102,61 @@ class Orders
     public function readLimit()
     {
         try {
-            $sql = "select * from ";
-            $sql .= "{$this->tblOrders} ";
-            $sql .= "order by orders_date desc ";
+            $sql = "select suppliersProducts.suppliers_products_aid, ";
+            $sql .= "suppliersProducts.suppliers_products_scc_price, ";
+            $sql .= "suppliersProducts.suppliers_products_category_id, ";
+            $sql .= "suppliersProducts.suppliers_products_name, ";
+            $sql .= "orders.orders_number, ";
+            $sql .= "orders.orders_product_id, ";
+            $sql .= "orders.orders_or, ";
+            $sql .= "orders.orders_product_quantity, ";
+            $sql .= "orders.orders_product_amount, ";
+            $sql .= "orders.orders_date, ";
+            $sql .= "orders.orders_member_id ";
+            $sql .= "from {$this->tblOrders} as orders, ";
+            $sql .= "{$this->tblSuppliersProducts} as suppliersProducts ";
+            $sql .= "where orders.orders_product_id = suppliersProducts.suppliers_products_aid  ";
+            $sql .= "order by orders.orders_date desc ";
             $sql .= "limit :start, ";
             $sql .= ":total ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "start" => $this->orders_start - 1,
                 "total" => $this->orders_total,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    // search 
+    public function search()
+    {
+        try {
+            $sql = "select suppliersProducts.suppliers_products_aid, ";
+            $sql .= "suppliersProducts.suppliers_products_scc_price, ";
+            $sql .= "suppliersProducts.suppliers_products_category_id, ";
+            $sql .= "suppliersProducts.suppliers_products_name, ";
+            $sql .= "orders.orders_number, ";
+            $sql .= "orders.orders_product_id, ";
+            $sql .= "orders.orders_or, ";
+            $sql .= "orders.orders_product_quantity, ";
+            $sql .= "orders.orders_product_amount, ";
+            $sql .= "orders.orders_date, ";
+            $sql .= "orders.orders_member_id ";
+            $sql .= "from {$this->tblOrders} as orders, ";
+            $sql .= "{$this->tblSuppliersProducts} as suppliersProducts ";
+            $sql .= "where orders.orders_product_id = suppliersProducts.suppliers_products_aid  ";
+            $sql .= "and (orders.orders_number like :orders_number ";
+            $sql .= "or MONTHNAME(orders.orders_date) like :orders_date ";
+            $sql .= "or suppliersProducts.suppliers_products_name like :suppliers_products_name) ";
+            $sql .= "order by orders.orders_date desc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "suppliers_products_name" => "{$this->orders_search}%",
+                "orders_date" => "{$this->orders_search}%",
+                "orders_number" => "{$this->orders_search}%",
             ]);
         } catch (PDOException $ex) {
             $query = false;
@@ -127,28 +185,6 @@ class Orders
 
 
 
-    // search not approved members
-    public function search()
-    {
-        try {
-            $sql = "select * from ";
-            $sql .= "{$this->tblOrders} ";
-            $sql .= "where orders_member_id = :orders_member_id ";
-            $sql .= "and orders_product_id like :orders_product_id ";
-            $sql .= "or orders_date like :orders_date ";
-            $sql .= "order by orders_date desc, ";
-            $sql .= "orders_member_id asc ";
-            $query = $this->connection->prepare($sql);
-            $query->execute([
-                "orders_member_id" => $this->orders_member_id,
-                "orders_date" => "{$this->orders_search}%",
-                "orders_product_id" => "{$this->orders_search}%",
-            ]);
-        } catch (PDOException $ex) {
-            $query = false;
-        }
-        return $query;
-    }
 
     // search not approved members
     public function searchById()

@@ -11,6 +11,7 @@ import SearchBar from "../../../partials/SearchBar";
 import ServerError from "../../../partials/ServerError";
 import ModalDeleteRestore from "../../../partials/modals/ModalDeleteRestore";
 import TableSpinner from "../../../partials/spinners/TableSpinner";
+import { formatDate } from "../../../helpers/functions-general";
 
 const OrdersList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -68,6 +69,7 @@ const OrdersList = ({ setItemEdit }) => {
     setDel(true);
   };
 
+  console.log(result);
   return (
     <>
       <SearchBar
@@ -86,7 +88,11 @@ const OrdersList = ({ setItemEdit }) => {
           <thead>
             <tr>
               <th>#</th>
-              <th className="min-w-[15rem] ">Category</th>
+              <th className="min-w-[15rem] ">Order Number</th>
+              <th className="min-w-[15rem] ">Date</th>
+              <th className="min-w-[15rem] ">Product</th>
+              <th className="min-w-[15rem] ">Quantity</th>
+              <th className="min-w-[15rem] ">Price</th>
 
               {(store.credentials.data.role_is_admin === 1 ||
                 store.credentials.data.role_is_developer === 1) && (
@@ -116,7 +122,11 @@ const OrdersList = ({ setItemEdit }) => {
                 {page.data.map((item, key) => (
                   <tr key={key}>
                     <td> {counter++}.</td>
-                    <td>{item.file_upload_name}</td>
+                    <td>{item.orders_number}</td>
+                    <td>{formatDate(item.orders_date)}</td>
+                    <td>{item.suppliers_products_name}</td>
+                    <td>{item.orders_product_quantity}</td>
+                    <td>{item.orders_product_amount}</td>
 
                     {(store.credentials.data.role_is_admin === 1 ||
                       store.credentials.data.role_is_developer === 1) && (
