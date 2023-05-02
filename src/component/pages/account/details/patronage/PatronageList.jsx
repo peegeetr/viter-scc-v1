@@ -91,6 +91,7 @@ const PatronageList = ({ setItemEdit }) => {
           <thead>
             <tr>
               <th>#</th>
+              <th className="w-[15rem] ">Order number</th>
               <th className="w-[15rem]">OR number</th>
               <th className="w-[15rem]">Date</th>
               <th className="w-[15rem]">Product Name</th>
@@ -122,11 +123,12 @@ const PatronageList = ({ setItemEdit }) => {
                 {page.data.map((item, key) => (
                   <tr key={key}>
                     <td>{counter++}.</td>
-                    <td>{item.patronage_or}</td>
-                    <td>{formatDate(item.patronage_date)}</td>
+                    <td className="uppercase">{item.orders_number}</td>
+                    <td>{item.orders_or}</td>
+                    <td>{formatDate(item.orders_date)}</td>
                     <td>{item.suppliers_products_name}</td>
-                    <td>{item.patronage_product_quantity}</td>
-                    <td>{numberWithCommas(item.patronage_product_amount)}</td>
+                    <td>{item.orders_product_quantity}</td>
+                    <td>{item.orders_product_amount}</td>
                     {store.credentials.data.role_is_member === 0 && (
                       <td>
                         <div className="flex items-center gap-1">

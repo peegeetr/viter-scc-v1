@@ -23,3 +23,11 @@ function checkUpdateSccPrice($object)
     checkQuery($query, "There's a problem processing your request. (update price)");
     return $query;
 }
+
+// Read all Summary
+function checkReadByCategoryid($object)
+{
+    $query = $object->readByCategoryid();
+    checkQuery($query, "Empty records.(Read by category id)");
+    return $query;
+}

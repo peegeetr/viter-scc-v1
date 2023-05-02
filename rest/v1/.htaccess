@@ -122,4 +122,5 @@ RewriteRule ^suppliers-product/page/supplier-id/([0-9]+)/([0-9]+)$ controllers/i
 RewriteRule ^suppliers-product/read-supplier-id/([0-9]+)$ controllers/inventory/suppliers/product/read-by-supplier-id.php?supplierid=$1 [L]
 RewriteRule ^suppliers-product/page/([0-9]+)$ controllers/inventory/suppliers/product/page.php?start=$1 [L]
 RewriteRule ^suppliers-product/search/([A-Za-z0-9-]+)$ controllers/inventory/suppliers/product/search.php?search=$1 [L]
+RewriteRule ^suppliers-product/read-category-id/([0-9]+)$ controllers/inventory/suppliers/product/read-by-category-id.php?categoryid=$1 [L]
  

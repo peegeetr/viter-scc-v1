@@ -54,6 +54,7 @@ export const InputSelect = ({ label, onChange, ...props }) => {
     props.name === "savings_category" ||
     props.name === "patronage_product_id" ||
     props.name === "supplier_id" ||
+    props.name === "category_id" ||
     props.name === "product_supplier_id"
   ) {
     return (

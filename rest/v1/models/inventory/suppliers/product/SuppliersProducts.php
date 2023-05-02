@@ -336,4 +336,33 @@ class SuppliersProducts
         }
         return $query;
     }
+
+    // read all pending
+    public function readByCategoryid()
+    {
+        try {
+            $sql = "select ";
+            $sql .= "suppliersProducts.suppliers_products_aid, ";
+            $sql .= "suppliersProducts.suppliers_products_number, ";
+            $sql .= "suppliersProducts.suppliers_products_name, ";
+            $sql .= "suppliersProducts.suppliers_products_price, ";
+            $sql .= "suppliersProducts.suppliers_products_scc_price, ";
+            $sql .= "suppliersProducts.suppliers_products_market_price, ";
+            $sql .= "suppliersProducts.suppliers_products_category_id, ";
+            $sql .= "category.product_category_name ";
+            $sql .= "from ";
+            $sql .= "{$this->tblSuppliersProducts} as suppliersProducts, ";
+            $sql .= "{$this->tblCategory} as category ";
+            $sql .= "where suppliersProducts.suppliers_products_category_id = :suppliers_products_category_id ";
+            $sql .= "and category.product_category_aid = suppliersProducts.suppliers_products_category_id ";
+            $sql .= "order by suppliersProducts.suppliers_products_name asc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "suppliers_products_category_id" => $this->suppliers_products_category_id,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
 }

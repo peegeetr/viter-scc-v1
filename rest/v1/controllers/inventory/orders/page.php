@@ -19,10 +19,10 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     if (array_key_exists("start", $_GET)) {
         // get data
         // get task id from query string
-        $order->$orders_start = $_GET['start'];
-        $order->$orders_total = 5;
+        $order->orders_start = $_GET['start'];
+        $order->orders_total = 5;
         //check to see if task id in query string is not empty and is number, if not return json error
-        checkLimitId($order->$orders_start, $order->$orders_total);
+        checkLimitId($order->orders_start, $order->orders_total);
         $query = checkReadLimit($order);
         $total_result = checkReadAll($order);
         http_response_code(200);
@@ -30,9 +30,9 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         $returnData["data"] = getResultData($query);
         $returnData["count"] = $query->rowCount();
         $returnData["total"] = $total_result->rowCount();
-        $returnData["per_page"] = $order->$orders_total;
-        $returnData["page"] = (int)$order->$orders_start;
-        $returnData["total_pages"] = ceil($total_result->rowCount() / $order->$orders_total);
+        $returnData["per_page"] = $order->orders_total;
+        $returnData["page"] = (int)$order->orders_start;
+        $returnData["total_pages"] = ceil($total_result->rowCount() / $order->orders_total);
         $returnData["success"] = true;
         $response->setData($returnData);
         $response->send();

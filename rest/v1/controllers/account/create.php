@@ -12,7 +12,6 @@ if (array_key_exists("membersid", $_GET)) {
 checkPayload($data);
 // get data
 
-
 $members->members_pre_membership_date = checkIndex($data, "members_pre_membership_date");
 $members->members_first_name = checkIndex($data, "members_first_name");
 $members->members_last_name = checkIndex($data, "members_last_name");
