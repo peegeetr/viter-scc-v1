@@ -213,7 +213,7 @@ function loginAccess(
     if (password_verify($password, $hash_password)) {
         $payload = array(
             "iss" => "localhost", // A string containing the name or identifier of the issuer application.
-            "aud" => "hris",
+            "aud" => "scc",
             "iat" => time(),  // timestamp of token issuing.
             "data" => array("email" => $employee_email, "data" => $row, "isDev" => $isDev), // App payload
         );
@@ -262,6 +262,7 @@ function token(
             http_response_code(200);
             $returnData["data"] = $row;
             $returnData["count"] = $result->rowCount();
+            $returnData["isDev"] = $decoded->data->isDev;
             $returnData["success"] = true;
             $returnData["message"] = "Access granted.";
             $response->setData($returnData);

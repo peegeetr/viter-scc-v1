@@ -1,5 +1,5 @@
 <?php
-class Orders
+class Sales
 {
     public $orders_aid;
     public $orders_number;

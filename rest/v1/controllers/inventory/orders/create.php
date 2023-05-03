@@ -48,6 +48,7 @@ $order->orders_product_quantity = checkIndex($data, "orders_product_quantity");
 $order->orders_product_amount = checkIndex($data, "orders_product_amount");
 $order->orders_date = checkIndex($data, "orders_date");
 $order->orders_or = checkIndex($data, "orders_or");
+$order->orders_is_paid = 0;
 $order->orders_created = date("Y-m-d H:i:s");
 $order->orders_datetime = date("Y-m-d H:i:s");
 

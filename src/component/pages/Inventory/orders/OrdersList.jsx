@@ -12,6 +12,8 @@ import ServerError from "../../../partials/ServerError";
 import ModalDeleteRestore from "../../../partials/modals/ModalDeleteRestore";
 import TableSpinner from "../../../partials/spinners/TableSpinner";
 import { formatDate } from "../../../helpers/functions-general";
+import StatusActive from "../../../partials/status/StatusActive";
+import StatusPending from "../../../partials/status/StatusPending";
 
 const OrdersList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -64,7 +66,7 @@ const OrdersList = ({ setItemEdit }) => {
 
   const handleDelete = (item) => {
     dispatch(setIsRestore(true));
-    setId(item.file_upload_aid);
+    setId(item.orders_aid);
     setData(item);
     setDel(true);
   };
@@ -88,11 +90,12 @@ const OrdersList = ({ setItemEdit }) => {
           <thead>
             <tr>
               <th>#</th>
-              <th className="min-w-[15rem] ">Order Number</th>
-              <th className="min-w-[15rem] ">Date</th>
-              <th className="min-w-[15rem] ">Product</th>
-              <th className="min-w-[15rem] ">Quantity</th>
-              <th className="min-w-[15rem] ">Price</th>
+              <th>Order Number</th>
+              <th>Date</th>
+              <th>Product</th>
+              <th>Quantity</th>
+              <th>Price</th>
+              <th className="min-w-[15rem]">Status</th>
 
               {(store.credentials.data.role_is_admin === 1 ||
                 store.credentials.data.role_is_developer === 1) && (
@@ -127,6 +130,13 @@ const OrdersList = ({ setItemEdit }) => {
                     <td>{item.suppliers_products_name}</td>
                     <td>{item.orders_product_quantity}</td>
                     <td>{item.orders_product_amount}</td>
+                    <td>
+                      {item.orders_is_paid === 1 ? (
+                        <StatusActive text="Paid" />
+                      ) : (
+                        <StatusPending />
+                      )}
+                    </td>
 
                     {(store.credentials.data.role_is_admin === 1 ||
                       store.credentials.data.role_is_developer === 1) && (
@@ -157,7 +167,8 @@ const OrdersList = ({ setItemEdit }) => {
             ))}
           </tbody>
         </table>
-
+      </div>
+      <div className="text-center">
         <Loadmore
           fetchNextPage={fetchNextPage}
           isFetchingNextPage={isFetchingNextPage}
@@ -175,8 +186,8 @@ const OrdersList = ({ setItemEdit }) => {
           isDel={isDel}
           mysqlApiDelete={`/v1/orders/${id}`}
           msg={"Are you sure you want to delete this file"}
-          item={`${dataItem.file_upload_name}`}
-          arrKey="file"
+          item={`${dataItem.orders_number}`}
+          arrKey="orders"
         />
       )}
     </>

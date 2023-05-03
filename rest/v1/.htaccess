@@ -102,8 +102,8 @@ RewriteRule ^category/search/([A-Za-z0-9-]+)$ controllers/inventory/category/sea
 
 #orders 
 RewriteRule ^orders$ controllers/inventory/orders/orders.php [L]
-RewriteRule ^orders/([0-9]+)$ controllers/inventory/orders/orders.php?patronageid=$1 [L]
-RewriteRule ^orders/active/([0-9]+)$ controllers/inventory/orders/active.php?patronageid=$1 [L]
+RewriteRule ^orders/([0-9]+)$ controllers/inventory/orders/orders.php?orderid=$1 [L]
+RewriteRule ^orders/active/([0-9]+)$ controllers/inventory/orders/active.php?orderid=$1 [L]
 RewriteRule ^orders/page/([0-9]+)$ controllers/inventory/orders/page.php?start=$1 [L]
 RewriteRule ^orders/search/([A-Za-z0-9-]+)$ controllers/inventory/orders/search.php?search=$1 [L]
    

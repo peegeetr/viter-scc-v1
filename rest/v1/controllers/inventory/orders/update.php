@@ -8,11 +8,11 @@ $order = new Orders($conn);
 // check if ordersid is in the url e.g. /ordersid/1
 $error = [];
 $returnData = [];
-if (array_key_exists("ordersid", $_GET)) {
+if (array_key_exists("orderid", $_GET)) {
     // check data
     checkPayload($data);
     // get ordersid from query string
-    $order->orders_aid = $_GET['ordersid'];
+    $order->orders_aid = $_GET['orderid'];
     $order->orders_product_id = checkIndex($data, "orders_product_id");
     $order->orders_product_quantity = checkIndex($data, "orders_product_quantity");
     $order->orders_product_amount = checkIndex($data, "orders_product_amount");

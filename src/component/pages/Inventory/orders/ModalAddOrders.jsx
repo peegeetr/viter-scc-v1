@@ -68,7 +68,6 @@ const ModalAddOrders = ({ item }) => {
   // get employee id
   const handleSupplierProduct = async (e, props) => {
     let categoryId = e.target.value;
-    setPriceId(e.target.options[e.target.selectedIndex].id);
     setSelLoading(true);
     const results = await queryData(
       `/v1/suppliers-product/read-category-id/${categoryId}`
@@ -77,6 +76,10 @@ const ModalAddOrders = ({ item }) => {
       setSelLoading(false);
       setSupplierProductId(results.data);
     }
+  };
+  // get employee id
+  const handleProduct = async (e, props) => {
+    setPriceId(e.target.options[e.target.selectedIndex].id);
   };
   const initVal = {
     orders_member_id: item ? item.orders_member_id : "",
@@ -182,6 +185,7 @@ const ModalAddOrders = ({ item }) => {
                       <InputSelect
                         name="orders_product_id"
                         label="Supplier Product"
+                        onChange={handleProduct}
                         disabled={mutation.isLoading}
                       >
                         <option value="" hidden>
