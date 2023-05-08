@@ -21,7 +21,8 @@ const SavingsLink = () => {
     <>
       <Link
         to={
-          store.credentials.data.role_is_developer === 1
+          store.credentials.data.role_is_developer === 1 ||
+          store.credentials.data.role_is_admin === 1
             ? `${urlLink}/account/details/savings?memberid=${memberid}`
             : `${urlLink}/details/savings`
         }
@@ -41,7 +42,8 @@ const SavingsLink = () => {
 
       <Link
         to={
-          store.credentials.data.role_is_developer === 1
+          store.credentials.data.role_is_developer === 1 ||
+          store.credentials.data.role_is_admin === 1
             ? `${urlLink}/account/details/savings?memberid=${memberid}`
             : `${urlLink}/details/savings`
         }

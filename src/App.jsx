@@ -481,6 +481,7 @@ function App() {
               }
             />
             {/* admin invetory */}
+
             <Route
               path={`${devNavUrl}/${UrlAdmin}/inventory`}
               element={

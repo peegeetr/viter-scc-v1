@@ -22,7 +22,8 @@ const ProfileLink = () => {
     <>
       <Link
         to={
-          store.credentials.data.role_is_developer === 1
+          store.credentials.data.role_is_developer === 1 ||
+          store.credentials.data.role_is_admin === 1
             ? `${urlLink}/account/details/profile?memberid=${memberid}`
             : `${urlLink}/details/profile`
         }
@@ -41,7 +42,8 @@ const ProfileLink = () => {
       </Link>
       <Link
         to={
-          store.credentials.data.role_is_developer === 1
+          store.credentials.data.role_is_developer === 1 ||
+          store.credentials.data.role_is_admin === 1
             ? `${urlLink}/account/details/profile?memberid=${memberid}`
             : `${urlLink}/details/profile`
         }

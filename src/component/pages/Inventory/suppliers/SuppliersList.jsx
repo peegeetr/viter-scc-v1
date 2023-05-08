@@ -14,11 +14,19 @@ import TableSpinner from "../../../partials/spinners/TableSpinner";
 import StatusActive from "../../../partials/status/StatusActive";
 import StatusInactive from "../../../partials/status/StatusInactive";
 import { Link } from "react-router-dom";
-import { UrlSystem, devNavUrl } from "../../../helpers/functions-general";
+import {
+  UrlSystem,
+  devNavUrl,
+  getUserType,
+} from "../../../helpers/functions-general";
 import { SlArrowRight } from "react-icons/sl";
 
 const suppliersList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
+  const urlLink = getUserType(
+    store.credentials.data.role_is_developer,
+    store.credentials.data.role_is_admin
+  );
   const [dataItem, setData] = React.useState(null);
   const [id, setId] = React.useState(null);
   const [isDel, setDel] = React.useState(false);
@@ -142,7 +150,7 @@ const suppliersList = ({ setItemEdit }) => {
                       <td>
                         <div className="flex items-center gap-1">
                           <Link
-                            to={`${devNavUrl}/${UrlSystem}/inventory/suppliers/products?supplierId=${item.suppliers_aid}`}
+                            to={`${urlLink}/inventory/suppliers/products?supplierId=${item.suppliers_aid}`}
                             className="btn-action-table tooltip-action-table"
                             data-tooltip="View"
                           >

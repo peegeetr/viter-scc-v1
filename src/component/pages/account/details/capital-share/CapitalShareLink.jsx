@@ -21,7 +21,8 @@ const CapitalShareLink = () => {
     <>
       <Link
         to={
-          store.credentials.data.role_is_developer === 1
+          store.credentials.data.role_is_developer === 1 ||
+          store.credentials.data.role_is_admin === 1
             ? `${urlLink}/account/details/capital-share?memberid=${memberid}`
             : `${urlLink}/details/capital-share`
         }
@@ -41,7 +42,8 @@ const CapitalShareLink = () => {
 
       <Link
         to={
-          store.credentials.data.role_is_developer === 1
+          store.credentials.data.role_is_developer === 1 ||
+          store.credentials.data.role_is_admin === 1
             ? `${urlLink}/account/details/capital-share?memberid=${memberid}`
             : `${urlLink}/details/capital-share`
         }

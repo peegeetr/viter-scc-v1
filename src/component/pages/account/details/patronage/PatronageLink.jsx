@@ -19,7 +19,8 @@ const PatronageLink = () => {
     <>
       <Link
         to={
-          store.credentials.data.role_is_developer === 1
+          store.credentials.data.role_is_developer === 1 ||
+          store.credentials.data.role_is_admin === 1
             ? `${urlLink}/account/details/patronage?memberid=${memberid}`
             : `${urlLink}/details/patronage`
         }
@@ -39,7 +40,8 @@ const PatronageLink = () => {
 
       <Link
         to={
-          store.credentials.data.role_is_developer === 1
+          store.credentials.data.role_is_developer === 1 ||
+          store.credentials.data.role_is_admin === 1
             ? `${urlLink}/account/details/patronage?memberid=${memberid}`
             : `${urlLink}/details/patronage`
         }
