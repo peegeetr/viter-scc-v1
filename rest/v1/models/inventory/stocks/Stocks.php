@@ -5,6 +5,7 @@ class Stocks
     public $stocks_number;
     public $stocks_is_pending;
     public $stocks_product_id;
+    public $stocks_or;
     public $stocks_quantity;
     public $stocks_price;
     public $stocks_created;
@@ -36,12 +37,14 @@ class Stocks
             $sql .= "( stocks_number, ";
             $sql .= "stocks_is_pending, ";
             $sql .= "stocks_product_id, ";
+            $sql .= "stocks_or, ";
             $sql .= "stocks_quantity, ";
             $sql .= "stocks_created, ";
             $sql .= "stocks_datetime ) values ( ";
             $sql .= ":stocks_number, ";
             $sql .= ":stocks_is_pending, ";
             $sql .= ":stocks_product_id, ";
+            $sql .= ":stocks_or, ";
             $sql .= ":stocks_quantity, ";
             $sql .= ":stocks_created, ";
             $sql .= ":stocks_datetime ) ";
@@ -50,6 +53,7 @@ class Stocks
                 "stocks_number" => $this->stocks_number,
                 "stocks_is_pending" => $this->stocks_is_pending,
                 "stocks_product_id" => $this->stocks_product_id,
+                "stocks_or" => $this->stocks_or,
                 "stocks_quantity" => $this->stocks_quantity,
                 "stocks_created" => $this->stocks_created,
                 "stocks_datetime" => $this->stocks_datetime,
@@ -67,6 +71,7 @@ class Stocks
         try {
             $sql = "select stocks.stocks_number, ";
             $sql .= "stocks.stocks_quantity, ";
+            $sql .= "stocks.stocks_or, ";
             $sql .= "stocks.stocks_aid, ";
             $sql .= "stocks.stocks_created, ";
             $sql .= "stocks.stocks_is_pending, ";
@@ -95,6 +100,7 @@ class Stocks
         try {
             $sql = "select stocks.stocks_number, ";
             $sql .= "stocks.stocks_quantity, ";
+            $sql .= "stocks.stocks_or, ";
             $sql .= "stocks.stocks_aid, ";
             $sql .= "stocks.stocks_created, ";
             $sql .= "stocks.stocks_is_pending, ";
@@ -130,6 +136,7 @@ class Stocks
         try {
             $sql = "select stocks.stocks_number, ";
             $sql .= "stocks.stocks_quantity, ";
+            $sql .= "stocks.stocks_or, ";
             $sql .= "stocks.stocks_aid, ";
             $sql .= "stocks.stocks_created, ";
             $sql .= "stocks.stocks_is_pending, ";
@@ -186,12 +193,14 @@ class Stocks
         try {
             $sql = "update {$this->tblStocks} set ";
             $sql .= "stocks_product_id = :stocks_product_id, ";
+            $sql .= "stocks_or = :stocks_or, ";
             $sql .= "stocks_quantity = :stocks_quantity, ";
             $sql .= "stocks_datetime = :stocks_datetime ";
             $sql .= "where stocks_aid = :stocks_aid ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "stocks_product_id" => $this->stocks_product_id,
+                "stocks_or" => $this->stocks_or,
                 "stocks_quantity" => $this->stocks_quantity,
                 "stocks_datetime" => $this->stocks_datetime,
                 "stocks_aid" => $this->stocks_aid,
@@ -241,11 +250,13 @@ class Stocks
         try {
             $sql = "update {$this->tblStocks} set ";
             $sql .= "stocks_is_pending = :stocks_is_pending, ";
+            $sql .= "stocks_or = :stocks_or, ";
             $sql .= "stocks_datetime = :stocks_datetime ";
             $sql .= "where stocks_aid = :stocks_aid ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "stocks_is_pending" => $this->stocks_is_pending,
+                "stocks_or" => $this->stocks_or,
                 "stocks_datetime" => $this->stocks_datetime,
                 "stocks_aid" => $this->stocks_aid,
             ]);

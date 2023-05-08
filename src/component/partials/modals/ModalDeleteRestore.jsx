@@ -40,6 +40,7 @@ const ModalDeleteRestore = ({
     // // mutate data
     mutation.mutate({
       isActive: 1,
+      stocks_or: "",
       isApproved,
     });
   };

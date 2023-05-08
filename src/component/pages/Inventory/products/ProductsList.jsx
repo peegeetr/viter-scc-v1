@@ -84,10 +84,11 @@ const ProductsList = () => {
               <th>#</th>
               <th className="min-w-[15rem]">Product Number</th>
               <th className="min-w-[15rem]">Product Name</th>
-              <th className="min-w-[15rem]">Supplier Price</th>
-              <th className="min-w-[15rem]">SCC Price</th>
-              <th className="min-w-[15rem]">Market Price</th>
-              <th className="max-w-[5rem]">Actions</th>
+              <th className="min-w-[10rem]">Supplier Price</th>
+              <th className="min-w-[10rem]">SCC Price</th>
+              <th className="min-w-[10rem]">Market Price</th>
+              <th className="min-w-[10rem]">Remaning Quantity</th>
+              <th className="max-w-[5rem] text-right">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -117,8 +118,9 @@ const ProductsList = () => {
                     <td>{item.suppliers_products_price}</td>
                     <td>{item.suppliers_products_scc_price}</td>
                     <td>{item.suppliers_products_market_price}</td>
-                    <td>
-                      <div className="flex items-center gap-1">
+                    <td>0</td>
+                    <td className=" text-right">
+                      <div className="gap-1">
                         <button
                           type="button"
                           className="btn-action-table tooltip-action-table"

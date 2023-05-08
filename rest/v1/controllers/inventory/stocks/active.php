@@ -27,6 +27,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         // get task id from query string
         $stocks->stocks_aid = $_GET['stockid'];
         $stocks->stocks_is_pending = trim($data["isActive"]);
+        $stocks->stocks_or = trim($data["stocks_or"]);
         $stocks->stocks_datetime = date("Y-m-d H:i:s");
         //check to see if task id in query string is not empty and is number, if not return json error
         checkId($stocks->stocks_aid);

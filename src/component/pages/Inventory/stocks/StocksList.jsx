@@ -19,6 +19,7 @@ import ModalDeleteRestore from "../../../partials/modals/ModalDeleteRestore";
 import TableSpinner from "../../../partials/spinners/TableSpinner";
 import StatusActive from "../../../partials/status/StatusActive";
 import StatusPending from "../../../partials/status/StatusPending";
+import ModalUpdateOR from "./ModalUpdateOR";
 
 const StocksList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -103,18 +104,18 @@ const StocksList = ({ setItemEdit }) => {
       />
 
       <div className="text-center overflow-x-auto z-0">
-        {/* {isFetching && !isFetchingNextPage && <FetchingSpinner />} */}
         <table>
           <thead>
             <tr>
               <th>#</th>
-              <th className="min-w-[15rem]">Stock Number</th>
-              <th className="min-w-[15rem]">Product Number</th>
-              <th className="min-w-[15rem]">Supplier</th>
-              <th className="min-w-[15rem]">Product Name</th>
-              <th className="min-w-[15rem]">Quantity</th>
-              <th className="min-w-[15rem]">Created date</th>
-              <th className="min-w-[15rem]">Status</th>
+              <th className="min-w-[8rem]">Stock Number</th>
+              <th className="min-w-[8rem]">Product Number</th>
+              <th className="min-w-[8rem]">Supplier</th>
+              <th className="min-w-[8rem]">Product Name</th>
+              <th className="min-w-[5rem]">Quantity</th>
+              <th className="min-w-[8rem]">Official Receipt</th>
+              <th className="min-w-[8rem]">Created date</th>
+              <th className="min-w-[6rem]">Status</th>
 
               <th className="max-w-[5rem]">Actions</th>
             </tr>
@@ -146,6 +147,7 @@ const StocksList = ({ setItemEdit }) => {
                     <td>{item.suppliers_company_name}</td>
                     <td>{item.suppliers_products_name}</td>
                     <td>{item.stocks_quantity}</td>
+                    <td>{item.stocks_or}</td>
                     <td>{formatDate(item.stocks_created)}</td>
                     <td>
                       {item.stocks_is_pending === 1 ? (
@@ -158,14 +160,6 @@ const StocksList = ({ setItemEdit }) => {
                       <div className="flex items-center gap-1">
                         {item.stocks_is_pending === 1 && (
                           <>
-                            {/* <button
-                              type="button"
-                              className="btn-action-table tooltip-action-table"
-                              data-tooltip="Edit"
-                              onClick={() => handleEdit(item)}
-                            >
-                              <FaEdit />
-                            </button> */}
                             <button
                               type="button"
                               className="btn-action-table tooltip-action-table"
@@ -218,11 +212,11 @@ const StocksList = ({ setItemEdit }) => {
       </div>
 
       {store.isConfirm && (
-        <ModalConfirm
+        <ModalUpdateOR
           id={id}
           isDel={isDel}
           mysqlApiArchive={`/v1/stocks/active/${id}`}
-          msg={"Are you sure you want to complete payment "}
+          msg={"Are you sure you complete the payment of "}
           item={`${dataItem.suppliers_products_name}`}
           arrKey="stocks"
         />

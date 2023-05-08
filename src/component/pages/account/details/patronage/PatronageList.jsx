@@ -124,7 +124,6 @@ const PatronageList = ({ setItemEdit }) => {
                   <tr key={key}>
                     <td>{counter++}.</td>
                     <td className="uppercase">{item.orders_number}</td>
-                    <td>{item.orders_or}</td>
                     <td>{formatDate(item.orders_date)}</td>
                     <td>{item.suppliers_products_name}</td>
                     <td>{item.orders_product_quantity}</td>

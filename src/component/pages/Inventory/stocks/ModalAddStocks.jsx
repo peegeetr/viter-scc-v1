@@ -69,6 +69,7 @@ const ModalAddStocks = ({ item }) => {
     supplier_id: item ? item.suppliers_aid : "",
     stocks_product_id: item ? item.stocks_product_id : "",
     stocks_quantity: item ? item.stocks_quantity : "",
+    stocks_or: item ? item.stocks_or : "",
   };
 
   const yupSchema = Yup.object({
@@ -150,6 +151,14 @@ const ModalAddStocks = ({ item }) => {
                         label="Quantity"
                         type="text"
                         name="stocks_quantity"
+                        disabled={mutation.isLoading}
+                      />
+                    </div>
+                    <div className="relative my-5">
+                      <InputText
+                        label="OR"
+                        type="text"
+                        name="stocks_or"
                         disabled={mutation.isLoading}
                       />
                     </div>

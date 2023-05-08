@@ -21,8 +21,11 @@ const ModalConfirm = ({
   role_id,
   arrKey,
 }) => {
-  const { store, dispatch } = React.useContext(StoreContext); 
-  const urlLink = getUserType(store.credentials.data.role_is_developer,store.credentials.data.role_is_admin);
+  const { store, dispatch } = React.useContext(StoreContext);
+  const urlLink = getUserType(
+    store.credentials.data.role_is_developer,
+    store.credentials.data.role_is_admin
+  );
   const queryClient = useQueryClient();
   let message = isDel
     ? "Reseting your own password will make you automatically logged out."
@@ -52,7 +55,7 @@ const ModalConfirm = ({
     mutation.mutate({
       isActive: 0,
       email: item,
-      isApproved:"active",
+      isApproved: "active",
       isDeveloper: isDeveloper,
     });
 
@@ -101,7 +104,7 @@ const ModalConfirm = ({
                 <br />
                 <span className="text-sm font-bold break-all">"{item}" ?</span>
               </>
-              )}  
+            )}
             <p>You can't undo this action.</p>
             <div className="flex items-center gap-1 pt-5">
               <button

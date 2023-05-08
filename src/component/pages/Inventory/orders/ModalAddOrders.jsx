@@ -87,7 +87,6 @@ const ModalAddOrders = ({ item }) => {
     orders_product_quantity: item ? item.orders_product_quantity : "",
     orders_product_amount: item ? item.orders_product_amount : "",
     orders_date: item ? item.orders_date : getDateNow(),
-    orders_or: item ? item.orders_or : "",
     category_id: item ? item.suppliers_products_category_id : "",
   };
 
@@ -97,7 +96,6 @@ const ModalAddOrders = ({ item }) => {
     orders_product_quantity: Yup.string().required("Required"),
     category_id: Yup.string().required("Required"),
     orders_date: Yup.string().required("Required"),
-    orders_or: Yup.string().required("Required"),
   });
 
   return (
@@ -209,14 +207,6 @@ const ModalAddOrders = ({ item }) => {
                         label="Quantity"
                         type="text"
                         name="orders_product_quantity"
-                        disabled={mutation.isLoading}
-                      />
-                    </div>
-                    <div className="relative my-5">
-                      <InputText
-                        label="OR Number"
-                        type="text"
-                        name="orders_or"
                         disabled={mutation.isLoading}
                       />
                     </div>

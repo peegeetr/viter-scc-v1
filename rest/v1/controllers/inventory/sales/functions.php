@@ -1,9 +1,9 @@
 <?php
 
-// Read limit By Id
-function checkReadLimitById($object)
+// Read limit
+function checkReadLimit($object)
 {
-    $query = $object->readLimitById();
+    $query = $object->readLimit();
     checkQuery($query, "Empty records. (limit by id)");
     return $query;
 }

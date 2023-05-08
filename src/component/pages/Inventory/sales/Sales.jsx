@@ -6,6 +6,7 @@ import BreadCrumbs from "../../../partials/BreadCrumbs";
 import Footer from "../../../partials/Footer";
 import Header from "../../../partials/Header";
 import Navigation from "../../../partials/Navigation";
+import SalesList from "./SalesList";
 
 const Sales = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -23,7 +24,7 @@ const Sales = () => {
       <div className="wrapper">
         <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2 ">
           {/* <h4 className="text-xl mb-3">Sales</h4> */}
-        <BreadCrumbs />
+          <BreadCrumbs />
 
           {store.credentials.data.role_is_member === 0 && (
             <div className="flex items-center gap-1 self-baseline">
@@ -37,10 +38,10 @@ const Sales = () => {
 
         <hr />
         <div className="w-full pt-5 pb-20">
-          {/* <SalesList setItemEdit={setItemEdit} /> */}
+          <SalesList setItemEdit={setItemEdit} />
         </div>
         <Footer />
-      </div> 
+      </div>
       {store.success && <ModalSuccess />}
       {store.error && <ModalError />}
     </>

@@ -15,7 +15,7 @@ import { formatDate } from "../../../helpers/functions-general";
 import StatusActive from "../../../partials/status/StatusActive";
 import StatusPending from "../../../partials/status/StatusPending";
 
-const OrdersList = ({ setItemEdit }) => {
+const SalesList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [dataItem, setData] = React.useState(null);
   const [id, setId] = React.useState(null);
@@ -35,11 +35,11 @@ const OrdersList = ({ setItemEdit }) => {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ["orders", onSearch, store.isSearch],
+    queryKey: ["sales", onSearch, store.isSearch],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
-        `/v1/orders/search/${search.current.value}`, // search endpoint
-        `/v1/orders/page/${pageParam}`, // list endpoint
+        `/v1/sales/search/${search.current.value}`, // search endpoint
+        `/v1/sales/page/${pageParam}`, // list endpoint
         store.isSearch // search boolean
       ),
     getNextPageParam: (lastPage) => {
@@ -66,7 +66,7 @@ const OrdersList = ({ setItemEdit }) => {
 
   const handleDelete = (item) => {
     dispatch(setIsRestore(true));
-    setId(item.orders_aid);
+    setId(item.sales_aid);
     setData(item);
     setDel(true);
   };
@@ -90,12 +90,14 @@ const OrdersList = ({ setItemEdit }) => {
           <thead>
             <tr>
               <th>#</th>
-              <th>Order Number</th>
               <th>Name</th>
-              <th>Date</th>
+              <th>Sale Number</th>
+              <th>Order Number</th>
+              <th>Amount</th>
+              <th>Recieve Date</th>
               <th>Product</th>
-              <th>Quantity</th>
-              <th>Price</th>
+              <th>Recieve Amount</th>
+              <th>Official Receipt</th>
               <th className="min-w-[15rem]">Status</th>
 
               {(store.credentials.data.role_is_admin === 1 ||
@@ -126,14 +128,15 @@ const OrdersList = ({ setItemEdit }) => {
                 {page.data.map((item, key) => (
                   <tr key={key}>
                     <td> {counter++}.</td>
-                    <td>{item.orders_number}</td>
                     <td>{`${item.members_last_name}, ${item.members_first_name}`}</td>
-                    <td>{formatDate(item.orders_date)}</td>
-                    <td>{item.suppliers_products_name}</td>
-                    <td>{item.orders_product_quantity}</td>
-                    <td>{item.orders_product_amount}</td>
+                    <td>{item.sales_number}</td>
+                    <td>{item.orders_number}</td>
+                    <td>{item.sales_product_amount}</td>
+                    <td>{formatDate(item.sales_date)}</td>
+                    <td>{item.sales_receive_amount}</td>
+                    <td>{item.sales_or}</td>
                     <td>
-                      {item.orders_is_paid === 1 ? (
+                      {item.sales_is_paid === 1 ? (
                         <StatusActive text="Paid" />
                       ) : (
                         <StatusPending />
@@ -186,14 +189,14 @@ const OrdersList = ({ setItemEdit }) => {
         <ModalDeleteRestore
           id={id}
           isDel={isDel}
-          mysqlApiDelete={`/v1/orders/${id}`}
+          mysqlApiDelete={`/v1/sales/${id}`}
           msg={"Are you sure you want to delete this file"}
-          item={`${dataItem.orders_number}`}
-          arrKey="orders"
+          item={`${dataItem.sales_number}`}
+          arrKey="sales"
         />
       )}
     </>
   );
 };
 
-export default OrdersList;
+export default SalesList;
