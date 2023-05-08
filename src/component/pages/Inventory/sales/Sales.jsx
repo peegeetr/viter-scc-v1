@@ -7,6 +7,9 @@ import Footer from "../../../partials/Footer";
 import Header from "../../../partials/Header";
 import Navigation from "../../../partials/Navigation";
 import SalesList from "./SalesList";
+import ModalAddOrders from "../orders/ModalAddOrders";
+import ModalUpdateSales from "./ModalUpdateSales";
+import ModalSuccess from "../../../partials/modals/ModalSuccess";
 
 const Sales = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -42,6 +45,8 @@ const Sales = () => {
         </div>
         <Footer />
       </div>
+      {store.isAdd && <ModalAddOrders item={itemEdit} arrKey="sales" />}
+      {store.isConfirm && <ModalUpdateSales item={itemEdit} />}
       {store.success && <ModalSuccess />}
       {store.error && <ModalError />}
     </>

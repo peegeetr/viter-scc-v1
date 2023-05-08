@@ -6,7 +6,7 @@ class Suppliers
     public $suppliers_company_address;
     public $suppliers_contact_person;
     public $suppliers_contact_num;
-    public $suppliers_is_active; 
+    public $suppliers_is_active;
     public $suppliers_created;
     public $suppliers_datetime;
 
@@ -17,11 +17,13 @@ class Suppliers
     public $suppliers_search;
     public $currentYear;
     public $tblSuppliers;
+    public $tblSuppliersProducts;
 
     public function __construct($db)
     {
         $this->connection = $db;
         $this->tblSuppliers = "sccv1_suppliers";
+        $this->tblSuppliersProducts = "sccv1_suppliers_products";
     }
 
     // create
@@ -33,14 +35,14 @@ class Suppliers
             $sql .= "suppliers_company_address, ";
             $sql .= "suppliers_contact_person, ";
             $sql .= "suppliers_contact_num, ";
-            $sql .= "suppliers_is_active, "; 
+            $sql .= "suppliers_is_active, ";
             $sql .= "suppliers_created, ";
             $sql .= "suppliers_datetime ) values ( ";
             $sql .= ":suppliers_company_name, ";
             $sql .= ":suppliers_company_address, ";
             $sql .= ":suppliers_contact_person, ";
             $sql .= ":suppliers_contact_num, ";
-            $sql .= ":suppliers_is_active, "; 
+            $sql .= ":suppliers_is_active, ";
             $sql .= ":suppliers_created, ";
             $sql .= ":suppliers_datetime ) ";
             $query = $this->connection->prepare($sql);
@@ -49,7 +51,7 @@ class Suppliers
                 "suppliers_company_address" => $this->suppliers_company_address,
                 "suppliers_contact_person" => $this->suppliers_contact_person,
                 "suppliers_contact_num" => $this->suppliers_contact_num,
-                "suppliers_is_active" => $this->suppliers_is_active, 
+                "suppliers_is_active" => $this->suppliers_is_active,
                 "suppliers_created" => $this->suppliers_created,
                 "suppliers_datetime" => $this->suppliers_datetime,
             ]);
@@ -65,9 +67,9 @@ class Suppliers
     {
         try {
             $sql = "select * from ";
-            $sql .= "{$this->tblSuppliers} "; 
+            $sql .= "{$this->tblSuppliers} ";
             $sql .= "order by suppliers_is_active, ";
-            $sql .= "suppliers_company_name asc "; 
+            $sql .= "suppliers_company_name asc ";
             $query = $this->connection->query($sql);
         } catch (PDOException $ex) {
             $query = false;
@@ -79,7 +81,7 @@ class Suppliers
     {
         try {
             $sql = "select * from ";
-            $sql .= "{$this->tblSuppliers} "; 
+            $sql .= "{$this->tblSuppliers} ";
             $sql .= "order by suppliers_is_active, ";
             $sql .= "suppliers_company_name asc ";
             $sql .= "limit :start, ";
@@ -101,11 +103,11 @@ class Suppliers
         try {
             $sql = "select * from ";
             $sql .= "{$this->tblSuppliers} ";
-            $sql .= "where suppliers_company_name like :suppliers_company_name "; 
+            $sql .= "where suppliers_company_name like :suppliers_company_name ";
             $sql .= "order by suppliers_company_name asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "suppliers_company_name" => "{$this->suppliers_search}%", 
+                "suppliers_company_name" => "{$this->suppliers_search}%",
             ]);
         } catch (PDOException $ex) {
             $query = false;
@@ -137,17 +139,17 @@ class Suppliers
         try {
             $sql = "update {$this->tblSuppliers} set ";
             $sql .= "suppliers_company_name = :suppliers_company_name, ";
-            $sql .= "suppliers_company_address = :suppliers_company_address, "; 
-            $sql .= "suppliers_contact_person = :suppliers_contact_person, "; 
-            $sql .= "suppliers_contact_num = :suppliers_contact_num, "; 
+            $sql .= "suppliers_company_address = :suppliers_company_address, ";
+            $sql .= "suppliers_contact_person = :suppliers_contact_person, ";
+            $sql .= "suppliers_contact_num = :suppliers_contact_num, ";
             $sql .= "suppliers_datetime = :suppliers_datetime ";
             $sql .= "where suppliers_aid = :suppliers_aid ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "suppliers_company_name" => $this->suppliers_company_name,
-                "suppliers_company_address" => $this->suppliers_company_address, 
-                "suppliers_contact_person" => $this->suppliers_contact_person, 
-                "suppliers_contact_num" => $this->suppliers_contact_num, 
+                "suppliers_company_address" => $this->suppliers_company_address,
+                "suppliers_contact_person" => $this->suppliers_contact_person,
+                "suppliers_contact_num" => $this->suppliers_contact_num,
                 "suppliers_datetime" => $this->suppliers_datetime,
                 "suppliers_aid" => $this->suppliers_aid,
             ]);
@@ -162,10 +164,10 @@ class Suppliers
     {
         try {
             $sql = "select suppliers_company_name from {$this->tblSuppliers} ";
-            $sql .= "where suppliers_company_name = :suppliers_company_name "; 
+            $sql .= "where suppliers_company_name = :suppliers_company_name ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "suppliers_company_name" => "{$this->suppliers_company_name}", 
+                "suppliers_company_name" => "{$this->suppliers_company_name}",
             ]);
         } catch (PDOException $ex) {
             $query = false;
@@ -203,6 +205,23 @@ class Suppliers
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "suppliers_aid" => $this->suppliers_aid,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+    // read all in stock
+    public function checkAssociation()
+    {
+        try {
+            $sql = "select suppliers_products_suppliers_id from ";
+            $sql .= "{$this->tblSuppliersProducts} ";
+            $sql .= "where suppliers_products_suppliers_id = :suppliers_products_suppliers_id ";
+            $sql .= "order by suppliers_products_suppliers_id desc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "suppliers_products_suppliers_id" => $this->suppliers_aid,
             ]);
         } catch (PDOException $ex) {
             $query = false;

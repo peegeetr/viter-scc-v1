@@ -12,13 +12,12 @@ import ServerError from "../../../partials/ServerError";
 import ModalDeleteRestore from "../../../partials/modals/ModalDeleteRestore";
 import TableSpinner from "../../../partials/spinners/TableSpinner";
 import ModalUpdateProducts from "./ModalUpdateProducts";
+import useQueryData from "../../../custom-hooks/useQueryData";
+import { getRemaningQuantity } from "./functions-product";
 
 const ProductsList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [itemEdit, setItemEdit] = React.useState(null);
-  const [dataItem, setData] = React.useState(null);
-  const [id, setId] = React.useState(null);
-  const [isDel, setDel] = React.useState(false);
   const [onSearch, setOnSearch] = React.useState(false);
   const [page, setPage] = React.useState(1);
   const search = React.useRef(null);
@@ -64,6 +63,18 @@ const ProductsList = () => {
     setItemEdit(item);
   };
 
+  // use if not loadmore button undertime
+  const { data: stocksGroupProd } = useQueryData(
+    `/v1/stocks/group-by-prod`, // endpoint
+    "get", // method
+    "stocksGroupProd" // key
+  );
+  // use if not loadmore button undertime
+  const { data: orderGroupProd } = useQueryData(
+    `/v1/orders/group-by-prod`, // endpoint
+    "get", // method
+    "orderGroupProd" // key
+  );
   return (
     <>
       <SearchBar
@@ -113,12 +124,20 @@ const ProductsList = () => {
                 {page.data.map((item, key) => (
                   <tr key={key}>
                     <td> {counter++}.</td>
-                    <td>{item.suppliers_products_number}</td>
+                    <td className="uppercase">
+                      {item.suppliers_products_number}
+                    </td>
                     <td>{item.suppliers_products_name}</td>
                     <td>{item.suppliers_products_price}</td>
                     <td>{item.suppliers_products_scc_price}</td>
                     <td>{item.suppliers_products_market_price}</td>
-                    <td>0</td>
+                    <td>
+                      {getRemaningQuantity(
+                        item,
+                        stocksGroupProd,
+                        orderGroupProd
+                      )}
+                    </td>
                     <td className=" text-right">
                       <div className="gap-1">
                         <button

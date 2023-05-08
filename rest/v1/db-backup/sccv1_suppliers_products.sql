@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 19, 2023 at 10:37 AM
+-- Generation Time: May 08, 2023 at 09:44 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -30,7 +30,10 @@ SET time_zone = "+00:00";
 CREATE TABLE `sccv1_suppliers_products` (
   `suppliers_products_aid` int(11) NOT NULL,
   `suppliers_products_name` varchar(100) NOT NULL,
+  `suppliers_products_number` varchar(20) NOT NULL,
   `suppliers_products_price` varchar(50) NOT NULL,
+  `suppliers_products_scc_price` varchar(20) NOT NULL,
+  `suppliers_products_market_price` varchar(20) NOT NULL,
   `suppliers_products_category_id` varchar(20) NOT NULL,
   `suppliers_products_suppliers_id` varchar(20) NOT NULL,
   `suppliers_products_created` datetime NOT NULL,
@@ -41,9 +44,15 @@ CREATE TABLE `sccv1_suppliers_products` (
 -- Dumping data for table `sccv1_suppliers_products`
 --
 
-INSERT INTO `sccv1_suppliers_products` (`suppliers_products_aid`, `suppliers_products_name`, `suppliers_products_price`, `suppliers_products_category_id`, `suppliers_products_suppliers_id`, `suppliers_products_created`, `suppliers_products_datetime`) VALUES
-(1, 'rices', '10', '2', '1', '2023-04-19 16:33:26', '2023-04-19 16:33:26'),
-(2, 'oil', '20', '1', '1', '2023-04-19 16:33:42', '2023-04-19 16:33:42');
+INSERT INTO `sccv1_suppliers_products` (`suppliers_products_aid`, `suppliers_products_name`, `suppliers_products_number`, `suppliers_products_price`, `suppliers_products_scc_price`, `suppliers_products_market_price`, `suppliers_products_category_id`, `suppliers_products_suppliers_id`, `suppliers_products_created`, `suppliers_products_datetime`) VALUES
+(5, 'alamang', 'prod-001', '80', '85', '90', '2', '1', '2023-04-24 16:48:33', '2023-05-08 11:54:26'),
+(6, 'egg small', 'prod-002', '190', '195', '200', '1', '2', '2023-04-26 17:05:46', '2023-05-08 12:29:38'),
+(7, 'egg medium', 'prod-003', '205', '210', '215', '1', '2', '2023-04-26 17:05:54', '2023-05-08 12:44:58'),
+(8, 'egg large', 'prod-004', '230', '235', '240', '1', '2', '2023-05-08 11:51:29', '2023-05-08 12:24:04'),
+(9, 'chili garlic paste', 'prod-005', '80', '85', '90', '2', '1', '2023-05-08 11:52:42', '2023-05-08 12:23:41'),
+(10, 'kimchi', 'prod-006', '110', '115', '120', '2', '1', '2023-05-08 11:53:03', '2023-05-08 12:29:52'),
+(11, 'dishwashing liquid', 'prod-007', '30', '35', '40', '3', '1', '2023-05-08 11:53:36', '2023-05-08 12:23:51'),
+(13, 'walis ting-ting', 'prod-008', '25', '', '', '3', '1', '2023-05-08 13:57:31', '2023-05-08 13:57:31');
 
 --
 -- Indexes for dumped tables
@@ -63,7 +72,7 @@ ALTER TABLE `sccv1_suppliers_products`
 -- AUTO_INCREMENT for table `sccv1_suppliers_products`
 --
 ALTER TABLE `sccv1_suppliers_products`
-  MODIFY `suppliers_products_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `suppliers_products_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

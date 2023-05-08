@@ -1,5 +1,6 @@
 <?php
 // check database connection
+require 'functions.php';
 $conn = null;
 $conn = checkDbConnection();
 // make instance of classes
@@ -15,9 +16,9 @@ if (array_key_exists("orderid", $_GET)) {
 
     //check to see if task id in query string is not empty and is number, if not return json error
     checkId($order->orders_aid);
-    // // update sold if remove
-    // checkUpdateQunatity($order);
+    // // update sold if remove 
     // delete
+    checkDeleteSales($order);
     $query = checkDelete($order);
 
     returnSuccess($order, "order", $query);

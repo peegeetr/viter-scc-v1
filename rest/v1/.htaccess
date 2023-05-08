@@ -86,6 +86,7 @@ RewriteRule ^stocks/([0-9]+)$ controllers/inventory/stocks/stocks.php?stockid=$1
 RewriteRule ^stocks/active/([0-9]+)$ controllers/inventory/stocks/active.php?stockid=$1 [L]
 RewriteRule ^stocks/page/([0-9]+)$ controllers/inventory/stocks/page.php?start=$1 [L]
 RewriteRule ^stocks/search/([A-Za-z0-9-]+)$ controllers/inventory/stocks/search.php?search=$1 [L]
+RewriteRule ^stocks/group-by-prod$ controllers/inventory/stocks/group-by-product-number.php [L]
 
 #Net Surplus
 RewriteRule ^net-surplus$ controllers/settings/net-surplus/net-surplus.php [L]
@@ -106,6 +107,7 @@ RewriteRule ^orders/([0-9]+)$ controllers/inventory/orders/orders.php?orderid=$1
 RewriteRule ^orders/active/([0-9]+)$ controllers/inventory/orders/active.php?orderid=$1 [L]
 RewriteRule ^orders/page/([0-9]+)$ controllers/inventory/orders/page.php?start=$1 [L]
 RewriteRule ^orders/search/([A-Za-z0-9-]+)$ controllers/inventory/orders/search.php?search=$1 [L]
+RewriteRule ^orders/group-by-prod$ controllers/inventory/orders/group-by-product-number.php [L]
    
 #suppliers 
 RewriteRule ^suppliers$ controllers/inventory/suppliers/suppliers.php [L]

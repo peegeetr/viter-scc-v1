@@ -15,8 +15,9 @@ if (array_key_exists("categoryid", $_GET)) {
 
     //check to see if task id in query string is not empty and is number, if not return json error
     checkId($category->product_category_aid);
- 
+
     // delete
+    isAssociated($category);
     $query = checkDelete($category);
 
     returnSuccess($category, "Category", $query);

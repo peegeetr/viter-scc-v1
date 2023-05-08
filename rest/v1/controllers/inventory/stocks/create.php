@@ -25,7 +25,7 @@ $id = "";
 $stocksLastId = $stocks->readLastStockId();
 if ($stocksLastId->rowCount() == 0) {
     // create new id
-    $formattedStockId = "Stc" . "-" . "001";
+    $formattedStockId = "stc" . "-" . "001";
 } else {
 
     $row = $stocksLastId->fetch(PDO::FETCH_ASSOC);
@@ -42,7 +42,7 @@ if ($stocksLastId->rowCount() == 0) {
         $id = $lastId;
     }
 
-    $formattedStockId =  "Stc" . "-" . $id;
+    $formattedStockId =  "stc" . "-" . $id;
 }
 
 

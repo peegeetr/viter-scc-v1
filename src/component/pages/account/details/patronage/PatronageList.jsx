@@ -16,6 +16,8 @@ import SearchBar from "../../../../partials/SearchBar";
 import ServerError from "../../../../partials/ServerError";
 import ModalDeleteRestore from "../../../../partials/modals/ModalDeleteRestore";
 import TableSpinner from "../../../../partials/spinners/TableSpinner";
+import StatusPending from "../../../../partials/status/StatusPending";
+import StatusActive from "../../../../partials/status/StatusActive";
 
 const PatronageList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -63,18 +65,6 @@ const PatronageList = ({ setItemEdit }) => {
     }
   }, [inView]);
 
-  const handleEdit = (item) => {
-    dispatch(setIsAdd(true));
-    setItemEdit(item);
-  };
-
-  const handleDelete = (item) => {
-    dispatch(setIsRestore(true));
-    setId(item.patronage_aid);
-    setData(item);
-    setDel(true);
-  };
-  console.log(result);
   return (
     <>
       <SearchBar
@@ -91,20 +81,19 @@ const PatronageList = ({ setItemEdit }) => {
           <thead>
             <tr>
               <th>#</th>
-              <th className="w-[15rem] ">Order number</th>
-              <th className="w-[15rem]">OR number</th>
-              <th className="w-[15rem]">Date</th>
-              <th className="w-[15rem]">Product Name</th>
-              <th className="w-[15rem]">Quantity</th>
-              <th className="w-[15rem]">Price</th>
-              {store.credentials.data.role_is_member === 0 && (
-                <th className="max-w-[5rem]">Actions</th>
-              )}
+              <th className="min-w-[8rem]">Sale Number</th>
+              <th className="min-w-[8rem]">Order Number</th>
+              <th className="min-w-[8rem]">Product Name</th>
+              <th className="min-w-[10rem] text-right pr-4">Amount</th>
+              <th className="min-w-[10rem] text-right pr-4">Recieve Amount</th>
+              <th className="min-w-[10rem]">Official Receipt</th>
+              <th className="min-w-[8rem]">Recieve Date</th>
+              <th>Status</th>
             </tr>
           </thead>
           <tbody>
             {(status === "loading" || result?.pages[0].data.length === 0) && (
-              <tr className="text-center ">
+              <tr className="text-center relative">
                 <td colSpan="100%" className="p-10">
                   {status === "loading" && <TableSpinner />}
                   <NoData />
@@ -118,38 +107,35 @@ const PatronageList = ({ setItemEdit }) => {
                 </td>
               </tr>
             )}
+
             {result?.pages.map((page, key) => (
               <React.Fragment key={key}>
                 {page.data.map((item, key) => (
                   <tr key={key}>
-                    <td>{counter++}.</td>
+                    <td> {counter++}.</td>
+                    <td className="uppercase">{item.sales_number}</td>
                     <td className="uppercase">{item.orders_number}</td>
-                    <td>{formatDate(item.orders_date)}</td>
                     <td>{item.suppliers_products_name}</td>
-                    <td>{item.orders_product_quantity}</td>
-                    <td>{item.orders_product_amount}</td>
-                    {store.credentials.data.role_is_member === 0 && (
-                      <td>
-                        <div className="flex items-center gap-1">
-                          <button
-                            type="button"
-                            className="btn-action-table tooltip-action-table"
-                            data-tooltip="Edit"
-                            onClick={() => handleEdit(item)}
-                          >
-                            <FaEdit />
-                          </button>
-                          <button
-                            type="button"
-                            className="btn-action-table tooltip-action-table"
-                            data-tooltip="Delete"
-                            onClick={() => handleDelete(item)}
-                          >
-                            <FaTrash />
-                          </button>
-                        </div>
-                      </td>
-                    )}
+                    <td className="text-right pr-4">
+                      {item.orders_product_amount}
+                    </td>
+
+                    <td className=" text-right pr-4">
+                      {item.sales_receive_amount}
+                    </td>
+                    <td>{item.sales_or}</td>
+                    <td>
+                      {item.sales_date === ""
+                        ? ""
+                        : formatDate(item.sales_date)}
+                    </td>
+                    <td>
+                      {item.sales_is_paid === 1 ? (
+                        <StatusActive text="Paid" />
+                      ) : (
+                        <StatusPending />
+                      )}
+                    </td>
                   </tr>
                 ))}
               </React.Fragment>
@@ -166,17 +152,6 @@ const PatronageList = ({ setItemEdit }) => {
           refView={ref}
         />
       </div>
-
-      {store.isRestore && (
-        <ModalDeleteRestore
-          id={id}
-          isDel={isDel}
-          mysqlApiDelete={`/v1/patronage/${id}`}
-          msg={"Are you sure you want to delete "}
-          item={`${dataItem.patronage_date}`}
-          arrKey="patronage"
-        />
-      )}
     </>
   );
 };

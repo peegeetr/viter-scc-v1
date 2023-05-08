@@ -45,7 +45,7 @@ const Orders = () => {
         </div>
         <Footer />
       </div>
-      {store.isAdd && <ModalAddOrders item={itemEdit} />}
+      {store.isAdd && <ModalAddOrders item={itemEdit} arrKey="orders" />}
       {store.success && <ModalSuccess />}
       {store.error && <ModalError />}
     </>

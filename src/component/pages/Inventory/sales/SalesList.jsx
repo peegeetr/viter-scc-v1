@@ -1,19 +1,19 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import React from "react";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaEdit, FaHistory } from "react-icons/fa";
 import { useInView } from "react-intersection-observer";
-import { setIsAdd, setIsRestore } from "../../../../store/StoreAction";
+import { setIsConfirm, setIsRestore } from "../../../../store/StoreAction";
 import { StoreContext } from "../../../../store/StoreContext";
+import { formatDate } from "../../../helpers/functions-general";
 import { queryDataInfinite } from "../../../helpers/queryDataInfinite";
 import Loadmore from "../../../partials/Loadmore";
 import NoData from "../../../partials/NoData";
 import SearchBar from "../../../partials/SearchBar";
 import ServerError from "../../../partials/ServerError";
-import ModalDeleteRestore from "../../../partials/modals/ModalDeleteRestore";
 import TableSpinner from "../../../partials/spinners/TableSpinner";
-import { formatDate } from "../../../helpers/functions-general";
 import StatusActive from "../../../partials/status/StatusActive";
 import StatusPending from "../../../partials/status/StatusPending";
+import ModalDeleteRestore from "../../../partials/modals/ModalDeleteRestore";
 
 const SalesList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -60,18 +60,16 @@ const SalesList = ({ setItemEdit }) => {
   }, [inView]);
 
   const handleEdit = (item) => {
-    dispatch(setIsAdd(true));
+    dispatch(setIsConfirm(true));
     setItemEdit(item);
   };
 
-  const handleDelete = (item) => {
+  const handleRestore = (item) => {
     dispatch(setIsRestore(true));
     setId(item.sales_aid);
     setData(item);
-    setDel(true);
+    setDel(null);
   };
-
-  console.log(result);
   return (
     <>
       <SearchBar
@@ -90,19 +88,19 @@ const SalesList = ({ setItemEdit }) => {
           <thead>
             <tr>
               <th>#</th>
-              <th>Name</th>
-              <th>Sale Number</th>
-              <th>Order Number</th>
-              <th>Amount</th>
-              <th>Recieve Date</th>
-              <th>Product</th>
-              <th>Recieve Amount</th>
-              <th>Official Receipt</th>
-              <th className="min-w-[15rem]">Status</th>
+              <th className="min-w-[10rem]">Name</th>
+              <th className="min-w-[8rem]">Sale Number</th>
+              <th className="min-w-[8rem]">Order Number</th>
+              <th className="min-w-[8rem]">Product Name</th>
+              <th className="min-w-[10rem] text-right pr-4">Amount</th>
+              <th className="min-w-[10rem] text-right pr-4">Recieve Amount</th>
+              <th className="min-w-[10rem]">Official Receipt</th>
+              <th className="min-w-[8rem]">Recieve Date</th>
+              <th>Status</th>
 
               {(store.credentials.data.role_is_admin === 1 ||
                 store.credentials.data.role_is_developer === 1) && (
-                <th className="max-w-[5rem]">Actions</th>
+                <th className="max-w-[5rem] text-right">Actions</th>
               )}
             </tr>
           </thead>
@@ -129,12 +127,22 @@ const SalesList = ({ setItemEdit }) => {
                   <tr key={key}>
                     <td> {counter++}.</td>
                     <td>{`${item.members_last_name}, ${item.members_first_name}`}</td>
-                    <td>{item.sales_number}</td>
-                    <td>{item.orders_number}</td>
-                    <td>{item.sales_product_amount}</td>
-                    <td>{formatDate(item.sales_date)}</td>
-                    <td>{item.sales_receive_amount}</td>
+                    <td className="uppercase">{item.sales_number}</td>
+                    <td className="uppercase">{item.orders_number}</td>
+                    <td>{item.suppliers_products_name}</td>
+                    <td className="text-right pr-4">
+                      {item.orders_product_amount}
+                    </td>
+
+                    <td className=" text-right pr-4">
+                      {item.sales_receive_amount}
+                    </td>
                     <td>{item.sales_or}</td>
+                    <td>
+                      {item.sales_date === ""
+                        ? ""
+                        : formatDate(item.sales_date)}
+                    </td>
                     <td>
                       {item.sales_is_paid === 1 ? (
                         <StatusActive text="Paid" />
@@ -145,8 +153,17 @@ const SalesList = ({ setItemEdit }) => {
 
                     {(store.credentials.data.role_is_admin === 1 ||
                       store.credentials.data.role_is_developer === 1) && (
-                      <td>
-                        <div className="flex items-center gap-1">
+                      <td className="text-right">
+                        {item.sales_is_paid === 1 ? (
+                          <button
+                            type="button"
+                            className="btn-action-table tooltip-action-table"
+                            data-tooltip="restore"
+                            onClick={() => handleRestore(item)}
+                          >
+                            <FaHistory />
+                          </button>
+                        ) : (
                           <button
                             type="button"
                             className="btn-action-table tooltip-action-table"
@@ -155,15 +172,7 @@ const SalesList = ({ setItemEdit }) => {
                           >
                             <FaEdit />
                           </button>
-                          <button
-                            type="button"
-                            className="btn-action-table tooltip-action-table"
-                            data-tooltip="Delete"
-                            onClick={() => handleDelete(item)}
-                          >
-                            <FaTrash />
-                          </button>
-                        </div>
+                        )}
                       </td>
                     )}
                   </tr>
@@ -184,14 +193,19 @@ const SalesList = ({ setItemEdit }) => {
           refView={ref}
         />
       </div>
-
       {store.isRestore && (
         <ModalDeleteRestore
           id={id}
           isDel={isDel}
           mysqlApiDelete={`/v1/sales/${id}`}
-          msg={"Are you sure you want to delete this file"}
-          item={`${dataItem.sales_number}`}
+          mysqlApiRestore={`/v1/sales/active/${id}`}
+          msg={
+            isDel
+              ? "Are you sure you want to delete "
+              : "Are you sure you want to restore payment "
+          }
+          item={`${dataItem.suppliers_products_name}`}
+          orderId={`${dataItem.orders_aid}`}
           arrKey="sales"
         />
       )}

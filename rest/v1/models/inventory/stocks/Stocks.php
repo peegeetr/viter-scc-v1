@@ -87,7 +87,8 @@ class Stocks
             $sql .= "{$this->tblSuppliersProducts} as supplierProduct ";
             $sql .= "where stocks.stocks_product_id = supplierProduct.suppliers_products_aid ";
             $sql .= "and suppliers.suppliers_aid = supplierProduct.suppliers_products_suppliers_id ";
-            $sql .= "order by stocks.stocks_number asc ";
+            $sql .= "order by stocks.stocks_is_pending, ";
+            $sql .= "stocks.stocks_number asc ";
             $query = $this->connection->query($sql);
         } catch (PDOException $ex) {
             $query = false;
@@ -116,7 +117,8 @@ class Stocks
             $sql .= "{$this->tblSuppliersProducts} as supplierProduct ";
             $sql .= "where stocks.stocks_product_id = supplierProduct.suppliers_products_aid ";
             $sql .= "and suppliers.suppliers_aid = supplierProduct.suppliers_products_suppliers_id ";
-            $sql .= "order by stocks.stocks_number asc ";
+            $sql .= "order by stocks.stocks_is_pending, ";
+            $sql .= "stocks.stocks_number asc ";
             $sql .= "limit :start, ";
             $sql .= ":total ";
             $query = $this->connection->prepare($sql);
@@ -156,7 +158,8 @@ class Stocks
             $sql .= "or supplierProduct.suppliers_products_number like :suppliers_products_number ";
             $sql .= "or suppliers.suppliers_company_name like :suppliers_company_name ";
             $sql .= "or supplierProduct.suppliers_products_name like :suppliers_products_name) ";
-            $sql .= "order by stocks_number asc ";
+            $sql .= "order by stocks.stocks_is_pending, ";
+            $sql .= "stocks.stocks_number asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "stocks_number" => "{$this->stocks_search}%",
@@ -260,6 +263,27 @@ class Stocks
                 "stocks_datetime" => $this->stocks_datetime,
                 "stocks_aid" => $this->stocks_aid,
             ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    // Read by product id
+    public function readAllGroupByProductNumber()
+    {
+        try {
+            $sql = "select ";
+            $sql .= "stocks_quantity, ";
+            $sql .= "stocks_aid, ";
+            $sql .= "stocks_product_id, ";
+            $sql .= "sum(stocks_quantity) as stockQuantity, ";
+            $sql .= "count(stocks_product_id) as count ";
+            $sql .= "from ";
+            $sql .= "{$this->tblStocks} ";
+            $sql .= "group by stocks_product_id ";
+            $sql .= "order by stocks_number asc ";
+            $query = $this->connection->query($sql);
         } catch (PDOException $ex) {
             $query = false;
         }

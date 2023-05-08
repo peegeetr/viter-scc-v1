@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 19, 2023 at 10:37 AM
+-- Generation Time: May 08, 2023 at 09:43 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -43,7 +43,8 @@ CREATE TABLE `sccv1_suppliers` (
 --
 
 INSERT INTO `sccv1_suppliers` (`suppliers_aid`, `suppliers_company_name`, `suppliers_is_active`, `suppliers_company_address`, `suppliers_contact_person`, `suppliers_contact_num`, `suppliers_created`, `suppliers_datetime`) VALUES
-(1, 'fbs', 1, 'Brgy, San Ignaio', 'maja', '031231324657', '2023-04-19 16:29:03', '2023-04-19 16:29:03');
+(1, 'fbs', 1, 'Brgy, San Ignaio', 'maja', '031231324657', '2023-04-19 16:29:03', '2023-04-19 16:29:03'),
+(2, 'fca', 1, 'Brgy, San Cristobal', 'Luffy', '090956132654', '2023-04-26 17:05:37', '2023-04-26 17:05:37');
 
 --
 -- Indexes for dumped tables
@@ -63,7 +64,7 @@ ALTER TABLE `sccv1_suppliers`
 -- AUTO_INCREMENT for table `sccv1_suppliers`
 --
 ALTER TABLE `sccv1_suppliers`
-  MODIFY `suppliers_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `suppliers_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

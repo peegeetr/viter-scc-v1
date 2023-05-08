@@ -60,12 +60,6 @@ const ModalAddSuppliersProducts = ({ item }) => {
     suppliers_products_suppliers_id: supplierId,
     suppliers_products_name: item ? item.suppliers_products_name : "",
     suppliers_products_price: item ? item.suppliers_products_price : "",
-    suppliers_products_scc_price: item
-      ? item.suppliers_products_scc_price
-      : "0",
-    suppliers_products_market_price: item
-      ? item.suppliers_products_market_price
-      : "0",
     suppliers_products_category_id: item
       ? item.suppliers_products_category_id
       : "",

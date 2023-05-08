@@ -78,7 +78,7 @@ class Orders
         return $query;
     }
 
-    // create
+    // create Sales
     public function createSales()
     {
         try {
@@ -93,8 +93,6 @@ class Orders
             $sql .= ":sales_order_id, ";
             $sql .= ":sales_is_paid, ";
             $sql .= ":sales_number, ";
-            $sql .= ":sales_date, ";
-            $sql .= ":sales_or, ";
             $sql .= ":sales_created, ";
             $sql .= ":sales_datetime ) ";
             $query = $this->connection->prepare($sql);
@@ -106,11 +104,14 @@ class Orders
                 "sales_created" => $this->orders_created,
                 "sales_datetime" => $this->orders_datetime,
             ]);
+            $this->lastInsertedId = $this->connection->lastInsertId();
         } catch (PDOException $ex) {
             $query = false;
         }
         return $query;
     }
+
+
     // read all pending
     public function readAll()
     {
@@ -134,7 +135,8 @@ class Orders
             $sql .= "{$this->tblSuppliersProducts} as suppliersProducts ";
             $sql .= "where orders.orders_product_id = suppliersProducts.suppliers_products_aid ";
             $sql .= "and orders.orders_member_id = member.members_aid ";
-            $sql .= "order by orders.orders_date desc ";
+            $sql .= "order by orders.orders_is_paid, ";
+            $sql .= "orders.orders_date desc ";
             $query = $this->connection->query($sql);
         } catch (PDOException $ex) {
             $query = false;
@@ -164,7 +166,8 @@ class Orders
             $sql .= "{$this->tblSuppliersProducts} as suppliersProducts ";
             $sql .= "where orders.orders_product_id = suppliersProducts.suppliers_products_aid  ";
             $sql .= "and orders.orders_member_id = member.members_aid ";
-            $sql .= "order by orders.orders_date desc ";
+            $sql .= "order by orders.orders_is_paid, ";
+            $sql .= "orders.orders_date desc ";
             $sql .= "limit :start, ";
             $sql .= ":total ";
             $query = $this->connection->prepare($sql);
@@ -202,13 +205,16 @@ class Orders
             $sql .= "where orders.orders_product_id = suppliersProducts.suppliers_products_aid  ";
             $sql .= "and orders.orders_member_id = member.members_aid ";
             $sql .= "and (orders.orders_number like :orders_number ";
-            $sql .= "or MONTHNAME(orders.orders_date) like :orders_date ";
+            $sql .= "or MONTHNAME(orders.orders_date) like :orders_month_date ";
+            $sql .= "or orders.orders_date like :orders_date ";
             $sql .= "or member.members_last_name like :members_last_name ";
             $sql .= "or suppliersProducts.suppliers_products_name like :suppliers_products_name) ";
-            $sql .= "order by orders.orders_date desc ";
+            $sql .= "order by orders.orders_is_paid, ";
+            $sql .= "orders.orders_date desc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "suppliers_products_name" => "{$this->orders_search}%",
+                "orders_month_date" => "{$this->orders_search}%",
                 "orders_date" => "{$this->orders_search}%",
                 "orders_number" => "{$this->orders_search}%",
                 "members_last_name" => "{$this->orders_search}%",
@@ -245,18 +251,42 @@ class Orders
     public function searchById()
     {
         try {
-            $sql = "select * ";
+            $sql = "select suppliersProducts.suppliers_products_name, ";
+            $sql .= "orders.orders_aid, ";
+            $sql .= "orders.orders_number, ";
+            $sql .= "orders.orders_product_amount, ";
+            $sql .= "member.members_last_name, ";
+            $sql .= "member.members_first_name, ";
+            $sql .= "sales.sales_aid, ";
+            $sql .= "sales.sales_order_id, ";
+            $sql .= "sales.sales_number, ";
+            $sql .= "sales.sales_is_paid, ";
+            $sql .= "sales.sales_receive_amount, ";
+            $sql .= "sales.sales_or, ";
+            $sql .= "sales.sales_date, ";
+            $sql .= "sales.sales_member_id ";
             $sql .= "from {$this->tblOrders} as orders, ";
+            $sql .= "{$this->tblSales} as sales, ";
+            $sql .= "{$this->tblMembers} as member, ";
             $sql .= "{$this->tblSuppliersProducts} as suppliersProducts ";
             $sql .= "where orders.orders_member_id = :orders_member_id ";
-            $sql .= "and suppliersProducts.suppliers_products_aid = orders.orders_product_id ";
-            $sql .= "and (MONTHNAME(orders.orders_date) like :orders_date ";
+            $sql .= "and orders.orders_product_id = suppliersProducts.suppliers_products_aid ";
+            $sql .= "and orders.orders_aid = sales.sales_order_id ";
+            $sql .= "and orders.orders_member_id = member.members_aid ";
+            $sql .= "and (MONTHNAME(orders.orders_date) like :orders_month_date ";
+            $sql .= "or orders.orders_date like :orders_date ";
+            $sql .= "or sales.sales_number like :sales_number ";
+            $sql .= "or orders.orders_number like :orders_number ";
             $sql .= "or suppliersProducts.suppliers_products_name like :suppliers_products_name) ";
-            $sql .= "order by orders.orders_date desc ";
+            $sql .= "order by sales.sales_is_paid, ";
+            $sql .= "sales.sales_date desc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "orders_member_id" => $this->orders_member_id,
+                "orders_month_date" => "{$this->orders_search}%",
                 "orders_date" => "{$this->orders_search}%",
+                "sales_number" => "{$this->orders_search}%",
+                "orders_number" => "{$this->orders_search}%",
                 "suppliers_products_name" => "{$this->orders_search}%",
             ]);
         } catch (PDOException $ex) {
@@ -269,12 +299,30 @@ class Orders
     public function readById()
     {
         try {
-            $sql = "select * ";
+            $sql = "select suppliersProducts.suppliers_products_name, ";
+            $sql .= "orders.orders_aid, ";
+            $sql .= "orders.orders_number, ";
+            $sql .= "orders.orders_product_amount, ";
+            $sql .= "member.members_last_name, ";
+            $sql .= "member.members_first_name, ";
+            $sql .= "sales.sales_aid, ";
+            $sql .= "sales.sales_order_id, ";
+            $sql .= "sales.sales_number, ";
+            $sql .= "sales.sales_is_paid, ";
+            $sql .= "sales.sales_receive_amount, ";
+            $sql .= "sales.sales_or, ";
+            $sql .= "sales.sales_date, ";
+            $sql .= "sales.sales_member_id ";
             $sql .= "from {$this->tblOrders} as orders, ";
+            $sql .= "{$this->tblSales} as sales, ";
+            $sql .= "{$this->tblMembers} as member, ";
             $sql .= "{$this->tblSuppliersProducts} as suppliersProducts ";
             $sql .= "where orders.orders_member_id = :orders_member_id ";
-            $sql .= "and suppliersProducts.suppliers_products_aid = orders.orders_product_id ";
-            $sql .= "order by orders.orders_date desc ";
+            $sql .= "and orders.orders_product_id = suppliersProducts.suppliers_products_aid ";
+            $sql .= "and orders.orders_aid = sales.sales_order_id ";
+            $sql .= "and orders.orders_member_id = member.members_aid ";
+            $sql .= "order by sales.sales_is_paid, ";
+            $sql .= "sales.sales_date desc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "orders_member_id" => $this->orders_member_id,
@@ -288,12 +336,30 @@ class Orders
     public function readLimitById()
     {
         try {
-            $sql = "select * ";
+            $sql = "select suppliersProducts.suppliers_products_name, ";
+            $sql .= "orders.orders_aid, ";
+            $sql .= "orders.orders_number, ";
+            $sql .= "orders.orders_product_amount, ";
+            $sql .= "member.members_last_name, ";
+            $sql .= "member.members_first_name, ";
+            $sql .= "sales.sales_aid, ";
+            $sql .= "sales.sales_order_id, ";
+            $sql .= "sales.sales_number, ";
+            $sql .= "sales.sales_is_paid, ";
+            $sql .= "sales.sales_receive_amount, ";
+            $sql .= "sales.sales_or, ";
+            $sql .= "sales.sales_date, ";
+            $sql .= "sales.sales_member_id ";
             $sql .= "from {$this->tblOrders} as orders, ";
+            $sql .= "{$this->tblSales} as sales, ";
+            $sql .= "{$this->tblMembers} as member, ";
             $sql .= "{$this->tblSuppliersProducts} as suppliersProducts ";
             $sql .= "where orders.orders_member_id = :orders_member_id ";
-            $sql .= "and suppliersProducts.suppliers_products_aid = orders.orders_product_id ";
-            $sql .= "order by orders.orders_date desc ";
+            $sql .= "and orders.orders_product_id = suppliersProducts.suppliers_products_aid ";
+            $sql .= "and orders.orders_aid = sales.sales_order_id ";
+            $sql .= "and orders.orders_member_id = member.members_aid ";
+            $sql .= "order by sales.sales_is_paid, ";
+            $sql .= "sales.sales_date desc ";
             $sql .= "limit :start, ";
             $sql .= ":total ";
             $query = $this->connection->prepare($sql);
@@ -361,8 +427,6 @@ class Orders
         return $query;
     }
 
-
-
     // delete
     public function delete()
     {
@@ -373,6 +437,43 @@ class Orders
             $query->execute([
                 "orders_aid" => $this->orders_aid,
             ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    // delete
+    public function deleteSales()
+    {
+        try {
+            $sql = "delete from {$this->tblSales} ";
+            $sql .= "where sales_order_id = :sales_order_id ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "sales_order_id" => $this->orders_aid,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    // read all pending
+    public function readAllGroupByProductNumber()
+    {
+        try {
+            $sql = "select ";
+            $sql .= "orders_aid, ";
+            $sql .= "orders_product_id, ";
+            $sql .= "count(orders_product_id) as count, ";
+            $sql .= "sum(orders_product_quantity) as orderQuantity, ";
+            $sql .= "orders_product_quantity ";
+            $sql .= "from {$this->tblOrders} ";
+            $sql .= "group by orders_product_id ";
+            $sql .= "order by orders_is_paid, ";
+            $sql .= "orders_date desc ";
+            $query = $this->connection->query($sql);
         } catch (PDOException $ex) {
             $query = false;
         }

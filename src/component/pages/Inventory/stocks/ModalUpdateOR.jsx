@@ -76,7 +76,9 @@ const ModalUpdateOR = ({
             </span>
             <span className="text-sm font-bold">{msg}</span>
             <br />
-            <span className="text-sm font-bold break-all">"{item}" ?</span>
+            <span className="text-sm font-bold break-all">
+              {item}? if yes, enter Official Receipt
+            </span>
 
             <div className="bg-white rounded-b-2xl">
               <Formik
@@ -99,7 +101,6 @@ const ModalUpdateOR = ({
                         />
                       </div>
 
-                      <p>You can't undo this action.</p>
                       <div className="flex items-center gap-1 pt-5">
                         <button
                           type="submit"

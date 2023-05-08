@@ -14,11 +14,13 @@ class Category
     public $product_category_search;
     public $currentYear;
     public $tblCategory;
+    public $tblSuppliersProducts;
 
     public function __construct($db)
     {
         $this->connection = $db;
         $this->tblCategory = "sccv1_product_category";
+        $this->tblSuppliersProducts = "sccv1_suppliers_products";
     }
 
     // create
@@ -185,6 +187,24 @@ class Category
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "product_category_aid" => $this->product_category_aid,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    // read all in stock
+    public function checkAssociation()
+    {
+        try {
+            $sql = "select suppliers_products_category_id from ";
+            $sql .= "{$this->tblSuppliersProducts} ";
+            $sql .= "where suppliers_products_category_id = :suppliers_products_category_id ";
+            $sql .= "order by suppliers_products_category_id desc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "suppliers_products_category_id" => $this->product_category_aid,
             ]);
         } catch (PDOException $ex) {
             $query = false;

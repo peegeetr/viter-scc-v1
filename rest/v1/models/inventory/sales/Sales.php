@@ -87,6 +87,8 @@ class Sales
             $sql .= "orders.orders_product_amount, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
+            $sql .= "sales.sales_aid, ";
+            $sql .= "sales.sales_order_id, ";
             $sql .= "sales.sales_number, ";
             $sql .= "sales.sales_is_paid, ";
             $sql .= "sales.sales_receive_amount, ";
@@ -101,7 +103,8 @@ class Sales
             $sql .= "and orders.orders_member_id = member.members_aid ";
             $sql .= "and sales.sales_member_id = member.members_aid ";
             $sql .= "and orders.orders_aid = sales.sales_order_id ";
-            $sql .= "order by orders.orders_date desc ";
+            $sql .= "order by sales.sales_is_paid, ";
+            $sql .= "sales.sales_date desc ";
             $query = $this->connection->query($sql);
         } catch (PDOException $ex) {
             $query = false;
@@ -118,6 +121,8 @@ class Sales
             $sql .= "orders.orders_product_amount, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
+            $sql .= "sales.sales_aid, ";
+            $sql .= "sales.sales_order_id, ";
             $sql .= "sales.sales_number, ";
             $sql .= "sales.sales_is_paid, ";
             $sql .= "sales.sales_receive_amount, ";
@@ -132,7 +137,8 @@ class Sales
             $sql .= "and orders.orders_aid = sales.sales_order_id ";
             $sql .= "and orders.orders_member_id = member.members_aid ";
             $sql .= "and sales.sales_member_id = member.members_aid ";
-            $sql .= "order by orders.orders_date desc ";
+            $sql .= "order by sales.sales_is_paid, ";
+            $sql .= "sales.sales_date desc ";
             $sql .= "limit :start, ";
             $sql .= ":total ";
             $query = $this->connection->prepare($sql);
@@ -156,6 +162,8 @@ class Sales
             $sql .= "orders.orders_product_amount, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
+            $sql .= "sales.sales_aid, ";
+            $sql .= "sales.sales_order_id, ";
             $sql .= "sales.sales_number, ";
             $sql .= "sales.sales_is_paid, ";
             $sql .= "sales.sales_receive_amount, ";
@@ -175,7 +183,8 @@ class Sales
             $sql .= "or MONTHNAME(orders.orders_date) like :orders_date ";
             $sql .= "or MONTHNAME(sales.sales_date) like :sales_date ";
             $sql .= "or suppliersProducts.suppliers_products_name like :suppliers_products_name) ";
-            $sql .= "order by sales.sales_date desc ";
+            $sql .= "order by sales.sales_is_paid, ";
+            $sql .= "sales.sales_date desc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "suppliers_products_name" => "{$this->sales_search}%",
@@ -200,6 +209,8 @@ class Sales
             $sql .= "orders.orders_product_amount, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
+            $sql .= "sales.sales_aid, ";
+            $sql .= "sales.sales_order_id, ";
             $sql .= "sales.sales_number, ";
             $sql .= "sales.sales_is_paid, ";
             $sql .= "sales.sales_receive_amount, ";
@@ -213,8 +224,11 @@ class Sales
             $sql .= "where orders.orders_product_id = suppliersProducts.suppliers_products_aid ";
             $sql .= "and orders.orders_member_id = :orders_member_id ";
             $sql .= "and sales.sales_member_id = :sales_member_id ";
+            $sql .= "and orders.orders_member_id = member.members_aid ";
+            $sql .= "and sales.sales_member_id = member.members_aid ";
             $sql .= "and orders.orders_aid = sales.sales_order_id ";
-            $sql .= "order by orders.orders_date desc ";
+            $sql .= "order by sales.sales_is_paid, ";
+            $sql .= "sales.sales_date desc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "orders_member_id" => $this->sales_member_id,
@@ -235,6 +249,8 @@ class Sales
             $sql .= "orders.orders_product_amount, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
+            $sql .= "sales.sales_aid, ";
+            $sql .= "sales.sales_order_id, ";
             $sql .= "sales.sales_number, ";
             $sql .= "sales.sales_is_paid, ";
             $sql .= "sales.sales_receive_amount, ";
@@ -248,8 +264,11 @@ class Sales
             $sql .= "where orders.orders_product_id = suppliersProducts.suppliers_products_aid ";
             $sql .= "and orders.orders_member_id = :orders_member_id ";
             $sql .= "and sales.sales_member_id = :sales_member_id ";
+            $sql .= "and orders.orders_member_id = member.members_aid ";
+            $sql .= "and sales.sales_member_id = member.members_aid ";
             $sql .= "and orders.orders_aid = sales.sales_order_id ";
-            $sql .= "order by orders.orders_date desc ";
+            $sql .= "order by sales.sales_is_paid, ";
+            $sql .= "sales.sales_date desc ";
             $sql .= "limit :start, ";
             $sql .= ":total ";
             $query = $this->connection->prepare($sql);
@@ -272,6 +291,7 @@ class Sales
             $sql .= "sales_receive_amount = :sales_receive_amount, ";
             $sql .= "sales_date = :sales_date, ";
             $sql .= "sales_or = :sales_or, ";
+            $sql .= "sales_is_paid = :sales_is_paid, ";
             $sql .= "sales_datetime = :sales_datetime ";
             $sql .= "where sales_aid = :sales_aid ";
             $query = $this->connection->prepare($sql);
@@ -279,6 +299,7 @@ class Sales
                 "sales_receive_amount" => $this->sales_receive_amount,
                 "sales_date" => $this->sales_date,
                 "sales_or" => $this->sales_or,
+                "sales_is_paid" => $this->sales_is_paid,
                 "sales_datetime" => $this->sales_datetime,
                 "sales_aid" => $this->sales_aid,
             ]);
@@ -310,6 +331,9 @@ class Sales
         try {
             $sql = "update {$this->tblSales} set ";
             $sql .= "sales_is_paid = :sales_is_paid, ";
+            $sql .= "sales_receive_amount =  '', ";
+            $sql .= "sales_or = '', ";
+            $sql .= "sales_date = '', ";
             $sql .= "sales_datetime = :sales_datetime ";
             $sql .= "where sales_aid = :sales_aid ";
             $query = $this->connection->prepare($sql);
@@ -328,7 +352,7 @@ class Sales
     public function isPaidOrder()
     {
         try {
-            $sql = "update {$this->tblSales} set ";
+            $sql = "update {$this->tblOrders} set ";
             $sql .= "orders_is_paid = :orders_is_paid, ";
             $sql .= "orders_datetime = :orders_datetime ";
             $sql .= "where orders_aid = :orders_aid ";
@@ -336,13 +360,14 @@ class Sales
             $query->execute([
                 "orders_is_paid" => $this->sales_is_paid,
                 "orders_datetime" => $this->sales_datetime,
-                // "orders_aid" => $this->orders_aid,
+                "orders_aid" => $this->sales_order_id,
             ]);
         } catch (PDOException $ex) {
             $query = false;
         }
         return $query;
     }
+
     // read all 
     public function readLastSalesId()
     {

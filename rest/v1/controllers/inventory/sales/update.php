@@ -13,17 +13,18 @@ if (array_key_exists("salesid", $_GET)) {
     checkPayload($data);
     // get ordersid from query string
     $sales->sales_aid = $_GET['salesid'];
+    $sales->sales_order_id = checkIndex($data, "sales_order_id");
     $sales->sales_receive_amount = checkIndex($data, "sales_receive_amount");
     $sales->sales_or = checkIndex($data, "sales_or");
-    $sales->sales_date = checkIndex($data, "orders_date");
+    $sales->sales_is_paid = 1;
+    $sales->sales_date = date("Y-m-d");
     $sales->sales_datetime = date("Y-m-d H:i:s");
 
-    // $sales->sold_product = checkIndex($data, "soldProduct");
-    // $sales->remaining_quantity = checkIndex($data, "remainingQuantity");
     //check to see if task id in query string is not empty and is number, if not return json error
     checkId($sales->sales_aid);
     // update 
     $query = checkUpdate($sales);
+    checkIsPaidOrder($sales);
     returnSuccess($sales, "Sales", $query);
 }
 

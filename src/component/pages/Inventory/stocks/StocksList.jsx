@@ -142,8 +142,10 @@ const StocksList = ({ setItemEdit }) => {
                 {page.data.map((item, key) => (
                   <tr key={key}>
                     <td> {counter++}.</td>
-                    <td>{item.stocks_number}</td>
-                    <td>{item.suppliers_products_number}</td>
+                    <td className="uppercase">{item.stocks_number}</td>
+                    <td className="uppercase">
+                      {item.suppliers_products_number}
+                    </td>
                     <td>{item.suppliers_company_name}</td>
                     <td>{item.suppliers_products_name}</td>
                     <td>{item.stocks_quantity}</td>

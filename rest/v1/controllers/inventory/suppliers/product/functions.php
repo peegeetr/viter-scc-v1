@@ -31,3 +31,11 @@ function checkReadByCategoryid($object)
     checkQuery($query, "Empty records.(Read by category id)");
     return $query;
 }
+
+// check association
+function isAssociatedInOrder($object)
+{
+    $query = $object->checkAssociationInOrder();
+    $count = $query->rowCount();
+    checkExistence($count, "You cannot delete this item because it is already associated with other module.");
+}

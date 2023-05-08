@@ -173,7 +173,8 @@ const suppliersList = ({ setItemEdit }) => {
             ))}
           </tbody>
         </table>
-
+      </div>
+      <div className="text-center">
         <Loadmore
           fetchNextPage={fetchNextPage}
           isFetchingNextPage={isFetchingNextPage}
@@ -190,7 +191,7 @@ const suppliersList = ({ setItemEdit }) => {
           id={id}
           isDel={isDel}
           mysqlApiDelete={`/v1/suppliers/${id}`}
-          msg={"Are you sure you want to delete this suppliers"}
+          msg={`Are you sure you want to delete this `}
           item={`${dataItem.suppliers_company_name}`}
           arrKey="suppliers"
         />

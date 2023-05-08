@@ -15,8 +15,9 @@ if (array_key_exists("supplierid", $_GET)) {
 
     //check to see if task id in query string is not empty and is number, if not return json error
     checkId($suppliers->suppliers_aid);
- 
+
     // delete
+    isAssociated($suppliers);
     $query = checkDelete($suppliers);
 
     returnSuccess($suppliers, "Suppliers", $query);

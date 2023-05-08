@@ -1,7 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import { FaQuestionCircle, FaTimesCircle } from "react-icons/fa";
-import { setIsRestore } from "../../../store/StoreAction";
+import {
+  setError,
+  setIsRestore,
+  setMessage,
+  setSuccess,
+} from "../../../store/StoreAction";
 import { StoreContext } from "../../../store/StoreContext";
 import { queryData } from "../../helpers/queryData";
 import ButtonSpinner from "../spinners/ButtonSpinner";
@@ -12,6 +17,7 @@ const ModalDeleteRestore = ({
   mysqlApiRestore,
   msg,
   item,
+  orderId = "0",
   isApproved = "active",
   arrKey,
 }) => {
@@ -25,10 +31,19 @@ const ModalDeleteRestore = ({
         isDel ? "delete" : "put",
         values
       ),
-    onSuccess: () => {
+    onSuccess: (data) => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: [arrKey] });
-      dispatch(setIsRestore(false));
+      if (data.success) {
+        dispatch(setIsRestore(false));
+        dispatch(setSuccess(true));
+        dispatch(setMessage(`Successfuly ${isDel ? "deleted." : "restore."}`));
+      }
+      // show error box
+      if (!data.success) {
+        dispatch(setError(true));
+        dispatch(setMessage(data.error));
+      }
     },
   });
 
@@ -41,6 +56,7 @@ const ModalDeleteRestore = ({
     mutation.mutate({
       isActive: 1,
       stocks_or: "",
+      sales_order_id: orderId,
       isApproved,
     });
   };

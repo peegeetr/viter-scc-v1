@@ -90,13 +90,14 @@ const OrdersList = ({ setItemEdit }) => {
           <thead>
             <tr>
               <th>#</th>
-              <th>Order Number</th>
-              <th>Name</th>
-              <th>Date</th>
-              <th>Product</th>
-              <th>Quantity</th>
-              <th>Price</th>
-              <th className="min-w-[15rem]">Status</th>
+              <th className="min-w-[10rem]">Order Number</th>
+              <th className="min-w-[10rem]">Name</th>
+              <th className="min-w-[8rem]">Date</th>
+              <th className="min-w-[8rem]">Product</th>
+              <th className="min-w-[8rem]">Quantity</th>
+              <th className="min-w-[8rem]">Price</th>
+              <th className="min-w-[8rem]">Total Price</th>
+              <th>Status</th>
 
               {(store.credentials.data.role_is_admin === 1 ||
                 store.credentials.data.role_is_developer === 1) && (
@@ -126,11 +127,12 @@ const OrdersList = ({ setItemEdit }) => {
                 {page.data.map((item, key) => (
                   <tr key={key}>
                     <td> {counter++}.</td>
-                    <td>{item.orders_number}</td>
+                    <td className="uppercase">{item.orders_number}</td>
                     <td>{`${item.members_last_name}, ${item.members_first_name}`}</td>
                     <td>{formatDate(item.orders_date)}</td>
                     <td>{item.suppliers_products_name}</td>
                     <td>{item.orders_product_quantity}</td>
+                    <td>{item.suppliers_products_scc_price}</td>
                     <td>{item.orders_product_amount}</td>
                     <td>
                       {item.orders_is_paid === 1 ? (
@@ -143,24 +145,26 @@ const OrdersList = ({ setItemEdit }) => {
                     {(store.credentials.data.role_is_admin === 1 ||
                       store.credentials.data.role_is_developer === 1) && (
                       <td>
-                        <div className="flex items-center gap-1">
-                          <button
-                            type="button"
-                            className="btn-action-table tooltip-action-table"
-                            data-tooltip="Edit"
-                            onClick={() => handleEdit(item)}
-                          >
-                            <FaEdit />
-                          </button>
-                          <button
-                            type="button"
-                            className="btn-action-table tooltip-action-table"
-                            data-tooltip="Delete"
-                            onClick={() => handleDelete(item)}
-                          >
-                            <FaTrash />
-                          </button>
-                        </div>
+                        {item.orders_is_paid === 0 && (
+                          <div className="flex items-center gap-1">
+                            <button
+                              type="button"
+                              className="btn-action-table tooltip-action-table"
+                              data-tooltip="Edit"
+                              onClick={() => handleEdit(item)}
+                            >
+                              <FaEdit />
+                            </button>
+                            <button
+                              type="button"
+                              className="btn-action-table tooltip-action-table"
+                              data-tooltip="Delete"
+                              onClick={() => handleDelete(item)}
+                            >
+                              <FaTrash />
+                            </button>
+                          </div>
+                        )}
                       </td>
                     )}
                   </tr>

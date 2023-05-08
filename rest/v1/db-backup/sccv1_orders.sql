@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 02, 2023 at 01:10 AM
+-- Generation Time: May 08, 2023 at 09:42 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -30,9 +30,9 @@ SET time_zone = "+00:00";
 CREATE TABLE `sccv1_orders` (
   `orders_aid` int(11) NOT NULL,
   `orders_number` varchar(20) NOT NULL,
+  `orders_is_paid` tinyint(1) NOT NULL,
   `orders_product_id` varchar(20) NOT NULL,
   `orders_member_id` varchar(20) NOT NULL,
-  `orders_or` varchar(100) NOT NULL,
   `orders_product_quantity` varchar(20) NOT NULL,
   `orders_product_amount` varchar(20) NOT NULL,
   `orders_date` varchar(20) NOT NULL,
@@ -44,8 +44,9 @@ CREATE TABLE `sccv1_orders` (
 -- Dumping data for table `sccv1_orders`
 --
 
-INSERT INTO `sccv1_orders` (`orders_aid`, `orders_number`, `orders_product_id`, `orders_member_id`, `orders_or`, `orders_product_quantity`, `orders_product_amount`, `orders_date`, `orders_created`, `orders_datetime`) VALUES
-(1, 'order-001', '5', '2', '1236547989', '2', '', '2023-04-19', '2023-04-19 16:38:51', '2023-04-19 16:38:51');
+INSERT INTO `sccv1_orders` (`orders_aid`, `orders_number`, `orders_is_paid`, `orders_product_id`, `orders_member_id`, `orders_product_quantity`, `orders_product_amount`, `orders_date`, `orders_created`, `orders_datetime`) VALUES
+(1, 'order-001', 0, '7', '2', '1', '210', '2023-05-08', '2023-05-08 09:59:35', '2023-05-08 15:03:38'),
+(3, 'order-002', 1, '5', '2', '2', '170', '2023-05-08', '2023-05-08 13:28:45', '2023-05-08 14:06:23');
 
 --
 -- Indexes for dumped tables
@@ -65,7 +66,7 @@ ALTER TABLE `sccv1_orders`
 -- AUTO_INCREMENT for table `sccv1_orders`
 --
 ALTER TABLE `sccv1_orders`
-  MODIFY `orders_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `orders_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

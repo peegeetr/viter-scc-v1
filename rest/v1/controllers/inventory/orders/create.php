@@ -41,7 +41,7 @@ if ($orderLastId->rowCount() == 0) {
 
 // create orders id format ex. (order-001) 
 $formattedSalesId = "";
-$id = "";
+$salesId = "";
 $salesLastId = $order->readLastSalesId();
 if ($salesLastId->rowCount() == 0) {
     // create new id
@@ -55,14 +55,14 @@ if ($salesLastId->rowCount() == 0) {
 
     $lastId =  intval($existingSalesId[1]) + 1;
     if ($lastId < 10) {
-        $id = "00" . $lastId;
+        $salesId = "00" . $lastId;
     } elseif ($lastId < 100) {
-        $id = "0" . $lastId;
+        $salesId = "0" . $lastId;
     } else {
-        $id = $lastId;
+        $salesId = $lastId;
     }
 
-    $formattedSalesId =  "sales" . "-" . $id;
+    $formattedSalesId =  "sales" . "-" . $salesId;
 }
 
 //check to see if search keyword in query string is not empty and less than 50 chars
@@ -80,7 +80,7 @@ $order->orders_is_paid = 0;
 $order->orders_created = date("Y-m-d H:i:s");
 $order->orders_datetime = date("Y-m-d H:i:s");
 
-// create 
+// create
 $query = checkCreate($order);
 checkCreateSales($order);
 

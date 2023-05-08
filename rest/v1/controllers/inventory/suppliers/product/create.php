@@ -18,7 +18,7 @@ $id = "";
 $productLastId = $suppliersProducts->readLastProductId();
 if ($productLastId->rowCount() == 0) {
     // create new id
-    $formattedProductId = "Prod" . "-" . "001";
+    $formattedProductId = "prod" . "-" . "001";
 } else {
 
     $row = $productLastId->fetch(PDO::FETCH_ASSOC);
@@ -35,7 +35,7 @@ if ($productLastId->rowCount() == 0) {
         $id = $lastId;
     }
 
-    $formattedProductId =  "Prod" . "-" . $id;
+    $formattedProductId =  "prod" . "-" . $id;
 }
 
 
@@ -48,8 +48,6 @@ $suppliersProducts->suppliers_products_number = $formattedProductId;
 
 $suppliersProducts->suppliers_products_name = checkIndex($data, "suppliers_products_name");
 $suppliersProducts->suppliers_products_price = checkIndex($data, "suppliers_products_price");
-$suppliersProducts->suppliers_products_scc_price = checkIndex($data, "suppliers_products_scc_price");
-$suppliersProducts->suppliers_products_market_price = checkIndex($data, "suppliers_products_market_price");
 $suppliersProducts->suppliers_products_category_id = checkIndex($data, "suppliers_products_category_id");
 $suppliersProducts->suppliers_products_suppliers_id = checkIndex($data, "suppliers_products_suppliers_id");
 $suppliersProducts->suppliers_products_created = date("Y-m-d H:i:s");

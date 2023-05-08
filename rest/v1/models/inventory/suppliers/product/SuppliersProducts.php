@@ -21,6 +21,8 @@ class SuppliersProducts
     public $tblSuppliersProducts;
     public $tblSuppliers;
     public $tblCategory;
+    public $tblStocks;
+    public $tblOrders;
 
     public function __construct($db)
     {
@@ -28,6 +30,8 @@ class SuppliersProducts
         $this->tblSuppliersProducts = "sccv1_suppliers_products";
         $this->tblSuppliers = "sccv1_suppliers";
         $this->tblCategory = "sccv1_product_category";
+        $this->tblStocks = "sccv1_stocks";
+        $this->tblOrders = "sccv1_orders";
     }
 
     // create
@@ -38,8 +42,6 @@ class SuppliersProducts
             $sql .= "( suppliers_products_name, ";
             $sql .= "suppliers_products_number, ";
             $sql .= "suppliers_products_price, ";
-            $sql .= "suppliers_products_scc_price, ";
-            $sql .= "suppliers_products_market_price, ";
             $sql .= "suppliers_products_category_id, ";
             $sql .= "suppliers_products_suppliers_id, ";
             $sql .= "suppliers_products_created, ";
@@ -47,8 +49,6 @@ class SuppliersProducts
             $sql .= ":suppliers_products_name, ";
             $sql .= ":suppliers_products_number, ";
             $sql .= ":suppliers_products_price, ";
-            $sql .= ":suppliers_products_scc_price, ";
-            $sql .= ":suppliers_products_market_price, ";
             $sql .= ":suppliers_products_category_id, ";
             $sql .= ":suppliers_products_suppliers_id, ";
             $sql .= ":suppliers_products_created, ";
@@ -58,8 +58,6 @@ class SuppliersProducts
                 "suppliers_products_name" => $this->suppliers_products_name,
                 "suppliers_products_number" => $this->suppliers_products_number,
                 "suppliers_products_price" => $this->suppliers_products_price,
-                "suppliers_products_scc_price" => $this->suppliers_products_scc_price,
-                "suppliers_products_market_price" => $this->suppliers_products_market_price,
                 "suppliers_products_category_id" => $this->suppliers_products_category_id,
                 "suppliers_products_suppliers_id" => $this->suppliers_products_suppliers_id,
                 "suppliers_products_created" => $this->suppliers_products_created,
@@ -157,6 +155,7 @@ class SuppliersProducts
         }
         return $query;
     }
+
     // read by id
     public function readById()
     {
@@ -331,6 +330,42 @@ class SuppliersProducts
             $sql .= "{$this->tblSuppliersProducts} ";
             $sql .= "order by suppliers_products_aid desc ";
             $query = $this->connection->query($sql);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    // read all in stock
+    public function checkAssociation()
+    {
+        try {
+            $sql = "select stocks_product_id from ";
+            $sql .= "{$this->tblStocks} ";
+            $sql .= "where stocks_product_id = :stocks_product_id ";
+            $sql .= "order by stocks_product_id desc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "stocks_product_id" => $this->suppliers_products_aid,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    // read all Association In Order
+    public function checkAssociationInOrder()
+    {
+        try {
+            $sql = "select orders_product_id from ";
+            $sql .= "{$this->tblOrders} ";
+            $sql .= "where orders_product_id = :orders_product_id ";
+            $sql .= "order by orders_product_id desc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "orders_product_id" => $this->suppliers_products_aid,
+            ]);
         } catch (PDOException $ex) {
             $query = false;
         }

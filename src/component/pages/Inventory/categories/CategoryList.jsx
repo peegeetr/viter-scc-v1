@@ -157,7 +157,8 @@ const CategoryList = ({ setItemEdit }) => {
             ))}
           </tbody>
         </table>
-
+      </div>
+      <div className="text-center">
         <Loadmore
           fetchNextPage={fetchNextPage}
           isFetchingNextPage={isFetchingNextPage}

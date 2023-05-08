@@ -1,4 +1,8 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQueryClient,
+  useInfiniteQuery,
+} from "@tanstack/react-query";
 import { Form, Formik } from "formik";
 import React from "react";
 import { FaTimesCircle } from "react-icons/fa";
@@ -15,10 +19,19 @@ import { InputSelect, InputText } from "../../../helpers/FormInputs";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
 import useQueryData from "../../../custom-hooks/useQueryData";
 import { getDateNow } from "../../../helpers/functions-general";
+import { getRemaningQuantity } from "../products/functions-product";
+import { queryDataInfinite } from "../../../helpers/queryDataInfinite";
 
-const ModalAddOrders = ({ item }) => {
+const ModalAddOrders = ({ item, arrKey }) => {
   const { store, dispatch } = React.useContext(StoreContext);
-  const [supplierProductId, setSupplierProductId] = React.useState([]);
+  const [categoryId, setCategoryId] = React.useState(
+    item ? item.suppliers_products_category_id : ""
+  );
+  const [productId, setProductId] = React.useState(
+    item ? item.suppliers_products_aid : ""
+  );
+  const [isSubmit, setSubmit] = React.useState(false);
+  const [isFilter, setFilter] = React.useState(false);
   const [priceId, setPriceId] = React.useState(
     item ? item.suppliers_products_scc_price : ""
   );
@@ -34,9 +47,10 @@ const ModalAddOrders = ({ item }) => {
       ),
     onSuccess: (data) => {
       // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ["orders"] });
+      queryClient.invalidateQueries({ queryKey: [arrKey] });
       // show success box
       if (data.success) {
+        dispatch(setIsAdd(false));
         dispatch(setSuccess(true));
         dispatch(setMessage(`Successfuly ${item ? "updated." : "added."}`));
       }
@@ -52,39 +66,68 @@ const ModalAddOrders = ({ item }) => {
   };
 
   // use if not loadmore button undertime
-  const { isLoading: loadingMemberApproved, data: memberApproved } =
-    useQueryData(
-      `/v1/members/approved`, // endpoint
-      "get", // method
-      "memberApproved" // key
-    );
+  const { data: stocksGroupProd } = useQueryData(
+    `/v1/stocks/group-by-prod`, // endpoint
+    "get", // method
+    "stocksGroupProd" // key
+  );
+  // use if not loadmore button undertime
+  const { data: orderGroupProd } = useQueryData(
+    `/v1/orders/group-by-prod`, // endpoint
+    "get", // method
+    "orderGroupProd" // key
+  );
+  // use if not loadmore button undertime
+  const { data: memberApproved } = useQueryData(
+    `/v1/members/approved`, // endpoint
+    "get", // method
+    "memberApproved" // key
+  );
 
   // use if not loadmore button undertime
-  const { isLoading: loadingCategory, data: categoryData } = useQueryData(
+  const { data: categoryData } = useQueryData(
     `/v1/category`, // endpoint
     "get", // method
     "categoryData" // key
   );
+  const { data: result, status } = useInfiniteQuery({
+    queryKey: ["category-product", isSubmit],
+    queryFn: async ({ pageParam = 1 }) =>
+      await queryDataInfinite(
+        `/v1/suppliers-product/read-category-id/${categoryId}`, // filter endpoint
+        `/v1/suppliers-product/read-category-id/${
+          item ? item.suppliers_products_category_id : "0"
+        }`, // list endpoint
+        isFilter // search boolean
+      ),
+    getNextPageParam: (lastPage) => {
+      if (lastPage.page < lastPage.total) {
+        return lastPage.page + lastPage.count;
+      }
+      return;
+    },
+    refetchOnWindowFocus: false,
+    cacheTime: 1000,
+  });
+
+  console.log("result", result?.pages[0].data);
   // get employee id
   const handleSupplierProduct = async (e, props) => {
     let categoryId = e.target.value;
-    setSelLoading(true);
-    const results = await queryData(
-      `/v1/suppliers-product/read-category-id/${categoryId}`
-    );
-    if (results.data) {
-      setSelLoading(false);
-      setSupplierProductId(results.data);
-    }
+    setCategoryId(categoryId);
+    setFilter(true);
+    setSubmit(!isSubmit);
   };
   // get employee id
   const handleProduct = async (e, props) => {
+    setProductId(e.target.value);
     setPriceId(e.target.options[e.target.selectedIndex].id);
   };
   const initVal = {
     orders_member_id: item ? item.orders_member_id : "",
     orders_product_id: item ? item.orders_product_id : "",
     orders_product_quantity: item ? item.orders_product_quantity : "",
+    suppliers_products_aid: "",
     orders_product_amount: item ? item.orders_product_amount : "",
     orders_date: item ? item.orders_date : getDateNow(),
     category_id: item ? item.suppliers_products_category_id : "",
@@ -119,13 +162,40 @@ const ModalAddOrders = ({ item }) => {
               initialValues={initVal}
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
-                console.log(values);
+                if (
+                  Number(values.orders_product_quantity) >
+                    getRemaningQuantity(
+                      values,
+                      stocksGroupProd,
+                      orderGroupProd
+                    ) ||
+                  getRemaningQuantity(
+                    values,
+                    stocksGroupProd,
+                    orderGroupProd
+                  ) === 0
+                ) {
+                  console.log(
+                    "values",
+                    values,
+                    getRemaningQuantity(values, stocksGroupProd, orderGroupProd)
+                  );
+                  dispatch(setError(true));
+                  dispatch(setMessage("Invalid Quantity"));
+                  return;
+                }
+                console.log(
+                  "values",
+                  values,
+                  getRemaningQuantity(values, stocksGroupProd, orderGroupProd)
+                );
                 mutation.mutate(values);
               }}
             >
               {(props) => {
                 props.values.orders_product_amount =
                   props.values.orders_product_quantity * priceId;
+                props.values.suppliers_products_aid = productId;
                 return (
                   <Form>
                     <div className="relative mb-6 mt-5">
@@ -142,7 +212,6 @@ const ModalAddOrders = ({ item }) => {
                       <InputSelect
                         name="orders_member_id"
                         label="Member"
-                        onChange={handleSupplierProduct}
                         disabled={mutation.isLoading}
                       >
                         <option value="" hidden>
@@ -162,10 +231,10 @@ const ModalAddOrders = ({ item }) => {
                         name="category_id"
                         label="Category"
                         onChange={handleSupplierProduct}
-                        disabled={mutation.isLoading}
+                        disabled={status === "loading" || mutation.isLoading}
                       >
                         <option value="" hidden>
-                          {loading ? "Loading..." : "--"}
+                          {status === "loading" ? "Loading..." : "--"}
                         </option>
                         {categoryData?.data.map((cItem, key) => {
                           return (
@@ -188,18 +257,32 @@ const ModalAddOrders = ({ item }) => {
                       >
                         <option value="" hidden>
                           {loading ? "Loading..." : "--"}
-                        </option>
-                        {supplierProductId?.map((pItem, key) => {
-                          return (
-                            <option
-                              key={key}
-                              value={pItem.suppliers_products_aid}
-                              id={pItem.suppliers_products_scc_price}
-                            >
-                              {`${pItem.suppliers_products_name} `}
-                            </option>
-                          );
-                        })}
+                        </option>{" "}
+                        {result?.pages[0].data.length === 0 ? (
+                          <option value="">NO DATA</option>
+                        ) : (
+                          result?.pages.map((page, key) => (
+                            <React.Fragment key={key}>
+                              {page.data.map((pItem, key) => {
+                                return (
+                                  <option
+                                    key={key}
+                                    value={pItem.suppliers_products_aid}
+                                    id={pItem.suppliers_products_scc_price}
+                                  >
+                                    {`${
+                                      pItem.suppliers_products_name
+                                    }  (${getRemaningQuantity(
+                                      pItem,
+                                      stocksGroupProd,
+                                      orderGroupProd
+                                    )})`}
+                                  </option>
+                                );
+                              })}
+                            </React.Fragment>
+                          ))
+                        )}
                       </InputSelect>
                     </div>
                     <div className="relative my-5">

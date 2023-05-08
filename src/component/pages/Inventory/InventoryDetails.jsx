@@ -32,9 +32,6 @@ const InventoryDetails = () => {
             <ProductLink />
           </li>
           <li className="py-1">
-            <ReportsLink />
-          </li>
-          <li className="py-1">
             <SalesLink />
           </li>
           <li className="py-1">
@@ -42,6 +39,9 @@ const InventoryDetails = () => {
           </li>
           <li className="py-1">
             <SuppliersLink />
+          </li>
+          <li className="py-1">
+            <ReportsLink />
           </li>
         </ul>
         <Footer />
