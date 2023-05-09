@@ -41,7 +41,7 @@ const Dashboard = () => {
         </div>
 
         <hr />
-        <div className="w-full pt-5 pb-20">
+        <div className=" w-full pt-5 pb-20">
           <DashboardList setItemEdit={setItemEdit} />
         </div>
         <Footer />

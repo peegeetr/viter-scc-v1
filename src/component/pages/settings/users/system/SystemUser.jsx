@@ -52,7 +52,7 @@ const SystemUser = () => {
         <hr />
 
         <div className="w-full pt-5 pb-20">
-          {isFetching && !isLoading ? (
+          {isFetching && isLoading ? (
             <FetchingSpinner />
           ) : getRoleIdDev(role?.data) === -1 ? (
             <ServerError />

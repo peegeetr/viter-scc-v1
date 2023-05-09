@@ -6,7 +6,7 @@ import {
   setIsRestore,
 } from "../../../../../store/StoreAction";
 import { StoreContext } from "../../../../../store/StoreContext";
-import useQueryData from "../../../../custom-hooks/useQueryData"; 
+import useQueryData from "../../../../custom-hooks/useQueryData";
 import ModalConfirm from "../../../../partials/modals/ModalConfirm";
 import ModalDeleteRestore from "../../../../partials/modals/ModalDeleteRestore";
 import NoData from "../../../../partials/NoData";
@@ -64,7 +64,6 @@ const RoleList = ({ setItemEdit }) => {
   return (
     <>
       <div className="relative text-center overflow-x-auto z-0">
-        {isFetching && !isLoading && <FetchingSpinner />}
         <table>
           <thead>
             <tr>

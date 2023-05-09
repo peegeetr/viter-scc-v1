@@ -35,14 +35,12 @@ const OtherUser = () => {
   );
 
   // use if not loadmore button undertime
-  const { 
-    data: members,
-  } = useQueryData(
+  const { data: members } = useQueryData(
     `/v1/members`, // endpoint
     "get", // method
     "members" // key
   );
-  console.log("members",members)
+  console.log("members", members);
   const handleAdd = () => {
     dispatch(setIsAdd(true));
     setItemEdit(null);
@@ -67,7 +65,7 @@ const OtherUser = () => {
         <hr />
 
         <div className="w-full pt-5 pb-20">
-          {isFetching && !isLoading ? (
+          {isFetching && isLoading ? (
             <FetchingSpinner />
           ) : getRoleIdAdmin(role?.data) === -1 ? (
             <p className="flex-col p-2">

@@ -37,7 +37,6 @@ const OtherUserList = ({ setItemEdit }) => {
     "otherUsers" // key
   );
 
-
   const handleEdit = (item) => {
     dispatch(setIsAdd(true));
     setItemEdit(item);
@@ -76,7 +75,6 @@ const OtherUserList = ({ setItemEdit }) => {
   return (
     <>
       <div className="relative text-center overflow-x-auto z-0">
-        {isFetching && !isLoading && <FetchingSpinner />}
         <table>
           <thead>
             <tr>
