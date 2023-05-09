@@ -17,6 +17,7 @@ export const devNavUrl = "";
 // export const devApiUrl = "http://localhost/viter-scc-v1/rest";
 // export const devBaseUrl = "http://localhost/viter-scc-v1/public";
 // export const devNavUrl = "";
+
 // // cy url
 // export const devApiUrl = "http://localhost/projects/viter-scc-v1/rest";
 // export const devBaseUrl = "http://localhost/projects/viter-scc-v1/public";
