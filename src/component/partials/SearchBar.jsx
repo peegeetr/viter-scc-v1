@@ -40,7 +40,7 @@ const SearchBar = ({
         <button
           type="submit"
           disabled={isFetching}
-          className="btn-action-table rounded-tl-none rounded-bl-none border-l-0 bg-primary text-white border-primary disabled:opacity-5"
+          className="btn-action-table rounded-tl-none rounded-bl-none border-l-0 bg-primary text-white border-primary"
         >
           <FaSearch />
         </button>
