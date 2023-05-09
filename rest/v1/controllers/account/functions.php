@@ -31,7 +31,7 @@ function checkApproved($object)
     checkQuery($query, "There's a problem processing your request. (Approved)");
     return $query;
 }
- 
+
 
 // Update Additional info 
 function checkUpdateAdditionalInfo($object)
@@ -72,4 +72,12 @@ function checkUpdateSpouseInfo($object)
     checkQuery($query, "There's a problem processing your request. (Update Additional Info)");
     return $query;
 }
- 
+
+
+// Read search
+function checkSearchApproved($object)
+{
+    $query = $object->searchApproved();
+    checkQuery($query, "Empty records. (search approved account)");
+    return $query;
+}

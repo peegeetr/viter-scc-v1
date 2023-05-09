@@ -144,8 +144,9 @@ class Members
             $sql .= "{$this->tblMembers} ";
             $sql .= "where members_is_approved = 1 ";
             $sql .= "and members_is_cancel = 0 ";
-            $sql .= "and members_last_name like :members_last_name ";
-            $sql .= "or members_first_name like :members_first_name ";
+            $sql .= "and (members_last_name like :members_last_name ";
+            $sql .= "or members_id like :members_id ";
+            $sql .= "or members_first_name like :members_first_name) ";
             $sql .= "order by members_is_active desc, ";
             $sql .= "members_last_name, ";
             $sql .= "members_first_name asc ";
@@ -153,6 +154,7 @@ class Members
             $query->execute([
                 "members_last_name" => "{$this->members_search}%",
                 "members_first_name" => "{$this->members_search}%",
+                "members_id" => "{$this->members_search}%",
             ]);
         } catch (PDOException $ex) {
             $query = false;
@@ -222,14 +224,16 @@ class Members
             $sql .= "{$this->tblMembers} ";
             $sql .= "where members_is_cancel = 0 ";
             $sql .= "and members_is_approved = 0 ";
-            $sql .= "and members_last_name like :members_last_name ";
-            $sql .= "or members_first_name like :members_first_name ";
+            $sql .= "and (members_last_name like :members_last_name ";
+            $sql .= "or members_id like :members_id ";
+            $sql .= "or members_first_name like :members_first_name) ";
             $sql .= "order by members_last_name, ";
             $sql .= "members_first_name asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "members_last_name" => "{$this->members_search}%",
                 "members_first_name" => "{$this->members_search}%",
+                "members_id" => "{$this->members_search}%",
             ]);
         } catch (PDOException $ex) {
             $query = false;

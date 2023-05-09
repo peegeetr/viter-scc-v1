@@ -36,6 +36,7 @@ const ModalAddBeneficiaries = ({ item, memberid }) => {
 
       // show success box
       if (data.success) {
+        dispatch(setIsBeneficiaries(false));
         dispatch(setSuccess(true));
         dispatch(setMessage(`Successfuly ${item ? "updated." : "added."}`));
       }

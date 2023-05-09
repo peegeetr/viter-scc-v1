@@ -24,7 +24,7 @@ const Header = () => {
 
   return (
     <>
-      <div className="fixed z-30 bg-primary w-full flex justify-between items-center h-16 px-3 border-solid border-b-2 border-primary">
+      <div className="fixed z-30 bg-primary w-full flex justify-between items-center h-16 px-3 border-solid border-b-2 border-primary print:hidden">
         <div className="w-[50rem] flex text-white items-center ">
           <Logo /> <h1 className="ml-4">Sambahayan Consumer Cooperative</h1>
         </div>
@@ -50,6 +50,23 @@ const Header = () => {
             {store.isShow ? <FaTimes /> : <GiHamburgerMenu />}
           </span>
         </div>
+      </div>
+      {/* if print */}
+      <div className="pt-4 bg-white h-22 border-solid border-b-2 border-primary hidden print:block">
+        <span className="flex justify-center pb-2">
+          <Logo />
+        </span>
+        <small className="flex justify-center text-center ">
+          Sambahayan Consumer Cooperative
+        </small>
+        <small className="flex justify-center text-center pb-2">
+          Sitio Subac, Santo Nino San Pablo CIty, Laguna Region IV-A
+          (CALABARZON)
+          <br />
+          CDA REG. NO. 9520-100400033760
+          <br />
+          TIN NO. 620-402-542-00000
+        </small>
       </div>
 
       {store.isLogout && <ModalLogout />}

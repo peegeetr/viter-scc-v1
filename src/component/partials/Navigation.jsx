@@ -4,7 +4,7 @@ import { TbFileDownload } from "react-icons/tb";
 import { FaUserCheck, FaBusinessTime, FaUsers } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { Link } from "react-router-dom";
-import { setIsShow } from "../../store/StoreAction";
+import { setIsSearch, setIsShow } from "../../store/StoreAction";
 import { StoreContext } from "../../store/StoreContext";
 import {
   devNavUrl,
@@ -22,14 +22,15 @@ const Navigation = ({ menu }) => {
 
   const handleShow = () => {
     dispatch(setIsShow(!store.isShow));
+    dispatch(setIsSearch(false));
   };
 
   return (
     <>
       <nav
         className={`${
-          store.isShow ? "" : "-translate-x-44"
-        } duration-200 ease-in fixed z-20 min-h-full bg-gradient-to-t from-gray-200 to-gray-100 w-44 md:w-20 md:-translate-x-0 lg:w-44`}
+          store.isShow ? "" : "-translate-x-44 print:hidden"
+        } duration-200 ease-in fixed z-20 min-h-full bg-gradient-to-t from-gray-200 to-gray-100 w-44 md:w-20 md:-translate-x-0 lg:w-44 print:hidden`}
       >
         <ul className="text-sm mt-16 text-dark">
           <li

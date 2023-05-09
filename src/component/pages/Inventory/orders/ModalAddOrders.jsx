@@ -175,20 +175,11 @@ const ModalAddOrders = ({ item, arrKey }) => {
                     orderGroupProd
                   ) === 0
                 ) {
-                  console.log(
-                    "values",
-                    values,
-                    getRemaningQuantity(values, stocksGroupProd, orderGroupProd)
-                  );
                   dispatch(setError(true));
                   dispatch(setMessage("Invalid Quantity"));
                   return;
                 }
-                console.log(
-                  "values",
-                  values,
-                  getRemaningQuantity(values, stocksGroupProd, orderGroupProd)
-                );
+
                 mutation.mutate(values);
               }}
             >
@@ -265,19 +256,21 @@ const ModalAddOrders = ({ item, arrKey }) => {
                             <React.Fragment key={key}>
                               {page.data.map((pItem, key) => {
                                 return (
-                                  <option
-                                    key={key}
-                                    value={pItem.suppliers_products_aid}
-                                    id={pItem.suppliers_products_scc_price}
-                                  >
-                                    {`${
-                                      pItem.suppliers_products_name
-                                    }  (${getRemaningQuantity(
-                                      pItem,
-                                      stocksGroupProd,
-                                      orderGroupProd
-                                    )})`}
-                                  </option>
+                                  pItem.suppliers_products_scc_price !== "" && (
+                                    <option
+                                      key={key}
+                                      value={pItem.suppliers_products_aid}
+                                      id={pItem.suppliers_products_scc_price}
+                                    >
+                                      {`${
+                                        pItem.suppliers_products_name
+                                      }  (${getRemaningQuantity(
+                                        pItem,
+                                        stocksGroupProd,
+                                        orderGroupProd
+                                      )})`}
+                                    </option>
+                                  )
                                 );
                               })}
                             </React.Fragment>

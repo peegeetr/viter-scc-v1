@@ -30,7 +30,7 @@ const Profile = () => {
       <Navigation menu="account" />
       <div className="wrapper">
         <BreadCrumbs param={`${location.search}`} />
-        <hr />
+        <hr className="print:hidden" />
 
         <div className="w-full pb-20">
           <ProfileList members={members} isLoading={isLoading} error={error} />

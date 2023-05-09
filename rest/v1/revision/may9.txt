@@ -1,0 +1,23 @@
+
+*controllers   
+    - account/functions.php 
+    - account/search-approved.php 
+    - account/update.php 
+
+*models 
+    - inventory/suppliers/product/SuppliersProducts.php
+    - inventory/suppliers/Suppliers.php
+    - account/Members.php
+
+*htaccess 
+    - htaccess
+
+*db tables 
+    - 
+
+*core functions 
+    - upload-photo.php
+
+*extra
+    -
+    

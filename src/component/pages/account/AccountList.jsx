@@ -1,29 +1,20 @@
+import { useInfiniteQuery } from "@tanstack/react-query";
 import React from "react";
 import { FaArchive, FaEdit, FaHistory, FaTrash } from "react-icons/fa";
-import { StoreContext } from "../../../store/StoreContext";
-import NoData from "../../partials/NoData";
-import ServerError from "../../partials/ServerError";
-import StatusActive from "../../partials/status/StatusActive";
 import { useInView } from "react-intersection-observer";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import SearchBar from "../../partials/SearchBar";
-import Loadmore from "../../partials/Loadmore";
-import TableSpinner from "../../partials/spinners/TableSpinner";
+import { Link } from "react-router-dom";
+import { setIsConfirm, setIsRestore } from "../../../store/StoreAction";
+import { StoreContext } from "../../../store/StoreContext";
+import { getUserType } from "../../helpers/functions-general";
 import { queryDataInfinite } from "../../helpers/queryDataInfinite";
-import {
-  setIsAdd,
-  setIsConfirm,
-  setIsRestore,
-} from "../../../store/StoreAction";
+import Loadmore from "../../partials/Loadmore";
+import NoData from "../../partials/NoData";
+import SearchBar from "../../partials/SearchBar";
+import ServerError from "../../partials/ServerError";
 import ModalConfirm from "../../partials/modals/ModalConfirm";
 import ModalDeleteRestore from "../../partials/modals/ModalDeleteRestore";
-import { Link } from "react-router-dom";
-import {
-  devNavUrl,
-  getUserType,
-  UrlSystem,
-} from "../../helpers/functions-general";
-import FetchingSpinner from "../../partials/spinners/FetchingSpinner";
+import TableSpinner from "../../partials/spinners/TableSpinner";
+import StatusActive from "../../partials/status/StatusActive";
 
 const AccountList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -52,7 +43,7 @@ const AccountList = () => {
     queryKey: ["members", onSearch, store.isSearch],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
-        `/v1/members/search/${search.current.value}`, // search endpoint
+        `/v1/members/search/approved/${search.current.value}`, // search endpoint
         `/v1/member/page/${pageParam}/approved`, // list endpoint
         store.isSearch // search boolean
       ),

@@ -8,18 +8,18 @@ import ModalSuccess from "../../partials/modals/ModalSuccess.jsx";
 import Navigation from "../../partials/Navigation.jsx";
 import AccountList from "./AccountList.jsx";
 
-const Account = () => {  
-  const { store, dispatch } = React.useContext(StoreContext); 
+const Account = () => {
+  const { store, dispatch } = React.useContext(StoreContext);
   return (
     <>
-     <Header />
+      <Header />
       <Navigation menu="account" />
-      
-      <div className="wrapper">
-        <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2 ">
-          <h4 className="text-xl mb-3">Account</h4>  
 
-          <BreadCrumbs /> 
+      <div className="wrapper print:pt-0">
+        <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2 ">
+          <h4 className="text-xl mb-3">Account</h4>
+
+          <BreadCrumbs />
         </div>
         <hr />
 
@@ -27,7 +27,7 @@ const Account = () => {
           <AccountList />
         </div>
         <Footer />
-      </div> 
+      </div>
       {store.success && <ModalSuccess />}
       {store.error && <ModalError />}
     </>

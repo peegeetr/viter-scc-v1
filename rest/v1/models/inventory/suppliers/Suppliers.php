@@ -103,11 +103,15 @@ class Suppliers
         try {
             $sql = "select * from ";
             $sql .= "{$this->tblSuppliers} ";
-            $sql .= "where suppliers_company_name like :suppliers_company_name ";
+            $sql .= "where (suppliers_company_name like :suppliers_company_name ";
+            $sql .= "or suppliers_contact_person like :suppliers_contact_person ";
+            $sql .= "or suppliers_company_address like :suppliers_company_address) ";
             $sql .= "order by suppliers_company_name asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "suppliers_company_name" => "{$this->suppliers_search}%",
+                "suppliers_contact_person" => "{$this->suppliers_search}%",
+                "suppliers_company_address" => "{$this->suppliers_search}%",
             ]);
         } catch (PDOException $ex) {
             $query = false;

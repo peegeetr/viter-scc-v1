@@ -8,38 +8,8 @@ $members = new Members($conn);
 // check if membersid is in the url e.g. /membersid/1
 $error = [];
 $returnData = [];
-if (array_key_exists("membersid", $_GET)) {
-    // check data
-    checkPayload($data);
-    // get data 
-    $members->members_aid = $_GET['membersid'];
-
-    $members->members_id = checkIndex($data, "members_id");
-    $members->members_pre_membership_date = checkIndex($data, "members_pre_membership_date");
-    $members->members_first_name = checkIndex($data, "members_first_name");
-    $members->members_last_name = checkIndex($data, "members_last_name");
-    $members->members_middle_name = checkIndex($data, "members_middle_name");
-    $members->members_gender = checkIndex($data, "members_gender");
-    $members->members_picture = checkIndex($data, "members_picture");
-    $members->members_birth_date = checkIndex($data, "members_birth_date");
-    $members->members_datetime = date("Y-m-d H:i:s");
-
-    $members_lname_old = strtolower($data["members_last_name_old"]);
-    $members_fname_old = strtolower($data["members_first_name_old"]);
-    $members_mname_old = strtolower($data["members_middle_name_old"]);
-
-
-    //check to see if task id in query string is not empty and is number, if not return json error
-    checkId($members->members_aid);
-    // check name
-    compareName($members, $members_lname_old, $members->members_last_name);
-    compareName($members, $members_fname_old, $members->members_first_name);
-    compareName($members, $members_mname_old, $members->members_middle_name);
-    // update
-    $query = checkUpdate($members);
-    returnSuccess($members, "members", $query);
-}
 if (array_key_exists("membersid", $_GET) && array_key_exists("isUpdate", $_GET)) {
+    checkPayload($data);
 
     $members->members_aid = $_GET['membersid'];
     $isUpdate = $_GET['isUpdate'];
@@ -120,6 +90,37 @@ if (array_key_exists("membersid", $_GET) && array_key_exists("isUpdate", $_GET))
         $query = checkUpdateSpouseInfo($members);
         returnSuccess($members, "members", $query);
     }
+}
+if (array_key_exists("membersid", $_GET)) {
+    // check data
+    checkPayload($data);
+    // get data 
+    $members->members_aid = $_GET['membersid'];
+
+    $members->members_id = checkIndex($data, "members_id");
+    $members->members_pre_membership_date = checkIndex($data, "members_pre_membership_date");
+    $members->members_first_name = checkIndex($data, "members_first_name");
+    $members->members_last_name = checkIndex($data, "members_last_name");
+    $members->members_middle_name = checkIndex($data, "members_middle_name");
+    $members->members_gender = checkIndex($data, "members_gender");
+    $members->members_birth_date = checkIndex($data, "members_birth_date");
+    $members->members_datetime = date("Y-m-d H:i:s");
+    $members->members_picture = $data["members_picture"];
+
+    $members_lname_old = strtolower($data["members_last_name_old"]);
+    $members_fname_old = strtolower($data["members_first_name_old"]);
+    $members_mname_old = strtolower($data["members_middle_name_old"]);
+
+
+    //check to see if task id in query string is not empty and is number, if not return json error
+    checkId($members->members_aid);
+    // check name
+    compareName($members, $members_lname_old, $members->members_last_name);
+    compareName($members, $members_fname_old, $members->members_first_name);
+    compareName($members, $members_mname_old, $members->members_middle_name);
+    // update
+    $query = checkUpdate($members);
+    returnSuccess($members, "members", $query);
 }
 
 // return 404 error if endpoint not available

@@ -93,8 +93,9 @@ const ProductsList = () => {
           <thead>
             <tr>
               <th>#</th>
-              <th className="min-w-[15rem]">Product Number</th>
-              <th className="min-w-[15rem]">Product Name</th>
+              <th className="min-w-[12rem]">Product Number</th>
+              <th className="min-w-[12rem]">Product Category</th>
+              <th className="min-w-[12rem]">Product Name</th>
               <th className="min-w-[10rem]">Supplier Price</th>
               <th className="min-w-[10rem]">SCC Price</th>
               <th className="min-w-[10rem]">Market Price</th>
@@ -127,6 +128,7 @@ const ProductsList = () => {
                     <td className="uppercase">
                       {item.suppliers_products_number}
                     </td>
+                    <td>{item.product_category_name}</td>
                     <td>{item.suppliers_products_name}</td>
                     <td>{item.suppliers_products_price}</td>
                     <td>{item.suppliers_products_scc_price}</td>

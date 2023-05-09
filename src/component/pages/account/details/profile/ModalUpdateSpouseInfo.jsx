@@ -29,6 +29,7 @@ const ModalUpdateSpouseInfo = ({ item }) => {
 
       // show success box
       if (data.success) {
+        dispatch(setIsEditProfile(false));
         dispatch(setSuccess(true));
         dispatch(setMessage(`Successfuly updated`));
       }

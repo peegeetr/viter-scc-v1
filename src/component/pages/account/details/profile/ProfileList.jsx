@@ -124,8 +124,24 @@ const ProfileList = ({ members, isLoading, error }) => {
                   </button>
                 )}
               </div>
-              <div className="text-left grid sm:grid-cols-[15rem_1fr] mb-2 pl-2">
-                <div className="hidden sm:block mx-auto">
+              <div className="text-left grid sm:grid-cols-[1fr_15rem] pl-2">
+                <div className="text-left grid  grid-cols-2 md:grid-cols-[1fr_2fr] mb-2 xs:pl-5 pl-2">
+                  <p className="font-semibold">First Name :</p>
+                  <p className="">{item.members_first_name}</p>
+                  <p className="font-semibold">Middle Name :</p>
+                  <p className="">{item.members_middle_name}</p>
+                  <p className="font-semibold">Last Name :</p>
+                  <p className="">{item.members_last_name}</p>
+                  <p className="font-semibold">Gender :</p>
+                  <p className=" capitalize">{item.members_gender}</p>
+                  <p className="font-semibold mb-0">Birth Date :</p>
+                  <p className=" mb-0">
+                    {item.members_birth_date === ""
+                      ? ""
+                      : formatDate(item.members_birth_date)}
+                  </p>
+                </div>
+                <div className="hidden sm:block m-auto justify-center">
                   {item.members_picture ? (
                     <img
                       // src="https://hris.frontlinebusiness.com.ph/img/abrigo.jpg"
@@ -139,36 +155,20 @@ const ProfileList = ({ members, isLoading, error }) => {
                     </span>
                   )}
                 </div>
-
-                <div className="text-left grid grid-cols-2 md:grid-cols-[1fr_2fr] pl-2">
-                  <p className="font-semibold">First Name :</p>
-                  <p className="">{item.members_first_name}</p>
-                  <p className="font-semibold">Middle Name :</p>
-                  <p className="">{item.members_middle_name}</p>
-                  <p className="font-semibold">Last Name :</p>
-                  <p className="">{item.members_last_name}</p>
-                  <p className="font-semibold">Gender :</p>
-                  <p className=" capitalize">{item.members_gender}</p>
-                  <p className="font-semibold">Birth Date :</p>
-                  <p className="">
-                    {item.members_birth_date === ""
-                      ? ""
-                      : formatDate(item.members_birth_date)}
-                  </p>
-                </div>
               </div>
-              <div className="bg-gray-200 p-2 mb-5 flex justify-between items-center">
+              <div className="bg-gray-200 p-2 my-5 flex justify-between items-center">
                 <h4>Additional info</h4>
-                {store.credentials.data.role_is_member === 0 && (
-                  <button
-                    type="button"
-                    className="tooltip-action-table"
-                    data-tooltip="Edit"
-                    onClick={() => handleEditAdditionalInfo(item)}
-                  >
-                    <FaEdit />
-                  </button>
-                )}
+                {store.credentials.data.role_is_member === 0 &&
+                  memberid !== null && (
+                    <button
+                      type="button"
+                      className="tooltip-action-table"
+                      data-tooltip="Edit"
+                      onClick={() => handleEditAdditionalInfo(item)}
+                    >
+                      <FaEdit />
+                    </button>
+                  )}
               </div>
               <div className="text-left grid  grid-cols-2 md:grid-cols-[1fr_2fr] mb-2 xs:pl-5 pl-2">
                 <p className="font-semibold">Birth Place :</p>
@@ -180,16 +180,17 @@ const ProfileList = ({ members, isLoading, error }) => {
               </div>{" "}
               <div className="bg-gray-200 p-2 mb-5 flex justify-between items-center">
                 <h4>Permanent Address </h4>
-                {store.credentials.data.role_is_member === 0 && (
-                  <button
-                    type="button"
-                    className="tooltip-action-table"
-                    data-tooltip="Edit"
-                    onClick={() => handleEditPermanentAddress(item)}
-                  >
-                    <FaEdit />
-                  </button>
-                )}
+                {store.credentials.data.role_is_member === 0 &&
+                  memberid !== null && (
+                    <button
+                      type="button"
+                      className="tooltip-action-table"
+                      data-tooltip="Edit"
+                      onClick={() => handleEditPermanentAddress(item)}
+                    >
+                      <FaEdit />
+                    </button>
+                  )}
               </div>
               <div className="text-left grid  grid-cols-2 md:grid-cols-[1fr_2fr] mb-5 xs:pl-5 pl-2">
                 <p className="font-semibold">
@@ -204,16 +205,17 @@ const ProfileList = ({ members, isLoading, error }) => {
               <div className="bg-gray-200 p-2 mb-5 flex justify-between items-center">
                 <h4>Present Address </h4>
 
-                {store.credentials.data.role_is_member === 0 && (
-                  <button
-                    type="button"
-                    className="tooltip-action-table"
-                    data-tooltip="Edit"
-                    onClick={() => handleEditPresentAddress(item)}
-                  >
-                    <FaEdit />
-                  </button>
-                )}
+                {store.credentials.data.role_is_member === 0 &&
+                  memberid !== null && (
+                    <button
+                      type="button"
+                      className="tooltip-action-table"
+                      data-tooltip="Edit"
+                      onClick={() => handleEditPresentAddress(item)}
+                    >
+                      <FaEdit />
+                    </button>
+                  )}
               </div>
               <div className="text-left grid  grid-cols-2 md:grid-cols-[1fr_2fr] mb-5 xs:pl-5 pl-2">
                 <p className="font-semibold">
@@ -228,16 +230,17 @@ const ProfileList = ({ members, isLoading, error }) => {
               <div className="bg-gray-200 p-2 mb-5 flex justify-between items-center">
                 <h4>Spouse Information</h4>
 
-                {store.credentials.data.role_is_member === 0 && (
-                  <button
-                    type="button"
-                    className="tooltip-action-table"
-                    data-tooltip="Edit"
-                    onClick={() => handleEditSpouseInfo(item)}
-                  >
-                    <FaEdit />
-                  </button>
-                )}
+                {store.credentials.data.role_is_member === 0 &&
+                  memberid !== null && (
+                    <button
+                      type="button"
+                      className="tooltip-action-table"
+                      data-tooltip="Edit"
+                      onClick={() => handleEditSpouseInfo(item)}
+                    >
+                      <FaEdit />
+                    </button>
+                  )}
               </div>
               <div className="text-left grid  grid-cols-2 md:grid-cols-[1fr_2fr] mb-5 xs:pl-5 pl-2">
                 <p className="font-semibold">Occupation :</p>
@@ -251,16 +254,17 @@ const ProfileList = ({ members, isLoading, error }) => {
               </div>
               <div className="bg-gray-200 p-2 mb-5 flex justify-between items-center">
                 <h4>Job Information</h4>
-                {store.credentials.data.role_is_member === 0 && (
-                  <button
-                    type="button"
-                    className="tooltip-action-table"
-                    data-tooltip="Edit"
-                    onClick={() => handleEditJobInfo(item)}
-                  >
-                    <FaEdit />
-                  </button>
-                )}
+                {store.credentials.data.role_is_member === 0 &&
+                  memberid !== null && (
+                    <button
+                      type="button"
+                      className="tooltip-action-table"
+                      data-tooltip="Edit"
+                      onClick={() => handleEditJobInfo(item)}
+                    >
+                      <FaEdit />
+                    </button>
+                  )}
               </div>
               <div className="text-left grid  grid-cols-2 md:grid-cols-[1fr_2fr] mb-2 xs:pl-5 pl-2">
                 <p className="font-semibold">Position :</p>
@@ -280,16 +284,17 @@ const ProfileList = ({ members, isLoading, error }) => {
               <div className="bg-gray-200 p-2 flex justify-between items-center">
                 <h4>Beneficiaries</h4>
 
-                {store.credentials.data.role_is_member === 0 && (
-                  <button
-                    type="button"
-                    className=" btn-primary !py-[3px] "
-                    onClick={handleAddBeneficiaries}
-                  >
-                    <FaPlusCircle />
-                    <span>Add</span>
-                  </button>
-                )}
+                {store.credentials.data.role_is_member === 0 &&
+                  memberid !== null && (
+                    <button
+                      type="button"
+                      className=" btn-primary !py-[3px] "
+                      onClick={handleAddBeneficiaries}
+                    >
+                      <FaPlusCircle />
+                      <span>Add</span>
+                    </button>
+                  )}
               </div>
               <div className="relative text-center overflow-x-auto z-0">
                 <table>
