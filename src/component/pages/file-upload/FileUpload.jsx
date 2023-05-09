@@ -25,7 +25,7 @@ const FileUpload = () => {
       <Navigation menu="fileUpload" />{" "}
       <div className="wrapper">
         <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2 ">
-          <h4 className="text-xl mb-3">File Upload</h4>
+          <h4 className="text-xl mb-3">Files</h4>
 
           {store.credentials.data.role_is_member === 0 && (
             <div className="flex items-center gap-1 self-baseline">

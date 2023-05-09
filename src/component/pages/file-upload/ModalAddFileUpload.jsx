@@ -3,12 +3,16 @@ import { Form, Formik } from "formik";
 import React from "react";
 import { FaTimesCircle } from "react-icons/fa";
 import * as Yup from "yup";
-import { setError, setIsAdd, setMessage, setSuccess } from "../../../store/StoreAction";
+import {
+  setError,
+  setIsAdd,
+  setMessage,
+  setSuccess,
+} from "../../../store/StoreAction";
 import { StoreContext } from "../../../store/StoreContext";
 import { InputText, InputTextArea } from "../../helpers/FormInputs";
 import { queryData } from "../../helpers/queryData";
 import ButtonSpinner from "../../partials/spinners/ButtonSpinner";
- 
 
 const ModalAddFileUpload = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -34,17 +38,16 @@ const ModalAddFileUpload = ({ item }) => {
         dispatch(setError(true));
         dispatch(setMessage(data.error));
       }
-    }, 
+    },
   });
   const handleClose = () => {
     dispatch(setIsAdd(false));
   };
 
-  const initVal = { 
+  const initVal = {
     file_upload_name: item ? item.file_upload_name : "",
     file_upload_link: item ? item.file_upload_link : "",
     file_upload_date: item ? item.file_upload_date : "",
- 
   };
 
   const yupSchema = Yup.object({
@@ -59,7 +62,7 @@ const ModalAddFileUpload = ({ item }) => {
         <div className="p-1 w-[350px] rounded-b-2xl">
           <div className="flex justify-between items-center bg-primary p-3 rounded-t-2xl">
             <h3 className="text-white text-sm">
-              {item ? "Update" : "Add"} file_upload
+              {item ? "Update" : "Add"} file
             </h3>
             <button
               type="button"
@@ -88,7 +91,7 @@ const ModalAddFileUpload = ({ item }) => {
                         name="file_upload_name"
                         disabled={mutation.isLoading}
                       />
-                    </div> 
+                    </div>
                     <div className="relative my-5">
                       <InputText
                         label="Link"
@@ -97,17 +100,17 @@ const ModalAddFileUpload = ({ item }) => {
                         disabled={mutation.isLoading}
                       />
                     </div>
-                    
+
                     <div className="relative mb-6 mt-5">
-                        <InputText
-                          label="Date"
-                          type="text"
-                          onFocus={(e) => (e.target.type = "date")}
-                          onBlur={(e) => (e.target.type = "text")}
-                          name="file_upload_date"
-                          disabled={mutation.isLoading}
-                        />
-                      </div> 
+                      <InputText
+                        label="Date"
+                        type="text"
+                        onFocus={(e) => (e.target.type = "date")}
+                        onBlur={(e) => (e.target.type = "text")}
+                        name="file_upload_date"
+                        disabled={mutation.isLoading}
+                      />
+                    </div>
 
                     <div className="flex items-center gap-1 pt-5">
                       <button
