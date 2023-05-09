@@ -106,7 +106,6 @@ const ApplicationList = () => {
         onSearch={onSearch}
       />
       <div className="relative text-center overflow-x-auto z-0">
-        {isFetching && !isFetchingNextPage && <FetchingSpinner />}
         <table>
           <thead>
             <tr>

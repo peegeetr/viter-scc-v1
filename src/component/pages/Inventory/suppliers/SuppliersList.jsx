@@ -94,7 +94,6 @@ const suppliersList = ({ setItemEdit }) => {
       />
 
       <div className="text-center overflow-x-auto z-0">
-        {/* {isFetching && !isFetchingNextPage && <FetchingSpinner />} */}
         <table>
           <thead>
             <tr>
