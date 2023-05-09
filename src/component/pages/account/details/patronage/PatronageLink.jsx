@@ -18,12 +18,7 @@ const PatronageLink = () => {
   return (
     <>
       <Link
-        to={
-          store.credentials.data.role_is_developer === 1 ||
-          store.credentials.data.role_is_admin === 1
-            ? `${urlLink}/account/details/patronage?memberid=${memberid}`
-            : `${urlLink}/details/patronage`
-        }
+        to={`${urlLink}/account/details/patronage?memberid=${memberid}`}
         className="w-full py-2"
       >
         <div className="flex items-center">
@@ -39,12 +34,7 @@ const PatronageLink = () => {
       </Link>
 
       <Link
-        to={
-          store.credentials.data.role_is_developer === 1 ||
-          store.credentials.data.role_is_admin === 1
-            ? `${urlLink}/account/details/patronage?memberid=${memberid}`
-            : `${urlLink}/details/patronage`
-        }
+        to={`${urlLink}/account/details/patronage?memberid=${memberid}`}
         className="btn-action-table group-hover:bg-primary group-hover:text-white"
       >
         <SlArrowRight className="inline" />

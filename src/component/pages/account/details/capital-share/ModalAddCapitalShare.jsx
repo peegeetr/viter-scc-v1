@@ -12,10 +12,9 @@ import {
 import { StoreContext } from "../../../../../store/StoreContext";
 import useQueryData from "../../../../custom-hooks/useQueryData";
 import { InputText } from "../../../../helpers/FormInputs";
-import { getUrlParam } from "../../../../helpers/functions-general";
+import { getDateNow, getUrlParam } from "../../../../helpers/functions-general";
 import { queryData } from "../../../../helpers/queryData";
 import ButtonSpinner from "../../../../partials/spinners/ButtonSpinner";
-import { computeTotalCapital } from "../functions-capital-share";
 
 const ModalAddCapitalShare = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -31,20 +30,6 @@ const ModalAddCapitalShare = ({ item }) => {
     "payslip" // key
   );
 
-  let totalAmount =
-    item &&
-    Number(item.capital_share_total_amount) -
-      Number(item.capital_share_paid_up);
-
-  const computedUndertime = item
-    ? totalAmount
-    : computeTotalCapital(capitalShare);
-
-  console.log(
-    "computedUndertime",
-    totalAmount,
-    computeTotalCapital(capitalShare)
-  );
   const mutation = useMutation({
     mutationFn: (values) =>
       queryData(
@@ -78,8 +63,7 @@ const ModalAddCapitalShare = ({ item }) => {
 
   const initVal = {
     capital_share_or: item ? item.capital_share_or : "",
-    capital_share_date: item ? item.capital_share_date : "",
-    capital_share_total_amount: item ? item.capital_share_total_amount : "",
+    capital_share_date: item ? item.capital_share_date : getDateNow(),
     capital_share_paid_up: item ? item.capital_share_paid_up : "",
     capital_share_member_id: item ? item.capital_share_member_id : memberid,
   };
@@ -119,9 +103,6 @@ const ModalAddCapitalShare = ({ item }) => {
               }}
             >
               {(props) => {
-                props.values.capital_share_total_amount =
-                  Number(props.values.capital_share_paid_up) +
-                  Number(computedUndertime);
                 return (
                   <Form className="">
                     <div className="relative my-5">

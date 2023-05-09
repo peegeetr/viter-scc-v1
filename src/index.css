@@ -1,6 +1,7 @@
 @font-face {
   font-family: "poppinsRegular";
-  src: url(font/Poppins-Regular.ttf) format("truetype");
+  src: url(/src/font/Poppins-Regular.ttf) format("truetype");
+  font-display: fallback;
 }
 
 @tailwind base;
@@ -291,5 +292,21 @@
   }
   .pause span {
     @apply bg-red-500 w-1 h-2;
+  }
+}
+
+@media print {
+  @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+  body {
+    font-family: "Poppins", sans-serif;
+    print-color-adjust: exact;
+  }
+
+  tr,
+  th,
+  td,
+  small,
+  p {
+    @apply text-[10px];
   }
 }

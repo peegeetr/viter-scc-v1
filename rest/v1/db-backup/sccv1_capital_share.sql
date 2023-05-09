@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 08, 2023 at 09:42 AM
+-- Generation Time: May 09, 2023 at 02:29 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -31,7 +31,6 @@ CREATE TABLE `sccv1_capital_share` (
   `capital_share_aid` int(11) NOT NULL,
   `capital_share_member_id` varchar(20) NOT NULL,
   `capital_share_paid_up` varchar(20) NOT NULL,
-  `capital_share_total_amount` varchar(20) NOT NULL,
   `capital_share_or` varchar(20) NOT NULL,
   `capital_share_date` varchar(20) NOT NULL,
   `capital_share_created` datetime NOT NULL,

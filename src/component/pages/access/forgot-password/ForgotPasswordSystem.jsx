@@ -62,7 +62,7 @@ const ForgotPasswordSystem = () => {
         <div className="w-96 p-6">
           <div className="flex justify-center">
             <SccLogo />
-          </div> 
+          </div>
           <p className="mt-8 mb-5 text-lg font-bold">DEVOPS FORGOT PASSWORD</p>
           <Formik
             initialValues={initVal}
@@ -98,12 +98,12 @@ const ForgotPasswordSystem = () => {
           </Formik>
           <p className="mt-2">
             Go back to{" "}
-            <Link
-              to={`${devNavUrl}/${UrlSystem}/login`}
+            <a
+              href={`${devNavUrl}/${UrlSystem}/login`}
               className="w-full text-primary"
             >
               <u>Login</u>
-            </Link>
+            </a>
           </p>
         </div>
       </div>

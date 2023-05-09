@@ -90,14 +90,16 @@ class Savings
             $sql = "select * from ";
             $sql .= "{$this->tblSavings} ";
             $sql .= "where savings_member_id = :savings_member_id ";
-            $sql .= "and savings_deposite like :savings_deposite ";
+            $sql .= "and (savings_deposite like :savings_deposite ";
             $sql .= "or savings_withdrawal like :savings_withdrawal ";
-            $sql .= "or savings_date like :savings_date ";
+            $sql .= "or MONTHNAME(savings_date) like :savings_month_date ";
+            $sql .= "or savings_date like :savings_date) ";
             $sql .= "order by savings_date desc, ";
             $sql .= "savings_member_id asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "savings_member_id" => $this->savings_member_id,
+                "savings_month_date" => "{$this->savings_search}%",
                 "savings_date" => "{$this->savings_search}%",
                 "savings_deposite" => "{$this->savings_search}%",
                 "savings_withdrawal" => "{$this->savings_search}%",

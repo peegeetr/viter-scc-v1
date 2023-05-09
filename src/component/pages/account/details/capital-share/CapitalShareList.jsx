@@ -16,6 +16,7 @@ import NoData from "../../../../partials/NoData";
 import SearchBar from "../../../../partials/SearchBar";
 import ServerError from "../../../../partials/ServerError";
 import TableSpinner from "../../../../partials/spinners/TableSpinner";
+import { computeTotalCapital } from "./functions-capital-share";
 
 const CapitalShareList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -86,6 +87,14 @@ const CapitalShareList = ({ setItemEdit }) => {
         onSearch={onSearch}
       />
       <div className="relative text-center overflow-x-auto z-0">
+        {status !== "loading" && result?.pages[0].data.length > 0 && (
+          <div className="text-center my-4 text-primary font-bold">
+            <p>
+              <span className="mr-4">Total Capital Share :</span>{" "}
+              {computeTotalCapital(result?.pages[0])}
+            </p>
+          </div>
+        )}
         <table>
           <thead>
             <tr>
@@ -93,7 +102,6 @@ const CapitalShareList = ({ setItemEdit }) => {
               <th className="w-[15rem]">Date</th>
               <th className="w-[15rem]">OR</th>
               <th className="w-[15rem]">Paid up Capital</th>
-              <th className="w-[15rem]">Total Capital Share</th>
               {store.credentials.data.role_is_member === 0 && (
                 <th className="max-w-[5rem]">Actions</th>
               )}
@@ -123,7 +131,6 @@ const CapitalShareList = ({ setItemEdit }) => {
                     <td>{formatDate(item.capital_share_date)}</td>
                     <td>{item.capital_share_or}</td>
                     <td>{item.capital_share_paid_up}</td>
-                    <td>{numberWithCommas(item.capital_share_total_amount)}</td>
                     {store.credentials.data.role_is_member === 0 && (
                       <td>
                         <div className="flex items-center gap-1">

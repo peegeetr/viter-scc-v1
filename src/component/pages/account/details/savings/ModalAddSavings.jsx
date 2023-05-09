@@ -103,10 +103,10 @@ const ModalAddSavings = ({ item }) => {
               }}
             >
               {(props) => {
-                // props.values.savings_deposite =
-                //   category === "0" ? props.values.savings_deposite : "0";
-                // props.values.savings_withdrawal =
-                //   category === "1" ? props.values.savings_withdrawal : "0";
+                props.values.savings_deposite =
+                  category === "0" ? props.values.savings_deposite : "0";
+                props.values.savings_withdrawal =
+                  category === "1" ? props.values.savings_withdrawal : "0";
                 return (
                   <Form className="">
                     <div className="relative my-5">
@@ -119,7 +119,9 @@ const ModalAddSavings = ({ item }) => {
                           e.target.parentElement.classList.add("focused")
                         }
                       >
-                        <option value="">--</option>
+                        <option value="" hidden>
+                          --
+                        </option>
                         <option value="0">Savings Deposite</option>
                         <option value="1">Savings Withdrawal</option>
                       </InputSelect>

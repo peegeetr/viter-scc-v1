@@ -17,6 +17,7 @@ import {
   getUrlParam,
   numberWithCommas,
 } from "../../../../helpers/functions-general";
+import { computeTotalSavings } from "./functions-savings";
 
 const SavingsList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -88,6 +89,14 @@ const SavingsList = ({ setItemEdit }) => {
         onSearch={onSearch}
       />
       <div className="relative text-center overflow-x-auto z-0">
+        {status !== "loading" && result?.pages[0].data.length > 0 && (
+          <div className="text-center my-4 text-primary font-bold">
+            <p>
+              <span className="mr-4">Total Saving :</span>
+              {computeTotalSavings(result?.pages[0])}
+            </p>
+          </div>
+        )}
         <table>
           <thead>
             <tr>
@@ -96,7 +105,6 @@ const SavingsList = ({ setItemEdit }) => {
               <th className="w-[15rem]">Date</th>
               <th className="w-[15rem]">Saving Deposit</th>
               <th className="w-[15rem]">Withdrawal</th>
-              <th className="w-[15rem]">Savings Interest</th>
               {store.credentials.data.role_is_member === 0 && (
                 <th className="max-w-[5rem]">Actions</th>
               )}
@@ -143,7 +151,7 @@ const SavingsList = ({ setItemEdit }) => {
                         ? numberWithCommas(item.savings_withdrawal)
                         : ""}
                     </td>
-                    <td>{numberWithCommas(item.savings_interest)}</td>
+                    {/* <td>{numberWithCommas(item.savings_interest)}</td> */}
                     {store.credentials.data.role_is_member === 0 && (
                       <td>
                         <div className="flex items-center gap-1">

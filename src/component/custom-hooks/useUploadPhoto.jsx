@@ -14,7 +14,7 @@ const useUploadPhoto = (url, dispatch) => {
       const fd = new FormData();
       fd.append("photo", photo);
 
-      const data = await fetchFormData(devApiUrl + url, fd, dispatch);
+      const data = await fetchFormData(devApiUrl + url, fd);
 
       consoleLog(data);
     }
@@ -32,16 +32,16 @@ const useUploadPhoto = (url, dispatch) => {
 
     const img = e.target.files[0];
     consoleLog(img);
-    if (img.size > 31000) {
+    if (img.size > 5000) {
       dispatch(setError(true));
       dispatch(
         setMessage(
-          "Profile photo is too big. It should be less than 30Kb and 515x300px size for better result."
+          "Photo is too big. It should be less than 5Kb and 80x80px size for better result."
         )
       );
     } else {
       dispatch(setError(false));
-      consoleLog("set photo");
+      consoleLog("Set photo");
       setPhoto(img);
     }
   };

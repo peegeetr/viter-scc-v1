@@ -1,21 +1,13 @@
 import React from "react";
-import { FaPlusCircle } from "react-icons/fa";
-import { setIsAdd } from "../../../store/StoreAction.jsx";
 import { StoreContext } from "../../../store/StoreContext.jsx";
-import BreadCrumbs from "../../partials/BreadCrumbs.jsx";
 import Footer from "../../partials/Footer.jsx";
 import Header from "../../partials/Header.jsx";
 import Navigation from "../../partials/Navigation.jsx";
-import DetailsLink from "../account/details/DetailsLink.jsx";
+import MyAccountDetailsLink from "./MyAccountDetailsLink.jsx";
 
 const MyAccount = () => {
   const { store, dispatch } = React.useContext(StoreContext);
-  const [itemEdit, setItemEdit] = React.useState(null);
 
-  const handleAdd = () => {
-    dispatch(setIsAdd(true));
-    setItemEdit(null);
-  };
   return (
     <>
       <Header />
@@ -28,7 +20,7 @@ const MyAccount = () => {
         <hr />
 
         <div className="w-full pt-5 pb-20">
-          <DetailsLink setItemEdit={setItemEdit} />
+          <MyAccountDetailsLink />
         </div>
         <Footer />
       </div>

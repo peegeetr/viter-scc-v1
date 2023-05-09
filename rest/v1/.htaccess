@@ -133,3 +133,6 @@ RewriteRule ^sales/([0-9]+)$ controllers/inventory/sales/sales.php?salesid=$1 [L
 RewriteRule ^sales/active/([0-9]+)$ controllers/inventory/sales/active.php?salesid=$1 [L]
 RewriteRule ^sales/page/([0-9]+)$ controllers/inventory/sales/page.php?start=$1 [L]
 RewriteRule ^sales/search/([A-Za-z0-9-]+)$ controllers/inventory/sales/search.php?search=$1 [L]
+
+#upload Photo
+RewriteRule ^member/upload/photo$ core/upload-photo.php [L]

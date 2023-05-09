@@ -268,6 +268,7 @@ class Members
             $sql .= "members_last_name = :members_last_name, ";
             $sql .= "members_middle_name = :members_middle_name, ";
             $sql .= "members_gender = :members_gender, ";
+            $sql .= "members_picture = :members_picture, ";
             $sql .= "members_birth_date = :members_birth_date, ";
             $sql .= "members_datetime = :members_datetime ";
             $sql .= "where members_aid  = :members_aid ";
@@ -279,6 +280,7 @@ class Members
                 "members_last_name" => $this->members_last_name,
                 "members_middle_name" => $this->members_middle_name,
                 "members_gender" => $this->members_gender,
+                "members_picture" => $this->members_picture,
                 "members_birth_date" => $this->members_birth_date,
                 "members_datetime" => $this->members_datetime,
                 "members_aid" => $this->members_aid,

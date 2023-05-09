@@ -13,7 +13,11 @@ import {
 import { StoreContext } from "../../../../../store/StoreContext";
 import useQueryData from "../../../../custom-hooks/useQueryData";
 import { InputFileUpload } from "../../../../helpers/FormInputs";
-import { formatDate, getUrlParam } from "../../../../helpers/functions-general";
+import {
+  devBaseImgUrl,
+  formatDate,
+  getUrlParam,
+} from "../../../../helpers/functions-general";
 import ModalDeleteRestore from "../../../../partials/modals/ModalDeleteRestore";
 import NoData from "../../../../partials/NoData";
 import ServerError from "../../../../partials/ServerError";
@@ -122,10 +126,11 @@ const ProfileList = ({ members, isLoading, error }) => {
               </div>
               <div className="text-left grid sm:grid-cols-[15rem_1fr] mb-2 pl-2">
                 <div className="hidden sm:block mx-auto">
-                  {item.members_photo ? (
+                  {item.members_picture ? (
                     <img
-                      src="https://hris.frontlinebusiness.com.ph/img/abrigo.jpg"
-                      alt="members photo"
+                      // src="https://hris.frontlinebusiness.com.ph/img/abrigo.jpg"
+                      src={devBaseImgUrl + "/" + item.members_picture}
+                      alt="employee photo"
                       className="rounded-full h-20 w-20 object-cover object-center"
                     />
                   ) : (
@@ -133,46 +138,6 @@ const ProfileList = ({ members, isLoading, error }) => {
                       <FaUserCircle />
                     </span>
                   )}
-                  <Formik
-                    initialValues={initVal}
-                    validationSchema={yupSchema}
-                    onSubmit={async (values, { setSubmitting, resetForm }) => {
-                      fetchData(
-                        setLoading,
-                        `/v1/job-titles/${itemEdit.job_title_aid}`,
-                        values, // form data values
-                        null, // result set data
-                        "Succesfully updated.", // success msg
-                        "", // additional error msg if needed
-                        dispatch, // context api action
-                        store, // context api state
-                        true, // boolean to show success modal
-                        false, // boolean to show load more functionality button
-                        null, // navigate default value
-                        "put"
-                      );
-                      dispatch(setStartIndex(0));
-                    }}
-                  >
-                    {(props) => {
-                      return (
-                        <Form>
-                          <button
-                            type="button"
-                            className="tooltip-action-table bottom-8 left-12"
-                            data-tooltip="Upload image"
-                          >
-                            <AiFillCamera className="rounded-full h-8 w-8 p-2 fill-white bg-sky-500" />
-                            <InputFileUpload
-                              name="photo"
-                              type="file"
-                              className="rounded-full h-8 w-8 absolute top-0 right-0 bottom-0 left-0 opacity-0 cursor-pointer"
-                            />
-                          </button>
-                        </Form>
-                      );
-                    }}
-                  </Formik>
                 </div>
 
                 <div className="text-left grid grid-cols-2 md:grid-cols-[1fr_2fr] pl-2">
@@ -406,9 +371,11 @@ const ProfileList = ({ members, isLoading, error }) => {
         )}
       </div>
 
-      {store.isAdd && <ModalUpdateBasicInfo item={itemEdit} />}
-      {store.isConfirm && <ModalUpdatePresentAddress item={itemEdit} />}
-      {store.isEditProfile && <ModalUpdateJobInfo item={itemEdit} />}
+      {store.isAdd && !isopen && <ModalUpdateBasicInfo item={itemEdit} />}
+      {store.isConfirm && !isopen && (
+        <ModalUpdatePresentAddress item={itemEdit} />
+      )}
+      {store.isEditProfile && !isopen && <ModalUpdateJobInfo item={itemEdit} />}
       {store.isAdd && isopen && <ModalUpdateAdditionalInfo item={itemEdit} />}
       {store.isConfirm && isopen && (
         <ModalUpdatePermanentAddress item={itemEdit} />

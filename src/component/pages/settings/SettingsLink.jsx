@@ -16,7 +16,6 @@ const SettingsLink = () => {
       <Navigation menu="settings" />
       <div className="wrapper">
         <h4 className="text-xl mb-3">Settings</h4>
-        {/* <BreadCrumbs /> */}
         <hr />
         <ul className="pt-2 pb-20 relative">
           <li className="py-1">
@@ -26,9 +25,9 @@ const SettingsLink = () => {
               <OtherUserLink />
             )}
           </li>
-          <li className="py-1">
+          {/* <li className="py-1">
             <NetSurplusLink />
-          </li>
+          </li> */}
         </ul>
         <Footer />
       </div>

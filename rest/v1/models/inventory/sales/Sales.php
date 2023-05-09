@@ -180,14 +180,18 @@ class Sales
             $sql .= "and sales.sales_member_id = member.members_aid ";
             $sql .= "and (orders.orders_number like :orders_number ";
             $sql .= "or sales.sales_number like :sales_number ";
-            $sql .= "or MONTHNAME(orders.orders_date) like :orders_date ";
-            $sql .= "or MONTHNAME(sales.sales_date) like :sales_date ";
+            $sql .= "or MONTHNAME(orders.orders_date) like :orders_month_date ";
+            $sql .= "or MONTHNAME(sales.sales_date) like :sales_month_date ";
+            $sql .= "or orders.orders_date like :orders_date ";
+            $sql .= "or sales.sales_date like :sales_date ";
             $sql .= "or suppliersProducts.suppliers_products_name like :suppliers_products_name) ";
             $sql .= "order by sales.sales_is_paid, ";
             $sql .= "sales.sales_date desc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "suppliers_products_name" => "{$this->sales_search}%",
+                "orders_month_date" => "{$this->sales_search}%",
+                "sales_month_date" => "{$this->sales_search}%",
                 "orders_date" => "{$this->sales_search}%",
                 "sales_date" => "{$this->sales_search}%",
                 "orders_number" => "{$this->sales_search}%",

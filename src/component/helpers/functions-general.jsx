@@ -20,6 +20,8 @@ import { setIsAdd } from "../../store/StoreAction.jsx";
 // cy url
 export const devApiUrl = "http://localhost/projects/viter-scc-v1/rest";
 export const devBaseUrl = "http://localhost/projects/viter-scc-v1/public";
+export const devBaseImgUrl =
+  "http://localhost/projects/viter-scc-v1/public/img";
 export const devNavUrl = "";
 
 export const UrlAdmin = "admin";

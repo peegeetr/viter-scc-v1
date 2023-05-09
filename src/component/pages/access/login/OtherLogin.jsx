@@ -120,12 +120,12 @@ const OtherLogin = () => {
             </Formik>
             <p className="mt-5">
               Did you forget your password?{" "}
-              <Link
-                to={`${devNavUrl}/forgot-password`}
+              <a
+                href={`${devNavUrl}/forgot-password`}
                 className="w-full text-primary"
               >
                 <u> Forgot password</u>
-              </Link>
+              </a>
             </p>
           </div>
         </div>

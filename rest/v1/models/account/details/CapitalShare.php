@@ -4,7 +4,6 @@ class CapitalShare
     public $capital_share_aid;
     public $capital_share_member_id;
     public $capital_share_paid_up;
-    public $capital_share_total_amount;
     public $capital_share_or;
     public $capital_share_date;
     public $capital_share_created;
@@ -31,14 +30,12 @@ class CapitalShare
             $sql = "insert into {$this->tblCapitalShare} ";
             $sql .= "( capital_share_member_id, ";
             $sql .= "capital_share_paid_up, ";
-            $sql .= "capital_share_total_amount	, ";
             $sql .= "capital_share_or, ";
             $sql .= "capital_share_date, ";
             $sql .= "capital_share_created, ";
             $sql .= "capital_share_datetime ) values ( ";
             $sql .= ":capital_share_member_id, ";
             $sql .= ":capital_share_paid_up, ";
-            $sql .= ":capital_share_total_amount	, ";
             $sql .= ":capital_share_or, ";
             $sql .= ":capital_share_date, ";
             $sql .= ":capital_share_created, ";
@@ -47,7 +44,6 @@ class CapitalShare
             $query->execute([
                 "capital_share_member_id" => $this->capital_share_member_id,
                 "capital_share_paid_up" => $this->capital_share_paid_up,
-                "capital_share_total_amount" => $this->capital_share_total_amount,
                 "capital_share_or" => $this->capital_share_or,
                 "capital_share_date" => $this->capital_share_date,
                 "capital_share_created" => $this->capital_share_created,
@@ -81,14 +77,16 @@ class CapitalShare
             $sql = "select * from ";
             $sql .= "{$this->tblCapitalShare} ";
             $sql .= "where capital_share_member_id = :capital_share_member_id ";
-            $sql .= "and capital_share_paid_up like :capital_share_paid_up ";
-            $sql .= "or capital_share_date like :capital_share_date ";
+            $sql .= "and (capital_share_paid_up like :capital_share_paid_up ";
+            $sql .= "or MONTHNAME(capital_share_date) like :capital_share_month_date ";
+            $sql .= "or capital_share_date like :capital_share_date) ";
             $sql .= "order by capital_share_date desc, ";
             $sql .= "capital_share_member_id asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "capital_share_member_id" => $this->capital_share_member_id,
                 "capital_share_date" => "{$this->capital_search}%",
+                "capital_share_month_date" => "{$this->capital_search}%",
                 "capital_share_paid_up" => "{$this->capital_search}%",
             ]);
         } catch (PDOException $ex) {
@@ -141,7 +139,6 @@ class CapitalShare
     {
         try {
             $sql = "update {$this->tblCapitalShare} set ";
-            $sql .= "capital_share_total_amount	= :capital_share_total_amount	, ";
             $sql .= "capital_share_paid_up = :capital_share_paid_up, ";
             $sql .= "capital_share_or = :capital_share_or, ";
             $sql .= "capital_share_date = :capital_share_date, ";
@@ -149,7 +146,6 @@ class CapitalShare
             $sql .= "where capital_share_aid  = :capital_share_aid ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "capital_share_total_amount" => $this->capital_share_total_amount,
                 "capital_share_paid_up" => $this->capital_share_paid_up,
                 "capital_share_or" => $this->capital_share_or,
                 "capital_share_date" => $this->capital_share_date,

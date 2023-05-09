@@ -132,7 +132,8 @@ const DashboardList = ({ setItemEdit }) => {
                         <p className="text-xs max-w-[650px] w-full m-0">
                           {item.announcement_name}
                         </p>
-                        {store.credentials.data.role_is_admin === 0 && (
+                        {(store.credentials.data.role_is_admin === 1 ||
+                          store.credentials.data.role_is_developer === 1) && (
                           <p className="text-xs max-w-[650px] py-2 w-full m-0">
                             {item.announcement_is_active === 1 ? (
                               <StatusActive />
@@ -142,7 +143,8 @@ const DashboardList = ({ setItemEdit }) => {
                           </p>
                         )}
                       </div>
-                      {store.credentials.data.role_is_admin === 0 && (
+                      {(store.credentials.data.role_is_admin === 1 ||
+                        store.credentials.data.role_is_developer === 1) && (
                         <div className="flex items-center gap-1">
                           {item.announcement_is_active === 1 && (
                             <>

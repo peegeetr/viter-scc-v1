@@ -16,39 +16,61 @@ import ForgotPasswordSystem from "./component/pages/access/forgot-password/Forgo
 import ForgotPasswordVerification from "./component/pages/access/forgot-password/ForgotPasswordVerification";
 import OtherLogin from "./component/pages/access/login/OtherLogin";
 import SystemLogin from "./component/pages/access/login/SystemLogin";
-import Account from "./component/pages/account/Account";
-import Deatils from "./component/pages/account/details/Details";
-import CapitalShare from "./component/pages/account/details/capital-share/CapitalShare";
-import Patronage from "./component/pages/account/details/patronage/Patronage";
-import Profile from "./component/pages/account/details/profile/Profile";
-import Savings from "./component/pages/account/details/savings/Savings";
-import Application from "./component/pages/application/Application";
-import AppProfile from "./component/pages/application/details/AppProfile";
-import Dashboard from "./component/pages/dashboard/Dashboard";
-import FileUpload from "./component/pages/file-upload/FileUpload";
-import MyAccount from "./component/pages/my-account/MyAccount";
-import MyCapitalShare from "./component/pages/my-account/capital-share/MyCapitalShare";
-import MyPatronage from "./component/pages/my-account/patronage/MyPatronage";
-import MyProfile from "./component/pages/my-account/profile/MyProfile";
-import MySavings from "./component/pages/my-account/savings/MySavings";
-import SettingsLink from "./component/pages/settings/SettingsLink";
-import NetSurPlus from "./component/pages/settings/net-surplus/NetSurPlus";
 import UserPage from "./component/pages/settings/users/UserPage";
 import OtherUser from "./component/pages/settings/users/other/OtherUser";
 import Role from "./component/pages/settings/users/role/Role";
 import SystemUser from "./component/pages/settings/users/system/SystemUser";
 import PageNotFound from "./component/partials/PageNotFound";
 
-import InventoryDetails from "./component/pages/Inventory/InventoryDetails";
 import Category from "./component/pages/Inventory/categories/Category";
+import AdminInventoryDetails from "./component/pages/Inventory/links/AdminInventoryDetails";
+import SystemInventoryDetails from "./component/pages/Inventory/links/SystemInventoryDetails";
 import Orders from "./component/pages/Inventory/orders/Orders";
 import Products from "./component/pages/Inventory/products/Products";
 import Reports from "./component/pages/Inventory/reports/Reports";
 import Sales from "./component/pages/Inventory/sales/Sales";
 import Stocks from "./component/pages/Inventory/stocks/Stocks";
 import Suppliers from "./component/pages/Inventory/suppliers/Suppliers";
-import { StoreProvider } from "./store/StoreContext";
 import SupplierProduct from "./component/pages/Inventory/suppliers/products/SupplierProduct";
+import AdminCapitalShare from "./component/pages/account/details/capital-share/links/AdminCapitalShare";
+import SystemCapitalShare from "./component/pages/account/details/capital-share/links/SystemCapitalShare";
+import AdminDeatils from "./component/pages/account/details/links/AdminDeatils";
+import SystemDeatils from "./component/pages/account/details/links/SystemDeatils";
+import AdminPatronage from "./component/pages/account/details/patronage/links/AdminPatronage";
+import SystemPatronage from "./component/pages/account/details/patronage/links/SystemPatronage";
+import AdminProfile from "./component/pages/account/details/profile/links/AdminProfile";
+import SystemProfile from "./component/pages/account/details/profile/links/SystemProfile";
+import AdminSavings from "./component/pages/account/details/savings/links/AdminSavings";
+import SystemSavings from "./component/pages/account/details/savings/links/SystemSavings";
+import AdminAccount from "./component/pages/account/links/AdminAccount";
+import SystemAccount from "./component/pages/account/links/SystemUserPayrollList";
+import AdminAppProfile from "./component/pages/application/details/links/AdminAppProfile";
+import SystemAppProfile from "./component/pages/application/details/links/SystemAppProfile";
+import AdminApplication from "./component/pages/application/links/AdminApplication";
+import SystemApplication from "./component/pages/application/links/SystemApplication";
+import AdminDashboard from "./component/pages/dashboard/links/AdminDashboard";
+import MemberDashboard from "./component/pages/dashboard/links/MemberDashboard";
+import SystemDashboard from "./component/pages/dashboard/links/SystemDashboard";
+import AdminFileUpload from "./component/pages/file-upload/links/AdminFileUpload";
+import MemberFileUpload from "./component/pages/file-upload/links/MemberFileUpload";
+import SystemFileUpload from "./component/pages/file-upload/links/SystemFileUpload";
+import AdminMyCapitalShare from "./component/pages/my-account/capital-share/links/AdminMyCapitalShare";
+import MemberMyCapitalShare from "./component/pages/my-account/capital-share/links/MemberMyCapitalShare";
+import AdminMyAccount from "./component/pages/my-account/links/AdminMyAccount";
+import MemberMyAccount from "./component/pages/my-account/links/MemberMyAccount";
+import AdminMyPatronage from "./component/pages/my-account/patronage/links/AdminMyPatronage";
+import MemberMyPatronage from "./component/pages/my-account/patronage/links/MemberMyPatronage";
+import AdminMyProfile from "./component/pages/my-account/profile/links/AdminMyProfile";
+import MemberMyProfile from "./component/pages/my-account/profile/links/MemberMyProfile";
+import AdminMySavings from "./component/pages/my-account/savings/links/AdminMySavings";
+import MemberMySavings from "./component/pages/my-account/savings/links/MemberMySavings";
+import AdminSettingsLink from "./component/pages/settings/links/AdminSettingsLink";
+import SystemSettingsLink from "./component/pages/settings/links/SystemSettingsLink";
+import SystemNetSurPlus from "./component/pages/settings/net-surplus/links/SystemNetSurPlus";
+import { StoreProvider } from "./store/StoreContext";
+import AdminNetSurPlus from "./component/pages/settings/net-surplus/links/AdminNetSurPlus";
+import SystemOtherUser from "./component/pages/settings/users/other/links/SystemOtherUser";
+import AdminOtherUser from "./component/pages/settings/users/other/links/AdminOtherUser";
 
 function App() {
   // Create a client
@@ -68,7 +90,6 @@ function App() {
               element={<CreatePasswordSuccess />}
             />
             {/* login other user */}
-            <Route path={`/${devNavUrl}`} element={<OtherLogin />} />
             <Route path={`/${devNavUrl}/login`} element={<OtherLogin />} />
 
             <Route
@@ -81,10 +102,7 @@ function App() {
             />
 
             {/* login system user */}
-            <Route
-              path={`/${devNavUrl}/${UrlSystem}`}
-              element={<SystemLogin />}
-            />
+
             <Route
               path={`/${devNavUrl}/${UrlSystem}/login`}
               element={<SystemLogin />}
@@ -104,7 +122,7 @@ function App() {
               path={`${devNavUrl}/${UrlSystem}/dashboard`}
               element={
                 <ProtectedRouteSystem>
-                  <Dashboard />
+                  <SystemDashboard />
                 </ProtectedRouteSystem>
               }
             />
@@ -112,7 +130,7 @@ function App() {
               path={`${devNavUrl}/${UrlSystem}/account`}
               element={
                 <ProtectedRouteSystem>
-                  <Account />
+                  <SystemAccount />
                 </ProtectedRouteSystem>
               }
             />
@@ -120,7 +138,7 @@ function App() {
               path={`${devNavUrl}/${UrlSystem}/application`}
               element={
                 <ProtectedRouteSystem>
-                  <Application />
+                  <SystemApplication />
                 </ProtectedRouteSystem>
               }
             />
@@ -128,25 +146,7 @@ function App() {
               path={`${devNavUrl}/${UrlSystem}/application/profile`}
               element={
                 <ProtectedRouteSystem>
-                  <AppProfile />
-                </ProtectedRouteSystem>
-              }
-            />
-
-            <Route
-              path={`${devNavUrl}/${UrlSystem}/account/details/savings`}
-              element={
-                <ProtectedRouteSystem>
-                  <Savings />
-                </ProtectedRouteSystem>
-              }
-            />
-
-            <Route
-              path={`${devNavUrl}/${UrlSystem}/account/details/capital-share`}
-              element={
-                <ProtectedRouteSystem>
-                  <CapitalShare />
+                  <SystemAppProfile />
                 </ProtectedRouteSystem>
               }
             />
@@ -155,7 +155,7 @@ function App() {
               path={`${devNavUrl}/${UrlSystem}/account/details`}
               element={
                 <ProtectedRouteSystem>
-                  <Deatils />
+                  <SystemDeatils />
                 </ProtectedRouteSystem>
               }
             />
@@ -163,7 +163,7 @@ function App() {
               path={`${devNavUrl}/${UrlSystem}/account/details/profile`}
               element={
                 <ProtectedRouteSystem>
-                  <Profile />
+                  <SystemProfile />
                 </ProtectedRouteSystem>
               }
             />
@@ -172,7 +172,7 @@ function App() {
               path={`${devNavUrl}/${UrlSystem}/account/details/savings`}
               element={
                 <ProtectedRouteSystem>
-                  <Savings />
+                  <SystemSavings />
                 </ProtectedRouteSystem>
               }
             />
@@ -181,7 +181,7 @@ function App() {
               path={`${devNavUrl}/${UrlSystem}/account/details/capital-share`}
               element={
                 <ProtectedRouteSystem>
-                  <CapitalShare />
+                  <SystemCapitalShare />
                 </ProtectedRouteSystem>
               }
             />
@@ -189,7 +189,7 @@ function App() {
               path={`${devNavUrl}/${UrlSystem}/account/details/patronage`}
               element={
                 <ProtectedRouteSystem>
-                  <Patronage />
+                  <SystemPatronage />
                 </ProtectedRouteSystem>
               }
             />
@@ -198,25 +198,17 @@ function App() {
               path={`${devNavUrl}/${UrlSystem}/file-upload`}
               element={
                 <ProtectedRouteSystem>
-                  <FileUpload />
+                  <SystemFileUpload />
                 </ProtectedRouteSystem>
               }
             />
 
             {/* system settings */}
             <Route
-              path={`${devNavUrl}/${UrlSystem}/settings`}
-              element={
-                <ProtectedRouteSystem>
-                  <SettingsLink />
-                </ProtectedRouteSystem>
-              }
-            />
-            <Route
               path={`${devNavUrl}/${UrlSystem}/inventory`}
               element={
                 <ProtectedRouteSystem>
-                  <InventoryDetails />
+                  <SystemInventoryDetails />
                 </ProtectedRouteSystem>
               }
             />
@@ -293,10 +285,18 @@ function App() {
               }
             />
             <Route
+              path={`${devNavUrl}/${UrlSystem}/settings`}
+              element={
+                <ProtectedRouteSystem>
+                  <SystemSettingsLink />
+                </ProtectedRouteSystem>
+              }
+            />
+            <Route
               path={`${devNavUrl}/${UrlSystem}/settings/net-surplus`}
               element={
                 <ProtectedRouteSystem>
-                  <NetSurPlus />
+                  <SystemNetSurPlus />
                 </ProtectedRouteSystem>
               }
             />
@@ -320,7 +320,7 @@ function App() {
               path={`${devNavUrl}/${UrlSystem}/settings/users/other`}
               element={
                 <ProtectedRouteSystem>
-                  <OtherUser />
+                  <SystemOtherUser />
                 </ProtectedRouteSystem>
               }
             />
@@ -338,7 +338,7 @@ function App() {
               path={`${devNavUrl}/${UrlMember}/dashboard`}
               element={
                 <ProtectedRouteOther>
-                  <Dashboard />
+                  <MemberDashboard />
                 </ProtectedRouteOther>
               }
             />
@@ -347,7 +347,7 @@ function App() {
               path={`${devNavUrl}/${UrlMember}/details`}
               element={
                 <ProtectedRouteOther>
-                  <MyAccount />
+                  <MemberMyAccount />
                 </ProtectedRouteOther>
               }
             />
@@ -355,7 +355,7 @@ function App() {
               path={`${devNavUrl}/${UrlMember}/details/profile`}
               element={
                 <ProtectedRouteOther>
-                  <MyProfile />
+                  <MemberMyProfile />
                 </ProtectedRouteOther>
               }
             />
@@ -364,7 +364,7 @@ function App() {
               path={`${devNavUrl}/${UrlMember}/details/savings`}
               element={
                 <ProtectedRouteOther>
-                  <MySavings />
+                  <MemberMySavings />
                 </ProtectedRouteOther>
               }
             />
@@ -373,7 +373,7 @@ function App() {
               path={`${devNavUrl}/${UrlMember}/details/capital-share`}
               element={
                 <ProtectedRouteOther>
-                  <MyCapitalShare />
+                  <MemberMyCapitalShare />
                 </ProtectedRouteOther>
               }
             />
@@ -381,7 +381,7 @@ function App() {
               path={`${devNavUrl}/${UrlMember}/details/patronage`}
               element={
                 <ProtectedRouteOther>
-                  <MyPatronage />
+                  <MemberMyPatronage />
                 </ProtectedRouteOther>
               }
             />
@@ -390,7 +390,7 @@ function App() {
               path={`${devNavUrl}/${UrlMember}/file-upload`}
               element={
                 <ProtectedRouteOther>
-                  <FileUpload />
+                  <MemberFileUpload />
                 </ProtectedRouteOther>
               }
             />
@@ -400,7 +400,7 @@ function App() {
               path={`${devNavUrl}/${UrlAdmin}/dashboard`}
               element={
                 <ProtectedRouteOther>
-                  <Dashboard />
+                  <AdminDashboard />
                 </ProtectedRouteOther>
               }
             />
@@ -409,7 +409,7 @@ function App() {
               path={`${devNavUrl}/${UrlAdmin}/account`}
               element={
                 <ProtectedRouteOther>
-                  <Account />
+                  <AdminAccount />
                 </ProtectedRouteOther>
               }
             />
@@ -418,7 +418,7 @@ function App() {
               path={`${devNavUrl}/${UrlAdmin}/application`}
               element={
                 <ProtectedRouteOther>
-                  <Application />
+                  <AdminApplication />
                 </ProtectedRouteOther>
               }
             />
@@ -426,7 +426,7 @@ function App() {
               path={`${devNavUrl}/${UrlAdmin}/account/details`}
               element={
                 <ProtectedRouteOther>
-                  <MyAccount />
+                  <AdminDeatils />
                 </ProtectedRouteOther>
               }
             />
@@ -434,7 +434,7 @@ function App() {
               path={`${devNavUrl}/${UrlAdmin}/account/details/profile`}
               element={
                 <ProtectedRouteOther>
-                  <Profile />
+                  <AdminProfile />
                 </ProtectedRouteOther>
               }
             />
@@ -443,7 +443,7 @@ function App() {
               path={`${devNavUrl}/${UrlAdmin}/account/details/savings`}
               element={
                 <ProtectedRouteOther>
-                  <Savings />
+                  <AdminSavings />
                 </ProtectedRouteOther>
               }
             />
@@ -452,7 +452,7 @@ function App() {
               path={`${devNavUrl}/${UrlAdmin}/account/details/capital-share`}
               element={
                 <ProtectedRouteOther>
-                  <CapitalShare />
+                  <AdminCapitalShare />
                 </ProtectedRouteOther>
               }
             />
@@ -460,7 +460,7 @@ function App() {
               path={`${devNavUrl}/${UrlAdmin}/account/details/patronage`}
               element={
                 <ProtectedRouteOther>
-                  <Patronage />
+                  <AdminPatronage />
                 </ProtectedRouteOther>
               }
             />
@@ -468,7 +468,50 @@ function App() {
               path={`${devNavUrl}/${UrlAdmin}/application/profile`}
               element={
                 <ProtectedRouteOther>
-                  <AppProfile />
+                  <AdminAppProfile />
+                </ProtectedRouteOther>
+              }
+            />
+
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/details`}
+              element={
+                <ProtectedRouteOther>
+                  <AdminMyAccount />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/details/profile`}
+              element={
+                <ProtectedRouteOther>
+                  <AdminMyProfile />
+                </ProtectedRouteOther>
+              }
+            />
+
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/details/savings`}
+              element={
+                <ProtectedRouteOther>
+                  <AdminMySavings />
+                </ProtectedRouteOther>
+              }
+            />
+
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/details/capital-share`}
+              element={
+                <ProtectedRouteOther>
+                  <AdminMyCapitalShare />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/details/patronage`}
+              element={
+                <ProtectedRouteOther>
+                  <AdminMyPatronage />
                 </ProtectedRouteOther>
               }
             />
@@ -476,7 +519,7 @@ function App() {
               path={`${devNavUrl}/${UrlAdmin}/file-upload`}
               element={
                 <ProtectedRouteOther>
-                  <FileUpload />
+                  <AdminFileUpload />
                 </ProtectedRouteOther>
               }
             />
@@ -486,7 +529,7 @@ function App() {
               path={`${devNavUrl}/${UrlAdmin}/inventory`}
               element={
                 <ProtectedRouteOther>
-                  <InventoryDetails />
+                  <AdminInventoryDetails />
                 </ProtectedRouteOther>
               }
             />
@@ -567,7 +610,15 @@ function App() {
               path={`${devNavUrl}/${UrlAdmin}/settings`}
               element={
                 <ProtectedRouteOther>
-                  <SettingsLink />
+                  <AdminSettingsLink />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/settings/net-surplus`}
+              element={
+                <ProtectedRouteOther>
+                  <AdminNetSurPlus />
                 </ProtectedRouteOther>
               }
             />
@@ -575,7 +626,7 @@ function App() {
               path={`${devNavUrl}/${UrlAdmin}/settings/other`}
               element={
                 <ProtectedRouteOther>
-                  <OtherUser />
+                  <AdminOtherUser />
                 </ProtectedRouteOther>
               }
             />

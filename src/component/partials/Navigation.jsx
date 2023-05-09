@@ -49,8 +49,8 @@ const Navigation = ({ menu }) => {
               <span className="md:hidden lg:block">Announcement</span>
             </Link>
           </li>
-          {store.credentials.data.role_is_admin === 1 ||
-          store.credentials.data.role_is_developer === 1 ? (
+          {(store.credentials.data.role_is_admin === 1 ||
+            store.credentials.data.role_is_developer === 1) && (
             <>
               <li
                 className={
@@ -88,7 +88,8 @@ const Navigation = ({ menu }) => {
                 </Link>
               </li>
             </>
-          ) : (
+          )}
+          {store.credentials.data.role_is_developer !== 1 && (
             <li
               className={
                 menu === "myaccount"
@@ -129,7 +130,6 @@ const Navigation = ({ menu }) => {
           {(store.credentials.data.role_is_admin === 1 ||
             store.credentials.data.role_is_developer === 1) && (
             <>
-               
               <li
                 className={
                   menu === "inventory"
