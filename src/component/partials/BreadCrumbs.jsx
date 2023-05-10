@@ -7,16 +7,17 @@ import { getUserType } from "../helpers/functions-general";
 const BreadCrumbs = ({ param = "" }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const location = useLocation();
-  const urlLink = getUserType(
-    store.credentials.data.role_is_developer,
-    store.credentials.data.role_is_admin
-  );
+  const urlLink = getUserType(store);
 
   const removeDev =
     store.credentials.data.role_is_developer === 1
       ? "/system"
       : store.credentials.data.role_is_admin === 1
       ? "/admin"
+      : store.credentials.data.role_is_manager === 1
+      ? "/manager"
+      : store.credentials.data.role_is_casher === 1
+      ? "/casher"
       : "/member";
   let currentLink = "";
 

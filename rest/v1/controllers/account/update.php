@@ -18,6 +18,8 @@ if (array_key_exists("membersid", $_GET) && array_key_exists("isUpdate", $_GET))
     if ($isUpdate === "additional") {
         $members->members_civil_status = checkIndex($data, "members_civil_status");
         $members->members_birth_place = checkIndex($data, "members_birth_place");
+        $members->members_email = checkIndex($data, "members_email");
+        $members->members_contact_no = checkIndex($data, "members_contact_no");
         $members->members_education_attainment = checkIndex($data, "members_education_attainment");
         $members->members_datetime = date("Y-m-d H:i:s");
 

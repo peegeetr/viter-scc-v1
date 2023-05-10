@@ -65,7 +65,7 @@ const PatronageList = () => {
 
   // use if not loadmore button undertime
   const { data: memberName, isLoading: loadingmemberName } = useQueryData(
-    `/v1/members/name/${memberid}`, // endpoint
+    `/v1/members/name/${empid}`, // endpoint
     "get", // method
     "memberName" // key
   );

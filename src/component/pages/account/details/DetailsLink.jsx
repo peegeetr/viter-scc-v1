@@ -1,14 +1,6 @@
 import React from "react";
-import { RiUserSharedFill } from "react-icons/ri";
-import { SlArrowRight } from "react-icons/sl";
-import { Link } from "react-router-dom";
 import { setStartIndex } from "../../../../store/StoreAction";
 import { StoreContext } from "../../../../store/StoreContext";
-import {
-  devNavUrl,
-  getUserType,
-  UrlSystem,
-} from "../../../helpers/functions-general";
 import CapitalShareLink from "./capital-share/CapitalShareLink";
 import PatronageLink from "./patronage/PatronageLink";
 import ProfileLink from "./profile/ProfileLink";

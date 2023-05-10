@@ -6,8 +6,8 @@ import { StoreContext } from "../../../../../store/StoreContext";
 import { devNavUrl, getUserType } from "../../../../helpers/functions-general";
 
 const RoleLink = () => {
-  const { store, dispatch } = React.useContext(StoreContext); 
-  const urlLink = getUserType(store.credentials.data.role_is_developer,store.credentials.data.role_is_admin);
+  const { store, dispatch } = React.useContext(StoreContext);
+  const urlLink = getUserType(store);
   return (
     <div className="group flex items-center justify-between border-b border-solid border-gray-300">
       <Link to={`${urlLink}/settings/users/role`} className="w-full py-1">

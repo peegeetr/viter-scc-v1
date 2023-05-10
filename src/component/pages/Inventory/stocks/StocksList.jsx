@@ -113,9 +113,9 @@ const StocksList = ({ setItemEdit }) => {
               <th className="min-w-[8rem]">Supplier</th>
               <th className="min-w-[8rem]">Product Name</th>
               <th className="min-w-[5rem]">Quantity</th>
-              <th className="min-w-[8rem]">Official Receipt</th>
+              <th className="min-w-[10rem]">Official Receipt</th>
               <th className="min-w-[8rem]">Created date</th>
-              <th className="min-w-[6rem]">Status</th>
+              <th>Status</th>
 
               <th className="max-w-[5rem]">Actions</th>
             </tr>
@@ -150,7 +150,10 @@ const StocksList = ({ setItemEdit }) => {
                     <td>{item.suppliers_products_name}</td>
                     <td>{item.stocks_quantity}</td>
                     <td>{item.stocks_or}</td>
-                    <td>{formatDate(item.stocks_created)}</td>
+                    <td>
+                      {`${formatDate(item.stocks_created)} 
+                      ${item.stocks_created.split(" ")[1]}`}
+                    </td>
                     <td>
                       {item.stocks_is_pending === 1 ? (
                         <StatusPending />

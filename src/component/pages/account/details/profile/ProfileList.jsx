@@ -177,6 +177,10 @@ const ProfileList = ({ members, isLoading, error }) => {
                 <p className="">{item.members_civil_status}</p>
                 <p className="font-semibold">Educational Attainment :</p>
                 <p className="">{item.members_education_attainment}</p>
+                <p className="font-semibold">Contact Number :</p>
+                <p className="">{item.members_contact_no}</p>
+                <p className="font-semibold">Personal Email :</p>
+                <p className="">{item.members_email}</p>
               </div>{" "}
               <div className="bg-gray-200 p-2 mb-5 flex justify-between items-center">
                 <h4>Permanent Address </h4>

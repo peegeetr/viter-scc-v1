@@ -4,18 +4,11 @@ import { SlArrowRight } from "react-icons/sl";
 import { Link } from "react-router-dom";
 import { setStartIndex } from "../../../../store/StoreAction";
 import { StoreContext } from "../../../../store/StoreContext";
-import {
-  devNavUrl,
-  getUserType,
-  UrlSystem,
-} from "../../../helpers/functions-general";
+import { getUserType } from "../../../helpers/functions-general";
 
 const NetSurplusLink = () => {
   const { store, dispatch } = React.useContext(StoreContext);
-  const urlLink = getUserType(
-    store.credentials.data.role_is_developer,
-    store.credentials.data.role_is_admin
-  );
+  const urlLink = getUserType(store);
 
   return (
     <div

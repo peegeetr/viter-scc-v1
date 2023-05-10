@@ -14,6 +14,7 @@ import {
 import { InputSelect, InputText } from "../../../helpers/FormInputs";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
 import useQueryData from "../../../custom-hooks/useQueryData";
+import { getDateTimeNow } from "../../../helpers/functions-general";
 
 const ModalAddStocks = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -70,12 +71,14 @@ const ModalAddStocks = ({ item }) => {
     stocks_product_id: item ? item.stocks_product_id : "",
     stocks_quantity: item ? item.stocks_quantity : "",
     stocks_or: item ? item.stocks_or : "",
+    stocks_date: item ? item.stocks_date : getDateTimeNow(),
   };
 
   const yupSchema = Yup.object({
     supplier_id: Yup.string().required("Required"),
     stocks_product_id: Yup.string().required("Required"),
     stocks_quantity: Yup.string().required("Required"),
+    stocks_date: Yup.string().required("Required"),
   });
 
   return (
@@ -106,6 +109,16 @@ const ModalAddStocks = ({ item }) => {
               {(props) => {
                 return (
                   <Form>
+                    <div className="relative my-5 ">
+                      <InputText
+                        label="Date"
+                        type="text"
+                        onFocus={(e) => (e.target.type = "datetime-local")}
+                        onBlur={(e) => (e.target.type = "text")}
+                        name="stocks_date"
+                        disabled={mutation.isLoading}
+                      />
+                    </div>
                     <div className="relative my-5">
                       <InputSelect
                         name="supplier_id"

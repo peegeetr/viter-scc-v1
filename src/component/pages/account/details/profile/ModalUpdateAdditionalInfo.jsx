@@ -50,12 +50,16 @@ const ModalUpdateAdditionalInfo = ({ item }) => {
     members_birth_place: item.members_birth_place,
     members_education_attainment: item.members_education_attainment,
     members_civil_status: item.members_civil_status,
+    members_contact_no: item.members_contact_no,
+    members_email: item.members_email,
   };
 
   const yupSchema = Yup.object({
     members_birth_place: Yup.string().required("Required"),
     members_civil_status: Yup.string().required("Required"),
     members_education_attainment: Yup.string().required("Required"),
+    members_contact_no: Yup.string().required("Required"),
+    members_email: Yup.string().required("Required"),
   });
 
   return (
@@ -101,6 +105,8 @@ const ModalUpdateAdditionalInfo = ({ item }) => {
                       <InputText
                         label="Birth Place"
                         type="text"
+                        onFocus={(e) => (e.target.type = "date")}
+                        onBlur={(e) => (e.target.type = "text")}
                         name="members_birth_place"
                         disabled={mutation.isLoading}
                       />
@@ -110,6 +116,22 @@ const ModalUpdateAdditionalInfo = ({ item }) => {
                         label="Educational Attainment"
                         type="text"
                         name="members_education_attainment"
+                        disabled={mutation.isLoading}
+                      />
+                    </div>
+                    <div className="relative mb-5">
+                      <InputText
+                        label="Contact Number"
+                        type="text"
+                        name="members_contact_no"
+                        disabled={mutation.isLoading}
+                      />
+                    </div>
+                    <div className="relative mb-5">
+                      <InputText
+                        label="Personal Email"
+                        type="text"
+                        name="members_email"
                         disabled={mutation.isLoading}
                       />
                     </div>

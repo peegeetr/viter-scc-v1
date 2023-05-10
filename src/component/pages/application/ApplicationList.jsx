@@ -9,21 +9,17 @@ import { StoreContext } from "../../../store/StoreContext";
 import { getUserType } from "../../helpers/functions-general";
 import { queryDataInfinite } from "../../helpers/queryDataInfinite";
 import Loadmore from "../../partials/Loadmore";
-import ModalApprovedCancel from "../../partials/modals/ModalApprovedCancel";
-import ModalDeleteRestore from "../../partials/modals/ModalDeleteRestore";
 import NoData from "../../partials/NoData";
 import SearchBar from "../../partials/SearchBar";
 import ServerError from "../../partials/ServerError";
-import FetchingSpinner from "../../partials/spinners/FetchingSpinner";
+import ModalApprovedCancel from "../../partials/modals/ModalApprovedCancel";
+import ModalDeleteRestore from "../../partials/modals/ModalDeleteRestore";
 import TableSpinner from "../../partials/spinners/TableSpinner";
 import StatusActive from "../../partials/status/StatusActive";
 
 const ApplicationList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
-  const urlLink = getUserType(
-    store.credentials.data.role_is_developer,
-    store.credentials.data.role_is_admin
-  );
+  const urlLink = getUserType(store);
   const [dataItem, setData] = React.useState(null);
   const [id, setId] = React.useState(null);
   const [isDel, setDel] = React.useState(false);

@@ -1,14 +1,12 @@
 import React from "react";
-import { FaPlusCircle } from "react-icons/fa";
-import { setIsAdd } from "../../../../store/StoreAction";
 import { StoreContext } from "../../../../store/StoreContext";
 import BreadCrumbs from "../../../partials/BreadCrumbs";
 import Footer from "../../../partials/Footer";
 import Header from "../../../partials/Header";
 import Navigation from "../../../partials/Navigation";
-import SalesList from "./SalesList";
-import ModalUpdateSales from "./ModalUpdateSales";
 import ModalSuccess from "../../../partials/modals/ModalSuccess";
+import ModalUpdateSales from "./ModalUpdateSales";
+import SalesList from "./SalesList";
 
 const Sales = () => {
   const { store, dispatch } = React.useContext(StoreContext);

@@ -7,7 +7,7 @@ import { getUserType } from "../../../../helpers/functions-general";
 
 const SystemUserLink = () => {
   const { store, dispatch } = React.useContext(StoreContext);
-  const urlLink = getUserType(store.credentials.data.role_is_developer,store.credentials.data.role_is_admin);
+  const urlLink = getUserType(store);
   return (
     <div className="group flex items-center justify-between border-b border-solid border-gray-300">
       <Link to={`${urlLink}/settings/users/system`} className="w-full py-1">

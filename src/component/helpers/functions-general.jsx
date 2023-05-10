@@ -1,11 +1,11 @@
 import React from "react";
 import { setIsAdd } from "../../store/StoreAction.jsx";
 
-// Online URL dev
-export const devApiUrl = "https://scc.frontlinebusiness.com.ph/rest";
-export const devBaseImgUrl = "https://scc.frontlinebusiness.com.ph/img";
-export const devBaseUrl = "https://scc.frontlinebusiness.com.ph";
-export const devNavUrl = "";
+// // Online URL dev
+// export const devApiUrl = "https://scc.frontlinebusiness.com.ph/rest";
+// export const devBaseImgUrl = "https://scc.frontlinebusiness.com.ph/img";
+// export const devBaseUrl = "https://scc.frontlinebusiness.com.ph";
+// export const devNavUrl = "";
 
 // // // // Local URL dev
 // export const devApiUrl = "http://localhost/viter-newthing-v1/rest";
@@ -18,14 +18,16 @@ export const devNavUrl = "";
 // export const devBaseUrl = "http://localhost/viter-scc-v1/public";
 // export const devNavUrl = "";
 
-// // cy url
-// export const devApiUrl = "http://localhost/projects/viter-scc-v1/rest";
-// export const devBaseUrl = "http://localhost/projects/viter-scc-v1/public";
-// export const devBaseImgUrl =
-//   "http://localhost/projects/viter-scc-v1/public/img";
-// export const devNavUrl = "";
+// cy url
+export const devApiUrl = "http://localhost/projects/viter-scc-v1/rest";
+export const devBaseUrl = "http://localhost/projects/viter-scc-v1/public";
+export const devBaseImgUrl =
+  "http://localhost/projects/viter-scc-v1/public/img";
+export const devNavUrl = "";
 
 export const UrlAdmin = "admin";
+export const UrlManager = "manager";
+export const UrlCasher = "casher";
 export const UrlMember = "member";
 export const UrlSystem = "system";
 
@@ -181,13 +183,23 @@ export const formatLandlandNumber = (x) => {
 };
 
 // get user type
-export const getUserType = (developer, admin) => {
+export const getUserType = (store) => {
   let link = "";
+  let developer = store.credentials.data.role_is_developer;
+  let admin = store.credentials.data.role_is_admin;
+  let manager = store.credentials.data.role_is_manager;
+  let casher = store.credentials.data.role_is_casher;
+
   developer === 1
     ? (link = `${devNavUrl}/${UrlSystem}`)
     : admin === 1
     ? (link = `${devNavUrl}/${UrlAdmin}`)
+    : manager === 1
+    ? (link = `${devNavUrl}/${UrlManager}`)
+    : casher === 1
+    ? (link = `${devNavUrl}/${UrlCasher}`)
     : (link = `${devNavUrl}/${UrlMember}`);
+
   return link;
 };
 

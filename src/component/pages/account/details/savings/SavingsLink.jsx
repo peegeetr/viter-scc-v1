@@ -4,19 +4,14 @@ import { SlArrowRight } from "react-icons/sl";
 import { Link } from "react-router-dom";
 import { StoreContext } from "../../../../../store/StoreContext";
 import {
-  devNavUrl,
   getUrlParam,
   getUserType,
-  UrlSystem,
 } from "../../../../helpers/functions-general";
 
 const SavingsLink = () => {
   const { store, dispatch } = React.useContext(StoreContext);
   const memberid = getUrlParam().get("memberid");
-  const urlLink = getUserType(
-    store.credentials.data.role_is_developer,
-    store.credentials.data.role_is_admin
-  );
+  const urlLink = getUserType(store);
   return (
     <>
       <Link

@@ -1,9 +1,12 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import React from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import { SlArrowRight } from "react-icons/sl";
 import { useInView } from "react-intersection-observer";
+import { Link } from "react-router-dom";
 import { setIsAdd, setIsRestore } from "../../../../store/StoreAction";
 import { StoreContext } from "../../../../store/StoreContext";
+import { getUserType } from "../../../helpers/functions-general";
 import { queryDataInfinite } from "../../../helpers/queryDataInfinite";
 import Loadmore from "../../../partials/Loadmore";
 import NoData from "../../../partials/NoData";
@@ -13,20 +16,10 @@ import ModalDeleteRestore from "../../../partials/modals/ModalDeleteRestore";
 import TableSpinner from "../../../partials/spinners/TableSpinner";
 import StatusActive from "../../../partials/status/StatusActive";
 import StatusInactive from "../../../partials/status/StatusInactive";
-import { Link } from "react-router-dom";
-import {
-  UrlSystem,
-  devNavUrl,
-  getUserType,
-} from "../../../helpers/functions-general";
-import { SlArrowRight } from "react-icons/sl";
 
 const suppliersList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
-  const urlLink = getUserType(
-    store.credentials.data.role_is_developer,
-    store.credentials.data.role_is_admin
-  );
+  const urlLink = getUserType(store);
   const [dataItem, setData] = React.useState(null);
   const [id, setId] = React.useState(null);
   const [isDel, setDel] = React.useState(false);
@@ -104,9 +97,11 @@ const suppliersList = ({ setItemEdit }) => {
               <th className="min-w-[15rem]">Contact Number</th>
               <th className="min-w-[15rem]">Status</th>
 
-              {(store.credentials.data.role_is_admin === 1 ||
-                store.credentials.data.role_is_developer === 1) && (
-                <th className="max-w-[5rem]">Actions</th>
+              {store.credentials.data.role_is_admin === 1 ||
+              store.credentials.data.role_is_developer === 1 ? (
+                <th>Actions</th>
+              ) : (
+                <th className="max-w-[5rem]"></th>
               )}
             </tr>
           </thead>
@@ -144,9 +139,8 @@ const suppliersList = ({ setItemEdit }) => {
                       )}
                     </td>
 
-                    {(store.credentials.data.role_is_admin === 1 ||
-                      store.credentials.data.role_is_developer === 1) && (
-                      <td>
+                    <td>
+                      {store.credentials.data.role_is_member === 0 ? (
                         <div className="flex items-center gap-1">
                           <Link
                             to={`${urlLink}/inventory/suppliers/products?supplierId=${item.suppliers_aid}`}
@@ -163,17 +157,30 @@ const suppliersList = ({ setItemEdit }) => {
                           >
                             <FaEdit />
                           </button>
-                          <button
-                            type="button"
-                            className="btn-action-table tooltip-action-table"
-                            data-tooltip="Delete"
-                            onClick={() => handleDelete(item)}
-                          >
-                            <FaTrash />
-                          </button>
+                          {(store.credentials.data.role_is_admin === 1 ||
+                            store.credentials.data.role_is_developer === 1) && (
+                            <button
+                              type="button"
+                              className="btn-action-table tooltip-action-table"
+                              data-tooltip="Delete"
+                              onClick={() => handleDelete(item)}
+                            >
+                              <FaTrash />
+                            </button>
+                          )}
                         </div>
-                      </td>
-                    )}
+                      ) : (
+                        <div className="text-right p-2">
+                          <Link
+                            to={`${urlLink}/inventory/suppliers/products?supplierId=${item.suppliers_aid}`}
+                            className="btn-action-table tooltip-action-table"
+                            data-tooltip="View"
+                          >
+                            <SlArrowRight className="inline" />
+                          </Link>
+                        </div>
+                      )}
+                    </td>
                   </tr>
                 ))}
               </React.Fragment>

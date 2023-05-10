@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 08, 2023 at 09:41 AM
+-- Generation Time: May 10, 2023 at 07:23 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -54,12 +54,19 @@ CREATE TABLE `sccv1_capital_share` (
   `capital_share_aid` int(11) NOT NULL,
   `capital_share_member_id` varchar(20) NOT NULL,
   `capital_share_paid_up` varchar(20) NOT NULL,
-  `capital_share_total_amount` varchar(20) NOT NULL,
   `capital_share_or` varchar(20) NOT NULL,
   `capital_share_date` varchar(20) NOT NULL,
   `capital_share_created` datetime NOT NULL,
   `capital_share_datetime` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `sccv1_capital_share`
+--
+
+INSERT INTO `sccv1_capital_share` (`capital_share_aid`, `capital_share_member_id`, `capital_share_paid_up`, `capital_share_or`, `capital_share_date`, `capital_share_created`, `capital_share_datetime`) VALUES
+(1, '2', '500', '12364798', '2023-05-09', '2023-05-09 08:30:24', '2023-05-09 08:30:24'),
+(2, '2', '500', '12364798', '2023-05-10', '2023-05-09 09:28:36', '2023-05-09 09:55:41');
 
 -- --------------------------------------------------------
 
@@ -114,6 +121,8 @@ CREATE TABLE `sccv1_members` (
   `members_first_name` varchar(100) NOT NULL,
   `members_last_name` varchar(100) NOT NULL,
   `members_middle_name` varchar(100) NOT NULL,
+  `members_contact_no` varchar(20) NOT NULL,
+  `members_email` varchar(100) NOT NULL,
   `members_civil_status` varchar(10) NOT NULL,
   `members_gender` varchar(10) NOT NULL,
   `members_birth_place` varchar(100) NOT NULL,
@@ -143,10 +152,11 @@ CREATE TABLE `sccv1_members` (
 -- Dumping data for table `sccv1_members`
 --
 
-INSERT INTO `sccv1_members` (`members_aid`, `members_id`, `members_is_approved`, `members_is_cancel`, `members_is_active`, `members_picture`, `members_first_name`, `members_last_name`, `members_middle_name`, `members_civil_status`, `members_gender`, `members_birth_place`, `members_birth_date`, `members_education_attainment`, `members_permanent_address`, `members_permanent_zip_code`, `members_permanent_mobile_no`, `members_present_address`, `members_present_zip_code`, `members_present_mobile_no`, `members_position`, `members_other_income`, `members_income_gross`, `members_other_source_income`, `members_spouse_occupation`, `members_income_net`, `members_spouse_income`, `members_spouse_net_income`, `members_properties_owned`, `members_pre_membership_date`, `members_created`, `members_datetime`) VALUES
-(1, '2301-001', 0, 0, 1, '', 'Ronaldo', 'Lumaba', 'Soalibio', '', 'male', '', '2023-01-04', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2023-02-28', '2023-03-13 16:55:35', '2023-03-14 16:56:41'),
-(2, '23-02-002', 1, 0, 1, '', 'cycy', 'Lumabas', 'Soalibio', '', 'male', '', '2023-01-04', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2023-02-28', '2023-03-13 16:55:42', '2023-03-13 16:59:12'),
-(3, '23-02-003', 0, 0, 1, '', 'zaicy', 'Lumabas', 'Soalibio', '', 'male', '', '2023-01-04', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2023-03-12', '2023-03-13 16:55:56', '2023-03-13 16:55:56');
+INSERT INTO `sccv1_members` (`members_aid`, `members_id`, `members_is_approved`, `members_is_cancel`, `members_is_active`, `members_picture`, `members_first_name`, `members_last_name`, `members_middle_name`, `members_contact_no`, `members_email`, `members_civil_status`, `members_gender`, `members_birth_place`, `members_birth_date`, `members_education_attainment`, `members_permanent_address`, `members_permanent_zip_code`, `members_permanent_mobile_no`, `members_present_address`, `members_present_zip_code`, `members_present_mobile_no`, `members_position`, `members_other_income`, `members_income_gross`, `members_other_source_income`, `members_spouse_occupation`, `members_income_net`, `members_spouse_income`, `members_spouse_net_income`, `members_properties_owned`, `members_pre_membership_date`, `members_created`, `members_datetime`) VALUES
+(1, '23-01-001', 0, 1, 0, '', 'Ronaldos', 'Lumabaa', 'Soalibio', '', '', '', 'male', '', '2023-01-04', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2023-02-28', '2023-03-13 16:55:35', '2023-05-09 13:38:44'),
+(2, '23-01-001', 1, 0, 1, '59270081.jfif', 'Patrick', 'Reyes', 'T.', '', '', '', 'male', '', '2023-01-03', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2023-02-28', '2023-03-13 16:55:42', '2023-05-09 13:39:51'),
+(3, '2301-001', 1, 0, 1, '', 'zaicy', 'Lumabas', 'Soalibio', '09095632145', 'cy@gmaiul.com', 'ws', 'male', '2023-03-02', '2023-01-04', 'sdfsdf', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2023-03-12', '2023-03-13 16:55:56', '2023-05-10 13:22:04'),
+(4, '2301-001', 0, 0, 1, '', 'Ronaldo', 'Lumabas', 'Soalibio', '', '', 'ss', 'female', 's', '2000-07-09', 's', '', '', '', 'Brgy, San Cristobal', '4000', 'e', 'e', 'e', 'e', 'e', '', 'e', '', '', '', '2023-05-09', '2023-05-09 13:41:19', '2023-05-09 13:54:55');
 
 -- --------------------------------------------------------
 
@@ -172,8 +182,8 @@ CREATE TABLE `sccv1_orders` (
 --
 
 INSERT INTO `sccv1_orders` (`orders_aid`, `orders_number`, `orders_is_paid`, `orders_product_id`, `orders_member_id`, `orders_product_quantity`, `orders_product_amount`, `orders_date`, `orders_created`, `orders_datetime`) VALUES
-(1, 'order-001', 0, '7', '2', '1', '210', '2023-05-08', '2023-05-08 09:59:35', '2023-05-08 15:03:38'),
-(3, 'order-002', 1, '5', '2', '2', '170', '2023-05-08', '2023-05-08 13:28:45', '2023-05-08 14:06:23');
+(11, 'ord-001', 1, '7', '2', '1', '210', '2023-05-10 08:29:53', '2023-05-10 08:30:00', '2023-05-10 11:55:08'),
+(12, 'ord-002', 0, '5', '3', '2', '170', '2023-05-10 11:59:31', '2023-05-10 12:00:17', '2023-05-10 12:00:17');
 
 -- --------------------------------------------------------
 
@@ -196,7 +206,7 @@ CREATE TABLE `sccv1_product_category` (
 INSERT INTO `sccv1_product_category` (`product_category_aid`, `product_category_name`, `product_category_is_active`, `product_category_created`, `product_category_datetime`) VALUES
 (1, 'egg', 1, '2023-04-19 16:30:22', '2023-05-08 11:41:18'),
 (2, 'seasonings', 1, '2023-04-19 16:30:27', '2023-05-08 11:48:45'),
-(3, 'cleaning materials', 1, '2023-05-08 11:46:49', '2023-05-08 11:50:15');
+(3, 'cleaning materials', 1, '2023-05-08 11:46:49', '2023-05-09 13:55:23');
 
 -- --------------------------------------------------------
 
@@ -211,6 +221,7 @@ CREATE TABLE `sccv1_sales` (
   `sales_member_id` varchar(20) NOT NULL,
   `sales_order_id` varchar(20) NOT NULL,
   `sales_receive_amount` varchar(20) NOT NULL,
+  `sales_member_change` varchar(20) NOT NULL,
   `sales_or` varchar(50) NOT NULL,
   `sales_date` varchar(20) NOT NULL,
   `sales_created` datetime NOT NULL,
@@ -221,9 +232,9 @@ CREATE TABLE `sccv1_sales` (
 -- Dumping data for table `sccv1_sales`
 --
 
-INSERT INTO `sccv1_sales` (`sales_aid`, `sales_number`, `sales_is_paid`, `sales_member_id`, `sales_order_id`, `sales_receive_amount`, `sales_or`, `sales_date`, `sales_created`, `sales_datetime`) VALUES
-(1, 'sales-001', 0, '2', '1', '', '', '', '2023-05-08 09:59:35', '2023-05-08 13:42:33'),
-(3, 'sales-003', 1, '2', '3', '170', 'sf;asdufopiut', '2023-05-08', '2023-05-08 13:28:45', '2023-05-08 14:06:23');
+INSERT INTO `sccv1_sales` (`sales_aid`, `sales_number`, `sales_is_paid`, `sales_member_id`, `sales_order_id`, `sales_receive_amount`, `sales_member_change`, `sales_or`, `sales_date`, `sales_created`, `sales_datetime`) VALUES
+(10, 'sls-001', 1, '2', '11', '1000', '790', '3246f576drty', '2023-05-10 11:55:08', '2023-05-10 08:30:00', '2023-05-10 11:55:08'),
+(11, 'sls-002', 0, '3', '12', '0', '0', '', '', '2023-05-10 12:00:17', '2023-05-10 12:00:17');
 
 -- --------------------------------------------------------
 
@@ -243,6 +254,13 @@ CREATE TABLE `sccv1_savings` (
   `savings_created` datetime NOT NULL,
   `savings_datetime` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `sccv1_savings`
+--
+
+INSERT INTO `sccv1_savings` (`savings_aid`, `savings_member_id`, `savings_date`, `savings_category`, `savings_deposite`, `savings_withdrawal`, `savings_interest`, `savings_or`, `savings_created`, `savings_datetime`) VALUES
+(4, '2', '2023-05-01', '0', '500', '0', '0', 'ss34534566', '2023-05-09 10:00:00', '2023-05-09 10:00:25');
 
 -- --------------------------------------------------------
 
@@ -312,8 +330,8 @@ CREATE TABLE `sccv1_settings_user_other` (
 --
 
 INSERT INTO `sccv1_settings_user_other` (`user_other_aid`, `user_other_is_active`, `user_other_member_id`, `user_other_email`, `user_other_role_id`, `user_other_key`, `user_other_password`, `user_other_created`, `user_other_datetime`) VALUES
-(10, 1, '3', 'cyrene.lumabas@frontlinebusiness.com.ph', 14, '', '$2y$10$g/zE/UpZWrfsQ.mJ2KSkkOGezAwVvJSdgjeXknWI/VOyDoSl4/uLm', '2023-03-23 16:21:35', '2023-03-23 16:27:08'),
-(14, 1, '2', 'cyrenemlumabas@gmail.com', 13, '', '$2y$10$Wsq8tTePhUDCmKqhsWuvNuXD7NICwGlnf4krXQzhIkhOk1bPREGza', '2023-03-09 16:38:45', '2023-03-23 06:49:44');
+(10, 1, '3', 'cyrene.lumabas@frontlinebusiness.com.ph', 13, '', '$2y$10$g/zE/UpZWrfsQ.mJ2KSkkOGezAwVvJSdgjeXknWI/VOyDoSl4/uLm', '2023-03-23 16:21:35', '2023-03-23 16:27:08'),
+(14, 1, '2', 'cyrenemlumabas@gmail.com', 14, '', '$2y$10$Wsq8tTePhUDCmKqhsWuvNuXD7NICwGlnf4krXQzhIkhOk1bPREGza', '2023-03-09 16:38:45', '2023-03-23 06:49:44');
 
 -- --------------------------------------------------------
 
@@ -539,7 +557,7 @@ ALTER TABLE `sccv1_announcement`
 -- AUTO_INCREMENT for table `sccv1_capital_share`
 --
 ALTER TABLE `sccv1_capital_share`
-  MODIFY `capital_share_aid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `capital_share_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `sccv1_file_upload`
@@ -551,37 +569,37 @@ ALTER TABLE `sccv1_file_upload`
 -- AUTO_INCREMENT for table `sccv1_legal_beneficiaries`
 --
 ALTER TABLE `sccv1_legal_beneficiaries`
-  MODIFY `beneficiaries_aid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `beneficiaries_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `sccv1_members`
 --
 ALTER TABLE `sccv1_members`
-  MODIFY `members_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `members_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `sccv1_orders`
 --
 ALTER TABLE `sccv1_orders`
-  MODIFY `orders_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `orders_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `sccv1_product_category`
 --
 ALTER TABLE `sccv1_product_category`
-  MODIFY `product_category_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `product_category_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `sccv1_sales`
 --
 ALTER TABLE `sccv1_sales`
-  MODIFY `sales_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `sales_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `sccv1_savings`
 --
 ALTER TABLE `sccv1_savings`
-  MODIFY `savings_aid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `savings_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `sccv1_settings_netsurplus`

@@ -60,6 +60,7 @@ const ModalAddOtherUser = ({ item, role, members }) => {
   const initVal = {
     user_other_member_id: item ? item.user_other_member_id : "",
     user_other_email: item ? item.user_other_email : "",
+    user_other_email_old: item ? item.user_other_email : "",
     user_other_role_id: item ? item.user_other_role_id : "",
     name: "",
   };

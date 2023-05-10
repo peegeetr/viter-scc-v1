@@ -16,6 +16,7 @@ if (array_key_exists("stockid", $_GET)) {
     $stocks->stocks_product_id = checkIndex($data, "stocks_product_id");
     $stocks->stocks_quantity = checkIndex($data, "stocks_quantity");
     $stocks->stocks_or = checkIndex($data, "stocks_or");
+    $stocks->stocks_date = checkIndex($data, "stocks_date");
     $stocks->stocks_datetime = date("Y-m-d H:i:s");
 
     //check to see if task id in query string is not empty and is number, if not return json error

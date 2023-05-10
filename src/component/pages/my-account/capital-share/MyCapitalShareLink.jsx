@@ -2,15 +2,12 @@ import React from "react";
 import { RiUserSharedFill } from "react-icons/ri";
 import { SlArrowRight } from "react-icons/sl";
 import { Link } from "react-router-dom";
-import { StoreContext } from "../../../../store/StoreContext";
 import { getUserType } from "../../../helpers/functions-general";
+import { StoreContext } from "../../../../store/StoreContext";
 
 const MyCapitalShareLink = () => {
   const { store, dispatch } = React.useContext(StoreContext);
-  const urlLink = getUserType(
-    store.credentials.data.role_is_developer,
-    store.credentials.data.role_is_admin
-  );
+  const urlLink = getUserType(store);
   return (
     <>
       <Link to={`${urlLink}/details/capital-share`} className="w-full py-2">

@@ -3,12 +3,7 @@ import { FaQuestionCircle, FaTimesCircle } from "react-icons/fa";
 import { setIsLogout } from "../../../store/StoreAction";
 import { StoreContext } from "../../../store/StoreContext";
 import { checkLocalStorage } from "../../helpers/CheckLocalStorage";
-import {
-  devNavUrl,
-  getUserType,
-  UrlAdmin,
-  UrlSystem,
-} from "../../helpers/functions-general";
+import { UrlSystem, devNavUrl } from "../../helpers/functions-general";
 import ButtonSpinner from "../spinners/ButtonSpinner";
 
 const ModalLogout = () => {

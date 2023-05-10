@@ -68,7 +68,7 @@ const RoleList = ({ setItemEdit }) => {
           <thead>
             <tr>
               <th>#</th>
-              <th className="min-w-[10rem]">Name</th>
+              <th className="min-w-[10rem] ">Name</th>
               <th className="min-w-[25rem]">Description</th>
               <th>Status</th>
               <th className="max-w-[5rem]">Actions</th>
@@ -95,7 +95,7 @@ const RoleList = ({ setItemEdit }) => {
               return (
                 <tr key={key}>
                   <td>{counter}.</td>
-                  <td>{item.role_name}</td>
+                  <td className="capitalize">{item.role_name}</td>
                   <td>{item.role_description}</td>
                   <td>
                     {item.role_is_active === 1 ? (

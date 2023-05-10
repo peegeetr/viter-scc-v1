@@ -10,6 +10,8 @@ class Members
     public $members_first_name;
     public $members_last_name;
     public $members_middle_name;
+    public $members_contact_no;
+    public $members_email;
     public $members_civil_status;
     public $members_gender;
     public $members_birth_place;
@@ -325,6 +327,8 @@ class Members
             $sql = "update {$this->tblMembers} set ";
             $sql .= "members_civil_status = :members_civil_status, ";
             $sql .= "members_birth_place = :members_birth_place, ";
+            $sql .= "members_email = :members_email, ";
+            $sql .= "members_contact_no = :members_contact_no, ";
             $sql .= "members_education_attainment = :members_education_attainment, ";
             $sql .= "members_datetime = :members_datetime ";
             $sql .= "where members_aid  = :members_aid ";
@@ -332,6 +336,8 @@ class Members
             $query->execute([
                 "members_civil_status" => $this->members_civil_status,
                 "members_birth_place" => $this->members_birth_place,
+                "members_email" => $this->members_email,
+                "members_contact_no" => $this->members_contact_no,
                 "members_education_attainment" => $this->members_education_attainment,
                 "members_datetime" => $this->members_datetime,
                 "members_aid" => $this->members_aid,

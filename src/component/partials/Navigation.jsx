@@ -6,19 +6,10 @@ import { MdDashboard } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { setIsSearch, setIsShow, setStartIndex } from "../../store/StoreAction";
 import { StoreContext } from "../../store/StoreContext";
-import {
-  devNavUrl,
-  getUserType,
-  UrlAdmin,
-  UrlSystem,
-} from "../helpers/functions-general";
+import { getUserType } from "../helpers/functions-general";
 
 const Navigation = ({ menu }) => {
   const { store, dispatch } = React.useContext(StoreContext);
-  const urlLink = getUserType(
-    store.credentials.data.role_is_developer,
-    store.credentials.data.role_is_admin
-  );
 
   const handleShow = () => {
     dispatch(setIsShow(!store.isShow));
@@ -43,7 +34,7 @@ const Navigation = ({ menu }) => {
               }
             >
               <Link
-                to={`${urlLink}/dashboard`}
+                to={`${getUserType(store)}/dashboard`}
                 className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
                 onClick={handleShow}
                 data-tooltip="Dashboard"
@@ -63,7 +54,7 @@ const Navigation = ({ menu }) => {
                   }
                 >
                   <Link
-                    to={`${urlLink}/account`}
+                    to={`${getUserType(store)}/account`}
                     className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
                     onClick={handleShow}
                     data-tooltip="Account"
@@ -81,7 +72,7 @@ const Navigation = ({ menu }) => {
                   }
                 >
                   <Link
-                    to={`${urlLink}/application`}
+                    to={`${getUserType(store)}/application`}
                     className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
                     onClick={handleShow}
                     data-tooltip="Application"
@@ -92,7 +83,7 @@ const Navigation = ({ menu }) => {
                 </li>
               </>
             )}
-            {store.credentials.data.role_is_developer !== 1 && (
+            {store.credentials.data.role_is_developer === 0 && (
               <li
                 className={
                   menu === "myaccount"
@@ -101,7 +92,7 @@ const Navigation = ({ menu }) => {
                 }
               >
                 <Link
-                  to={`${urlLink}/details`}
+                  to={`${getUserType(store)}/details`}
                   className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
                   onClick={handleShow}
                   data-tooltip="My Account"
@@ -120,7 +111,7 @@ const Navigation = ({ menu }) => {
               }
             >
               <Link
-                to={`${urlLink}/file-upload`}
+                to={`${getUserType(store)}/file-upload`}
                 className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
                 onClick={handleShow}
                 data-tooltip="File Upload"
@@ -130,44 +121,44 @@ const Navigation = ({ menu }) => {
               </Link>
             </li>
 
+            {store.credentials.data.role_is_member === 0 && (
+              <li
+                className={
+                  menu === "inventory"
+                    ? "active"
+                    : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
+                }
+              >
+                <Link
+                  to={`${getUserType(store)}/inventory`}
+                  className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
+                  onClick={handleShow}
+                  data-tooltip="Inventory"
+                >
+                  <AiFillSetting className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
+                  <span className="md:hidden lg:block">Inventory</span>
+                </Link>
+              </li>
+            )}
             {(store.credentials.data.role_is_admin === 1 ||
               store.credentials.data.role_is_developer === 1) && (
-              <>
-                <li
-                  className={
-                    menu === "inventory"
-                      ? "active"
-                      : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
-                  }
+              <li
+                className={
+                  menu === "settings"
+                    ? "active"
+                    : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
+                }
+              >
+                <Link
+                  to={`${getUserType(store)}/settings`}
+                  className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
+                  onClick={handleShow}
+                  data-tooltip="Settings"
                 >
-                  <Link
-                    to={`${urlLink}/inventory`}
-                    className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
-                    onClick={handleShow}
-                    data-tooltip="Inventory"
-                  >
-                    <AiFillSetting className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
-                    <span className="md:hidden lg:block">Inventory</span>
-                  </Link>
-                </li>
-                <li
-                  className={
-                    menu === "settings"
-                      ? "active"
-                      : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
-                  }
-                >
-                  <Link
-                    to={`${urlLink}/settings`}
-                    className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
-                    onClick={handleShow}
-                    data-tooltip="Settings"
-                  >
-                    <AiFillSetting className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
-                    <span className="md:hidden lg:block">Settings</span>
-                  </Link>
-                </li>
-              </>
+                  <AiFillSetting className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
+                  <span className="md:hidden lg:block">Settings</span>
+                </Link>
+              </li>
             )}
           </ul>
         </nav>

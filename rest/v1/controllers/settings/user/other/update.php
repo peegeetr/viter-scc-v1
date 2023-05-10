@@ -14,6 +14,8 @@ if (array_key_exists("userotherid", $_GET)) {
     // get data
     // get userotherid from query string
     $user_other->user_other_aid = $_GET['userotherid'];
+    $user_other->user_other_member_id = checkIndex($data, "user_other_member_id");
+    $user_other->user_other_role_id = checkIndex($data, "user_other_role_id");
     $user_other->user_other_email = addslashes(trim($data["user_other_email"]));
     $user_other->user_other_datetime = date("Y-m-d H:i:s");
 

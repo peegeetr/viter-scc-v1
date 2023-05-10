@@ -92,7 +92,8 @@ const SupplierProductList = ({ setItemEdit }) => {
               <th className="min-w-[15rem]">Supplier Price</th>
 
               {(store.credentials.data.role_is_admin === 1 ||
-                store.credentials.data.role_is_developer === 1) && (
+                store.credentials.data.role_is_developer === 1 ||
+                store.credentials.data.role_is_manager === 1) && (
                 <th className="max-w-[5rem]">Actions</th>
               )}
             </tr>
@@ -124,7 +125,8 @@ const SupplierProductList = ({ setItemEdit }) => {
                     <td>{item.suppliers_products_price}</td>
 
                     {(store.credentials.data.role_is_admin === 1 ||
-                      store.credentials.data.role_is_developer === 1) && (
+                      store.credentials.data.role_is_developer === 1 ||
+                      store.credentials.data.role_is_manager === 1) && (
                       <td>
                         <div className="flex items-center gap-1">
                           <button

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 08, 2023 at 09:42 AM
+-- Generation Time: May 10, 2023 at 07:22 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -37,6 +37,8 @@ CREATE TABLE `sccv1_members` (
   `members_first_name` varchar(100) NOT NULL,
   `members_last_name` varchar(100) NOT NULL,
   `members_middle_name` varchar(100) NOT NULL,
+  `members_contact_no` varchar(20) NOT NULL,
+  `members_email` varchar(100) NOT NULL,
   `members_civil_status` varchar(10) NOT NULL,
   `members_gender` varchar(10) NOT NULL,
   `members_birth_place` varchar(100) NOT NULL,
@@ -66,10 +68,11 @@ CREATE TABLE `sccv1_members` (
 -- Dumping data for table `sccv1_members`
 --
 
-INSERT INTO `sccv1_members` (`members_aid`, `members_id`, `members_is_approved`, `members_is_cancel`, `members_is_active`, `members_picture`, `members_first_name`, `members_last_name`, `members_middle_name`, `members_civil_status`, `members_gender`, `members_birth_place`, `members_birth_date`, `members_education_attainment`, `members_permanent_address`, `members_permanent_zip_code`, `members_permanent_mobile_no`, `members_present_address`, `members_present_zip_code`, `members_present_mobile_no`, `members_position`, `members_other_income`, `members_income_gross`, `members_other_source_income`, `members_spouse_occupation`, `members_income_net`, `members_spouse_income`, `members_spouse_net_income`, `members_properties_owned`, `members_pre_membership_date`, `members_created`, `members_datetime`) VALUES
-(1, '2301-001', 0, 0, 1, '', 'Ronaldo', 'Lumaba', 'Soalibio', '', 'male', '', '2023-01-04', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2023-02-28', '2023-03-13 16:55:35', '2023-03-14 16:56:41'),
-(2, '23-02-002', 1, 0, 1, '', 'cycy', 'Lumabas', 'Soalibio', '', 'male', '', '2023-01-04', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2023-02-28', '2023-03-13 16:55:42', '2023-03-13 16:59:12'),
-(3, '23-02-003', 0, 0, 1, '', 'zaicy', 'Lumabas', 'Soalibio', '', 'male', '', '2023-01-04', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2023-03-12', '2023-03-13 16:55:56', '2023-03-13 16:55:56');
+INSERT INTO `sccv1_members` (`members_aid`, `members_id`, `members_is_approved`, `members_is_cancel`, `members_is_active`, `members_picture`, `members_first_name`, `members_last_name`, `members_middle_name`, `members_contact_no`, `members_email`, `members_civil_status`, `members_gender`, `members_birth_place`, `members_birth_date`, `members_education_attainment`, `members_permanent_address`, `members_permanent_zip_code`, `members_permanent_mobile_no`, `members_present_address`, `members_present_zip_code`, `members_present_mobile_no`, `members_position`, `members_other_income`, `members_income_gross`, `members_other_source_income`, `members_spouse_occupation`, `members_income_net`, `members_spouse_income`, `members_spouse_net_income`, `members_properties_owned`, `members_pre_membership_date`, `members_created`, `members_datetime`) VALUES
+(1, '23-01-001', 0, 1, 0, '', 'Ronaldos', 'Lumabaa', 'Soalibio', '', '', '', 'male', '', '2023-01-04', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2023-02-28', '2023-03-13 16:55:35', '2023-05-09 13:38:44'),
+(2, '23-01-001', 1, 0, 1, '59270081.jfif', 'Patrick', 'Reyes', 'T.', '', '', '', 'male', '', '2023-01-03', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2023-02-28', '2023-03-13 16:55:42', '2023-05-09 13:39:51'),
+(3, '2301-001', 1, 0, 1, '', 'zaicy', 'Lumabas', 'Soalibio', '09095632145', 'cy@gmaiul.com', 'ws', 'male', '2023-03-02', '2023-01-04', 'sdfsdf', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2023-03-12', '2023-03-13 16:55:56', '2023-05-10 13:22:04'),
+(4, '2301-001', 0, 0, 1, '', 'Ronaldo', 'Lumabas', 'Soalibio', '', '', 'ss', 'female', 's', '2000-07-09', 's', '', '', '', 'Brgy, San Cristobal', '4000', 'e', 'e', 'e', 'e', 'e', '', 'e', '', '', '', '2023-05-09', '2023-05-09 13:41:19', '2023-05-09 13:54:55');
 
 --
 -- Indexes for dumped tables
@@ -89,7 +92,7 @@ ALTER TABLE `sccv1_members`
 -- AUTO_INCREMENT for table `sccv1_members`
 --
 ALTER TABLE `sccv1_members`
-  MODIFY `members_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `members_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

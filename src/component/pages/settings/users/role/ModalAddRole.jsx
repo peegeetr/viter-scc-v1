@@ -10,7 +10,7 @@ import {
   setSuccess,
 } from "../../../../../store/StoreAction";
 import { StoreContext } from "../../../../../store/StoreContext";
-import { InputText, InputTextArea } from "../../../../helpers/FormInputs"; 
+import { InputText, InputTextArea } from "../../../../helpers/FormInputs";
 import { queryData } from "../../../../helpers/queryData";
 import ButtonSpinner from "../../../../partials/spinners/ButtonSpinner";
 
@@ -30,6 +30,7 @@ const ModalAddRole = ({ item }) => {
       queryClient.invalidateQueries({ queryKey: ["role"] });
       // show success box
       if (data.success) {
+        dispatch(setIsAdd(false));
         dispatch(setSuccess(true));
         dispatch(setMessage(`Successfuly ${item ? "updated." : "added."}`));
       }

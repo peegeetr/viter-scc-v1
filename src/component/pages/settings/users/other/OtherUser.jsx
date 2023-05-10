@@ -36,11 +36,10 @@ const OtherUser = () => {
 
   // use if not loadmore button undertime
   const { data: members } = useQueryData(
-    `/v1/members`, // endpoint
+    `/v1/members/approved`, // endpoint
     "get", // method
     "members" // key
   );
-  console.log("members", members);
   const handleAdd = () => {
     dispatch(setIsAdd(true));
     setItemEdit(null);

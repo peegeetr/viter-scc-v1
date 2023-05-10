@@ -16,13 +16,11 @@ import ModalConfirm from "../../partials/modals/ModalConfirm";
 import ModalDeleteRestore from "../../partials/modals/ModalDeleteRestore";
 import TableSpinner from "../../partials/spinners/TableSpinner";
 import StatusActive from "../../partials/status/StatusActive";
+import StatusInactive from "../../partials/status/StatusInactive";
 
 const AccountList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
-  const urlLink = getUserType(
-    store.credentials.data.role_is_developer,
-    store.credentials.data.role_is_admin
-  );
+  const urlLink = getUserType(store);
   const [dataItem, setData] = React.useState(null);
   const [id, setId] = React.useState(null);
   const [isDel, setDel] = React.useState(false);
@@ -135,7 +133,11 @@ const AccountList = () => {
                     </td>
                     <td>{item.members_id}</td>
                     <td>
-                      <StatusActive />
+                      {item.members_is_active === 1 ? (
+                        <StatusActive />
+                      ) : (
+                        <StatusInactive />
+                      )}
                     </td>
                     <td>
                       <div className="flex items-center gap-1">
