@@ -1,5 +1,6 @@
 <?php
 // check database connection
+require 'functions.php';
 $conn = null;
 $conn = checkDbConnection();
 // make instance of classes
@@ -13,6 +14,7 @@ if (array_key_exists("orderid", $_GET)) {
     checkPayload($data);
     // get ordersid from query string
     $order->orders_aid = $_GET['orderid'];
+    $order->orders_member_id = checkIndex($data, "orders_member_id");
     $order->orders_product_id = checkIndex($data, "orders_product_id");
     $order->orders_product_quantity = checkIndex($data, "orders_product_quantity");
     $order->orders_product_amount = checkIndex($data, "orders_product_amount");
@@ -24,6 +26,7 @@ if (array_key_exists("orderid", $_GET)) {
     //check to see if task id in query string is not empty and is number, if not return json error
     checkId($order->orders_aid);
     // update 
+    checkUpdateSales($order);
     $query = checkUpdate($order);
     returnSuccess($order, "orders", $query);
 }

@@ -13,12 +13,7 @@ import PatronageList from "./PatronageList";
 
 const Patronage = () => {
   const { store, dispatch } = React.useContext(StoreContext);
-  const [itemEdit, setItemEdit] = React.useState(null);
 
-  const handleAdd = () => {
-    dispatch(setIsAdd(true));
-    setItemEdit(null);
-  };
   return (
     <>
       <Header />
@@ -26,22 +21,15 @@ const Patronage = () => {
       <div className="wrapper">
         <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2">
           <BreadCrumbs param={`${location.search}`} />{" "}
-          {/* <div className="flex items-center gap-1">
-            <button type="button" className="btn-primary" onClick={handleAdd}>
-              <FaPlusCircle />
-              <span>Add</span>
-            </button>
-          </div> */}
         </div>
         <hr />
 
         <div className="w-full pb-20 mt-3 ">
-          <PatronageList setItemEdit={setItemEdit} />
+          <PatronageList />
         </div>
         <Footer />
       </div>
 
-      {store.isAdd && <ModalAddPatronage item={itemEdit} />}
       {store.success && <ModalSuccess />}
       {store.error && <ModalError />}
     </>

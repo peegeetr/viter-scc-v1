@@ -50,6 +50,7 @@ RewriteRule ^members/search/([A-Za-z0-9-]+)$ controllers/account/search.php?sear
 RewriteRule ^members/approved$ controllers/account/read-all-approved.php [L]
 RewriteRule ^members/search/approved/([A-Za-z0-9-]+)$ controllers/account/search-approved.php?search=$1 [L]
 RewriteRule ^members/([0-9]+)/([A-Za-z0-9-]+)$ controllers/account/account.php?membersid=$1&isUpdate=$2 [L]
+RewriteRule ^members/name/([0-9]+)$ controllers/account/read-name.php?membersid=$1 [L]
 
 #beneficiaries
 RewriteRule ^beneficiaries$ controllers/account/details/beneficiaries/beneficiaries.php [L]

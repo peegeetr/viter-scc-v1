@@ -261,6 +261,29 @@ class Members
         return $query;
     }
 
+    // read by id
+    public function readNameById()
+    {
+        try {
+            $sql = "select ";
+            $sql .= "members_last_name, ";
+            $sql .= "members_first_name ";
+            $sql .= "from ";
+            $sql .= "{$this->tblMembers} ";
+            $sql .= "where members_aid = :members_aid ";
+            $sql .= "order by members_is_active desc, ";
+            $sql .= "members_last_name, ";
+            $sql .= "members_first_name asc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "members_aid" => $this->members_aid,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
     // update basic info
     public function update()
     {

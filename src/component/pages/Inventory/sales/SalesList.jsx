@@ -1,19 +1,23 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import React from "react";
-import { FaEdit, FaHistory } from "react-icons/fa";
+import { FaEraser } from "react-icons/fa";
+import { GiReceiveMoney } from "react-icons/gi";
 import { useInView } from "react-intersection-observer";
 import { setIsConfirm, setIsRestore } from "../../../../store/StoreAction";
 import { StoreContext } from "../../../../store/StoreContext";
-import { formatDate } from "../../../helpers/functions-general";
+import {
+  formatDate,
+  numberWithCommas,
+} from "../../../helpers/functions-general";
 import { queryDataInfinite } from "../../../helpers/queryDataInfinite";
 import Loadmore from "../../../partials/Loadmore";
 import NoData from "../../../partials/NoData";
 import SearchBar from "../../../partials/SearchBar";
 import ServerError from "../../../partials/ServerError";
+import ModalDeleteRestore from "../../../partials/modals/ModalDeleteRestore";
 import TableSpinner from "../../../partials/spinners/TableSpinner";
 import StatusActive from "../../../partials/status/StatusActive";
 import StatusPending from "../../../partials/status/StatusPending";
-import ModalDeleteRestore from "../../../partials/modals/ModalDeleteRestore";
 
 const SalesList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -91,10 +95,13 @@ const SalesList = ({ setItemEdit }) => {
               <th className="min-w-[8rem]">Sale Number</th>
               <th className="min-w-[8rem]">Order Number</th>
               <th className="min-w-[8rem]">Product Name</th>
+              <th className="min-w-[10rem] text-right pr-4">Quantity</th>
               <th className="min-w-[10rem] text-right pr-4">Amount</th>
+              <th className="min-w-[10rem] text-right pr-4">Total Amount</th>
               <th className="min-w-[10rem] text-right pr-4">Recieve Amount</th>
-              <th className="min-w-[10rem]">Official Receipt</th>
-              <th className="min-w-[8rem]">Recieve Date</th>
+              <th className="min-w-[10rem] text-right pr-4">Change Amount</th>
+              <th className="min-w-[12rem]">Official Receipt</th>
+              <th className="min-w-[12rem]">Recieve Date</th>
               <th>Status</th>
 
               {(store.credentials.data.role_is_admin === 1 ||
@@ -129,18 +136,37 @@ const SalesList = ({ setItemEdit }) => {
                     <td className="uppercase">{item.sales_number}</td>
                     <td className="uppercase">{item.orders_number}</td>
                     <td>{item.suppliers_products_name}</td>
-                    <td className="text-right pr-4">
-                      {item.orders_product_amount}
-                    </td>
 
-                    <td className=" text-right pr-4">
-                      {item.sales_receive_amount}
+                    <td className="text-right pr-4">
+                      {item.orders_product_quantity}
                     </td>
-                    <td>{item.sales_or}</td>
+                    <td className="text-right pr-4">
+                      {numberWithCommas(
+                        Number(item.suppliers_products_scc_price).toFixed(2)
+                      )}
+                    </td>
+                    <td className="text-right pr-4 font-bold text-primary">
+                      {numberWithCommas(
+                        Number(item.orders_product_amount).toFixed(2)
+                      )}
+                    </td>
+                    <td className=" text-right pr-4">
+                      {numberWithCommas(
+                        Number(item.sales_receive_amount).toFixed(2)
+                      )}
+                    </td>
+                    <td className=" text-right pr-4">
+                      {numberWithCommas(
+                        Number(item.sales_member_change).toFixed(2)
+                      )}
+                    </td>
+                    <td>{item.sales_or === "" ? "N/A" : item.sales_or}</td>
                     <td>
                       {item.sales_date === ""
-                        ? ""
-                        : formatDate(item.sales_date)}
+                        ? "N/A"
+                        : `${formatDate(item.sales_date)} ${
+                            item.sales_date.split(" ")[1]
+                          }`}
                     </td>
                     <td>
                       {item.sales_is_paid === 1 ? (
@@ -157,19 +183,19 @@ const SalesList = ({ setItemEdit }) => {
                           <button
                             type="button"
                             className="btn-action-table tooltip-action-table"
-                            data-tooltip="restore"
+                            data-tooltip="void"
                             onClick={() => handleRestore(item)}
                           >
-                            <FaHistory />
+                            <FaEraser />
                           </button>
                         ) : (
                           <button
                             type="button"
                             className="btn-action-table tooltip-action-table"
-                            data-tooltip="Edit"
+                            data-tooltip="payment"
                             onClick={() => handleEdit(item)}
                           >
-                            <FaEdit />
+                            <GiReceiveMoney />
                           </button>
                         )}
                       </td>
@@ -201,9 +227,9 @@ const SalesList = ({ setItemEdit }) => {
           msg={
             isDel
               ? "Are you sure you want to delete "
-              : "Are you sure you want to restore payment "
+              : "Are you sure you want to void "
           }
-          item={`${dataItem.suppliers_products_name}`}
+          item={`${dataItem.suppliers_products_name} of ${dataItem.members_last_name}, ${dataItem.members_first_name}`}
           orderId={`${dataItem.orders_aid}`}
           arrKey="sales"
         />

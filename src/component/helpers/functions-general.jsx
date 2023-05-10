@@ -191,8 +191,24 @@ export const getUserType = (developer, admin) => {
   return link;
 };
 
+export const getTimeNow = () => {
+  let time = new Date(new Date().toString().split("GMT")[0] + " UTC")
+    .toISOString()
+    .split("T")[1];
+  let hour = time.split(":")[0];
+  let min = time.split(":")[1];
+  let sec = time.split(":")[2];
+  let secNew = sec.split(".")[0];
+  let timeNow = `${hour}:${min}:${secNew}`;
+  return timeNow;
+};
+
 export const getDateNow = () => {
   return new Date(new Date().toString().split("GMT")[0] + " UTC")
     .toISOString()
     .split("T")[0];
+};
+
+export const getDateTimeNow = () => {
+  return `${getDateNow()} ${getTimeNow()}`;
 };

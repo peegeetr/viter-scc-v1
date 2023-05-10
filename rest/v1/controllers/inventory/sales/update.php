@@ -15,9 +15,10 @@ if (array_key_exists("salesid", $_GET)) {
     $sales->sales_aid = $_GET['salesid'];
     $sales->sales_order_id = checkIndex($data, "sales_order_id");
     $sales->sales_receive_amount = checkIndex($data, "sales_receive_amount");
+    $sales->sales_member_change = checkIndex($data, "sales_member_change");
     $sales->sales_or = checkIndex($data, "sales_or");
     $sales->sales_is_paid = 1;
-    $sales->sales_date = date("Y-m-d");
+    $sales->sales_date = date("Y-m-d H:i:s");
     $sales->sales_datetime = date("Y-m-d H:i:s");
 
     //check to see if task id in query string is not empty and is number, if not return json error

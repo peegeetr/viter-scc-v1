@@ -1,6 +1,7 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import React from "react";
-import { FaArchive, FaEdit, FaHistory, FaTrash } from "react-icons/fa";
+import { FaArchive, FaHistory, FaTrash } from "react-icons/fa";
+import { SlArrowRight } from "react-icons/sl";
 import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
 import { setIsConfirm, setIsRestore } from "../../../store/StoreAction";
@@ -143,9 +144,9 @@ const AccountList = () => {
                             <Link
                               to={`${urlLink}/account/details?memberid=${item.members_aid}`}
                               className="btn-action-table tooltip-action-table"
-                              data-tooltip="Edit"
+                              data-tooltip="Details"
                             >
-                              <FaEdit />
+                              <SlArrowRight />
                             </Link>
                             <button
                               type="button"

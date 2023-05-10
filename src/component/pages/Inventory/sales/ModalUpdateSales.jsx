@@ -13,9 +13,11 @@ import { StoreContext } from "../../../../store/StoreContext";
 import { InputText } from "../../../helpers/FormInputs";
 import { queryData } from "../../../helpers/queryData";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
+import { handleNumOnly } from "../../../helpers/functions-general";
 
 const ModalUpdateSales = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
+  const [isAmount, setIsAmount] = React.useState(false);
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
@@ -41,15 +43,27 @@ const ModalUpdateSales = ({ item }) => {
   const handleClose = () => {
     dispatch(setIsConfirm(false));
   };
+  const handleAmount = () => {
+    setIsAmount(false);
+  };
+  const handleRecieveAmount = () => {
+    setIsAmount(true);
+  };
   const initVal = {
     sales_or: item.sales_or,
     sales_receive_amount: item.sales_receive_amount,
+    sales_member_change: "",
     sales_order_id: item.sales_order_id,
   };
 
   const yupSchema = Yup.object({
     sales_or: Yup.string().required("Required"),
-    sales_receive_amount: Yup.string().required("Required"),
+    sales_receive_amount: Yup.number()
+      .required("Required")
+      .min(
+        item.orders_product_amount,
+        "Recieve payment must be exact amount or morethan"
+      ),
   });
 
   return (
@@ -57,7 +71,7 @@ const ModalUpdateSales = ({ item }) => {
       <div className="fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center bg-dark bg-opacity-50 z-50">
         <div className="p-1 w-[350px] rounded-b-2xl">
           <div className="flex justify-between items-center bg-primary p-3 rounded-t-2xl">
-            <h3 className="text-white text-sm">Update Sales</h3>
+            <h3 className="text-white text-sm">Recieve Payment</h3>
             <button
               type="button"
               className="text-gray-200 text-base"
@@ -77,27 +91,43 @@ const ModalUpdateSales = ({ item }) => {
               }}
             >
               {(props) => {
+                props.values.sales_member_change =
+                  Number(props.values.sales_receive_amount) -
+                  Number(item.orders_product_amount);
+                console;
                 return (
                   <Form>
-                    <div className="pl-3">
-                      <p className="text-primary mb-0">
+                    <div className="pl-3 text-primary">
+                      <p className="mb-0">
                         Name:
                         <span className="text-black ml-2">
                           {`${item.members_last_name}, ${item.members_first_name}`}
                         </span>
                       </p>
-                      <p className="text-primary">
+                      <p className="mb-0">
                         Amount:
                         <span className="text-black ml-2">
                           {item.orders_product_amount}
                         </span>
                       </p>
+                      <p className="">
+                        Change:
+                        <span className="text-black ml-2">
+                          {Number(props.values.sales_receive_amount) === 0
+                            ? 0
+                            : props.values.sales_member_change}
+                        </span>
+                      </p>
                     </div>
-                    <div className="relative my-6 ">
+
+                    <div className="relative mt-6 mb-8">
                       <InputText
                         label="Recieve Amount"
                         type="text"
                         name="sales_receive_amount"
+                        onKeyPress={handleNumOnly}
+                        onFocus={(e) => handleAmount(e)}
+                        onBlur={(e) => handleRecieveAmount(e)}
                         disabled={mutation.isLoading}
                       />
                     </div>
@@ -109,7 +139,6 @@ const ModalUpdateSales = ({ item }) => {
                         disabled={mutation.isLoading}
                       />
                     </div>
-
                     <div className="flex items-center gap-1 pt-5">
                       <button
                         type="submit"

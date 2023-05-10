@@ -17,6 +17,7 @@ import SearchBar from "../../../../partials/SearchBar";
 import ServerError from "../../../../partials/ServerError";
 import TableSpinner from "../../../../partials/spinners/TableSpinner";
 import { computeTotalCapital } from "./functions-capital-share";
+import useQueryData from "../../../../custom-hooks/useQueryData";
 
 const CapitalShareList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -75,8 +76,22 @@ const CapitalShareList = ({ setItemEdit }) => {
     setData(item);
     setDel(true);
   };
+  // use if not loadmore button undertime
+  const { data: memberName, isLoading: loadingmemberName } = useQueryData(
+    `/v1/members/name/${memberid}`, // endpoint
+    "get", // method
+    "memberName" // key
+  );
   return (
     <>
+      {memberid !== null && (
+        <p className="text-primary">
+          <span className="pr-4 font-bold">Member Name :</span>
+          {loadingmemberName === "loading"
+            ? "Loading..."
+            : `${memberName?.data[0].members_last_name}, ${memberName?.data[0].members_first_name}`}
+        </p>
+      )}
       <SearchBar
         search={search}
         dispatch={dispatch}

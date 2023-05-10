@@ -7,6 +7,7 @@ class Sales
     public $sales_member_id;
     public $sales_order_id;
     public $sales_receive_amount;
+    public $sales_member_change;
     public $sales_date;
     public $sales_or;
     public $sales_created;
@@ -82,7 +83,9 @@ class Sales
     {
         try {
             $sql = "select suppliersProducts.suppliers_products_name, ";
+            $sql .= "suppliersProducts.suppliers_products_scc_price, ";
             $sql .= "orders.orders_aid, ";
+            $sql .= "orders.orders_product_quantity, ";
             $sql .= "orders.orders_number, ";
             $sql .= "orders.orders_product_amount, ";
             $sql .= "member.members_last_name, ";
@@ -92,6 +95,7 @@ class Sales
             $sql .= "sales.sales_number, ";
             $sql .= "sales.sales_is_paid, ";
             $sql .= "sales.sales_receive_amount, ";
+            $sql .= "sales.sales_member_change, ";
             $sql .= "sales.sales_or, ";
             $sql .= "sales.sales_date, ";
             $sql .= "sales.sales_member_id ";
@@ -116,7 +120,9 @@ class Sales
     {
         try {
             $sql = "select suppliersProducts.suppliers_products_name, ";
+            $sql .= "suppliersProducts.suppliers_products_scc_price, ";
             $sql .= "orders.orders_aid, ";
+            $sql .= "orders.orders_product_quantity, ";
             $sql .= "orders.orders_number, ";
             $sql .= "orders.orders_product_amount, ";
             $sql .= "member.members_last_name, ";
@@ -126,6 +132,7 @@ class Sales
             $sql .= "sales.sales_number, ";
             $sql .= "sales.sales_is_paid, ";
             $sql .= "sales.sales_receive_amount, ";
+            $sql .= "sales.sales_member_change, ";
             $sql .= "sales.sales_or, ";
             $sql .= "sales.sales_date, ";
             $sql .= "sales.sales_member_id ";
@@ -157,7 +164,9 @@ class Sales
     {
         try {
             $sql = "select suppliersProducts.suppliers_products_name, ";
+            $sql .= "suppliersProducts.suppliers_products_scc_price, ";
             $sql .= "orders.orders_aid, ";
+            $sql .= "orders.orders_product_quantity, ";
             $sql .= "orders.orders_number, ";
             $sql .= "orders.orders_product_amount, ";
             $sql .= "member.members_last_name, ";
@@ -167,6 +176,7 @@ class Sales
             $sql .= "sales.sales_number, ";
             $sql .= "sales.sales_is_paid, ";
             $sql .= "sales.sales_receive_amount, ";
+            $sql .= "sales.sales_member_change, ";
             $sql .= "sales.sales_or, ";
             $sql .= "sales.sales_date, ";
             $sql .= "sales.sales_member_id ";
@@ -293,6 +303,7 @@ class Sales
         try {
             $sql = "update {$this->tblSales} set ";
             $sql .= "sales_receive_amount = :sales_receive_amount, ";
+            $sql .= "sales_member_change = :sales_member_change, ";
             $sql .= "sales_date = :sales_date, ";
             $sql .= "sales_or = :sales_or, ";
             $sql .= "sales_is_paid = :sales_is_paid, ";
@@ -301,6 +312,7 @@ class Sales
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "sales_receive_amount" => $this->sales_receive_amount,
+                "sales_member_change" => $this->sales_member_change,
                 "sales_date" => $this->sales_date,
                 "sales_or" => $this->sales_or,
                 "sales_is_paid" => $this->sales_is_paid,
@@ -338,6 +350,7 @@ class Sales
             $sql .= "sales_receive_amount =  '', ";
             $sql .= "sales_or = '', ";
             $sql .= "sales_date = '', ";
+            $sql .= "sales_member_change = '', ";
             $sql .= "sales_datetime = :sales_datetime ";
             $sql .= "where sales_aid = :sales_aid ";
             $query = $this->connection->prepare($sql);

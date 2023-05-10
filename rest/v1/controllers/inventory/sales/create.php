@@ -19,7 +19,7 @@ $id = "";
 $salesLastId = $sales->readLastSalesId();
 if ($salesLastId->rowCount() == 0) {
     // create new id
-    $formattedSalesId = "sales" . "-" . "001";
+    $formattedSalesId = "sls" . "-" . "001";
 } else {
 
     $row = $salesLastId->fetch(PDO::FETCH_ASSOC);
@@ -36,7 +36,7 @@ if ($salesLastId->rowCount() == 0) {
         $id = $lastId;
     }
 
-    $formattedSalesId =  "sales" . "-" . $id;
+    $formattedSalesId =  "sls" . "-" . $id;
 }
 
 //check to see if search keyword in query string is not empty and less than 50 chars

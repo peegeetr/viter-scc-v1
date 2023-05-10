@@ -1,6 +1,14 @@
 <?php
 
 // Read all
+function checkReadNameById($object)
+{
+    $query = $object->readNameById();
+    checkQuery($query, "Empty records.");
+    return $query;
+}
+
+// Read all
 function checkReadAllApproved($object)
 {
     $query = $object->readAllApproved();

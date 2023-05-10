@@ -1,8 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import React from "react";
-import { FaEdit, FaTrash } from "react-icons/fa";
 import { useInView } from "react-intersection-observer";
-import { setIsAdd, setIsRestore } from "../../../../../store/StoreAction";
 import { StoreContext } from "../../../../../store/StoreContext";
 import {
   formatDate,
@@ -14,12 +12,12 @@ import Loadmore from "../../../../partials/Loadmore";
 import NoData from "../../../../partials/NoData";
 import SearchBar from "../../../../partials/SearchBar";
 import ServerError from "../../../../partials/ServerError";
-import ModalDeleteRestore from "../../../../partials/modals/ModalDeleteRestore";
 import TableSpinner from "../../../../partials/spinners/TableSpinner";
-import StatusPending from "../../../../partials/status/StatusPending";
 import StatusActive from "../../../../partials/status/StatusActive";
+import StatusPending from "../../../../partials/status/StatusPending";
+import useQueryData from "../../../../custom-hooks/useQueryData";
 
-const PatronageList = ({ setItemEdit }) => {
+const PatronageList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [dataItem, setData] = React.useState(null);
   const [id, setId] = React.useState(null);
@@ -65,8 +63,23 @@ const PatronageList = ({ setItemEdit }) => {
     }
   }, [inView]);
 
+  // use if not loadmore button undertime
+  const { data: memberName, isLoading: loadingmemberName } = useQueryData(
+    `/v1/members/name/${memberid}`, // endpoint
+    "get", // method
+    "memberName" // key
+  );
+
   return (
     <>
+      {memberid !== null && (
+        <p className="text-primary">
+          <span className="pr-4 font-bold">Member Name :</span>
+          {loadingmemberName === "loading"
+            ? "Loading..."
+            : `${memberName?.data[0].members_last_name}, ${memberName?.data[0].members_first_name}`}
+        </p>
+      )}
       <SearchBar
         search={search}
         dispatch={dispatch}
@@ -81,13 +94,11 @@ const PatronageList = ({ setItemEdit }) => {
           <thead>
             <tr>
               <th>#</th>
-              <th className="min-w-[8rem]">Sale Number</th>
-              <th className="min-w-[8rem]">Order Number</th>
-              <th className="min-w-[8rem]">Product Name</th>
-              <th className="min-w-[10rem] text-right pr-4">Amount</th>
-              <th className="min-w-[10rem] text-right pr-4">Recieve Amount</th>
-              <th className="min-w-[10rem]">Official Receipt</th>
-              <th className="min-w-[8rem]">Recieve Date</th>
+              <th className="min-w-[10rem]">Recieve Date</th>
+              <th className="min-w-[10rem]">Product Name</th>
+              <th className="min-w-[8rem]">Official Receipt</th>
+              <th className="min-w-[5rem] text-right pr-4">Quantity</th>
+              <th className="min-w-[5rem] text-right pr-4">Amount</th>
               <th>Status</th>
             </tr>
           </thead>
@@ -113,21 +124,22 @@ const PatronageList = ({ setItemEdit }) => {
                 {page.data.map((item, key) => (
                   <tr key={key}>
                     <td> {counter++}.</td>
-                    <td className="uppercase">{item.sales_number}</td>
-                    <td className="uppercase">{item.orders_number}</td>
-                    <td>{item.suppliers_products_name}</td>
-                    <td className="text-right pr-4">
-                      {item.orders_product_amount}
-                    </td>
-
-                    <td className=" text-right pr-4">
-                      {item.sales_receive_amount}
-                    </td>
-                    <td>{item.sales_or}</td>
                     <td>
                       {item.sales_date === ""
-                        ? ""
-                        : formatDate(item.sales_date)}
+                        ? "N/A"
+                        : `${formatDate(item.sales_date)} ${
+                            item.sales_date.split(" ")[1]
+                          }`}
+                    </td>
+                    <td>{item.suppliers_products_name}</td>
+                    <td>{item.sales_or === "" ? "N/A" : item.sales_or}</td>
+                    <td className=" text-right pr-4">
+                      {numberWithCommas(
+                        Number(item.orders_product_amount).toFixed(2)
+                      )}
+                    </td>
+                    <td className=" text-right pr-4">
+                      {item.sales_receive_amount}
                     </td>
                     <td>
                       {item.sales_is_paid === 1 ? (

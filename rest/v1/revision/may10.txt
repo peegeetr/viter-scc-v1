@@ -1,0 +1,27 @@
+
+*controllers   
+    - account/functions.php 
+    - account/read-name.php  
+    - inventory/orders/create.php
+    - inventory/orders/functions.php
+    - inventory/orders/update.php
+    - inventory/sales/create.php
+    - inventory/sales/update.php
+
+*models 
+    - inventory/orders/Orders.php 
+    - inventory/sales/Sales.php 
+    - account/Members.php
+
+*htaccess 
+    - #members
+
+*db tables 
+    - 
+
+*core functions 
+    - 
+
+*extra
+    -
+    

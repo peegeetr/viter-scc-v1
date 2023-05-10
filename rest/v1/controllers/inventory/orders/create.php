@@ -19,7 +19,7 @@ $id = "";
 $orderLastId = $order->readLastOrderId();
 if ($orderLastId->rowCount() == 0) {
     // create new id
-    $formattedOrderId = "order" . "-" . "001";
+    $formattedOrderId = "ord" . "-" . "001";
 } else {
 
     $row = $orderLastId->fetch(PDO::FETCH_ASSOC);
@@ -36,7 +36,7 @@ if ($orderLastId->rowCount() == 0) {
         $id = $lastId;
     }
 
-    $formattedOrderId =  "order" . "-" . $id;
+    $formattedOrderId =  "ord" . "-" . $id;
 }
 
 // create orders id format ex. (order-001) 
@@ -45,7 +45,7 @@ $salesId = "";
 $salesLastId = $order->readLastSalesId();
 if ($salesLastId->rowCount() == 0) {
     // create new id
-    $formattedSalesId = "sales" . "-" . "001";
+    $formattedSalesId = "sls" . "-" . "001";
 } else {
 
     $row = $salesLastId->fetch(PDO::FETCH_ASSOC);
@@ -62,7 +62,7 @@ if ($salesLastId->rowCount() == 0) {
         $salesId = $lastId;
     }
 
-    $formattedSalesId =  "sales" . "-" . $salesId;
+    $formattedSalesId =  "sls" . "-" . $salesId;
 }
 
 //check to see if search keyword in query string is not empty and less than 50 chars

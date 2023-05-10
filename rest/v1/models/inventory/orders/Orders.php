@@ -87,12 +87,16 @@ class Orders
             $sql .= "sales_order_id, ";
             $sql .= "sales_is_paid, ";
             $sql .= "sales_number, ";
+            $sql .= "sales_receive_amount, ";
+            $sql .= "sales_member_change, ";
             $sql .= "sales_created, ";
             $sql .= "sales_datetime ) values ( ";
             $sql .= ":sales_member_id, ";
             $sql .= ":sales_order_id, ";
             $sql .= ":sales_is_paid, ";
             $sql .= ":sales_number, ";
+            $sql .= ":sales_receive_amount, ";
+            $sql .= ":sales_member_change, ";
             $sql .= ":sales_created, ";
             $sql .= ":sales_datetime ) ";
             $query = $this->connection->prepare($sql);
@@ -101,6 +105,8 @@ class Orders
                 "sales_order_id" => $this->lastInsertedId,
                 "sales_is_paid" => $this->orders_is_paid,
                 "sales_number" => $this->sales_number,
+                "sales_receive_amount" => $this->orders_is_paid,
+                "sales_member_change" => $this->orders_is_paid,
                 "sales_created" => $this->orders_created,
                 "sales_datetime" => $this->orders_datetime,
             ]);
@@ -379,6 +385,7 @@ class Orders
         try {
             $sql = "update {$this->tblOrders} set ";
             $sql .= "orders_product_quantity = :orders_product_quantity, ";
+            $sql .= "orders_member_id = :orders_member_id, ";
             $sql .= "orders_product_id = :orders_product_id, ";
             $sql .= "orders_product_amount = :orders_product_amount, ";
             $sql .= "orders_date = :orders_date, ";
@@ -387,11 +394,31 @@ class Orders
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "orders_product_quantity" => $this->orders_product_quantity,
+                "orders_member_id" => $this->orders_member_id,
                 "orders_product_id" => $this->orders_product_id,
                 "orders_product_amount" => $this->orders_product_amount,
                 "orders_date" => $this->orders_date,
                 "orders_datetime" => $this->orders_datetime,
                 "orders_aid" => $this->orders_aid,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+    // update
+    public function updateSales()
+    {
+        try {
+            $sql = "update {$this->tblSales} set ";
+            $sql .= "sales_member_id = :sales_member_id, ";
+            $sql .= "sales_datetime = :sales_datetime ";
+            $sql .= "where sales_order_id = :sales_order_id ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "sales_member_id" => $this->orders_member_id,
+                "sales_order_id" => $this->orders_aid,
+                "sales_datetime" => $this->orders_datetime,
             ]);
         } catch (PDOException $ex) {
             $query = false;
