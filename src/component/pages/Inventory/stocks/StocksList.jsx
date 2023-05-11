@@ -117,7 +117,11 @@ const StocksList = ({ setItemEdit }) => {
               <th className="min-w-[8rem]">Created date</th>
               <th>Status</th>
 
-              <th className="max-w-[5rem]">Actions</th>
+              {(store.credentials.data.role_is_admin === 1 ||
+                store.credentials.data.role_is_developer === 1 ||
+                store.credentials.data.role_is_manager === 1) && (
+                <th className="max-w-[5rem]">Actions</th>
+              )}
             </tr>
           </thead>
           <tbody>
@@ -161,42 +165,46 @@ const StocksList = ({ setItemEdit }) => {
                         <StatusActive text="Paid" />
                       )}
                     </td>
-                    <td>
-                      <div className="flex items-center gap-1">
-                        {item.stocks_is_pending === 1 && (
-                          <>
-                            <button
-                              type="button"
-                              className="btn-action-table tooltip-action-table"
-                              data-tooltip="Paid"
-                              onClick={() => handlePending(item)}
-                            >
-                              <FaCheck />
-                            </button>
-                          </>
-                        )}
-                        {item.stocks_is_pending === 0 && (
-                          <>
-                            <button
-                              type="button"
-                              className="btn-action-table tooltip-action-table"
-                              data-tooltip="Pending"
-                              onClick={() => handleComplete(item)}
-                            >
-                              <FaHistory />
-                            </button>
-                          </>
-                        )}
-                        <button
-                          type="button"
-                          className="btn-action-table tooltip-action-table"
-                          data-tooltip="Delete"
-                          onClick={() => handleDelete(item)}
-                        >
-                          <FaTrash />
-                        </button>
-                      </div>
-                    </td>
+                    {(store.credentials.data.role_is_admin === 1 ||
+                      store.credentials.data.role_is_developer === 1 ||
+                      store.credentials.data.role_is_manager === 1) && (
+                      <td>
+                        <div className="flex items-center gap-1">
+                          {item.stocks_is_pending === 1 && (
+                            <>
+                              <button
+                                type="button"
+                                className="btn-action-table tooltip-action-table"
+                                data-tooltip="Paid"
+                                onClick={() => handlePending(item)}
+                              >
+                                <FaCheck />
+                              </button>
+                            </>
+                          )}
+                          {item.stocks_is_pending === 0 && (
+                            <>
+                              <button
+                                type="button"
+                                className="btn-action-table tooltip-action-table"
+                                data-tooltip="Pending"
+                                onClick={() => handleComplete(item)}
+                              >
+                                <FaHistory />
+                              </button>
+                            </>
+                          )}
+                          <button
+                            type="button"
+                            className="btn-action-table tooltip-action-table"
+                            data-tooltip="Delete"
+                            onClick={() => handleDelete(item)}
+                          >
+                            <FaTrash />
+                          </button>
+                        </div>
+                      </td>
+                    )}
                   </tr>
                 ))}
               </React.Fragment>

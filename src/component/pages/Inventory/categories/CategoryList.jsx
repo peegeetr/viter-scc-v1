@@ -91,7 +91,8 @@ const CategoryList = ({ setItemEdit }) => {
               <th className="min-w-[5rem]">Status</th>
 
               {(store.credentials.data.role_is_admin === 1 ||
-                store.credentials.data.role_is_developer === 1) && (
+                store.credentials.data.role_is_developer === 1 ||
+                store.credentials.data.role_is_manager === 1) && (
                 <th className="max-w-[5rem]">Actions</th>
               )}
             </tr>
@@ -128,7 +129,8 @@ const CategoryList = ({ setItemEdit }) => {
                     </td>
 
                     {(store.credentials.data.role_is_admin === 1 ||
-                      store.credentials.data.role_is_developer === 1) && (
+                      store.credentials.data.role_is_developer === 1 ||
+                      store.credentials.data.role_is_manager === 1) && (
                       <td>
                         <div className="flex items-center gap-1">
                           <button

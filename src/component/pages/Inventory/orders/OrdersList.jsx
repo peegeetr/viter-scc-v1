@@ -99,7 +99,8 @@ const OrdersList = ({ setItemEdit }) => {
               <th>Status</th>
 
               {(store.credentials.data.role_is_admin === 1 ||
-                store.credentials.data.role_is_developer === 1) && (
+                store.credentials.data.role_is_developer === 1 ||
+                store.credentials.data.role_is_manager === 1) && (
                 <th className="max-w-[5rem]">Actions</th>
               )}
             </tr>
@@ -142,7 +143,8 @@ const OrdersList = ({ setItemEdit }) => {
                     </td>
 
                     {(store.credentials.data.role_is_admin === 1 ||
-                      store.credentials.data.role_is_developer === 1) && (
+                      store.credentials.data.role_is_developer === 1 ||
+                      store.credentials.data.role_is_manager === 1) && (
                       <td>
                         {item.orders_is_paid === 0 && (
                           <div className="flex items-center gap-1">
