@@ -76,10 +76,21 @@ $order->orders_product_id = checkIndex($data, "orders_product_id");
 $order->orders_product_quantity = checkIndex($data, "orders_product_quantity");
 $order->orders_product_amount = checkIndex($data, "orders_product_amount");
 $order->orders_date = checkIndex($data, "orders_date");
-$order->orders_is_paid = 0;
+$order->orders_is_paid = checkIndex($data, "orders_is_paid");
+$order->sales_receive_amount = "";
+$order->sales_or = "";
+$order->sales_member_change = "";
+$order->sales_date = "";
 $order->orders_created = date("Y-m-d H:i:s");
 $order->orders_datetime = date("Y-m-d H:i:s");
 
+// sales 
+if ($order->orders_is_paid === "1") {
+    $order->sales_receive_amount = checkIndex($data, "sales_receive_amount");
+    $order->sales_or = checkIndex($data, "sales_or");
+    $order->sales_member_change = checkIndex($data, "sales_member_change");
+    $order->sales_date = checkIndex($data, "sales_date");
+}
 // create
 $query = checkCreate($order);
 checkCreateSales($order);

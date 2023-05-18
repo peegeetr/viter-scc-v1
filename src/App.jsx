@@ -104,6 +104,20 @@ import ManagerSales from "./component/pages/Inventory/sales/links/ManagerSales";
 import SystemSupplierProduct from "./component/pages/Inventory/suppliers/products/links/SystemSupplierProduct";
 import AdminSupplierProduct from "./component/pages/Inventory/suppliers/products/links/AdminSupplierProduct";
 import ManagerSupplierProduct from "./component/pages/Inventory/suppliers/products/links/ManagerSupplierProduct";
+import CasherFileUpload from "./component/pages/file-upload/links/CasherFileUpload";
+import CasherMyAccount from "./component/pages/my-account/links/CasherMyAccount";
+import CasherMyProfile from "./component/pages/my-account/profile/links/CasherMyProfile";
+import CasherMySavings from "./component/pages/my-account/savings/links/CasherMySavings";
+import CasherMyCapitalShare from "./component/pages/my-account/capital-share/links/CasherMyCapitalShare";
+import CasherMyPatronage from "./component/pages/my-account/patronage/links/CasherMyPatronage";
+import CasherCategory from "./component/pages/Inventory/categories/links/CasherCategory";
+import CasherOrders from "./component/pages/Inventory/orders/links/CasherOrders";
+import CasherProducts from "./component/pages/Inventory/products/links/CasherProducts";
+import CasherSales from "./component/pages/Inventory/sales/links/CasherSales";
+import CasherStocks from "./component/pages/Inventory/stocks/links/CasherStocks";
+import CasherSuppliers from "./component/pages/Inventory/suppliers/links/CasherSuppliers";
+import CasherReports from "./component/pages/Inventory/reports/links/CasherReports";
+import CasherSupplierProduct from "./component/pages/Inventory/suppliers/products/links/CasherSupplierProduct";
 
 function App() {
   // Create a client
@@ -657,12 +671,124 @@ function App() {
                 </ProtectedRouteOther>
               }
             />
+            <Route
+              path={`${devNavUrl}/${UrlCasher}/details`}
+              element={
+                <ProtectedRouteOther>
+                  <CasherMyAccount />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlCasher}/details/profile`}
+              element={
+                <ProtectedRouteOther>
+                  <CasherMyProfile />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlCasher}/details/savings`}
+              element={
+                <ProtectedRouteOther>
+                  <CasherMySavings />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlCasher}/details/capital-share`}
+              element={
+                <ProtectedRouteOther>
+                  <CasherMyCapitalShare />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlCasher}/details/patronage`}
+              element={
+                <ProtectedRouteOther>
+                  <CasherMyPatronage />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlCasher}/file-upload`}
+              element={
+                <ProtectedRouteOther>
+                  <CasherFileUpload />
+                </ProtectedRouteOther>
+              }
+            />
             {/* casher inventory*/}
             <Route
               path={`${devNavUrl}/${UrlCasher}/inventory`}
               element={
                 <ProtectedRouteOther>
                   <CasherInventoryDetails />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlCasher}/inventory/category`}
+              element={
+                <ProtectedRouteOther>
+                  <CasherCategory />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlCasher}/inventory/orders`}
+              element={
+                <ProtectedRouteOther>
+                  <CasherOrders />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlCasher}/inventory/products`}
+              element={
+                <ProtectedRouteOther>
+                  <CasherProducts />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlCasher}/inventory/sales`}
+              element={
+                <ProtectedRouteOther>
+                  <CasherSales />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlCasher}/inventory/stocks`}
+              element={
+                <ProtectedRouteOther>
+                  <CasherStocks />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlCasher}/inventory/suppliers`}
+              element={
+                <ProtectedRouteOther>
+                  <CasherSuppliers />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlCasher}/inventory/suppliers/products`}
+              element={
+                <ProtectedRouteOther>
+                  <CasherSupplierProduct />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlCasher}/inventory/reports`}
+              element={
+                <ProtectedRouteOther>
+                  <CasherReports />
                 </ProtectedRouteOther>
               }
             />

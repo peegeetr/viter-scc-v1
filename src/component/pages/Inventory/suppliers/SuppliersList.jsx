@@ -140,7 +140,9 @@ const suppliersList = ({ setItemEdit }) => {
                     </td>
 
                     <td>
-                      {store.credentials.data.role_is_member === 0 ? (
+                      {store.credentials.data.role_is_admin === 1 ||
+                      store.credentials.data.role_is_developer === 1 ||
+                      store.credentials.data.role_is_manager === 1 ? (
                         <div className="flex items-center gap-1">
                           <Link
                             to={`${urlLink}/inventory/suppliers/products?supplierId=${item.suppliers_aid}`}
@@ -170,7 +172,7 @@ const suppliersList = ({ setItemEdit }) => {
                           )}
                         </div>
                       ) : (
-                        <div className="text-right p-2">
+                        <div className="flex items-center gap-1">
                           <Link
                             to={`${urlLink}/inventory/suppliers/products?supplierId=${item.suppliers_aid}`}
                             className="btn-action-table tooltip-action-table"

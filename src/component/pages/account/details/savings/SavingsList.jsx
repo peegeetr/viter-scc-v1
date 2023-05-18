@@ -120,7 +120,8 @@ const SavingsList = ({ setItemEdit }) => {
               <th className="w-[15rem]">Date</th>
               <th className="w-[15rem]">Saving Deposit</th>
               <th className="w-[15rem]">Withdrawal</th>
-              {store.credentials.data.role_is_member === 0 && (
+              {(store.credentials.data.role_is_developer === 1 ||
+                store.credentials.data.role_is_admin === 1) && (
                 <th className="max-w-[5rem]">Actions</th>
               )}
             </tr>
@@ -166,8 +167,8 @@ const SavingsList = ({ setItemEdit }) => {
                         ? numberWithCommas(item.savings_withdrawal)
                         : ""}
                     </td>
-                    {/* <td>{numberWithCommas(item.savings_interest)}</td> */}
-                    {store.credentials.data.role_is_member === 0 && (
+                    {(store.credentials.data.role_is_developer === 1 ||
+                      store.credentials.data.role_is_admin === 1) && (
                       <td>
                         <div className="flex items-center gap-1">
                           <button

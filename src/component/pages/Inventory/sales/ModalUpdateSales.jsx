@@ -13,7 +13,6 @@ import { StoreContext } from "../../../../store/StoreContext";
 import { InputText } from "../../../helpers/FormInputs";
 import { queryData } from "../../../helpers/queryData";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
-import { handleNumOnly } from "../../../helpers/functions-general";
 
 const ModalUpdateSales = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -42,12 +41,6 @@ const ModalUpdateSales = ({ item }) => {
   });
   const handleClose = () => {
     dispatch(setIsConfirm(false));
-  };
-  const handleAmount = () => {
-    setIsAmount(false);
-  };
-  const handleRecieveAmount = () => {
-    setIsAmount(true);
   };
   const initVal = {
     sales_or: item.sales_or,
@@ -94,7 +87,6 @@ const ModalUpdateSales = ({ item }) => {
                 props.values.sales_member_change =
                   Number(props.values.sales_receive_amount) -
                   Number(item.orders_product_amount);
-                console;
                 return (
                   <Form>
                     <div className="pl-3 text-primary">
@@ -125,9 +117,7 @@ const ModalUpdateSales = ({ item }) => {
                         label="Recieve Amount"
                         type="text"
                         name="sales_receive_amount"
-                        onKeyPress={handleNumOnly}
-                        onFocus={(e) => handleAmount(e)}
-                        onBlur={(e) => handleRecieveAmount(e)}
+                        num="num"
                         disabled={mutation.isLoading}
                       />
                     </div>

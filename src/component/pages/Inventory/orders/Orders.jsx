@@ -10,6 +10,7 @@ import ModalAddOrders from "./ModalAddOrders";
 import BreadCrumbs from "../../../partials/BreadCrumbs";
 import ModalSuccess from "../../../partials/modals/ModalSuccess";
 import ModalError from "../../../partials/modals/ModalError";
+import ModalManagerAddOrders from "./ModalManagerAddOrders";
 
 const Orders = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -45,7 +46,13 @@ const Orders = () => {
         </div>
         <Footer />
       </div>
-      {store.isAdd && <ModalAddOrders item={itemEdit} arrKey="orders" />}
+      {store.credentials.data.role_is_developer === 1 ||
+      store.credentials.data.role_is_admin === 1 ||
+      store.credentials.data.role_is_manager === 1
+        ? store.isAdd && (
+            <ModalManagerAddOrders item={itemEdit} arrKey="orders" />
+          )
+        : store.isAdd && <ModalAddOrders item={itemEdit} arrKey="orders" />}
       {store.success && <ModalSuccess />}
       {store.error && <ModalError />}
     </>

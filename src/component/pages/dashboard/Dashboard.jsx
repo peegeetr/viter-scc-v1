@@ -31,13 +31,15 @@ const Dashboard = () => {
       <div className="wrapper">
         <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2 ">
           <h4 className="text-xl mb-3">Hello {name}</h4>
-
-          <div className="flex items-center gap-1 self-baseline">
-            <button type="button" className="btn-primary" onClick={handleAdd}>
-              <FaPlusCircle />
-              <span>Add</span>
-            </button>
-          </div>
+          {(store.credentials.data.role_is_developer === 1 ||
+            store.credentials.data.role_is_admin === 1) && (
+            <div className="flex items-center gap-1 self-baseline">
+              <button type="button" className="btn-primary" onClick={handleAdd}>
+                <FaPlusCircle />
+                <span>Add</span>
+              </button>
+            </div>
+          )}
         </div>
 
         <hr />

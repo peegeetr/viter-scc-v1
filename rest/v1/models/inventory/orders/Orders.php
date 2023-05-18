@@ -15,6 +15,10 @@ class Orders
     public $sales_number;
     public $sold_product;
     public $remaining_quantity;
+    public $sales_receive_amount;
+    public $sales_member_change;
+    public $sales_or;
+    public $sales_date;
 
     public $connection;
     public $lastInsertedId;
@@ -89,6 +93,8 @@ class Orders
             $sql .= "sales_number, ";
             $sql .= "sales_receive_amount, ";
             $sql .= "sales_member_change, ";
+            $sql .= "sales_or, ";
+            $sql .= "sales_date, ";
             $sql .= "sales_created, ";
             $sql .= "sales_datetime ) values ( ";
             $sql .= ":sales_member_id, ";
@@ -97,6 +103,8 @@ class Orders
             $sql .= ":sales_number, ";
             $sql .= ":sales_receive_amount, ";
             $sql .= ":sales_member_change, ";
+            $sql .= ":sales_or, ";
+            $sql .= ":sales_date, ";
             $sql .= ":sales_created, ";
             $sql .= ":sales_datetime ) ";
             $query = $this->connection->prepare($sql);
@@ -105,8 +113,10 @@ class Orders
                 "sales_order_id" => $this->lastInsertedId,
                 "sales_is_paid" => $this->orders_is_paid,
                 "sales_number" => $this->sales_number,
-                "sales_receive_amount" => $this->orders_is_paid,
-                "sales_member_change" => $this->orders_is_paid,
+                "sales_receive_amount" => $this->sales_receive_amount,
+                "sales_member_change" => $this->sales_member_change,
+                "sales_or" => $this->sales_or,
+                "sales_date" => $this->sales_date,
                 "sales_created" => $this->orders_created,
                 "sales_datetime" => $this->orders_datetime,
             ]);
@@ -208,7 +218,7 @@ class Orders
             $sql .= "from {$this->tblOrders} as orders, ";
             $sql .= "{$this->tblMembers} as member, ";
             $sql .= "{$this->tblSuppliersProducts} as suppliersProducts ";
-            $sql .= "where orders.orders_product_id = suppliersProducts.suppliers_products_aid  ";
+            $sql .= "where orders.orders_product_id = suppliersProducts.suppliers_products_aid ";
             $sql .= "and orders.orders_member_id = member.members_aid ";
             $sql .= "and (orders.orders_number like :orders_number ";
             $sql .= "or MONTHNAME(orders.orders_date) like :orders_month_date ";
@@ -249,9 +259,6 @@ class Orders
         }
         return $query;
     }
-
-
-
 
     // search not approved members
     public function searchById()
@@ -389,6 +396,7 @@ class Orders
             $sql .= "orders_product_id = :orders_product_id, ";
             $sql .= "orders_product_amount = :orders_product_amount, ";
             $sql .= "orders_date = :orders_date, ";
+            $sql .= "orders_is_paid = :orders_is_paid, ";
             $sql .= "orders_datetime = :orders_datetime ";
             $sql .= "where orders_aid = :orders_aid ";
             $query = $this->connection->prepare($sql);
@@ -398,6 +406,7 @@ class Orders
                 "orders_product_id" => $this->orders_product_id,
                 "orders_product_amount" => $this->orders_product_amount,
                 "orders_date" => $this->orders_date,
+                "orders_is_paid" => $this->orders_is_paid,
                 "orders_datetime" => $this->orders_datetime,
                 "orders_aid" => $this->orders_aid,
             ]);

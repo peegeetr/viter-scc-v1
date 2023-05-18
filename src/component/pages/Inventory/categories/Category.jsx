@@ -29,7 +29,9 @@ const Category = () => {
           {/* <h4 className="text-xl mb-3">Category</h4> */}
           <BreadCrumbs />
 
-          {store.credentials.data.role_is_member === 0 && (
+          {(store.credentials.data.role_is_admin === 1 ||
+            store.credentials.data.role_is_developer === 1 ||
+            store.credentials.data.role_is_manager === 1) && (
             <div className="flex items-center gap-1 self-baseline">
               <button type="button" className="btn-primary" onClick={handleAdd}>
                 <FaPlusCircle />

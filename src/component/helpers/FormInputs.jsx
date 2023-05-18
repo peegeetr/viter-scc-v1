@@ -1,5 +1,6 @@
 import { useField } from "formik";
 import React from "react";
+import { NumericFormat, PatternFormat } from "react-number-format";
 
 export const InputTextArea = ({ label, ...props }) => {
   const [field, meta] = useField(props);
@@ -26,24 +27,103 @@ export const InputTextArea = ({ label, ...props }) => {
 
 export const InputText = ({ label, ...props }) => {
   const [field, meta] = useField(props);
-  return (
-    <>
-      <label
-        htmlFor={props.id || props.name}
-        className={meta.touched && meta.error ? "error-show" : null}
-      >
-        {label}
-      </label>
-      <input
-        {...field}
-        {...props}
-        className={meta.touched && meta.error ? "error-show" : null}
-      />
-      {meta.touched && meta.error ? (
-        <span className="error-show">{meta.error}</span>
-      ) : null}
-    </>
-  );
+
+  if (props.num === "num") {
+    return (
+      <>
+        <NumericFormat
+          {...field}
+          {...props}
+          allowLeadingZeros
+          thousandSeparator=","
+          decimalScale={4}
+          autoComplete="off"
+          // prefix={"P "}
+        />
+
+        <label htmlFor={props.id || props.name}>{label}</label>
+        {meta.touched && meta.error ? (
+          <span className="error-show">{meta.error}</span>
+        ) : null}
+      </>
+    );
+  }
+
+  if (props.tin === "tin") {
+    return (
+      <>
+        <PatternFormat
+          {...field}
+          {...props}
+          format="###-###-###-###"
+          allowEmptyFormatting
+          mask="_"
+          autoComplete="off"
+        />
+
+        <label htmlFor={props.id || props.name}>{label}</label>
+        {meta.touched && meta.error ? (
+          <span className="error-show">{meta.error}</span>
+        ) : null}
+      </>
+    );
+  }
+
+  if (props.landline === "landline") {
+    return (
+      <>
+        <PatternFormat
+          {...field}
+          {...props}
+          format="(###) ####"
+          allowEmptyFormatting
+          mask="_"
+          autoComplete="off"
+        />
+
+        <label htmlFor={props.id || props.name}>{label}</label>
+        {meta.touched && meta.error ? (
+          <span className="error-show">{meta.error}</span>
+        ) : null}
+      </>
+    );
+  }
+
+  if (props.mobile === "mobile") {
+    return (
+      <>
+        <PatternFormat
+          {...field}
+          {...props}
+          format="+63 (###) #### ###"
+          allowEmptyFormatting
+          mask="_"
+          autoComplete="off"
+        />
+
+        <label htmlFor={props.id || props.name}>{label}</label>
+        {meta.touched && meta.error ? (
+          <span className="error-show">{meta.error}</span>
+        ) : null}
+      </>
+    );
+  } else {
+    return (
+      <>
+        <input
+          {...field}
+          {...props}
+          className={meta.touched && meta.error ? "error-show" : null}
+          autoComplete="off"
+        />
+        <label htmlFor={props.id || props.name}>{label}</label>
+
+        {meta.touched && meta.error ? (
+          <span className="error-show">{meta.error}</span>
+        ) : null}
+      </>
+    );
+  }
 };
 
 export const InputSelect = ({ label, onChange, ...props }) => {

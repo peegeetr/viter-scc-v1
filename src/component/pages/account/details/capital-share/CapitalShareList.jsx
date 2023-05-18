@@ -117,7 +117,8 @@ const CapitalShareList = ({ setItemEdit }) => {
               <th className="w-[15rem]">Date</th>
               <th className="w-[15rem]">OR</th>
               <th className="w-[15rem]">Paid up Capital</th>
-              {store.credentials.data.role_is_member === 0 && (
+              {(store.credentials.data.role_is_developer === 1 ||
+                store.credentials.data.role_is_admin === 1) && (
                 <th className="max-w-[5rem]">Actions</th>
               )}
             </tr>
@@ -146,7 +147,8 @@ const CapitalShareList = ({ setItemEdit }) => {
                     <td>{formatDate(item.capital_share_date)}</td>
                     <td>{item.capital_share_or}</td>
                     <td>{item.capital_share_paid_up}</td>
-                    {store.credentials.data.role_is_member === 0 && (
+                    {(store.credentials.data.role_is_developer === 1 ||
+                      store.credentials.data.role_is_admin === 1) && (
                       <td>
                         <div className="flex items-center gap-1">
                           <button

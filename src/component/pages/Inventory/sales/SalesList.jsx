@@ -104,9 +104,7 @@ const SalesList = ({ setItemEdit }) => {
               <th className="min-w-[12rem]">Recieve Date</th>
               <th>Status</th>
 
-              {(store.credentials.data.role_is_admin === 1 ||
-                store.credentials.data.role_is_developer === 1 ||
-                store.credentials.data.role_is_manager === 1) && (
+              {store.credentials.data.role_is_member === 0 && (
                 <th className="max-w-[5rem] text-right">Actions</th>
               )}
             </tr>
@@ -177,9 +175,7 @@ const SalesList = ({ setItemEdit }) => {
                       )}
                     </td>
 
-                    {store.credentials.data.role_is_admin === 1 ||
-                    store.credentials.data.role_is_developer === 1 ||
-                    store.credentials.data.role_is_manager === 1 ? (
+                    {store.credentials.data.role_is_member === 0 && (
                       <td className="text-right">
                         {item.sales_is_paid === 1 ? (
                           <button
@@ -200,17 +196,6 @@ const SalesList = ({ setItemEdit }) => {
                             <GiReceiveMoney />
                           </button>
                         )}
-                      </td>
-                    ) : (
-                      <td className="text-right">
-                        <button
-                          type="button"
-                          className="btn-action-table tooltip-action-table"
-                          data-tooltip="payment"
-                          onClick={() => handleEdit(item)}
-                        >
-                          <GiReceiveMoney />
-                        </button>
                       </td>
                     )}
                   </tr>

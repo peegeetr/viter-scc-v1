@@ -99,7 +99,11 @@ const ProductsList = () => {
               <th className="min-w-[10rem]">SCC Price</th>
               <th className="min-w-[10rem]">Market Price</th>
               <th className="min-w-[10rem]">Remaning Quantity</th>
-              <th className="max-w-[5rem] text-right">Actions</th>
+              {(store.credentials.data.role_is_admin === 1 ||
+                store.credentials.data.role_is_developer === 1 ||
+                store.credentials.data.role_is_manager === 1) && (
+                <th className="max-w-[5rem] text-right">Actions</th>
+              )}
             </tr>
           </thead>
           <tbody>
@@ -139,18 +143,22 @@ const ProductsList = () => {
                         orderGroupProd
                       )}
                     </td>
-                    <td className=" text-right">
-                      <div className="gap-1">
-                        <button
-                          type="button"
-                          className="btn-action-table tooltip-action-table"
-                          data-tooltip="Edit"
-                          onClick={() => handleEdit(item)}
-                        >
-                          <FaEdit />
-                        </button>
-                      </div>
-                    </td>
+                    {(store.credentials.data.role_is_admin === 1 ||
+                      store.credentials.data.role_is_developer === 1 ||
+                      store.credentials.data.role_is_manager === 1) && (
+                      <td className=" text-right">
+                        <div className="gap-1">
+                          <button
+                            type="button"
+                            className="btn-action-table tooltip-action-table"
+                            data-tooltip="Edit"
+                            onClick={() => handleEdit(item)}
+                          >
+                            <FaEdit />
+                          </button>
+                        </div>
+                      </td>
+                    )}
                   </tr>
                 ))}
               </React.Fragment>

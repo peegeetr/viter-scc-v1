@@ -16,6 +16,7 @@ function checkCreateSales($object)
     return $query;
 }
 
+
 // Update sales
 function checkUpdateSales($object)
 {
