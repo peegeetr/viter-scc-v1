@@ -30,12 +30,12 @@ const OtherLogin = () => {
   };
 
   const initVal = {
-    user_other_email: "",
+    members_email: "",
     password: "",
   };
 
   const yupSchema = Yup.object({
-    user_other_email: Yup.string().required("Required").email("Invalid email"),
+    members_email: Yup.string().required("Required").email("Invalid email"),
     password: Yup.string().required("Required"),
   });
 
@@ -83,7 +83,7 @@ const OtherLogin = () => {
                       <InputText
                         label="Email"
                         type="text"
-                        name="user_other_email"
+                        name="members_email"
                         disabled={loading}
                       />
                     </div>
@@ -92,9 +92,7 @@ const OtherLogin = () => {
                         label="Password"
                         type={passwordShown ? "text" : "password"}
                         name="password"
-                        disabled={
-                          loading || props.values.user_other_email === ""
-                        }
+                        disabled={loading || props.values.members_email === ""}
                       />
                       {props.values.password && (
                         <span

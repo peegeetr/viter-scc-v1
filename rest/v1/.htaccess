@@ -110,6 +110,9 @@ RewriteRule ^orders/active/([0-9]+)$ controllers/inventory/orders/active.php?ord
 RewriteRule ^orders/page/([0-9]+)$ controllers/inventory/orders/page.php?start=$1 [L]
 RewriteRule ^orders/search/([A-Za-z0-9-]+)$ controllers/inventory/orders/search.php?search=$1 [L]
 RewriteRule ^orders/group-by-prod$ controllers/inventory/orders/group-by-product-number.php [L]
+RewriteRule ^orders/invoice/page/([0-9]+)$ controllers/inventory/orders/invoice-page.php?start=$1 [L]
+RewriteRule ^orders/invoice/search/([A-Za-z0-9-]+)$ controllers/inventory/orders/invoice-search.php?search=$1 [L]
+RewriteRule ^orders/pending/by-member-id/([0-9]+)$ controllers/inventory/orders/pending-by-member-id.php?memberId=$1 [L]
    
 #suppliers 
 RewriteRule ^suppliers$ controllers/inventory/suppliers/suppliers.php [L]

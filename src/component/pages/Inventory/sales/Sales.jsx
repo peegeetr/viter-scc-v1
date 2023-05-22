@@ -7,6 +7,7 @@ import Navigation from "../../../partials/Navigation";
 import ModalSuccess from "../../../partials/modals/ModalSuccess";
 import ModalUpdateSales from "./ModalUpdateSales";
 import SalesList from "./SalesList";
+import ModalViewSales from "./ModalViewSales";
 
 const Sales = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -28,6 +29,7 @@ const Sales = () => {
         <Footer />
       </div>
       {store.isConfirm && <ModalUpdateSales item={itemEdit} />}
+      {store.isAdd && <ModalViewSales item={itemEdit} />}
       {store.success && <ModalSuccess />}
       {store.error && <ModalError />}
     </>

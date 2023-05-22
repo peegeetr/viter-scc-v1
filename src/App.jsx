@@ -23,22 +23,48 @@ import Role from "./component/pages/settings/users/role/Role";
 import SystemUser from "./component/pages/settings/users/system/SystemUser";
 import PageNotFound from "./component/partials/PageNotFound";
 
-import Category from "./component/pages/Inventory/categories/Category";
+import AdminCategory from "./component/pages/Inventory/categories/links/AdminCategory";
+import CasherCategory from "./component/pages/Inventory/categories/links/CasherCategory";
+import ManagerCategory from "./component/pages/Inventory/categories/links/ManagerCategory";
+import SystemCategory from "./component/pages/Inventory/categories/links/SystemCategory";
 import AdminInventoryDetails from "./component/pages/Inventory/links/AdminInventoryDetails";
 import CasherInventoryDetails from "./component/pages/Inventory/links/CasherInventoryDetails";
 import ManagerInventoryDetails from "./component/pages/Inventory/links/ManagerInventoryDetails";
 import SystemInventoryDetails from "./component/pages/Inventory/links/SystemInventoryDetails";
-import Orders from "./component/pages/Inventory/orders/Orders";
-import Products from "./component/pages/Inventory/products/Products";
-import Reports from "./component/pages/Inventory/reports/Reports";
-import Sales from "./component/pages/Inventory/sales/Sales";
+import AdminInvoice from "./component/pages/Inventory/orders/invoice/links/AdminInvoice";
+import CasherInvoice from "./component/pages/Inventory/orders/invoice/links/CasherInvoice";
+import ManagerInvoice from "./component/pages/Inventory/orders/invoice/links/ManagerInvoice";
+import SystemInvoice from "./component/pages/Inventory/orders/invoice/links/SystemInvoice";
+import AdminOrders from "./component/pages/Inventory/orders/links/AdminOrders";
+import CasherOrders from "./component/pages/Inventory/orders/links/CasherOrders";
+import ManagerOrders from "./component/pages/Inventory/orders/links/ManagerOrders";
+import SystemOrders from "./component/pages/Inventory/orders/links/SystemOrders";
+import AddOrderPage from "./component/pages/Inventory/orders/order-page/AddOrderPage";
+import OrderSuccess from "./component/pages/Inventory/orders/order-page/OrderSuccess";
+import AdminProducts from "./component/pages/Inventory/products/links/AdminProducts";
+import CasherProducts from "./component/pages/Inventory/products/links/CasherProducts";
+import ManagerProducts from "./component/pages/Inventory/products/links/ManagerProducts";
+import SystemProducts from "./component/pages/Inventory/products/links/SystemProducts";
+import AdminReports from "./component/pages/Inventory/reports/links/AdminReports";
+import CasherReports from "./component/pages/Inventory/reports/links/CasherReports";
+import ManagerReports from "./component/pages/Inventory/reports/links/ManagerReports";
+import SystemReports from "./component/pages/Inventory/reports/links/SystemReports";
+import AdminSales from "./component/pages/Inventory/sales/links/AdminSales";
+import CasherSales from "./component/pages/Inventory/sales/links/CasherSales";
+import ManagerSales from "./component/pages/Inventory/sales/links/ManagerSales";
+import SystemSales from "./component/pages/Inventory/sales/links/SystemSales";
 import AdminStocks from "./component/pages/Inventory/stocks/links/AdminStocks";
+import CasherStocks from "./component/pages/Inventory/stocks/links/CasherStocks";
 import ManagerStocks from "./component/pages/Inventory/stocks/links/ManagerStocks";
 import SystemStocks from "./component/pages/Inventory/stocks/links/SystemStocks";
 import AdminSuppliers from "./component/pages/Inventory/suppliers/links/AdminSuppliers";
+import CasherSuppliers from "./component/pages/Inventory/suppliers/links/CasherSuppliers";
 import ManagerSuppliers from "./component/pages/Inventory/suppliers/links/ManagerSuppliers";
 import SystemSuppliers from "./component/pages/Inventory/suppliers/links/SystemSuppliers";
-import SupplierProduct from "./component/pages/Inventory/suppliers/products/SupplierProduct";
+import AdminSupplierProduct from "./component/pages/Inventory/suppliers/products/links/AdminSupplierProduct";
+import CasherSupplierProduct from "./component/pages/Inventory/suppliers/products/links/CasherSupplierProduct";
+import ManagerSupplierProduct from "./component/pages/Inventory/suppliers/products/links/ManagerSupplierProduct";
+import SystemSupplierProduct from "./component/pages/Inventory/suppliers/products/links/SystemSupplierProduct";
 import AdminCapitalShare from "./component/pages/account/details/capital-share/links/AdminCapitalShare";
 import SystemCapitalShare from "./component/pages/account/details/capital-share/links/SystemCapitalShare";
 import AdminDeatils from "./component/pages/account/details/links/AdminDeatils";
@@ -61,24 +87,34 @@ import ManagerDashboard from "./component/pages/dashboard/links/ManagerDashboard
 import MemberDashboard from "./component/pages/dashboard/links/MemberDashboard";
 import SystemDashboard from "./component/pages/dashboard/links/SystemDashboard";
 import AdminFileUpload from "./component/pages/file-upload/links/AdminFileUpload";
+import CasherFileUpload from "./component/pages/file-upload/links/CasherFileUpload";
 import ManagerFileUpload from "./component/pages/file-upload/links/ManagerFileUpload";
 import MemberFileUpload from "./component/pages/file-upload/links/MemberFileUpload";
 import SystemFileUpload from "./component/pages/file-upload/links/SystemFileUpload";
 import AdminMyCapitalShare from "./component/pages/my-account/capital-share/links/AdminMyCapitalShare";
+import CasherMyCapitalShare from "./component/pages/my-account/capital-share/links/CasherMyCapitalShare";
 import ManagerMyCapitalShare from "./component/pages/my-account/capital-share/links/ManagerMyCapitalShare";
 import MemberMyCapitalShare from "./component/pages/my-account/capital-share/links/MemberMyCapitalShare";
 import AdminMyAccount from "./component/pages/my-account/links/AdminMyAccount";
+import CasherMyAccount from "./component/pages/my-account/links/CasherMyAccount";
 import ManagerMyAccount from "./component/pages/my-account/links/ManagerMyAccount";
 import MemberMyAccount from "./component/pages/my-account/links/MemberMyAccount";
 import AdminMyPatronage from "./component/pages/my-account/patronage/links/AdminMyPatronage";
+import CasherMyPatronage from "./component/pages/my-account/patronage/links/CasherMyPatronage";
 import ManagerMyPatronage from "./component/pages/my-account/patronage/links/ManagerMyPatronage";
 import MemberMyPatronage from "./component/pages/my-account/patronage/links/MemberMyPatronage";
 import AdminMyProfile from "./component/pages/my-account/profile/links/AdminMyProfile";
+import CasherMyProfile from "./component/pages/my-account/profile/links/CasherMyProfile";
 import ManagerMyProfile from "./component/pages/my-account/profile/links/ManagerMyProfile";
 import MemberMyProfile from "./component/pages/my-account/profile/links/MemberMyProfile";
 import AdminMySavings from "./component/pages/my-account/savings/links/AdminMySavings";
+import CasherMySavings from "./component/pages/my-account/savings/links/CasherMySavings";
 import ManagerMySavings from "./component/pages/my-account/savings/links/ManagerMySavings";
 import MemberMySavings from "./component/pages/my-account/savings/links/MemberMySavings";
+import AdminPointOfSales from "./component/pages/point-of-sales/links/AdminPointOfSales";
+import CasherPointOfSales from "./component/pages/point-of-sales/links/CasherPointOfSales";
+import ManagerPointOfSales from "./component/pages/point-of-sales/links/ManagerPointOfSales";
+import SystemPointOfSales from "./component/pages/point-of-sales/links/SystemPointOfSales";
 import AdminSettingsLink from "./component/pages/settings/links/AdminSettingsLink";
 import SystemSettingsLink from "./component/pages/settings/links/SystemSettingsLink";
 import AdminNetSurPlus from "./component/pages/settings/net-surplus/links/AdminNetSurPlus";
@@ -86,38 +122,6 @@ import SystemNetSurPlus from "./component/pages/settings/net-surplus/links/Syste
 import AdminOtherUser from "./component/pages/settings/users/other/links/AdminOtherUser";
 import SystemOtherUser from "./component/pages/settings/users/other/links/SystemOtherUser";
 import { StoreProvider } from "./store/StoreContext";
-import AdminSales from "./component/pages/Inventory/sales/links/AdminSales";
-import AdminReports from "./component/pages/Inventory/reports/links/AdminReports";
-import AdminProducts from "./component/pages/Inventory/products/links/AdminProducts";
-import AdminOrders from "./component/pages/Inventory/orders/links/AdminOrders";
-import AdminCategory from "./component/pages/Inventory/categories/links/AdminCategory";
-import SystemCategory from "./component/pages/Inventory/categories/links/SystemCategory";
-import SystemOrders from "./component/pages/Inventory/orders/links/SystemOrders";
-import SystemProducts from "./component/pages/Inventory/products/links/SystemProducts";
-import SystemReports from "./component/pages/Inventory/reports/links/SystemReports";
-import SystemSales from "./component/pages/Inventory/sales/links/SystemSales";
-import ManagerCategory from "./component/pages/Inventory/categories/links/ManagerCategory";
-import ManagerOrders from "./component/pages/Inventory/orders/links/ManagerOrders";
-import ManagerProducts from "./component/pages/Inventory/products/links/ManagerProducts";
-import ManagerReports from "./component/pages/Inventory/reports/links/ManagerReports";
-import ManagerSales from "./component/pages/Inventory/sales/links/ManagerSales";
-import SystemSupplierProduct from "./component/pages/Inventory/suppliers/products/links/SystemSupplierProduct";
-import AdminSupplierProduct from "./component/pages/Inventory/suppliers/products/links/AdminSupplierProduct";
-import ManagerSupplierProduct from "./component/pages/Inventory/suppliers/products/links/ManagerSupplierProduct";
-import CasherFileUpload from "./component/pages/file-upload/links/CasherFileUpload";
-import CasherMyAccount from "./component/pages/my-account/links/CasherMyAccount";
-import CasherMyProfile from "./component/pages/my-account/profile/links/CasherMyProfile";
-import CasherMySavings from "./component/pages/my-account/savings/links/CasherMySavings";
-import CasherMyCapitalShare from "./component/pages/my-account/capital-share/links/CasherMyCapitalShare";
-import CasherMyPatronage from "./component/pages/my-account/patronage/links/CasherMyPatronage";
-import CasherCategory from "./component/pages/Inventory/categories/links/CasherCategory";
-import CasherOrders from "./component/pages/Inventory/orders/links/CasherOrders";
-import CasherProducts from "./component/pages/Inventory/products/links/CasherProducts";
-import CasherSales from "./component/pages/Inventory/sales/links/CasherSales";
-import CasherStocks from "./component/pages/Inventory/stocks/links/CasherStocks";
-import CasherSuppliers from "./component/pages/Inventory/suppliers/links/CasherSuppliers";
-import CasherReports from "./component/pages/Inventory/reports/links/CasherReports";
-import CasherSupplierProduct from "./component/pages/Inventory/suppliers/products/links/CasherSupplierProduct";
 
 function App() {
   // Create a client
@@ -150,6 +154,14 @@ function App() {
 
             {/* login system user */}
 
+            <Route
+              path={`/${devNavUrl}/order-page`}
+              element={<AddOrderPage />}
+            />
+            <Route
+              path={`/${devNavUrl}/order-page/success`}
+              element={<OrderSuccess />}
+            />
             <Route
               path={`/${devNavUrl}/${UrlSystem}/login`}
               element={<SystemLogin />}
@@ -252,6 +264,14 @@ function App() {
 
             {/* system settings */}
             <Route
+              path={`${devNavUrl}/${UrlSystem}/point-of-sales`}
+              element={
+                <ProtectedRouteSystem>
+                  <SystemPointOfSales />
+                </ProtectedRouteSystem>
+              }
+            />
+            <Route
               path={`${devNavUrl}/${UrlSystem}/inventory`}
               element={
                 <ProtectedRouteSystem>
@@ -272,6 +292,14 @@ function App() {
               element={
                 <ProtectedRouteSystem>
                   <SystemOrders />
+                </ProtectedRouteSystem>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlSystem}/inventory/orders/invoice`}
+              element={
+                <ProtectedRouteSystem>
+                  <SystemInvoice />
                 </ProtectedRouteSystem>
               }
             />
@@ -565,6 +593,14 @@ function App() {
             {/* admin invetory */}
 
             <Route
+              path={`${devNavUrl}/${UrlAdmin}/point-of-sales`}
+              element={
+                <ProtectedRouteOther>
+                  <AdminPointOfSales />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
               path={`${devNavUrl}/${UrlAdmin}/inventory`}
               element={
                 <ProtectedRouteOther>
@@ -585,6 +621,14 @@ function App() {
               element={
                 <ProtectedRouteOther>
                   <AdminOrders />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/inventory/orders/invoice`}
+              element={
+                <ProtectedRouteOther>
+                  <AdminInvoice />
                 </ProtectedRouteOther>
               }
             />
@@ -721,6 +765,14 @@ function App() {
             />
             {/* casher inventory*/}
             <Route
+              path={`${devNavUrl}/${UrlCasher}/point-of-sales`}
+              element={
+                <ProtectedRouteOther>
+                  <CasherPointOfSales />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
               path={`${devNavUrl}/${UrlCasher}/inventory`}
               element={
                 <ProtectedRouteOther>
@@ -741,6 +793,14 @@ function App() {
               element={
                 <ProtectedRouteOther>
                   <CasherOrders />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlCasher}/inventory/orders/invoice`}
+              element={
+                <ProtectedRouteOther>
+                  <CasherInvoice />
                 </ProtectedRouteOther>
               }
             />
@@ -855,6 +915,14 @@ function App() {
             {/* manager invetory */}
 
             <Route
+              path={`${devNavUrl}/${UrlManager}/point-of-sales`}
+              element={
+                <ProtectedRouteOther>
+                  <ManagerPointOfSales />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
               path={`${devNavUrl}/${UrlManager}/inventory`}
               element={
                 <ProtectedRouteOther>
@@ -875,6 +943,14 @@ function App() {
               element={
                 <ProtectedRouteOther>
                   <ManagerOrders />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlManager}/inventory/orders/invoice`}
+              element={
+                <ProtectedRouteOther>
+                  <ManagerInvoice />
                 </ProtectedRouteOther>
               }
             />

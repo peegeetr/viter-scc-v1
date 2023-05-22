@@ -61,7 +61,7 @@ const ModalConfirm = ({
       (arrKey === "userSystems" || arrKey === "otherUsers") &&
       store.credentials.data.role_aid === Number(role_id) &&
       (store.credentials.data.user_system_email === item ||
-        store.credentials.data.user_other_email === item)
+        store.credentials.data.members_email === item)
     ) {
       localStorage.removeItem("sccToken");
       store.credentials.data.role_is_developer === 1
@@ -90,7 +90,7 @@ const ModalConfirm = ({
             </span>
             {store.credentials.data.role_aid === Number(role_id) &&
             (store.credentials.data.user_system_email === item ||
-              store.credentials.data.user_other_email === item) ? (
+              store.credentials.data.members_email === item) ? (
               <span className="text-sm font-bold">
                 {message} <br />
                 Do you still want to proceed?

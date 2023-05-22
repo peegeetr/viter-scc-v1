@@ -16,15 +16,12 @@ if (array_key_exists("userotherid", $_GET)) {
     $user_other->user_other_aid = $_GET['userotherid'];
     $user_other->user_other_member_id = checkIndex($data, "user_other_member_id");
     $user_other->user_other_role_id = checkIndex($data, "user_other_role_id");
-    $user_other->user_other_email = addslashes(trim($data["user_other_email"]));
     $user_other->user_other_datetime = date("Y-m-d H:i:s");
 
-    $user_other_email_old = addslashes(trim($data["user_other_email_old"]));
     //check to see if task id in query string is not empty and is number, if not return json error
     checkId($user_other->user_other_aid);
 
-    // check email
-    compareEmail($user_other, $user_other_email_old, $user_other->user_other_email);
+    // check email 
     // update
     $query = checkUpdate($user_other);
 

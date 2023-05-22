@@ -108,7 +108,7 @@ const OtherUserList = ({ setItemEdit }) => {
                 <tr key={key}>
                   <td>{counter}.</td>
                   <td>{`${item.members_last_name}, ${item.members_first_name}`}</td>
-                  <td>{item.user_other_email}</td>
+                  <td>{item.members_email}</td>
                   <td>{item.role_name}</td>
                   <td>
                     {item.user_other_is_active === 1 ? (
@@ -186,7 +186,7 @@ const OtherUserList = ({ setItemEdit }) => {
               ? "Are you sure you want to reset this user"
               : "Are you sure you want to archive this user"
           }
-          item={`${dataItem.user_other_email}`}
+          item={`${dataItem.members_email}`}
           role_id={`${dataItem.user_other_role_id}`}
           arrKey="otherUsers"
         />
@@ -203,7 +203,7 @@ const OtherUserList = ({ setItemEdit }) => {
               ? "Are you sure you want to delete this user"
               : "Are you sure you want to restore this user"
           }
-          item={`${dataItem.user_other_email}`}
+          item={`${dataItem.members_email}`}
           role_id={`${dataItem.user_other_role_id}`}
           arrKey="otherUsers"
         />

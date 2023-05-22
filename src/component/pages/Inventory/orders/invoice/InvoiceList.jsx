@@ -1,35 +1,31 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import React from "react";
+import { FaEnvelope } from "react-icons/fa";
+import { SlArrowRight } from "react-icons/sl";
 import { useInView } from "react-intersection-observer";
+import { setIsAdd, setIsConfirm } from "../../../../../store/StoreAction";
 import { StoreContext } from "../../../../../store/StoreContext";
-import {
-  formatDate,
-  getUrlParam,
-  numberWithCommas,
-} from "../../../../helpers/functions-general";
 import { queryDataInfinite } from "../../../../helpers/queryDataInfinite";
 import Loadmore from "../../../../partials/Loadmore";
 import NoData from "../../../../partials/NoData";
 import SearchBar from "../../../../partials/SearchBar";
 import ServerError from "../../../../partials/ServerError";
 import TableSpinner from "../../../../partials/spinners/TableSpinner";
-import StatusActive from "../../../../partials/status/StatusActive";
-import StatusPending from "../../../../partials/status/StatusPending";
-import useQueryData from "../../../../custom-hooks/useQueryData";
+import ModalViewProductInvoice from "./ModalViewProductInvoice";
+import ModalConfirm from "../../../../partials/modals/ModalConfirm";
 
-const PatronageList = () => {
+const InvoiceList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
+  const [itemEdit, setItemEdit] = React.useState(null);
   const [dataItem, setData] = React.useState(null);
   const [id, setId] = React.useState(null);
   const [isDel, setDel] = React.useState(false);
   const [onSearch, setOnSearch] = React.useState(false);
   const [page, setPage] = React.useState(1);
-  let counter = 1;
   const search = React.useRef(null);
-  const memberid = getUrlParam().get("memberid");
+  let counter = 1;
   const { ref, inView } = useInView();
   // use if with loadmore button and search bar
-  let empid = memberid === null ? store.credentials.data.members_aid : memberid;
   const {
     data: result,
     error,
@@ -39,11 +35,11 @@ const PatronageList = () => {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ["patronage", onSearch, store.isSearch],
+    queryKey: ["orders", onSearch, store.isSearch],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
-        `/v1/patronage/search/by-employee-id/${search.current.value}/${empid}`, // search endpoint
-        `/v1/patronage/page/by-employee-id/${pageParam}/${empid}`, // list endpoint
+        `/v1/orders/invoice/search/${search.current.value}`, // search endpoint
+        `/v1/orders/invoice/page/${pageParam}`, // list endpoint
         store.isSearch // search boolean
       ),
     getNextPageParam: (lastPage) => {
@@ -63,23 +59,20 @@ const PatronageList = () => {
     }
   }, [inView]);
 
-  // use if not loadmore button undertime
-  const { data: memberName, isLoading: loadingmemberName } = useQueryData(
-    `/v1/members/name/${empid}`, // endpoint
-    "get", // method
-    "memberName" // key
-  );
+  const handleViewInvoice = (item) => {
+    dispatch(setIsAdd(true));
+    setItemEdit(item);
+  };
 
+  const handleSentInvoice = (item) => {
+    dispatch(setIsConfirm(true));
+    setId(item.orders_aid);
+    setData(item);
+    setDel(true);
+  };
+  console.log(result);
   return (
     <>
-      {memberid !== null && (
-        <p className="text-primary">
-          <span className="pr-4 font-bold">Member Name :</span>
-          {loadingmemberName === "loading"
-            ? "Loading..."
-            : `${memberName?.data[0].members_last_name}, ${memberName?.data[0].members_first_name}`}
-        </p>
-      )}
       <SearchBar
         search={search}
         dispatch={dispatch}
@@ -89,17 +82,16 @@ const PatronageList = () => {
         setOnSearch={setOnSearch}
         onSearch={onSearch}
       />
-      <div className="relative text-center overflow-x-auto z-0">
+
+      <div className="text-center overflow-x-auto z-0">
         <table>
           <thead>
             <tr>
               <th>#</th>
-              <th className="min-w-[10rem]">Recieve Payment Date</th>
-              <th className="min-w-[10rem]">Product Name</th>
-              <th className="min-w-[8rem]">Official Receipt</th>
-              <th className="min-w-[5rem] text-right pr-4">Quantity</th>
-              <th className="min-w-[5rem] text-right pr-4">Amount</th>
-              <th>Status</th>
+              <th className="min-w-[10rem]">Name</th>
+              <th className="min-w-[5rem] text-center">Products Count</th>
+
+              <th className="max-w-[5rem] ">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -124,29 +116,28 @@ const PatronageList = () => {
                 {page.data.map((item, key) => (
                   <tr key={key}>
                     <td> {counter++}.</td>
-                    <td>
-                      {item.sales_date === ""
-                        ? "N/A"
-                        : `${formatDate(item.sales_date)} ${
-                            item.sales_date.split(" ")[1]
-                          }`}
-                    </td>
-                    <td>{item.suppliers_products_name}</td>
-                    <td>{item.sales_or === "" ? "N/A" : item.sales_or}</td>
-                    <td className=" text-right pr-4">
-                      {numberWithCommas(
-                        Number(item.orders_product_amount).toFixed(2)
-                      )}
-                    </td>
-                    <td className=" text-right pr-4">
-                      {item.sales_receive_amount}
-                    </td>
-                    <td>
-                      {item.sales_is_paid === 1 ? (
-                        <StatusActive text="Paid" />
-                      ) : (
-                        <StatusPending />
-                      )}
+                    <td>{`${item.members_last_name}, ${item.members_first_name}`}</td>
+                    <td className="text-center">{item.countProduct}</td>
+
+                    <td className="text-right pr-4">
+                      <div className="flex items-center gap-1">
+                        <button
+                          type="button"
+                          className="btn-action-table tooltip-action-table"
+                          data-tooltip="Sent Invoice"
+                          onClick={() => handleSentInvoice(item)}
+                        >
+                          <FaEnvelope />
+                        </button>
+                        <button
+                          type="button"
+                          className="btn-action-table tooltip-action-table"
+                          data-tooltip="View"
+                          onClick={() => handleViewInvoice(item)}
+                        >
+                          <SlArrowRight />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -154,6 +145,8 @@ const PatronageList = () => {
             ))}
           </tbody>
         </table>
+      </div>
+      <div className="text-center">
         <Loadmore
           fetchNextPage={fetchNextPage}
           isFetchingNextPage={isFetchingNextPage}
@@ -164,8 +157,20 @@ const PatronageList = () => {
           refView={ref}
         />
       </div>
+
+      {store.isAdd && <ModalViewProductInvoice item={itemEdit} />}
+      {store.isConfirm && (
+        <ModalConfirm
+          id={id}
+          isDel={isDel}
+          mysqlApiReset={`/v1/user-others/reset`}
+          msg={"Are you sure you want to sent invoice"}
+          item={`${dataItem.members_email}`}
+          arrKey="otherUsers"
+        />
+      )}
     </>
   );
 };
 
-export default PatronageList;
+export default InvoiceList;

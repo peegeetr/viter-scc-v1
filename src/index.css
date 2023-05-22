@@ -106,7 +106,7 @@
   }
 
   label {
-    @apply text-xs text-primary transform -translate-y-6 -translate-x-1 absolute left-3 top-4 px-1  z-10 isolate;
+    @apply text-xs text-primary transform -translate-y-6 -translate-x-1 absolute left-3 top-4 px-1  z-10 isolate focus:bg-white;
   }
 
   label:after {

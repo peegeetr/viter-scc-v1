@@ -1,11 +1,11 @@
 import React from "react";
 import { setIsAdd } from "../../store/StoreAction.jsx";
 
-// Online URL dev
-export const devApiUrl = "https://scc.frontlinebusiness.com.ph/rest";
-export const devBaseImgUrl = "https://scc.frontlinebusiness.com.ph/img";
-export const devBaseUrl = "https://scc.frontlinebusiness.com.ph";
-export const devNavUrl = "";
+// // Online URL dev
+// export const devApiUrl = "https://scc.frontlinebusiness.com.ph/rest";
+// export const devBaseImgUrl = "https://scc.frontlinebusiness.com.ph/img";
+// export const devBaseUrl = "https://scc.frontlinebusiness.com.ph";
+// export const devNavUrl = "";
 
 // // // // Local URL dev
 // export const devApiUrl = "http://localhost/viter-newthing-v1/rest";
@@ -18,12 +18,12 @@ export const devNavUrl = "";
 // export const devBaseUrl = "http://localhost/viter-scc-v1/public";
 // export const devNavUrl = "";
 
-// // cy url
-// export const devApiUrl = "http://localhost/projects/viter-scc-v1/rest";
-// export const devBaseUrl = "http://localhost/projects/viter-scc-v1/public";
-// export const devBaseImgUrl =
-//   "http://localhost/projects/viter-scc-v1/public/img";
-// export const devNavUrl = "";
+// cy url
+export const devApiUrl = "http://localhost/projects/viter-scc-v1/rest";
+export const devBaseUrl = "http://localhost/projects/viter-scc-v1/public";
+export const devBaseImgUrl =
+  "http://localhost/projects/viter-scc-v1/public/img";
+export const devNavUrl = "";
 
 export const UrlAdmin = "admin";
 export const UrlManager = "manager";
@@ -201,6 +201,25 @@ export const getUserType = (store) => {
     : (link = `${devNavUrl}/${UrlMember}`);
 
   return link;
+};
+
+export const getTime = (t) => {
+  let time = new Date(new Date(t).toString().split("GMT")[0] + "UTC")
+    .toISOString()
+    .split("T")[1];
+  let hour = time.split(":")[0];
+  let min = time.split(":")[1];
+  let sec = time.split(":")[2];
+  let secNew = sec.split(".")[0];
+  let timeNow = "";
+
+  if (hour >= "11" && hour <= "23") {
+    timeNow = `${hour}:${min}:${secNew} PM`;
+  }
+  if (hour <= "11" && hour >= "0") {
+    timeNow = `${hour}:${min}:${secNew} AM`;
+  }
+  return timeNow;
 };
 
 export const getTimeNow = () => {

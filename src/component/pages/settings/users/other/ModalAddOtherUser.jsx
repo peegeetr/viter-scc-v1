@@ -59,8 +59,6 @@ const ModalAddOtherUser = ({ item, role, members }) => {
   };
   const initVal = {
     user_other_member_id: item ? item.user_other_member_id : "",
-    user_other_email: item ? item.user_other_email : "",
-    user_other_email_old: item ? item.user_other_email : "",
     user_other_role_id: item ? item.user_other_role_id : "",
     name: "",
   };
@@ -68,7 +66,6 @@ const ModalAddOtherUser = ({ item, role, members }) => {
   const yupSchema = Yup.object({
     user_other_member_id: Yup.string().required("Required"),
     user_other_role_id: Yup.string().required("Required"),
-    user_other_email: Yup.string().required("Required").email("Invalid email"),
   });
 
   return (
@@ -125,14 +122,6 @@ const ModalAddOtherUser = ({ item, role, members }) => {
                           );
                         })}
                       </InputSelect>
-                    </div>
-                    <div className="relative mb-5 mt-5">
-                      <InputText
-                        label="Email"
-                        type="text"
-                        name="user_other_email"
-                        disabled={mutation.isLoading}
-                      />
                     </div>
                     <div className="relative my-5">
                       <InputSelect

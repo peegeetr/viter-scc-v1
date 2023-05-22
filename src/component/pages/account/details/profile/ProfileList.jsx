@@ -125,7 +125,7 @@ const ProfileList = ({ members, isLoading, error }) => {
                 )}
               </div>
               <div className="text-left grid sm:grid-cols-[1fr_15rem] pl-2">
-                <div className="text-left grid  grid-cols-2 md:grid-cols-[1fr_2fr] mb-2 xs:pl-5 pl-2">
+                <div className="text-left grid grid-cols-2 md:grid-cols-[1fr_2fr] mb-2 xs:pl-5 pl-2">
                   <p className="font-semibold">First Name :</p>
                   <p className="">{item.members_first_name}</p>
                   <p className="font-semibold">Middle Name :</p>

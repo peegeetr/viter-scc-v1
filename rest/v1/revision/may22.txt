@@ -1,0 +1,27 @@
+
+*controllers    
+    - inventory/orders/functions.php
+    - inventory/orders/invoice-page.php 
+    - inventory/orders/invoice-search.php 
+    - inventory/orders/pending-by-member-id.php 
+    - inventory/settings/user/other/create.php
+    - inventory/settings/user/other/login.php
+    - inventory/settings/user/other/reset.php
+    - inventory/settings/user/other/update.php
+
+*models 
+    - inventory/orders/Orders.php  
+    - inventory/settings/user/other/UserOther.php  
+
+*htaccess 
+    - #orders 
+
+*db tables 
+    - 
+
+*core functions 
+    - functions.php
+
+*extra
+    -
+    

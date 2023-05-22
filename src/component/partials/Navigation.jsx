@@ -2,7 +2,7 @@ import React from "react";
 import { AiFillSetting } from "react-icons/ai";
 import { TbFileDownload } from "react-icons/tb";
 import { FaUserCheck, FaBusinessTime, FaUsers } from "react-icons/fa";
-import { MdDashboard } from "react-icons/md";
+import { MdDashboard, MdOutlineInventory } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { setIsSearch, setIsShow, setStartIndex } from "../../store/StoreAction";
 import { StoreContext } from "../../store/StoreContext";
@@ -122,23 +122,42 @@ const Navigation = ({ menu }) => {
             </li>
 
             {store.credentials.data.role_is_member === 0 && (
-              <li
-                className={
-                  menu === "inventory"
-                    ? "active"
-                    : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
-                }
-              >
-                <Link
-                  to={`${getUserType(store)}/inventory`}
-                  className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
-                  onClick={handleShow}
-                  data-tooltip="Inventory"
+              <>
+                <li
+                  className={
+                    menu === "point-of-sales"
+                      ? "active"
+                      : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
+                  }
                 >
-                  <AiFillSetting className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
-                  <span className="md:hidden lg:block">Inventory</span>
-                </Link>
-              </li>
+                  <Link
+                    to={`${getUserType(store)}/point-of-sales`}
+                    className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
+                    onClick={handleShow}
+                    data-tooltip="Point Of Sales"
+                  >
+                    <MdOutlineInventory className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
+                    <span className="md:hidden lg:block">Point Of Sales</span>
+                  </Link>
+                </li>
+                <li
+                  className={
+                    menu === "inventory"
+                      ? "active"
+                      : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
+                  }
+                >
+                  <Link
+                    to={`${getUserType(store)}/inventory`}
+                    className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
+                    onClick={handleShow}
+                    data-tooltip="Inventory"
+                  >
+                    <MdOutlineInventory className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
+                    <span className="md:hidden lg:block">Inventory</span>
+                  </Link>
+                </li>
+              </>
             )}
             {(store.credentials.data.role_is_admin === 1 ||
               store.credentials.data.role_is_developer === 1) && (

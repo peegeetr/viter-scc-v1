@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { setStartIndex } from "../../../../store/StoreAction";
 import { StoreContext } from "../../../../store/StoreContext";
 import { getUserType } from "../../../helpers/functions-general";
+import { MdOutlineInventory } from "react-icons/md";
 
 const CategoryLink = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -18,7 +19,7 @@ const CategoryLink = () => {
       <Link to={`${urlLink}/inventory/category`} className="w-full py-2">
         <div className="flex items-center">
           <span className="text-lg mr-4">
-            <RiUserSharedFill />
+            <MdOutlineInventory />
           </span>
           <span className="text-md font-bold">Category</span>
         </div>

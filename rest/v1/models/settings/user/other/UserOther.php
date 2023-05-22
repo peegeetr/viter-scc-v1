@@ -4,12 +4,13 @@ class UserOther
     public $user_other_aid;
     public $user_other_is_active;
     public $user_other_member_id;
-    public $user_other_email;
     public $user_other_role_id;
     public $user_other_key;
     public $user_other_password;
     public $user_other_created;
     public $user_other_datetime;
+
+    public $members_email;
 
     public $connection;
     public $lastInsertedId;
@@ -35,14 +36,12 @@ class UserOther
             $sql = "insert into {$this->tblUserOther} ";
             $sql .= "( user_other_is_active, ";
             $sql .= "user_other_member_id, ";
-            $sql .= "user_other_email, ";
             $sql .= "user_other_role_id, ";
             $sql .= "user_other_key, ";
             $sql .= "user_other_created, ";
             $sql .= "user_other_datetime ) values ( ";
             $sql .= ":user_other_is_active, ";
             $sql .= ":user_other_member_id, ";
-            $sql .= ":user_other_email, ";
             $sql .= ":user_other_role_id, ";
             $sql .= ":user_other_key, ";
             $sql .= ":user_other_created, ";
@@ -51,7 +50,6 @@ class UserOther
             $query->execute([
                 "user_other_is_active" => $this->user_other_is_active,
                 "user_other_member_id" => $this->user_other_member_id,
-                "user_other_email" => $this->user_other_email,
                 "user_other_role_id" => $this->user_other_role_id,
                 "user_other_key" => $this->user_other_key,
                 "user_other_created" => $this->user_other_created,
@@ -69,10 +67,10 @@ class UserOther
     {
         try {
             $sql = "select otherUser.user_other_member_id, ";
-            $sql .= "otherUser.user_other_email, ";
             $sql .= "otherUser.user_other_is_active, ";
             $sql .= "otherUser.user_other_role_id, ";
             $sql .= "otherUser.user_other_aid, ";
+            $sql .= "member.members_email, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
             $sql .= "role.role_aid, ";
@@ -115,14 +113,12 @@ class UserOther
             $sql = "update {$this->tblUserOther} set ";
             $sql .= "user_other_member_id = :user_other_member_id, ";
             $sql .= "user_other_role_id = :user_other_role_id, ";
-            $sql .= "user_other_email = :user_other_email, ";
             $sql .= "user_other_datetime = :user_other_datetime ";
             $sql .= "where user_other_aid  = :user_other_aid ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "user_other_member_id" => $this->user_other_member_id,
                 "user_other_role_id" => $this->user_other_role_id,
-                "user_other_email" => $this->user_other_email,
                 "user_other_datetime" => $this->user_other_datetime,
                 "user_other_aid" => $this->user_other_aid,
             ]);
@@ -159,13 +155,11 @@ class UserOther
             $sql = "update {$this->tblUserOther} set ";
             $sql .= "user_other_key = :user_other_key, ";
             $sql .= "user_other_datetime = :user_other_datetime ";
-            $sql .= "where user_other_email = :user_other_email ";
             $sql .= "and user_other_is_active = 1 ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "user_other_key" => $this->user_other_key,
                 "user_other_datetime" => $this->user_other_datetime,
-                "user_other_email" => $this->user_other_email,
             ]);
         } catch (PDOException $ex) {
             $query = false;
@@ -211,14 +205,17 @@ class UserOther
 
 
     // email
-    public function checkEmail()
+    public function readEmailAndName()
     {
         try {
-            $sql = "select user_other_email from {$this->tblUserOther} ";
-            $sql .= "where user_other_email = :user_other_email ";
+            $sql = "select members_email, ";
+            $sql .= "members_first_name, ";
+            $sql .= "members_last_nam, ";
+            $sql .= "from {$this->tblMembers} ";
+            $sql .= "where members_aid = :members_aid ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "user_other_email" => "{$this->user_other_email}",
+                "members_aid" => "{$this->user_other_member_id}",
             ]);
         } catch (PDOException $ex) {
             $query = false;
@@ -233,8 +230,8 @@ class UserOther
             $sql = "select otherUser.user_other_aid, ";
             $sql .= "otherUser.user_other_is_active, ";
             $sql .= "otherUser.user_other_member_id, ";
-            $sql .= "otherUser.user_other_email, ";
             $sql .= "otherUser.user_other_password, ";
+            $sql .= "member.members_email, ";
             $sql .= "member.members_aid, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
@@ -244,11 +241,11 @@ class UserOther
             $sql .= "{$this->tblRole} as role ";
             $sql .= "where otherUser.user_other_role_id = role.role_aid ";
             $sql .= "and otherUser.user_other_member_id = member.members_aid ";
-            $sql .= "and otherUser.user_other_email like :user_other_email ";
+            $sql .= "and member.members_email like :members_email ";
             $sql .= "and otherUser.user_other_is_active = 1 ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "user_other_email" => $this->user_other_email,
+                "members_email" => $this->members_email,
             ]);
         } catch (PDOException $ex) {
             $query = false;

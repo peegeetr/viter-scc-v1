@@ -3,7 +3,7 @@ import { StoreContext } from "../../../../store/StoreContext";
 import { setIsAdd } from "../../../../store/StoreAction";
 import Header from "../../../partials/Header";
 import Navigation from "../../../partials/Navigation";
-import { FaPlusCircle } from "react-icons/fa";
+import { FaFileInvoiceDollar, FaPlusCircle } from "react-icons/fa";
 import OrdersList from "./OrdersList";
 import Footer from "../../../partials/Footer";
 import ModalAddOrders from "./ModalAddOrders";
@@ -11,10 +11,13 @@ import BreadCrumbs from "../../../partials/BreadCrumbs";
 import ModalSuccess from "../../../partials/modals/ModalSuccess";
 import ModalError from "../../../partials/modals/ModalError";
 import ModalManagerAddOrders from "./ModalManagerAddOrders";
+import { Link } from "react-router-dom";
+import { getUserType } from "../../../helpers/functions-general";
 
 const Orders = () => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [itemEdit, setItemEdit] = React.useState(null);
+  const urlLink = getUserType(store);
 
   const handleAdd = () => {
     dispatch(setIsAdd(true));
@@ -27,7 +30,6 @@ const Orders = () => {
       <Navigation menu="inventory" />{" "}
       <div className="wrapper">
         <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2 ">
-          {/* <h4 className="text-xl mb-3">Orders</h4>  */}
           <BreadCrumbs />
 
           {store.credentials.data.role_is_member === 0 && (
@@ -36,6 +38,14 @@ const Orders = () => {
                 <FaPlusCircle />
                 <span>Add</span>
               </button>
+              <Link
+                to={`${urlLink}/inventory/orders/invoice`}
+                type="button"
+                className="btn-primary"
+              >
+                <FaFileInvoiceDollar />
+                <span>Invoice</span>
+              </Link>
             </div>
           )}
         </div>

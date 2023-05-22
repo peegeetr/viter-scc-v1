@@ -3,7 +3,11 @@ import React from "react";
 import { FaEraser } from "react-icons/fa";
 import { GiReceiveMoney } from "react-icons/gi";
 import { useInView } from "react-intersection-observer";
-import { setIsConfirm, setIsRestore } from "../../../../store/StoreAction";
+import {
+  setIsAdd,
+  setIsConfirm,
+  setIsRestore,
+} from "../../../../store/StoreAction";
 import { StoreContext } from "../../../../store/StoreContext";
 import {
   formatDate,
@@ -67,6 +71,10 @@ const SalesList = ({ setItemEdit }) => {
     dispatch(setIsConfirm(true));
     setItemEdit(item);
   };
+  const handleView = (item) => {
+    dispatch(setIsAdd(true));
+    setItemEdit(item);
+  };
 
   const handleRestore = (item) => {
     dispatch(setIsRestore(true));
@@ -93,15 +101,11 @@ const SalesList = ({ setItemEdit }) => {
               <th>#</th>
               <th className="min-w-[10rem]">Name</th>
               <th className="min-w-[8rem]">Sale Number</th>
-              <th className="min-w-[8rem]">Order Number</th>
               <th className="min-w-[8rem]">Product Name</th>
-              <th className="min-w-[10rem] text-right pr-4">Quantity</th>
-              <th className="min-w-[10rem] text-right pr-4">Amount</th>
-              <th className="min-w-[10rem] text-right pr-4">Total Amount</th>
+              <th className="min-w-[5rem] text-right pr-4">Quantity</th>
+              <th className="min-w-[6rem] text-right pr-4">Total Amount</th>
               <th className="min-w-[10rem] text-right pr-4">Recieve Amount</th>
-              <th className="min-w-[10rem] text-right pr-4">Change Amount</th>
-              <th className="min-w-[12rem]">Official Receipt</th>
-              <th className="min-w-[12rem]">Recieve Date</th>
+              <th className="min-w-[12rem]">Recieve Payment Date</th>
               <th>Status</th>
 
               {store.credentials.data.role_is_member === 0 && (
@@ -133,20 +137,26 @@ const SalesList = ({ setItemEdit }) => {
                     <td> {counter++}.</td>
                     <td>{`${item.members_last_name}, ${item.members_first_name}`}</td>
                     <td className="uppercase">{item.sales_number}</td>
-                    <td className="uppercase">{item.orders_number}</td>
                     <td>{item.suppliers_products_name}</td>
 
                     <td className="text-right pr-4">
                       {item.orders_product_quantity}
                     </td>
-                    <td className="text-right pr-4">
-                      {numberWithCommas(
-                        Number(item.suppliers_products_scc_price).toFixed(2)
-                      )}
-                    </td>
-                    <td className="text-right pr-4 font-bold text-primary">
-                      {numberWithCommas(
-                        Number(item.orders_product_amount).toFixed(2)
+                    <td className="text-right pr-4 font-bold text-primary ">
+                      {item.sales_is_paid === 1 ? (
+                        <span
+                          className="cursor-pointer underline tooltip-action-table"
+                          onClick={() => handleView(item)}
+                          data-tooltip="Receipt"
+                        >
+                          {numberWithCommas(
+                            Number(item.orders_product_amount).toFixed(2)
+                          )}
+                        </span>
+                      ) : (
+                        numberWithCommas(
+                          Number(item.orders_product_amount).toFixed(2)
+                        )
                       )}
                     </td>
                     <td className=" text-right pr-4">
@@ -154,12 +164,6 @@ const SalesList = ({ setItemEdit }) => {
                         Number(item.sales_receive_amount).toFixed(2)
                       )}
                     </td>
-                    <td className=" text-right pr-4">
-                      {numberWithCommas(
-                        Number(item.sales_member_change).toFixed(2)
-                      )}
-                    </td>
-                    <td>{item.sales_or === "" ? "N/A" : item.sales_or}</td>
                     <td>
                       {item.sales_date === ""
                         ? "N/A"
@@ -177,24 +181,37 @@ const SalesList = ({ setItemEdit }) => {
 
                     {store.credentials.data.role_is_member === 0 && (
                       <td className="text-right">
-                        {item.sales_is_paid === 1 ? (
-                          <button
-                            type="button"
-                            className="btn-action-table tooltip-action-table"
-                            data-tooltip="void"
-                            onClick={() => handleRestore(item)}
-                          >
-                            <FaEraser />
-                          </button>
+                        {store.credentials.data.role_is_casher === 0 ? (
+                          item.sales_is_paid === 1 ? (
+                            <button
+                              type="button"
+                              className="btn-action-table tooltip-action-table"
+                              data-tooltip="void"
+                              onClick={() => handleRestore(item)}
+                            >
+                              <FaEraser />
+                            </button>
+                          ) : (
+                            <button
+                              type="button"
+                              className="btn-action-table tooltip-action-table"
+                              data-tooltip="payment"
+                              onClick={() => handleEdit(item)}
+                            >
+                              <GiReceiveMoney />
+                            </button>
+                          )
                         ) : (
-                          <button
-                            type="button"
-                            className="btn-action-table tooltip-action-table"
-                            data-tooltip="payment"
-                            onClick={() => handleEdit(item)}
-                          >
-                            <GiReceiveMoney />
-                          </button>
+                          item.sales_is_paid === 0 && (
+                            <button
+                              type="button"
+                              className="btn-action-table tooltip-action-table"
+                              data-tooltip="payment"
+                              onClick={() => handleEdit(item)}
+                            >
+                              <GiReceiveMoney />
+                            </button>
+                          )
                         )}
                       </td>
                     )}

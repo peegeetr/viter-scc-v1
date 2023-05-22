@@ -97,6 +97,12 @@ const ModalUpdateSales = ({ item }) => {
                         </span>
                       </p>
                       <p className="mb-0">
+                        Product:
+                        <span className="text-black ml-2 capitalize">
+                          {item.suppliers_products_name}
+                        </span>
+                      </p>
+                      <p className="mb-0">
                         Amount:
                         <span className="text-black ml-2">
                           {item.orders_product_amount}

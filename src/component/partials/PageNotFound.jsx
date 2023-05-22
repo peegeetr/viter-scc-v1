@@ -13,6 +13,7 @@ const PageNotFound = () => {
         <p className="text-sm m-0">
           You don't have access to this page or you enter the wrong path.
         </p>
+
         <p>Plase check your URL</p>
       </div>
     </>

@@ -1,10 +1,38 @@
 <?php
 
 // Read limit By Id
+function checkReadAllInvoice($object)
+{
+    $query = $object->readAllInvoice();
+    checkQuery($query, "Empty records. (Read all invoice limit)");
+    return $query;
+}
+// Read limit By Id
+function checkReadAllInvoiceLimit($object)
+{
+    $query = $object->readAllInvoiceLimit();
+    checkQuery($query, "Empty records. (Read all invoice)");
+    return $query;
+}
+// Read search
+function checkSearchAllMemberInvoice($object)
+{
+    $query = $object->searchAllMemberInvoice();
+    checkQuery($query, "Empty records. (search)");
+    return $query;
+}
+// Read limit By Id
 function checkReadLimitById($object)
 {
     $query = $object->readLimitById();
     checkQuery($query, "Empty records. (limit by id)");
+    return $query;
+}
+// Read limit By Id
+function checkReadAlPendingByMemberId($object)
+{
+    $query = $object->readAlPendingByMemberId();
+    checkQuery($query, "Empty records. (pending order by member id)");
     return $query;
 }
 
