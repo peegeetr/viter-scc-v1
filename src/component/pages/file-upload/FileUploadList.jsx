@@ -49,6 +49,7 @@ const FileUploadList = ({ setItemEdit }) => {
     },
     refetchOnWindowFocus: false,
     networkMode: "always",
+    cacheTime: 200,
   });
 
   React.useEffect(() => {
@@ -88,8 +89,8 @@ const FileUploadList = ({ setItemEdit }) => {
             <tr>
               <th>#</th>
               <th className="min-w-[15rem] w-[15rem]">File Name</th>
-              <th className="min-w-[15rem]">Link</th>
               <th className="min-w-[10rem] w-[10rem]">Date</th>
+              <th className="min-w-[15rem]">G-Drive Link</th>
 
               {(store.credentials.data.role_is_admin === 1 ||
                 store.credentials.data.role_is_developer === 1) && (
@@ -120,6 +121,7 @@ const FileUploadList = ({ setItemEdit }) => {
                   <tr key={key}>
                     <td> {counter++}.</td>
                     <td>{item.file_upload_name}</td>
+                    <td>{formatDate(item.file_upload_date)}</td>
                     <td className=" break-all">
                       <a
                         href={item.file_upload_link}
@@ -128,8 +130,6 @@ const FileUploadList = ({ setItemEdit }) => {
                         {item.file_upload_link}
                       </a>
                     </td>
-
-                    <td>{formatDate(item.file_upload_date)}</td>
 
                     {(store.credentials.data.role_is_admin === 1 ||
                       store.credentials.data.role_is_developer === 1) && (

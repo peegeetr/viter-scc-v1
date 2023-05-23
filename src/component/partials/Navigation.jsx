@@ -125,23 +125,6 @@ const Navigation = ({ menu }) => {
               <>
                 <li
                   className={
-                    menu === "point-of-sales"
-                      ? "active"
-                      : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
-                  }
-                >
-                  <Link
-                    to={`${getUserType(store)}/point-of-sales`}
-                    className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
-                    onClick={handleShow}
-                    data-tooltip="Point Of Sales"
-                  >
-                    <MdOutlineInventory className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
-                    <span className="md:hidden lg:block">Point Of Sales</span>
-                  </Link>
-                </li>
-                <li
-                  className={
                     menu === "inventory"
                       ? "active"
                       : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"

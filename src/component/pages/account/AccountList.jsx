@@ -54,6 +54,7 @@ const AccountList = () => {
     },
     refetchOnWindowFocus: false,
     networkMode: "always",
+    cacheTime: 200,
   });
 
   React.useEffect(() => {
@@ -205,7 +206,7 @@ const AccountList = () => {
           isDel={isDel}
           mysqlApiArchive={`/v1/members/status/${id}`}
           msg={"Are you sure you want to archive this members"}
-          item={`${dataItem.members_last_name}, ${dataItem.members_first_name}`}
+          item={`${dataItem.members_email}`}
           arrKey="members"
         />
       )}
@@ -221,7 +222,7 @@ const AccountList = () => {
               ? "Are you sure you want to delete this members"
               : "Are you sure you want to restore this members"
           }
-          item={`${dataItem.members_last_name}, ${dataItem.members_first_name}`}
+          item={`${dataItem.members_email}`}
           arrKey="members"
         />
       )}

@@ -15,6 +15,7 @@ import { InputSelect, InputText } from "../../../../helpers/FormInputs";
 import {
   devNavUrl,
   getDateTimeNow,
+  removeComma,
 } from "../../../../helpers/functions-general";
 import { queryData } from "../../../../helpers/queryData";
 import ButtonSpinner from "../../../../partials/spinners/ButtonSpinner";
@@ -141,12 +142,20 @@ const AddOrderPage = () => {
                 return;
               }
 
-              mutation.mutate(values);
+              const orders_product_quantity = removeComma(
+                `${values.orders_product_quantity}`
+              );
+
+              mutation.mutate({
+                ...values,
+                orders_product_quantity,
+              });
             }}
           >
             {(props) => {
               props.values.orders_product_amount =
-                props.values.orders_product_quantity * priceId;
+                Number(removeComma(props.values.orders_product_quantity)) *
+                priceId;
               props.values.suppliers_products_aid = productId;
               return (
                 <Form>
@@ -235,6 +244,7 @@ const AddOrderPage = () => {
                       label="Quantity"
                       type="text"
                       name="orders_product_quantity"
+                      num="num"
                       disabled={mutation.isLoading}
                     />
                   </div>

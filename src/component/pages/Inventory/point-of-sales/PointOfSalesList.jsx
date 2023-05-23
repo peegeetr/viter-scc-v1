@@ -8,6 +8,7 @@ import { setError, setMessage } from "../../../store/StoreAction";
 import useQueryData from "../../custom-hooks/useQueryData";
 import { getDateTimeNow } from "../../helpers/functions-general";
 import { InputSelect, InputText } from "../../helpers/FormInputs";
+import { removeComma } from "../../../helpers/functions-general";
 
 const AddOrderPage = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -122,12 +123,20 @@ const AddOrderPage = () => {
                 return;
               }
 
-              mutation.mutate(values);
+              const orders_product_quantity = removeComma(
+                `${values.orders_product_quantity}`
+              );
+
+              mutation.mutate({
+                ...values,
+                orders_product_quantity,
+              });
             }}
           >
             {(props) => {
               props.values.orders_product_amount =
-                props.values.orders_product_quantity * priceId;
+                Number(removeComma(props.values.orders_product_quantity)) *
+                priceId;
               props.values.suppliers_products_aid = productId;
               return (
                 <Form>
@@ -215,6 +224,7 @@ const AddOrderPage = () => {
                     <InputText
                       label="Quantity"
                       type="text"
+                      num="num"
                       name="orders_product_quantity"
                       disabled={mutation.isLoading}
                     />

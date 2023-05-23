@@ -389,9 +389,12 @@ class SuppliersProducts
             $sql .= "category.product_category_name ";
             $sql .= "from ";
             $sql .= "{$this->tblSuppliersProducts} as suppliersProducts, ";
+            $sql .= "{$this->tblStocks} as stocks, ";
             $sql .= "{$this->tblCategory} as category ";
             $sql .= "where suppliersProducts.suppliers_products_category_id = :suppliers_products_category_id ";
             $sql .= "and category.product_category_aid = suppliersProducts.suppliers_products_category_id ";
+            $sql .= "and stocks.stocks_product_id = suppliersProducts.suppliers_products_aid ";
+            $sql .= "and stocks.stocks_is_pending = '0' ";
             $sql .= "order by suppliersProducts.suppliers_products_name asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([

@@ -1,9 +1,9 @@
 import React from "react";
-import { StoreContext } from "../../../../../../store/StoreContext";
-import PageNotFound from "../../../../../partials/PageNotFound";
-import Invoice from "../Invoice";
+import PointOfSales from "../PointOfSales";
+import { StoreContext } from "../../../../../store/StoreContext";
+import PageNotFound from "../../../../partials/PageNotFound";
 
-const SystemInvoice = () => {
+const SystemPointOfSales = () => {
   const { store } = React.useContext(StoreContext);
   const sccToken = JSON.parse(localStorage.getItem("sccToken"));
   if (sccToken.isDev === false) {
@@ -14,9 +14,9 @@ const SystemInvoice = () => {
   }
   return (
     <>
-      <Invoice />
+      <PointOfSales />
     </>
   );
 };
 
-export default SystemInvoice;
+export default SystemPointOfSales;

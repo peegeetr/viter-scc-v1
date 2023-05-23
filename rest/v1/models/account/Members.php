@@ -43,11 +43,13 @@ class Members
     public $members_search;
     public $currentYear;
     public $tblMembers;
+    public $tblUserOther;
 
     public function __construct($db)
     {
         $this->connection = $db;
         $this->tblMembers = "sccv1_members";
+        $this->tblUserOther = "sccv1_settings_user_other";
     }
 
     // create
@@ -60,6 +62,7 @@ class Members
             $sql .= "members_is_active, ";
             $sql .= "members_first_name, ";
             $sql .= "members_last_name, ";
+            $sql .= "members_email, ";
             $sql .= "members_middle_name, ";
             $sql .= "members_gender, ";
             $sql .= "members_birth_date, ";
@@ -70,6 +73,7 @@ class Members
             $sql .= ":members_is_active, ";
             $sql .= ":members_first_name, ";
             $sql .= ":members_last_name, ";
+            $sql .= ":members_email, ";
             $sql .= ":members_middle_name, ";
             $sql .= ":members_gender, ";
             $sql .= ":members_birth_date, ";
@@ -82,6 +86,7 @@ class Members
                 "members_is_active" => $this->members_is_active,
                 "members_first_name" => $this->members_first_name,
                 "members_last_name" => $this->members_last_name,
+                "members_email" => $this->members_email,
                 "members_middle_name" => $this->members_middle_name,
                 "members_gender" => $this->members_gender,
                 "members_birth_date" => $this->members_birth_date,
@@ -184,8 +189,7 @@ class Members
         try {
             $sql = "select * from ";
             $sql .= "{$this->tblMembers} ";
-            $sql .= "where members_is_cancel = 0 ";
-            $sql .= "and members_is_approved = 0 ";
+            $sql .= "where members_is_approved = 0 ";
             $sql .= "order by members_last_name, ";
             $sql .= "members_first_name asc ";
             $query = $this->connection->query($sql);
@@ -201,8 +205,7 @@ class Members
         try {
             $sql = "select * from ";
             $sql .= "{$this->tblMembers} ";
-            $sql .= "where members_is_cancel = 0 ";
-            $sql .= "and members_is_approved = 0 ";
+            $sql .= "where members_is_approved = 0 ";
             $sql .= "order by members_last_name, ";
             $sql .= "members_first_name asc ";
             $sql .= "limit :start, ";
@@ -224,8 +227,7 @@ class Members
         try {
             $sql = "select * from ";
             $sql .= "{$this->tblMembers} ";
-            $sql .= "where members_is_cancel = 0 ";
-            $sql .= "and members_is_approved = 0 ";
+            $sql .= "where members_is_approved = 0 ";
             $sql .= "and (members_last_name like :members_last_name ";
             $sql .= "or members_id like :members_id ";
             $sql .= "or members_first_name like :members_first_name) ";
@@ -472,6 +474,23 @@ class Members
         return $query;
     }
 
+    // email
+    public function checkEmail()
+    {
+        try {
+            $sql = "select members_email ";
+            $sql .= "from {$this->tblMembers} ";
+            $sql .= "where members_email = :members_email ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "members_email" => $this->members_email,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
 
     // active
     public function active()
@@ -479,6 +498,7 @@ class Members
         try {
             $sql = "update {$this->tblMembers} set ";
             $sql .= "members_is_active = :members_is_active, ";
+            $sql .= "members_is_cancel = '0', ";
             $sql .= "members_datetime = :members_datetime ";
             $sql .= "where members_aid = :members_aid ";
             $query = $this->connection->prepare($sql);
@@ -493,6 +513,25 @@ class Members
         return $query;
     }
 
+    // active User Other
+    public function activeUserOther()
+    {
+        try {
+            $sql = "update {$this->tblUserOther} set ";
+            $sql .= "user_other_is_active = :user_other_is_active, ";
+            $sql .= "user_other_datetime = :user_other_datetime ";
+            $sql .= "where user_other_member_id = :user_other_member_id ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "user_other_is_active" => $this->members_is_active,
+                "user_other_datetime" => $this->members_datetime,
+                "user_other_member_id" => $this->members_aid,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
     //member cancelation
     public function cancel()
     {
@@ -541,6 +580,22 @@ class Members
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "members_aid" => $this->members_aid,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    // delete
+    public function deleteUserOther()
+    {
+        try {
+            $sql = "delete from {$this->tblUserOther} ";
+            $sql .= "where user_other_member_id = :user_other_member_id ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "user_other_member_id" => $this->members_aid,
             ]);
         } catch (PDOException $ex) {
             $query = false;

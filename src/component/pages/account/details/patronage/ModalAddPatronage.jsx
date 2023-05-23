@@ -12,7 +12,10 @@ import {
 import { StoreContext } from "../../../../../store/StoreContext";
 import useQueryData from "../../../../custom-hooks/useQueryData";
 import { InputSelect, InputText } from "../../../../helpers/FormInputs";
-import { getUrlParam } from "../../../../helpers/functions-general";
+import {
+  getUrlParam,
+  removeComma,
+} from "../../../../helpers/functions-general";
 import { queryData } from "../../../../helpers/queryData";
 import ButtonSpinner from "../../../../partials/spinners/ButtonSpinner";
 
@@ -104,7 +107,7 @@ const ModalAddPatronage = ({ item }) => {
               initialValues={initVal}
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
-                console.log(values);
+                // console.log(values);
 
                 // mutate data
                 mutation.mutate(values);
@@ -112,7 +115,7 @@ const ModalAddPatronage = ({ item }) => {
             >
               {(props) => {
                 props.values.patronage_product_amount =
-                  price * props.values.patronage_product_quantity;
+                  price * removeComma(props.values.patronage_product_quantity);
                 return (
                   <Form className="">
                     <div className="relative my-5">

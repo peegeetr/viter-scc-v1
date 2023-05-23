@@ -13,6 +13,10 @@ import { StoreContext } from "../../../../store/StoreContext";
 import { InputText } from "../../../helpers/FormInputs";
 import { queryData } from "../../../helpers/queryData";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
+import {
+  numberWithCommas,
+  removeComma,
+} from "../../../helpers/functions-general";
 
 const ModalUpdateSales = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -54,7 +58,7 @@ const ModalUpdateSales = ({ item }) => {
     sales_receive_amount: Yup.number()
       .required("Required")
       .min(
-        item.orders_product_amount,
+        removeComma(item.orders_product_amount),
         "Recieve payment must be exact amount or morethan"
       ),
   });
@@ -79,8 +83,14 @@ const ModalUpdateSales = ({ item }) => {
               initialValues={initVal}
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
-                console.log(values);
-                mutation.mutate(values);
+                // console.log(values);
+                const sales_receive_amount = removeComma(
+                  `${values.sales_receive_amount}`
+                );
+                mutation.mutate({
+                  ...values,
+                  sales_receive_amount,
+                });
               }}
             >
               {(props) => {
@@ -105,15 +115,23 @@ const ModalUpdateSales = ({ item }) => {
                       <p className="mb-0">
                         Amount:
                         <span className="text-black ml-2">
-                          {item.orders_product_amount}
+                          &#8369;{" "}
+                          {numberWithCommas(
+                            Number(item.orders_product_amount).toFixed(2)
+                          )}
                         </span>
                       </p>
                       <p className="">
                         Change:
                         <span className="text-black ml-2">
+                          &#8369;{" "}
                           {Number(props.values.sales_receive_amount) === 0
                             ? 0
-                            : props.values.sales_member_change}
+                            : numberWithCommas(
+                                Number(
+                                  props.values.sales_member_change
+                                ).toFixed(2)
+                              )}
                         </span>
                       </p>
                     </div>

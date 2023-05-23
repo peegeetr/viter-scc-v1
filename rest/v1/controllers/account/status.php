@@ -1,9 +1,9 @@
-<?php 
+<?php
 // set http header
 require '../../core/header.php';
 // use needed functions
-require '../../core/functions.php'; 
-require 'functions.php'; 
+require '../../core/functions.php';
+require 'functions.php';
 // use needed classes
 require '../../models/account/Members.php';
 // check database connection
@@ -31,7 +31,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         $members->members_is_active = trim($data["isActive"]);
         $members->members_datetime = date("Y-m-d H:i:s");
         //check to see if task id in query string is not empty and is number, if not return json error
-        checkId($members->members_aid); 
+        checkId($members->members_aid);
         // archive validation if members id exist  
         if ($is_approved == "approved") {
             $query = checkApproved($members);
@@ -42,12 +42,13 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
             $query = checkCancel($members);
             http_response_code(200);
             returnSuccess($members, "members", $query);
-        } 
+        }
         if ($is_approved == "active") {
-            $query = checkActive($members); 
+            $query = checkActive($members);
+            checkActiveUserOther($members);
             http_response_code(200);
             returnSuccess($members, "members", $query);
-        }   
+        }
     }
     // return 404 error if endpoint not available
     checkEndpoint();

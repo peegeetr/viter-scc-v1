@@ -23,9 +23,11 @@ if (array_key_exists("membersid", $_GET) && array_key_exists("isUpdate", $_GET))
         $members->members_education_attainment = checkIndex($data, "members_education_attainment");
         $members->members_datetime = date("Y-m-d H:i:s");
 
+        $members_email_old = checkIndex($data, "members_email_old");
         //check to see if task id in query string is not empty and is number, if not return json error
         checkId($members->members_aid);
         // update
+        compareEmail($members, $members_email_old, $members->members_email);
         $query = checkUpdateAdditionalInfo($members);
         returnSuccess($members, "members", $query);
     }

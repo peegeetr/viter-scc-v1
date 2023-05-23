@@ -11,7 +11,10 @@ import SearchBar from "../../../partials/SearchBar";
 import ServerError from "../../../partials/ServerError";
 import ModalDeleteRestore from "../../../partials/modals/ModalDeleteRestore";
 import TableSpinner from "../../../partials/spinners/TableSpinner";
-import { formatDate } from "../../../helpers/functions-general";
+import {
+  formatDate,
+  numberWithCommas,
+} from "../../../helpers/functions-general";
 import StatusActive from "../../../partials/status/StatusActive";
 import StatusPending from "../../../partials/status/StatusPending";
 
@@ -50,6 +53,7 @@ const OrdersList = ({ setItemEdit }) => {
     },
     refetchOnWindowFocus: false,
     networkMode: "always",
+    cacheTime: 200,
   });
 
   React.useEffect(() => {
@@ -71,7 +75,7 @@ const OrdersList = ({ setItemEdit }) => {
     setDel(true);
   };
 
-  console.log(result);
+  // console.log(result);
   return (
     <>
       <SearchBar
@@ -130,8 +134,18 @@ const OrdersList = ({ setItemEdit }) => {
                     <td>{formatDate(item.orders_date)}</td>
                     <td>{item.suppliers_products_name}</td>
                     <td>{item.orders_product_quantity}</td>
-                    <td>{item.suppliers_products_scc_price}</td>
-                    <td>{item.orders_product_amount}</td>
+                    <td>
+                      &#8369;{" "}
+                      {numberWithCommas(
+                        Number(item.suppliers_products_scc_price).toFixed(2)
+                      )}
+                    </td>
+                    <td>
+                      &#8369;{" "}
+                      {numberWithCommas(
+                        Number(item.orders_product_amount).toFixed(2)
+                      )}
+                    </td>
                     <td>
                       {item.orders_is_paid === 1 ? (
                         <StatusActive text="Paid" />

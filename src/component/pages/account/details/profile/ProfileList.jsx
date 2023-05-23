@@ -50,7 +50,7 @@ const ProfileList = ({ members, isLoading, error }) => {
     "get", // method
     "beneficiaries" // key
   );
-  console.log("beneficiaries", beneficiaries);
+  // console.log("beneficiaries", beneficiaries);
 
   const handleEdit = (item) => {
     setIsOpen(false);

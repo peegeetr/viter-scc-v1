@@ -7,7 +7,7 @@ import {
   setSuccess,
 } from "../../../store/StoreAction";
 import { StoreContext } from "../../../store/StoreContext";
-import { getUserType } from "../../helpers/functions-general";
+import { devNavUrl, getUserType } from "../../helpers/functions-general";
 import { queryData } from "../../helpers/queryData";
 import ButtonSpinner from "../spinners/ButtonSpinner";
 
@@ -58,15 +58,18 @@ const ModalConfirm = ({
 
     // if reseting your own password
     if (
-      (arrKey === "userSystems" || arrKey === "otherUsers") &&
-      store.credentials.data.role_aid === Number(role_id) &&
+      (arrKey === "userSystems" ||
+        arrKey === "otherUsers" ||
+        arrKey === "members") &&
       (store.credentials.data.user_system_email === item ||
         store.credentials.data.members_email === item)
     ) {
       localStorage.removeItem("sccToken");
-      store.credentials.data.role_is_developer === 1
-        ? window.location.replace(`${urlLink}/login`)
-        : window.location.replace(`${urlLink}/login`);
+      {
+        store.credentials.data.role_is_developer === 1
+          ? window.location.replace(`${urlLink}/login`)
+          : window.location.replace(`${devNavUrl}/login`);
+      }
       return;
     }
   };
@@ -88,7 +91,9 @@ const ModalConfirm = ({
             <span className="text-5xl text-red-700 ">
               <FaQuestionCircle className="my-0 mx-auto" />
             </span>
-            {store.credentials.data.role_aid === Number(role_id) &&
+            {(arrKey === "userSystems" ||
+              arrKey === "otherUsers" ||
+              arrKey === "members") &&
             (store.credentials.data.user_system_email === item ||
               store.credentials.data.members_email === item) ? (
               <span className="text-sm font-bold">

@@ -13,10 +13,10 @@ import { StoreContext } from "../../../../../store/StoreContext";
 import { InputSelect, InputText } from "../../../../helpers/FormInputs";
 import { queryData } from "../../../../helpers/queryData";
 import ButtonSpinner from "../../../../partials/spinners/ButtonSpinner";
+import { getDonthaveAccount } from "../function-users";
 
-const ModalAddOtherUser = ({ item, role, members }) => {
+const ModalAddOtherUser = ({ item, otherUsers, role, members }) => {
   const { store, dispatch } = React.useContext(StoreContext);
-  const [memberName, setMemberName] = React.useState("");
 
   const queryClient = useQueryClient();
   const mutation = useMutation({
@@ -53,14 +53,9 @@ const ModalAddOtherUser = ({ item, role, members }) => {
     dispatch(setIsAdd(false));
   };
 
-  const handleName = async (e) => {
-    // get employee id
-    setMemberName(e.target.options[e.target.selectedIndex].id);
-  };
   const initVal = {
     user_other_member_id: item ? item.user_other_member_id : "",
     user_other_role_id: item ? item.user_other_role_id : "",
-    name: "",
   };
 
   const yupSchema = Yup.object({
@@ -89,19 +84,17 @@ const ModalAddOtherUser = ({ item, role, members }) => {
               initialValues={initVal}
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
-                console.log(values);
+                // console.log(values);
                 mutation.mutate(values);
               }}
             >
               {(props) => {
-                props.values.name = memberName;
                 return (
                   <Form>
                     <div className="relative my-5">
                       <InputSelect
                         name="user_other_member_id"
                         label="Name"
-                        onChange={handleName}
                         disabled={mutation.isLoading}
                         onFocus={(e) =>
                           e.target.parentElement.classList.add("focused")
@@ -110,15 +103,13 @@ const ModalAddOtherUser = ({ item, role, members }) => {
                         <option value="">--</option>
                         {members.map((mItem, key) => {
                           return (
-                            <option
-                              key={key}
-                              value={mItem.members_aid}
-                              id={`${mItem.members_last_name},
-                            ${mItem.members_first_name}`}
-                            >
-                              {`${mItem.members_last_name},
+                            getDonthaveAccount(mItem, otherUsers) !==
+                              mItem.members_aid && (
+                              <option key={key} value={mItem.members_aid}>
+                                {`${mItem.members_last_name},
                               ${mItem.members_first_name}`}
-                            </option>
+                              </option>
+                            )
                           );
                         })}
                       </InputSelect>

@@ -11,7 +11,10 @@ import SearchBar from "../../../../partials/SearchBar";
 import ServerError from "../../../../partials/ServerError";
 import ModalDeleteRestore from "../../../../partials/modals/ModalDeleteRestore";
 import TableSpinner from "../../../../partials/spinners/TableSpinner";
-import { getUrlParam } from "../../../../helpers/functions-general";
+import {
+  getUrlParam,
+  numberWithCommas,
+} from "../../../../helpers/functions-general";
 
 const SupplierProductList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -49,6 +52,7 @@ const SupplierProductList = ({ setItemEdit }) => {
     },
     refetchOnWindowFocus: false,
     networkMode: "always",
+    cacheTime: 200,
   });
 
   React.useEffect(() => {
@@ -122,7 +126,12 @@ const SupplierProductList = ({ setItemEdit }) => {
                     <td> {counter++}.</td>
                     <td>{item.suppliers_products_name}</td>
                     <td>{item.product_category_name}</td>
-                    <td>{item.suppliers_products_price}</td>
+                    <td>
+                      &#8369;{" "}
+                      {numberWithCommas(
+                        Number(item.suppliers_products_price).toFixed(2)
+                      )}
+                    </td>
 
                     {(store.credentials.data.role_is_admin === 1 ||
                       store.credentials.data.role_is_developer === 1 ||

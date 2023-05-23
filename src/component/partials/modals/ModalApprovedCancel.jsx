@@ -1,9 +1,7 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query"; 
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import { FaQuestionCircle, FaTimesCircle } from "react-icons/fa";
-import {
-  setIsConfirm
-} from "../../../store/StoreAction";
+import { setIsConfirm } from "../../../store/StoreAction";
 import { StoreContext } from "../../../store/StoreContext";
 import { queryData } from "../../helpers/queryData";
 import ButtonSpinner from "../spinners/ButtonSpinner";
@@ -13,34 +11,32 @@ const ModalApprovedCancel = ({
   mysqlApiApproved,
   mysqlApiCancel,
   msg,
-  item, 
-  isApproved="active", 
+  item,
+  isApproved = "active",
   arrKey,
 }) => {
-  const { store, dispatch } = React.useContext(StoreContext); 
+  const { store, dispatch } = React.useContext(StoreContext);
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: (values) => 
+    mutationFn: (values) =>
       queryData(isDel ? mysqlApiApproved : mysqlApiCancel, "put", values),
     onSuccess: () => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: [arrKey] });
-      // show success box 
+      // show success box
       dispatch(setIsConfirm(false));
     },
   });
   const handleClose = () => {
     dispatch(setIsConfirm(false));
-  }; 
-  console.log(arrKey,isApproved)
+  };
   const handleYes = async () => {
     // // mutate data
     mutation.mutate({
       isActive: 0,
-      isApproved, 
-      email: item, 
+      isApproved,
+      email: item,
     });
- 
   };
 
   return (
@@ -59,10 +55,10 @@ const ModalApprovedCancel = ({
           <div className="bg-white p-4 rounded-b-2xl text-center ">
             <span className="text-5xl text-red-700 ">
               <FaQuestionCircle className="my-0 mx-auto" />
-            </span> 
-                <span className="text-sm font-bold">{msg}</span>
-                <br />
-                <span className="text-sm font-bold break-all">"{item}" ?</span> 
+            </span>
+            <span className="text-sm font-bold">{msg}</span>
+            <br />
+            <span className="text-sm font-bold break-all">"{item}" ?</span>
             <p>You can't undo this action.</p>
             <div className="flex items-center gap-1 pt-5">
               <button

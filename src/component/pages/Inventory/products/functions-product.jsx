@@ -20,6 +20,5 @@ export const getRemaningQuantity = (item, stocksGroupProd, orderGroupProd) => {
     }
   });
   remaingQunatity = Number(stockQuantity) - Number(orderQuantity);
-  console.log(remaingQunatity, Number(stockQuantity), Number(orderQuantity));
   return remaingQunatity;
 };

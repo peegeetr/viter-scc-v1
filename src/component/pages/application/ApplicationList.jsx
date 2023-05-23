@@ -16,6 +16,7 @@ import ModalApprovedCancel from "../../partials/modals/ModalApprovedCancel";
 import ModalDeleteRestore from "../../partials/modals/ModalDeleteRestore";
 import TableSpinner from "../../partials/spinners/TableSpinner";
 import StatusActive from "../../partials/status/StatusActive";
+import StatusPending from "../../partials/status/StatusPending";
 
 const ApplicationList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -53,6 +54,7 @@ const ApplicationList = () => {
     },
     refetchOnWindowFocus: false,
     networkMode: "always",
+    cacheTime: 200,
   });
 
   React.useEffect(() => {
@@ -139,7 +141,11 @@ const ApplicationList = () => {
                     </td>
                     <td>{item.members_id}</td>
                     <td>
-                      <StatusActive />
+                      {item.members_is_cancel === 0 ? (
+                        <StatusPending />
+                      ) : (
+                        <StatusActive text="canceled" />
+                      )}
                     </td>
                     <td>
                       <div className="flex items-center gap-1">
@@ -238,7 +244,7 @@ const ApplicationList = () => {
               : "Are you sure you want to restore this members"
           }
           item={`${dataItem.members_last_name}, ${dataItem.members_first_name}`}
-          isApproved="cancel"
+          isApproved={"active"}
           arrKey="members"
         />
       )}

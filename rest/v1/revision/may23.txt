@@ -1,0 +1,29 @@
+
+*controllers    
+    - account/create.php 
+    - account/delete.php 
+    - account/functions.php 
+    - account/status.php 
+    - account/update.php 
+    - inventory/stock/create.php 
+    - settings/user/other/create.php 
+
+*models 
+    - account/Members.php 
+    - inventory/sales/Sales.php    
+    - inventory/stocks/Stocks.php    
+    - inventory/supplier/product/SuppliersProducts.php  
+    - settings/user/other/UserOther.php   
+
+*htaccess 
+    - 
+
+*db tables 
+    - sccv1_settings_user_other.sql
+
+*core functions 
+    - 
+
+*extra
+    -
+    

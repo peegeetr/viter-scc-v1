@@ -5,11 +5,13 @@ import Footer from "../../partials/Footer";
 import { StoreContext } from "../../../store/StoreContext";
 import CategoryLink from "./categories/CategoryLink";
 import OrderLink from "./orders/OrderLink";
-import ProductLink from "./products/ProductLink";
 import ReportsLink from "./reports/ReportsLink";
 import SalesLink from "./sales/SalesLink";
 import StocksLink from "./stocks/StocksLink";
 import SuppliersLink from "./suppliers/SuppliersLink";
+import PointOfSalesLink from "./point-of-sales/PointOfSalesLink";
+import ProductsLink from "./products/ProductsLink";
+import InvoiceLink from "./invoice/InvoiceLink";
 
 const InventoryDetails = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -26,19 +28,25 @@ const InventoryDetails = () => {
             <CategoryLink />{" "}
           </li>
           <li className="py-1">
-            <OrderLink />
-          </li>
-          <li className="py-1">
-            <ProductLink />
-          </li>
-          <li className="py-1">
-            <SalesLink />
+            <SuppliersLink />
           </li>
           <li className="py-1">
             <StocksLink />
           </li>
           <li className="py-1">
-            <SuppliersLink />
+            <ProductsLink />
+          </li>
+          <li className="py-1">
+            <OrderLink />
+          </li>
+          <li className="py-1">
+            <SalesLink />
+          </li>
+          <li className="py-1">
+            <InvoiceLink />
+          </li>
+          <li className="py-1">
+            <PointOfSalesLink />
           </li>
           <li className="py-1">
             <ReportsLink />

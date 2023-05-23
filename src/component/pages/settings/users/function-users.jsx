@@ -21,3 +21,15 @@ export const getRoleIdDev = (role) => {
   }
   return roleId;
 };
+
+// get role id admin
+export const getDonthaveAccount = (item, account) => {
+  let id = 0;
+
+  account?.map((aItem) => {
+    if (item.members_aid === Number(aItem.user_other_member_id)) {
+      id = item.members_aid;
+    }
+  });
+  return id;
+};

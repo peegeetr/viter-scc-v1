@@ -97,7 +97,7 @@ const ModalAddCapitalShare = ({ item }) => {
               initialValues={initVal}
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
-                console.log(values);
+                // console.log(values);
                 // mutate data
                 mutation.mutate(values);
               }}

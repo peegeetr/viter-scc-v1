@@ -12,7 +12,11 @@ import {
 import { StoreContext } from "../../../../store/StoreContext";
 import useQueryData from "../../../custom-hooks/useQueryData";
 import { InputSelect, InputText } from "../../../helpers/FormInputs";
-import { getDateTimeNow } from "../../../helpers/functions-general";
+import {
+  getDateTimeNow,
+  numberWithCommas,
+  removeComma,
+} from "../../../helpers/functions-general";
 import { queryData } from "../../../helpers/queryData";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
 import { getRemaningQuantity } from "../products/functions-product";
@@ -129,10 +133,18 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
     orders_product_quantity: Yup.string().required("Required"),
     category_id: Yup.string().required("Required"),
     orders_date: Yup.string().required("Required"),
-    sales_receive_amount: isPaid === "1" && Yup.string().required("Required"),
+    sales_receive_amount:
+      isPaid === "1" &&
+      Yup.number()
+        .required("Required")
+        .min(
+          Yup.ref("orders_product_amount"),
+          "Recieve payment must be exact amount or morethan"
+        ),
     sales_or: isPaid === "1" && Yup.string().required("Required"),
     orders_is_paid: Yup.string().required("Required"),
   });
+  console.log("isPaid", isPaid);
   return (
     <>
       <div className="fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center bg-dark bg-opacity-50 z-50">
@@ -172,12 +184,24 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                   return;
                 }
 
-                mutation.mutate(values);
+                const orders_product_quantity = removeComma(
+                  `${values.orders_product_quantity}`
+                );
+                const sales_receive_amount = removeComma(
+                  `${values.sales_receive_amount}`
+                );
+
+                mutation.mutate({
+                  ...values,
+                  orders_product_quantity,
+                  sales_receive_amount,
+                });
               }}
             >
               {(props) => {
                 props.values.orders_product_amount =
-                  props.values.orders_product_quantity * priceId;
+                  Number(removeComma(props.values.orders_product_quantity)) *
+                  priceId;
                 props.values.suppliers_products_aid = productId;
                 props.values.sales_member_change =
                   Number(props.values.sales_receive_amount) -
@@ -329,9 +353,14 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                       <p className="">
                         Total Amount:
                         <span className="text-black ml-2">
+                          &#8369;{" "}
                           {Number(props.values.orders_product_amount) === 0
                             ? 0
-                            : props.values.orders_product_amount}
+                            : numberWithCommas(
+                                Number(
+                                  props.values.orders_product_amount
+                                ).toFixed(2)
+                              )}
                         </span>
                       </p>
                     </div>
@@ -340,9 +369,14 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                         <p className="">
                           Change:
                           <span className="text-black ml-2">
+                            &#8369;{" "}
                             {Number(props.values.sales_receive_amount) === 0
                               ? 0
-                              : props.values.sales_member_change}
+                              : numberWithCommas(
+                                  Number(
+                                    props.values.sales_member_change
+                                  ).toFixed(2)
+                                )}
                           </span>
                         </p>
                       </div>

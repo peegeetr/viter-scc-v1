@@ -210,7 +210,7 @@ class UserOther
         try {
             $sql = "select members_email, ";
             $sql .= "members_first_name, ";
-            $sql .= "members_last_nam, ";
+            $sql .= "members_last_name ";
             $sql .= "from {$this->tblMembers} ";
             $sql .= "where members_aid = :members_aid ";
             $query = $this->connection->prepare($sql);
@@ -242,7 +242,8 @@ class UserOther
             $sql .= "where otherUser.user_other_role_id = role.role_aid ";
             $sql .= "and otherUser.user_other_member_id = member.members_aid ";
             $sql .= "and member.members_email like :members_email ";
-            $sql .= "and otherUser.user_other_is_active = 1 ";
+            $sql .= "and member.members_is_active = '1' ";
+            $sql .= "and otherUser.user_other_is_active = '1' ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "members_email" => $this->members_email,

@@ -190,6 +190,8 @@ class Sales
             $sql .= "and sales.sales_member_id = member.members_aid ";
             $sql .= "and (orders.orders_number like :orders_number ";
             $sql .= "or sales.sales_number like :sales_number ";
+            $sql .= "or member.members_last_name like :members_last_name ";
+            $sql .= "or member.members_first_name like :members_first_name ";
             $sql .= "or MONTHNAME(orders.orders_date) like :orders_month_date ";
             $sql .= "or MONTHNAME(sales.sales_date) like :sales_month_date ";
             $sql .= "or orders.orders_date like :orders_date ";
@@ -205,6 +207,8 @@ class Sales
                 "orders_date" => "{$this->sales_search}%",
                 "sales_date" => "{$this->sales_search}%",
                 "orders_number" => "{$this->sales_search}%",
+                "members_last_name" => "{$this->sales_search}%",
+                "members_first_name" => "{$this->sales_search}%",
                 "sales_number" => "{$this->sales_search}%",
             ]);
         } catch (PDOException $ex) {

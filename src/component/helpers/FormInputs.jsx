@@ -130,12 +130,12 @@ export const InputSelect = ({ label, onChange, ...props }) => {
   const [field, meta] = useField(props);
 
   if (
-    props.name === "user_other_member_id" ||
     props.name === "savings_category" ||
     props.name === "patronage_product_id" ||
     props.name === "supplier_id" ||
     props.name === "category_id" ||
     props.name === "orders_product_id" ||
+    props.name === "orders_is_paid" ||
     props.name === "product_supplier_id"
   ) {
     return (

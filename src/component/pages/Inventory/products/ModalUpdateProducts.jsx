@@ -13,6 +13,7 @@ import { StoreContext } from "../../../../store/StoreContext";
 import { InputText } from "../../../helpers/FormInputs";
 import { queryData } from "../../../helpers/queryData";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
+import { numberWithCommas } from "../../../helpers/functions-general";
 
 const ModalUpdateProducts = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -70,8 +71,18 @@ const ModalUpdateProducts = ({ item }) => {
               initialValues={initVal}
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
-                console.log(values);
-                mutation.mutate(values);
+                // console.log(values);
+                const suppliers_products_scc_price = removeComma(
+                  `${values.suppliers_products_scc_price}`
+                );
+                const suppliers_products_market_price = removeComma(
+                  `${values.suppliers_products_market_price}`
+                );
+                mutation.mutate({
+                  ...values,
+                  suppliers_products_scc_price,
+                  suppliers_products_market_price,
+                });
               }}
             >
               {(props) => {
@@ -87,7 +98,10 @@ const ModalUpdateProducts = ({ item }) => {
                       <p className="text-primary">
                         Supplier Price:
                         <span className="ml-2 text-black">
-                          {item.suppliers_products_price}
+                          &#8369;{" "}
+                          {numberWithCommas(
+                            Number(item.suppliers_products_price).toFixed(2)
+                          )}
                         </span>
                       </p>
                     </div>
@@ -95,6 +109,7 @@ const ModalUpdateProducts = ({ item }) => {
                       <InputText
                         label="Scc Price"
                         type="text"
+                        num="num"
                         name="suppliers_products_scc_price"
                         disabled={mutation.isLoading}
                       />
@@ -103,6 +118,7 @@ const ModalUpdateProducts = ({ item }) => {
                       <InputText
                         label="Market Price"
                         type="text"
+                        num="num"
                         name="suppliers_products_market_price"
                         disabled={mutation.isLoading}
                       />

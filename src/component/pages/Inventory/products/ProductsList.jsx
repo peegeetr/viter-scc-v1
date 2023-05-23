@@ -14,6 +14,7 @@ import TableSpinner from "../../../partials/spinners/TableSpinner";
 import ModalUpdateProducts from "./ModalUpdateProducts";
 import useQueryData from "../../../custom-hooks/useQueryData";
 import { getRemaningQuantity } from "./functions-product";
+import { numberWithCommas } from "../../../helpers/functions-general";
 
 const ProductsList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -49,6 +50,7 @@ const ProductsList = () => {
     },
     refetchOnWindowFocus: false,
     networkMode: "always",
+    cacheTime: 200,
   });
 
   React.useEffect(() => {
@@ -133,9 +135,24 @@ const ProductsList = () => {
                     </td>
                     <td>{item.product_category_name}</td>
                     <td>{item.suppliers_products_name}</td>
-                    <td>{item.suppliers_products_price}</td>
-                    <td>{item.suppliers_products_scc_price}</td>
-                    <td>{item.suppliers_products_market_price}</td>
+                    <td>
+                      &#8369;{" "}
+                      {numberWithCommas(
+                        Number(item.suppliers_products_price).toFixed(2)
+                      )}
+                    </td>
+                    <td>
+                      &#8369;{" "}
+                      {numberWithCommas(
+                        Number(item.suppliers_products_scc_price).toFixed(2)
+                      )}
+                    </td>
+                    <td>
+                      &#8369;
+                      {numberWithCommas(
+                        Number(item.suppliers_products_market_price).toFixed(2)
+                      )}
+                    </td>
                     <td>
                       {getRemaningQuantity(
                         item,

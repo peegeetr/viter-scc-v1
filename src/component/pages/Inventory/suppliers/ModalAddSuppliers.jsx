@@ -82,7 +82,8 @@ const ModalAddSuppliers = ({ item }) => {
               initialValues={initVal}
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
-                console.log(values);
+                // console.log(values);
+
                 mutation.mutate(values);
               }}
             >
@@ -117,6 +118,7 @@ const ModalAddSuppliers = ({ item }) => {
                       <InputText
                         label="Contact Number"
                         type="text"
+                        mobile="mobile"
                         name="suppliers_contact_num"
                         disabled={mutation.isLoading}
                       />

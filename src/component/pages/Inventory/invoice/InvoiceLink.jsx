@@ -7,7 +7,7 @@ import { StoreContext } from "../../../../store/StoreContext";
 import { getUserType } from "../../../helpers/functions-general";
 import { MdOutlineInventory } from "react-icons/md";
 
-const ProductLink = () => {
+const InvoiceLink = () => {
   const { store, dispatch } = React.useContext(StoreContext);
   const urlLink = getUserType(store);
 
@@ -16,12 +16,12 @@ const ProductLink = () => {
       className="group flex items-center justify-between border-b border-solid border-gray-300"
       onClick={() => dispatch(setStartIndex(0))}
     >
-      <Link to={`${urlLink}/inventory/products`} className="w-full py-2">
+      <Link to={`${urlLink}/inventory/invoice`} className="w-full py-2">
         <div className="flex items-center">
           <span className="text-lg mr-4">
             <MdOutlineInventory />
           </span>
-          <span className="text-md font-bold">Product</span>
+          <span className="text-md font-bold">Invoice</span>
         </div>
         <p className="ml-[35px] my-0">
           Manage what actions and capabilities every account are can perform in
@@ -30,7 +30,7 @@ const ProductLink = () => {
       </Link>
 
       <Link
-        to={`${urlLink}/inventory/products`}
+        to={`${urlLink}/inventory/invoice`}
         className="btn-action-table group-hover:bg-primary group-hover:text-white"
       >
         <SlArrowRight className="inline" />
@@ -39,4 +39,4 @@ const ProductLink = () => {
   );
 };
 
-export default ProductLink;
+export default InvoiceLink;

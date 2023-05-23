@@ -3,12 +3,16 @@ import { Form, Formik } from "formik";
 import React from "react";
 import { FaTimesCircle } from "react-icons/fa";
 import * as Yup from "yup";
-import { setError, setIsAdd, setMessage, setSuccess } from "../../../store/StoreAction";
+import {
+  setError,
+  setIsAdd,
+  setMessage,
+  setSuccess,
+} from "../../../store/StoreAction";
 import { StoreContext } from "../../../store/StoreContext";
 import { InputText, InputTextArea } from "../../helpers/FormInputs";
 import { queryData } from "../../helpers/queryData";
 import ButtonSpinner from "../../partials/spinners/ButtonSpinner";
- 
 
 const ModalAddDashboard = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -34,13 +38,13 @@ const ModalAddDashboard = ({ item }) => {
         dispatch(setError(true));
         dispatch(setMessage(data.error));
       }
-    }, 
+    },
   });
   const handleClose = () => {
     dispatch(setIsAdd(false));
   };
 
-  const initVal = { 
+  const initVal = {
     announcement_name: item ? item.announcement_name : "",
     announcement_description: item ? item.announcement_description : "",
     announcement_date: item ? item.announcement_date : "",
@@ -75,7 +79,7 @@ const ModalAddDashboard = ({ item }) => {
               initialValues={initVal}
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
-                console.log(values);
+                // console.log(values);
                 mutation.mutate(values);
               }}
             >
@@ -90,17 +94,17 @@ const ModalAddDashboard = ({ item }) => {
                         disabled={mutation.isLoading}
                       />
                     </div>
-                    
+
                     <div className="relative mb-6 mt-5">
-                        <InputText
-                          label="Date"
-                          type="text"
-                          onFocus={(e) => (e.target.type = "date")}
-                          onBlur={(e) => (e.target.type = "text")}
-                          name="announcement_date"
-                          disabled={mutation.isLoading}
-                        />
-                      </div>
+                      <InputText
+                        label="Date"
+                        type="text"
+                        onFocus={(e) => (e.target.type = "date")}
+                        onBlur={(e) => (e.target.type = "text")}
+                        name="announcement_date"
+                        disabled={mutation.isLoading}
+                      />
+                    </div>
                     <div className="relative mb-5">
                       <InputTextArea
                         label="Description"

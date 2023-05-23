@@ -12,7 +12,11 @@ import {
 import { StoreContext } from "../../../../store/StoreContext";
 import useQueryData from "../../../custom-hooks/useQueryData";
 import { InputSelect, InputText } from "../../../helpers/FormInputs";
-import { getDateTimeNow } from "../../../helpers/functions-general";
+import {
+  getDateTimeNow,
+  numberWithCommas,
+  removeComma,
+} from "../../../helpers/functions-general";
 import { queryData } from "../../../helpers/queryData";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
 import { getRemaningQuantity } from "../products/functions-product";
@@ -165,7 +169,7 @@ const ModalAddOrders = ({ item, arrKey }) => {
             >
               {(props) => {
                 props.values.orders_product_amount =
-                  props.values.orders_product_quantity * priceId;
+                  removeComma(props.values.orders_product_quantity) * priceId;
                 props.values.suppliers_products_aid = productId;
                 return (
                   <Form>
@@ -267,10 +271,15 @@ const ModalAddOrders = ({ item, arrKey }) => {
                       <p className="">
                         Total Amount:
                         <span className="text-black ml-2">
+                          &#8369;{" "}
                           {props.values.orders_product_quantity === "" ||
                           Number(props.values.orders_product_quantity) === 0
                             ? 0
-                            : props.values.orders_product_amount}
+                            : numberWithCommas(
+                                Number(
+                                  props.values.orders_product_amount
+                                ).toFixed(2)
+                              )}
                         </span>
                       </p>
                     </div>

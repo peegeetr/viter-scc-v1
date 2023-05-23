@@ -1,18 +1,17 @@
 import React from "react";
-import { StoreContext } from "../../../../store/StoreContext";
+import { FaPlusCircle } from "react-icons/fa";
 import { setIsAdd } from "../../../../store/StoreAction";
+import { StoreContext } from "../../../../store/StoreContext";
+import { getUserType } from "../../../helpers/functions-general";
+import BreadCrumbs from "../../../partials/BreadCrumbs";
+import Footer from "../../../partials/Footer";
 import Header from "../../../partials/Header";
 import Navigation from "../../../partials/Navigation";
-import { FaFileInvoiceDollar, FaPlusCircle } from "react-icons/fa";
-import OrdersList from "./OrdersList";
-import Footer from "../../../partials/Footer";
-import ModalAddOrders from "./ModalAddOrders";
-import BreadCrumbs from "../../../partials/BreadCrumbs";
-import ModalSuccess from "../../../partials/modals/ModalSuccess";
 import ModalError from "../../../partials/modals/ModalError";
+import ModalSuccess from "../../../partials/modals/ModalSuccess";
+import ModalAddOrders from "./ModalAddOrders";
 import ModalManagerAddOrders from "./ModalManagerAddOrders";
-import { Link } from "react-router-dom";
-import { getUserType } from "../../../helpers/functions-general";
+import OrdersList from "./OrdersList";
 
 const Orders = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -38,14 +37,6 @@ const Orders = () => {
                 <FaPlusCircle />
                 <span>Add</span>
               </button>
-              <Link
-                to={`${urlLink}/inventory/orders/invoice`}
-                type="button"
-                className="btn-primary"
-              >
-                <FaFileInvoiceDollar />
-                <span>Invoice</span>
-              </Link>
             </div>
           )}
         </div>

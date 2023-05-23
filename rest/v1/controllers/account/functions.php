@@ -89,3 +89,19 @@ function checkSearchApproved($object)
     checkQuery($query, "Empty records. (search approved account)");
     return $query;
 }
+
+// Read Active User Other
+function checkActiveUserOther($object)
+{
+    $query = $object->activeUserOther();
+    checkQuery($query, "Empty records. (active user other)");
+    return $query;
+}
+
+// Delete 
+function checkDeleteUserOther($object)
+{
+    $query = $object->deleteUserOther();
+    checkQuery($query, "There's a problem processing your request. (delete user other)");
+    return $query;
+}

@@ -17,25 +17,13 @@ import TableSpinner from "../../../../partials/spinners/TableSpinner";
 import StatusActive from "../../../../partials/status/StatusActive";
 import StatusInactive from "../../../../partials/status/StatusInactive";
 
-const OtherUserList = ({ setItemEdit }) => {
+const OtherUserList = ({ setItemEdit, isLoading, error, otherUsers }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [dataItem, setData] = React.useState(null);
   const [id, setId] = React.useState(null);
   const [isDel, setDel] = React.useState(false);
   const [isUser, setisUser] = React.useState(false);
   let counter = 0;
-
-  // use if not loadmore button undertime
-  const {
-    isLoading,
-    isFetching,
-    error,
-    data: otherUsers,
-  } = useQueryData(
-    `/v1/user-others`, // endpoint
-    "get", // method
-    "otherUsers" // key
-  );
 
   const handleEdit = (item) => {
     dispatch(setIsAdd(true));

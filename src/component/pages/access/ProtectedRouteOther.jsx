@@ -2,7 +2,7 @@ import React from "react";
 import { Navigate } from "react-router-dom";
 import { setCredentials } from "../../../store/StoreAction";
 import { StoreContext } from "../../../store/StoreContext";
-import { devNavUrl } from "../../helpers/functions-general";
+import { consoleLog, devNavUrl } from "../../helpers/functions-general";
 import { queryData } from "../../helpers/queryData";
 import TableSpinner from "../../partials/spinners/TableSpinner";
 
@@ -18,8 +18,7 @@ const ProtectedRouteOther = ({ children }) => {
         token: sccToken.token,
       });
 
-      console.log(login);
-      console.log(typeof login);
+      consoleLog(login);
 
       if (typeof login === "undefined" || !login.success) {
         setLoading(false);
@@ -28,11 +27,11 @@ const ProtectedRouteOther = ({ children }) => {
         dispatch(setCredentials(login.data));
         setIsAuth("123");
         setLoading(false);
+        delete login.data.user_other_password;
+        delete login.data.role_description;
+        delete login.data.role_created;
+        delete login.data.role_datetime;
       }
-      delete login.data.user_other_password;
-      delete login.data.role_description;
-      delete login.data.role_created;
-      delete login.data.role_datetime;
     };
 
     if (sccToken !== null) {

@@ -19,7 +19,7 @@ import useQueryData from "../../../../custom-hooks/useQueryData";
 const ModalAddSuppliersProducts = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const supplierId = getUrlParam().get("supplierId");
-  console.log(item);
+  // console.log(item);
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: (values) =>
@@ -94,8 +94,14 @@ const ModalAddSuppliersProducts = ({ item }) => {
               initialValues={initVal}
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
-                console.log(values);
-                mutation.mutate(values);
+                // console.log(values);
+                const suppliers_products_price = removeComma(
+                  `${values.suppliers_products_price}`
+                );
+                mutation.mutate({
+                  ...values,
+                  suppliers_products_price,
+                });
               }}
             >
               {(props) => {
@@ -134,6 +140,7 @@ const ModalAddSuppliersProducts = ({ item }) => {
                       <InputText
                         label="Supplier Price"
                         type="text"
+                        num="num"
                         name="suppliers_products_price"
                         disabled={mutation.isLoading}
                       />

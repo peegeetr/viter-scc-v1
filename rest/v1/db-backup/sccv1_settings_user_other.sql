@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 08, 2023 at 09:43 AM
+-- Generation Time: May 23, 2023 at 07:03 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -31,7 +31,6 @@ CREATE TABLE `sccv1_settings_user_other` (
   `user_other_aid` int(11) NOT NULL,
   `user_other_is_active` tinyint(1) NOT NULL,
   `user_other_member_id` varchar(20) NOT NULL,
-  `user_other_email` varchar(200) NOT NULL,
   `user_other_role_id` int(11) NOT NULL,
   `user_other_key` varchar(255) NOT NULL,
   `user_other_password` varchar(255) NOT NULL,
@@ -43,9 +42,10 @@ CREATE TABLE `sccv1_settings_user_other` (
 -- Dumping data for table `sccv1_settings_user_other`
 --
 
-INSERT INTO `sccv1_settings_user_other` (`user_other_aid`, `user_other_is_active`, `user_other_member_id`, `user_other_email`, `user_other_role_id`, `user_other_key`, `user_other_password`, `user_other_created`, `user_other_datetime`) VALUES
-(10, 1, '3', 'cyrene.lumabas@frontlinebusiness.com.ph', 14, '', '$2y$10$g/zE/UpZWrfsQ.mJ2KSkkOGezAwVvJSdgjeXknWI/VOyDoSl4/uLm', '2023-03-23 16:21:35', '2023-03-23 16:27:08'),
-(14, 1, '2', 'cyrenemlumabas@gmail.com', 13, '', '$2y$10$Wsq8tTePhUDCmKqhsWuvNuXD7NICwGlnf4krXQzhIkhOk1bPREGza', '2023-03-09 16:38:45', '2023-03-23 06:49:44');
+INSERT INTO `sccv1_settings_user_other` (`user_other_aid`, `user_other_is_active`, `user_other_member_id`, `user_other_role_id`, `user_other_key`, `user_other_password`, `user_other_created`, `user_other_datetime`) VALUES
+(16, 1, '5', 13, '', '$2y$10$yGKxOncgSTmgYSM2yYLbveIyd3B9eU7rN4lVp3Y5LRRahrGeNraqe', '2023-05-23 10:02:48', '0000-00-00 00:00:00'),
+(18, 1, '6', 13, '34f7d44e911b4ddf7da67e51c637af5e11ce1a87d51e8713e33431f0be4c1155', '', '2023-05-23 10:28:21', '2023-05-23 10:28:21'),
+(19, 1, '7', 13, '33f1fe1ee8888b3fb154b8c87cd0f0b3073ffa9adeca1201b35a6d7568a33079', '', '2023-05-23 10:31:33', '2023-05-23 10:31:33');
 
 --
 -- Indexes for dumped tables
@@ -65,7 +65,7 @@ ALTER TABLE `sccv1_settings_user_other`
 -- AUTO_INCREMENT for table `sccv1_settings_user_other`
 --
 ALTER TABLE `sccv1_settings_user_other`
-  MODIFY `user_other_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `user_other_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

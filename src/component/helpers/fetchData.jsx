@@ -99,7 +99,6 @@ export const fetchData = async (
     // redirect to other page after request forgot password
     if (store.isForgotPassSuccess) {
       dispatch(setForgotPassSuccess(false));
-      console.log(fd);
       window.location.replace(
         `${devNavUrl}/forgot-password-verification?email=${fd.user_system_email}`
       );

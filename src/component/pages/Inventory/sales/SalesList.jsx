@@ -58,6 +58,7 @@ const SalesList = ({ setItemEdit }) => {
     },
     refetchOnWindowFocus: false,
     networkMode: "always",
+    cacheTime: 200,
   });
 
   React.useEffect(() => {
@@ -143,6 +144,7 @@ const SalesList = ({ setItemEdit }) => {
                       {item.orders_product_quantity}
                     </td>
                     <td className="text-right pr-4 font-bold text-primary ">
+                      &#8369;{" "}
                       {item.sales_is_paid === 1 ? (
                         <span
                           className="cursor-pointer underline tooltip-action-table"
@@ -160,6 +162,7 @@ const SalesList = ({ setItemEdit }) => {
                       )}
                     </td>
                     <td className=" text-right pr-4">
+                      &#8369;{" "}
                       {numberWithCommas(
                         Number(item.sales_receive_amount).toFixed(2)
                       )}

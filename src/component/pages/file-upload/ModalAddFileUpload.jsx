@@ -77,7 +77,7 @@ const ModalAddFileUpload = ({ item }) => {
               initialValues={initVal}
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
-                console.log(values);
+                // console.log(values);
                 mutation.mutate(values);
               }}
             >
@@ -92,15 +92,6 @@ const ModalAddFileUpload = ({ item }) => {
                         disabled={mutation.isLoading}
                       />
                     </div>
-                    <div className="relative my-5">
-                      <InputText
-                        label="Link"
-                        type="text"
-                        name="file_upload_link"
-                        disabled={mutation.isLoading}
-                      />
-                    </div>
-
                     <div className="relative mb-6 mt-5">
                       <InputText
                         label="Date"
@@ -108,6 +99,14 @@ const ModalAddFileUpload = ({ item }) => {
                         onFocus={(e) => (e.target.type = "date")}
                         onBlur={(e) => (e.target.type = "text")}
                         name="file_upload_date"
+                        disabled={mutation.isLoading}
+                      />
+                    </div>
+                    <div className="relative my-5">
+                      <InputTextArea
+                        label="G-Drive Link"
+                        type="text"
+                        name="file_upload_link"
                         disabled={mutation.isLoading}
                       />
                     </div>

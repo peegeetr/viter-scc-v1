@@ -52,6 +52,7 @@ const ModalUpdateAdditionalInfo = ({ item }) => {
     members_civil_status: item.members_civil_status,
     members_contact_no: item.members_contact_no,
     members_email: item.members_email,
+    members_email_old: item.members_email,
   };
 
   const yupSchema = Yup.object({
@@ -85,7 +86,7 @@ const ModalUpdateAdditionalInfo = ({ item }) => {
               initialValues={initVal}
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
-                console.log(values);
+                // console.log(values);
                 // mutate data
                 mutation.mutate(values);
               }}

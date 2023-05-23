@@ -3,16 +3,16 @@ import React from "react";
 import { FaEnvelope } from "react-icons/fa";
 import { SlArrowRight } from "react-icons/sl";
 import { useInView } from "react-intersection-observer";
-import { setIsAdd, setIsConfirm } from "../../../../../store/StoreAction";
-import { StoreContext } from "../../../../../store/StoreContext";
-import { queryDataInfinite } from "../../../../helpers/queryDataInfinite";
-import Loadmore from "../../../../partials/Loadmore";
-import NoData from "../../../../partials/NoData";
-import SearchBar from "../../../../partials/SearchBar";
-import ServerError from "../../../../partials/ServerError";
-import TableSpinner from "../../../../partials/spinners/TableSpinner";
+import { setIsAdd, setIsConfirm } from "../../../../store/StoreAction";
+import { StoreContext } from "../../../../store/StoreContext";
+import { queryDataInfinite } from "../../../helpers/queryDataInfinite";
+import Loadmore from "../../../partials/Loadmore";
+import NoData from "../../../partials/NoData";
+import SearchBar from "../../../partials/SearchBar";
+import ServerError from "../../../partials/ServerError";
+import TableSpinner from "../../../partials/spinners/TableSpinner";
 import ModalViewProductInvoice from "./ModalViewProductInvoice";
-import ModalConfirm from "../../../../partials/modals/ModalConfirm";
+import ModalConfirm from "../../../partials/modals/ModalConfirm";
 
 const InvoiceList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -50,6 +50,7 @@ const InvoiceList = () => {
     },
     refetchOnWindowFocus: false,
     networkMode: "always",
+    cacheTime: 200,
   });
 
   React.useEffect(() => {
@@ -70,7 +71,7 @@ const InvoiceList = () => {
     setData(item);
     setDel(true);
   };
-  console.log(result);
+  // console.log(result);
   return (
     <>
       <SearchBar

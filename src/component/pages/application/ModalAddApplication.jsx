@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Form, Formik } from "formik";
 import React from "react";
 import { FaTimesCircle } from "react-icons/fa";
-import * as Yup from "yup"; 
+import * as Yup from "yup";
 import { setError, setMessage, setSuccess } from "../../../store/StoreAction";
 import { StoreContext } from "../../../store/StoreContext";
 import { InputSelect, InputText } from "../../helpers/FormInputs";
@@ -16,10 +16,7 @@ const ModalAddApplication = () => {
   const [show, setShow] = React.useState("show");
 
   const mutation = useMutation({
-    mutationFn: (values) =>
-      queryData( "/v1/members", "post",
-        values
-      ),
+    mutationFn: (values) => queryData("/v1/members", "post", values),
     onSuccess: (data) => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ["members"] });
@@ -35,20 +32,20 @@ const ModalAddApplication = () => {
         dispatch(setError(true));
         dispatch(setMessage(data.error));
       }
-    },  
+    },
   });
   const handleClose = () => {
     closeModal(setShow, dispatch);
   };
 
-  const initVal = { 
-    members_id:"2301-001",
+  const initVal = {
     members_pre_membership_date: "",
-    members_first_name:  "", 
-    members_last_name:  "", 
-    members_middle_name:  "", 
-    members_gender: "", 
-    members_birth_date:  "", 
+    members_first_name: "",
+    members_last_name: "",
+    members_middle_name: "",
+    members_gender: "",
+    members_email: "",
+    members_birth_date: "",
   };
 
   const yupSchema = Yup.object({
@@ -57,6 +54,7 @@ const ModalAddApplication = () => {
     members_last_name: Yup.string().required("Required"),
     members_middle_name: Yup.string().required("Required"),
     members_gender: Yup.string().required("Required"),
+    members_email: Yup.string().required("Required"),
     members_birth_date: Yup.string().required("Required"),
   });
 
@@ -67,9 +65,7 @@ const ModalAddApplication = () => {
       >
         <div className="p-1 w-[350px] rounded-b-2xl animate-slideUp ">
           <div className="flex justify-between items-center bg-primary p-3 rounded-t-2xl">
-            <h3 className="text-white text-sm">
-            Add Account
-            </h3>
+            <h3 className="text-white text-sm">Add Account</h3>
             <button
               type="button"
               className="text-gray-200 text-base"
@@ -83,7 +79,7 @@ const ModalAddApplication = () => {
               initialValues={initVal}
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
-                console.log(values)
+                // console.log(values)
                 // mutate data
                 mutation.mutate(values);
               }}
@@ -91,7 +87,7 @@ const ModalAddApplication = () => {
               {(props) => {
                 return (
                   <Form className="pt-5">
-                  <div className="relative mb-6">
+                    <div className="relative mb-6">
                       <InputText
                         label="Pre Membership Date"
                         type="text"
@@ -100,7 +96,7 @@ const ModalAddApplication = () => {
                         name="members_pre_membership_date"
                         disabled={mutation.isLoading}
                       />
-                    </div> 
+                    </div>
                     <div className="relative mb-5">
                       <InputText
                         label="Last Name"
@@ -126,6 +122,14 @@ const ModalAddApplication = () => {
                       />
                     </div>
                     <div className="relative mb-5">
+                      <InputText
+                        label="Email"
+                        type="text"
+                        name="members_email"
+                        disabled={mutation.isLoading}
+                      />
+                    </div>
+                    <div className="relative mb-5">
                       <InputSelect
                         label="Gender"
                         type="text"
@@ -137,30 +141,23 @@ const ModalAddApplication = () => {
                         <option value="male">Male</option>
                       </InputSelect>
                     </div>
-
                     <div className="relative mb-6 mt-5">
-                        <InputText
-                          label="Birth Date"
-                          type="text"
-                          onFocus={(e) => (e.target.type = "date")}
-                          onBlur={(e) => (e.target.type = "text")}
-                          name="members_birth_date"
-                          disabled={mutation.isLoading}
-                        />
-                      </div> 
-
-
+                      <InputText
+                        label="Birth Date"
+                        type="text"
+                        onFocus={(e) => (e.target.type = "date")}
+                        onBlur={(e) => (e.target.type = "text")}
+                        name="members_birth_date"
+                        disabled={mutation.isLoading}
+                      />
+                    </div>
                     <div className="flex items-center gap-1 pt-3">
                       <button
                         type="submit"
                         disabled={mutation.isLoading || !props.dirty}
                         className="btn-modal-submit relative"
                       >
-                        {mutation.isLoading ? (
-                          <ButtonSpinner />
-                        ) :  (
-                          " Add"
-                        )}
+                        {mutation.isLoading ? <ButtonSpinner /> : " Add"}
                       </button>
                       <button
                         type="reset"

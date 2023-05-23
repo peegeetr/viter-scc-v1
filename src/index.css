@@ -110,7 +110,7 @@
   }
 
   label:after {
-    @apply content-[''] w-[97%] h-[3px] absolute left-px top-[7.6px] bg-white -z-10;
+    @apply content-[''] w-[97%] h-[3px] absolute left-px top-[7.6px] bg-white -z-10 focus:bg-white;
   }
   /* label {
     @apply text-base text-gray-400 bg-white absolute left-2 top-[9px] px-1 transition duration-200 pointer-events-none;

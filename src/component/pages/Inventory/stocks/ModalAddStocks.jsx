@@ -14,7 +14,10 @@ import {
 import { InputSelect, InputText } from "../../../helpers/FormInputs";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
 import useQueryData from "../../../custom-hooks/useQueryData";
-import { getDateTimeNow } from "../../../helpers/functions-general";
+import {
+  getDateTimeNow,
+  removeComma,
+} from "../../../helpers/functions-general";
 
 const ModalAddStocks = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -70,7 +73,6 @@ const ModalAddStocks = ({ item }) => {
     supplier_id: item ? item.suppliers_aid : "",
     stocks_product_id: item ? item.stocks_product_id : "",
     stocks_quantity: item ? item.stocks_quantity : "",
-    stocks_or: item ? item.stocks_or : "",
     stocks_date: item ? item.stocks_date : getDateTimeNow(),
   };
 
@@ -102,8 +104,14 @@ const ModalAddStocks = ({ item }) => {
               initialValues={initVal}
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
-                console.log(values);
-                mutation.mutate(values);
+                // console.log(values);
+                const stocks_quantity = removeComma(
+                  `${values.stocks_quantity}`
+                );
+                mutation.mutate({
+                  ...values,
+                  stocks_quantity,
+                });
               }}
             >
               {(props) => {
@@ -163,15 +171,8 @@ const ModalAddStocks = ({ item }) => {
                       <InputText
                         label="Quantity"
                         type="text"
+                        num="num"
                         name="stocks_quantity"
-                        disabled={mutation.isLoading}
-                      />
-                    </div>
-                    <div className="relative my-5">
-                      <InputText
-                        label="OR"
-                        type="text"
-                        name="stocks_or"
                         disabled={mutation.isLoading}
                       />
                     </div>

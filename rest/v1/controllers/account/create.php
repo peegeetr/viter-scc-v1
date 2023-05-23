@@ -15,6 +15,7 @@ checkPayload($data);
 $members->members_pre_membership_date = checkIndex($data, "members_pre_membership_date");
 $members->members_first_name = checkIndex($data, "members_first_name");
 $members->members_last_name = checkIndex($data, "members_last_name");
+$members->members_email = checkIndex($data, "members_email");
 $members->members_middle_name = checkIndex($data, "members_middle_name");
 $members->members_gender = checkIndex($data, "members_gender");
 $members->members_birth_date = checkIndex($data, "members_birth_date");
@@ -61,6 +62,7 @@ $name = "$members->members_last_name, $members->members_first_name";
 
 // check name
 isNameExist($members, $name);
+isEmailExist($members, $members->members_email);
 // create
 $query = checkCreate($members);
 returnSuccess($members, "members", $query);

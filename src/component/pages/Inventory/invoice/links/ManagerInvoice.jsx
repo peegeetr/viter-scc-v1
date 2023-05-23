@@ -1,6 +1,6 @@
 import React from "react";
-import { StoreContext } from "../../../../../../store/StoreContext";
-import PageNotFound from "../../../../../partials/PageNotFound";
+import { StoreContext } from "../../../../../store/StoreContext";
+import PageNotFound from "../../../../partials/PageNotFound";
 import Invoice from "../Invoice";
 
 const ManagerInvoice = () => {

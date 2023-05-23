@@ -31,10 +31,6 @@ import AdminInventoryDetails from "./component/pages/Inventory/links/AdminInvent
 import CasherInventoryDetails from "./component/pages/Inventory/links/CasherInventoryDetails";
 import ManagerInventoryDetails from "./component/pages/Inventory/links/ManagerInventoryDetails";
 import SystemInventoryDetails from "./component/pages/Inventory/links/SystemInventoryDetails";
-import AdminInvoice from "./component/pages/Inventory/orders/invoice/links/AdminInvoice";
-import CasherInvoice from "./component/pages/Inventory/orders/invoice/links/CasherInvoice";
-import ManagerInvoice from "./component/pages/Inventory/orders/invoice/links/ManagerInvoice";
-import SystemInvoice from "./component/pages/Inventory/orders/invoice/links/SystemInvoice";
 import AdminOrders from "./component/pages/Inventory/orders/links/AdminOrders";
 import CasherOrders from "./component/pages/Inventory/orders/links/CasherOrders";
 import ManagerOrders from "./component/pages/Inventory/orders/links/ManagerOrders";
@@ -111,10 +107,6 @@ import AdminMySavings from "./component/pages/my-account/savings/links/AdminMySa
 import CasherMySavings from "./component/pages/my-account/savings/links/CasherMySavings";
 import ManagerMySavings from "./component/pages/my-account/savings/links/ManagerMySavings";
 import MemberMySavings from "./component/pages/my-account/savings/links/MemberMySavings";
-import AdminPointOfSales from "./component/pages/point-of-sales/links/AdminPointOfSales";
-import CasherPointOfSales from "./component/pages/point-of-sales/links/CasherPointOfSales";
-import ManagerPointOfSales from "./component/pages/point-of-sales/links/ManagerPointOfSales";
-import SystemPointOfSales from "./component/pages/point-of-sales/links/SystemPointOfSales";
 import AdminSettingsLink from "./component/pages/settings/links/AdminSettingsLink";
 import SystemSettingsLink from "./component/pages/settings/links/SystemSettingsLink";
 import AdminNetSurPlus from "./component/pages/settings/net-surplus/links/AdminNetSurPlus";
@@ -122,6 +114,14 @@ import SystemNetSurPlus from "./component/pages/settings/net-surplus/links/Syste
 import AdminOtherUser from "./component/pages/settings/users/other/links/AdminOtherUser";
 import SystemOtherUser from "./component/pages/settings/users/other/links/SystemOtherUser";
 import { StoreProvider } from "./store/StoreContext";
+import AdminPointOfSales from "./component/pages/Inventory/point-of-sales/links/AdminPointOfSales";
+import CasherPointOfSales from "./component/pages/Inventory/point-of-sales/links/CasherPointOfSales";
+import ManagerPointOfSales from "./component/pages/Inventory/point-of-sales/links/ManagerPointOfSales";
+import SystemPointOfSales from "./component/pages/Inventory/point-of-sales/links/SystemPointOfSales";
+import ManagerInvoice from "./component/pages/Inventory/invoice/links/ManagerInvoice";
+import SystemInvoice from "./component/pages/Inventory/invoice/links/SystemInvoice";
+import AdminInvoice from "./component/pages/Inventory/invoice/links/AdminInvoice";
+import CasherInvoice from "./component/pages/Inventory/invoice/links/CasherInvoice";
 
 function App() {
   // Create a client
@@ -264,7 +264,7 @@ function App() {
 
             {/* system settings */}
             <Route
-              path={`${devNavUrl}/${UrlSystem}/point-of-sales`}
+              path={`${devNavUrl}/${UrlSystem}/inventory/pos`}
               element={
                 <ProtectedRouteSystem>
                   <SystemPointOfSales />
@@ -296,7 +296,7 @@ function App() {
               }
             />
             <Route
-              path={`${devNavUrl}/${UrlSystem}/inventory/orders/invoice`}
+              path={`${devNavUrl}/${UrlSystem}/inventory/invoice`}
               element={
                 <ProtectedRouteSystem>
                   <SystemInvoice />
@@ -593,7 +593,7 @@ function App() {
             {/* admin invetory */}
 
             <Route
-              path={`${devNavUrl}/${UrlAdmin}/point-of-sales`}
+              path={`${devNavUrl}/${UrlAdmin}/inventory/pos`}
               element={
                 <ProtectedRouteOther>
                   <AdminPointOfSales />
@@ -625,7 +625,7 @@ function App() {
               }
             />
             <Route
-              path={`${devNavUrl}/${UrlAdmin}/inventory/orders/invoice`}
+              path={`${devNavUrl}/${UrlAdmin}/inventory/invoice`}
               element={
                 <ProtectedRouteOther>
                   <AdminInvoice />
@@ -765,7 +765,7 @@ function App() {
             />
             {/* casher inventory*/}
             <Route
-              path={`${devNavUrl}/${UrlCasher}/point-of-sales`}
+              path={`${devNavUrl}/${UrlCasher}/inventory/pos`}
               element={
                 <ProtectedRouteOther>
                   <CasherPointOfSales />
@@ -797,7 +797,7 @@ function App() {
               }
             />
             <Route
-              path={`${devNavUrl}/${UrlCasher}/inventory/orders/invoice`}
+              path={`${devNavUrl}/${UrlCasher}/inventory/invoice`}
               element={
                 <ProtectedRouteOther>
                   <CasherInvoice />
@@ -915,7 +915,7 @@ function App() {
             {/* manager invetory */}
 
             <Route
-              path={`${devNavUrl}/${UrlManager}/point-of-sales`}
+              path={`${devNavUrl}/${UrlManager}/inventory/pos`}
               element={
                 <ProtectedRouteOther>
                   <ManagerPointOfSales />
@@ -947,7 +947,7 @@ function App() {
               }
             />
             <Route
-              path={`${devNavUrl}/${UrlManager}/inventory/orders/invoice`}
+              path={`${devNavUrl}/${UrlManager}/inventory/invoice`}
               element={
                 <ProtectedRouteOther>
                   <ManagerInvoice />

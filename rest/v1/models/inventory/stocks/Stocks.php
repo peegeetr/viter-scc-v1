@@ -38,7 +38,6 @@ class Stocks
             $sql .= "( stocks_number, ";
             $sql .= "stocks_is_pending, ";
             $sql .= "stocks_product_id, ";
-            $sql .= "stocks_or, ";
             $sql .= "stocks_date, ";
             $sql .= "stocks_quantity, ";
             $sql .= "stocks_created, ";
@@ -46,7 +45,6 @@ class Stocks
             $sql .= ":stocks_number, ";
             $sql .= ":stocks_is_pending, ";
             $sql .= ":stocks_product_id, ";
-            $sql .= ":stocks_or, ";
             $sql .= ":stocks_date, ";
             $sql .= ":stocks_quantity, ";
             $sql .= ":stocks_created, ";
@@ -56,7 +54,6 @@ class Stocks
                 "stocks_number" => $this->stocks_number,
                 "stocks_is_pending" => $this->stocks_is_pending,
                 "stocks_product_id" => $this->stocks_product_id,
-                "stocks_or" => $this->stocks_or,
                 "stocks_date" => $this->stocks_date,
                 "stocks_quantity" => $this->stocks_quantity,
                 "stocks_created" => $this->stocks_created,
@@ -287,6 +284,7 @@ class Stocks
             $sql .= "count(stocks_product_id) as count ";
             $sql .= "from ";
             $sql .= "{$this->tblStocks} ";
+            $sql .= "where stocks_is_pending = '0' ";
             $sql .= "group by stocks_product_id ";
             $sql .= "order by stocks_number asc ";
             $query = $this->connection->query($sql);

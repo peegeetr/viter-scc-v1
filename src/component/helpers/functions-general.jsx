@@ -203,6 +203,13 @@ export const getUserType = (store) => {
   return link;
 };
 
+// remove number format with comma
+export const removeComma = (value) => {
+  console.log(value);
+  // console.log(value.replace(/[,]/g, ""));
+  return value.replace(/[,]/g, "");
+};
+
 export const getTime = (t) => {
   let time = new Date(new Date(t).toString().split("GMT")[0] + "UTC")
     .toISOString()

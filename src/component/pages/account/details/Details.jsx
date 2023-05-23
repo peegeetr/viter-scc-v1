@@ -7,7 +7,7 @@ import Navigation from "../../../partials/Navigation.jsx";
 import DetailsLink from "./DetailsLink.jsx";
 
 const Deatils = () => {
-  const { store, dispatch } = React.useContext(StoreContext);
+  const { store, dispatch } = React.useContext(StoreContext); // use if not loadmore button undertime
   return (
     <>
       <Header />

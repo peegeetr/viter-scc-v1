@@ -1,16 +1,14 @@
 import React from "react";
-import { FaEnvelope, FaPlusCircle, FaTimesCircle } from "react-icons/fa";
-import { SiMinutemailer } from "react-icons/si";
-import { setIsAdd } from "../../../../../store/StoreAction";
-import { StoreContext } from "../../../../../store/StoreContext";
-import { formatDate, getDateNow } from "../../../../helpers/functions-general";
-import SccLogo from "../../../../svg/SccLogo";
 import { AiFillPrinter } from "react-icons/ai";
-import Footer from "../../../../partials/Footer";
-import useQueryData from "../../../../custom-hooks/useQueryData";
-import TableSpinner from "../../../../partials/spinners/TableSpinner";
-import NoData from "../../../../partials/NoData";
-import ServerError from "../../../../partials/ServerError";
+import { FaTimesCircle } from "react-icons/fa";
+import { setIsAdd } from "../../../../store/StoreAction";
+import { StoreContext } from "../../../../store/StoreContext";
+import useQueryData from "../../../custom-hooks/useQueryData";
+import { formatDate, getDateNow } from "../../../helpers/functions-general";
+import NoData from "../../../partials/NoData";
+import ServerError from "../../../partials/ServerError";
+import TableSpinner from "../../../partials/spinners/TableSpinner";
+import SccLogo from "../../../svg/SccLogo";
 
 const ModalViewProductInvoice = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);

@@ -16,7 +16,6 @@ export const computeSoldProduct = (item, values, product) => {
         Number(values.patronage_product_quantity);
     }
   });
-  console.log("sold", finalAmount);
   return finalAmount;
 };
 
@@ -38,6 +37,5 @@ export const computeRemainingQuantity = (item, values, product) => {
         Number(values.patronage_product_quantity);
     }
   });
-  console.log("remaining", finalAmount);
   return finalAmount;
 };
