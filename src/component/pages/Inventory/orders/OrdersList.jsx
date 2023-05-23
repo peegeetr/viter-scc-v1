@@ -13,6 +13,7 @@ import ModalDeleteRestore from "../../../partials/modals/ModalDeleteRestore";
 import TableSpinner from "../../../partials/spinners/TableSpinner";
 import {
   formatDate,
+  getTime,
   numberWithCommas,
 } from "../../../helpers/functions-general";
 import StatusActive from "../../../partials/status/StatusActive";
@@ -131,7 +132,9 @@ const OrdersList = ({ setItemEdit }) => {
                     <td> {counter++}.</td>
                     <td className="uppercase">{item.orders_number}</td>
                     <td>{`${item.members_last_name}, ${item.members_first_name}`}</td>
-                    <td>{formatDate(item.orders_date)}</td>
+                    <td>{`${formatDate(item.orders_date)} ${getTime(
+                      item.orders_date
+                    )}`}</td>
                     <td>{item.suppliers_products_name}</td>
                     <td>{item.orders_product_quantity}</td>
                     <td>

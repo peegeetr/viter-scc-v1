@@ -6,6 +6,7 @@ import { setIsAdd, setIsRestore } from "../../../../../store/StoreAction";
 import { StoreContext } from "../../../../../store/StoreContext";
 import {
   formatDate,
+  getTime,
   getUrlParam,
   numberWithCommas,
 } from "../../../../helpers/functions-general";
@@ -145,7 +146,9 @@ const CapitalShareList = ({ setItemEdit }) => {
                 {page.data.map((item, key) => (
                   <tr key={key}>
                     <td>{counter++}.</td>
-                    <td>{formatDate(item.capital_share_date)}</td>
+                    <td>{`${formatDate(item.capital_share_date)} ${getTime(
+                      item.capital_share_date
+                    )}`}</td>
                     <td>{item.capital_share_or}</td>
                     <td>{item.capital_share_paid_up}</td>
                     {(store.credentials.data.role_is_developer === 1 ||

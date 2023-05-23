@@ -16,6 +16,7 @@ import { InputFileUpload } from "../../../../helpers/FormInputs";
 import {
   devBaseImgUrl,
   formatDate,
+  getTime,
   getUrlParam,
 } from "../../../../helpers/functions-general";
 import ModalDeleteRestore from "../../../../partials/modals/ModalDeleteRestore";
@@ -138,7 +139,7 @@ const ProfileList = ({ members, isLoading, error }) => {
                   <p className=" mb-0">
                     {item.members_birth_date === ""
                       ? ""
-                      : formatDate(item.members_birth_date)}
+                      : `${formatDate(item.members_birth_date)}`}
                   </p>
                 </div>
                 <div className="hidden sm:block m-auto justify-center">

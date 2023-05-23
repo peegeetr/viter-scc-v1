@@ -11,6 +11,7 @@ import {
 import { StoreContext } from "../../../../store/StoreContext";
 import {
   formatDate,
+  getTime,
   numberWithCommas,
 } from "../../../helpers/functions-general";
 import { queryDataInfinite } from "../../../helpers/queryDataInfinite";
@@ -170,9 +171,9 @@ const SalesList = ({ setItemEdit }) => {
                     <td>
                       {item.sales_date === ""
                         ? "N/A"
-                        : `${formatDate(item.sales_date)} ${
-                            item.sales_date.split(" ")[1]
-                          }`}
+                        : `${formatDate(item.sales_date)} ${getTime(
+                            item.sales_date
+                          )}`}
                     </td>
                     <td>
                       {item.sales_is_paid === 1 ? (

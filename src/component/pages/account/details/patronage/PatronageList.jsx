@@ -4,6 +4,7 @@ import { useInView } from "react-intersection-observer";
 import { StoreContext } from "../../../../../store/StoreContext";
 import {
   formatDate,
+  getTime,
   getUrlParam,
   numberWithCommas,
 } from "../../../../helpers/functions-general";
@@ -128,9 +129,9 @@ const PatronageList = () => {
                     <td>
                       {item.sales_date === ""
                         ? "N/A"
-                        : `${formatDate(item.sales_date)} ${
-                            item.sales_date.split(" ")[1]
-                          }`}
+                        : `${formatDate(item.sales_date)} ${getTime(
+                            item.sales_date
+                          )}`}
                     </td>
                     <td>{item.suppliers_products_name}</td>
                     <td>{item.sales_or === "" ? "N/A" : item.sales_or}</td>
