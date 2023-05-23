@@ -15,6 +15,7 @@ import { InputSelect, InputText } from "../../../../helpers/FormInputs";
 import {
   devNavUrl,
   getDateTimeNow,
+  numberWithCommas,
   removeComma,
 } from "../../../../helpers/functions-general";
 import { queryData } from "../../../../helpers/queryData";
@@ -253,10 +254,15 @@ const AddOrderPage = () => {
                     <p className="">
                       Total Amount:
                       <span className="text-black ml-2">
+                        &#8369;{" "}
                         {props.values.orders_product_quantity === "" ||
                         Number(props.values.orders_product_quantity) === 0
                           ? 0
-                          : props.values.orders_product_amount}
+                          : numberWithCommas(
+                              Number(
+                                props.values.orders_product_amount
+                              ).toFixed(2)
+                            )}
                       </span>
                     </p>
                   </div>
