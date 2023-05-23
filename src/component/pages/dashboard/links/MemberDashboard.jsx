@@ -1,7 +1,7 @@
 import React from "react";
 import { StoreContext } from "../../../../store/StoreContext";
 import PageNotFound from "../../../partials/PageNotFound";
-import Dashboard from "../Dashboard";
+import MembersDashboard from "../member/MembersDashboard";
 
 const MemberDashboard = () => {
   const { store } = React.useContext(StoreContext);
@@ -15,7 +15,7 @@ const MemberDashboard = () => {
   }
   return (
     <>
-      <Dashboard />
+      <MembersDashboard />
     </>
   );
 };

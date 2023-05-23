@@ -197,7 +197,7 @@ const DashboardList = ({ setItemEdit }) => {
           ))}
 
           {(status === "loading" || result?.pages[0].data.length === 0) && (
-            <div className="relative">
+            <div className="relative mt-8">
               {status === "loading" && <TableSpinner />}
               <span className="text-6xl text-gray-400">
                 <FaBullhorn className="m-auto" />

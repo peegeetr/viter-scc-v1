@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 10, 2023 at 07:23 AM
+-- Generation Time: May 23, 2023 at 09:43 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -42,7 +42,7 @@ CREATE TABLE `sccv1_announcement` (
 --
 
 INSERT INTO `sccv1_announcement` (`announcement_aid`, `announcement_name`, `announcement_description`, `announcement_is_active`, `announcement_date`, `announcement_created`, `announcement_datetime`) VALUES
-(1, 'Testing Announcement', 'Testing Announcement', 1, '2023-04-19', '2023-04-19 16:28:04', '2023-04-19 16:28:04');
+(1, 'Testing Announcement', 'Testing Announcement', 0, '2023-04-19', '2023-04-19 16:28:04', '2023-05-23 13:12:19');
 
 -- --------------------------------------------------------
 
@@ -66,7 +66,9 @@ CREATE TABLE `sccv1_capital_share` (
 
 INSERT INTO `sccv1_capital_share` (`capital_share_aid`, `capital_share_member_id`, `capital_share_paid_up`, `capital_share_or`, `capital_share_date`, `capital_share_created`, `capital_share_datetime`) VALUES
 (1, '2', '500', '12364798', '2023-05-09', '2023-05-09 08:30:24', '2023-05-09 08:30:24'),
-(2, '2', '500', '12364798', '2023-05-10', '2023-05-09 09:28:36', '2023-05-09 09:55:41');
+(2, '2', '500', '12364798', '2023-05-10', '2023-05-09 09:28:36', '2023-05-09 09:55:41'),
+(3, '5', '500', 'fgdf3g2d6fg5', '2023-05-23', '2023-05-23 13:17:31', '2023-05-23 13:17:31'),
+(4, '5', '500', 'fgdfhdfh', '2023-05-23', '2023-05-23 13:17:43', '2023-05-23 13:17:43');
 
 -- --------------------------------------------------------
 
@@ -83,13 +85,6 @@ CREATE TABLE `sccv1_file_upload` (
   `file_upload_datetime` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `sccv1_file_upload`
---
-
-INSERT INTO `sccv1_file_upload` (`file_upload_aid`, `file_upload_name`, `file_upload_date`, `file_upload_link`, `file_upload_created`, `file_upload_datetime`) VALUES
-(1, 'link', '2023-04-12', 'link', '2023-04-12 17:25:27', '2023-04-12 17:25:27');
-
 -- --------------------------------------------------------
 
 --
@@ -104,6 +99,13 @@ CREATE TABLE `sccv1_legal_beneficiaries` (
   `beneficiaries_created` datetime NOT NULL,
   `beneficiaries_datetime` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `sccv1_legal_beneficiaries`
+--
+
+INSERT INTO `sccv1_legal_beneficiaries` (`beneficiaries_aid`, `beneficiaries_employee_id`, `beneficiaries_name`, `beneficiaries_relationship`, `beneficiaries_created`, `beneficiaries_datetime`) VALUES
+(2, '5', 'ronaldo', 'father', '2023-05-23 09:45:19', '2023-05-23 09:45:19');
 
 -- --------------------------------------------------------
 
@@ -153,10 +155,9 @@ CREATE TABLE `sccv1_members` (
 --
 
 INSERT INTO `sccv1_members` (`members_aid`, `members_id`, `members_is_approved`, `members_is_cancel`, `members_is_active`, `members_picture`, `members_first_name`, `members_last_name`, `members_middle_name`, `members_contact_no`, `members_email`, `members_civil_status`, `members_gender`, `members_birth_place`, `members_birth_date`, `members_education_attainment`, `members_permanent_address`, `members_permanent_zip_code`, `members_permanent_mobile_no`, `members_present_address`, `members_present_zip_code`, `members_present_mobile_no`, `members_position`, `members_other_income`, `members_income_gross`, `members_other_source_income`, `members_spouse_occupation`, `members_income_net`, `members_spouse_income`, `members_spouse_net_income`, `members_properties_owned`, `members_pre_membership_date`, `members_created`, `members_datetime`) VALUES
-(1, '23-01-001', 0, 1, 0, '', 'Ronaldos', 'Lumabaa', 'Soalibio', '', '', '', 'male', '', '2023-01-04', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2023-02-28', '2023-03-13 16:55:35', '2023-05-09 13:38:44'),
-(2, '23-01-001', 1, 0, 1, '59270081.jfif', 'Patrick', 'Reyes', 'T.', '', '', '', 'male', '', '2023-01-03', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2023-02-28', '2023-03-13 16:55:42', '2023-05-09 13:39:51'),
-(3, '2301-001', 1, 0, 1, '', 'zaicy', 'Lumabas', 'Soalibio', '09095632145', 'cy@gmaiul.com', 'ws', 'male', '2023-03-02', '2023-01-04', 'sdfsdf', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2023-03-12', '2023-03-13 16:55:56', '2023-05-10 13:22:04'),
-(4, '2301-001', 0, 0, 1, '', 'Ronaldo', 'Lumabas', 'Soalibio', '', '', 'ss', 'female', 's', '2000-07-09', 's', '', '', '', 'Brgy, San Cristobal', '4000', 'e', 'e', 'e', 'e', 'e', '', 'e', '', '', '', '2023-05-09', '2023-05-09 13:41:19', '2023-05-09 13:54:55');
+(5, '23-05-001', 1, 0, 1, '', 'Cyrene', 'Lumabas', 'Mercado', '', 'cyrene.lumabas@frontlinebusiness.com.ph', '', 'female', '', '1999-09-09', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2023-05-23', '2023-05-23 09:44:12', '2023-05-23 09:44:38'),
+(6, '23-05-002', 1, 0, 1, '', 'Patrick', 'Reyes', 'T', '', 'reyes.patrick@frontlinebusiness.com.ph', '', 'male', '', '2023-01-02', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2023-05-23', '2023-05-23 10:05:49', '2023-05-23 10:16:45'),
+(7, '23-05-003', 1, 0, 1, '', 'Ronaldo', 'Lumabas', 'Soalibio', '', 'cyrenemlumabas@gmail.com', '', 'male', '', '1875-05-17', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '2023-05-23', '2023-05-23 10:30:37', '2023-05-23 10:30:41');
 
 -- --------------------------------------------------------
 
@@ -182,8 +183,7 @@ CREATE TABLE `sccv1_orders` (
 --
 
 INSERT INTO `sccv1_orders` (`orders_aid`, `orders_number`, `orders_is_paid`, `orders_product_id`, `orders_member_id`, `orders_product_quantity`, `orders_product_amount`, `orders_date`, `orders_created`, `orders_datetime`) VALUES
-(11, 'ord-001', 1, '7', '2', '1', '210', '2023-05-10 08:29:53', '2023-05-10 08:30:00', '2023-05-10 11:55:08'),
-(12, 'ord-002', 0, '5', '3', '2', '170', '2023-05-10 11:59:31', '2023-05-10 12:00:17', '2023-05-10 12:00:17');
+(23, 'ord-002', 1, '15', '5', '1', '210', '2023-05-23 11:03:08', '2023-05-23 11:03:54', '2023-05-23 12:47:17');
 
 -- --------------------------------------------------------
 
@@ -204,9 +204,8 @@ CREATE TABLE `sccv1_product_category` (
 --
 
 INSERT INTO `sccv1_product_category` (`product_category_aid`, `product_category_name`, `product_category_is_active`, `product_category_created`, `product_category_datetime`) VALUES
-(1, 'egg', 1, '2023-04-19 16:30:22', '2023-05-08 11:41:18'),
-(2, 'seasonings', 1, '2023-04-19 16:30:27', '2023-05-08 11:48:45'),
-(3, 'cleaning materials', 1, '2023-05-08 11:46:49', '2023-05-09 13:55:23');
+(7, 'egg', 1, '2023-05-23 10:32:22', '2023-05-23 10:32:22'),
+(8, 'diswashing', 1, '2023-05-23 10:32:32', '2023-05-23 10:32:32');
 
 -- --------------------------------------------------------
 
@@ -233,8 +232,7 @@ CREATE TABLE `sccv1_sales` (
 --
 
 INSERT INTO `sccv1_sales` (`sales_aid`, `sales_number`, `sales_is_paid`, `sales_member_id`, `sales_order_id`, `sales_receive_amount`, `sales_member_change`, `sales_or`, `sales_date`, `sales_created`, `sales_datetime`) VALUES
-(10, 'sls-001', 1, '2', '11', '1000', '790', '3246f576drty', '2023-05-10 11:55:08', '2023-05-10 08:30:00', '2023-05-10 11:55:08'),
-(11, 'sls-002', 0, '3', '12', '0', '0', '', '', '2023-05-10 12:00:17', '2023-05-10 12:00:17');
+(21, 'sls-002', 1, '5', '23', '210', '0', '321654dfsrw', '2023-05-23 12:47:17', '2023-05-23 11:03:54', '2023-05-23 12:47:17');
 
 -- --------------------------------------------------------
 
@@ -254,13 +252,6 @@ CREATE TABLE `sccv1_savings` (
   `savings_created` datetime NOT NULL,
   `savings_datetime` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `sccv1_savings`
---
-
-INSERT INTO `sccv1_savings` (`savings_aid`, `savings_member_id`, `savings_date`, `savings_category`, `savings_deposite`, `savings_withdrawal`, `savings_interest`, `savings_or`, `savings_created`, `savings_datetime`) VALUES
-(4, '2', '2023-05-01', '0', '500', '0', '0', 'ss34534566', '2023-05-09 10:00:00', '2023-05-09 10:00:25');
 
 -- --------------------------------------------------------
 
@@ -295,17 +286,21 @@ CREATE TABLE `sccv1_settings_role` (
   `role_datetime` datetime NOT NULL,
   `role_is_developer` tinyint(1) NOT NULL,
   `role_is_admin` tinyint(1) NOT NULL,
-  `role_is_member` tinyint(1) NOT NULL
+  `role_is_member` tinyint(1) NOT NULL,
+  `role_is_manager` tinyint(1) NOT NULL,
+  `role_is_casher` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `sccv1_settings_role`
 --
 
-INSERT INTO `sccv1_settings_role` (`role_aid`, `role_is_active`, `role_name`, `role_description`, `role_created`, `role_datetime`, `role_is_developer`, `role_is_admin`, `role_is_member`) VALUES
-(12, 1, 'Developer', 'for admin.', '2023-03-09 16:03:26', '2023-03-23 16:20:06', 1, 0, 0),
-(13, 1, 'admin', 'for developer', '2023-03-09 16:25:26', '2023-03-09 16:25:26', 0, 1, 0),
-(14, 1, 'member', 'for member', '2023-03-23 16:17:15', '2023-03-23 16:17:15', 0, 0, 1);
+INSERT INTO `sccv1_settings_role` (`role_aid`, `role_is_active`, `role_name`, `role_description`, `role_created`, `role_datetime`, `role_is_developer`, `role_is_admin`, `role_is_member`, `role_is_manager`, `role_is_casher`) VALUES
+(12, 1, 'Developer', 'for admin.', '2023-03-09 16:03:26', '2023-03-23 16:20:06', 1, 0, 0, 0, 0),
+(13, 1, 'admin', 'for developer', '2023-03-09 16:25:26', '2023-03-09 16:25:26', 0, 1, 0, 0, 0),
+(14, 1, 'member', 'for member', '2023-03-23 16:17:15', '2023-03-23 16:17:15', 0, 0, 1, 0, 0),
+(15, 1, 'manager', 'for manager', '2023-05-10 13:27:48', '2023-05-10 13:27:48', 0, 0, 0, 1, 0),
+(16, 1, 'casher', 'for casher', '2023-05-10 13:28:21', '2023-05-10 13:28:21', 0, 0, 0, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -317,7 +312,6 @@ CREATE TABLE `sccv1_settings_user_other` (
   `user_other_aid` int(11) NOT NULL,
   `user_other_is_active` tinyint(1) NOT NULL,
   `user_other_member_id` varchar(20) NOT NULL,
-  `user_other_email` varchar(200) NOT NULL,
   `user_other_role_id` int(11) NOT NULL,
   `user_other_key` varchar(255) NOT NULL,
   `user_other_password` varchar(255) NOT NULL,
@@ -329,9 +323,10 @@ CREATE TABLE `sccv1_settings_user_other` (
 -- Dumping data for table `sccv1_settings_user_other`
 --
 
-INSERT INTO `sccv1_settings_user_other` (`user_other_aid`, `user_other_is_active`, `user_other_member_id`, `user_other_email`, `user_other_role_id`, `user_other_key`, `user_other_password`, `user_other_created`, `user_other_datetime`) VALUES
-(10, 1, '3', 'cyrene.lumabas@frontlinebusiness.com.ph', 13, '', '$2y$10$g/zE/UpZWrfsQ.mJ2KSkkOGezAwVvJSdgjeXknWI/VOyDoSl4/uLm', '2023-03-23 16:21:35', '2023-03-23 16:27:08'),
-(14, 1, '2', 'cyrenemlumabas@gmail.com', 14, '', '$2y$10$Wsq8tTePhUDCmKqhsWuvNuXD7NICwGlnf4krXQzhIkhOk1bPREGza', '2023-03-09 16:38:45', '2023-03-23 06:49:44');
+INSERT INTO `sccv1_settings_user_other` (`user_other_aid`, `user_other_is_active`, `user_other_member_id`, `user_other_role_id`, `user_other_key`, `user_other_password`, `user_other_created`, `user_other_datetime`) VALUES
+(16, 1, '5', 15, '', '$2y$10$yGKxOncgSTmgYSM2yYLbveIyd3B9eU7rN4lVp3Y5LRRahrGeNraqe', '2023-05-23 10:02:48', '0000-00-00 00:00:00'),
+(18, 1, '6', 13, '34f7d44e911b4ddf7da67e51c637af5e11ce1a87d51e8713e33431f0be4c1155', '', '2023-05-23 10:28:21', '2023-05-23 10:28:21'),
+(19, 1, '7', 13, '33f1fe1ee8888b3fb154b8c87cd0f0b3073ffa9adeca1201b35a6d7568a33079', '', '2023-05-23 10:31:33', '2023-05-23 10:31:33');
 
 -- --------------------------------------------------------
 
@@ -370,6 +365,7 @@ CREATE TABLE `sccv1_stocks` (
   `stocks_number` varchar(100) NOT NULL,
   `stocks_product_id` varchar(20) NOT NULL,
   `stocks_or` varchar(50) NOT NULL,
+  `stocks_date` varchar(20) NOT NULL,
   `stocks_quantity` varchar(20) NOT NULL,
   `stocks_created` datetime NOT NULL,
   `stocks_datetime` datetime NOT NULL
@@ -379,11 +375,10 @@ CREATE TABLE `sccv1_stocks` (
 -- Dumping data for table `sccv1_stocks`
 --
 
-INSERT INTO `sccv1_stocks` (`stocks_aid`, `stocks_is_pending`, `stocks_number`, `stocks_product_id`, `stocks_or`, `stocks_quantity`, `stocks_created`, `stocks_datetime`) VALUES
-(4, 0, 'stc-001', '5', 'bpofjg09r85-095', '20', '2023-04-25 06:49:04', '2023-05-08 12:13:20'),
-(6, 0, 'stc-002', '5', '21dfgsdft', '20', '2023-04-26 16:50:27', '2023-05-08 12:12:09'),
-(7, 0, 'stc-003', '7', 'bpofjg09r85-095', '2', '2023-04-26 17:06:12', '2023-05-08 12:12:03'),
-(8, 1, 'stc-004', '13', '13235468d', '20', '2023-05-08 14:07:23', '2023-05-08 14:07:23');
+INSERT INTO `sccv1_stocks` (`stocks_aid`, `stocks_is_pending`, `stocks_number`, `stocks_product_id`, `stocks_or`, `stocks_date`, `stocks_quantity`, `stocks_created`, `stocks_datetime`) VALUES
+(10, 0, 'stc-002', '16', 'sertyhe56546', '2023-05-23 10:38:10', '2', '2023-05-23 10:38:15', '2023-05-23 10:51:41'),
+(11, 0, 'stc-003', '15', 'dfgsre3423', '2023-05-23 10:38:23', '1', '2023-05-23 10:38:29', '2023-05-23 10:48:25'),
+(12, 1, 'stc-004', '16', '', '2023-05-23 12:34:19', '1000', '2023-05-23 12:35:24', '2023-05-23 12:35:24');
 
 -- --------------------------------------------------------
 
@@ -407,8 +402,7 @@ CREATE TABLE `sccv1_suppliers` (
 --
 
 INSERT INTO `sccv1_suppliers` (`suppliers_aid`, `suppliers_company_name`, `suppliers_is_active`, `suppliers_company_address`, `suppliers_contact_person`, `suppliers_contact_num`, `suppliers_created`, `suppliers_datetime`) VALUES
-(1, 'fbs', 1, 'Brgy, San Ignaio', 'maja', '031231324657', '2023-04-19 16:29:03', '2023-04-19 16:29:03'),
-(2, 'fca', 1, 'Brgy, San Cristobal', 'Luffy', '090956132654', '2023-04-26 17:05:37', '2023-04-26 17:05:37');
+(3, 'FBS', 1, 'Brgy, Sto nino', 'Jhonny Dechoso', '0905632145', '2023-05-23 10:33:23', '2023-05-23 10:33:37');
 
 -- --------------------------------------------------------
 
@@ -434,14 +428,8 @@ CREATE TABLE `sccv1_suppliers_products` (
 --
 
 INSERT INTO `sccv1_suppliers_products` (`suppliers_products_aid`, `suppliers_products_name`, `suppliers_products_number`, `suppliers_products_price`, `suppliers_products_scc_price`, `suppliers_products_market_price`, `suppliers_products_category_id`, `suppliers_products_suppliers_id`, `suppliers_products_created`, `suppliers_products_datetime`) VALUES
-(5, 'alamang', 'prod-001', '80', '85', '90', '2', '1', '2023-04-24 16:48:33', '2023-05-08 11:54:26'),
-(6, 'egg small', 'prod-002', '190', '195', '200', '1', '2', '2023-04-26 17:05:46', '2023-05-08 12:29:38'),
-(7, 'egg medium', 'prod-003', '205', '210', '215', '1', '2', '2023-04-26 17:05:54', '2023-05-08 12:44:58'),
-(8, 'egg large', 'prod-004', '230', '235', '240', '1', '2', '2023-05-08 11:51:29', '2023-05-08 12:24:04'),
-(9, 'chili garlic paste', 'prod-005', '80', '85', '90', '2', '1', '2023-05-08 11:52:42', '2023-05-08 12:23:41'),
-(10, 'kimchi', 'prod-006', '110', '115', '120', '2', '1', '2023-05-08 11:53:03', '2023-05-08 12:29:52'),
-(11, 'dishwashing liquid', 'prod-007', '30', '35', '40', '3', '1', '2023-05-08 11:53:36', '2023-05-08 12:23:51'),
-(13, 'walis ting-ting', 'prod-008', '25', '', '', '3', '1', '2023-05-08 13:57:31', '2023-05-08 13:57:31');
+(15, 'egg-medium', 'prod-001', '2000', '210', '215', '7', '3', '2023-05-23 10:34:03', '2023-05-23 10:44:31'),
+(16, 'egg-large', 'prod-002', '210', '215', '220', '7', '3', '2023-05-23 10:34:20', '2023-05-23 10:39:03');
 
 --
 -- Indexes for dumped tables
@@ -557,7 +545,7 @@ ALTER TABLE `sccv1_announcement`
 -- AUTO_INCREMENT for table `sccv1_capital_share`
 --
 ALTER TABLE `sccv1_capital_share`
-  MODIFY `capital_share_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `capital_share_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `sccv1_file_upload`
@@ -569,31 +557,31 @@ ALTER TABLE `sccv1_file_upload`
 -- AUTO_INCREMENT for table `sccv1_legal_beneficiaries`
 --
 ALTER TABLE `sccv1_legal_beneficiaries`
-  MODIFY `beneficiaries_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `beneficiaries_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `sccv1_members`
 --
 ALTER TABLE `sccv1_members`
-  MODIFY `members_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `members_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `sccv1_orders`
 --
 ALTER TABLE `sccv1_orders`
-  MODIFY `orders_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `orders_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `sccv1_product_category`
 --
 ALTER TABLE `sccv1_product_category`
-  MODIFY `product_category_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `product_category_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `sccv1_sales`
 --
 ALTER TABLE `sccv1_sales`
-  MODIFY `sales_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `sales_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `sccv1_savings`
@@ -611,13 +599,13 @@ ALTER TABLE `sccv1_settings_netsurplus`
 -- AUTO_INCREMENT for table `sccv1_settings_role`
 --
 ALTER TABLE `sccv1_settings_role`
-  MODIFY `role_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `role_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `sccv1_settings_user_other`
 --
 ALTER TABLE `sccv1_settings_user_other`
-  MODIFY `user_other_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `user_other_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `sccv1_settings_user_system`
@@ -629,19 +617,19 @@ ALTER TABLE `sccv1_settings_user_system`
 -- AUTO_INCREMENT for table `sccv1_stocks`
 --
 ALTER TABLE `sccv1_stocks`
-  MODIFY `stocks_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `stocks_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `sccv1_suppliers`
 --
 ALTER TABLE `sccv1_suppliers`
-  MODIFY `suppliers_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `suppliers_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `sccv1_suppliers_products`
 --
 ALTER TABLE `sccv1_suppliers_products`
-  MODIFY `suppliers_products_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `suppliers_products_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -39,6 +39,8 @@ RewriteRule ^announcement/([0-9]+)$ controllers/dashboard/dashboard.php?announce
 RewriteRule ^announcement/active/([0-9]+)$ controllers/dashboard/active.php?announcementid=$1 [L]
 RewriteRule ^announcement/page/([0-9]+)$ controllers/dashboard/page.php?start=$1 [L]
 RewriteRule ^announcement/search/([A-Za-z0-9-]+)$ controllers/dashboard/search.php?search=$1 [L]
+RewriteRule ^announcement/member/page/([0-9]+)$ controllers/dashboard/member-page.php?start=$1 [L]
+RewriteRule ^announcement/member/search/([A-Za-z0-9-]+)$ controllers/dashboard/search-all-active.php?search=$1 [L]
   
 #members
 RewriteRule ^members$ controllers/account/account.php [L]

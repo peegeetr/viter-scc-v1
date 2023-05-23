@@ -24,41 +24,39 @@ import SystemUser from "./component/pages/settings/users/system/SystemUser";
 import PageNotFound from "./component/partials/PageNotFound";
 
 import AdminCategory from "./component/pages/Inventory/categories/links/AdminCategory";
-import CasherCategory from "./component/pages/Inventory/categories/links/CasherCategory";
 import ManagerCategory from "./component/pages/Inventory/categories/links/ManagerCategory";
 import SystemCategory from "./component/pages/Inventory/categories/links/SystemCategory";
+import AdminInvoice from "./component/pages/Inventory/invoice/links/AdminInvoice";
+import ManagerInvoice from "./component/pages/Inventory/invoice/links/ManagerInvoice";
+import SystemInvoice from "./component/pages/Inventory/invoice/links/SystemInvoice";
 import AdminInventoryDetails from "./component/pages/Inventory/links/AdminInventoryDetails";
-import CasherInventoryDetails from "./component/pages/Inventory/links/CasherInventoryDetails";
 import ManagerInventoryDetails from "./component/pages/Inventory/links/ManagerInventoryDetails";
 import SystemInventoryDetails from "./component/pages/Inventory/links/SystemInventoryDetails";
 import AdminOrders from "./component/pages/Inventory/orders/links/AdminOrders";
-import CasherOrders from "./component/pages/Inventory/orders/links/CasherOrders";
 import ManagerOrders from "./component/pages/Inventory/orders/links/ManagerOrders";
 import SystemOrders from "./component/pages/Inventory/orders/links/SystemOrders";
 import AddOrderPage from "./component/pages/Inventory/orders/order-page/AddOrderPage";
 import OrderSuccess from "./component/pages/Inventory/orders/order-page/OrderSuccess";
+import AdminPointOfSales from "./component/pages/Inventory/point-of-sales/links/AdminPointOfSales";
+import CasherPointOfSales from "./component/pages/Inventory/point-of-sales/links/CasherPointOfSales";
+import ManagerPointOfSales from "./component/pages/Inventory/point-of-sales/links/ManagerPointOfSales";
+import SystemPointOfSales from "./component/pages/Inventory/point-of-sales/links/SystemPointOfSales";
 import AdminProducts from "./component/pages/Inventory/products/links/AdminProducts";
-import CasherProducts from "./component/pages/Inventory/products/links/CasherProducts";
 import ManagerProducts from "./component/pages/Inventory/products/links/ManagerProducts";
 import SystemProducts from "./component/pages/Inventory/products/links/SystemProducts";
 import AdminReports from "./component/pages/Inventory/reports/links/AdminReports";
-import CasherReports from "./component/pages/Inventory/reports/links/CasherReports";
 import ManagerReports from "./component/pages/Inventory/reports/links/ManagerReports";
 import SystemReports from "./component/pages/Inventory/reports/links/SystemReports";
 import AdminSales from "./component/pages/Inventory/sales/links/AdminSales";
-import CasherSales from "./component/pages/Inventory/sales/links/CasherSales";
 import ManagerSales from "./component/pages/Inventory/sales/links/ManagerSales";
 import SystemSales from "./component/pages/Inventory/sales/links/SystemSales";
 import AdminStocks from "./component/pages/Inventory/stocks/links/AdminStocks";
-import CasherStocks from "./component/pages/Inventory/stocks/links/CasherStocks";
 import ManagerStocks from "./component/pages/Inventory/stocks/links/ManagerStocks";
 import SystemStocks from "./component/pages/Inventory/stocks/links/SystemStocks";
 import AdminSuppliers from "./component/pages/Inventory/suppliers/links/AdminSuppliers";
-import CasherSuppliers from "./component/pages/Inventory/suppliers/links/CasherSuppliers";
 import ManagerSuppliers from "./component/pages/Inventory/suppliers/links/ManagerSuppliers";
 import SystemSuppliers from "./component/pages/Inventory/suppliers/links/SystemSuppliers";
 import AdminSupplierProduct from "./component/pages/Inventory/suppliers/products/links/AdminSupplierProduct";
-import CasherSupplierProduct from "./component/pages/Inventory/suppliers/products/links/CasherSupplierProduct";
 import ManagerSupplierProduct from "./component/pages/Inventory/suppliers/products/links/ManagerSupplierProduct";
 import SystemSupplierProduct from "./component/pages/Inventory/suppliers/products/links/SystemSupplierProduct";
 import AdminCapitalShare from "./component/pages/account/details/capital-share/links/AdminCapitalShare";
@@ -78,33 +76,26 @@ import SystemAppProfile from "./component/pages/application/details/links/System
 import AdminApplication from "./component/pages/application/links/AdminApplication";
 import SystemApplication from "./component/pages/application/links/SystemApplication";
 import AdminDashboard from "./component/pages/dashboard/links/AdminDashboard";
-import CasherDashboard from "./component/pages/dashboard/links/CasherDashboard";
 import ManagerDashboard from "./component/pages/dashboard/links/ManagerDashboard";
 import MemberDashboard from "./component/pages/dashboard/links/MemberDashboard";
 import SystemDashboard from "./component/pages/dashboard/links/SystemDashboard";
 import AdminFileUpload from "./component/pages/file-upload/links/AdminFileUpload";
-import CasherFileUpload from "./component/pages/file-upload/links/CasherFileUpload";
 import ManagerFileUpload from "./component/pages/file-upload/links/ManagerFileUpload";
 import MemberFileUpload from "./component/pages/file-upload/links/MemberFileUpload";
 import SystemFileUpload from "./component/pages/file-upload/links/SystemFileUpload";
 import AdminMyCapitalShare from "./component/pages/my-account/capital-share/links/AdminMyCapitalShare";
-import CasherMyCapitalShare from "./component/pages/my-account/capital-share/links/CasherMyCapitalShare";
 import ManagerMyCapitalShare from "./component/pages/my-account/capital-share/links/ManagerMyCapitalShare";
 import MemberMyCapitalShare from "./component/pages/my-account/capital-share/links/MemberMyCapitalShare";
 import AdminMyAccount from "./component/pages/my-account/links/AdminMyAccount";
-import CasherMyAccount from "./component/pages/my-account/links/CasherMyAccount";
 import ManagerMyAccount from "./component/pages/my-account/links/ManagerMyAccount";
 import MemberMyAccount from "./component/pages/my-account/links/MemberMyAccount";
 import AdminMyPatronage from "./component/pages/my-account/patronage/links/AdminMyPatronage";
-import CasherMyPatronage from "./component/pages/my-account/patronage/links/CasherMyPatronage";
 import ManagerMyPatronage from "./component/pages/my-account/patronage/links/ManagerMyPatronage";
 import MemberMyPatronage from "./component/pages/my-account/patronage/links/MemberMyPatronage";
 import AdminMyProfile from "./component/pages/my-account/profile/links/AdminMyProfile";
-import CasherMyProfile from "./component/pages/my-account/profile/links/CasherMyProfile";
 import ManagerMyProfile from "./component/pages/my-account/profile/links/ManagerMyProfile";
 import MemberMyProfile from "./component/pages/my-account/profile/links/MemberMyProfile";
 import AdminMySavings from "./component/pages/my-account/savings/links/AdminMySavings";
-import CasherMySavings from "./component/pages/my-account/savings/links/CasherMySavings";
 import ManagerMySavings from "./component/pages/my-account/savings/links/ManagerMySavings";
 import MemberMySavings from "./component/pages/my-account/savings/links/MemberMySavings";
 import AdminSettingsLink from "./component/pages/settings/links/AdminSettingsLink";
@@ -114,14 +105,6 @@ import SystemNetSurPlus from "./component/pages/settings/net-surplus/links/Syste
 import AdminOtherUser from "./component/pages/settings/users/other/links/AdminOtherUser";
 import SystemOtherUser from "./component/pages/settings/users/other/links/SystemOtherUser";
 import { StoreProvider } from "./store/StoreContext";
-import AdminPointOfSales from "./component/pages/Inventory/point-of-sales/links/AdminPointOfSales";
-import CasherPointOfSales from "./component/pages/Inventory/point-of-sales/links/CasherPointOfSales";
-import ManagerPointOfSales from "./component/pages/Inventory/point-of-sales/links/ManagerPointOfSales";
-import SystemPointOfSales from "./component/pages/Inventory/point-of-sales/links/SystemPointOfSales";
-import ManagerInvoice from "./component/pages/Inventory/invoice/links/ManagerInvoice";
-import SystemInvoice from "./component/pages/Inventory/invoice/links/SystemInvoice";
-import AdminInvoice from "./component/pages/Inventory/invoice/links/AdminInvoice";
-import CasherInvoice from "./component/pages/Inventory/invoice/links/CasherInvoice";
 
 function App() {
   // Create a client
@@ -708,147 +691,10 @@ function App() {
 
             {/* casher user */}
             <Route
-              path={`${devNavUrl}/${UrlCasher}/dashboard`}
-              element={
-                <ProtectedRouteOther>
-                  <CasherDashboard />
-                </ProtectedRouteOther>
-              }
-            />
-            <Route
-              path={`${devNavUrl}/${UrlCasher}/details`}
-              element={
-                <ProtectedRouteOther>
-                  <CasherMyAccount />
-                </ProtectedRouteOther>
-              }
-            />
-            <Route
-              path={`${devNavUrl}/${UrlCasher}/details/profile`}
-              element={
-                <ProtectedRouteOther>
-                  <CasherMyProfile />
-                </ProtectedRouteOther>
-              }
-            />
-            <Route
-              path={`${devNavUrl}/${UrlCasher}/details/savings`}
-              element={
-                <ProtectedRouteOther>
-                  <CasherMySavings />
-                </ProtectedRouteOther>
-              }
-            />
-            <Route
-              path={`${devNavUrl}/${UrlCasher}/details/capital-share`}
-              element={
-                <ProtectedRouteOther>
-                  <CasherMyCapitalShare />
-                </ProtectedRouteOther>
-              }
-            />
-            <Route
-              path={`${devNavUrl}/${UrlCasher}/details/patronage`}
-              element={
-                <ProtectedRouteOther>
-                  <CasherMyPatronage />
-                </ProtectedRouteOther>
-              }
-            />
-            <Route
-              path={`${devNavUrl}/${UrlCasher}/file-upload`}
-              element={
-                <ProtectedRouteOther>
-                  <CasherFileUpload />
-                </ProtectedRouteOther>
-              }
-            />
-            {/* casher inventory*/}
-            <Route
-              path={`${devNavUrl}/${UrlCasher}/inventory/pos`}
+              path={`${devNavUrl}/${UrlCasher}/pos`}
               element={
                 <ProtectedRouteOther>
                   <CasherPointOfSales />
-                </ProtectedRouteOther>
-              }
-            />
-            <Route
-              path={`${devNavUrl}/${UrlCasher}/inventory`}
-              element={
-                <ProtectedRouteOther>
-                  <CasherInventoryDetails />
-                </ProtectedRouteOther>
-              }
-            />
-            <Route
-              path={`${devNavUrl}/${UrlCasher}/inventory/category`}
-              element={
-                <ProtectedRouteOther>
-                  <CasherCategory />
-                </ProtectedRouteOther>
-              }
-            />
-            <Route
-              path={`${devNavUrl}/${UrlCasher}/inventory/orders`}
-              element={
-                <ProtectedRouteOther>
-                  <CasherOrders />
-                </ProtectedRouteOther>
-              }
-            />
-            <Route
-              path={`${devNavUrl}/${UrlCasher}/inventory/invoice`}
-              element={
-                <ProtectedRouteOther>
-                  <CasherInvoice />
-                </ProtectedRouteOther>
-              }
-            />
-            <Route
-              path={`${devNavUrl}/${UrlCasher}/inventory/products`}
-              element={
-                <ProtectedRouteOther>
-                  <CasherProducts />
-                </ProtectedRouteOther>
-              }
-            />
-            <Route
-              path={`${devNavUrl}/${UrlCasher}/inventory/sales`}
-              element={
-                <ProtectedRouteOther>
-                  <CasherSales />
-                </ProtectedRouteOther>
-              }
-            />
-            <Route
-              path={`${devNavUrl}/${UrlCasher}/inventory/stocks`}
-              element={
-                <ProtectedRouteOther>
-                  <CasherStocks />
-                </ProtectedRouteOther>
-              }
-            />
-            <Route
-              path={`${devNavUrl}/${UrlCasher}/inventory/suppliers`}
-              element={
-                <ProtectedRouteOther>
-                  <CasherSuppliers />
-                </ProtectedRouteOther>
-              }
-            />
-            <Route
-              path={`${devNavUrl}/${UrlCasher}/inventory/suppliers/products`}
-              element={
-                <ProtectedRouteOther>
-                  <CasherSupplierProduct />
-                </ProtectedRouteOther>
-              }
-            />
-            <Route
-              path={`${devNavUrl}/${UrlCasher}/inventory/reports`}
-              element={
-                <ProtectedRouteOther>
-                  <CasherReports />
                 </ProtectedRouteOther>
               }
             />

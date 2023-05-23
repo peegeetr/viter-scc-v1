@@ -1,8 +1,7 @@
 import React from "react";
 import { StoreContext } from "../../../../store/StoreContext";
 import PageNotFound from "../../../partials/PageNotFound";
-import Dashboard from "../Dashboard";
-
+import MembersDashboard from "../member/MembersDashboard";
 const ManagerDashboard = () => {
   const { store } = React.useContext(StoreContext);
   const sccToken = JSON.parse(localStorage.getItem("sccToken"));
@@ -15,7 +14,7 @@ const ManagerDashboard = () => {
   }
   return (
     <>
-      <Dashboard />
+      <MembersDashboard />
     </>
   );
 };

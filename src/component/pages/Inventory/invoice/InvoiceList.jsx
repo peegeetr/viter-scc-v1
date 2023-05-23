@@ -65,7 +65,7 @@ const InvoiceList = () => {
     setItemEdit(item);
   };
 
-  const handleSentInvoice = (item) => {
+  const handleSendInvoice = (item) => {
     dispatch(setIsConfirm(true));
     setId(item.orders_aid);
     setData(item);
@@ -125,8 +125,8 @@ const InvoiceList = () => {
                         <button
                           type="button"
                           className="btn-action-table tooltip-action-table"
-                          data-tooltip="Sent Invoice"
-                          onClick={() => handleSentInvoice(item)}
+                          data-tooltip="Send Invoice"
+                          onClick={() => handleSendInvoice(item)}
                         >
                           <FaEnvelope />
                         </button>
@@ -165,7 +165,7 @@ const InvoiceList = () => {
           id={id}
           isDel={isDel}
           mysqlApiReset={`/v1/user-others/reset`}
-          msg={"Are you sure you want to sent invoice"}
+          msg={"Are you sure you want to send invoice"}
           item={`${dataItem.members_email}`}
           arrKey="otherUsers"
         />

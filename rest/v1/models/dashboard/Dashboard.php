@@ -215,4 +215,70 @@ class Announcement
         }
         return $query;
     }
+
+
+
+    // read all pending
+    public function readAllActive()
+    {
+        try {
+            $sql = "select * from ";
+            $sql .= "{$this->tblAnnouncement} ";
+            $sql .= "where announcement_is_active = '1' ";
+            $sql .= "order by announcement_is_active desc, ";
+            $sql .= "announcement_name asc, ";
+            $sql .= "announcement_date desc ";
+            $query = $this->connection->query($sql);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    public function readAllActiveLimit()
+    {
+        try {
+            $sql = "select * from ";
+            $sql .= "{$this->tblAnnouncement} ";
+            $sql .= "where announcement_is_active = '1' ";
+            $sql .= "order by announcement_is_active desc, ";
+            $sql .= "announcement_name asc, ";
+            $sql .= "announcement_date desc ";
+            $sql .= "limit :start, ";
+            $sql .= ":total ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "start" => $this->announcement_start - 1,
+                "total" => $this->announcement_total,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    // search not approved members
+    public function searchAllActive()
+    {
+        try {
+            $sql = "select * from ";
+            $sql .= "{$this->tblAnnouncement} ";
+            $sql .= "where announcement_is_active = '1' ";
+            $sql .= "and (announcement_name like :announcement_name ";
+            $sql .= "or announcement_date like :announcement_date ";
+            $sql .= "or MONTHNAME(announcement_date) like :announcement_month_date) ";
+            $sql .= "order by announcement_is_active desc, ";
+            $sql .= "announcement_name asc, ";
+            $sql .= "announcement_date desc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "announcement_name" => "{$this->announcement_search}%",
+                "announcement_month_date" => "{$this->announcement_search}%",
+                "announcement_date" => "{$this->announcement_search}%",
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
 }
