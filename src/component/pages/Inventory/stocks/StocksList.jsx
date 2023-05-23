@@ -66,11 +66,6 @@ const StocksList = ({ setItemEdit }) => {
     }
   }, [inView]);
 
-  const handleEdit = (item) => {
-    dispatch(setIsAdd(true));
-    setItemEdit(item);
-  };
-
   const handlePending = (item) => {
     dispatch(setIsConfirm(true));
     setId(item.stocks_aid);

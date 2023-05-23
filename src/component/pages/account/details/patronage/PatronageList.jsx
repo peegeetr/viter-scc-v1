@@ -100,7 +100,8 @@ const PatronageList = () => {
               <th className="min-w-[10rem]">Product Name</th>
               <th className="min-w-[8rem]">Official Receipt</th>
               <th className="min-w-[5rem] text-right pr-4">Quantity</th>
-              <th className="min-w-[5rem] text-right pr-4">Amount</th>
+              <th className="min-w-[5rem] text-right pr-4">SRP Amount</th>
+              <th className="min-w-[5rem] text-right pr-4">Total Amount</th>
               <th>Status</th>
             </tr>
           </thead>
@@ -136,12 +137,19 @@ const PatronageList = () => {
                     <td>{item.suppliers_products_name}</td>
                     <td>{item.sales_or === "" ? "N/A" : item.sales_or}</td>
                     <td className=" text-right pr-4">
+                      {item.orders_product_quantity}
+                    </td>
+                    <td className=" text-right pr-4">
+                      &#8369;{" "}
                       {numberWithCommas(
                         Number(item.orders_product_amount).toFixed(2)
                       )}
                     </td>
                     <td className=" text-right pr-4">
-                      {item.sales_receive_amount}
+                      &#8369;{" "}
+                      {numberWithCommas(
+                        Number(item.sales_receive_amount).toFixed(2)
+                      )}
                     </td>
                     <td>
                       {item.sales_is_paid === 1 ? (

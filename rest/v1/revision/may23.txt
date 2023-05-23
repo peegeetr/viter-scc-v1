@@ -10,6 +10,7 @@
 
 *models 
     - account/Members.php 
+    - inventory/orders/Orders.php    
     - inventory/sales/Sales.php    
     - inventory/stocks/Stocks.php    
     - inventory/supplier/product/SuppliersProducts.php  
