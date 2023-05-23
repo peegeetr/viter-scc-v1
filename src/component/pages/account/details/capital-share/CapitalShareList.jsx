@@ -116,12 +116,12 @@ const CapitalShareList = ({ setItemEdit }) => {
           <thead>
             <tr>
               <th>#</th>
-              <th className="w-[15rem]">Date</th>
-              <th className="w-[15rem]">OR</th>
-              <th className="w-[15rem]">Paid up Capital</th>
+              <th className="min-w-[15rem]">Date</th>
+              <th className="min-w-[15rem]">OR</th>
+              <th className="min-w-[15rem]">Paid up Capital</th>
               {(store.credentials.data.role_is_developer === 1 ||
                 store.credentials.data.role_is_admin === 1) && (
-                <th className="max-w-[5rem]">Actions</th>
+                <th className="!w-[5rem]">Actions</th>
               )}
             </tr>
           </thead>

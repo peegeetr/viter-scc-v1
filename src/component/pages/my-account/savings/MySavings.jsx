@@ -23,7 +23,12 @@ const MySavings = () => {
         <hr />
 
         <div className="w-full pb-20 mt-3 ">
-          <SavingsList />
+          {" "}
+          <p className="text-primary">
+            We'll be right back! We are just doing some improvement in this
+            page. Thank you for understaning.
+          </p>
+          {/* <SavingsList /> */}
         </div>
         <Footer />
       </div>

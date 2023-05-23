@@ -129,7 +129,7 @@ export const formatDate = (dateVal) => {
 
   // return `${days[day]} ${months[month]} ${date} ${year}`;
   // return `${days[day]}, ${months[month]} ${date}`;
-  return `${months[month]} ${date} ${year}`;
+  return `${months[month]} ${date}, ${year}`;
   // return `${months[month]}. ${date}, ${year}`;
   // return `${date} `;
 };

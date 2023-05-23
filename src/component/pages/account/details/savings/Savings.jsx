@@ -26,17 +26,21 @@ const Savings = () => {
       <div className="wrapper">
         <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2">
           <BreadCrumbs param={`${location.search}`} />{" "}
-          <div className="flex items-center gap-1">
+          {/* <div className="flex items-center gap-1">
             <button type="button" className="btn-primary" onClick={handleAdd}>
               <FaPlusCircle />
               <span>Add</span>
             </button>
-          </div>
+          </div> */}
         </div>
         <hr />
 
         <div className="w-full pb-20 mt-3 ">
-          <SavingsList setItemEdit={setItemEdit} />
+          <p className="text-primary">
+            We'll be right back! We are just doing some improvement in this
+            page. Thank you for understaning.
+          </p>
+          {/* <SavingsList setItemEdit={setItemEdit} /> */}
         </div>
         <Footer />
       </div>
