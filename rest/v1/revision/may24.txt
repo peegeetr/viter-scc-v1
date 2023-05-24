@@ -1,0 +1,19 @@
+
+*controllers    
+    - files/files.php => all files  
+
+*models 
+    - files/Files.php   
+
+*htaccess 
+    - #files
+
+*db tables 
+    - sccv1_files.sql
+
+*core functions 
+    - 
+
+*extra
+    -
+    

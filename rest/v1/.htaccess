@@ -74,11 +74,11 @@ RewriteRule ^capital-share/search/([A-Za-z0-9-]+)/([0-9]+)$ controllers/account/
 RewriteRule ^patronage/page/by-employee-id/([0-9]+)/([0-9]+)$ controllers/account/details/patronage/page-by-employee-id.php?start=$1&membersid=$2 [L]
 RewriteRule ^patronage/search/by-employee-id/([A-Za-z0-9-]+)/([0-9]+)$ controllers/account/details/patronage/search-by-employee-id.php?search=$1&membersid=$2 [L]
  
-#file upload
-RewriteRule ^file$ controllers/files-upload/fileUpload.php [L]
-RewriteRule ^file/([0-9]+)$ controllers/files-upload/fileUpload.php?fileid=$1 [L] 
-RewriteRule ^file/page/([0-9]+)$ controllers/files-upload/page.php?start=$1 [L]
-RewriteRule ^file/search/([A-Za-z0-9-]+)$ controllers/files-upload/search.php?search=$1 [L]
+#files
+RewriteRule ^file$ controllers/files/files.php [L]
+RewriteRule ^file/([0-9]+)$ controllers/files/files.php?fileid=$1 [L] 
+RewriteRule ^file/page/([0-9]+)$ controllers/files/page.php?start=$1 [L]
+RewriteRule ^file/search/([A-Za-z0-9-]+)$ controllers/files/search.php?search=$1 [L]
 
 #products 
 RewriteRule ^product/page/([0-9]+)$ controllers/inventory/products/page.php?start=$1 [L]

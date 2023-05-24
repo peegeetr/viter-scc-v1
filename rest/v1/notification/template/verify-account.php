@@ -41,17 +41,16 @@ function getHtmlVerifyAccount(
       <div style="width: 100%; max-width: 600px; margin: 10px auto">
       <div style="padding: 10px 10px 0px ">
           <div
-            style="
-              background-image: url(https://demo.frontlinebusiness.com.ph/dev/notification-images/bg-white.jpg);
+            style=" 
               width: 170px;
               display: inline-block;
             "
           >
-            <img
-              src="https://hris.frontlinebusiness.com.ph/img/logo-fbs.png"
-              alt=""
-              width="170px"
-            />
+          <img
+          src="https://scc.frontlinebusiness.com.ph/img/scc-logo.png"
+          alt=""
+          width="170px"
+        />
           </div>
         </div>
         <div style="padding: 0 10px 0px">

@@ -21,7 +21,7 @@ const ModalAddFileUpload = ({ item }) => {
   const mutation = useMutation({
     mutationFn: (values) =>
       queryData(
-        item ? `/v1/file/${item.file_upload_aid}` : `/v1/file`,
+        item ? `/v1/file/${item.files_aid}` : `/v1/file`,
         item ? "put" : "post",
         values
       ),
@@ -45,15 +45,15 @@ const ModalAddFileUpload = ({ item }) => {
   };
 
   const initVal = {
-    file_upload_name: item ? item.file_upload_name : "",
-    file_upload_link: item ? item.file_upload_link : "",
-    file_upload_date: item ? item.file_upload_date : "",
+    files_name: item ? item.files_name : "",
+    files_link: item ? item.files_link : "",
+    files_date: item ? item.files_date : "",
   };
 
   const yupSchema = Yup.object({
-    file_upload_name: Yup.string().required("Required"),
-    file_upload_link: Yup.string().required("Required"),
-    file_upload_date: Yup.string().required("Required"),
+    files_name: Yup.string().required("Required"),
+    files_link: Yup.string().required("Required"),
+    files_date: Yup.string().required("Required"),
   });
 
   return (
@@ -88,7 +88,7 @@ const ModalAddFileUpload = ({ item }) => {
                       <InputText
                         label="Name"
                         type="text"
-                        name="file_upload_name"
+                        name="files_name"
                         disabled={mutation.isLoading}
                       />
                     </div>
@@ -98,7 +98,7 @@ const ModalAddFileUpload = ({ item }) => {
                         type="text"
                         onFocus={(e) => (e.target.type = "date")}
                         onBlur={(e) => (e.target.type = "text")}
-                        name="file_upload_date"
+                        name="files_date"
                         disabled={mutation.isLoading}
                       />
                     </div>
@@ -106,7 +106,7 @@ const ModalAddFileUpload = ({ item }) => {
                       <InputTextArea
                         label="G-Drive Link"
                         type="text"
-                        name="file_upload_link"
+                        name="files_link"
                         disabled={mutation.isLoading}
                       />
                     </div>

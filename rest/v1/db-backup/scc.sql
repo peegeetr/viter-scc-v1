@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 23, 2023 at 09:43 AM
+-- Generation Time: May 24, 2023 at 01:56 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -42,7 +42,7 @@ CREATE TABLE `sccv1_announcement` (
 --
 
 INSERT INTO `sccv1_announcement` (`announcement_aid`, `announcement_name`, `announcement_description`, `announcement_is_active`, `announcement_date`, `announcement_created`, `announcement_datetime`) VALUES
-(1, 'Testing Announcement', 'Testing Announcement', 0, '2023-04-19', '2023-04-19 16:28:04', '2023-05-23 13:12:19');
+(1, 'Testing Announcement', 'Testing Announcement', 1, '2023-04-19', '2023-04-19 16:28:04', '2023-05-23 13:12:19');
 
 -- --------------------------------------------------------
 
@@ -73,16 +73,16 @@ INSERT INTO `sccv1_capital_share` (`capital_share_aid`, `capital_share_member_id
 -- --------------------------------------------------------
 
 --
--- Table structure for table `sccv1_file_upload`
+-- Table structure for table `sccv1_files`
 --
 
-CREATE TABLE `sccv1_file_upload` (
-  `file_upload_aid` int(11) NOT NULL,
-  `file_upload_name` varchar(100) NOT NULL,
-  `file_upload_date` varchar(20) NOT NULL,
-  `file_upload_link` varchar(200) NOT NULL,
-  `file_upload_created` datetime NOT NULL,
-  `file_upload_datetime` datetime NOT NULL
+CREATE TABLE `sccv1_files` (
+  `files_aid` int(11) NOT NULL,
+  `files_name` varchar(100) NOT NULL,
+  `files_date` varchar(20) NOT NULL,
+  `files_link` varchar(200) NOT NULL,
+  `files_created` datetime NOT NULL,
+  `files_datetime` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -183,7 +183,8 @@ CREATE TABLE `sccv1_orders` (
 --
 
 INSERT INTO `sccv1_orders` (`orders_aid`, `orders_number`, `orders_is_paid`, `orders_product_id`, `orders_member_id`, `orders_product_quantity`, `orders_product_amount`, `orders_date`, `orders_created`, `orders_datetime`) VALUES
-(23, 'ord-002', 1, '15', '5', '1', '210', '2023-05-23 11:03:08', '2023-05-23 11:03:54', '2023-05-23 12:47:17');
+(23, 'ord-002', 1, '15', '5', '1', '210', '2023-05-23 11:03:08', '2023-05-23 11:03:54', '2023-05-23 12:47:17'),
+(24, 'ord-003', 0, '16', '5', '1', '215', '2023-05-23 15:51:50', '2023-05-23 15:52:24', '2023-05-23 15:52:24');
 
 -- --------------------------------------------------------
 
@@ -232,7 +233,8 @@ CREATE TABLE `sccv1_sales` (
 --
 
 INSERT INTO `sccv1_sales` (`sales_aid`, `sales_number`, `sales_is_paid`, `sales_member_id`, `sales_order_id`, `sales_receive_amount`, `sales_member_change`, `sales_or`, `sales_date`, `sales_created`, `sales_datetime`) VALUES
-(21, 'sls-002', 1, '5', '23', '210', '0', '321654dfsrw', '2023-05-23 12:47:17', '2023-05-23 11:03:54', '2023-05-23 12:47:17');
+(21, 'sls-002', 1, '5', '23', '210', '0', '321654dfsrw', '2023-05-23 12:47:17', '2023-05-23 11:03:54', '2023-05-23 12:47:17'),
+(22, 'sls-003', 0, '5', '24', '', '', '', '', '2023-05-23 15:52:24', '2023-05-23 15:52:24');
 
 -- --------------------------------------------------------
 
@@ -448,10 +450,10 @@ ALTER TABLE `sccv1_capital_share`
   ADD PRIMARY KEY (`capital_share_aid`);
 
 --
--- Indexes for table `sccv1_file_upload`
+-- Indexes for table `sccv1_files`
 --
-ALTER TABLE `sccv1_file_upload`
-  ADD PRIMARY KEY (`file_upload_aid`);
+ALTER TABLE `sccv1_files`
+  ADD PRIMARY KEY (`files_aid`);
 
 --
 -- Indexes for table `sccv1_legal_beneficiaries`
@@ -548,10 +550,10 @@ ALTER TABLE `sccv1_capital_share`
   MODIFY `capital_share_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `sccv1_file_upload`
+-- AUTO_INCREMENT for table `sccv1_files`
 --
-ALTER TABLE `sccv1_file_upload`
-  MODIFY `file_upload_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+ALTER TABLE `sccv1_files`
+  MODIFY `files_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `sccv1_legal_beneficiaries`
@@ -569,7 +571,7 @@ ALTER TABLE `sccv1_members`
 -- AUTO_INCREMENT for table `sccv1_orders`
 --
 ALTER TABLE `sccv1_orders`
-  MODIFY `orders_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `orders_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `sccv1_product_category`
@@ -581,7 +583,7 @@ ALTER TABLE `sccv1_product_category`
 -- AUTO_INCREMENT for table `sccv1_sales`
 --
 ALTER TABLE `sccv1_sales`
-  MODIFY `sales_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `sales_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `sccv1_savings`

@@ -3,14 +3,14 @@
 // set http header
 require '../../core/header.php';
 // use needed functions
-require '../../core/functions.php'; 
+require '../../core/functions.php';
 // use needed classes
-require '../../models/files-upload/FileUpload.php';
+require '../../models/files/Files.php';
 // check database connection
 $conn = null;
 $conn = checkDbConnection();
 // make instance of classes
-$file = new FileUpload($conn);
+$file = new Files($conn);
 $response = new Response();
 // validate api key
 if (isset($_SERVER['HTTP_AUTHORIZATION'])) {

@@ -66,7 +66,7 @@ const FileUploadList = ({ setItemEdit }) => {
 
   const handleDelete = (item) => {
     dispatch(setIsRestore(true));
-    setId(item.file_upload_aid);
+    setId(item.files_aid);
     setData(item);
     setDel(true);
   };
@@ -120,14 +120,14 @@ const FileUploadList = ({ setItemEdit }) => {
                 {page.data.map((item, key) => (
                   <tr key={key}>
                     <td> {counter++}.</td>
-                    <td>{item.file_upload_name}</td>
-                    <td>{formatDate(item.file_upload_date)}</td>
+                    <td>{item.files_name}</td>
+                    <td>{formatDate(item.files_date)}</td>
                     <td className=" break-all">
                       <a
-                        href={item.file_upload_link}
+                        href={item.files_link}
                         className="underline text-primary"
                       >
-                        {item.file_upload_link}
+                        {item.files_link}
                       </a>
                     </td>
 
@@ -178,7 +178,7 @@ const FileUploadList = ({ setItemEdit }) => {
           isDel={isDel}
           mysqlApiDelete={`/v1/file/${id}`}
           msg={"Are you sure you want to delete this file"}
-          item={`${dataItem.file_upload_name}`}
+          item={`${dataItem.files_name}`}
           arrKey="file"
         />
       )}
