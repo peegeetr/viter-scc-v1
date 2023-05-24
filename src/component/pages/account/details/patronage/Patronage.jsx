@@ -17,7 +17,7 @@ const Patronage = () => {
       <Navigation menu="account" />
       <div className="wrapper">
         <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2">
-          <BreadCrumbs param={`${location.search}`} />{" "}
+          <BreadCrumbs param={`${location.search}`} />
         </div>
         <hr />
 

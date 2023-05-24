@@ -23,7 +23,7 @@ const MembersDashboard = () => {
       <Navigation menu="dashboard" />
       <div className="wrapper">
         <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2 ">
-          <h4 className="text-xl mb-3">Hello {name}</h4>
+          <h4 className="text-xl mb-3">Hello {name} !</h4>
         </div>
 
         <hr />
