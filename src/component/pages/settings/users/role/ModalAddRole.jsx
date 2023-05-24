@@ -86,14 +86,21 @@ const ModalAddRole = ({ item }) => {
               {(props) => {
                 return (
                   <Form>
-                    <div className="relative my-5">
-                      <InputText
-                        label="Name"
-                        type="text"
-                        name="role_name"
-                        disabled={mutation.isLoading}
-                      />
-                    </div>
+                    {item ? (
+                      <p className="pl-3 mb-5 capitalize">
+                        <span className="text-primary">Role Name: </span>
+                        {item.role_name}
+                      </p>
+                    ) : (
+                      <div className="relative my-5">
+                        <InputText
+                          label="Name"
+                          type="text"
+                          name="role_name"
+                          disabled={mutation.isLoading}
+                        />
+                      </div>
+                    )}
                     <div className="relative mb-5">
                       <InputTextArea
                         label="Description"

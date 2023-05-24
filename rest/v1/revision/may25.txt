@@ -2,9 +2,14 @@
 *controllers    
     - settings/user/other/create.php 
     - settings/user/other/sign-up.php 
+    - settings/user/other/sign-up.php 
+    - account/status.php 
+    - account/update.php 
+    - account/functions.php 
 
 *models  
     - settings/user/other/UserOther.php   
+    - account/Members.php    
 
 *htaccess 
     - 

@@ -113,3 +113,11 @@ function isAssociatedToCapital($object)
     $count = $query->rowCount();
     checkExistence($count, "You cannot delete this item because it is already associated with other module.");
 }
+
+// check association
+function isArchiveAssociated($object)
+{
+    $query = $object->checkAssociation();
+    $count = $query->rowCount();
+    checkExistence($count, "You cannot archive this item because it is already associated with other module.");
+}

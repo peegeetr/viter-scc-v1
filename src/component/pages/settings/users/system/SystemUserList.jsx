@@ -107,7 +107,7 @@ const SystemUserList = ({ setItemEdit }) => {
                   <td>{counter}.</td>
                   <td>{item.user_system_name}</td>
                   <td>{item.user_system_email}</td>
-                  <td>{item.role_name}</td>
+                  <td className="capitalize">{item.role_name}</td>
                   <td>
                     {item.user_system_is_active === 1 ? (
                       <StatusActive />

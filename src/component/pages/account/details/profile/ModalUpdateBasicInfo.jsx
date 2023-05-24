@@ -58,6 +58,7 @@ const ModalUpdateBasicInfo = ({ item }) => {
 
   const initVal = {
     members_pre_membership_date: item.members_pre_membership_date,
+    members_id: item.members_id,
     members_gender: item.members_gender,
     members_birth_date: item.members_birth_date,
     members_first_name: item.members_first_name,
@@ -100,7 +101,7 @@ const ModalUpdateBasicInfo = ({ item }) => {
               initialValues={initVal}
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
-                // console.log(values);
+                console.log(values);
                 uploadPhoto();
                 mutation.mutate({
                   ...values,

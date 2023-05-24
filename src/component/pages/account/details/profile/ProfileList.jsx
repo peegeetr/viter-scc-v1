@@ -135,11 +135,17 @@ const ProfileList = ({ members, isLoading, error }) => {
                   <p className="">{item.members_last_name}</p>
                   <p className="font-semibold">Gender :</p>
                   <p className=" capitalize">{item.members_gender}</p>
-                  <p className="font-semibold mb-0">Birth Date :</p>
+                  <p className="font-semibold ">Birth Date :</p>
                   <p className=" mb-0">
                     {item.members_birth_date === ""
                       ? ""
                       : `${formatDate(item.members_birth_date)}`}
+                  </p>
+                  <p className="font-semibold mb-0">Joined :</p>
+                  <p className=" mb-0">
+                    {item.members_birth_date === ""
+                      ? ""
+                      : `${formatDate(item.members_pre_membership_date)}`}
                   </p>
                 </div>
                 <div className="hidden sm:block m-auto justify-center">

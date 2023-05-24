@@ -92,17 +92,17 @@ const suppliersList = ({ setItemEdit }) => {
           <thead>
             <tr>
               <th>#</th>
-              <th className="min-w-[15rem]">Company Name</th>
-              <th className="min-w-[15rem]">Company Address</th>
-              <th className="min-w-[15rem]">Contact Person</th>
-              <th className="min-w-[15rem]">Contact Number</th>
-              <th className="min-w-[15rem]">Status</th>
+              <th className="min-w-[10rem]">Company Name</th>
+              <th className="min-w-[10rem]">Company Address</th>
+              <th className="min-w-[10rem]">Contact Person</th>
+              <th className="min-w-[10rem]">Contact Number</th>
+              <th className="min-w-[5rem]">Status</th>
 
               {store.credentials.data.role_is_admin === 1 ||
               store.credentials.data.role_is_developer === 1 ? (
                 <th>Actions</th>
               ) : (
-                <th className="max-w-[5rem]"></th>
+                <th className="!w-[5rem]"></th>
               )}
             </tr>
           </thead>

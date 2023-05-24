@@ -147,7 +147,7 @@ const OtherUserList = ({ setItemEdit }) => {
                     <td>{counter++}.</td>
                     <td>{`${item.members_last_name}, ${item.members_first_name}`}</td>
                     <td>{item.members_email}</td>
-                    <td>{item.role_name}</td>
+                    <td className="capitalize">{item.role_name}</td>
                     <td>
                       {item.user_other_is_active === 1 ? (
                         <StatusActive />

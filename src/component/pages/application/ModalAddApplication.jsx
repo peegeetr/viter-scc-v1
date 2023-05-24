@@ -19,7 +19,7 @@ const ModalAddApplication = () => {
     mutationFn: (values) => queryData("/v1/members", "post", values),
     onSuccess: (data) => {
       // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ["members"] });
+      queryClient.invalidateQueries({ queryKey: ["members-application"] });
 
       // show success box
       if (data.success) {
@@ -42,7 +42,7 @@ const ModalAddApplication = () => {
     members_pre_membership_date: "",
     members_first_name: "",
     members_last_name: "",
-    members_middle_name: "",
+    members_middle_name: " ",
     members_gender: "",
     members_email: "",
     members_birth_date: "",
@@ -52,7 +52,6 @@ const ModalAddApplication = () => {
     members_pre_membership_date: Yup.string().required("Required"),
     members_first_name: Yup.string().required("Required"),
     members_last_name: Yup.string().required("Required"),
-    members_middle_name: Yup.string().required("Required"),
     members_gender: Yup.string().required("Required"),
     members_email: Yup.string().required("Required"),
     members_birth_date: Yup.string().required("Required"),

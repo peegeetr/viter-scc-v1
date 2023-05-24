@@ -100,7 +100,6 @@ if (array_key_exists("membersid", $_GET)) {
     checkPayload($data);
     // get data 
     $members->members_aid = $_GET['membersid'];
-
     $members->members_id = checkIndex($data, "members_id");
     $members->members_pre_membership_date = checkIndex($data, "members_pre_membership_date");
     $members->members_first_name = checkIndex($data, "members_first_name");
@@ -115,13 +114,21 @@ if (array_key_exists("membersid", $_GET)) {
     $members_fname_old = strtolower($data["members_first_name_old"]);
     $members_mname_old = strtolower($data["members_middle_name_old"]);
 
-
     //check to see if task id in query string is not empty and is number, if not return json error
     checkId($members->members_aid);
     // check name
     compareName($members, $members_lname_old, $members->members_last_name);
     compareName($members, $members_fname_old, $members->members_first_name);
     compareName($members, $members_mname_old, $members->members_middle_name);
+
+    // create member id format ex. (yy-mm-001)
+    $rawNewMemberId  = explode("-", $data["members_pre_membership_date"]);
+    $formattedMemberId = "";
+    // member_id from existing record ex. (22-01-001)
+    $existingMeberId = explode("-", $members->members_id);
+    $formattedMemberId = substr($rawNewMemberId[0], 2) . "-" . $rawNewMemberId[1] . "-" . $existingMeberId[2];
+
+    $members->members_id = $formattedMemberId;
     // update
     $query = checkUpdate($members);
     returnSuccess($members, "members", $query);

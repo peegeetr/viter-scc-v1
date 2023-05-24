@@ -106,7 +106,7 @@ const ModalAddOtherUser = ({ item, role, members }) => {
                         disabled={mutation.isLoading}
                       />
                     </div>
-                    <div className="relative my-5">
+                    <div className="relative my-5 ">
                       <InputSelect
                         name="user_other_role_id"
                         label="Role"
@@ -119,7 +119,11 @@ const ModalAddOtherUser = ({ item, role, members }) => {
                         {role.map((rItem, key) => {
                           return (
                             rItem.role_is_developer === 0 && (
-                              <option key={key} value={rItem.role_aid}>
+                              <option
+                                key={key}
+                                value={rItem.role_aid}
+                                className="capitalize"
+                              >
                                 {rItem.role_name}
                               </option>
                             )

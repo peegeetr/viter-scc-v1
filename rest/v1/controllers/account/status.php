@@ -44,6 +44,9 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
             returnSuccess($members, "members", $query);
         }
         if ($is_approved == "active") {
+            // check if assosiated
+            isArchiveAssociated($members);
+            // check if assosiated
             $query = checkActive($members);
             checkActiveUserOther($members);
             http_response_code(200);

@@ -611,6 +611,7 @@ class Members
         return $query;
     }
 
+
     // read all in account
     public function checkAssociationToPatronage()
     {
