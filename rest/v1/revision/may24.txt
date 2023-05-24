@@ -4,6 +4,8 @@
     -> settings/user/other/functions.php   
     -> settings/user/other/reset.php   
     -> settings/user/other/sign-up.php   
+    -> settings/user/other/create.php   
+    -> settings/user/other/update.php   
 
 *models 
     - files/Files.php   

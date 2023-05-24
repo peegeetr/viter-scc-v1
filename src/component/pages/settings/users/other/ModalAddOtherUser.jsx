@@ -100,10 +100,11 @@ const ModalAddOtherUser = ({ item, otherUsers, role, members }) => {
                           e.target.parentElement.classList.add("focused")
                         }
                       >
-                        <option value="">--</option>
+                        {!item && <option value="">--</option>}
                         {members.map((mItem, key) => {
                           return item
-                            ? item.members_aid === mItem.members_aid && (
+                            ? Number(item.user_other_member_id) ===
+                                mItem.members_aid && (
                                 <option key={key} value={mItem.members_aid}>
                                   {`${mItem.members_last_name},
                           ${mItem.members_first_name}`}

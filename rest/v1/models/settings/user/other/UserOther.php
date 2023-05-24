@@ -111,13 +111,11 @@ class UserOther
     {
         try {
             $sql = "update {$this->tblUserOther} set ";
-            $sql .= "user_other_member_id = :user_other_member_id, ";
             $sql .= "user_other_role_id = :user_other_role_id, ";
             $sql .= "user_other_datetime = :user_other_datetime ";
-            $sql .= "where user_other_aid  = :user_other_aid ";
+            $sql .= "where user_other_aid = :user_other_aid ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "user_other_member_id" => $this->user_other_member_id,
                 "user_other_role_id" => $this->user_other_role_id,
                 "user_other_datetime" => $this->user_other_datetime,
                 "user_other_aid" => $this->user_other_aid,

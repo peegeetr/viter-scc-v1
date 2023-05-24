@@ -6,7 +6,7 @@ function isMemberAccountExist($object, $email)
 {
     $query = $object->readMemberAccountExist();
     $count = $query->rowCount();
-    checkExistence($count, "{$email} already have an account.");
+    checkExistence($count, "{$email} Already have an account.");
 }
 
 // Login

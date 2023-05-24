@@ -8,6 +8,10 @@ $conn = checkDbConnection();
 // make instance of classes
 $user_other = new UserOther($conn);
 $encrypt = new Encryption();
+$response = new Response();
+
+$error = [];
+$returnData = [];
 // get should not be present
 if (array_key_exists("userotherid", $_GET)) {
     checkEndpoint();
@@ -26,11 +30,21 @@ $password_link = "/create-password";
 // check email  
 
 $emailAndName = $user_other->readEmailAndName();
-
-$row = $emailAndName->fetch(PDO::FETCH_ASSOC);
-extract($row);
-$name = "$members_last_name, $members_first_name";
-$user_other->members_email = $members_email;
+if ($emailAndName->rowCount() > 0) {
+    $row = $emailAndName->fetch(PDO::FETCH_ASSOC);
+    extract($row);
+    $name = "$members_last_name, $members_first_name";
+    $user_other->members_email = $members_email;
+    isMemberAccountExist($user_other, $user_other->members_email);
+} else {
+    $response->setSuccess(false);
+    $error['code'] = "400";
+    $error['error'] = "No Data Found.";
+    $error["success"] = false;
+    $response->setData($error);
+    $response->send();
+    exit;
+}
 // send email notification
 sendEmail(
     $password_link,
