@@ -48,24 +48,6 @@ const Navigation = ({ menu }) => {
               <>
                 <li
                   className={
-                    menu === "account"
-                      ? "active"
-                      : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
-                  }
-                >
-                  <Link
-                    to={`${getUserType(store)}/account`}
-                    className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
-                    onClick={handleShow}
-                    data-tooltip="Account"
-                  >
-                    <FaUsers className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
-                    <span className="md:hidden lg:block">Members</span>
-                  </Link>
-                </li>
-
-                <li
-                  className={
                     menu === "application"
                       ? "active"
                       : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
@@ -79,6 +61,23 @@ const Navigation = ({ menu }) => {
                   >
                     <FaBusinessTime className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
                     <span className="md:hidden lg:block">Application</span>
+                  </Link>
+                </li>
+                <li
+                  className={
+                    menu === "account"
+                      ? "active"
+                      : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
+                  }
+                >
+                  <Link
+                    to={`${getUserType(store)}/account`}
+                    className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
+                    onClick={handleShow}
+                    data-tooltip="Account"
+                  >
+                    <FaUsers className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
+                    <span className="md:hidden lg:block">Members</span>
                   </Link>
                 </li>
               </>
