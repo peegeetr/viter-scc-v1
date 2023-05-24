@@ -98,10 +98,18 @@ function checkActiveUserOther($object)
     return $query;
 }
 
-// Delete 
-function checkDeleteUserOther($object)
+// check association
+function isAssociatedToPatronage($object)
 {
-    $query = $object->deleteUserOther();
-    checkQuery($query, "There's a problem processing your request. (delete user other)");
-    return $query;
+    $query = $object->checkAssociationToPatronage();
+    $count = $query->rowCount();
+    checkExistence($count, "You cannot delete this item because it is already associated with other module.");
+}
+
+// check association
+function isAssociatedToCapital($object)
+{
+    $query = $object->checkAssociationToCapital();
+    $count = $query->rowCount();
+    checkExistence($count, "You cannot delete this item because it is already associated with other module.");
 }

@@ -44,12 +44,18 @@ class Members
     public $currentYear;
     public $tblMembers;
     public $tblUserOther;
+    public $tblOrders;
+    public $tblSales;
+    public $tblCapitalShare;
 
     public function __construct($db)
     {
         $this->connection = $db;
         $this->tblMembers = "sccv1_members";
+        $this->tblOrders = "sccv1_orders";
+        $this->tblSales = "sccv1_sales";
         $this->tblUserOther = "sccv1_settings_user_other";
+        $this->tblCapitalShare = "sccv1_capital_share";
     }
 
     // create
@@ -587,15 +593,60 @@ class Members
         return $query;
     }
 
-    // delete
-    public function deleteUserOther()
+    // read all in account
+    public function checkAssociation()
     {
         try {
-            $sql = "delete from {$this->tblUserOther} ";
+            $sql = "select user_other_member_id from ";
+            $sql .= "{$this->tblUserOther} ";
             $sql .= "where user_other_member_id = :user_other_member_id ";
+            $sql .= "order by user_other_member_id desc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "user_other_member_id" => $this->members_aid,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    // read all in account
+    public function checkAssociationToPatronage()
+    {
+        try {
+            $sql = "select orders.orders_member_id, ";
+            $sql .= "member.members_aid, ";
+            $sql .= "sales.sales_member_id ";
+            $sql .= "from {$this->tblOrders} as orders, ";
+            $sql .= "{$this->tblSales} as sales, ";
+            $sql .= "{$this->tblMembers} as member ";
+            $sql .= "where orders.orders_member_id = :orders_member_id ";
+            $sql .= "and orders.orders_aid = sales.sales_order_id ";
+            $sql .= "and orders.orders_member_id = member.members_aid ";
+            $sql .= "order by sales.sales_is_paid, ";
+            $sql .= "sales.sales_date desc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "orders_member_id" => $this->members_aid,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    // read all in account
+    public function checkAssociationToCapital()
+    {
+        try {
+            $sql = "select capital_share_member_id from ";
+            $sql .= "{$this->tblCapitalShare} ";
+            $sql .= "where capital_share_member_id = :capital_share_member_id ";
+            $sql .= "order by capital_share_member_id desc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "capital_share_member_id" => $this->members_aid,
             ]);
         } catch (PDOException $ex) {
             $query = false;

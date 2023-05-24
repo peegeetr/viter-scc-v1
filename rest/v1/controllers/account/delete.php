@@ -17,9 +17,11 @@ if (array_key_exists("membersid", $_GET)) {
     //check to see if task id in query string is not empty and is number, if not return json error
     checkId($members->members_aid);
 
+    isAssociated($members);
+    isAssociatedToPatronage($members);
+    isAssociatedToCapital($members);
     // delete
     $query = checkDelete($members);
-    checkDeleteUserOther($members);
 
     returnSuccess($members, "members", $query);
 }

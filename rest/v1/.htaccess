@@ -33,6 +33,8 @@ RewriteRule ^user-others/password$ controllers/settings/user/other/set-password.
 RewriteRule ^user-others/login$ controllers/settings/user/other/login.php [L]
 RewriteRule ^user-others/token$ controllers/settings/user/other/token.php [L]
 RewriteRule ^user-others/sign-up$ controllers/settings/user/other/sign-up.php [L]
+RewriteRule ^user-others/page/([0-9]+)$ controllers/settings/user/other/page.php?start=$1 [L]
+RewriteRule ^user-others/search/([A-Za-z0-9-]+)$ controllers/settings/user/other/search.php?search=$1 [L]
   
 #announcement or dashboard
 RewriteRule ^announcement$ controllers/dashboard/dashboard.php [L]

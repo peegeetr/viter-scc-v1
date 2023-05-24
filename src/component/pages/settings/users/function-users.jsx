@@ -26,7 +26,7 @@ export const getRoleIdDev = (role) => {
 export const getDonthaveAccount = (item, account) => {
   let id = 0;
 
-  account?.map((aItem) => {
+  account?.data.map((aItem) => {
     if (item.members_aid === Number(aItem.user_other_member_id)) {
       id = item.members_aid;
     }

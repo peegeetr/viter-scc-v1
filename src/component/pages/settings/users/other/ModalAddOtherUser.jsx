@@ -14,8 +14,9 @@ import { InputSelect, InputText } from "../../../../helpers/FormInputs";
 import { queryData } from "../../../../helpers/queryData";
 import ButtonSpinner from "../../../../partials/spinners/ButtonSpinner";
 import { getDonthaveAccount } from "../function-users";
+import useQueryData from "../../../../custom-hooks/useQueryData";
 
-const ModalAddOtherUser = ({ item, otherUsers, role, members }) => {
+const ModalAddOtherUser = ({ item, role, members }) => {
   const { store, dispatch } = React.useContext(StoreContext);
 
   const queryClient = useQueryClient();
@@ -53,6 +54,12 @@ const ModalAddOtherUser = ({ item, otherUsers, role, members }) => {
     dispatch(setIsAdd(false));
   };
 
+  // use if not loadmore button undertime
+  const { data: otherUsers } = useQueryData(
+    `/v1/user-others`, // endpoint
+    "get", // method
+    "otherUsers" // key
+  );
   const initVal = {
     user_other_member_id: item ? item.user_other_member_id : "",
     user_other_role_id: item ? item.user_other_role_id : "",

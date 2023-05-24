@@ -1,5 +1,6 @@
 import React from "react";
 import { FaEdit, FaHistory, FaTrash, FaUserSlash } from "react-icons/fa";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { MdPassword } from "react-icons/md";
 import {
   setIsAdd,
@@ -7,23 +8,63 @@ import {
   setIsRestore,
 } from "../../../../../store/StoreAction";
 import { StoreContext } from "../../../../../store/StoreContext";
-import useQueryData from "../../../../custom-hooks/useQueryData";
-import ModalConfirm from "../../../../partials/modals/ModalConfirm";
-import ModalDeleteRestore from "../../../../partials/modals/ModalDeleteRestore";
 import NoData from "../../../../partials/NoData";
 import ServerError from "../../../../partials/ServerError";
-import FetchingSpinner from "../../../../partials/spinners/FetchingSpinner";
+import ModalConfirm from "../../../../partials/modals/ModalConfirm";
+import ModalDeleteRestore from "../../../../partials/modals/ModalDeleteRestore";
 import TableSpinner from "../../../../partials/spinners/TableSpinner";
 import StatusActive from "../../../../partials/status/StatusActive";
 import StatusInactive from "../../../../partials/status/StatusInactive";
+import { queryDataInfinite } from "../../../../helpers/queryDataInfinite";
+import { useInView } from "react-intersection-observer";
+import SearchBar from "../../../../partials/SearchBar";
+import Loadmore from "../../../../partials/Loadmore";
 
-const OtherUserList = ({ setItemEdit, isLoading, error, otherUsers }) => {
+const OtherUserList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [dataItem, setData] = React.useState(null);
   const [id, setId] = React.useState(null);
   const [isDel, setDel] = React.useState(false);
   const [isUser, setisUser] = React.useState(false);
-  let counter = 0;
+  let counter = 1;
+  const [onSearch, setOnSearch] = React.useState(false);
+  const [page, setPage] = React.useState(1);
+  const search = React.useRef(null);
+  const { ref, inView } = useInView();
+  // use if with loadmore button and search bar
+  const {
+    data: result,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+    status,
+  } = useInfiniteQuery({
+    queryKey: ["otherUsers", onSearch, store.isSearch],
+    queryFn: async ({ pageParam = 1 }) =>
+      await queryDataInfinite(
+        `/v1/user-others/search/${search.current.value}`, // search endpoint
+        `/v1/user-others/page/${pageParam}`, // list endpoint
+        store.isSearch // search boolean
+      ),
+    getNextPageParam: (lastPage) => {
+      if (lastPage.page < lastPage.total) {
+        return lastPage.page + lastPage.count;
+      }
+      return;
+    },
+    refetchOnWindowFocus: false,
+    networkMode: "always",
+    cacheTime: 200,
+  });
+
+  React.useEffect(() => {
+    if (inView) {
+      setPage((prev) => prev + 1);
+      fetchNextPage();
+    }
+  }, [inView]);
 
   const handleEdit = (item) => {
     dispatch(setIsAdd(true));
@@ -62,6 +103,15 @@ const OtherUserList = ({ setItemEdit, isLoading, error, otherUsers }) => {
 
   return (
     <>
+      <SearchBar
+        search={search}
+        dispatch={dispatch}
+        store={store}
+        result={result?.pages}
+        isFetching={isFetching}
+        setOnSearch={setOnSearch}
+        onSearch={onSearch}
+      />
       <div className="relative text-center overflow-x-auto z-0">
         <table>
           <thead>
@@ -75,10 +125,10 @@ const OtherUserList = ({ setItemEdit, isLoading, error, otherUsers }) => {
             </tr>
           </thead>
           <tbody>
-            {(isLoading || otherUsers?.data.length === 0) && (
+            {(status === "loading" || result?.pages[0].data.length === 0) && (
               <tr className="text-center ">
                 <td colSpan="100%" className="p-10">
-                  {isLoading && <TableSpinner />}
+                  {status === "loading" && <TableSpinner />}
                   <NoData />
                 </td>
               </tr>
@@ -90,77 +140,87 @@ const OtherUserList = ({ setItemEdit, isLoading, error, otherUsers }) => {
                 </td>
               </tr>
             )}
-            {otherUsers?.data.map((item, key) => {
-              counter++;
-              return (
-                <tr key={key}>
-                  <td>{counter}.</td>
-                  <td>{`${item.members_last_name}, ${item.members_first_name}`}</td>
-                  <td>{item.members_email}</td>
-                  <td>{item.role_name}</td>
-                  <td>
-                    {item.user_other_is_active === 1 ? (
-                      <StatusActive />
-                    ) : (
-                      <StatusInactive />
-                    )}
-                  </td>
-                  <td>
-                    <div className="flex items-center gap-2">
+            {result?.pages.map((page, key) => (
+              <React.Fragment key={key}>
+                {page.data.map((item, key) => (
+                  <tr key={key}>
+                    <td>{counter++}.</td>
+                    <td>{`${item.members_last_name}, ${item.members_first_name}`}</td>
+                    <td>{item.members_email}</td>
+                    <td>{item.role_name}</td>
+                    <td>
                       {item.user_other_is_active === 1 ? (
-                        <>
-                          <button
-                            type="button"
-                            className="btn-action-table tooltip-action-table"
-                            data-tooltip="Edit"
-                            onClick={() => handleEdit(item)}
-                          >
-                            <FaEdit />
-                          </button>
-                          <button
-                            type="button"
-                            className="btn-action-table tooltip-action-table"
-                            data-tooltip="Reset"
-                            onClick={() => handleReset(item)}
-                          >
-                            <MdPassword />
-                          </button>
-                          <button
-                            type="button"
-                            className="btn-action-table tooltip-action-table"
-                            data-tooltip="Archive"
-                            onClick={() => handleArchive(item)}
-                          >
-                            <FaUserSlash />
-                          </button>
-                        </>
+                        <StatusActive />
                       ) : (
-                        <>
-                          <button
-                            type="button"
-                            className="btn-action-table tooltip-action-table"
-                            data-tooltip="Restore"
-                            onClick={() => handleRestore(item)}
-                          >
-                            <FaHistory />
-                          </button>
-                          <button
-                            type="button"
-                            className="btn-action-table tooltip-action-table"
-                            data-tooltip="Delete"
-                            onClick={() => handleDelete(item)}
-                          >
-                            <FaTrash />
-                          </button>
-                        </>
+                        <StatusInactive />
                       )}
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
+                    </td>
+                    <td>
+                      <div className="flex items-center gap-2">
+                        {item.user_other_is_active === 1 ? (
+                          <>
+                            <button
+                              type="button"
+                              className="btn-action-table tooltip-action-table"
+                              data-tooltip="Edit"
+                              onClick={() => handleEdit(item)}
+                            >
+                              <FaEdit />
+                            </button>
+                            <button
+                              type="button"
+                              className="btn-action-table tooltip-action-table"
+                              data-tooltip="Reset"
+                              onClick={() => handleReset(item)}
+                            >
+                              <MdPassword />
+                            </button>
+                            <button
+                              type="button"
+                              className="btn-action-table tooltip-action-table"
+                              data-tooltip="Archive"
+                              onClick={() => handleArchive(item)}
+                            >
+                              <FaUserSlash />
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            <button
+                              type="button"
+                              className="btn-action-table tooltip-action-table"
+                              data-tooltip="Restore"
+                              onClick={() => handleRestore(item)}
+                            >
+                              <FaHistory />
+                            </button>
+                            <button
+                              type="button"
+                              className="btn-action-table tooltip-action-table"
+                              data-tooltip="Delete"
+                              onClick={() => handleDelete(item)}
+                            >
+                              <FaTrash />
+                            </button>
+                          </>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </React.Fragment>
+            ))}
           </tbody>
         </table>
+        <Loadmore
+          fetchNextPage={fetchNextPage}
+          isFetchingNextPage={isFetchingNextPage}
+          hasNextPage={hasNextPage}
+          result={result?.pages[0]}
+          setPage={setPage}
+          page={page}
+          refView={ref}
+        />
       </div>
 
       {store.isConfirm && (

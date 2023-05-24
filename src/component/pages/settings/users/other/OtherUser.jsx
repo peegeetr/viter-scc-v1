@@ -41,16 +41,6 @@ const OtherUser = () => {
     "members" // key
   );
 
-  // use if not loadmore button undertime
-  const {
-    isLoading: userIsOtherLoading,
-    error,
-    data: otherUsers,
-  } = useQueryData(
-    `/v1/user-others`, // endpoint
-    "get", // method
-    "otherUsers" // key
-  );
   const handleAdd = () => {
     dispatch(setIsAdd(true));
     setItemEdit(null);
@@ -94,12 +84,7 @@ const OtherUser = () => {
               )} */}
             </p>
           ) : (
-            <OtherUserList
-              setItemEdit={setItemEdit}
-              isLoading={userIsOtherLoading}
-              error={error}
-              otherUsers={otherUsers}
-            />
+            <OtherUserList setItemEdit={setItemEdit} />
           )}
         </div>
         <Footer />
@@ -108,7 +93,6 @@ const OtherUser = () => {
       {store.isAdd && (
         <ModalAddOtherUser
           item={itemEdit}
-          otherUsers={otherUsers?.data}
           role={role?.data}
           members={members?.data}
         />

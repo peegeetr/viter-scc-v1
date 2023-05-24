@@ -81,7 +81,8 @@ class UserOther
             $sql .= "where otherUser.user_other_role_id = role.role_aid ";
             $sql .= "and otherUser.user_other_member_id = member.members_aid ";
             $sql .= "order by otherUser.user_other_is_active desc, ";
-            $sql .= "otherUser.user_other_member_id asc ";
+            $sql .= "member.members_last_name, ";
+            $sql .= "member.members_first_name asc ";
             $query = $this->connection->query($sql);
         } catch (PDOException $ex) {
             $query = false;
@@ -89,6 +90,75 @@ class UserOther
         return $query;
     }
 
+    // read all Limit
+    public function readLimit()
+    {
+        try {
+            $sql = "select otherUser.user_other_member_id, ";
+            $sql .= "otherUser.user_other_is_active, ";
+            $sql .= "otherUser.user_other_role_id, ";
+            $sql .= "otherUser.user_other_aid, ";
+            $sql .= "member.members_email, ";
+            $sql .= "member.members_last_name, ";
+            $sql .= "member.members_first_name, ";
+            $sql .= "role.role_aid, ";
+            $sql .= "role.role_name ";
+            $sql .= "from {$this->tblUserOther} as otherUser, ";
+            $sql .= "{$this->tblMembers} as member, ";
+            $sql .= "{$this->tblRole} as role ";
+            $sql .= "where otherUser.user_other_role_id = role.role_aid ";
+            $sql .= "and otherUser.user_other_member_id = member.members_aid ";
+            $sql .= "order by otherUser.user_other_is_active desc, ";
+            $sql .= "member.members_last_name, ";
+            $sql .= "member.members_first_name asc ";
+            $sql .= "limit :start, ";
+            $sql .= ":total ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "start" => $this->user_other_start - 1,
+                "total" => $this->user_other_total,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    // search 
+    public function search()
+    {
+        try {
+            $sql = "select otherUser.user_other_member_id, ";
+            $sql .= "otherUser.user_other_is_active, ";
+            $sql .= "otherUser.user_other_role_id, ";
+            $sql .= "otherUser.user_other_aid, ";
+            $sql .= "member.members_email, ";
+            $sql .= "member.members_last_name, ";
+            $sql .= "member.members_first_name, ";
+            $sql .= "role.role_aid, ";
+            $sql .= "role.role_name ";
+            $sql .= "from {$this->tblUserOther} as otherUser, ";
+            $sql .= "{$this->tblMembers} as member, ";
+            $sql .= "{$this->tblRole} as role ";
+            $sql .= "where otherUser.user_other_role_id = role.role_aid ";
+            $sql .= "and otherUser.user_other_member_id = member.members_aid ";
+            $sql .= "and (member.members_last_name like :members_last_name ";
+            $sql .= "or member.members_email like :members_email ";
+            $sql .= "or member.members_first_name like :members_first_name) ";
+            $sql .= "order by otherUser.user_other_is_active desc, ";
+            $sql .= "member.members_last_name, ";
+            $sql .= "member.members_first_name asc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "members_last_name" => "{$this->user_other_search}%",
+                "members_first_name" => "{$this->user_other_search}%",
+                "members_email" => "{$this->user_other_search}%",
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
     // read by id
     public function readById()
     {

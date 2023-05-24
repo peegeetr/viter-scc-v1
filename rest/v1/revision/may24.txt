@@ -6,13 +6,19 @@
     -> settings/user/other/sign-up.php   
     -> settings/user/other/create.php   
     -> settings/user/other/update.php   
+    -> settings/user/other/page.php   
+    -> settings/user/other/search.php   
+    -> account/delete.php   
+    -> account/functions.php   
 
 *models 
     - files/Files.php   
     -> settings/user/other/UserOther.php   
+    -> account/Members.php   
 
 *htaccess 
     - #files
+    -> #SETTINGS USER OTHER
 
 *db tables 
     - sccv1_files.sql
