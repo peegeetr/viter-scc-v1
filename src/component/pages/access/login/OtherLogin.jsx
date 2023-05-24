@@ -125,7 +125,7 @@ const OtherLogin = () => {
                 <u>sign up</u>
               </a>
             </p>
-            <p className="">
+            <p className="mt-2">
               Did you forget your password?{" "}
               <a
                 href={`${devNavUrl}/forgot-password`}

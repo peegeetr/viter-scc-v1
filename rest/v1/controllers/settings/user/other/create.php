@@ -1,6 +1,7 @@
 <?php
 // check database connection
 require '../../../../core/Encryption.php';
+require 'functions.php';
 // use notification template
 require '../../../../notification/verify-account.php';
 $conn = null;
