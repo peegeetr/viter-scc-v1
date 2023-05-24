@@ -155,9 +155,11 @@ class UserOther
             $sql = "update {$this->tblUserOther} set ";
             $sql .= "user_other_key = :user_other_key, ";
             $sql .= "user_other_datetime = :user_other_datetime ";
+            $sql .= "where user_other_member_id = :user_other_member_id ";
             $sql .= "and user_other_is_active = 1 ";
             $query = $this->connection->prepare($sql);
             $query->execute([
+                "user_other_member_id" => $this->user_other_member_id,
                 "user_other_key" => $this->user_other_key,
                 "user_other_datetime" => $this->user_other_datetime,
             ]);
@@ -205,6 +207,25 @@ class UserOther
 
 
     // email
+    public function readMemberByEmail()
+    {
+        try {
+            $sql = "select members_aid, ";
+            $sql .= "members_first_name, ";
+            $sql .= "members_last_name ";
+            $sql .= "from {$this->tblMembers} ";
+            $sql .= "where members_email = :members_email ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "members_email" => "{$this->members_email}",
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    // email
     public function readEmailAndName()
     {
         try {
@@ -213,9 +234,39 @@ class UserOther
             $sql .= "members_last_name ";
             $sql .= "from {$this->tblMembers} ";
             $sql .= "where members_aid = :members_aid ";
+            $sql .= "and members_is_approved = '1' ";
+            $sql .= "and members_is_active = '1' ";
+            $sql .= "order by members_aid desc ";
+            $sql .= "limit 1 ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "members_aid" => "{$this->user_other_member_id}",
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    // read login
+    public function readMemberAccountExist()
+    {
+        try {
+            $sql = "select otherUser.user_other_aid, ";
+            $sql .= "otherUser.user_other_is_active, ";
+            $sql .= "otherUser.user_other_member_id, ";
+            $sql .= "otherUser.user_other_password, ";
+            $sql .= "member.members_email, ";
+            $sql .= "member.members_aid, ";
+            $sql .= "member.members_last_name, ";
+            $sql .= "member.members_first_name ";
+            $sql .= "from {$this->tblUserOther} as otherUser, ";
+            $sql .= "{$this->tblMembers} as member ";
+            $sql .= "where member.members_email = :members_email ";
+            $sql .= "and otherUser.user_other_member_id = member.members_aid ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "members_email" => $this->members_email,
             ]);
         } catch (PDOException $ex) {
             $query = false;
@@ -241,7 +292,7 @@ class UserOther
             $sql .= "{$this->tblRole} as role ";
             $sql .= "where otherUser.user_other_role_id = role.role_aid ";
             $sql .= "and otherUser.user_other_member_id = member.members_aid ";
-            $sql .= "and member.members_email like :members_email ";
+            $sql .= "and member.members_email = :members_email ";
             $sql .= "and member.members_is_active = '1' ";
             $sql .= "and otherUser.user_other_is_active = '1' ";
             $query = $this->connection->prepare($sql);
@@ -253,6 +304,50 @@ class UserOther
         }
         return $query;
     }
+
+    // read Member Email
+    public function readMemberEmail()
+    {
+        try {
+            $sql = "select members_email, ";
+            $sql .= "members_aid, ";
+            $sql .= "members_last_name, ";
+            $sql .= "members_first_name ";
+            $sql .= "from {$this->tblMembers} ";
+            $sql .= "where members_email = :members_email ";
+            $sql .= "and members_is_approved = '1' ";
+            $sql .= "and members_is_active = '1' ";
+            $sql .= "order by members_aid desc ";
+            $sql .= "limit 1 ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "members_email" => $this->members_email,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    // read Member Email
+    public function readMemberRole()
+    {
+        try {
+            $sql = "select role_aid, ";
+            $sql .= "role_name, ";
+            $sql .= "role_is_member ";
+            $sql .= "from {$this->tblRole} ";
+            $sql .= "where role_is_member = '1' ";
+            $sql .= "and role_is_active = '1' ";
+            $sql .= "order by role_aid desc ";
+            $sql .= "limit 1 ";
+            $query = $this->connection->query($sql);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
 
     // read key
     public function readKey()

@@ -32,6 +32,7 @@ RewriteRule ^user-others/key/([A-Za-z0-9-]+)$ controllers/settings/user/other/ke
 RewriteRule ^user-others/password$ controllers/settings/user/other/set-password.php [L]
 RewriteRule ^user-others/login$ controllers/settings/user/other/login.php [L]
 RewriteRule ^user-others/token$ controllers/settings/user/other/token.php [L]
+RewriteRule ^user-others/sign-up$ controllers/settings/user/other/sign-up.php [L]
   
 #announcement or dashboard
 RewriteRule ^announcement$ controllers/dashboard/dashboard.php [L]

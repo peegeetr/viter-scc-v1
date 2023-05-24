@@ -11,38 +11,33 @@ import ModalError from "../../../partials/modals/ModalError";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
 import SccLogo from "../../../svg/SccLogo";
 
-const ForgotPassword = () => {
+const CreateAccount = () => {
   const { store, dispatch } = React.useContext(StoreContext);
 
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: (values) => queryData(`/v1/user-others/reset`, "post", values),
+    mutationFn: (values) =>
+      queryData(`/v1/user-others/sign-up`, "post", values),
     onSuccess: (data) => {
       // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ["systemUser"] });
+      queryClient.invalidateQueries({ queryKey: ["UserOtherCreateAccount"] });
       // show success box
       if (data.success) {
-        window.location.replace(
-          `${devNavUrl}/forgot-password-verification?redirect=/login`
-        );
+        window.location.replace(`${devNavUrl}/create-verification`);
       }
       // show error box
       if (!data.success) {
         dispatch(setError(true));
-        dispatch(
-          setMessage(
-            data.error && "Invalid email. Please use a registered one."
-          )
-        );
+        dispatch(setMessage(data.error));
       }
     },
   });
   const initVal = {
-    email: "",
+    members_email: "",
   };
 
   const yupSchema = Yup.object({
-    email: Yup.string().required("Required"),
+    members_email: Yup.string().required("Required"),
   });
 
   return (
@@ -55,12 +50,14 @@ const ForgotPassword = () => {
           <div className="flex justify-center">
             <SccLogo />
           </div>
-          <p className="mt-8 mb-5 text-lg font-bold">FORGOT PASSWORD</p>
+          <p className="mt-8 mb-5 text-lg font-bold uppercase">
+            create account
+          </p>
           <Formik
             initialValues={initVal}
             validationSchema={yupSchema}
             onSubmit={async (values, { setSubmitting, resetForm }) => {
-              // console.log(values, values.key);
+              // console.log(values);
               mutation.mutate(values);
             }}
           >
@@ -69,9 +66,9 @@ const ForgotPassword = () => {
                 <Form>
                   <div className="relative mb-4">
                     <InputText
-                      label="Email"
+                      label="Member Email"
                       type="text"
-                      name="email"
+                      name="members_email"
                       disabled={mutation.isLoading}
                     />
                   </div>
@@ -81,7 +78,7 @@ const ForgotPassword = () => {
                       disabled={mutation.isLoading || !props.dirty}
                       className="btn-modal-submit relative"
                     >
-                      {mutation.isLoading ? <ButtonSpinner /> : "Submit"}
+                      {mutation.isLoading ? <ButtonSpinner /> : "Create"}
                     </button>
                   </div>
                 </Form>
@@ -89,9 +86,9 @@ const ForgotPassword = () => {
             }}
           </Formik>
           <p className="mt-5">
-            Go back to{" "}
+            Already have an account?{" "}
             <a href={`${devNavUrl}/login`} className="w-full text-primary">
-              <u>Login</u>
+              <u>Go back to Login</u>
             </a>
           </p>
         </div>
@@ -102,4 +99,4 @@ const ForgotPassword = () => {
   );
 };
 
-export default ForgotPassword;
+export default CreateAccount;

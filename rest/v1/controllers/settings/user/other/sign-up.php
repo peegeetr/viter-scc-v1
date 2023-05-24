@@ -1,61 +1,76 @@
 <?php
+// check database connection
+// use JWT
+require '../../../../jwt/vendor/autoload.php';
 // set http header
 require '../../../../core/header.php';
 // use needed functions
 require '../../../../core/functions.php';
+require 'functions.php';
+// use needed encryption
+require '../../../../core/Encryption.php';
 // use needed classes
 require '../../../../models/settings/user/other/UserOther.php';
 // use notification template
-require '../../../../notification/reset-password.php';
-// check database connection
-require '../../../../core/Encryption.php';
-// check database connection
+require '../../../../notification/verify-account.php';
 $conn = null;
 $conn = checkDbConnection();
 // make instance of classes
 $user_other = new UserOther($conn);
-$response = new Response();
 $encrypt = new Encryption();
+$response = new Response();
+
 // get payload
 $body = file_get_contents("php://input");
 $data = json_decode($body, true);
 // get $_GET data
-// check if userotherid is in the url e.g. /user/1
+// check if usersystemkey is in the url e.g. /usersystem/1
 $error = [];
 $returnData = [];
 // validate api key
 if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     checkApiKey();
+    if (array_key_exists("userotherid", $_GET)) {
+        checkEndpoint();
+    }
     // check data
     checkPayload($data);
-    // get task id from query string 
-    $password_link = "/create-password";
-    $user_other->members_email = trim($data["email"]);
+    // get data
+    $user_other->user_other_is_active = 1;
+    $user_other->members_email = checkIndex($data, "members_email");
     $user_other->user_other_key = $encrypt->doHash(rand());
+    $user_other->user_other_created = date("Y-m-d H:i:s");
     $user_other->user_other_datetime = date("Y-m-d H:i:s");
+    $password_link = "/create-password";
 
-    $query = $user_other->readLogin();
-    if ($query->rowCount() == 0) {
+    // check if email exist   
+    isMemberAccountExist($user_other, $user_other->members_email);
+    // check if member email is approved   
+    checkMemberEmail($user_other);
+
+
+    // read member role   
+    $memberRole = $user_other->readMemberRole();
+    if ($memberRole->rowCount() > 0) {
+        $roleRow = $memberRole->fetch(PDO::FETCH_ASSOC);
+        extract($roleRow);
+        $user_other->user_other_role_id = checkIndex($roleRow, "role_aid");
+    } else {
         $response->setSuccess(false);
-        $error["count"] = 0;
+        $error['code'] = "400";
+        $error['error'] = "No Data Found.";
         $error["success"] = false;
-        $error['error'] = "Invalid email. Please use a registered one.";
         $response->setData($error);
         $response->send();
         exit;
     }
-
-    sendEmail(
-        $password_link,
-        $user_other->members_email,
-        $user_other->user_other_key
-    );
 
     // read member email and name   
     $emailAndName = $user_other->readMemberEmail();
     if ($emailAndName->rowCount() > 0) {
         $memberRow = $emailAndName->fetch(PDO::FETCH_ASSOC);
         extract($memberRow);
+        $name = "$members_last_name, $members_first_name";
         $user_other->user_other_member_id = checkIndex($memberRow, "members_aid");
     } else {
         $response->setSuccess(false);
@@ -66,12 +81,18 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         $response->send();
         exit;
     }
-    $query = checkReset($user_other);
-    http_response_code(200);
+    // send email notification
+    sendEmail(
+        $password_link,
+        $name,
+        $user_other->members_email,
+        $user_other->user_other_key
+    );
+
+    // create
+    $query = checkCreate($user_other);
 
     returnSuccess($user_other, "User other", $query);
-    // return 404 error if endpoint not available
-    checkEndpoint();
 }
 
 http_response_code(200);

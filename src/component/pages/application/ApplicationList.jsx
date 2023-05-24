@@ -39,7 +39,7 @@ const ApplicationList = () => {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ["members", onSearch, store.isSearch],
+    queryKey: ["members-application", onSearch, store.isSearch],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
         `/v1/members/search/${search.current.value}`, // search endpoint
@@ -228,7 +228,7 @@ const ApplicationList = () => {
           }
           item={`${dataItem.members_last_name}, ${dataItem.members_first_name}`}
           isApproved={isDel ? "approved" : "cancel"}
-          arrKey="members"
+          arrKey="members-application"
         />
       )}
 
@@ -245,7 +245,7 @@ const ApplicationList = () => {
           }
           item={`${dataItem.members_last_name}, ${dataItem.members_first_name}`}
           isApproved={"active"}
-          arrKey="members"
+          arrKey="members-application"
         />
       )}
     </>

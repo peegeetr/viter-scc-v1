@@ -1,9 +1,13 @@
 
 *controllers    
     - files/files.php => all files  
+    -> settings/user/other/functions.php   
+    -> settings/user/other/reset.php   
+    -> settings/user/other/sign-up.php   
 
 *models 
     - files/Files.php   
+    -> settings/user/other/UserOther.php   
 
 *htaccess 
     - #files

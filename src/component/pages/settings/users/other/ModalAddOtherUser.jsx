@@ -102,15 +102,20 @@ const ModalAddOtherUser = ({ item, otherUsers, role, members }) => {
                       >
                         <option value="">--</option>
                         {members.map((mItem, key) => {
-                          return (
-                            getDonthaveAccount(mItem, otherUsers) !==
-                              mItem.members_aid && (
-                              <option key={key} value={mItem.members_aid}>
-                                {`${mItem.members_last_name},
+                          return item
+                            ? item.members_aid === mItem.members_aid && (
+                                <option key={key} value={mItem.members_aid}>
+                                  {`${mItem.members_last_name},
+                          ${mItem.members_first_name}`}
+                                </option>
+                              )
+                            : getDonthaveAccount(mItem, otherUsers) !==
+                                mItem.members_aid && (
+                                <option key={key} value={mItem.members_aid}>
+                                  {`${mItem.members_last_name},
                               ${mItem.members_first_name}`}
-                              </option>
-                            )
-                          );
+                                </option>
+                              );
                         })}
                       </InputSelect>
                     </div>

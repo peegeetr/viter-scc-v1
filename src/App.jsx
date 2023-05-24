@@ -105,6 +105,8 @@ import SystemNetSurPlus from "./component/pages/settings/net-surplus/links/Syste
 import AdminOtherUser from "./component/pages/settings/users/other/links/AdminOtherUser";
 import SystemOtherUser from "./component/pages/settings/users/other/links/SystemOtherUser";
 import { StoreProvider } from "./store/StoreContext";
+import CreateAccount from "./component/pages/access/create-account/CreateAccount";
+import CreateVerification from "./component/pages/access/create-account/CreateVerification";
 
 function App() {
   // Create a client
@@ -131,8 +133,16 @@ function App() {
               element={<CreateOtherPassword />}
             />
             <Route
+              path={`${devNavUrl}/create-verification`}
+              element={<CreateVerification />}
+            />
+            <Route
               path={`/${devNavUrl}/forgot-password`}
               element={<ForgotPassword />}
+            />
+            <Route
+              path={`/${devNavUrl}/create-account`}
+              element={<CreateAccount />}
             />
 
             {/* login system user */}

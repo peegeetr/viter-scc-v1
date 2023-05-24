@@ -116,11 +116,20 @@ const OtherLogin = () => {
                 );
               }}
             </Formik>
-            <p className="mt-5">
+            <p className="mt-5 mb-0 ">
+              Don't have member account yet?{" "}
+              <a
+                href={`${devNavUrl}/create-account`}
+                className="w-full text-primary capitalize"
+              >
+                <u>sign up</u>
+              </a>
+            </p>
+            <p className="">
               Did you forget your password?{" "}
               <a
                 href={`${devNavUrl}/forgot-password`}
-                className="w-full text-primary"
+                className="w-full text-primary capitalize"
               >
                 <u> Forgot password</u>
               </a>
