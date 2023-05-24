@@ -1,0 +1,20 @@
+
+*controllers    
+    - settings/user/other/create.php 
+    - settings/user/other/sign-up.php 
+
+*models  
+    - settings/user/other/UserOther.php   
+
+*htaccess 
+    - 
+
+*db tables 
+    - 
+
+*core functions 
+    - 
+
+*extra
+    -
+    

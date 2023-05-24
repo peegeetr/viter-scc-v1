@@ -55,14 +55,6 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         $roleRow = $memberRole->fetch(PDO::FETCH_ASSOC);
         extract($roleRow);
         $user_other->user_other_role_id = checkIndex($roleRow, "role_aid");
-    } else {
-        $response->setSuccess(false);
-        $error['code'] = "400";
-        $error['error'] = "No Data Found.";
-        $error["success"] = false;
-        $response->setData($error);
-        $response->send();
-        exit;
     }
 
     // read member email and name   
@@ -72,14 +64,6 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         extract($memberRow);
         $name = "$members_last_name, $members_first_name";
         $user_other->user_other_member_id = checkIndex($memberRow, "members_aid");
-    } else {
-        $response->setSuccess(false);
-        $error['code'] = "400";
-        $error['error'] = "No Data Found.";
-        $error["success"] = false;
-        $response->setData($error);
-        $response->send();
-        exit;
     }
     // send email notification
     sendEmail(

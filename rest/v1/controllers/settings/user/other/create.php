@@ -21,31 +21,34 @@ if (array_key_exists("userotherid", $_GET)) {
 checkPayload($data);
 // get data
 $user_other->user_other_is_active = 1;
-$user_other->user_other_member_id = checkIndex($data, "user_other_member_id");
+$user_other->members_email = checkIndex($data, "members_email");
 $user_other->user_other_role_id = checkIndex($data, "user_other_role_id");
 $user_other->user_other_key = $encrypt->doHash(rand());
 $user_other->user_other_created = date("Y-m-d H:i:s");
 $user_other->user_other_datetime = date("Y-m-d H:i:s");
 $password_link = "/create-password";
 
+// check if email exist   
+isMemberAccountExist($user_other, $user_other->members_email);
+// check if member email is approved   
+checkMemberEmail($user_other);
 // check email  
 
-$emailAndName = $user_other->readEmailAndName();
+// read member email and name   
+$emailAndName = $user_other->readMemberEmail();
 if ($emailAndName->rowCount() > 0) {
-    $row = $emailAndName->fetch(PDO::FETCH_ASSOC);
-    extract($row);
+    $memberRow = $emailAndName->fetch(PDO::FETCH_ASSOC);
+    extract($memberRow);
     $name = "$members_last_name, $members_first_name";
-    $user_other->members_email = $members_email;
-    isMemberAccountExist($user_other, $user_other->members_email);
-} else {
-    $response->setSuccess(false);
-    $error['code'] = "400";
-    $error['error'] = "No Data Found.";
-    $error["success"] = false;
-    $response->setData($error);
-    $response->send();
-    exit;
+    $user_other->user_other_member_id = checkIndex($memberRow, "members_aid");
 }
+// send email notification
+sendEmail(
+    $password_link,
+    $name,
+    $user_other->members_email,
+    $user_other->user_other_key
+);
 // send email notification
 sendEmail(
     $password_link,

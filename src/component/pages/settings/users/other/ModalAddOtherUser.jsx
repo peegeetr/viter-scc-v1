@@ -61,12 +61,12 @@ const ModalAddOtherUser = ({ item, role, members }) => {
     "otherUsers" // key
   );
   const initVal = {
-    user_other_member_id: item ? item.user_other_member_id : "",
+    members_email: item ? item.members_email : "",
     user_other_role_id: item ? item.user_other_role_id : "",
   };
 
   const yupSchema = Yup.object({
-    user_other_member_id: Yup.string().required("Required"),
+    members_email: Yup.string().required("Required"),
     user_other_role_id: Yup.string().required("Required"),
   });
 
@@ -98,34 +98,13 @@ const ModalAddOtherUser = ({ item, role, members }) => {
               {(props) => {
                 return (
                   <Form>
-                    <div className="relative my-5">
-                      <InputSelect
-                        name="user_other_member_id"
-                        label="Name"
+                    <div className="relative mt-5">
+                      <InputText
+                        label="Member Email"
+                        type="text"
+                        name="members_email"
                         disabled={mutation.isLoading}
-                        onFocus={(e) =>
-                          e.target.parentElement.classList.add("focused")
-                        }
-                      >
-                        {!item && <option value="">--</option>}
-                        {members.map((mItem, key) => {
-                          return item
-                            ? Number(item.user_other_member_id) ===
-                                mItem.members_aid && (
-                                <option key={key} value={mItem.members_aid}>
-                                  {`${mItem.members_last_name},
-                          ${mItem.members_first_name}`}
-                                </option>
-                              )
-                            : getDonthaveAccount(mItem, otherUsers) !==
-                                mItem.members_aid && (
-                                <option key={key} value={mItem.members_aid}>
-                                  {`${mItem.members_last_name},
-                              ${mItem.members_first_name}`}
-                                </option>
-                              );
-                        })}
-                      </InputSelect>
+                      />
                     </div>
                     <div className="relative my-5">
                       <InputSelect
