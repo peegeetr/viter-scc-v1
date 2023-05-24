@@ -17,12 +17,12 @@ const MyAccountDetailsLink = () => {
       >
         <MyProfileLink />
       </div>
-      <div
+      {/* <div
         className="group flex items-center justify-between border-b border-solid border-gray-300"
         onClick={() => dispatch(setStartIndex(0))}
       >
         <MySavingsLink />
-      </div>
+      </div> */}
       <div
         className="group flex items-center justify-between border-b border-solid border-gray-300"
         onClick={() => dispatch(setStartIndex(0))}
