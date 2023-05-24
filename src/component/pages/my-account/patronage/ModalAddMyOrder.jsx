@@ -14,14 +14,15 @@ import useQueryData from "../../../custom-hooks/useQueryData";
 import { InputSelect, InputText } from "../../../helpers/FormInputs";
 import {
   getDateTimeNow,
+  getUrlParam,
   numberWithCommas,
   removeComma,
 } from "../../../helpers/functions-general";
 import { queryData } from "../../../helpers/queryData";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
-import { getRemaningQuantity } from "../products/functions-product";
+import { getRemaningQuantity } from "../../Inventory/products/functions-product";
 
-const ModalManagerAddOrders = ({ item, arrKey }) => {
+const ModalAddMyOrder = ({ item, arrKey }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [categoryId, setCategoryId] = React.useState(
     item ? item.suppliers_products_category_id : "0"
@@ -32,7 +33,6 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
   const [priceId, setPriceId] = React.useState(
     item ? item.suppliers_products_scc_price : ""
   );
-  const [isPaid, setIsPaid] = React.useState("");
 
   const queryClient = useQueryClient();
   const mutation = useMutation({
@@ -74,13 +74,6 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
     "get", // method
     "orderGroupProd" // key
   );
-  // use if not loadmore button undertime
-  const { data: memberApproved, isLoading: memberApprovedLoading } =
-    useQueryData(
-      `/v1/members/approved`, // endpoint
-      "get", // method
-      "memberApproved" // key
-    );
 
   // use if not loadmore button undertime
   const { data: categoryData, isLoading: categoryLoading } = useQueryData(
@@ -97,6 +90,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
     {},
     categoryId
   );
+
   // get employee id
   const handleSupplierProduct = async (e, props) => {
     let categoryId = e.target.value;
@@ -107,35 +101,24 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
     setProductId(e.target.value);
     setPriceId(e.target.options[e.target.selectedIndex].id);
   };
-  // get employee id
-  const handleIsPaid = async (e, props) => {
-    setIsPaid(e.target.value);
-  };
   const initVal = {
-    orders_member_id: item ? item.orders_member_id : "",
+    orders_member_id: item
+      ? item.orders_member_id
+      : store.credentials.data.members_aid,
     orders_product_id: item ? item.orders_product_id : "",
     orders_product_quantity: item ? item.orders_product_quantity : "",
     suppliers_products_aid: "",
+    orders_is_paid: 0,
     orders_product_amount: item ? item.orders_product_amount : "",
     orders_date: item ? item.orders_date : getDateTimeNow(),
     category_id: item ? item.suppliers_products_category_id : "",
-    // sales
-    sales_receive_amount: "",
-    sales_or: "",
-    orders_is_paid: "",
-    sales_member_change: "",
-    sales_date: getDateTimeNow(),
   };
 
   const yupSchema = Yup.object({
-    orders_member_id: Yup.string().required("Required"),
     orders_product_id: Yup.string().required("Required"),
     orders_product_quantity: Yup.string().required("Required"),
     category_id: Yup.string().required("Required"),
     orders_date: Yup.string().required("Required"),
-    sales_receive_amount: isPaid === "1" && Yup.string().required("Required"),
-    sales_or: isPaid === "1" && Yup.string().required("Required"),
-    orders_is_paid: Yup.string().required("Required"),
   });
   return (
     <>
@@ -158,15 +141,6 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
               initialValues={initVal}
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
-                const orders_product_quantity = removeComma(
-                  `${values.orders_product_quantity}`
-                );
-                const sales_receive_amount = removeComma(
-                  `${values.sales_receive_amount}`
-                );
-                const orders_product_amount = removeComma(
-                  `${values.orders_product_amount}`
-                );
                 if (
                   Number(values.orders_product_quantity) >
                     getRemaningQuantity(
@@ -184,59 +158,26 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                   dispatch(setMessage("Invalid Quantity"));
                   return;
                 }
-                if (
-                  Number(sales_receive_amount) < Number(orders_product_amount)
-                ) {
-                  dispatch(setError(true));
-                  dispatch(
-                    setMessage(
-                      "Recieve payment must be exact amount or morethan"
-                    )
-                  );
-                  return;
-                }
-                mutation.mutate({
-                  ...values,
-                  orders_product_quantity,
-                  sales_receive_amount,
-                });
+                console.log("values", values);
+
+                mutation.mutate(values);
               }}
             >
               {(props) => {
                 props.values.orders_product_amount =
-                  Number(removeComma(props.values.orders_product_quantity)) *
-                  priceId;
+                  removeComma(props.values.orders_product_quantity) * priceId;
                 props.values.suppliers_products_aid = productId;
-                props.values.sales_member_change =
-                  Number(removeComma(props.values.sales_receive_amount)) -
-                  Number(props.values.orders_product_amount);
                 return (
                   <Form>
                     <div className="relative mb-6 mt-5">
                       <InputText
                         label="Date"
-                        type="datetime-local"
+                        type="text"
+                        onFocus={(e) => (e.target.type = "datetime-local")}
+                        onBlur={(e) => (e.target.type = "text")}
                         name="orders_date"
                         disabled={mutation.isLoading}
                       />
-                    </div>
-                    <div className="relative my-5">
-                      <InputSelect
-                        name="orders_member_id"
-                        label="Member"
-                        disabled={mutation.isLoading || memberApprovedLoading}
-                      >
-                        <option value="" hidden>
-                          {memberApprovedLoading ? "Loading..." : "--"}
-                        </option>
-                        {memberApproved?.data.map((cItem, key) => {
-                          return (
-                            <option key={key} value={cItem.members_aid}>
-                              {`${cItem.members_last_name}, ${cItem.members_first_name} `}
-                            </option>
-                          );
-                        })}
-                      </InputSelect>
                     </div>
                     <div className="relative my-5">
                       <InputSelect
@@ -254,7 +195,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                               key={key}
                               value={cItem.product_category_aid}
                             >
-                              {`${cItem.product_category_name} `}
+                              {`${cItem.product_category_name}`}
                             </option>
                           );
                         })}
@@ -299,66 +240,18 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                       <InputText
                         label="Quantity"
                         type="text"
-                        num="num"
                         name="orders_product_quantity"
                         disabled={mutation.isLoading}
                       />
                     </div>
-                    {!item && (
-                      <>
-                        <div className="relative my-5">
-                          <InputSelect
-                            name="orders_is_paid"
-                            onChange={handleIsPaid}
-                            label="Are you going to pay ?"
-                            disabled={
-                              mutation.isLoading || memberApprovedLoading
-                            }
-                          >
-                            <option value="" hidden>
-                              --
-                            </option>
-                            <option value="1">Yes</option>
-                            <option value="0">No</option>
-                          </InputSelect>
-                        </div>
-                        {Number(props.values.orders_is_paid) === 1 && (
-                          <>
-                            <div className="relative mt-6 mb-8">
-                              <InputText
-                                label="Recieve Date"
-                                type="datetime-local"
-                                name="sales_date"
-                                disabled={mutation.isLoading}
-                              />
-                            </div>
-                            <div className="relative mt-6 mb-8">
-                              <InputText
-                                label="Recieve Amount"
-                                type="text"
-                                name="sales_receive_amount"
-                                num="num"
-                                disabled={mutation.isLoading}
-                              />
-                            </div>
-                            <div className="relative mb-4 ">
-                              <InputText
-                                label="Official Receipt"
-                                type="text"
-                                name="sales_or"
-                                disabled={mutation.isLoading}
-                              />
-                            </div>
-                          </>
-                        )}
-                      </>
-                    )}
+
                     <div className="pl-3 text-primary">
                       <p className="">
                         Total Amount:
                         <span className="text-black ml-2">
                           &#8369;{" "}
-                          {Number(props.values.orders_product_amount) === 0
+                          {props.values.orders_product_quantity === "" ||
+                          Number(props.values.orders_product_quantity) === 0
                             ? 0
                             : numberWithCommas(
                                 Number(
@@ -368,23 +261,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                         </span>
                       </p>
                     </div>
-                    {!item && Number(props.values.orders_is_paid) === 1 && (
-                      <div className="pl-3 text-primary">
-                        <p className="">
-                          Change:
-                          <span className="text-black ml-2">
-                            &#8369;{" "}
-                            {Number(props.values.sales_receive_amount) === 0
-                              ? 0
-                              : numberWithCommas(
-                                  Number(
-                                    props.values.sales_member_change
-                                  ).toFixed(2)
-                                )}
-                          </span>
-                        </p>
-                      </div>
-                    )}
+
                     <div className="flex items-center gap-1 pt-5">
                       <button
                         type="submit"
@@ -419,4 +296,4 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
   );
 };
 
-export default ModalManagerAddOrders;
+export default ModalAddMyOrder;

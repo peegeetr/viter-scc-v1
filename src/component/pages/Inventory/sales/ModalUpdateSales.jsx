@@ -55,12 +55,7 @@ const ModalUpdateSales = ({ item }) => {
 
   const yupSchema = Yup.object({
     sales_or: Yup.string().required("Required"),
-    sales_receive_amount: Yup.number()
-      .required("Required")
-      .min(
-        removeComma(item.orders_product_amount),
-        "Recieve payment must be exact amount or morethan"
-      ),
+    sales_receive_amount: Yup.string().required("Required"),
   });
 
   return (
@@ -87,6 +82,18 @@ const ModalUpdateSales = ({ item }) => {
                 const sales_receive_amount = removeComma(
                   `${values.sales_receive_amount}`
                 );
+                if (
+                  Number(sales_receive_amount) <
+                  Number(item.orders_product_amount)
+                ) {
+                  dispatch(setError(true));
+                  dispatch(
+                    setMessage(
+                      "Recieve payment must be exact amount or morethan"
+                    )
+                  );
+                  return;
+                }
                 mutation.mutate({
                   ...values,
                   sales_receive_amount,
@@ -95,7 +102,7 @@ const ModalUpdateSales = ({ item }) => {
             >
               {(props) => {
                 props.values.sales_member_change =
-                  Number(props.values.sales_receive_amount) -
+                  Number(removeComma(props.values.sales_receive_amount)) -
                   Number(item.orders_product_amount);
                 return (
                   <Form>

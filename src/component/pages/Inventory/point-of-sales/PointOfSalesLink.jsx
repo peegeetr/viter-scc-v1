@@ -24,8 +24,7 @@ const PointOfSalesLink = () => {
           <span className="text-md font-bold">Point Of Sale</span>
         </div>
         <p className="ml-[35px] my-0">
-          Manage what actions and capabilities every account are can perform in
-          the system.
+          Facility in accepting orders for cashier role.
         </p>
       </Link>
 

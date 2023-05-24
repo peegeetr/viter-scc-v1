@@ -24,8 +24,7 @@ const ProductsLink = () => {
           <span className="text-md font-bold">Products</span>
         </div>
         <p className="ml-[35px] my-0">
-          Manage what actions and capabilities every account are can perform in
-          the system.
+          Add and manage the information of prices per product.
         </p>
       </Link>
 

@@ -22,7 +22,7 @@ const FileUpload = () => {
   return (
     <>
       <Header />
-      <Navigation menu="fileUpload" />{" "}
+      <Navigation menu="files" />{" "}
       <div className="wrapper">
         <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2 ">
           <h4 className="text-xl mb-3">Files</h4>

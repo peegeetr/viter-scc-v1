@@ -24,8 +24,7 @@ const SalesLink = () => {
           <span className="text-md font-bold">Sales</span>
         </div>
         <p className="ml-[35px] my-0">
-          Manage what actions and capabilities every account are can perform in
-          the system.
+          Manage pending and paid orders for issuance of invoice.
         </p>
       </Link>
 

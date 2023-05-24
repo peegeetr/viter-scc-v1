@@ -24,8 +24,7 @@ const StocksLink = () => {
           <span className="text-md font-bold">Stocks</span>
         </div>
         <p className="ml-[35px] my-0">
-          Manage what actions and capabilities every account are can perform in
-          the system.
+          Manage the number of stocks per product.
         </p>
       </Link>
 

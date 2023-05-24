@@ -15,6 +15,7 @@
     - files/Files.php   
     -> settings/user/other/UserOther.php   
     -> account/Members.php   
+    -> dashboard/Dashboard.php   
 
 *htaccess 
     - #files

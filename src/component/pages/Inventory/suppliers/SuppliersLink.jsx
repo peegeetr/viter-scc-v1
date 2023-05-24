@@ -24,8 +24,7 @@ const SuppliersLink = () => {
           <span className="text-md font-bold">Suppliers</span>
         </div>
         <p className="ml-[35px] my-0">
-          Manage what actions and capabilities every account are can perform in
-          the system.
+          Manage the information of product suppliers.
         </p>
       </Link>
 

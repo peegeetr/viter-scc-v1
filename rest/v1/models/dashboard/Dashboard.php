@@ -62,10 +62,9 @@ class Announcement
         try {
             $sql = "select * from ";
             $sql .= "{$this->tblAnnouncement} ";
-            // $sql .= "where announcement_is_active = 1 ";
             $sql .= "order by announcement_is_active desc, ";
-            $sql .= "announcement_name asc, ";
-            $sql .= "announcement_date desc ";
+            $sql .= "announcement_date desc, ";
+            $sql .= "announcement_name asc ";
             $query = $this->connection->query($sql);
         } catch (PDOException $ex) {
             $query = false;
@@ -78,10 +77,9 @@ class Announcement
         try {
             $sql = "select * from ";
             $sql .= "{$this->tblAnnouncement} ";
-            // $sql .= "where announcement_is_active = 1 ";
             $sql .= "order by announcement_is_active desc, ";
-            $sql .= "announcement_name asc, ";
-            $sql .= "announcement_date desc ";
+            $sql .= "announcement_date desc, ";
+            $sql .= "announcement_name asc ";
             $sql .= "limit :start, ";
             $sql .= ":total ";
             $query = $this->connection->prepare($sql);
@@ -105,8 +103,8 @@ class Announcement
             $sql .= "or announcement_date like :announcement_date ";
             $sql .= "or MONTHNAME(announcement_date) like :announcement_month_date) ";
             $sql .= "order by announcement_is_active desc, ";
-            $sql .= "announcement_name asc, ";
-            $sql .= "announcement_date desc ";
+            $sql .= "announcement_date desc, ";
+            $sql .= "announcement_name asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "announcement_name" => "{$this->announcement_search}%",
@@ -226,8 +224,8 @@ class Announcement
             $sql .= "{$this->tblAnnouncement} ";
             $sql .= "where announcement_is_active = '1' ";
             $sql .= "order by announcement_is_active desc, ";
-            $sql .= "announcement_name asc, ";
-            $sql .= "announcement_date desc ";
+            $sql .= "announcement_date desc, ";
+            $sql .= "announcement_name asc ";
             $query = $this->connection->query($sql);
         } catch (PDOException $ex) {
             $query = false;
@@ -242,8 +240,8 @@ class Announcement
             $sql .= "{$this->tblAnnouncement} ";
             $sql .= "where announcement_is_active = '1' ";
             $sql .= "order by announcement_is_active desc, ";
-            $sql .= "announcement_name asc, ";
-            $sql .= "announcement_date desc ";
+            $sql .= "announcement_date desc, ";
+            $sql .= "announcement_name asc ";
             $sql .= "limit :start, ";
             $sql .= ":total ";
             $query = $this->connection->prepare($sql);
@@ -268,8 +266,8 @@ class Announcement
             $sql .= "or announcement_date like :announcement_date ";
             $sql .= "or MONTHNAME(announcement_date) like :announcement_month_date) ";
             $sql .= "order by announcement_is_active desc, ";
-            $sql .= "announcement_name asc, ";
-            $sql .= "announcement_date desc ";
+            $sql .= "announcement_date desc, ";
+            $sql .= "announcement_name asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "announcement_name" => "{$this->announcement_search}%",

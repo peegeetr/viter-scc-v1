@@ -24,8 +24,7 @@ const CategoryLink = () => {
           <span className="text-md font-bold">Category</span>
         </div>
         <p className="ml-[35px] my-0">
-          Manage what actions and capabilities every account are can perform in
-          the system.
+          Add and manage the product category for selling.
         </p>
       </Link>
 

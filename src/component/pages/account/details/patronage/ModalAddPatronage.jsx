@@ -27,7 +27,6 @@ const ModalAddPatronage = ({ item }) => {
   );
 
   const queryClient = useQueryClient();
-  const [show, setShow] = React.useState("show");
 
   const mutation = useMutation({
     mutationFn: (values) =>
@@ -87,7 +86,7 @@ const ModalAddPatronage = ({ item }) => {
   return (
     <>
       <div
-        className={`modal fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center bg-dark z-50 animate-fadeIn ${show}`}
+        className={`modal fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center bg-dark z-50 animate-fadeIn`}
       >
         <div className="p-1 w-[350px] rounded-b-2xl animate-slideUp ">
           <div className="flex justify-between items-center bg-primary p-3 rounded-t-2xl">

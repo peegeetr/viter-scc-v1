@@ -17,6 +17,9 @@ import TableSpinner from "../../../../partials/spinners/TableSpinner";
 import StatusActive from "../../../../partials/status/StatusActive";
 import StatusPending from "../../../../partials/status/StatusPending";
 import useQueryData from "../../../../custom-hooks/useQueryData";
+import { ImCross } from "react-icons/im";
+import ModalDeleteRestore from "../../../../partials/modals/ModalDeleteRestore";
+import { setIsRestore } from "../../../../../store/StoreAction";
 
 const PatronageList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -72,6 +75,12 @@ const PatronageList = () => {
     "memberName" // key
   );
 
+  const handleDelete = (item) => {
+    dispatch(setIsRestore(true));
+    setId(item.orders_aid);
+    setData(item);
+    setDel(true);
+  };
   return (
     <>
       {memberid !== null && (
@@ -96,13 +105,14 @@ const PatronageList = () => {
           <thead>
             <tr>
               <th>#</th>
-              <th className="min-w-[10rem]">Recieve Payment Date</th>
+              <th className="min-w-[12rem]">Recieved Payment Date</th>
               <th className="min-w-[10rem]">Product Name</th>
               <th className="min-w-[8rem]">Official Receipt</th>
               <th className="min-w-[5rem] text-right pr-4">Quantity</th>
-              <th className="min-w-[5rem] text-right pr-4">SRP Amount</th>
-              <th className="min-w-[5rem] text-right pr-4">Total Amount</th>
+              <th className="min-w-[8rem] text-right pr-4">SRP Amount</th>
+              <th className="min-w-[8rem] text-right pr-4">Total Amount</th>
               <th>Status</th>
+              <th className="!w-[5rem]"></th>
             </tr>
           </thead>
           <tbody>
@@ -158,6 +168,18 @@ const PatronageList = () => {
                         <StatusPending />
                       )}
                     </td>
+                    <td className="text-right">
+                      {item.sales_is_paid === 0 && (
+                        <button
+                          type="button"
+                          className="btn-action-table tooltip-action-table"
+                          data-tooltip="Cancel"
+                          onClick={() => handleDelete(item)}
+                        >
+                          <ImCross />
+                        </button>
+                      )}
+                    </td>
                   </tr>
                 ))}
               </React.Fragment>
@@ -174,6 +196,16 @@ const PatronageList = () => {
           refView={ref}
         />
       </div>
+      {store.isRestore && (
+        <ModalDeleteRestore
+          id={id}
+          isDel={isDel}
+          mysqlApiDelete={`/v1/orders/${id}`}
+          msg={"Are you sure you want to cancel your"}
+          item={`${dataItem.suppliers_products_name}  order`}
+          arrKey="patronage"
+        />
+      )}
     </>
   );
 };

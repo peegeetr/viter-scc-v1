@@ -1,7 +1,12 @@
 import React from "react";
 import { AiFillSetting } from "react-icons/ai";
 import { TbFileDownload } from "react-icons/tb";
-import { FaUserCheck, FaBusinessTime, FaUsers } from "react-icons/fa";
+import {
+  FaUserCheck,
+  FaBusinessTime,
+  FaUsers,
+  FaShoppingCart,
+} from "react-icons/fa";
 import { MdDashboard, MdOutlineInventory } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { setIsSearch, setIsShow, setStartIndex } from "../../store/StoreAction";
@@ -104,7 +109,7 @@ const Navigation = ({ menu }) => {
 
             <li
               className={
-                menu === "fileUpload"
+                menu === "files"
                   ? "active"
                   : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
               }
@@ -119,6 +124,25 @@ const Navigation = ({ menu }) => {
                 <span className="md:hidden lg:block">Files</span>
               </Link>
             </li>
+            {store.credentials.data.role_is_member === 1 && (
+              <li
+                className={
+                  menu === "Order"
+                    ? "active"
+                    : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
+                }
+              >
+                <Link
+                  to={`${getUserType(store)}/details/patronage`}
+                  className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
+                  onClick={handleShow}
+                  data-tooltip="File Upload"
+                >
+                  <FaShoppingCart className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
+                  <span className="md:hidden lg:block">Order</span>
+                </Link>
+              </li>
+            )}
 
             {store.credentials.data.role_is_member === 0 && (
               <>

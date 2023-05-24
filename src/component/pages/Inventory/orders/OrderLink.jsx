@@ -24,8 +24,7 @@ const OrderLink = () => {
           <span className="text-md font-bold">Orders</span>
         </div>
         <p className="ml-[35px] my-0">
-          Manage what actions and capabilities every account are can perform in
-          the system.
+          Adding new orders and monitor other order statuses.
         </p>
       </Link>
 

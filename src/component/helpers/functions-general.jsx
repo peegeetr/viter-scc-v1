@@ -205,7 +205,7 @@ export const getUserType = (store) => {
 
 // remove number format with comma
 export const removeComma = (value) => {
-  console.log(value);
+  // console.log(value);
   // console.log(value.replace(/[,]/g, ""));
   return value.replace(/[,]/g, "");
 };
