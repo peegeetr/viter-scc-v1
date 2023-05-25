@@ -34,13 +34,6 @@ const OtherUser = () => {
     "role" // key
   );
 
-  // use if not loadmore button undertime
-  const { data: members } = useQueryData(
-    `/v1/members/approved`, // endpoint
-    "get", // method
-    "members" // key
-  );
-
   const handleAdd = () => {
     dispatch(setIsAdd(true));
     setItemEdit(null);
@@ -90,13 +83,7 @@ const OtherUser = () => {
         <Footer />
       </div>
 
-      {store.isAdd && (
-        <ModalAddOtherUser
-          item={itemEdit}
-          role={role?.data}
-          members={members?.data}
-        />
-      )}
+      {store.isAdd && <ModalAddOtherUser item={itemEdit} role={role?.data} />}
       {store.success && <ModalSuccess />}
       {store.error && <ModalError />}
     </>

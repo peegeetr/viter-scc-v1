@@ -8,8 +8,9 @@
     - account/functions.php 
 
 *models  
-    - settings/user/other/UserOther.php   
-    - account/Members.php    
+    - settings/user/other/UserOther.php  
+     
+    -> account/Members.php    
 
 *htaccess 
     - 

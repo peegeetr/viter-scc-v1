@@ -35,11 +35,9 @@ const SearchBar = ({
           className="rounded-tr-none rounded-br-none border-r-0"
           ref={search}
           onChange={handleChange}
-          disabled={isFetching}
         />
         <button
           type="submit"
-          disabled={isFetching}
           className="btn-action-table rounded-tl-none rounded-bl-none border-l-0 bg-primary text-white border-primary"
         >
           <FaSearch />

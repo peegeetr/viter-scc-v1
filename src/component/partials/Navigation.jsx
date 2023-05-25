@@ -6,10 +6,16 @@ import {
   FaBusinessTime,
   FaUsers,
   FaShoppingCart,
+  FaSignOutAlt,
 } from "react-icons/fa";
 import { MdDashboard, MdOutlineInventory } from "react-icons/md";
 import { Link } from "react-router-dom";
-import { setIsSearch, setIsShow, setStartIndex } from "../../store/StoreAction";
+import {
+  setIsLogout,
+  setIsSearch,
+  setIsShow,
+  setStartIndex,
+} from "../../store/StoreAction";
 import { StoreContext } from "../../store/StoreContext";
 import { getUserType } from "../helpers/functions-general";
 
@@ -20,6 +26,9 @@ const Navigation = ({ menu }) => {
     dispatch(setIsShow(!store.isShow));
     dispatch(setIsSearch(false));
     dispatch(setStartIndex(0));
+  };
+  const handleLogout = () => {
+    dispatch(setIsLogout(true));
   };
 
   return (
@@ -185,6 +194,24 @@ const Navigation = ({ menu }) => {
                 </Link>
               </li>
             )}
+
+            <li
+              className={
+                menu === "logout"
+                  ? "active"
+                  : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white md:hidden absolute w-full bottom-0"
+              }
+              onClick={() => dispatch(setIsSearch(false))}
+            >
+              <button
+                className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation disabled:cursor-not-allowed"
+                onClick={handleLogout}
+                data-tooltip="Logout"
+              >
+                <FaSignOutAlt className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
+                <span className="md:hidden lg:block">Logout</span>
+              </button>
+            </li>
           </ul>
         </nav>
         <span

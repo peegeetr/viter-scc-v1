@@ -141,15 +141,15 @@ const AccountList = () => {
                     </td>
                     <td>
                       <div className="flex items-center gap-1">
+                        <Link
+                          to={`${urlLink}/account/details?memberid=${item.members_aid}`}
+                          className="btn-action-table tooltip-action-table"
+                          data-tooltip="Details"
+                        >
+                          <FaListUl />
+                        </Link>
                         {item.members_is_active === 1 ? (
                           <>
-                            <Link
-                              to={`${urlLink}/account/details?memberid=${item.members_aid}`}
-                              className="btn-action-table tooltip-action-table"
-                              data-tooltip="Details"
-                            >
-                              <FaListUl />
-                            </Link>
                             <button
                               type="button"
                               className="btn-action-table tooltip-action-table"

@@ -30,7 +30,7 @@ const Header = () => {
         </div>
         <div className="flex justify-between items-center gap-3">
           <FaUserCircle className="w-9 h-9 text-white hidden md:block" />
-          <div className="hidden md:block leading-normal text-white min-w-[4rem]">
+          <div className="hidden md:block leading-normal text-white min-w-[6rem]">
             <h4>
               Hi <span>{name},</span>
             </h4>

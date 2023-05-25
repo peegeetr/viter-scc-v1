@@ -178,7 +178,7 @@ const OtherUserList = ({ setItemEdit }) => {
                             <button
                               type="button"
                               className="btn-action-table tooltip-action-table"
-                              data-tooltip="Archive"
+                              data-tooltip="Suspend"
                               onClick={() => handleArchive(item)}
                             >
                               <FaUserSlash />
