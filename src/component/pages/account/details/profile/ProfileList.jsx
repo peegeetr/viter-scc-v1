@@ -18,6 +18,7 @@ import {
   formatDate,
   getTime,
   getUrlParam,
+  numberWithCommas,
 } from "../../../../helpers/functions-general";
 import ModalDeleteRestore from "../../../../partials/modals/ModalDeleteRestore";
 import NoData from "../../../../partials/NoData";
@@ -257,9 +258,19 @@ const ProfileList = ({ members, isLoading, error }) => {
                 <p className="font-semibold">Occupation :</p>
                 <p className="">{item.members_spouse_occupation}</p>
                 <p className="font-semibold">Income :</p>
-                <p className="">{item.members_spouse_income}</p>
+                <p className="">
+                  &#8369;{" "}
+                  {numberWithCommas(
+                    Number(item.members_spouse_income).toFixed(2)
+                  )}
+                </p>
                 <p className="font-semibold">Net income :</p>
-                <p className="">{item.members_spouse_net_income}</p>
+                <p className="">
+                  &#8369;{" "}
+                  {numberWithCommas(
+                    Number(item.members_spouse_net_income).toFixed(2)
+                  )}
+                </p>
                 <p className="font-semibold">Properties owned :</p>
                 <p className="">{item.members_properties_owned}</p>
               </div>
@@ -281,16 +292,27 @@ const ProfileList = ({ members, isLoading, error }) => {
                 <p className="font-semibold">Position :</p>
                 <p className="">{item.members_position}</p>
                 <p className="font-semibold">Income gross :</p>
-                <p className="">{item.members_position}</p>
+                <p className="">
+                  &#8369;{" "}
+                  {numberWithCommas(
+                    Number(item.members_income_gross).toFixed(2)
+                  )}
+                </p>
                 <p className="font-semibold">Income net :</p>
-                <p className="">{item.members_position}</p>
+                <p className="">
+                  &#8369;{" "}
+                  {numberWithCommas(Number(item.members_income_net).toFixed(2))}
+                </p>
 
                 <p className="font-semibold">Other Source of income :</p>
                 <p className="">{item.members_other_source_income}</p>
                 <p className="font-semibold">Income gross :</p>
-                <p className="">{item.members_other_income}</p>
-                <p className="font-semibold">Income net :</p>
-                <p className="">{item.members_spouse_occupation}</p>
+                <p className="">
+                  &#8369;{" "}
+                  {numberWithCommas(
+                    Number(item.members_other_income).toFixed(2)
+                  )}
+                </p>
               </div>
               <div className="bg-gray-200 p-2 flex justify-between items-center">
                 <h4>Beneficiaries</h4>

@@ -13,6 +13,7 @@ import { StoreContext } from "../../../../../store/StoreContext";
 import { InputText } from "../../../../helpers/FormInputs";
 import { queryData } from "../../../../helpers/queryData";
 import ButtonSpinner from "../../../../partials/spinners/ButtonSpinner";
+import { removeComma } from "../../../../helpers/functions-general";
 
 const ModalUpdateSpouseInfo = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -80,9 +81,19 @@ const ModalUpdateSpouseInfo = ({ item }) => {
               initialValues={initVal}
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
+                const members_spouse_income = removeComma(
+                  `${values.members_spouse_income}`
+                );
+                const members_spouse_net_income = removeComma(
+                  `${values.members_spouse_net_income}`
+                );
                 // console.log(values);
                 // mutate data
-                mutation.mutate(values);
+                mutation.mutate({
+                  ...values,
+                  members_spouse_income,
+                  members_spouse_net_income,
+                });
               }}
             >
               {(props) => {
@@ -100,6 +111,7 @@ const ModalUpdateSpouseInfo = ({ item }) => {
                       <InputText
                         label="Spouse Gross Income"
                         type="text"
+                        num="num"
                         name="members_spouse_income"
                         disabled={mutation.isLoading}
                       />
@@ -108,6 +120,7 @@ const ModalUpdateSpouseInfo = ({ item }) => {
                       <InputText
                         label="Spouse Net Income"
                         type="text"
+                        num="num"
                         name="members_spouse_net_income"
                         disabled={mutation.isLoading}
                       />

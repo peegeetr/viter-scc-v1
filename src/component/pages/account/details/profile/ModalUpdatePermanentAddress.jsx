@@ -106,6 +106,7 @@ const ModalUpdatePermanentAddress = ({ item }) => {
                     <div className="relative mb-5">
                       <InputText
                         label="Mobile no."
+                        mobile="mobile"
                         type="text"
                         name="members_permanent_mobile_no"
                         disabled={mutation.isLoading}

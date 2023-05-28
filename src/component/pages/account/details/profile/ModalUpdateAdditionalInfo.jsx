@@ -106,8 +106,6 @@ const ModalUpdateAdditionalInfo = ({ item }) => {
                       <InputText
                         label="Birth Place"
                         type="text"
-                        onFocus={(e) => (e.target.type = "date")}
-                        onBlur={(e) => (e.target.type = "text")}
                         name="members_birth_place"
                         disabled={mutation.isLoading}
                       />

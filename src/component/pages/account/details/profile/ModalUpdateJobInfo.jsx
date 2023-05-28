@@ -14,6 +14,7 @@ import { StoreContext } from "../../../../../store/StoreContext";
 import { InputSelect, InputText } from "../../../../helpers/FormInputs";
 import { queryData } from "../../../../helpers/queryData";
 import ButtonSpinner from "../../../../partials/spinners/ButtonSpinner";
+import { removeComma } from "../../../../helpers/functions-general";
 
 const ModalUpdateJobInfo = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -84,9 +85,23 @@ const ModalUpdateJobInfo = ({ item }) => {
               initialValues={initVal}
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
+                const members_income_gross = removeComma(
+                  `${values.members_income_gross}`
+                );
+                const members_income_net = removeComma(
+                  `${values.members_income_net}`
+                );
+                const members_other_income = removeComma(
+                  `${values.members_other_income}`
+                );
                 // console.log(values);
                 // mutate data
-                mutation.mutate(values);
+                mutation.mutate({
+                  ...values,
+                  members_income_gross,
+                  members_income_net,
+                  members_other_income,
+                });
               }}
             >
               {(props) => {
@@ -104,6 +119,7 @@ const ModalUpdateJobInfo = ({ item }) => {
                       <InputText
                         label="Gross Income"
                         type="text"
+                        num="num"
                         name="members_income_gross"
                         disabled={mutation.isLoading}
                       />
@@ -112,6 +128,7 @@ const ModalUpdateJobInfo = ({ item }) => {
                       <InputText
                         label="Net Income"
                         type="text"
+                        num="num"
                         name="members_income_net"
                         disabled={mutation.isLoading}
                       />
@@ -128,6 +145,7 @@ const ModalUpdateJobInfo = ({ item }) => {
                       <InputText
                         label="Gross Income"
                         type="text"
+                        num="num"
                         name="members_other_income"
                         disabled={mutation.isLoading}
                       />
