@@ -64,7 +64,6 @@ const ModalUpdateBasicInfo = ({ item }) => {
     members_first_name: item.members_first_name,
     members_middle_name: item.members_middle_name,
     members_last_name: item.members_last_name,
-    members_picture: item.members_picture,
 
     members_first_name_old: item.members_first_name,
     members_middle_name_old: item.members_middle_name,
@@ -101,7 +100,7 @@ const ModalUpdateBasicInfo = ({ item }) => {
               initialValues={initVal}
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
-                console.log(values);
+                // console.log(values);
                 uploadPhoto();
                 mutation.mutate({
                   ...values,
@@ -207,7 +206,8 @@ const ModalUpdateBasicInfo = ({ item }) => {
                     <div className="flex items-center gap-1 pt-3">
                       <button
                         type="submit"
-                        disabled={mutation.isLoading || !props.dirty}
+                        // disabled={mutation.isLoading || !props.dirty}
+                        disabled={mutation.isLoading}
                         className="btn-modal-submit relative"
                       >
                         {mutation.isLoading ? (
