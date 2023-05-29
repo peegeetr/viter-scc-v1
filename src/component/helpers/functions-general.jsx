@@ -2,9 +2,9 @@ import React from "react";
 import { setIsAdd } from "../../store/StoreAction.jsx";
 
 // Online URL dev
-export const devApiUrl = "https://scc.frontlinebusiness.com.ph/rest";
-export const devBaseImgUrl = "https://scc.frontlinebusiness.com.ph/img";
-export const devBaseUrl = "https://scc.frontlinebusiness.com.ph";
+export const devApiUrl = "https://app.sambahayancoop.com/rest";
+export const devBaseImgUrl = "https://app.sambahayancoop.com/img";
+export const devBaseUrl = "https://app.sambahayancoop.com";
 export const devNavUrl = "";
 
 // // // // Local URL dev
