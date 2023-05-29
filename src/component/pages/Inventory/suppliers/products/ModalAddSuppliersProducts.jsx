@@ -13,7 +13,10 @@ import {
 } from "../../../../../store/StoreAction";
 import { InputSelect, InputText } from "../../../../helpers/FormInputs";
 import ButtonSpinner from "../../../../partials/spinners/ButtonSpinner";
-import { getUrlParam } from "../../../../helpers/functions-general";
+import {
+  getUrlParam,
+  removeComma,
+} from "../../../../helpers/functions-general";
 import useQueryData from "../../../../custom-hooks/useQueryData";
 
 const ModalAddSuppliersProducts = ({ item }) => {
