@@ -98,9 +98,9 @@ const OrdersList = ({ setItemEdit }) => {
               <th className="min-w-[10rem]">Name</th>
               <th className="min-w-[8rem]">Date</th>
               <th className="min-w-[8rem]">Product</th>
-              <th className="min-w-[8rem]">Quantity</th>
-              <th className="min-w-[8rem]">Price</th>
-              <th className="min-w-[8rem]">Total Price</th>
+              <th className="min-w-[8rem] text-center">Quantity</th>
+              <th className="min-w-[8rem] text-right">SRP Price</th>
+              <th className="min-w-[8rem] text-right pr-4">Total Price</th>
               <th>Status</th>
 
               {store.credentials.data.role_is_member === 0 && (
@@ -136,14 +136,16 @@ const OrdersList = ({ setItemEdit }) => {
                       item.orders_date
                     )}`}</td>
                     <td>{item.suppliers_products_name}</td>
-                    <td>{item.orders_product_quantity}</td>
-                    <td>
+                    <td className="text-center">
+                      {item.orders_product_quantity}
+                    </td>
+                    <td className="text-right">
                       &#8369;{" "}
                       {numberWithCommas(
                         Number(item.suppliers_products_scc_price).toFixed(2)
                       )}
                     </td>
-                    <td>
+                    <td className="text-right pr-4">
                       &#8369;{" "}
                       {numberWithCommas(
                         Number(item.orders_product_amount).toFixed(2)

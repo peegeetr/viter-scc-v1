@@ -13,7 +13,10 @@ import { StoreContext } from "../../../../store/StoreContext";
 import { InputText } from "../../../helpers/FormInputs";
 import { queryData } from "../../../helpers/queryData";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
-import { numberWithCommas } from "../../../helpers/functions-general";
+import {
+  numberWithCommas,
+  removeComma,
+} from "../../../helpers/functions-general";
 
 const ModalUpdateProducts = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);

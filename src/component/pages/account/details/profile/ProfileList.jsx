@@ -211,7 +211,7 @@ const ProfileList = ({ members, isLoading, error }) => {
                 <p className="">{item.members_permanent_address}</p>
                 <p className="font-semibold">Zip code :</p>
                 <p className="">{item.members_permanent_zip_code}</p>
-                <p className="font-semibold">Mobile no. :</p>
+                <p className="font-semibold">Landline no. :</p>
                 <p className="">{item.members_permanent_mobile_no}</p>
               </div>
               <div className="bg-gray-200 p-2 mb-5 flex justify-between items-center">
@@ -236,7 +236,7 @@ const ProfileList = ({ members, isLoading, error }) => {
                 <p className="">{item.members_present_address}</p>
                 <p className="font-semibold">Zip code :</p>
                 <p className="">{item.members_present_zip_code}</p>
-                <p className="font-semibold">Mobile no. :</p>
+                <p className="font-semibold">Landline no. :</p>
                 <p className="">{item.members_present_mobile_no}</p>
               </div>
               <div className="bg-gray-200 p-2 mb-5 flex justify-between items-center">

@@ -104,7 +104,7 @@ const SalesList = ({ setItemEdit }) => {
               <th className="min-w-[10rem]">Name</th>
               <th className="min-w-[8rem]">Sale Number</th>
               <th className="min-w-[8rem]">Product Name</th>
-              <th className="min-w-[5rem] text-right pr-4">Quantity</th>
+              <th className="min-w-[5rem] text-center pr-4">Quantity</th>
               <th className="min-w-[6rem] text-right pr-4">Total Amount</th>
               <th className="min-w-[10rem] text-right pr-4">Recieve Amount</th>
               <th className="min-w-[12rem]">Recieve Payment Date</th>
@@ -141,7 +141,7 @@ const SalesList = ({ setItemEdit }) => {
                     <td className="uppercase">{item.sales_number}</td>
                     <td>{item.suppliers_products_name}</td>
 
-                    <td className="text-right pr-4">
+                    <td className="text-center pr-4">
                       {item.orders_product_quantity}
                     </td>
                     <td className="text-right pr-4 font-bold text-primary ">

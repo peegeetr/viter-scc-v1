@@ -95,13 +95,20 @@ const ModalUpdateAdditionalInfo = ({ item }) => {
                 return (
                   <Form className="pt-5">
                     <div className="relative mb-5">
-                      <InputText
+                      <InputSelect
                         label="Marital Status"
-                        type="text"
                         name="members_civil_status"
                         disabled={mutation.isLoading}
-                      />
+                      >
+                        <option value="" hidden>
+                          --
+                        </option>
+                        <option value="single">Single</option>
+                        <option value="married">Married</option>
+                        <option value="widow">Widow</option>
+                      </InputSelect>
                     </div>
+
                     <div className="relative mb-5">
                       <InputText
                         label="Birth Place"
@@ -122,6 +129,7 @@ const ModalUpdateAdditionalInfo = ({ item }) => {
                       <InputText
                         label="Contact Number"
                         type="text"
+                        mobile="mobile"
                         name="members_contact_no"
                         disabled={mutation.isLoading}
                       />

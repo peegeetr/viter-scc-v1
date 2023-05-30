@@ -91,9 +91,11 @@ const SupplierProductList = ({ setItemEdit }) => {
           <thead>
             <tr>
               <th>#</th>
-              <th className="min-w-[15rem]">Product Name</th>
-              <th className="min-w-[15rem]">Product Category</th>
-              <th className="min-w-[15rem]">Supplier Price</th>
+              <th className="min-w-[15rem] w-[15rem]">Product Name</th>
+              <th className="min-w-[10rem] w-[15rem] text-right pr-8">
+                Supplier Price
+              </th>
+              <th className="min-w-[10rem] ">Product Category</th>
 
               {(store.credentials.data.role_is_admin === 1 ||
                 store.credentials.data.role_is_developer === 1 ||
@@ -125,13 +127,13 @@ const SupplierProductList = ({ setItemEdit }) => {
                   <tr key={key}>
                     <td> {counter++}.</td>
                     <td>{item.suppliers_products_name}</td>
-                    <td>{item.product_category_name}</td>
-                    <td>
+                    <td className=" pr-8 text-right">
                       &#8369;{" "}
                       {numberWithCommas(
                         Number(item.suppliers_products_price).toFixed(2)
                       )}
                     </td>
+                    <td>{item.product_category_name}</td>
 
                     {(store.credentials.data.role_is_admin === 1 ||
                       store.credentials.data.role_is_developer === 1 ||

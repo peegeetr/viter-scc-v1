@@ -97,10 +97,10 @@ const ProductsList = () => {
               <th className="min-w-[12rem]">Product Number</th>
               <th className="min-w-[12rem]">Product Category</th>
               <th className="min-w-[12rem]">Product Name</th>
-              <th className="min-w-[10rem]">Supplier Price</th>
-              <th className="min-w-[10rem]">SCC Price</th>
-              <th className="min-w-[10rem]">Market Price</th>
-              <th className="min-w-[10rem]">Remaning Quantity</th>
+              <th className="min-w-[10rem] text-right">Supplier Price</th>
+              <th className="min-w-[10rem] text-right">SCC Price</th>
+              <th className="min-w-[10rem] text-right">Market Price</th>
+              <th className="min-w-[10rem] text-center">Remaning Quantity</th>
               {(store.credentials.data.role_is_admin === 1 ||
                 store.credentials.data.role_is_developer === 1 ||
                 store.credentials.data.role_is_manager === 1) && (
@@ -135,25 +135,25 @@ const ProductsList = () => {
                     </td>
                     <td>{item.product_category_name}</td>
                     <td>{item.suppliers_products_name}</td>
-                    <td>
+                    <td className="text-right">
                       &#8369;{" "}
                       {numberWithCommas(
                         Number(item.suppliers_products_price).toFixed(2)
                       )}
                     </td>
-                    <td>
+                    <td className="text-right">
                       &#8369;{" "}
                       {numberWithCommas(
                         Number(item.suppliers_products_scc_price).toFixed(2)
                       )}
                     </td>
-                    <td>
+                    <td className="text-right">
                       &#8369;
                       {numberWithCommas(
                         Number(item.suppliers_products_market_price).toFixed(2)
                       )}
                     </td>
-                    <td>
+                    <td className="text-center">
                       {getRemaningQuantity(
                         item,
                         stocksGroupProd,

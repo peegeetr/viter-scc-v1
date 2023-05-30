@@ -106,8 +106,8 @@ const ModalUpdatePresentAddress = ({ item }) => {
 
                     <div className="relative mb-5">
                       <InputText
-                        label="Mobile no."
-                        mobile="mobile"
+                        label="Landline no."
+                        landline="landline"
                         type="text"
                         name="members_present_mobile_no"
                         disabled={mutation.isLoading}

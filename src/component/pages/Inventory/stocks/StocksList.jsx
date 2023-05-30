@@ -2,19 +2,14 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import React from "react";
 import { FaCheck, FaHistory, FaTrash } from "react-icons/fa";
 import { useInView } from "react-intersection-observer";
-import {
-  setIsAdd,
-  setIsConfirm,
-  setIsRestore,
-} from "../../../../store/StoreAction";
+import { setIsConfirm, setIsRestore } from "../../../../store/StoreAction";
 import { StoreContext } from "../../../../store/StoreContext";
-import { formatDate } from "../../../helpers/functions-general";
+import { formatDate, getTime } from "../../../helpers/functions-general";
 import { queryDataInfinite } from "../../../helpers/queryDataInfinite";
 import Loadmore from "../../../partials/Loadmore";
 import NoData from "../../../partials/NoData";
 import SearchBar from "../../../partials/SearchBar";
 import ServerError from "../../../partials/ServerError";
-import ModalConfirm from "../../../partials/modals/ModalConfirm";
 import ModalDeleteRestore from "../../../partials/modals/ModalDeleteRestore";
 import TableSpinner from "../../../partials/spinners/TableSpinner";
 import StatusActive from "../../../partials/status/StatusActive";
@@ -108,7 +103,7 @@ const StocksList = ({ setItemEdit }) => {
               <th className="min-w-[8rem]">Product Number</th>
               <th className="min-w-[8rem]">Supplier</th>
               <th className="min-w-[8rem]">Product Name</th>
-              <th className="min-w-[5rem]">Quantity</th>
+              <th className="min-w-[5rem] text-center">Quantity</th>
               <th className="min-w-[10rem]">Official Receipt</th>
               <th className="min-w-[8rem]">Created date</th>
               <th>Status</th>
@@ -148,11 +143,13 @@ const StocksList = ({ setItemEdit }) => {
                     </td>
                     <td>{item.suppliers_company_name}</td>
                     <td>{item.suppliers_products_name}</td>
-                    <td>{item.stocks_quantity}</td>
+                    <td className="text-center">{item.stocks_quantity}</td>
                     <td>{item.stocks_or}</td>
                     <td>
-                      {`${formatDate(item.stocks_created)} 
-                      ${item.stocks_created.split(" ")[1]}`}
+                      {`${formatDate(item.stocks_created)} ${getTime(
+                        item.stocks_created
+                      )} 
+                       `}
                     </td>
                     <td>
                       {item.stocks_is_pending === 1 ? (

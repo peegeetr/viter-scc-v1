@@ -12,13 +12,9 @@ const useOtherIsLogin = (navigate) => {
   React.useEffect(() => {
     setLoading(true);
     const fetchLogin = async () => {
-      const login = await queryData(
-        `/v1/user-others/token`,
-        "post",
-        {
-          token: checkLocalStorage().token,
-        }, 
-      );
+      const login = await queryData(`/v1/user-others/token`, "post", {
+        token: checkLocalStorage().token,
+      });
 
       if (typeof login === "undefined" || !login.success) {
         localStorage.removeItem("sccToken");
