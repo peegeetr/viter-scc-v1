@@ -116,7 +116,7 @@ function App() {
       <StoreProvider>
         <Router>
           <Routes>
-            <Route path={`*`} element={<OtherLogin />} />
+            <Route path={`*`} element={<PageNotFound />} />
             <Route
               path={`${devNavUrl}/forgot-password-verification`}
               element={<ForgotPasswordVerification />}
