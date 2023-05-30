@@ -13,11 +13,11 @@ const Account = () => {
   return (
     <>
       <Header />
-      <Navigation menu="account" />
+      <Navigation menu="members" />
 
       <div className="wrapper print:pt-0">
         <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2 ">
-          <h4 className="text-xl mb-3">Account</h4>
+          <h4 className="text-xl mb-3">Members</h4>
 
           <BreadCrumbs />
         </div>

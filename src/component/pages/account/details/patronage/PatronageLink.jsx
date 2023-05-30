@@ -15,7 +15,7 @@ const PatronageLink = () => {
   return (
     <>
       <Link
-        to={`${urlLink}/account/details/patronage?memberid=${memberid}`}
+        to={`${urlLink}/members/details/patronage?memberid=${memberid}`}
         className="w-full py-2"
       >
         <div className="flex items-center">
@@ -25,13 +25,13 @@ const PatronageLink = () => {
           <span className="text-md font-bold">Patronage</span>
         </div>
         <p className="ml-[35px] my-0">
-          Manage what actions and capabilities every account are can perform in
+          Manage what actions and capabilities every members are can perform in
           the system.
         </p>
       </Link>
 
       <Link
-        to={`${urlLink}/account/details/patronage?memberid=${memberid}`}
+        to={`${urlLink}/members/details/patronage?memberid=${memberid}`}
         className="btn-action-table group-hover:bg-primary group-hover:text-white"
       >
         <SlArrowRight className="inline" />

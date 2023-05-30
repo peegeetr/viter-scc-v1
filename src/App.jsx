@@ -179,7 +179,7 @@ function App() {
               }
             />
             <Route
-              path={`${devNavUrl}/${UrlSystem}/account`}
+              path={`${devNavUrl}/${UrlSystem}/members`}
               element={
                 <ProtectedRouteSystem>
                   <SystemAccount />
@@ -204,7 +204,7 @@ function App() {
             />
 
             <Route
-              path={`${devNavUrl}/${UrlSystem}/account/details`}
+              path={`${devNavUrl}/${UrlSystem}/members/details`}
               element={
                 <ProtectedRouteSystem>
                   <SystemDeatils />
@@ -212,7 +212,7 @@ function App() {
               }
             />
             <Route
-              path={`${devNavUrl}/${UrlSystem}/account/details/profile`}
+              path={`${devNavUrl}/${UrlSystem}/members/details/profile`}
               element={
                 <ProtectedRouteSystem>
                   <SystemProfile />
@@ -221,7 +221,7 @@ function App() {
             />
 
             <Route
-              path={`${devNavUrl}/${UrlSystem}/account/details/savings`}
+              path={`${devNavUrl}/${UrlSystem}/members/details/savings`}
               element={
                 <ProtectedRouteSystem>
                   <SystemSavings />
@@ -230,7 +230,7 @@ function App() {
             />
 
             <Route
-              path={`${devNavUrl}/${UrlSystem}/account/details/capital-share`}
+              path={`${devNavUrl}/${UrlSystem}/members/details/capital-share`}
               element={
                 <ProtectedRouteSystem>
                   <SystemCapitalShare />
@@ -238,7 +238,7 @@ function App() {
               }
             />
             <Route
-              path={`${devNavUrl}/${UrlSystem}/account/details/patronage`}
+              path={`${devNavUrl}/${UrlSystem}/members/details/patronage`}
               element={
                 <ProtectedRouteSystem>
                   <SystemPatronage />
@@ -466,7 +466,7 @@ function App() {
             />
 
             <Route
-              path={`${devNavUrl}/${UrlAdmin}/account`}
+              path={`${devNavUrl}/${UrlAdmin}/members`}
               element={
                 <ProtectedRouteOther>
                   <AdminAccount />
@@ -483,7 +483,7 @@ function App() {
               }
             />
             <Route
-              path={`${devNavUrl}/${UrlAdmin}/account/details`}
+              path={`${devNavUrl}/${UrlAdmin}/members/details`}
               element={
                 <ProtectedRouteOther>
                   <AdminDeatils />
@@ -491,7 +491,7 @@ function App() {
               }
             />
             <Route
-              path={`${devNavUrl}/${UrlAdmin}/account/details/profile`}
+              path={`${devNavUrl}/${UrlAdmin}/members/details/profile`}
               element={
                 <ProtectedRouteOther>
                   <AdminProfile />
@@ -500,7 +500,7 @@ function App() {
             />
 
             <Route
-              path={`${devNavUrl}/${UrlAdmin}/account/details/savings`}
+              path={`${devNavUrl}/${UrlAdmin}/members/details/savings`}
               element={
                 <ProtectedRouteOther>
                   <AdminSavings />
@@ -509,7 +509,7 @@ function App() {
             />
 
             <Route
-              path={`${devNavUrl}/${UrlAdmin}/account/details/capital-share`}
+              path={`${devNavUrl}/${UrlAdmin}/members/details/capital-share`}
               element={
                 <ProtectedRouteOther>
                   <AdminCapitalShare />
@@ -517,7 +517,7 @@ function App() {
               }
             />
             <Route
-              path={`${devNavUrl}/${UrlAdmin}/account/details/patronage`}
+              path={`${devNavUrl}/${UrlAdmin}/members/details/patronage`}
               element={
                 <ProtectedRouteOther>
                   <AdminPatronage />

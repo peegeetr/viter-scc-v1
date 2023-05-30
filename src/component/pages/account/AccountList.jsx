@@ -142,7 +142,7 @@ const AccountList = () => {
                     <td>
                       <div className="flex items-center gap-1">
                         <Link
-                          to={`${urlLink}/account/details?memberid=${item.members_aid}`}
+                          to={`${urlLink}/members/details?memberid=${item.members_aid}`}
                           className="btn-action-table tooltip-action-table"
                           data-tooltip="Details"
                         >
