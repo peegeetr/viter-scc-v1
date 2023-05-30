@@ -1,5 +1,5 @@
 import React from "react";
-import { setStartIndex } from "../../../../store/StoreAction";
+import { setIsSearch, setStartIndex } from "../../../../store/StoreAction";
 import { StoreContext } from "../../../../store/StoreContext";
 import CapitalShareLink from "./capital-share/CapitalShareLink";
 import PatronageLink from "./patronage/PatronageLink";
@@ -16,6 +16,10 @@ const DetailsLink = () => {
     "get", // method
     "memberName" // key
   );
+  const handleShow = () => {
+    dispatch(setStartIndex(0));
+    dispatch(setIsSearch(false));
+  };
 
   return (
     <>
@@ -29,25 +33,26 @@ const DetailsLink = () => {
       )}
       <div
         className="group flex items-center justify-between border-b border-solid border-gray-300"
-        onClick={() => dispatch(setStartIndex(0))}
+        onClick={handleShow}
       >
         <ProfileLink />
       </div>
       {/* <div
         className="group flex items-center justify-between border-b border-solid border-gray-300"
-        onClick={() => dispatch(setStartIndex(0))}
+        
+          onClick={handleShow}
       >
         <SavingsLink />
       </div> */}
       <div
         className="group flex items-center justify-between border-b border-solid border-gray-300"
-        onClick={() => dispatch(setStartIndex(0))}
+        onClick={handleShow}
       >
         <CapitalShareLink />
       </div>
       <div
         className="group flex items-center justify-between border-b border-solid border-gray-300"
-        onClick={() => dispatch(setStartIndex(0))}
+        onClick={handleShow}
       >
         <PatronageLink />
       </div>

@@ -4,12 +4,20 @@ import { SlArrowRight } from "react-icons/sl";
 import { Link } from "react-router-dom";
 import { StoreContext } from "../../../../../store/StoreContext";
 import { getUserType } from "../../../../helpers/functions-general";
+import { setIsSearch, setStartIndex } from "../../../../../store/StoreAction";
 
 const OtherUserLink = () => {
   const { store, dispatch } = React.useContext(StoreContext);
   const urlLink = getUserType(store);
+  const handleShow = () => {
+    dispatch(setStartIndex(0));
+    dispatch(setIsSearch(false));
+  };
   return (
-    <div className="group flex items-center justify-between border-b border-solid border-gray-300">
+    <div
+      className="group flex items-center justify-between border-b border-solid border-gray-300"
+      onClick={handleShow}
+    >
       <Link
         to={
           store.credentials.data.role_is_developer === 1

@@ -2,17 +2,21 @@ import React from "react";
 import { RiUserSharedFill } from "react-icons/ri";
 import { SlArrowRight } from "react-icons/sl";
 import { Link } from "react-router-dom";
-import { setStartIndex } from "../../../../store/StoreAction";
+import { setIsSearch, setStartIndex } from "../../../../store/StoreAction";
 import { StoreContext } from "../../../../store/StoreContext";
 import { devNavUrl, UrlSystem } from "../../../helpers/functions-general";
 
 const UserLink = () => {
   const { store, dispatch } = React.useContext(StoreContext);
 
+  const handleShow = () => {
+    dispatch(setStartIndex(0));
+    dispatch(setIsSearch(false));
+  };
   return (
     <div
       className="group flex items-center justify-between border-b border-solid border-gray-300"
-      onClick={() => dispatch(setStartIndex(0))}
+      onClick={handleShow}
     >
       <Link
         to={`${devNavUrl}/${UrlSystem}/settings/users`}
