@@ -109,9 +109,9 @@ class Suppliers
             $sql .= "order by suppliers_company_name asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "suppliers_company_name" => "{$this->suppliers_search}%",
-                "suppliers_contact_person" => "{$this->suppliers_search}%",
-                "suppliers_company_address" => "{$this->suppliers_search}%",
+                "suppliers_company_name" => "%{$this->suppliers_search}%",
+                "suppliers_contact_person" => "%{$this->suppliers_search}%",
+                "suppliers_company_address" => "%{$this->suppliers_search}%",
             ]);
         } catch (PDOException $ex) {
             $query = false;

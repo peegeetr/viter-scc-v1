@@ -238,11 +238,11 @@ class Orders
             $sql .= "orders.orders_date desc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "suppliers_products_name" => "{$this->orders_search}%",
-                "orders_month_date" => "{$this->orders_search}%",
-                "orders_date" => "{$this->orders_search}%",
-                "orders_number" => "{$this->orders_search}%",
-                "members_last_name" => "{$this->orders_search}%",
+                "suppliers_products_name" => "%{$this->orders_search}%",
+                "orders_month_date" => "%{$this->orders_search}%",
+                "orders_date" => "%{$this->orders_search}%",
+                "orders_number" => "%{$this->orders_search}%",
+                "members_last_name" => "%{$this->orders_search}%",
             ]);
         } catch (PDOException $ex) {
             $query = false;
@@ -315,11 +315,11 @@ class Orders
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "orders_member_id" => $this->orders_member_id,
-                "orders_month_date" => "{$this->orders_search}%",
-                "orders_date" => "{$this->orders_search}%",
-                "sales_number" => "{$this->orders_search}%",
-                "orders_number" => "{$this->orders_search}%",
-                "suppliers_products_name" => "{$this->orders_search}%",
+                "orders_month_date" => "%{$this->orders_search}%",
+                "orders_date" => "%{$this->orders_search}%",
+                "sales_number" => "%{$this->orders_search}%",
+                "orders_number" => "%{$this->orders_search}%",
+                "suppliers_products_name" => "%{$this->orders_search}%",
             ]);
         } catch (PDOException $ex) {
             $query = false;
@@ -693,8 +693,8 @@ class Orders
             $sql .= "orders.orders_date desc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "members_last_name" => "{$this->orders_search}%",
-                "members_first_name" => "{$this->orders_search}%",
+                "members_last_name" => "%{$this->orders_search}%",
+                "members_first_name" => "%{$this->orders_search}%",
             ]);
         } catch (PDOException $ex) {
             $query = false;

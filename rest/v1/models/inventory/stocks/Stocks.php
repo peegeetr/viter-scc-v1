@@ -163,10 +163,10 @@ class Stocks
             $sql .= "stocks.stocks_number asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "stocks_number" => "{$this->stocks_search}%",
-                "suppliers_products_number" => "{$this->stocks_search}%",
-                "suppliers_products_name" => "{$this->stocks_search}%",
-                "suppliers_company_name" => "{$this->stocks_search}%",
+                "stocks_number" => "%{$this->stocks_search}%",
+                "suppliers_products_number" => "%{$this->stocks_search}%",
+                "suppliers_products_name" => "%{$this->stocks_search}%",
+                "suppliers_company_name" => "%{$this->stocks_search}%",
             ]);
         } catch (PDOException $ex) {
             $query = false;

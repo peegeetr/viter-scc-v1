@@ -80,7 +80,7 @@ const MemberDashboardList = () => {
                     <div className="w-full py-1 md:flex block items-center justify-between">
                       <div>
                         <small className="text-xs ">
-                          Date: {formatDate(item.announcement_created)}
+                          Date: {formatDate(item.announcement_date)}
                         </small>
                         <p className="text-sm font-semibold m-0">
                           {item.announcement_name}

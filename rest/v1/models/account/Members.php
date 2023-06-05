@@ -165,9 +165,9 @@ class Members
             $sql .= "members_first_name asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "members_last_name" => "{$this->members_search}%",
-                "members_first_name" => "{$this->members_search}%",
-                "members_id" => "{$this->members_search}%",
+                "members_last_name" => "%{$this->members_search}%",
+                "members_first_name" => "%{$this->members_search}%",
+                "members_id" => "%{$this->members_search}%",
             ]);
         } catch (PDOException $ex) {
             $query = false;
@@ -241,9 +241,9 @@ class Members
             $sql .= "members_first_name asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "members_last_name" => "{$this->members_search}%",
-                "members_first_name" => "{$this->members_search}%",
-                "members_id" => "{$this->members_search}%",
+                "members_last_name" => "%{$this->members_search}%",
+                "members_first_name" => "%{$this->members_search}%",
+                "members_id" => "%{$this->members_search}%",
             ]);
         } catch (PDOException $ex) {
             $query = false;

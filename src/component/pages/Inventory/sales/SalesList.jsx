@@ -191,7 +191,7 @@ const SalesList = ({ setItemEdit }) => {
                             <button
                               type="button"
                               className="btn-action-table tooltip-action-table"
-                              data-tooltip="void"
+                              data-tooltip="Void"
                               onClick={() => handleRestore(item)}
                             >
                               <FaEraser />
@@ -200,7 +200,7 @@ const SalesList = ({ setItemEdit }) => {
                             <button
                               type="button"
                               className="btn-action-table tooltip-action-table"
-                              data-tooltip="payment"
+                              data-tooltip="Accept"
                               onClick={() => handleEdit(item)}
                             >
                               <GiReceiveMoney />
@@ -211,7 +211,7 @@ const SalesList = ({ setItemEdit }) => {
                             <button
                               type="button"
                               className="btn-action-table tooltip-action-table"
-                              data-tooltip="payment"
+                              data-tooltip="Accept"
                               onClick={() => handleEdit(item)}
                             >
                               <GiReceiveMoney />

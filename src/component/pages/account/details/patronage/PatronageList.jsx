@@ -272,7 +272,7 @@ const PatronageList = ({ setItemEdit }) => {
                           orderGroupProd
                         ) === 0 &&
                           item.orders_is_draft === 1 && (
-                            <StatusPending text="sold" />
+                            <StatusPending text="sold out" />
                           )}
                       </td>
                       <td>{item.sales_or === "" ? "N/A" : item.sales_or}</td>

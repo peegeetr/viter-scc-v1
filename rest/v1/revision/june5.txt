@@ -6,9 +6,10 @@
     - inventory/orders/create.php 
 
 *models  
-    -> inventory/orders/Orders.php   
+    - inventory/orders/Orders.php   
     - inventory/sales/Sales.php   
     - inventory/suppliers/product/SuppliersProducts.php   
+    -> All Models 
 
 *htaccess 
     - #patronage
