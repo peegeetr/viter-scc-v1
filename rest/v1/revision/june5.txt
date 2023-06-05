@@ -20,5 +20,5 @@
     - 
 
 *extra
-    - Uploaded to prod.
+    - Uploaded to prod. and update db of both dev and prod
     
