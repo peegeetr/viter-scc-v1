@@ -77,7 +77,7 @@ const PatronageList = ({ setItemEdit }) => {
       }
       return;
     },
-    refetchOnWindowFocus: false,
+    // refetchOnWindowFocus: false,
     networkMode: "always",
     cacheTime: 200,
   });
@@ -197,7 +197,8 @@ const PatronageList = ({ setItemEdit }) => {
                   type="submit"
                   disabled={isFetching || !props.dirty}
                 >
-                  {isFetching && <ButtonSpinner />}
+                  {/* {isFetching && <ButtonSpinner />} */}
+                  {status === "loading" && <ButtonSpinner />}
                   <MdFilterAlt className="text-lg" />
                   <span>Filter</span>
                 </button>
@@ -247,7 +248,9 @@ const PatronageList = ({ setItemEdit }) => {
                 </td>
               </tr>
             )}
-
+            {/* use only for updating important records */}
+            {status !== "loading" && isFetching && <TableSpinner />}
+            {/* use only for updating important records */}
             {result?.pages.map((page, key) => (
               <React.Fragment key={key}>
                 {page.data.map((item, key) => {
