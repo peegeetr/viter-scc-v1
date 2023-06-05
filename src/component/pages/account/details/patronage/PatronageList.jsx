@@ -247,7 +247,7 @@ const PatronageList = () => {
                         )}
                       </td>
                       <td className=" text-right pr-4">
-                        {/* {pesoSign()} */}
+                        {pesoSign}
                         {numberWithCommas(
                           Number(item.sales_receive_amount).toFixed(2)
                         )}
@@ -293,7 +293,9 @@ const PatronageList = () => {
           </tbody>
         </table>
         <div className="text-center font-semibold pt-8 text-lg">
-          <p>Total paid : {totalAmount}</p>
+          <p>
+            Total paid :{pesoSign} {totalAmount}
+          </p>
         </div>
         <Loadmore
           fetchNextPage={fetchNextPage}
