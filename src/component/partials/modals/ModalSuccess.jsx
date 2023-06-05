@@ -7,18 +7,14 @@ import { GetFocus } from "../../helpers/functions-general";
 const ModalSuccess = () => {
   const { store, dispatch } = React.useContext(StoreContext);
   GetFocus("btnClose");
-  const [show, setShow] = React.useState("show");
 
   const handleClose = () => {
-    setShow("");
-    setTimeout(() => {
-      dispatch(setSuccess(false));
-    }, 500);
+    dispatch(setSuccess(false));
   };
   return (
     <>
       <div
-        className={`fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center bg-dark bg-opacity-50 z-50 ${show}`}
+        className={`fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center bg-dark bg-opacity-50 z-50 show`}
       >
         {" "}
         <div className="p-1 w-[350px] rounded-b-2xl">
