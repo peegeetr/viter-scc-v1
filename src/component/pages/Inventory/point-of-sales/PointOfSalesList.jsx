@@ -8,7 +8,7 @@ import { setError, setMessage } from "../../../store/StoreAction";
 import useQueryData from "../../custom-hooks/useQueryData";
 import { getDateTimeNow } from "../../helpers/functions-general";
 import { InputSelect, InputText } from "../../helpers/FormInputs";
-import { removeComma } from "../../../helpers/functions-general";
+import { pesoSign, removeComma } from "../../../helpers/functions-general";
 
 const AddOrderPage = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -284,13 +284,20 @@ const AddOrderPage = () => {
                   <td className="uppercase">{"Egg Medium"}</td>
                   <td>{"5/5/2023"}</td>
                   <td>{"1"}</td>
-                  <td className="text-right pr-4">&#8369; {"210.00"}</td>
-                  <td className="text-right pr-4">&#8369; {"210.00"}</td>
+                  <td className="text-right pr-4">
+                    {pesoSign} {"210.00"}
+                  </td>
+                  <td className="text-right pr-4">
+                    {pesoSign} {"210.00"}
+                  </td>
                 </tr>
               </tbody>
               <tr>
                 <td colSpan={6} className="text-right font-bold">
-                  Total Price: <span className="px-2">&#8369; {"210.00"}</span>
+                  Total Price:{" "}
+                  <span className="px-2">
+                    {pesoSign} {"210.00"}
+                  </span>
                 </td>
               </tr>
             </table>

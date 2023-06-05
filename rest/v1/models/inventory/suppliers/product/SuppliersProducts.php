@@ -395,6 +395,7 @@ class SuppliersProducts
             $sql .= "and category.product_category_aid = suppliersProducts.suppliers_products_category_id ";
             $sql .= "and stocks.stocks_product_id = suppliersProducts.suppliers_products_aid ";
             $sql .= "and stocks.stocks_is_pending = '0' ";
+            $sql .= "group by stocks.stocks_product_id ";
             $sql .= "order by suppliersProducts.suppliers_products_name asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([

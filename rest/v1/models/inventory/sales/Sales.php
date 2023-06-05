@@ -144,6 +144,8 @@ class Sales
             $sql .= "and orders.orders_aid = sales.sales_order_id ";
             $sql .= "and orders.orders_member_id = member.members_aid ";
             $sql .= "and sales.sales_member_id = member.members_aid ";
+            $sql .= "and sales.sales_member_id = member.members_aid ";
+            $sql .= "and orders.orders_is_draft = 0 ";
             $sql .= "order by sales.sales_is_paid, ";
             $sql .= "sales.sales_date desc ";
             $sql .= "limit :start, ";

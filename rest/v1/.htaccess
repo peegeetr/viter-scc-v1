@@ -75,7 +75,9 @@ RewriteRule ^capital-share/search/([A-Za-z0-9-]+)/([0-9]+)$ controllers/account/
 
 #patronage
 RewriteRule ^patronage/page/by-employee-id/([0-9]+)/([0-9]+)$ controllers/account/details/patronage/page-by-employee-id.php?start=$1&membersid=$2 [L]
+RewriteRule ^patronage/active/([0-9]+)$ controllers/account/details/patronage/active.php?orderid=$1 [L]
 RewriteRule ^patronage/search/by-employee-id/([A-Za-z0-9-]+)/([0-9]+)$ controllers/account/details/patronage/search-by-employee-id.php?search=$1&membersid=$2 [L]
+RewriteRule ^patronage/filter/by-employee-id/([A-Za-z0-9-]+)/([A-Za-z0-9-]+)/([0-9]+)$ controllers/account/details/patronage/filter-by-employee-id.php?startDate=$1&endDate=$2&membersid=$3 [L]
  
 #files
 RewriteRule ^file$ controllers/files/files.php [L]

@@ -4,7 +4,11 @@ import { FaTimesCircle } from "react-icons/fa";
 import { setIsAdd } from "../../../../store/StoreAction";
 import { StoreContext } from "../../../../store/StoreContext";
 import useQueryData from "../../../custom-hooks/useQueryData";
-import { formatDate, getDateNow } from "../../../helpers/functions-general";
+import {
+  formatDate,
+  getDateNow,
+  pesoSign,
+} from "../../../helpers/functions-general";
 import NoData from "../../../partials/NoData";
 import ServerError from "../../../partials/ServerError";
 import TableSpinner from "../../../partials/spinners/TableSpinner";
@@ -152,10 +156,10 @@ const ModalViewProductInvoice = ({ item }) => {
                         <td>{item.orders_date.split(" ")[0]}</td>
                         <td>{item.orders_product_quantity}</td>
                         <td className="pr-4 text-right">
-                          &#8369; {item.suppliers_products_scc_price}
+                          {pesoSign} {item.suppliers_products_scc_price}
                         </td>
                         <td className=" pr-4 text-right">
-                          &#8369; {item.orders_product_amount}
+                          {pesoSign} {item.orders_product_amount}
                         </td>
                       </tr>
                     );
@@ -163,7 +167,9 @@ const ModalViewProductInvoice = ({ item }) => {
                   <tr className="border-b-0">
                     <td colSpan={6} className="text-right font-bold">
                       Subtotal Total:{" "}
-                      <span className="ml-4 pr-2">&#8369; {totalAmount}</span>
+                      <span className="ml-4 pr-2">
+                        {pesoSign} {totalAmount}
+                      </span>
                     </td>
                   </tr>
                 </tbody>

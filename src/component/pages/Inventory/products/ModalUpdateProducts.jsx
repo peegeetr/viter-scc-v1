@@ -15,6 +15,7 @@ import { queryData } from "../../../helpers/queryData";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
 import {
   numberWithCommas,
+  pesoSign,
   removeComma,
 } from "../../../helpers/functions-general";
 
@@ -101,7 +102,7 @@ const ModalUpdateProducts = ({ item }) => {
                       <p className="text-primary">
                         Supplier Price:
                         <span className="ml-2 text-black">
-                          &#8369;{" "}
+                          {pesoSign}{" "}
                           {numberWithCommas(
                             Number(item.suppliers_products_price).toFixed(2)
                           )}

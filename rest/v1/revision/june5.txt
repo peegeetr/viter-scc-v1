@@ -1,0 +1,24 @@
+
+*controllers    
+    - account/details/patronage/active.php 
+    - account/details/patronage/filter-by-employee-id.php 
+    - account/details/patronage/funstions.php 
+    - inventory/orders/create.php 
+
+*models  
+    - inventory/orders/Orders.php   
+    - inventory/sales/Sales.php   
+    - inventory/suppliers/product/SuppliersProducts.php   
+
+*htaccess 
+    - 
+
+*db tables 
+    - sccv1_orders.sql
+
+*core functions 
+    - 
+
+*extra
+    -
+    

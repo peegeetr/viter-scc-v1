@@ -250,3 +250,5 @@ export const getDateNow = () => {
 export const getDateTimeNow = () => {
   return `${getDateNow()} ${getTimeNow()}`;
 };
+
+export const pesoSign = <span> &#8369; </span>;

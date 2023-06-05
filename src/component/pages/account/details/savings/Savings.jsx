@@ -22,7 +22,7 @@ const Savings = () => {
   return (
     <>
       <Header />
-      <Navigation menu="account" />
+      <Navigation menu="members" />
       <div className="wrapper">
         <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2">
           <BreadCrumbs param={`${location.search}`} />{" "}

@@ -15,6 +15,7 @@ import { InputSelect, InputText } from "../../../helpers/FormInputs";
 import {
   getDateTimeNow,
   numberWithCommas,
+  pesoSign,
   removeComma,
 } from "../../../helpers/functions-general";
 import { queryData } from "../../../helpers/queryData";
@@ -113,6 +114,7 @@ const ModalAddOrders = ({ item, arrKey }) => {
     orders_product_quantity: item ? item.orders_product_quantity : "",
     suppliers_products_aid: "",
     orders_is_paid: 0,
+    orders_is_draft: 0,
     orders_product_amount: item ? item.orders_product_amount : "",
     orders_date: item ? item.orders_date : getDateTimeNow(),
     category_id: item ? item.suppliers_products_category_id : "",
@@ -146,6 +148,7 @@ const ModalAddOrders = ({ item, arrKey }) => {
               initialValues={initVal}
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
+                console.log(values);
                 if (
                   Number(values.orders_product_quantity) >
                     getRemaningQuantity(
@@ -163,7 +166,6 @@ const ModalAddOrders = ({ item, arrKey }) => {
                   dispatch(setMessage("Invalid Quantity"));
                   return;
                 }
-
                 mutation.mutate(values);
               }}
             >
@@ -271,7 +273,7 @@ const ModalAddOrders = ({ item, arrKey }) => {
                       <p className="">
                         Total Amount:
                         <span className="text-black ml-2">
-                          &#8369;{" "}
+                          {pesoSign}{" "}
                           {props.values.orders_product_quantity === "" ||
                           Number(props.values.orders_product_quantity) === 0
                             ? 0

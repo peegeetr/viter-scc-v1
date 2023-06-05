@@ -6,6 +6,7 @@ import {
   formatDate,
   getTime,
   numberWithCommas,
+  pesoSign,
 } from "../../../helpers/functions-general";
 
 const ModalViewSales = ({ item }) => {
@@ -58,26 +59,26 @@ const ModalViewSales = ({ item }) => {
               </p>
               <p className="mb-0">SRP Amountp:</p>
               <p className="mb-0 text-black ml-2">
-                &#8369;{" "}
+                {pesoSign}{" "}
                 {numberWithCommas(
                   Number(item.suppliers_products_scc_price).toFixed(2)
                 )}
               </p>
               <p className="mb-0">Total Amount:</p>
               <p className="mb-0 text-black ml-2">
-                &#8369;{" "}
+                {pesoSign}{" "}
                 {numberWithCommas(
                   Number(item.orders_product_amount).toFixed(2)
                 )}
               </p>
               <p className="mb-0">Recieve Amount:</p>
               <p className="mb-0 text-black ml-2">
-                &#8369;{" "}
+                {pesoSign}{" "}
                 {numberWithCommas(Number(item.sales_receive_amount).toFixed(2))}
               </p>
               <p className="">Change:</p>
               <p className="text-black ml-2">
-                &#8369;{" "}
+                {pesoSign}{" "}
                 {numberWithCommas(Number(item.sales_member_change).toFixed(2))}
               </p>
             </div>

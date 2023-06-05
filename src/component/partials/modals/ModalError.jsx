@@ -19,7 +19,7 @@ const ModalError = () => {
   return (
     <>
       <div
-        className={`modal fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center bg-dark z-50 animate-fadeIn ${show}`}
+        className={`fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center bg-dark bg-opacity-50 z-50 ${show}`}
       >
         <div className="p-1 w-[350px] rounded-b-2xl animate-slideUp ">
           <div className="flex justify-end items-center bg-white p-3 pb-0 rounded-t-2xl">

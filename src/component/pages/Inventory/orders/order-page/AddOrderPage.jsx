@@ -16,6 +16,7 @@ import {
   devNavUrl,
   getDateTimeNow,
   numberWithCommas,
+  pesoSign,
   removeComma,
 } from "../../../../helpers/functions-general";
 import { queryData } from "../../../../helpers/queryData";
@@ -254,7 +255,7 @@ const AddOrderPage = () => {
                     <p className="">
                       Total Amount:
                       <span className="text-black ml-2">
-                        &#8369;{" "}
+                        {pesoSign}{" "}
                         {props.values.orders_product_quantity === "" ||
                         Number(props.values.orders_product_quantity) === 0
                           ? 0
