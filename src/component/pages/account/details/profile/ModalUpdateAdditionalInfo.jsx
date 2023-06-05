@@ -60,7 +60,7 @@ const ModalUpdateAdditionalInfo = ({ item }) => {
     members_civil_status: Yup.string().required("Required"),
     members_education_attainment: Yup.string().required("Required"),
     members_contact_no: Yup.string().required("Required"),
-    members_email: Yup.string().required("Required"),
+    members_email: Yup.string().required("Required").email("Invalid email"),
   });
 
   return (
