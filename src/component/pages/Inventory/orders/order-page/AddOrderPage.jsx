@@ -140,7 +140,7 @@ const AddOrderPage = () => {
                   0
               ) {
                 dispatch(setError(true));
-                dispatch(setMessage("Invalid Quantity"));
+                dispatch(setMessage("Insufficient Quantity"));
                 return;
               }
 

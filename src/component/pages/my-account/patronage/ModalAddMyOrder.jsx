@@ -156,7 +156,7 @@ const ModalAddMyOrder = ({ item, arrKey }) => {
                   ) === 0
                 ) {
                   dispatch(setError(true));
-                  dispatch(setMessage("Invalid Quantity"));
+                  dispatch(setMessage("Insufficient Quantity"));
                   return;
                 }
                 console.log("values", values);
