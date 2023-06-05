@@ -311,7 +311,7 @@ const PatronageList = ({ setItemEdit }) => {
         </table>
         <div className="text-center font-semibold pt-8 text-lg">
           <p>
-            Total paid :
+            Total Amount :
             <span className="font-thin">
               {pesoSign} {totalAmount}
             </span>
