@@ -108,8 +108,10 @@ const ApplicationList = () => {
           <thead>
             <tr>
               <th>#</th>
-              <th className="w-[15rem]">Name</th>
-              <th className="w-[15rem]">Account no.</th>
+              <th className="min-w-[15rem]">Name</th>
+              <th className="min-w-[10rem]">Account no.</th>
+              <th className="min-w-[25rem]">Email.</th>
+              <th className="min-w-[15rem]">Contact no.</th>
               <th>Status</th>
               <th className="max-w-[5rem]">Actions</th>
             </tr>
@@ -140,6 +142,8 @@ const ApplicationList = () => {
                       {`${item.members_last_name}, ${item.members_first_name}`}
                     </td>
                     <td>{item.members_id}</td>
+                    <td>{item.members_email}</td>
+                    <td>{item.members_contact_no}</td>
                     <td>
                       {item.members_is_cancel === 0 ? (
                         <StatusPending />
