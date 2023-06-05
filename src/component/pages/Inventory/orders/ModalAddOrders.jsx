@@ -163,7 +163,7 @@ const ModalAddOrders = ({ item, arrKey }) => {
                   ) === 0
                 ) {
                   dispatch(setError(true));
-                  dispatch(setMessage("Invalid Quantity"));
+                  dispatch(setMessage("Insufficient Quantity"));
                   return;
                 }
                 mutation.mutate(values);

@@ -594,10 +594,12 @@ class Orders
             $sql = "select ";
             $sql .= "orders_aid, ";
             $sql .= "orders_product_id, ";
+            $sql .= "orders_is_draft, ";
             $sql .= "count(orders_product_id) as count, ";
             $sql .= "sum(orders_product_quantity) as orderQuantity, ";
             $sql .= "orders_product_quantity ";
             $sql .= "from {$this->tblOrders} ";
+            $sql .= "where orders_is_draft = 0 ";
             $sql .= "group by orders_product_id ";
             $sql .= "order by orders_is_paid, ";
             $sql .= "orders_date desc ";

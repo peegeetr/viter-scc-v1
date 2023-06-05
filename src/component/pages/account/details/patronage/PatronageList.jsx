@@ -7,9 +7,11 @@ import { MdFilterAlt } from "react-icons/md";
 import { useInView } from "react-intersection-observer";
 import * as Yup from "yup";
 import {
+  setError,
   setIsAdd,
   setIsConfirm,
   setIsRestore,
+  setMessage,
 } from "../../../../../store/StoreAction";
 import { StoreContext } from "../../../../../store/StoreContext";
 import useQueryData from "../../../../custom-hooks/useQueryData";
@@ -33,6 +35,7 @@ import TableSpinner from "../../../../partials/spinners/TableSpinner";
 import StatusActive from "../../../../partials/status/StatusActive";
 import StatusInactive from "../../../../partials/status/StatusInactive";
 import StatusPending from "../../../../partials/status/StatusPending";
+import { getRemaningQuantity } from "../../../Inventory/products/functions-product";
 
 const PatronageList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -93,6 +96,18 @@ const PatronageList = ({ setItemEdit }) => {
     "memberName" // key
   );
 
+  // use if not loadmore button undertime
+  const { data: stocksGroupProd } = useQueryData(
+    `/v1/stocks/group-by-prod`, // endpoint
+    "get", // method
+    "stocksGroupProd" // key
+  );
+  // use if not loadmore button undertime
+  const { data: orderGroupProd } = useQueryData(
+    `/v1/orders/group-by-prod`, // endpoint
+    "get", // method
+    "orderGroupProd" // key
+  );
   const handleEdit = (item) => {
     dispatch(setIsAdd(true));
     setItemEdit(item);
@@ -104,6 +119,16 @@ const PatronageList = ({ setItemEdit }) => {
     setDel(true);
   };
   const handlePending = (item) => {
+    console.log(getRemaningQuantity(item, stocksGroupProd, orderGroupProd));
+    if (
+      getRemaningQuantity(item, stocksGroupProd, orderGroupProd) === 0 ||
+      getRemaningQuantity(item, stocksGroupProd, orderGroupProd) <
+        item.orders_product_quantity
+    ) {
+      dispatch(setError(true));
+      dispatch(setMessage("Insufficient Quantity"));
+      return;
+    }
     dispatch(setIsConfirm(true));
     setId(item.orders_aid);
     setData(item);
@@ -239,7 +264,17 @@ const PatronageList = ({ setItemEdit }) => {
                               item.sales_date
                             )}`}
                       </td>
-                      <td>{item.suppliers_products_name}</td>
+                      <td>
+                        {item.suppliers_products_name}
+                        {getRemaningQuantity(
+                          item,
+                          stocksGroupProd,
+                          orderGroupProd
+                        ) === 0 &&
+                          item.orders_is_draft === 1 && (
+                            <StatusPending text="sold" />
+                          )}
+                      </td>
                       <td>{item.sales_or === "" ? "N/A" : item.sales_or}</td>
                       <td className=" text-center pr-4">
                         {item.orders_product_quantity}
