@@ -62,7 +62,6 @@ const ModalAddMyOrder = ({ item, arrKey }) => {
   const handleClose = () => {
     dispatch(setIsAdd(false));
   };
-
   // use if not loadmore button undertime
   const { data: stocksGroupProd } = useQueryData(
     `/v1/stocks/group-by-prod`, // endpoint
@@ -92,6 +91,7 @@ const ModalAddMyOrder = ({ item, arrKey }) => {
     categoryId
   );
 
+  console.log(SupProd);
   // get employee id
   const handleSupplierProduct = async (e, props) => {
     let categoryId = e.target.value;
@@ -104,14 +104,14 @@ const ModalAddMyOrder = ({ item, arrKey }) => {
   };
   const initVal = {
     orders_member_id: store.credentials.data.members_aid,
-    orders_product_id: "",
-    orders_product_quantity: "",
-    suppliers_products_aid: "",
+    orders_product_id: item ? item.orders_product_id : "",
+    orders_product_quantity: item ? item.orders_product_quantity : "",
+    suppliers_products_aid: item ? item.suppliers_products_aid : "",
     orders_is_paid: 0,
     orders_is_draft: 1,
-    orders_product_amount: "",
+    orders_product_amount: item ? item.orders_product_amount : "",
     orders_date: getDateTimeNow(),
-    category_id: "",
+    category_id: item ? item.suppliers_products_category_id : "",
   };
 
   const yupSchema = Yup.object({

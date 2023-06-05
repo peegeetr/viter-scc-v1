@@ -269,16 +269,23 @@ class Orders
         return $query;
     }
 
-    // search not approved members
+    // search not approved members 
     public function searchById()
     {
         try {
-            $sql = "select suppliersProducts.suppliers_products_name, ";
+            $sql = "select suppliersProducts.suppliers_products_aid, ";
+            $sql .= "suppliersProducts.suppliers_products_scc_price, ";
+            $sql .= "suppliersProducts.suppliers_products_category_id, ";
+            $sql .= "suppliersProducts.suppliers_products_name, ";
             $sql .= "orders.orders_aid, ";
-            $sql .= "orders.orders_number, ";
+            $sql .= "orders.orders_is_paid, ";
             $sql .= "orders.orders_is_draft, ";
+            $sql .= "orders.orders_number, ";
+            $sql .= "orders.orders_product_id, ";
             $sql .= "orders.orders_product_quantity, ";
             $sql .= "orders.orders_product_amount, ";
+            $sql .= "orders.orders_date, ";
+            $sql .= "orders.orders_member_id, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
             $sql .= "sales.sales_aid, ";
@@ -324,12 +331,19 @@ class Orders
     public function filterById()
     {
         try {
-            $sql = "select suppliersProducts.suppliers_products_name, ";
+            $sql = "select suppliersProducts.suppliers_products_aid, ";
+            $sql .= "suppliersProducts.suppliers_products_scc_price, ";
+            $sql .= "suppliersProducts.suppliers_products_category_id, ";
+            $sql .= "suppliersProducts.suppliers_products_name, ";
             $sql .= "orders.orders_aid, ";
-            $sql .= "orders.orders_number, ";
+            $sql .= "orders.orders_is_paid, ";
             $sql .= "orders.orders_is_draft, ";
+            $sql .= "orders.orders_number, ";
+            $sql .= "orders.orders_product_id, ";
             $sql .= "orders.orders_product_quantity, ";
             $sql .= "orders.orders_product_amount, ";
+            $sql .= "orders.orders_date, ";
+            $sql .= "orders.orders_member_id, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
             $sql .= "sales.sales_aid, ";
@@ -370,12 +384,19 @@ class Orders
     public function readById()
     {
         try {
-            $sql = "select suppliersProducts.suppliers_products_name, ";
+            $sql = "select suppliersProducts.suppliers_products_aid, ";
+            $sql .= "suppliersProducts.suppliers_products_scc_price, ";
+            $sql .= "suppliersProducts.suppliers_products_category_id, ";
+            $sql .= "suppliersProducts.suppliers_products_name, ";
             $sql .= "orders.orders_aid, ";
-            $sql .= "orders.orders_number, ";
+            $sql .= "orders.orders_is_paid, ";
             $sql .= "orders.orders_is_draft, ";
+            $sql .= "orders.orders_number, ";
+            $sql .= "orders.orders_product_id, ";
             $sql .= "orders.orders_product_quantity, ";
             $sql .= "orders.orders_product_amount, ";
+            $sql .= "orders.orders_date, ";
+            $sql .= "orders.orders_member_id, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
             $sql .= "sales.sales_aid, ";
@@ -410,12 +431,19 @@ class Orders
     public function readLimitById()
     {
         try {
-            $sql = "select suppliersProducts.suppliers_products_name, ";
+            $sql = "select suppliersProducts.suppliers_products_aid, ";
+            $sql .= "suppliersProducts.suppliers_products_scc_price, ";
+            $sql .= "suppliersProducts.suppliers_products_category_id, ";
+            $sql .= "suppliersProducts.suppliers_products_name, ";
             $sql .= "orders.orders_aid, ";
-            $sql .= "orders.orders_number, ";
+            $sql .= "orders.orders_is_paid, ";
             $sql .= "orders.orders_is_draft, ";
+            $sql .= "orders.orders_number, ";
+            $sql .= "orders.orders_product_id, ";
             $sql .= "orders.orders_product_quantity, ";
             $sql .= "orders.orders_product_amount, ";
+            $sql .= "orders.orders_date, ";
+            $sql .= "orders.orders_member_id, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
             $sql .= "sales.sales_aid, ";

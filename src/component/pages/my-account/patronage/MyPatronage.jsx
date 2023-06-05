@@ -37,7 +37,7 @@ const MyPatronage = () => {
         <hr />
 
         <div className="w-full pb-20 mt-3 ">
-          <PatronageList />
+          <PatronageList setItemEdit={setItemEdit} />
         </div>
         <Footer />
       </div>

@@ -1,12 +1,16 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { Form, Formik } from "formik";
 import React from "react";
-import { FaCheck } from "react-icons/fa";
+import { FaCheck, FaEdit } from "react-icons/fa";
 import { ImCross } from "react-icons/im";
 import { MdFilterAlt } from "react-icons/md";
 import { useInView } from "react-intersection-observer";
 import * as Yup from "yup";
-import { setIsConfirm, setIsRestore } from "../../../../../store/StoreAction";
+import {
+  setIsAdd,
+  setIsConfirm,
+  setIsRestore,
+} from "../../../../../store/StoreAction";
 import { StoreContext } from "../../../../../store/StoreContext";
 import useQueryData from "../../../../custom-hooks/useQueryData";
 import { InputText } from "../../../../helpers/FormInputs";
@@ -30,7 +34,7 @@ import StatusActive from "../../../../partials/status/StatusActive";
 import StatusInactive from "../../../../partials/status/StatusInactive";
 import StatusPending from "../../../../partials/status/StatusPending";
 
-const PatronageList = () => {
+const PatronageList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [dataItem, setData] = React.useState(null);
   const [id, setId] = React.useState(null);
@@ -56,14 +60,13 @@ const PatronageList = () => {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ["patronage", onSearch, store.isSearch],
+    // queryKey: ["patronage", onSearch, store.isSearch],
+    queryKey: ["patronage", onSearch],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
-        filter
-          ? `/v1/patronage/filter/by-employee-id/${startDate}/${endDate}/${empid}` // filter endpoint // filter
-          : `/v1/patronage/search/by-employee-id/${search.current.value}/${empid}`, //  // search endpoint
+        `/v1/patronage/filter/by-employee-id/${startDate}/${endDate}/${empid}`, // filter endpoint // filter
         `/v1/patronage/page/by-employee-id/${pageParam}/${empid}`, // list endpoint
-        filter ? filter : store.isSearch // search boolean
+        filter // search boolean
       ),
     getNextPageParam: (lastPage) => {
       if (lastPage.page < lastPage.total) {
@@ -90,6 +93,10 @@ const PatronageList = () => {
     "memberName" // key
   );
 
+  const handleEdit = (item) => {
+    dispatch(setIsAdd(true));
+    setItemEdit(item);
+  };
   const handleDelete = (item) => {
     dispatch(setIsRestore(true));
     setId(item.orders_aid);
@@ -122,62 +129,60 @@ const PatronageList = () => {
             : `${memberName?.data[0].members_last_name}, ${memberName?.data[0].members_first_name}`}
         </p>
       )}
-      {!onSearch && (
-        <Formik
-          initialValues={initVal}
-          validationSchema={yupSchema}
-          onSubmit={async (values, { setSubmitting, resetForm }) => {
-            setFilter(true);
-            setOnSearch(!onSearch);
-            setStartDate(values.start_date);
-            setEndDate(values.end_date);
-            // // refetch data of query
-            // refetch();
-          }}
-        >
-          {(props) => {
-            return (
-              <Form>
-                <div className="lg:w-[50rem] grid gap-5 grid-cols-1 md:grid-cols-[1fr_1fr_150px] pt-5 pb-5 items-center print:hidden ">
-                  <div className="relative">
-                    <InputText
-                      label="From"
-                      name="start_date"
-                      type="text"
-                      disabled={isFetching}
-                      onFocus={(e) => (e.target.type = "date")}
-                      onBlur={(e) => (e.target.type = "date")}
-                    />
-                  </div>
-
-                  <div className="relative">
-                    <InputText
-                      label="To"
-                      name="end_date"
-                      type="text"
-                      disabled={isFetching}
-                      onFocus={(e) => (e.target.type = "date")}
-                      onBlur={(e) => (e.target.type = "date")}
-                    />
-                  </div>
-
-                  <button
-                    className="btn-modal-submit relative"
-                    type="submit"
-                    disabled={isFetching || !props.dirty}
-                  >
-                    {isFetching && <ButtonSpinner />}
-                    <MdFilterAlt className="text-lg" />
-                    <span>Filter</span>
-                  </button>
+      <Formik
+        initialValues={initVal}
+        validationSchema={yupSchema}
+        onSubmit={async (values, { setSubmitting, resetForm }) => {
+          setFilter(true);
+          setOnSearch(!onSearch);
+          setStartDate(values.start_date);
+          setEndDate(values.end_date);
+          // // refetch data of query
+          // refetch();
+        }}
+      >
+        {(props) => {
+          return (
+            <Form>
+              <div className="lg:w-[50rem] grid gap-5 grid-cols-1 md:grid-cols-[1fr_1fr_150px] pt-5 pb-5 items-center print:hidden ">
+                <div className="relative">
+                  <InputText
+                    label="From"
+                    name="start_date"
+                    type="text"
+                    disabled={isFetching}
+                    onFocus={(e) => (e.target.type = "date")}
+                    onBlur={(e) => (e.target.type = "date")}
+                  />
                 </div>
-              </Form>
-            );
-          }}
-        </Formik>
-      )}
-      {!filter && (
-        <SearchBar
+
+                <div className="relative">
+                  <InputText
+                    label="To"
+                    name="end_date"
+                    type="text"
+                    disabled={isFetching}
+                    onFocus={(e) => (e.target.type = "date")}
+                    onBlur={(e) => (e.target.type = "date")}
+                  />
+                </div>
+
+                <button
+                  className="btn-modal-submit relative"
+                  type="submit"
+                  disabled={isFetching || !props.dirty}
+                >
+                  {isFetching && <ButtonSpinner />}
+                  <MdFilterAlt className="text-lg" />
+                  <span>Filter</span>
+                </button>
+              </div>
+            </Form>
+          );
+        }}
+      </Formik>
+
+      {/* <SearchBar
           search={search}
           dispatch={dispatch}
           store={store}
@@ -185,8 +190,7 @@ const PatronageList = () => {
           isFetching={isFetching}
           setOnSearch={setOnSearch}
           onSearch={onSearch}
-        />
-      )}
+        />  */}
       <div className="relative text-center overflow-x-auto z-0 mt-5">
         <table>
           <thead>
@@ -243,13 +247,16 @@ const PatronageList = () => {
                       <td className=" text-right pr-4">
                         {pesoSign}{" "}
                         {numberWithCommas(
-                          Number(item.orders_product_amount).toFixed(2)
+                          Number(item.suppliers_products_scc_price).toFixed(2)
                         )}
                       </td>
                       <td className=" text-right pr-4">
                         {pesoSign}
                         {numberWithCommas(
-                          Number(item.sales_receive_amount).toFixed(2)
+                          (
+                            Number(item.orders_product_quantity) *
+                            Number(item.suppliers_products_scc_price)
+                          ).toFixed(2)
                         )}
                       </td>
                       <td>
@@ -264,14 +271,24 @@ const PatronageList = () => {
                       <td>
                         <div className="flex justify-end items-center gap-1">
                           {item.orders_is_draft === 1 && (
-                            <button
-                              type="button"
-                              className="btn-action-table tooltip-action-table"
-                              data-tooltip="Submit"
-                              onClick={() => handlePending(item)}
-                            >
-                              <FaCheck />
-                            </button>
+                            <>
+                              <button
+                                type="button"
+                                className="btn-action-table tooltip-action-table"
+                                data-tooltip="Edit"
+                                onClick={() => handleEdit(item)}
+                              >
+                                <FaEdit />
+                              </button>
+                              <button
+                                type="button"
+                                className="btn-action-table tooltip-action-table"
+                                data-tooltip="Submit"
+                                onClick={() => handlePending(item)}
+                              >
+                                <FaCheck />
+                              </button>
+                            </>
                           )}
                           {item.sales_is_paid === 0 && (
                             <button
@@ -294,7 +311,10 @@ const PatronageList = () => {
         </table>
         <div className="text-center font-semibold pt-8 text-lg">
           <p>
-            Total paid :{pesoSign} {totalAmount}
+            Total paid :
+            <span className="font-thin">
+              {pesoSign} {totalAmount}
+            </span>
           </p>
         </div>
         <Loadmore
