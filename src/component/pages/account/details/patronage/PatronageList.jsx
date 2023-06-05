@@ -351,7 +351,7 @@ const PatronageList = ({ setItemEdit }) => {
           <p>
             Total Amount :
             <span className="font-thin">
-              {pesoSign} {totalAmount}
+              {pesoSign} {numberWithCommas(totalAmount.toFixed(2))}
             </span>
           </p>
         </div>
