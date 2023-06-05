@@ -318,7 +318,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                           <InputSelect
                             name="orders_is_paid"
                             onChange={handleIsPaid}
-                            label="Are you going to pay ?"
+                            label="Are you going to pay now ?"
                             disabled={
                               mutation.isLoading || memberApprovedLoading
                             }

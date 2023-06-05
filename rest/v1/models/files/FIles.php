@@ -99,9 +99,9 @@ class Files
             $sql .= "files_name asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "files_name" => "{$this->file_search}%",
-                "files_month_date" => "{$this->file_search}%",
-                "files_date" => "{$this->file_search}%",
+                "files_name" => "%{$this->file_search}%",
+                "files_month_date" => "%{$this->file_search}%",
+                "files_date" => "%{$this->file_search}%",
             ]);
         } catch (PDOException $ex) {
             $query = false;

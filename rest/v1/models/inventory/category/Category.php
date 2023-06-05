@@ -95,7 +95,7 @@ class Category
             $sql .= "order by product_category_name asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "product_category_name" => "{$this->product_category_search}%",
+                "product_category_name" => "%{$this->product_category_search}%",
             ]);
         } catch (PDOException $ex) {
             $query = false;

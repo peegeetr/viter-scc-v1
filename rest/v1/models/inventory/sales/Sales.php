@@ -203,15 +203,15 @@ class Sales
             $sql .= "sales.sales_date desc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "suppliers_products_name" => "{$this->sales_search}%",
-                "orders_month_date" => "{$this->sales_search}%",
-                "sales_month_date" => "{$this->sales_search}%",
-                "orders_date" => "{$this->sales_search}%",
-                "sales_date" => "{$this->sales_search}%",
-                "orders_number" => "{$this->sales_search}%",
-                "members_last_name" => "{$this->sales_search}%",
-                "members_first_name" => "{$this->sales_search}%",
-                "sales_number" => "{$this->sales_search}%",
+                "suppliers_products_name" => "%{$this->sales_search}%",
+                "orders_month_date" => "%{$this->sales_search}%",
+                "sales_month_date" => "%{$this->sales_search}%",
+                "orders_date" => "%{$this->sales_search}%",
+                "sales_date" => "%{$this->sales_search}%",
+                "orders_number" => "%{$this->sales_search}%",
+                "members_last_name" => "%{$this->sales_search}%",
+                "members_first_name" => "%{$this->sales_search}%",
+                "sales_number" => "%{$this->sales_search}%",
             ]);
         } catch (PDOException $ex) {
             $query = false;

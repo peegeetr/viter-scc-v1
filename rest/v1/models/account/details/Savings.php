@@ -99,10 +99,10 @@ class Savings
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "savings_member_id" => $this->savings_member_id,
-                "savings_month_date" => "{$this->savings_search}%",
-                "savings_date" => "{$this->savings_search}%",
-                "savings_deposite" => "{$this->savings_search}%",
-                "savings_withdrawal" => "{$this->savings_search}%",
+                "savings_month_date" => "%{$this->savings_search}%",
+                "savings_date" => "%{$this->savings_search}%",
+                "savings_deposite" => "%{$this->savings_search}%",
+                "savings_withdrawal" => "%{$this->savings_search}%",
             ]);
         } catch (PDOException $ex) {
             $query = false;

@@ -85,9 +85,9 @@ class CapitalShare
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "capital_share_member_id" => $this->capital_share_member_id,
-                "capital_share_date" => "{$this->capital_search}%",
-                "capital_share_month_date" => "{$this->capital_search}%",
-                "capital_share_paid_up" => "{$this->capital_search}%",
+                "capital_share_date" => "%{$this->capital_search}%",
+                "capital_share_month_date" => "%{$this->capital_search}%",
+                "capital_share_paid_up" => "%{$this->capital_search}%",
             ]);
         } catch (PDOException $ex) {
             $query = false;

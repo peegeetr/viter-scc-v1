@@ -150,9 +150,9 @@ class UserOther
             $sql .= "member.members_first_name asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "members_last_name" => "{$this->user_other_search}%",
-                "members_first_name" => "{$this->user_other_search}%",
-                "members_email" => "{$this->user_other_search}%",
+                "members_last_name" => "%{$this->user_other_search}%",
+                "members_first_name" => "%{$this->user_other_search}%",
+                "members_email" => "%{$this->user_other_search}%",
             ]);
         } catch (PDOException $ex) {
             $query = false;

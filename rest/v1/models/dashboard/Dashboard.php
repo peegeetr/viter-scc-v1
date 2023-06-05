@@ -107,9 +107,9 @@ class Announcement
             $sql .= "announcement_name asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "announcement_name" => "{$this->announcement_search}%",
-                "announcement_month_date" => "{$this->announcement_search}%",
-                "announcement_date" => "{$this->announcement_search}%",
+                "announcement_name" => "%{$this->announcement_search}%",
+                "announcement_month_date" => "%{$this->announcement_search}%",
+                "announcement_date" => "%{$this->announcement_search}%",
             ]);
         } catch (PDOException $ex) {
             $query = false;
@@ -270,9 +270,9 @@ class Announcement
             $sql .= "announcement_name asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "announcement_name" => "{$this->announcement_search}%",
-                "announcement_month_date" => "{$this->announcement_search}%",
-                "announcement_date" => "{$this->announcement_search}%",
+                "announcement_name" => "%{$this->announcement_search}%",
+                "announcement_month_date" => "%{$this->announcement_search}%",
+                "announcement_date" => "%{$this->announcement_search}%",
             ]);
         } catch (PDOException $ex) {
             $query = false;
