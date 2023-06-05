@@ -16,6 +16,7 @@ import {
   getDateTimeNow,
   getUrlParam,
   numberWithCommas,
+  pesoSign,
   removeComma,
 } from "../../../helpers/functions-general";
 import { queryData } from "../../../helpers/queryData";
@@ -102,16 +103,15 @@ const ModalAddMyOrder = ({ item, arrKey }) => {
     setPriceId(e.target.options[e.target.selectedIndex].id);
   };
   const initVal = {
-    orders_member_id: item
-      ? item.orders_member_id
-      : store.credentials.data.members_aid,
-    orders_product_id: item ? item.orders_product_id : "",
-    orders_product_quantity: item ? item.orders_product_quantity : "",
+    orders_member_id: store.credentials.data.members_aid,
+    orders_product_id: "",
+    orders_product_quantity: "",
     suppliers_products_aid: "",
     orders_is_paid: 0,
-    orders_product_amount: item ? item.orders_product_amount : "",
-    orders_date: item ? item.orders_date : getDateTimeNow(),
-    category_id: item ? item.suppliers_products_category_id : "",
+    orders_is_draft: 1,
+    orders_product_amount: "",
+    orders_date: getDateTimeNow(),
+    category_id: "",
   };
 
   const yupSchema = Yup.object({
@@ -249,7 +249,7 @@ const ModalAddMyOrder = ({ item, arrKey }) => {
                       <p className="">
                         Total Amount:
                         <span className="text-black ml-2">
-                          &#8369;{" "}
+                          {pesoSign}{" "}
                           {props.values.orders_product_quantity === "" ||
                           Number(props.values.orders_product_quantity) === 0
                             ? 0

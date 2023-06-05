@@ -19,6 +19,7 @@ import {
   getTime,
   getUrlParam,
   numberWithCommas,
+  pesoSign,
 } from "../../../../helpers/functions-general";
 import ModalDeleteRestore from "../../../../partials/modals/ModalDeleteRestore";
 import NoData from "../../../../partials/NoData";
@@ -259,14 +260,14 @@ const ProfileList = ({ members, isLoading, error }) => {
                 <p className="">{item.members_spouse_occupation}</p>
                 <p className="font-semibold">Income :</p>
                 <p className="">
-                  &#8369;{" "}
+                  {pesoSign}{" "}
                   {numberWithCommas(
                     Number(item.members_spouse_income).toFixed(2)
                   )}
                 </p>
                 <p className="font-semibold">Net income :</p>
                 <p className="">
-                  &#8369;{" "}
+                  {pesoSign}{" "}
                   {numberWithCommas(
                     Number(item.members_spouse_net_income).toFixed(2)
                   )}
@@ -293,14 +294,14 @@ const ProfileList = ({ members, isLoading, error }) => {
                 <p className="">{item.members_position}</p>
                 <p className="font-semibold">Income gross :</p>
                 <p className="">
-                  &#8369;{" "}
+                  {pesoSign}{" "}
                   {numberWithCommas(
                     Number(item.members_income_gross).toFixed(2)
                   )}
                 </p>
                 <p className="font-semibold">Income net :</p>
                 <p className="">
-                  &#8369;{" "}
+                  {pesoSign}{" "}
                   {numberWithCommas(Number(item.members_income_net).toFixed(2))}
                 </p>
 
@@ -308,7 +309,7 @@ const ProfileList = ({ members, isLoading, error }) => {
                 <p className="">{item.members_other_source_income}</p>
                 <p className="font-semibold">Income gross :</p>
                 <p className="">
-                  &#8369;{" "}
+                  {pesoSign}{" "}
                   {numberWithCommas(
                     Number(item.members_other_income).toFixed(2)
                   )}

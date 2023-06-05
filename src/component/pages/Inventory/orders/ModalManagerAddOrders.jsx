@@ -15,6 +15,7 @@ import { InputSelect, InputText } from "../../../helpers/FormInputs";
 import {
   getDateTimeNow,
   numberWithCommas,
+  pesoSign,
   removeComma,
 } from "../../../helpers/functions-general";
 import { queryData } from "../../../helpers/queryData";
@@ -32,7 +33,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
   const [priceId, setPriceId] = React.useState(
     item ? item.suppliers_products_scc_price : ""
   );
-  const [isPaid, setIsPaid] = React.useState("");
+  const [isPaid, setIsPaid] = React.useState(item ? item.orders_is_paid : "");
 
   const queryClient = useQueryClient();
   const mutation = useMutation({
@@ -111,6 +112,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
   const handleIsPaid = async (e, props) => {
     setIsPaid(e.target.value);
   };
+
   const initVal = {
     orders_member_id: item ? item.orders_member_id : "",
     orders_product_id: item ? item.orders_product_id : "",
@@ -122,6 +124,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
     // sales
     sales_receive_amount: "",
     sales_or: "",
+    orders_is_draft: 0,
     orders_is_paid: "",
     sales_member_change: "",
     sales_date: getDateTimeNow(),
@@ -135,8 +138,9 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
     orders_date: Yup.string().required("Required"),
     sales_receive_amount: isPaid === "1" && Yup.string().required("Required"),
     sales_or: isPaid === "1" && Yup.string().required("Required"),
-    orders_is_paid: Yup.string().required("Required"),
   });
+
+  console.log(SupProd);
   return (
     <>
       <div className="fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center bg-dark bg-opacity-50 z-50">
@@ -158,6 +162,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
               initialValues={initVal}
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
+                console.log(values);
                 const orders_product_quantity = removeComma(
                   `${values.orders_product_quantity}`
                 );
@@ -181,10 +186,12 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                   ) === 0
                 ) {
                   dispatch(setError(true));
-                  dispatch(setMessage("Invalid Quantity"));
+                  dispatch(setMessage("Insufficient quantity"));
                   return;
                 }
                 if (
+                  item &&
+                  isPaid === "0" &&
                   Number(sales_receive_amount) < Number(orders_product_amount)
                 ) {
                   dispatch(setError(true));
@@ -207,6 +214,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                   Number(removeComma(props.values.orders_product_quantity)) *
                   priceId;
                 props.values.suppliers_products_aid = productId;
+                props.values.orders_is_paid = isPaid;
                 props.values.sales_member_change =
                   Number(removeComma(props.values.sales_receive_amount)) -
                   Number(props.values.orders_product_amount);
@@ -357,7 +365,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                       <p className="">
                         Total Amount:
                         <span className="text-black ml-2">
-                          &#8369;{" "}
+                          {pesoSign}{" "}
                           {Number(props.values.orders_product_amount) === 0
                             ? 0
                             : numberWithCommas(
@@ -373,7 +381,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                         <p className="">
                           Change:
                           <span className="text-black ml-2">
-                            &#8369;{" "}
+                            {pesoSign}{" "}
                             {Number(props.values.sales_receive_amount) === 0
                               ? 0
                               : numberWithCommas(

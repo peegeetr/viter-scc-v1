@@ -15,9 +15,11 @@ import {
   formatDate,
   getTime,
   numberWithCommas,
+  pesoSign,
 } from "../../../helpers/functions-general";
 import StatusActive from "../../../partials/status/StatusActive";
 import StatusPending from "../../../partials/status/StatusPending";
+import StatusQuantity from "../../../partials/status/StatusQuantity";
 
 const OrdersList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -140,13 +142,13 @@ const OrdersList = ({ setItemEdit }) => {
                       {item.orders_product_quantity}
                     </td>
                     <td className="text-right">
-                      &#8369;{" "}
+                      {pesoSign}
                       {numberWithCommas(
                         Number(item.suppliers_products_scc_price).toFixed(2)
                       )}
                     </td>
                     <td className="text-right pr-4">
-                      &#8369;{" "}
+                      {pesoSign}{" "}
                       {numberWithCommas(
                         Number(item.orders_product_amount).toFixed(2)
                       )}

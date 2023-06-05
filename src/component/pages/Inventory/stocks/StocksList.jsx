@@ -15,6 +15,7 @@ import TableSpinner from "../../../partials/spinners/TableSpinner";
 import StatusActive from "../../../partials/status/StatusActive";
 import StatusPending from "../../../partials/status/StatusPending";
 import ModalUpdateOR from "./ModalUpdateOR";
+import StatusQuantity from "../../../partials/status/StatusQuantity";
 
 const StocksList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);

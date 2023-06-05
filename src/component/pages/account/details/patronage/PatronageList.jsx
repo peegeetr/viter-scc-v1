@@ -1,25 +1,34 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { Form, Formik } from "formik";
 import React from "react";
+import { FaCheck } from "react-icons/fa";
+import { ImCross } from "react-icons/im";
+import { MdFilterAlt } from "react-icons/md";
 import { useInView } from "react-intersection-observer";
+import * as Yup from "yup";
+import { setIsConfirm, setIsRestore } from "../../../../../store/StoreAction";
 import { StoreContext } from "../../../../../store/StoreContext";
+import useQueryData from "../../../../custom-hooks/useQueryData";
+import { InputText } from "../../../../helpers/FormInputs";
 import {
   formatDate,
   getTime,
   getUrlParam,
   numberWithCommas,
+  pesoSign,
 } from "../../../../helpers/functions-general";
 import { queryDataInfinite } from "../../../../helpers/queryDataInfinite";
 import Loadmore from "../../../../partials/Loadmore";
 import NoData from "../../../../partials/NoData";
 import SearchBar from "../../../../partials/SearchBar";
 import ServerError from "../../../../partials/ServerError";
+import ModalConfirm from "../../../../partials/modals/ModalConfirm";
+import ModalDeleteRestore from "../../../../partials/modals/ModalDeleteRestore";
+import ButtonSpinner from "../../../../partials/spinners/ButtonSpinner";
 import TableSpinner from "../../../../partials/spinners/TableSpinner";
 import StatusActive from "../../../../partials/status/StatusActive";
+import StatusInactive from "../../../../partials/status/StatusInactive";
 import StatusPending from "../../../../partials/status/StatusPending";
-import useQueryData from "../../../../custom-hooks/useQueryData";
-import { ImCross } from "react-icons/im";
-import ModalDeleteRestore from "../../../../partials/modals/ModalDeleteRestore";
-import { setIsRestore } from "../../../../../store/StoreAction";
 
 const PatronageList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -27,8 +36,12 @@ const PatronageList = () => {
   const [id, setId] = React.useState(null);
   const [isDel, setDel] = React.useState(false);
   const [onSearch, setOnSearch] = React.useState(false);
+  const [filter, setFilter] = React.useState(false);
+  const [startDate, setStartDate] = React.useState(false);
+  const [endDate, setEndDate] = React.useState(false);
   const [page, setPage] = React.useState(1);
   let counter = 1;
+  let totalAmount = 0;
   const search = React.useRef(null);
   const memberid = getUrlParam().get("memberid");
   const { ref, inView } = useInView();
@@ -46,9 +59,11 @@ const PatronageList = () => {
     queryKey: ["patronage", onSearch, store.isSearch],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
-        `/v1/patronage/search/by-employee-id/${search.current.value}/${empid}`, // search endpoint
+        filter
+          ? `/v1/patronage/filter/by-employee-id/${startDate}/${endDate}/${empid}` // filter endpoint // filter
+          : `/v1/patronage/search/by-employee-id/${search.current.value}/${empid}`, //  // search endpoint
         `/v1/patronage/page/by-employee-id/${pageParam}/${empid}`, // list endpoint
-        store.isSearch // search boolean
+        filter ? filter : store.isSearch // search boolean
       ),
     getNextPageParam: (lastPage) => {
       if (lastPage.page < lastPage.total) {
@@ -81,6 +96,22 @@ const PatronageList = () => {
     setData(item);
     setDel(true);
   };
+  const handlePending = (item) => {
+    dispatch(setIsConfirm(true));
+    setId(item.orders_aid);
+    setData(item);
+    setDel(false);
+  };
+  const initVal = {
+    member_id: "",
+    start_date: "",
+    end_date: "",
+  };
+
+  const yupSchema = Yup.object({
+    start_date: Yup.string().required("Required"),
+    end_date: Yup.string().required("Required"),
+  });
   return (
     <>
       {memberid !== null && (
@@ -91,16 +122,72 @@ const PatronageList = () => {
             : `${memberName?.data[0].members_last_name}, ${memberName?.data[0].members_first_name}`}
         </p>
       )}
-      <SearchBar
-        search={search}
-        dispatch={dispatch}
-        store={store}
-        result={result?.pages}
-        isFetching={isFetching}
-        setOnSearch={setOnSearch}
-        onSearch={onSearch}
-      />
-      <div className="relative text-center overflow-x-auto z-0">
+      {!onSearch && (
+        <Formik
+          initialValues={initVal}
+          validationSchema={yupSchema}
+          onSubmit={async (values, { setSubmitting, resetForm }) => {
+            setFilter(true);
+            setOnSearch(!onSearch);
+            setStartDate(values.start_date);
+            setEndDate(values.end_date);
+            // // refetch data of query
+            // refetch();
+          }}
+        >
+          {(props) => {
+            return (
+              <Form>
+                <div className="lg:w-[50rem] grid gap-5 grid-cols-1 md:grid-cols-[1fr_1fr_150px] pt-5 pb-5 items-center print:hidden ">
+                  <div className="relative">
+                    <InputText
+                      label="From"
+                      name="start_date"
+                      type="text"
+                      disabled={isFetching}
+                      onFocus={(e) => (e.target.type = "date")}
+                      onBlur={(e) => (e.target.type = "date")}
+                    />
+                  </div>
+
+                  <div className="relative">
+                    <InputText
+                      label="To"
+                      name="end_date"
+                      type="text"
+                      disabled={isFetching}
+                      onFocus={(e) => (e.target.type = "date")}
+                      onBlur={(e) => (e.target.type = "date")}
+                    />
+                  </div>
+
+                  <button
+                    className="btn-modal-submit relative"
+                    type="submit"
+                    disabled={isFetching || !props.dirty}
+                  >
+                    {isFetching && <ButtonSpinner />}
+                    <MdFilterAlt className="text-lg" />
+                    <span>Filter</span>
+                  </button>
+                </div>
+              </Form>
+            );
+          }}
+        </Formik>
+      )}
+      {!filter && (
+        <SearchBar
+          search={search}
+          dispatch={dispatch}
+          store={store}
+          result={result?.pages}
+          isFetching={isFetching}
+          setOnSearch={setOnSearch}
+          onSearch={onSearch}
+        />
+      )}
+      <div className="relative text-center overflow-x-auto z-0 mt-5">
         <table>
           <thead>
             <tr>
@@ -134,58 +221,80 @@ const PatronageList = () => {
 
             {result?.pages.map((page, key) => (
               <React.Fragment key={key}>
-                {page.data.map((item, key) => (
-                  <tr key={key}>
-                    <td> {counter++}.</td>
-                    <td>
-                      {item.sales_date === ""
-                        ? "N/A"
-                        : `${formatDate(item.sales_date)} ${getTime(
-                            item.sales_date
-                          )}`}
-                    </td>
-                    <td>{item.suppliers_products_name}</td>
-                    <td>{item.sales_or === "" ? "N/A" : item.sales_or}</td>
-                    <td className=" text-center pr-4">
-                      {item.orders_product_quantity}
-                    </td>
-                    <td className=" text-right pr-4">
-                      &#8369;{" "}
-                      {numberWithCommas(
-                        Number(item.orders_product_amount).toFixed(2)
-                      )}
-                    </td>
-                    <td className=" text-right pr-4">
-                      &#8369;{" "}
-                      {numberWithCommas(
-                        Number(item.sales_receive_amount).toFixed(2)
-                      )}
-                    </td>
-                    <td>
-                      {item.sales_is_paid === 1 ? (
-                        <StatusActive text="Paid" />
-                      ) : (
-                        <StatusPending />
-                      )}
-                    </td>
-                    <td className="text-right">
-                      {item.sales_is_paid === 0 && (
-                        <button
-                          type="button"
-                          className="btn-action-table tooltip-action-table"
-                          data-tooltip="Cancel"
-                          onClick={() => handleDelete(item)}
-                        >
-                          <ImCross />
-                        </button>
-                      )}
-                    </td>
-                  </tr>
-                ))}
+                {page.data.map((item, key) => {
+                  item.sales_is_paid === 1
+                    ? (totalAmount += Number(item.orders_product_amount))
+                    : "";
+                  return (
+                    <tr key={key}>
+                      <td> {counter++}.</td>
+                      <td>
+                        {item.sales_date === ""
+                          ? "N/A"
+                          : `${formatDate(item.sales_date)} ${getTime(
+                              item.sales_date
+                            )}`}
+                      </td>
+                      <td>{item.suppliers_products_name}</td>
+                      <td>{item.sales_or === "" ? "N/A" : item.sales_or}</td>
+                      <td className=" text-center pr-4">
+                        {item.orders_product_quantity}
+                      </td>
+                      <td className=" text-right pr-4">
+                        {pesoSign}{" "}
+                        {numberWithCommas(
+                          Number(item.orders_product_amount).toFixed(2)
+                        )}
+                      </td>
+                      <td className=" text-right pr-4">
+                        {/* {pesoSign()} */}
+                        {numberWithCommas(
+                          Number(item.sales_receive_amount).toFixed(2)
+                        )}
+                      </td>
+                      <td>
+                        {item.orders_is_draft === 1 ? (
+                          <StatusInactive text="draft" />
+                        ) : item.sales_is_paid === 1 ? (
+                          <StatusActive text="Paid" />
+                        ) : (
+                          <StatusPending />
+                        )}
+                      </td>
+                      <td>
+                        <div className="flex justify-end items-center gap-1">
+                          {item.orders_is_draft === 1 && (
+                            <button
+                              type="button"
+                              className="btn-action-table tooltip-action-table"
+                              data-tooltip="Submit"
+                              onClick={() => handlePending(item)}
+                            >
+                              <FaCheck />
+                            </button>
+                          )}
+                          {item.sales_is_paid === 0 && (
+                            <button
+                              type="button"
+                              className="btn-action-table tooltip-action-table"
+                              data-tooltip="Cancel"
+                              onClick={() => handleDelete(item)}
+                            >
+                              <ImCross />
+                            </button>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
               </React.Fragment>
             ))}
           </tbody>
         </table>
+        <div className="text-center font-semibold pt-8 text-lg">
+          <p>Total paid : {totalAmount}</p>
+        </div>
         <Loadmore
           fetchNextPage={fetchNextPage}
           isFetchingNextPage={isFetchingNextPage}
@@ -196,13 +305,24 @@ const PatronageList = () => {
           refView={ref}
         />
       </div>
+
+      {store.isConfirm && (
+        <ModalConfirm
+          id={id}
+          isDel={isDel}
+          mysqlApiArchive={`/v1/patronage/active/${id}`}
+          msg={"Are you sure you want to submit this "}
+          item={`${dataItem.suppliers_products_name} order`}
+          arrKey="patronage"
+        />
+      )}
       {store.isRestore && (
         <ModalDeleteRestore
           id={id}
           isDel={isDel}
           mysqlApiDelete={`/v1/orders/${id}`}
           msg={"Are you sure you want to cancel your"}
-          item={`${dataItem.suppliers_products_name}  order`}
+          item={`${dataItem.suppliers_products_name} order`}
           arrKey="patronage"
         />
       )}

@@ -14,7 +14,8 @@ import TableSpinner from "../../../partials/spinners/TableSpinner";
 import ModalUpdateProducts from "./ModalUpdateProducts";
 import useQueryData from "../../../custom-hooks/useQueryData";
 import { getRemaningQuantity } from "./functions-product";
-import { numberWithCommas } from "../../../helpers/functions-general";
+import { numberWithCommas, pesoSign } from "../../../helpers/functions-general";
+import StatusQuantity from "../../../partials/status/StatusQuantity";
 
 const ProductsList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -136,29 +137,31 @@ const ProductsList = () => {
                     <td>{item.product_category_name}</td>
                     <td>{item.suppliers_products_name}</td>
                     <td className="text-right">
-                      &#8369;{" "}
+                      {pesoSign}{" "}
                       {numberWithCommas(
                         Number(item.suppliers_products_price).toFixed(2)
                       )}
                     </td>
                     <td className="text-right">
-                      &#8369;{" "}
+                      {pesoSign}{" "}
                       {numberWithCommas(
                         Number(item.suppliers_products_scc_price).toFixed(2)
                       )}
                     </td>
                     <td className="text-right">
-                      &#8369;
+                      {pesoSign}
                       {numberWithCommas(
                         Number(item.suppliers_products_market_price).toFixed(2)
                       )}
                     </td>
                     <td className="text-center">
-                      {getRemaningQuantity(
-                        item,
-                        stocksGroupProd,
-                        orderGroupProd
-                      )}
+                      <StatusQuantity
+                        text={getRemaningQuantity(
+                          item,
+                          stocksGroupProd,
+                          orderGroupProd
+                        )}
+                      />
                     </td>
                     {(store.credentials.data.role_is_admin === 1 ||
                       store.credentials.data.role_is_developer === 1 ||

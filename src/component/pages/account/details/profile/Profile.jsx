@@ -27,7 +27,7 @@ const Profile = () => {
   return (
     <>
       <Header />
-      <Navigation menu="account" />
+      <Navigation menu="members" />
       <div className="wrapper">
         <BreadCrumbs param={`${location.search}`} />
         <hr className="print:hidden" />

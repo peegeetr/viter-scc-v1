@@ -11,7 +11,7 @@ const Deatils = () => {
   return (
     <>
       <Header />
-      <Navigation menu="account" />
+      <Navigation menu="members" />
       <div className="wrapper">
         <BreadCrumbs />
 

@@ -14,6 +14,7 @@ import TableSpinner from "../../../../partials/spinners/TableSpinner";
 import {
   getUrlParam,
   numberWithCommas,
+  pesoSign,
 } from "../../../../helpers/functions-general";
 
 const SupplierProductList = ({ setItemEdit }) => {
@@ -128,7 +129,7 @@ const SupplierProductList = ({ setItemEdit }) => {
                     <td> {counter++}.</td>
                     <td>{item.suppliers_products_name}</td>
                     <td className=" pr-8 text-right">
-                      &#8369;{" "}
+                      {pesoSign}{" "}
                       {numberWithCommas(
                         Number(item.suppliers_products_price).toFixed(2)
                       )}

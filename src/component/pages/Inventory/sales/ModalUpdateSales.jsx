@@ -15,6 +15,7 @@ import { queryData } from "../../../helpers/queryData";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
 import {
   numberWithCommas,
+  pesoSign,
   removeComma,
 } from "../../../helpers/functions-general";
 
@@ -122,7 +123,7 @@ const ModalUpdateSales = ({ item }) => {
                       <p className="mb-0">
                         Amount:
                         <span className="text-black ml-2">
-                          &#8369;{" "}
+                          {pesoSign}{" "}
                           {numberWithCommas(
                             Number(item.orders_product_amount).toFixed(2)
                           )}
@@ -131,7 +132,7 @@ const ModalUpdateSales = ({ item }) => {
                       <p className="">
                         Change:
                         <span className="text-black ml-2">
-                          &#8369;{" "}
+                          {pesoSign}{" "}
                           {Number(props.values.sales_receive_amount) === 0
                             ? 0
                             : numberWithCommas(
