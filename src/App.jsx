@@ -126,7 +126,7 @@ function App() {
               element={<CreatePasswordSuccess />}
             />
             {/* login other user */}
-            <Route path={`/${devNavUrl}/login`} element={<OtherLogin />} />
+            <Route path={`${devNavUrl}/login`} element={<OtherLogin />} />
 
             <Route
               path={`${devNavUrl}/create-password`}
