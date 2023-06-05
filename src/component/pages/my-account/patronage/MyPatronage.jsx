@@ -30,7 +30,7 @@ const MyPatronage = () => {
           <div className="flex items-center gap-1 self-baseline">
             <button type="button" className="btn-primary" onClick={handleAdd}>
               <FaShoppingCart />
-              <span>Order now</span>
+              <span className="hidden xs:block">Order now</span>
             </button>
           </div>
         </div>
