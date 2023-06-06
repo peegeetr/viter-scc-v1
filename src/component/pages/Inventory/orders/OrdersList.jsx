@@ -92,6 +92,9 @@ const OrdersList = ({ setItemEdit }) => {
       />
 
       <div className="text-center overflow-x-auto z-0">
+        {/* use only for updating important records */}
+        {status !== "loading" && isFetching && <TableSpinner />}
+        {/* use only for updating important records */}
         <table>
           <thead>
             <tr>
@@ -127,13 +130,13 @@ const OrdersList = ({ setItemEdit }) => {
               </tr>
             )}
             {/* use only for updating important records */}
-            {status !== "loading" && isFetching && (
+            {/* {status !== "loading" && isFetching && (
               <tr className="text-center ">
                 <td colSpan="100%" className="p-10">
                   <TableSpinner />
                 </td>
               </tr>
-            )}
+            )} */}
             {/* use only for updating important records */}
             {result?.pages.map((page, key) => (
               <React.Fragment key={key}>

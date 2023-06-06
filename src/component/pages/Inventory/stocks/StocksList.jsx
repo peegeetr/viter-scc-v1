@@ -96,6 +96,9 @@ const StocksList = ({ setItemEdit }) => {
       />
 
       <div className="text-center overflow-x-auto z-0">
+        {/* use only for updating important records */}
+        {status !== "loading" && isFetching && <TableSpinner />}
+        {/* use only for updating important records */}
         <table>
           <thead>
             <tr>
@@ -133,9 +136,6 @@ const StocksList = ({ setItemEdit }) => {
               </tr>
             )}
 
-            {/* use only for updating important records */}
-            {status !== "loading" && isFetching && <TableSpinner />}
-            {/* use only for updating important records */}
             {result?.pages.map((page, key) => (
               <React.Fragment key={key}>
                 {page.data.map((item, key) => (
