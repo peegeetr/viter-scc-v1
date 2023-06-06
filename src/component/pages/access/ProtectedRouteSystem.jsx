@@ -26,7 +26,6 @@ const ProtectedRouteSystem = ({ children }) => {
 
       if (typeof login === "undefined" || !login.success) {
         setLoading(false);
-        setIsAuth("456");
       } else {
         dispatch(setCredentials(login.data));
         setIsAuth("123");
