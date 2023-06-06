@@ -15,6 +15,7 @@ import { queryData } from "../../../../helpers/queryData";
 import ButtonSpinner from "../../../../partials/spinners/ButtonSpinner";
 import { getDonthaveAccount } from "../function-users";
 import useQueryData from "../../../../custom-hooks/useQueryData";
+import { devNavUrl } from "../../../../helpers/functions-general";
 
 const ModalAddOtherUser = ({ item, role }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -32,6 +33,14 @@ const ModalAddOtherUser = ({ item, role }) => {
       queryClient.invalidateQueries({ queryKey: ["otherUsers"] });
       // show success box
       if (data.success) {
+        if (
+          item &&
+          item.members_email === store.credentials.data.members_email
+        ) {
+          localStorage.removeItem("sccToken");
+          window.location.replace(`${devNavUrl}/login`);
+        }
+        item && dispatch(setIsAdd(false));
         dispatch(setSuccess(true));
         dispatch(
           setMessage(

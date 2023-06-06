@@ -25,11 +25,13 @@ const ModalAddSystemUser = ({ item, roleId }) => {
         item ? "put" : "post",
         values
       ),
-    onSuccess: (data) => {
+    onSuccess: (data, values) => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ["userSystems"] });
       // show success box
       if (data.success) {
+        values.user_system_email !== values.user_system_email_old &&
+          localStorage.removeItem("sccToken");
         dispatch(setSuccess(true));
         dispatch(
           setMessage(

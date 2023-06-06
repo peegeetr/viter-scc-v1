@@ -120,8 +120,9 @@ export const fetchData = async (
 
     // redirect to other page after login
     if (store.isLogin) {
+      console.log("123", data);
       delete data.data[0].user_other_password;
-      delete data.data[0].user_system_password;
+      // delete data.data[0].user_system_password;
       delete data.data[0].role_description;
       delete data.data[0].role_created;
       delete data.data[0].role_datetime;
