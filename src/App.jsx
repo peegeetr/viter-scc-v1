@@ -108,6 +108,8 @@ import AdminOtherUser from "./component/pages/settings/users/other/links/AdminOt
 import SystemOtherUser from "./component/pages/settings/users/other/links/SystemOtherUser";
 import { StoreProvider } from "./store/StoreContext";
 import AdminTopSeller from "./component/pages/Inventory/reports/top-seller/links/AdminTopSeller";
+import ManagerTopSeller from "./component/pages/Inventory/reports/top-seller/links/ManagerTopSeller";
+import SystemTopSeller from "./component/pages/Inventory/reports/top-seller/links/SystemTopSeller";
 
 function App() {
   // Create a client
@@ -319,6 +321,14 @@ function App() {
               element={
                 <ProtectedRouteSystem>
                   <SystemReports />
+                </ProtectedRouteSystem>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlSystem}/inventory/reports/top-seller`}
+              element={
+                <ProtectedRouteSystem>
+                  <SystemTopSeller />
                 </ProtectedRouteSystem>
               }
             />
@@ -849,6 +859,14 @@ function App() {
               element={
                 <ProtectedRouteOther>
                   <ManagerReports />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlManager}/inventory/reports/top-seller`}
+              element={
+                <ProtectedRouteOther>
+                  <ManagerTopSeller />
                 </ProtectedRouteOther>
               }
             />
