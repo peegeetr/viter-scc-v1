@@ -389,6 +389,12 @@ const MyOrderList = ({ setItemEdit }) => {
             {pesoSign} {numberWithCommas(totalPaidAmount.toFixed(2))}
           </span>
         </p>
+        <p className="mb-2">
+          Total Amount :
+          <span className="  bg-blue-100 text-primary text-[14px] font-medium ml-2 px-2.5 py-0.5 rounded-full">
+            {pesoSign} {numberWithCommas(totalPaidAmount.toFixed(2))}
+          </span>
+        </p>
       </div>
 
       {store.isConfirm && (

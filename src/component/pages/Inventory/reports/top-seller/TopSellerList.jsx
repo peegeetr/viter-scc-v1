@@ -118,7 +118,7 @@ const TopSellerList = () => {
           }}
         </Formik>
       </div>
-      <div className="sm:w-[30rem]">
+      <div className="relative sm:w-[30rem]">
         <div className="font-bold text-base my-5 text-center ">
           <p className="m-0 uppercase">
             Top Seller {isFilter ? month : currentMonth} 2023
@@ -126,7 +126,7 @@ const TopSellerList = () => {
         </div>
 
         {(status === "loading" || result?.pages[0].data.length === 0) && (
-          <div className="flex justify-center py-2.5 items-center border-b-2 border-solid flex-col sm:flex-row">
+          <div className=" flex justify-center py-2.5 items-center border-b-2 border-solid flex-col sm:flex-row">
             {status === "loading" && <TableSpinner />}
             <NoData text="Filter data using above controls." />
           </div>
