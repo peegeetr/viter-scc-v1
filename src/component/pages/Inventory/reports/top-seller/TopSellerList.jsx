@@ -64,15 +64,15 @@ const TopSellerList = () => {
     cacheTime: 200,
   });
 
-  // use if not loadmore button undertime
-  const { data: total } = useQueryData(
-    `/v1/sales/report/all-pending-and-paid/${month}`, // endpoint
-    "get", // method
-    "pendingAndPaid", // key
-    {},
-    month
-  );
-  console.log(total);
+  // // use if not loadmore button undertime
+  // const { data: total } = useQueryData(
+  //   `/v1/sales/report/all-pending-and-paid/${month}`, // endpoint
+  //   "get", // method
+  //   "pendingAndPaid", // key
+  //   {},
+  //   month
+  // );
+  // console.log(total);
 
   React.useEffect(() => {
     if (inView) {
@@ -203,7 +203,7 @@ const TopSellerList = () => {
                               Number(item.totalAmount).toFixed(2)
                             )}
                           </p>
-                          {getTotal(total, item).isPending === 0 && (
+                          {/* {getTotal(total, item).isPending === 0 && (
                             <p className="mb-0">
                               <span
                                 className="!bg-blue-100 !text-primary text-xs font-medium ml-2 px-2.5 py-0.5 rounded-full tooltip-action-table"
@@ -215,7 +215,7 @@ const TopSellerList = () => {
                                 )}
                               </span>
                             </p>
-                          )}
+                          )} */}
                         </div>
                       </div>
                     </div>
