@@ -49,7 +49,7 @@ const ProductsList = () => {
       }
       return;
     },
-    refetchOnWindowFocus: false,
+    // refetchOnWindowFocus: false,
     networkMode: "always",
     cacheTime: 200,
   });
@@ -125,6 +125,10 @@ const ProductsList = () => {
                 </td>
               </tr>
             )}
+
+            {/* use only for updating important records */}
+            {status !== "loading" && isFetching && <TableSpinner />}
+            {/* use only for updating important records */}
 
             {result?.pages.map((page, key) => (
               <React.Fragment key={key}>

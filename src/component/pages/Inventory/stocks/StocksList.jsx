@@ -50,7 +50,7 @@ const StocksList = ({ setItemEdit }) => {
       }
       return;
     },
-    refetchOnWindowFocus: false,
+    // refetchOnWindowFocus: false,
     networkMode: "always",
     cacheTime: 200,
   });
@@ -133,6 +133,9 @@ const StocksList = ({ setItemEdit }) => {
               </tr>
             )}
 
+            {/* use only for updating important records */}
+            {status !== "loading" && isFetching && <TableSpinner />}
+            {/* use only for updating important records */}
             {result?.pages.map((page, key) => (
               <React.Fragment key={key}>
                 {page.data.map((item, key) => (
