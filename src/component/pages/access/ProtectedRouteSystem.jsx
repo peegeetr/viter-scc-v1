@@ -9,6 +9,7 @@ import {
 } from "../../helpers/functions-general";
 import { queryData } from "../../helpers/queryData";
 import TableSpinner from "../../partials/spinners/TableSpinner";
+import PageNotFound from "../../partials/PageNotFound";
 
 const ProtectedRouteSystem = ({ children }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -53,7 +54,8 @@ const ProtectedRouteSystem = ({ children }) => {
   ) : isAuth === "456" ? (
     <Navigate to={`${devNavUrl}/system/login`} />
   ) : (
-    <p>API end point error / Page not found.</p>
+    <PageNotFound />
+    // <p>API end point error / Page not found.</p>
   );
 };
 
