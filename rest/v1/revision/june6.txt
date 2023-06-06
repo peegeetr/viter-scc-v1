@@ -1,13 +1,14 @@
 
 *controllers     
-    - inventory/sales/functions.php 
+    -> inventory/sales/functions.php 
     - inventory/sales/report-top-seller.php 
+    -> inventory/sales/read-all-pending-and-paid.php 
 
 *models      
-    - inventory/sales/Sales.php    
+    -> inventory/sales/Sales.php    
 
 *htaccess 
-    - #sales 
+    -> #sales 
 
 *db tables 
     - 

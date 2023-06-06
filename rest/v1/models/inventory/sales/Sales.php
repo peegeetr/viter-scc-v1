@@ -407,8 +407,37 @@ class Sales
         return $query;
     }
 
-
-
+    // read by id
+    public function readAllPendingPaidByMonth()
+    {
+        try {
+            $sql = "select orders.orders_product_amount, ";
+            $sql .= "orders.orders_is_paid, ";
+            $sql .= "member.members_aid, ";
+            $sql .= "member.members_last_name, ";
+            $sql .= "member.members_first_name ";
+            $sql .= "from {$this->tblOrders} as orders, ";
+            $sql .= "{$this->tblSales} as sales, ";
+            $sql .= "{$this->tblMembers} as member, ";
+            $sql .= "{$this->tblSuppliersProducts} as suppliersProducts ";
+            $sql .= "where orders.orders_product_id = suppliersProducts.suppliers_products_aid ";
+            $sql .= "and orders.orders_member_id = member.members_aid ";
+            $sql .= "and sales.sales_member_id = member.members_aid ";
+            $sql .= "and orders.orders_aid = sales.sales_order_id ";
+            $sql .= "and orders.orders_is_draft = '0' ";
+            $sql .= "and MONTHNAME(orders.orders_date) = :month ";
+            $sql .= "and YEAR(orders.orders_date) = :year ";
+            $sql .= "order by member.members_aid asc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "month" => $this->sales_month,
+                "year" => $this->sales_year,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
 
     // read by id
     public function readReportTopSellerByMonth()
@@ -416,6 +445,7 @@ class Sales
         try {
             $sql = "select sum(orders.orders_product_amount) as totalAmount, ";
             $sql .= "member.members_picture, ";
+            $sql .= "member.members_aid, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name ";
             $sql .= "from {$this->tblOrders} as orders, ";
@@ -447,6 +477,7 @@ class Sales
         try {
             $sql = "select sum(orders.orders_product_amount) as totalAmount, ";
             $sql .= "member.members_picture, ";
+            $sql .= "member.members_aid, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name ";
             $sql .= "from {$this->tblOrders} as orders, ";

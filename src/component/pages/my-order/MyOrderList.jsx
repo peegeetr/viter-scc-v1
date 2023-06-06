@@ -50,6 +50,7 @@ const MyOrderList = ({ setItemEdit }) => {
   let totalPaidAmount = 0;
   let totalPendingAmount = 0;
   let totalDraftAmount = 0;
+  let totalAmount = 0;
   const search = React.useRef(null);
   const memberid = getUrlParam().get("memberid");
   const { ref, inView } = useInView();
@@ -270,6 +271,7 @@ const MyOrderList = ({ setItemEdit }) => {
                   item.orders_is_draft === 1
                     ? (totalDraftAmount += Number(item.orders_product_amount))
                     : "";
+                  totalAmount += Number(item.orders_product_amount);
                   return (
                     <tr key={key}>
                       <td> {counter++}.</td>
@@ -391,8 +393,8 @@ const MyOrderList = ({ setItemEdit }) => {
         </p>
         <p className="mb-2">
           Total Amount :
-          <span className="  bg-blue-100 text-primary text-[14px] font-medium ml-2 px-2.5 py-0.5 rounded-full">
-            {pesoSign} {numberWithCommas(totalPaidAmount.toFixed(2))}
+          <span className="bg-blue-100 text-primary text-[14px] font-medium ml-2 px-2.5 py-0.5 rounded-full">
+            {pesoSign} {numberWithCommas(totalAmount.toFixed(2))}
           </span>
         </p>
       </div>

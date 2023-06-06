@@ -17,13 +17,6 @@ export const getRemaningQuantity = (item, stocksGroupProd, orderGroupProd) => {
       Number(item.suppliers_products_aid) === Number(oqItem.orders_product_id)
     ) {
       orderQuantity = oqItem.orderQuantity;
-      console.log(
-        oqItem.orders_product_id,
-        "stockQuantity",
-        Number(stockQuantity),
-        "orderQuantity",
-        Number(orderQuantity)
-      );
     }
   });
   remaingQunatity = Number(stockQuantity) - Number(orderQuantity);

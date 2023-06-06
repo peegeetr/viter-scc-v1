@@ -17,18 +17,25 @@ import { queryDataInfinite } from "../../../../helpers/queryDataInfinite";
 import NoData from "../../../../partials/NoData";
 import ServerError from "../../../../partials/ServerError";
 import TableSpinner from "../../../../partials/spinners/TableSpinner";
-import { getCurrentMonth, getMonth, getMonthName } from "../report-function";
+import {
+  getCurrentMonth,
+  getMonth,
+  getMonthName,
+  getTotal,
+} from "../report-function";
 import Loadmore from "../../../../partials/Loadmore";
+import useQueryData from "../../../../custom-hooks/useQueryData";
 
 const TopSellerList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [isFilter, setFilter] = React.useState(false);
   const [isSubmit, setSubmit] = React.useState(false);
-  const [month, setMonth] = React.useState("");
+  const [month, setMonth] = React.useState(
+    !isFilter ? getMonthName(getCurrentMonth()) : ""
+  );
   const [page, setPage] = React.useState(1);
   const { ref, inView } = useInView();
   let counter = 0;
-  let currentMonth = getMonthName(getCurrentMonth());
   // use if with loadmore button and search bar
   const {
     data: result,
@@ -43,7 +50,7 @@ const TopSellerList = () => {
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
         `/v1/sales/report/filter/top-seller/${month}`, // filter endpoint // filter
-        `/v1/sales/report/top-seller/${pageParam}/${currentMonth}`, // list endpoint
+        `/v1/sales/report/top-seller/${pageParam}/${month}`, // list endpoint
         isFilter // search boolean
       ),
     getNextPageParam: (lastPage) => {
@@ -56,6 +63,16 @@ const TopSellerList = () => {
     networkMode: "always",
     cacheTime: 200,
   });
+
+  // use if not loadmore button undertime
+  const { data: total } = useQueryData(
+    `/v1/sales/report/all-pending-and-paid/${month}`, // endpoint
+    "get", // method
+    "pendingAndPaid", // key
+    {},
+    month
+  );
+  console.log(total);
 
   React.useEffect(() => {
     if (inView) {
@@ -120,9 +137,7 @@ const TopSellerList = () => {
       </div>
       <div className="relative sm:w-[30rem]">
         <div className="font-bold text-base my-5 text-center ">
-          <p className="m-0 uppercase">
-            Top Seller {isFilter ? month : currentMonth} 2023
-          </p>
+          <p className="m-0 uppercase">Top Seller {month} 2023</p>
         </div>
 
         {(status === "loading" || result?.pages[0].data.length === 0) && (
@@ -181,12 +196,27 @@ const TopSellerList = () => {
                         <h2>
                           {item.members_last_name}, {item.members_first_name}
                         </h2>
-                        <p className="mb-0 text-primary text-lg">
-                          {pesoSign}{" "}
-                          {numberWithCommas(
-                            Number(item.totalAmount).toFixed(2)
+                        <div className="flex items-center">
+                          <p className="mb-0 text-primary text-lg">
+                            {pesoSign}{" "}
+                            {numberWithCommas(
+                              Number(item.totalAmount).toFixed(2)
+                            )}
+                          </p>
+                          {getTotal(total, item).isPending === 0 && (
+                            <p className="mb-0">
+                              <span
+                                className="!bg-blue-100 !text-primary text-xs font-medium ml-2 px-2.5 py-0.5 rounded-full tooltip-action-table"
+                                data-tooltip="Expected amount"
+                              >
+                                {pesoSign}{" "}
+                                {numberWithCommas(
+                                  getTotal(total, item).finalAmount.toFixed(2)
+                                )}
+                              </span>
+                            </p>
                           )}
-                        </p>
+                        </div>
                       </div>
                     </div>
                   </div>

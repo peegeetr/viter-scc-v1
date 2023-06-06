@@ -42,3 +42,15 @@ export const getMonthName = (id) => {
   });
   return monthName;
 };
+
+export const getTotal = (amount, item) => {
+  let finalAmount = 0;
+  let isPending = 0;
+  amount?.data.map((aItem) => {
+    if (aItem.members_aid === item.members_aid) {
+      finalAmount += Number(aItem.orders_product_amount);
+      isPending = aItem.orders_is_paid;
+    }
+  });
+  return { finalAmount, isPending };
+};

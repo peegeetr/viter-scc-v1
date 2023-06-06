@@ -38,3 +38,10 @@ function checkReadReportTopSellerByMonth($object)
     checkQuery($query, "Empty records. (read report top seller by month)");
     return $query;
 }
+// Read 
+function checkReadAllPendingPaidByMonth($object)
+{
+    $query = $object->readAllPendingPaidByMonth();
+    checkQuery($query, "Empty records. (read all pending and paid by month)");
+    return $query;
+}
