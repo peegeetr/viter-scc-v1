@@ -107,6 +107,7 @@ import SystemOtherUser from "./component/pages/settings/users/other/links/System
 import { StoreProvider } from "./store/StoreContext";
 import CreateAccount from "./component/pages/access/create-account/CreateAccount";
 import CreateVerification from "./component/pages/access/create-account/CreateVerification";
+import MemberMyOrder from "./component/pages/my-order/links/MemberMyOrder";
 
 function App() {
   // Create a client
@@ -443,6 +444,14 @@ function App() {
               element={
                 <ProtectedRouteOther>
                   <MemberMyPatronage />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlMember}/my-order`}
+              element={
+                <ProtectedRouteOther>
+                  <MemberMyOrder />
                 </ProtectedRouteOther>
               }
             />

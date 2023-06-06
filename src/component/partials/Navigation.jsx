@@ -136,19 +136,19 @@ const Navigation = ({ menu }) => {
             {store.credentials.data.role_is_member === 1 && (
               <li
                 className={
-                  menu === "Order"
+                  menu === "my-order"
                     ? "active"
                     : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
                 }
               >
                 <Link
-                  to={`${getUserType(store)}/details/patronage`}
+                  to={`${getUserType(store)}/my-order`}
                   className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
                   onClick={handleShow}
-                  data-tooltip="File Upload"
+                  data-tooltip="My Order"
                 >
                   <FaShoppingCart className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
-                  <span className="md:hidden lg:block">Order</span>
+                  <span className="md:hidden lg:block">My Order</span>
                 </Link>
               </li>
             )}

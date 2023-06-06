@@ -2,34 +2,24 @@ import React from "react";
 import { setIsAdd } from "../../store/StoreAction.jsx";
 
 // Online URL dev
-export const devApiUrl = "https://app.sambahayancoop.com/rest";
-export const devBaseImgUrl = "https://app.sambahayancoop.com/img";
-export const devBaseUrl = "https://app.sambahayancoop.com";
-export const devNavUrl = "";
-
-// // // // Local URL dev
-// export const devApiUrl = "http://localhost/viter-newthing-v1/rest";
-// export const devBaseUrl = "http://localhost/viter-newthing-v1/public";
-// export const devBaseImgUrl = "http://localhost/viter-newthing-v1/public/img";
-// export const devNavUrl = "";
+export const urlScc = "https://app.sambahayancoop.com/rest";
+export const urlSccImg = "https://app.sambahayancoop.com/img";
 
 // // cy url
-// export const devApiUrl = "http://localhost/viter-scc-v1/rest";
-// export const devBaseUrl = "http://localhost/viter-scc-v1/public";
-// export const devNavUrl = "";
-
-// // cy url
-// export const devApiUrl = "http://localhost/projects/viter-scc-v1/rest";
-// export const devBaseUrl = "http://localhost/projects/viter-scc-v1/public";
-// export const devBaseImgUrl =
-//   "http://localhost/projects/viter-scc-v1/public/img";
-// export const devNavUrl = "";
+// export const urlSccImg = "http://localhost/projects/viter-scc-v1/public/img";
+// export const urlScc = "http://localhost/projects/viter-scc-v1";
 
 export const UrlAdmin = "admin";
 export const UrlManager = "manager";
 export const UrlCasher = "casher";
 export const UrlMember = "member";
 export const UrlSystem = "system";
+
+// ONLINE DEV and LOCAL hris
+export const devBaseImgUrl = `${urlSccImg}`;
+export const devApiUrl = `${urlScc}/rest`;
+export const devBaseUrl = `${urlScc}`;
+export const devNavUrl = "";
 
 export const is_developer = "is_developer";
 

@@ -7,22 +7,20 @@ import {
   setError,
   setIsAdd,
   setMessage,
-  setStartIndex,
   setSuccess,
-} from "../../../../store/StoreAction";
-import { StoreContext } from "../../../../store/StoreContext";
-import useQueryData from "../../../custom-hooks/useQueryData";
-import { InputSelect, InputText } from "../../../helpers/FormInputs";
+} from "../../../store/StoreAction";
+import { StoreContext } from "../../../store/StoreContext";
+import useQueryData from "../../custom-hooks/useQueryData";
+import { InputSelect, InputText } from "../../helpers/FormInputs";
 import {
   getDateTimeNow,
-  getUrlParam,
   numberWithCommas,
   pesoSign,
   removeComma,
-} from "../../../helpers/functions-general";
-import { queryData } from "../../../helpers/queryData";
-import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
-import { getRemaningQuantity } from "../../Inventory/products/functions-product";
+} from "../../helpers/functions-general";
+import { queryData } from "../../helpers/queryData";
+import ButtonSpinner from "../../partials/spinners/ButtonSpinner";
+import { getRemaningQuantity } from "../Inventory/products/functions-product";
 
 const ModalAddMyOrder = ({ item, arrKey }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -92,7 +90,6 @@ const ModalAddMyOrder = ({ item, arrKey }) => {
     categoryId
   );
 
-  console.log(SupProd);
   // get employee id
   const handleSupplierProduct = async (e, props) => {
     let categoryId = e.target.value;
