@@ -9,17 +9,17 @@ export const urlSccImg = "https://app.sambahayancoop.com/img";
 // export const urlSccImg = "http://localhost/projects/viter-scc-v1/public/img";
 // export const urlScc = "http://localhost/projects/viter-scc-v1";
 
-export const UrlAdmin = "admin";
-export const UrlManager = "manager";
-export const UrlCasher = "casher";
-export const UrlMember = "member";
-export const UrlSystem = "system";
-
 // ONLINE DEV and LOCAL hris
 export const devBaseImgUrl = `${urlSccImg}`;
 export const devApiUrl = `${urlScc}/rest`;
 export const devBaseUrl = `${urlScc}`;
 export const devNavUrl = "";
+
+export const UrlAdmin = "admin";
+export const UrlManager = "manager";
+export const UrlCasher = "casher";
+export const UrlMember = "member";
+export const UrlSystem = "system";
 
 export const is_developer = "is_developer";
 
