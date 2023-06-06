@@ -19,6 +19,8 @@ class Sales
     public $connection;
     public $lastInsertedId;
     public $sales_start;
+    public $sales_month;
+    public $sales_year;
     public $sales_total;
     public $sales_search;
     public $currentYear;
@@ -107,6 +109,7 @@ class Sales
             $sql .= "and orders.orders_member_id = member.members_aid ";
             $sql .= "and sales.sales_member_id = member.members_aid ";
             $sql .= "and orders.orders_aid = sales.sales_order_id ";
+            $sql .= "and orders.orders_is_draft = '0' ";
             $sql .= "order by sales.sales_is_paid, ";
             $sql .= "sales.sales_date desc ";
             $query = $this->connection->query($sql);
@@ -141,11 +144,10 @@ class Sales
             $sql .= "{$this->tblMembers} as member, ";
             $sql .= "{$this->tblSuppliersProducts} as suppliersProducts ";
             $sql .= "where orders.orders_product_id = suppliersProducts.suppliers_products_aid ";
-            $sql .= "and orders.orders_aid = sales.sales_order_id ";
             $sql .= "and orders.orders_member_id = member.members_aid ";
             $sql .= "and sales.sales_member_id = member.members_aid ";
-            $sql .= "and sales.sales_member_id = member.members_aid ";
-            $sql .= "and orders.orders_is_draft = 0 ";
+            $sql .= "and orders.orders_aid = sales.sales_order_id ";
+            $sql .= "and orders.orders_is_draft = '0' ";
             $sql .= "order by sales.sales_is_paid, ";
             $sql .= "sales.sales_date desc ";
             $sql .= "limit :start, ";
@@ -399,6 +401,76 @@ class Sales
             $sql .= "{$this->tblSales} ";
             $sql .= "order by sales_aid desc ";
             $query = $this->connection->query($sql);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+
+
+
+    // read by id
+    public function readReportTopSellerByMonth()
+    {
+        try {
+            $sql = "select sum(orders.orders_product_amount) as totalAmount, ";
+            $sql .= "member.members_picture, ";
+            $sql .= "member.members_last_name, ";
+            $sql .= "member.members_first_name ";
+            $sql .= "from {$this->tblOrders} as orders, ";
+            $sql .= "{$this->tblSales} as sales, ";
+            $sql .= "{$this->tblMembers} as member, ";
+            $sql .= "{$this->tblSuppliersProducts} as suppliersProducts ";
+            $sql .= "where orders.orders_product_id = suppliersProducts.suppliers_products_aid ";
+            $sql .= "and orders.orders_member_id = member.members_aid ";
+            $sql .= "and sales.sales_member_id = member.members_aid ";
+            $sql .= "and orders.orders_aid = sales.sales_order_id ";
+            $sql .= "and sales.sales_is_paid = '1' ";
+            $sql .= "and MONTHNAME(sales.sales_date) = :month ";
+            $sql .= "and YEAR(sales.sales_date) = :year ";
+            $sql .= "group by member.members_aid ";
+            $sql .= "order by sum(orders.orders_product_amount) desc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "month" => $this->sales_month,
+                "year" => $this->sales_year,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    public function readReportTopSellerByMonthLimit()
+    {
+        try {
+            $sql = "select sum(orders.orders_product_amount) as totalAmount, ";
+            $sql .= "member.members_picture, ";
+            $sql .= "member.members_last_name, ";
+            $sql .= "member.members_first_name ";
+            $sql .= "from {$this->tblOrders} as orders, ";
+            $sql .= "{$this->tblSales} as sales, ";
+            $sql .= "{$this->tblMembers} as member, ";
+            $sql .= "{$this->tblSuppliersProducts} as suppliersProducts ";
+            $sql .= "where orders.orders_product_id = suppliersProducts.suppliers_products_aid ";
+            $sql .= "and orders.orders_member_id = member.members_aid ";
+            $sql .= "and sales.sales_member_id = member.members_aid ";
+            $sql .= "and orders.orders_aid = sales.sales_order_id ";
+            $sql .= "and sales.sales_is_paid = '1' ";
+            $sql .= "and MONTHNAME(sales.sales_date) = :month ";
+            $sql .= "and YEAR(sales.sales_date) = :year ";
+            $sql .= "group by member.members_aid ";
+            $sql .= "order by sum(orders.orders_product_amount) desc ";
+            $sql .= "limit :start, ";
+            $sql .= ":total ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "month" => $this->sales_month,
+                "year" => $this->sales_year,
+                "start" => $this->sales_start - 1,
+                "total" => $this->sales_total,
+            ]);
         } catch (PDOException $ex) {
             $query = false;
         }

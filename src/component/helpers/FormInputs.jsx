@@ -136,6 +136,7 @@ export const InputSelect = ({ label, onChange, ...props }) => {
     props.name === "category_id" ||
     props.name === "orders_product_id" ||
     props.name === "orders_is_paid" ||
+    props.name === "month" ||
     props.name === "product_supplier_id"
   ) {
     return (

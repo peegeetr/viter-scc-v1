@@ -23,3 +23,18 @@ function checkIsPaidOrder($object)
     checkQuery($query, "There's a problem processing your request. (sales is pending)");
     return $query;
 }
+
+// Read limit
+function checkReadReportTopSellerByMonthLimit($object)
+{
+    $query = $object->readReportTopSellerByMonthLimit();
+    checkQuery($query, "Empty records. (read limit report top seller by month)");
+    return $query;
+}
+// Read 
+function checkReadReportTopSellerByMonth($object)
+{
+    $query = $object->readReportTopSellerByMonth();
+    checkQuery($query, "Empty records. (read report top seller by month)");
+    return $query;
+}

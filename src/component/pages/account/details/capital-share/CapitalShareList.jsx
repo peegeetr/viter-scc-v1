@@ -9,6 +9,7 @@ import {
   getTime,
   getUrlParam,
   numberWithCommas,
+  pesoSign,
 } from "../../../../helpers/functions-general";
 import { queryDataInfinite } from "../../../../helpers/queryDataInfinite";
 import Loadmore from "../../../../partials/Loadmore";
@@ -107,8 +108,11 @@ const CapitalShareList = ({ setItemEdit }) => {
         {status !== "loading" && result?.pages[0].data.length > 0 && (
           <div className="text-center my-4 text-primary font-bold">
             <p>
-              <span className="mr-4">Total Capital Share :</span>{" "}
-              {computeTotalCapital(result?.pages[0])}
+              <span className="mr-4">Total Capital Share : </span>
+              {pesoSign}{" "}
+              {numberWithCommas(
+                computeTotalCapital(result?.pages[0]).toFixed(2)
+              )}
             </p>
           </div>
         )}
@@ -150,7 +154,12 @@ const CapitalShareList = ({ setItemEdit }) => {
                       item.capital_share_date
                     )}`}</td>
                     <td>{item.capital_share_or}</td>
-                    <td>{item.capital_share_paid_up}</td>
+                    <td>
+                      {pesoSign}{" "}
+                      {numberWithCommas(
+                        Number(item.capital_share_paid_up).toFixed(2)
+                      )}
+                    </td>
                     {(store.credentials.data.role_is_developer === 1 ||
                       store.credentials.data.role_is_admin === 1) && (
                       <td>

@@ -6,6 +6,7 @@ import BreadCrumbs from "../../../partials/BreadCrumbs";
 import Footer from "../../../partials/Footer";
 import Header from "../../../partials/Header";
 import Navigation from "../../../partials/Navigation";
+import TopSellerLink from "./top-seller/ReportsLink";
 
 const Reports = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -37,12 +38,7 @@ const Reports = () => {
 
         <hr />
         <div className="w-full pt-5 pb-20">
-          {" "}
-          <p className="text-primary">
-            We'll be right back! We are just doing some improvement in this
-            page. Thank you for understaning.
-          </p>
-          {/* <ReportsList setItemEdit={setItemEdit} /> */}
+          <TopSellerLink />
         </div>
         <Footer />
       </div>

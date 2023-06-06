@@ -1,0 +1,20 @@
+
+*controllers     
+    - inventory/sales/functions.php 
+    - inventory/sales/report-top-seller.php 
+
+*models      
+    - inventory/sales/Sales.php    
+
+*htaccess 
+    - #sales 
+
+*db tables 
+    - 
+
+*core functions 
+    - 
+
+*extra
+    - 
+    

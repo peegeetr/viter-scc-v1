@@ -250,7 +250,13 @@ const MyOrderList = ({ setItemEdit }) => {
               </tr>
             )}
             {/* use only for updating important records */}
-            {status !== "loading" && isFetching && <TableSpinner />}
+            {status !== "loading" && isFetching && (
+              <tr className="text-center ">
+                <td colSpan="100%" className="p-10">
+                  <TableSpinner />
+                </td>
+              </tr>
+            )}
             {/* use only for updating important records */}
             {result?.pages.map((page, key) => (
               <React.Fragment key={key}>
@@ -364,22 +370,22 @@ const MyOrderList = ({ setItemEdit }) => {
           refView={ref}
         />
       </div>
-      <div className="w-[18rem] text-right font-semibold text-lg">
-        <p className="m-0">
+      <div className="py-2 text-right font-semibold text-[14px]">
+        <p className="mb-2">
           Total Draft Amount :
-          <span className="font-thin ">
+          <span className="bg-gray-100 text-gray-800 text-[14px] font-medium ml-2 px-2.5 py-0.5 rounded-full ">
             {pesoSign} {numberWithCommas(totalDraftAmount.toFixed(2))}
           </span>
         </p>
-        <p className="m-0">
+        <p className="mb-2">
           Total Pending Amount :
-          <span className="font-thin">
+          <span className="bg-orange-100 text-orange-800 text-[14px] font-medium ml-2 px-2.5 py-0.5 rounded-full">
             {pesoSign} {numberWithCommas(totalPendingAmount.toFixed(2))}
           </span>
         </p>
-        <p className="m-0">
+        <p className="mb-2">
           Total Paid Amount :
-          <span className="font-thin">
+          <span className="  bg-green-100 text-green-800 text-[14px] font-medium ml-2 px-2.5 py-0.5 rounded-full">
             {pesoSign} {numberWithCommas(totalPaidAmount.toFixed(2))}
           </span>
         </p>

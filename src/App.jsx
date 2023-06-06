@@ -35,7 +35,6 @@ import SystemInventoryDetails from "./component/pages/Inventory/links/SystemInve
 import AdminOrders from "./component/pages/Inventory/orders/links/AdminOrders";
 import ManagerOrders from "./component/pages/Inventory/orders/links/ManagerOrders";
 import SystemOrders from "./component/pages/Inventory/orders/links/SystemOrders";
-import AddOrderPage from "./component/pages/Inventory/orders/order-page/AddOrderPage";
 import OrderSuccess from "./component/pages/Inventory/orders/order-page/OrderSuccess";
 import AdminPointOfSales from "./component/pages/Inventory/point-of-sales/links/AdminPointOfSales";
 import CasherPointOfSales from "./component/pages/Inventory/point-of-sales/links/CasherPointOfSales";
@@ -59,6 +58,8 @@ import SystemSuppliers from "./component/pages/Inventory/suppliers/links/SystemS
 import AdminSupplierProduct from "./component/pages/Inventory/suppliers/products/links/AdminSupplierProduct";
 import ManagerSupplierProduct from "./component/pages/Inventory/suppliers/products/links/ManagerSupplierProduct";
 import SystemSupplierProduct from "./component/pages/Inventory/suppliers/products/links/SystemSupplierProduct";
+import CreateAccount from "./component/pages/access/create-account/CreateAccount";
+import CreateVerification from "./component/pages/access/create-account/CreateVerification";
 import AdminCapitalShare from "./component/pages/account/details/capital-share/links/AdminCapitalShare";
 import SystemCapitalShare from "./component/pages/account/details/capital-share/links/SystemCapitalShare";
 import AdminDeatils from "./component/pages/account/details/links/AdminDeatils";
@@ -98,6 +99,7 @@ import MemberMyProfile from "./component/pages/my-account/profile/links/MemberMy
 import AdminMySavings from "./component/pages/my-account/savings/links/AdminMySavings";
 import ManagerMySavings from "./component/pages/my-account/savings/links/ManagerMySavings";
 import MemberMySavings from "./component/pages/my-account/savings/links/MemberMySavings";
+import MemberMyOrder from "./component/pages/my-order/links/MemberMyOrder";
 import AdminSettingsLink from "./component/pages/settings/links/AdminSettingsLink";
 import SystemSettingsLink from "./component/pages/settings/links/SystemSettingsLink";
 import AdminNetSurPlus from "./component/pages/settings/net-surplus/links/AdminNetSurPlus";
@@ -105,9 +107,7 @@ import SystemNetSurPlus from "./component/pages/settings/net-surplus/links/Syste
 import AdminOtherUser from "./component/pages/settings/users/other/links/AdminOtherUser";
 import SystemOtherUser from "./component/pages/settings/users/other/links/SystemOtherUser";
 import { StoreProvider } from "./store/StoreContext";
-import CreateAccount from "./component/pages/access/create-account/CreateAccount";
-import CreateVerification from "./component/pages/access/create-account/CreateVerification";
-import MemberMyOrder from "./component/pages/my-order/links/MemberMyOrder";
+import AdminTopSeller from "./component/pages/Inventory/reports/top-seller/links/AdminTopSeller";
 
 function App() {
   // Create a client
@@ -656,6 +656,14 @@ function App() {
               element={
                 <ProtectedRouteOther>
                   <AdminReports />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/inventory/reports/top-seller`}
+              element={
+                <ProtectedRouteOther>
+                  <AdminTopSeller />
                 </ProtectedRouteOther>
               }
             />
