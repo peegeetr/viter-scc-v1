@@ -78,7 +78,7 @@ RewriteRule ^patronage/page/by-employee-id/([0-9]+)/([0-9]+)$ controllers/accoun
 RewriteRule ^patronage/active/([0-9]+)$ controllers/account/details/patronage/active.php?orderid=$1 [L]
 RewriteRule ^patronage/search/by-employee-id/([A-Za-z0-9-]+)/([0-9]+)$ controllers/account/details/patronage/search-by-employee-id.php?search=$1&membersid=$2 [L]
 RewriteRule ^patronage/filter/by-employee-id/([A-Za-z0-9-]+)/([A-Za-z0-9-]+)/([0-9]+)$ controllers/account/details/patronage/filter-by-employee-id.php?startDate=$1&endDate=$2&membersid=$3 [L]
- 
+
 #files
 RewriteRule ^file$ controllers/files/files.php [L]
 RewriteRule ^file/([0-9]+)$ controllers/files/files.php?fileid=$1 [L] 
@@ -152,3 +152,10 @@ RewriteRule ^sales/report/all-pending-and-paid/([A-Za-z0-9-]+)$ controllers/inve
 
 #upload Photo
 RewriteRule ^member/upload/photo$ core/upload-photo.php [L]
+
+#my-order
+RewriteRule ^my-order/page/by-member-id/([0-9]+)/([0-9]+)$ controllers/account/details/my-order/page-by-member-id.php?start=$1&membersid=$2 [L]
+RewriteRule ^my-order/active/([0-9]+)$ controllers/account/details/my-order/active.php?orderid=$1 [L]
+RewriteRule ^my-order/search/by-member-id/([A-Za-z0-9-]+)/([0-9]+)$ controllers/account/details/my-order/search-by-member-id.php?search=$1&membersid=$2 [L]
+RewriteRule ^my-order/filter/by-member-id/([A-Za-z0-9-]+)/([A-Za-z0-9-]+)/([0-9]+)$ controllers/account/details/my-order/filter-by-member-id.php?startDate=$1&endDate=$2&membersid=$3 [L]
+ 

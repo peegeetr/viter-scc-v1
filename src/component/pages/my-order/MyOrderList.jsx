@@ -66,12 +66,12 @@ const MyOrderList = ({ setItemEdit }) => {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    // queryKey: ["patronage", onSearch, store.isSearch],
-    queryKey: ["patronage", onSearch],
+    // queryKey: ["my-order", onSearch, store.isSearch],
+    queryKey: ["my-order", onSearch],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
-        `/v1/patronage/filter/by-employee-id/${startDate}/${endDate}/${empid}`, // filter endpoint // filter
-        `/v1/patronage/page/by-employee-id/${pageParam}/${empid}`, // list endpoint
+        `/v1/my-order/filter/by-member-id/${startDate}/${endDate}/${empid}`, // filter endpoint // filter
+        `/v1/my-order/page/by-member-id/${pageParam}/${empid}`, // list endpoint
         filter // search boolean
       ),
     getNextPageParam: (lastPage) => {
@@ -420,10 +420,10 @@ const MyOrderList = ({ setItemEdit }) => {
         <ModalConfirm
           id={id}
           isDel={isDel}
-          mysqlApiArchive={`/v1/patronage/active/${id}`}
+          mysqlApiArchive={`/v1/my-order/active/${id}`}
           msg={"Are you sure you want to submit this "}
           item={`${dataItem.suppliers_products_name} order`}
-          arrKey="patronage"
+          arrKey="my-order"
         />
       )}
       {store.isRestore && (
@@ -433,7 +433,7 @@ const MyOrderList = ({ setItemEdit }) => {
           mysqlApiDelete={`/v1/orders/${id}`}
           msg={"Are you sure you want to cancel your"}
           item={`${dataItem.suppliers_products_name} order`}
-          arrKey="patronage"
+          arrKey="my-order"
         />
       )}
     </>
