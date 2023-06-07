@@ -100,14 +100,14 @@ const OrdersList = ({ setItemEdit }) => {
             <tr>
               <th>#</th>
               <th>Status</th>
-              <th className="min-w-[8rem]">Order Number</th>
+              <th className="min-w-[6rem]">Order #</th>
               <th className="min-w-[10rem]">Name</th>
-              <th className="min-w-[8rem]">Date</th>
+              <th className="min-w-[6rem]">Date</th>
               <th className="min-w-[8rem]">Product</th>
-              <th className="min-w-[8rem] text-center">Quantity</th>
-              <th className="min-w-[8rem] text-right">SRP Price</th>
-              <th className="min-w-[8rem] text-right">Discounted</th>
-              <th className="min-w-[8rem] text-right pr-4">Total Price</th>
+              <th className="min-w-[3rem] text-center">Qty</th>
+              <th className="min-w-[6rem] text-right">SRP Price</th>
+              <th className="min-w-[6rem] text-right">Discounted</th>
+              <th className="min-w-[6rem] text-right pr-4">Total Price</th>
               <th className="min-w-[15rem] ">Remarks</th>
 
               {store.credentials.data.role_is_member === 0 && (
