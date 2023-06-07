@@ -4,10 +4,12 @@
     - inventory/orders/update.php  
     - inventory/sales/create.php 
     - inventory/sales/update.php  
+    -> inventory/products/page.php  
 
 *models      
     - inventory/orders/Orders.php    
     - inventory/sales/Sales.php    
+    -> inventory/stocks/Stocks.php    
 
 *htaccess 
     -  

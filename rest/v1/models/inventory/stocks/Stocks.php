@@ -89,7 +89,8 @@ class Stocks
             $sql .= "where stocks.stocks_product_id = supplierProduct.suppliers_products_aid ";
             $sql .= "and suppliers.suppliers_aid = supplierProduct.suppliers_products_suppliers_id ";
             $sql .= "order by stocks.stocks_is_pending desc, ";
-            $sql .= "stocks.stocks_number asc ";
+            $sql .= "stocks.stocks_created desc, ";
+            $sql .= "supplierProduct.suppliers_products_name asc ";
             $query = $this->connection->query($sql);
         } catch (PDOException $ex) {
             $query = false;
@@ -119,7 +120,8 @@ class Stocks
             $sql .= "where stocks.stocks_product_id = supplierProduct.suppliers_products_aid ";
             $sql .= "and suppliers.suppliers_aid = supplierProduct.suppliers_products_suppliers_id ";
             $sql .= "order by stocks.stocks_is_pending desc, ";
-            $sql .= "stocks.stocks_number asc ";
+            $sql .= "stocks.stocks_created desc, ";
+            $sql .= "supplierProduct.suppliers_products_name asc ";
             $sql .= "limit :start, ";
             $sql .= ":total ";
             $query = $this->connection->prepare($sql);
@@ -159,7 +161,9 @@ class Stocks
             $sql .= "or supplierProduct.suppliers_products_number like :suppliers_products_number ";
             $sql .= "or suppliers.suppliers_company_name like :suppliers_company_name ";
             $sql .= "or supplierProduct.suppliers_products_name like :suppliers_products_name) ";
-            $sql .= "order by stocks.stocks_is_pending, ";
+            $sql .= "order by stocks.stocks_is_pending desc, ";
+            $sql .= "stocks.stocks_created desc, ";
+            $sql .= "supplierProduct.suppliers_products_name asc ";
             $sql .= "stocks.stocks_number asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
