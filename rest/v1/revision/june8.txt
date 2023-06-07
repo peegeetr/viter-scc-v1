@@ -1,0 +1,18 @@
+
+*controllers     
+    - 
+
+*models      
+    - inventory/stocks/Stocks.php
+*htaccess 
+    -  
+
+*db tables 
+    - 
+
+*core functions 
+    - 
+
+*extra
+    - 
+ 

@@ -160,17 +160,18 @@ class Stocks
             $sql .= "and (stocks.stocks_number like :stocks_number ";
             $sql .= "or supplierProduct.suppliers_products_number like :suppliers_products_number ";
             $sql .= "or suppliers.suppliers_company_name like :suppliers_company_name ";
+            $sql .= "or MONTHNAME(stocks.stocks_date) like :stocks_date ";
             $sql .= "or supplierProduct.suppliers_products_name like :suppliers_products_name) ";
             $sql .= "order by stocks.stocks_is_pending desc, ";
             $sql .= "stocks.stocks_created desc, ";
             $sql .= "supplierProduct.suppliers_products_name asc ";
-            $sql .= "stocks.stocks_number asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "stocks_number" => "%{$this->stocks_search}%",
                 "suppliers_products_number" => "%{$this->stocks_search}%",
                 "suppliers_products_name" => "%{$this->stocks_search}%",
                 "suppliers_company_name" => "%{$this->stocks_search}%",
+                "stocks_date" => "%{$this->stocks_search}%",
             ]);
         } catch (PDOException $ex) {
             $query = false;
