@@ -403,9 +403,11 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                           {pesoSign}{" "}
                           {Number(props.values.orders_product_amount) === 0
                             ? 0
-                            : modalComputeAmountWithDiscount(
-                                props.values.orders_product_amount,
-                                removeComma(props.values.sales_discount)
+                            : numberWithCommas(
+                                modalComputeAmountWithDiscount(
+                                  props.values.orders_product_amount,
+                                  removeComma(props.values.sales_discount)
+                                )
                               )}
                         </span>
                       </p>
@@ -418,11 +420,9 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                             {pesoSign}{" "}
                             {Number(props.values.sales_receive_amount) === 0
                               ? 0
-                              : numberWithCommas(
-                                  Number(
-                                    props.values.sales_member_change
-                                  ).toFixed(2)
-                                )}
+                              : Number(
+                                  props.values.sales_member_change
+                                ).toFixed(2)}
                           </span>
                         </p>
                       </div>
