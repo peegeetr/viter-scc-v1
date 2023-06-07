@@ -28,9 +28,9 @@
     
 *controllers     
     - acccount/page.php 
-    - acccount/capital-share/page.php  
-    - acccount/patronage/page-by-employee-id.php 
-    - acccount/savings/page.php  
+    - acccount/details/capital-share/page.php  
+    - acccount/details/patronage/page-by-employee-id.php 
+    - acccount/details/savings/page.php  
     - dashboard/page.php  
     - files/page.php  
     - inventory/category/page.php  
@@ -41,11 +41,13 @@
     - inventory/suppliers/product/read-by-supplier-id.php  
     - inventory/suppliers/page.php  
 
+    -> acccount/details/my-order/ (note: ALL FILES)  
+
 *models      
     - inventory/orders/Orders.php     
 
 *htaccess 
-    -  
+    -> #my-order
 
 *db tables 
     -  
