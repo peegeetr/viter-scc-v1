@@ -23,4 +23,37 @@
 
 *extra
     - 
+
+    //afternoon
+    
+*controllers     
+    - acccount/page.php 
+    - acccount/capital-share/page.php  
+    - acccount/patronage/page-by-employee-id.php 
+    - acccount/savings/page.php  
+    - dashboard/page.php  
+    - files/page.php  
+    - inventory/category/page.php  
+    - inventory/orders/invoice-page.php  
+    - inventory/orders/page.php  
+    - inventory/sales/page.php  
+    - inventory/sales/report-top-seller.php  
+    - inventory/suppliers/product/read-by-supplier-id.php  
+    - inventory/suppliers/page.php  
+
+*models      
+    - inventory/orders/Orders.php     
+
+*htaccess 
+    -  
+
+*db tables 
+    -  
+    -  
+
+*core functions 
+    - 
+
+*extra
+    - 
     

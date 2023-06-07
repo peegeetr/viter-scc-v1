@@ -4,9 +4,9 @@
 require '../../../../core/header.php';
 // use needed functions
 require '../../../../core/functions.php';
-require 'functions.php'; 
+require 'functions.php';
 // use needed classes
-require '../../../../models/account/details/CapitalShare.php'; 
+require '../../../../models/account/details/CapitalShare.php';
 // check database connection
 $conn = null;
 $conn = checkDbConnection();
@@ -22,7 +22,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         // get task id from query string
         $share->capital_share_member_id = $_GET['membersid'];
         $share->capital_start = $_GET['start'];
-        $share->capital_total = 5;
+        $share->capital_total = 20;
         //check to see if task id in query string is not empty and is number, if not return json error
         checkLimitId($share->capital_start, $share->capital_total);
         $query = checkReadLimitById($share);

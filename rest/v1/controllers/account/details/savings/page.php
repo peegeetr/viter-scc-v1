@@ -4,9 +4,9 @@
 require '../../../../core/header.php';
 // use needed functions
 require '../../../../core/functions.php';
-require 'functions.php'; 
+require 'functions.php';
 // use needed classes
-require '../../../../models/account/details/Savings.php'; 
+require '../../../../models/account/details/Savings.php';
 // check database connection
 $conn = null;
 $conn = checkDbConnection();
@@ -22,7 +22,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         // get task id from query string
         $savings->savings_member_id = $_GET['membersid'];
         $savings->savings_start = $_GET['start'];
-        $savings->total = 5;
+        $savings->total = 20;
         //check to see if task id in query string is not empty and is number, if not return json error
         checkLimitId($savings->savings_start, $savings->total);
         $query = checkReadLimitById($savings);

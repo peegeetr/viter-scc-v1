@@ -20,7 +20,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         // get data
         // get task id from query string
         $file->file_start = $_GET['start'];
-        $file->file_total = 5;
+        $file->file_total = 20;
         //check to see if task id in query string is not empty and is number, if not return json error
         checkLimitId($file->file_start, $file->file_total);
         $query = checkReadLimit($file);

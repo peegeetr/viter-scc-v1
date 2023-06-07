@@ -3,9 +3,9 @@
 // set http header
 require '../../../core/header.php';
 // use needed functions
-require '../../../core/functions.php'; 
+require '../../../core/functions.php';
 // use needed classes
-require '../../../models/inventory/category/Category.php'; 
+require '../../../models/inventory/category/Category.php';
 // check database connection
 $conn = null;
 $conn = checkDbConnection();
@@ -20,7 +20,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         // get data
         // get task id from query string
         $category->product_category_start = $_GET['start'];
-        $category->product_category_total = 5;
+        $category->product_category_total = 20;
         //check to see if task id in query string is not empty and is number, if not return json error
         checkLimitId($category->product_category_start, $category->product_category_total);
         $query = checkReadLimit($category);

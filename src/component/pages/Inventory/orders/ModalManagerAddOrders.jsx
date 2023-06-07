@@ -406,7 +406,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                             : modalComputeAmountWithDiscount(
                                 props.values.orders_product_amount,
                                 props.values.sales_discount
-                              ).toFixed(2)}
+                              )}
                         </span>
                       </p>
                     </div>

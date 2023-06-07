@@ -3,7 +3,7 @@
 // set http header
 require '../../core/header.php';
 // use needed functions
-require '../../core/functions.php'; 
+require '../../core/functions.php';
 // use needed classes
 require '../../models/dashboard/Dashboard.php';
 // check database connection
@@ -20,7 +20,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         // get data
         // get task id from query string
         $announcement->announcement_start = $_GET['start'];
-        $announcement->announcement_total = 5;
+        $announcement->announcement_total = 20;
         //check to see if task id in query string is not empty and is number, if not return json error
         checkLimitId($announcement->announcement_start, $announcement->announcement_total);
         $query = checkReadLimit($announcement);

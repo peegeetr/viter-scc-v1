@@ -3,9 +3,9 @@
 // set http header
 require '../../../core/header.php';
 // use needed functions
-require '../../../core/functions.php'; 
+require '../../../core/functions.php';
 // use needed classes
-require '../../../models/inventory/suppliers/Suppliers.php'; 
+require '../../../models/inventory/suppliers/Suppliers.php';
 // check database connection
 $conn = null;
 $conn = checkDbConnection();
@@ -20,7 +20,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         // get data
         // get task id from query string
         $suppliers->suppliers_start = $_GET['start'];
-        $suppliers->suppliers_total = 5;
+        $suppliers->suppliers_total = 20;
         //check to see if task id in query string is not empty and is number, if not return json error
         checkLimitId($suppliers->suppliers_start, $suppliers->suppliers_total);
         $query = checkReadLimit($suppliers);

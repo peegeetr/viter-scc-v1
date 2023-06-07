@@ -393,7 +393,7 @@ class Orders
             $sql .= "and DATE(sales.sales_date) <= :orders_to ";
             $sql .= "order by orders.orders_is_draft desc, ";
             $sql .= "orders.orders_is_paid asc, ";
-            $sql .= "sales.sales_date desc ";
+            $sql .= "orders.orders_date desc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "orders_member_id" => $this->orders_member_id,
@@ -446,7 +446,7 @@ class Orders
             $sql .= "and orders.orders_member_id = member.members_aid ";
             $sql .= "order by orders.orders_is_draft desc, ";
             $sql .= "orders.orders_is_paid asc, ";
-            $sql .= "sales.sales_date desc ";
+            $sql .= "orders.orders_date desc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "orders_member_id" => $this->orders_member_id,
@@ -495,7 +495,7 @@ class Orders
             $sql .= "and orders.orders_member_id = member.members_aid ";
             $sql .= "order by orders.orders_is_draft desc, ";
             $sql .= "orders.orders_is_paid asc, ";
-            $sql .= "sales.sales_date desc ";
+            $sql .= "orders.orders_date desc ";
             $sql .= "limit :start, ";
             $sql .= ":total ";
             $query = $this->connection->prepare($sql);

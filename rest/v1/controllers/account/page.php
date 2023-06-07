@@ -3,8 +3,8 @@
 // set http header
 require '../../core/header.php';
 // use needed functions
-require '../../core/functions.php'; 
-require 'functions.php'; 
+require '../../core/functions.php';
+require 'functions.php';
 // use needed classes
 require '../../models/account/Members.php';
 // check database connection
@@ -16,12 +16,12 @@ $response = new Response();
 // validate api key
 if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     checkApiKey();
-  
+
     if (array_key_exists("start", $_GET) && array_key_exists("approved", $_GET)) {
         // get data
         // get task id from query string
-        $members->members_start = $_GET['start']; 
-        $members->members_total = 5;
+        $members->members_start = $_GET['start'];
+        $members->members_total = 20;
         //check to see if task id in query string is not empty and is number, if not return json error
         checkLimitId($members->members_start, $members->members_total);
         $query = checkReadLimitApproved($members);
@@ -39,8 +39,8 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         $response->send();
         exit;
     }
-    
-    
+
+
     if (array_key_exists("start", $_GET)) {
         // get data
         // get task id from query string

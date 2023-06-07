@@ -108,14 +108,13 @@ const SalesList = ({ setItemEdit }) => {
               <th>#</th>
               <th>Status</th>
               <th className="min-w-[10rem]">Name</th>
-              <th className="min-w-[8rem]">Sale Number</th>
+              <th className="min-w-[5rem]">Sale #</th>
               <th className="min-w-[8rem]">Product Name</th>
-              <th className="min-w-[6rem] text-center pr-4">Quantity</th>
+              <th className="min-w-[6rem] text-center pr-4">Qty</th>
               <th className="min-w-[6rem] text-right pr-4">Discounted</th>
               <th className="min-w-[8rem] text-right pr-4">Total Amount</th>
               <th className="min-w-[9rem] text-right pr-4">Recieve Amount</th>
-              <th className="min-w-[12rem]">Recieve Payment Date</th>
-              <th className="min-w-[15rem]">Remarks</th>
+              <th className="min-w-[8rem]">Pay Date</th>
 
               {store.credentials.data.role_is_member === 0 && (
                 <th className="max-w-[5rem] text-right">Actions</th>
@@ -163,21 +162,16 @@ const SalesList = ({ setItemEdit }) => {
                       {numberWithCommas(Number(item.sales_discount).toFixed(2))}
                     </td>
                     <td className="text-right pr-4 font-bold text-primary ">
-                      {pesoSign}{" "}
-                      {item.sales_is_paid === 1 ? (
-                        <span
-                          className="cursor-pointer underline tooltip-action-table"
-                          onClick={() => handleView(item)}
-                          data-tooltip="Details"
-                        >
-                          {" "}
-                          {computeFinalAmount(item)}
-                        </span>
-                      ) : (
-                        numberWithCommas(
-                          Number(item.orders_product_amount).toFixed(2)
-                        )
-                      )}
+                      {/* {item.sales_is_paid === 1 ? ( */}
+                      <span
+                        className="cursor-pointer underline tooltip-action-table"
+                        onClick={() => handleView(item)}
+                        data-tooltip="Details"
+                      >
+                        {pesoSign} {computeFinalAmount(item)}
+                      </span>
+                      {/* ) : ( // numberWithCommas( //
+                      Number(item.orders_product_amount).toFixed(2) // ) // )}*/}
                     </td>
                     <td className="text-right pr-4">
                       {pesoSign}{" "}
@@ -192,7 +186,6 @@ const SalesList = ({ setItemEdit }) => {
                             item.sales_date
                           )}`}
                     </td>
-                    <td>{item.orders_remarks}</td>
 
                     {store.credentials.data.role_is_member === 0 && (
                       <td className="text-right">

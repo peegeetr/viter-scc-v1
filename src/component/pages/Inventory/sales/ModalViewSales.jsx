@@ -40,16 +40,20 @@ const ModalViewSales = ({ item }) => {
               </p>
               <p className="mb-0">Recieve Date:</p>
               <p className="mb-0 text-black ml-2">
-                {`${formatDate(item.sales_date)} 
-                `}
+                {item.sales_is_paid === 1
+                  ? `${formatDate(item.sales_date)}`
+                  : "N/A"}
               </p>
               <p className="mb-0">Time:</p>
               <p className="mb-0 text-black ml-2">
-                {`${getTime(item.sales_date)}
-                `}
+                {item.sales_is_paid === 1
+                  ? `${getTime(item.sales_date)}`
+                  : "N/A"}
               </p>
               <p className="mb-0">Official Receipt:</p>
-              <p className="mb-0 text-black ml-2 uppercase">{item.sales_or}</p>
+              <p className="mb-0 text-black ml-2 uppercase">
+                {item.sales_is_paid === 1 ? item.sales_or : "N/A"}
+              </p>
               <p className="mb-0">Order Number:</p>
               <p className="mb-0 text-black ml-2 uppercase">
                 {item.orders_number}
@@ -68,21 +72,32 @@ const ModalViewSales = ({ item }) => {
               <p className="mb-0">Discounted:</p>
               <p className="mb-0 text-black ml-2">
                 {pesoSign}{" "}
-                {numberWithCommas(Number(item.sales_discount).toFixed(2))}
+                {item.sales_is_paid === 1
+                  ? numberWithCommas(Number(item.sales_discount).toFixed(2))
+                  : "0.00"}
               </p>
               <p className="mb-0">Total Amount:</p>
               <p className="mb-0 text-black ml-2">
-                {pesoSign} {computeFinalAmount(item)}
+                {pesoSign}{" "}
+                {item.sales_is_paid === 1 ? computeFinalAmount(item) : "0.00"}
               </p>
               <p className="mb-0">Recieve Amount:</p>
               <p className="mb-0 text-black ml-2">
                 {pesoSign}{" "}
-                {numberWithCommas(Number(item.sales_receive_amount).toFixed(2))}
+                {item.sales_is_paid === 1
+                  ? numberWithCommas(
+                      Number(item.sales_receive_amount).toFixed(2)
+                    )
+                  : "0.00"}
               </p>
               <p className="mb-0">Change:</p>
               <p className="mb-0 text-black ml-2">
                 {pesoSign}{" "}
-                {numberWithCommas(Number(item.sales_member_change).toFixed(2))}
+                {item.sales_is_paid === 1
+                  ? numberWithCommas(
+                      Number(item.sales_member_change).toFixed(2)
+                    )
+                  : "0.00"}
               </p>
               <p className="">Remarks:</p>
               <p className="text-black ml-2">{item.orders_remarks}</p>
