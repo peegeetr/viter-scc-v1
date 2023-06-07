@@ -97,11 +97,7 @@ const ModalUpdateSales = ({ item }) => {
                   )
                 ) {
                   dispatch(setError(true));
-                  dispatch(
-                    setMessage(
-                      "Recieve payment must be exact amount or morethan"
-                    )
-                  );
+                  dispatch(setMessage("Insufficient amount"));
                   return;
                 }
                 mutation.mutate({

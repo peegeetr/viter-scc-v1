@@ -106,6 +106,7 @@ const SalesList = ({ setItemEdit }) => {
           <thead>
             <tr>
               <th>#</th>
+              <th>Status</th>
               <th className="min-w-[10rem]">Name</th>
               <th className="min-w-[8rem]">Sale Number</th>
               <th className="min-w-[8rem]">Product Name</th>
@@ -114,7 +115,7 @@ const SalesList = ({ setItemEdit }) => {
               <th className="min-w-[8rem] text-right pr-4">Total Amount</th>
               <th className="min-w-[9rem] text-right pr-4">Recieve Amount</th>
               <th className="min-w-[12rem]">Recieve Payment Date</th>
-              <th>Status</th>
+              <th className="min-w-[15rem]">Remarks</th>
 
               {store.credentials.data.role_is_member === 0 && (
                 <th className="max-w-[5rem] text-right">Actions</th>
@@ -143,6 +144,13 @@ const SalesList = ({ setItemEdit }) => {
                 {page.data.map((item, key) => (
                   <tr key={key}>
                     <td> {counter++}.</td>
+                    <td>
+                      {item.sales_is_paid === 1 ? (
+                        <StatusActive text="Paid" />
+                      ) : (
+                        <StatusPending />
+                      )}
+                    </td>
                     <td>{`${item.members_last_name}, ${item.members_first_name}`}</td>
                     <td className="uppercase">{item.sales_number}</td>
                     <td>{item.suppliers_products_name}</td>
@@ -160,7 +168,7 @@ const SalesList = ({ setItemEdit }) => {
                         <span
                           className="cursor-pointer underline tooltip-action-table"
                           onClick={() => handleView(item)}
-                          data-tooltip="Receipt"
+                          data-tooltip="Details"
                         >
                           {" "}
                           {computeFinalAmount(item)}
@@ -184,13 +192,7 @@ const SalesList = ({ setItemEdit }) => {
                             item.sales_date
                           )}`}
                     </td>
-                    <td>
-                      {item.sales_is_paid === 1 ? (
-                        <StatusActive text="Paid" />
-                      ) : (
-                        <StatusPending />
-                      )}
-                    </td>
+                    <td>{item.orders_remarks}</td>
 
                     {store.credentials.data.role_is_member === 0 && (
                       <td className="text-right">

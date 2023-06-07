@@ -103,6 +103,7 @@ const StocksList = ({ setItemEdit }) => {
           <thead>
             <tr>
               <th>#</th>
+              <th>Status</th>
               <th className="min-w-[8rem]">Stock Number</th>
               <th className="min-w-[8rem]">Product Number</th>
               <th className="min-w-[8rem]">Supplier</th>
@@ -110,7 +111,6 @@ const StocksList = ({ setItemEdit }) => {
               <th className="min-w-[5rem] text-center">Quantity</th>
               <th className="min-w-[10rem]">Official Receipt</th>
               <th className="min-w-[8rem]">Created date</th>
-              <th>Status</th>
 
               {(store.credentials.data.role_is_admin === 1 ||
                 store.credentials.data.role_is_developer === 1 ||
@@ -141,6 +141,13 @@ const StocksList = ({ setItemEdit }) => {
                 {page.data.map((item, key) => (
                   <tr key={key}>
                     <td> {counter++}.</td>
+                    <td>
+                      {item.stocks_is_pending === 1 ? (
+                        <StatusPending />
+                      ) : (
+                        <StatusActive text="Paid" />
+                      )}
+                    </td>
                     <td className="uppercase">{item.stocks_number}</td>
                     <td className="uppercase">
                       {item.suppliers_products_number}
@@ -154,13 +161,6 @@ const StocksList = ({ setItemEdit }) => {
                         item.stocks_created
                       )} 
                        `}
-                    </td>
-                    <td>
-                      {item.stocks_is_pending === 1 ? (
-                        <StatusPending />
-                      ) : (
-                        <StatusActive text="Paid" />
-                      )}
                     </td>
                     {(store.credentials.data.role_is_admin === 1 ||
                       store.credentials.data.role_is_developer === 1 ||

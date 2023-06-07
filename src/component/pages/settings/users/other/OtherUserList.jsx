@@ -117,10 +117,10 @@ const OtherUserList = ({ setItemEdit }) => {
           <thead>
             <tr>
               <th>#</th>
-              <th className="w-[15rem]">Name</th>
-              <th className="w-[25rem]">Email</th>
-              <th className="w-[10rem]">Role</th>
               <th>Status</th>
+              <th className="min-w-[15rem]">Name</th>
+              <th className="min-w-[25rem]">Email</th>
+              <th className="min-w-[10rem]">Role</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -145,9 +145,6 @@ const OtherUserList = ({ setItemEdit }) => {
                 {page.data.map((item, key) => (
                   <tr key={key}>
                     <td>{counter++}.</td>
-                    <td>{`${item.members_last_name}, ${item.members_first_name}`}</td>
-                    <td>{item.members_email}</td>
-                    <td className="capitalize">{item.role_name}</td>
                     <td>
                       {item.user_other_is_active === 1 ? (
                         <StatusActive />
@@ -155,6 +152,10 @@ const OtherUserList = ({ setItemEdit }) => {
                         <StatusInactive />
                       )}
                     </td>
+                    <td>{`${item.members_last_name}, ${item.members_first_name}`}</td>
+                    <td>{item.members_email}</td>
+                    <td className="capitalize">{item.role_name}</td>
+
                     <td>
                       <div className="flex items-center gap-2">
                         {item.user_other_is_active === 1 ? (

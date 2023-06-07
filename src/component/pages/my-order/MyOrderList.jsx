@@ -228,6 +228,7 @@ const MyOrderList = ({ setItemEdit }) => {
           <thead>
             <tr>
               <th>#</th>
+              <th>Status</th>
               <th className="min-w-[12rem]">Recieved Payment Date</th>
               <th className="min-w-[10rem]">Product Name</th>
               <th className="min-w-[8rem]">Official Receipt</th>
@@ -236,7 +237,6 @@ const MyOrderList = ({ setItemEdit }) => {
               <th className="min-w-[8rem] text-right pr-4">Discounted</th>
               <th className="min-w-[8rem] text-right pr-4">Total Amount</th>
               <th className="min-w-[15rem] ">Remarks</th>
-              <th>Status</th>
               <th className="!w-[5rem]"></th>
             </tr>
           </thead>
@@ -283,6 +283,15 @@ const MyOrderList = ({ setItemEdit }) => {
                     <tr key={key}>
                       <td> {counter++}.</td>
                       <td>
+                        {item.orders_is_draft === 1 ? (
+                          <StatusInactive text="draft" />
+                        ) : item.sales_is_paid === 1 ? (
+                          <StatusActive text="Paid" />
+                        ) : (
+                          <StatusPending />
+                        )}
+                      </td>
+                      <td>
                         {item.sales_date === ""
                           ? "N/A"
                           : `${formatDate(item.sales_date)} ${getTime(
@@ -310,7 +319,7 @@ const MyOrderList = ({ setItemEdit }) => {
                           Number(item.suppliers_products_scc_price).toFixed(2)
                         )}
                       </td>
-                      <td className="text-right">
+                      <td className="text-right pr-4">
                         {pesoSign}
                         {numberWithCommas(
                           Number(item.sales_discount).toFixed(2)
@@ -326,15 +335,7 @@ const MyOrderList = ({ setItemEdit }) => {
                         )}
                       </td>
                       <td>{item.orders_remarks}</td>
-                      <td>
-                        {item.orders_is_draft === 1 ? (
-                          <StatusInactive text="draft" />
-                        ) : item.sales_is_paid === 1 ? (
-                          <StatusActive text="Paid" />
-                        ) : (
-                          <StatusPending />
-                        )}
-                      </td>
+
                       <td>
                         <div className="flex justify-end items-center gap-1">
                           {item.orders_is_draft === 1 && (

@@ -93,6 +93,7 @@ class Sales
             $sql .= "orders.orders_aid, ";
             $sql .= "orders.orders_product_quantity, ";
             $sql .= "orders.orders_number, ";
+            $sql .= "orders.orders_remarks, ";
             $sql .= "orders.orders_product_amount, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
@@ -132,6 +133,7 @@ class Sales
             $sql .= "orders.orders_aid, ";
             $sql .= "orders.orders_product_quantity, ";
             $sql .= "orders.orders_number, ";
+            $sql .= "orders.orders_remarks, ";
             $sql .= "orders.orders_product_amount, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
@@ -178,6 +180,7 @@ class Sales
             $sql .= "orders.orders_aid, ";
             $sql .= "orders.orders_product_quantity, ";
             $sql .= "orders.orders_number, ";
+            $sql .= "orders.orders_remarks, ";
             $sql .= "orders.orders_product_amount, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";

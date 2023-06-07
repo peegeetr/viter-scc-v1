@@ -77,10 +77,10 @@ const SystemUserList = ({ setItemEdit }) => {
           <thead>
             <tr>
               <th>#</th>
-              <th className="w-[10rem]">Name</th>
-              <th className="w-[25rem]">Email</th>
-              <th className="w-[8rem]">Role</th>
               <th>Status</th>
+              <th className="min-w-[10rem]">Name</th>
+              <th className="min-w-[25rem]">Email</th>
+              <th className="min-w-[8rem]">Role</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -105,9 +105,6 @@ const SystemUserList = ({ setItemEdit }) => {
               return (
                 <tr key={key}>
                   <td>{counter}.</td>
-                  <td>{item.user_system_name}</td>
-                  <td>{item.user_system_email}</td>
-                  <td className="capitalize">{item.role_name}</td>
                   <td>
                     {item.user_system_is_active === 1 ? (
                       <StatusActive />
@@ -115,6 +112,10 @@ const SystemUserList = ({ setItemEdit }) => {
                       <StatusInactive />
                     )}
                   </td>
+                  <td>{item.user_system_name}</td>
+                  <td>{item.user_system_email}</td>
+                  <td className="capitalize">{item.role_name}</td>
+
                   <td>
                     <div className="flex items-center gap-2">
                       {item.user_system_is_active === 1 ? (

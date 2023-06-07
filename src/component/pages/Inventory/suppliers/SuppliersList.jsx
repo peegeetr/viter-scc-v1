@@ -92,11 +92,11 @@ const suppliersList = ({ setItemEdit }) => {
           <thead>
             <tr>
               <th>#</th>
+              <th>Status</th>
               <th className="min-w-[10rem]">Company Name</th>
               <th className="min-w-[10rem]">Company Address</th>
               <th className="min-w-[10rem]">Contact Person</th>
               <th className="min-w-[10rem]">Contact Number</th>
-              <th className="min-w-[5rem]">Status</th>
 
               {store.credentials.data.role_is_admin === 1 ||
               store.credentials.data.role_is_developer === 1 ? (
@@ -128,10 +128,6 @@ const suppliersList = ({ setItemEdit }) => {
                 {page.data.map((item, key) => (
                   <tr key={key}>
                     <td> {counter++}.</td>
-                    <td>{item.suppliers_company_name}</td>
-                    <td>{item.suppliers_company_address}</td>
-                    <td>{item.suppliers_contact_person}</td>
-                    <td>{item.suppliers_contact_num}</td>
                     <td>
                       {item.suppliers_is_active === 1 ? (
                         <StatusActive />
@@ -139,6 +135,10 @@ const suppliersList = ({ setItemEdit }) => {
                         <StatusInactive />
                       )}
                     </td>
+                    <td>{item.suppliers_company_name}</td>
+                    <td>{item.suppliers_company_address}</td>
+                    <td>{item.suppliers_contact_person}</td>
+                    <td>{item.suppliers_contact_num}</td>
 
                     <td>
                       {store.credentials.data.role_is_admin === 1 ||

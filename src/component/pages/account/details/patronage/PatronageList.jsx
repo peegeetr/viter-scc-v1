@@ -222,13 +222,13 @@ const PatronageList = ({ setItemEdit }) => {
           <thead>
             <tr>
               <th>#</th>
+              <th>Status</th>
               <th className="min-w-[12rem]">Recieved Payment Date</th>
               <th className="min-w-[10rem]">Product Name</th>
               <th className="min-w-[8rem]">Official Receipt</th>
               <th className="min-w-[5rem] text-center pr-4">Quantity</th>
               <th className="min-w-[8rem] text-right pr-4">SRP Amount</th>
               <th className="min-w-[8rem] text-right pr-4">Total Amount</th>
-              <th>Status</th>
               <th className="!w-[5rem]"></th>
             </tr>
           </thead>
@@ -260,6 +260,15 @@ const PatronageList = ({ setItemEdit }) => {
                   return (
                     <tr key={key}>
                       <td> {counter++}.</td>
+                      <td>
+                        {item.orders_is_draft === 1 ? (
+                          <StatusInactive text="draft" />
+                        ) : item.sales_is_paid === 1 ? (
+                          <StatusActive text="Paid" />
+                        ) : (
+                          <StatusPending />
+                        )}
+                      </td>
                       <td>
                         {item.sales_date === ""
                           ? "N/A"
@@ -297,15 +306,7 @@ const PatronageList = ({ setItemEdit }) => {
                           ).toFixed(2)
                         )}
                       </td>
-                      <td>
-                        {item.orders_is_draft === 1 ? (
-                          <StatusInactive text="draft" />
-                        ) : item.sales_is_paid === 1 ? (
-                          <StatusActive text="Paid" />
-                        ) : (
-                          <StatusPending />
-                        )}
-                      </td>
+
                       <td>
                         <div className="flex justify-end items-center gap-1">
                           {item.orders_is_draft === 1 && (

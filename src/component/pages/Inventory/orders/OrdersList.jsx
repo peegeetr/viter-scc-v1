@@ -99,6 +99,7 @@ const OrdersList = ({ setItemEdit }) => {
           <thead>
             <tr>
               <th>#</th>
+              <th>Status</th>
               <th className="min-w-[8rem]">Order Number</th>
               <th className="min-w-[10rem]">Name</th>
               <th className="min-w-[8rem]">Date</th>
@@ -108,7 +109,6 @@ const OrdersList = ({ setItemEdit }) => {
               <th className="min-w-[8rem] text-right">Discounted</th>
               <th className="min-w-[8rem] text-right pr-4">Total Price</th>
               <th className="min-w-[15rem] ">Remarks</th>
-              <th>Status</th>
 
               {store.credentials.data.role_is_member === 0 && (
                 <th className="max-w-[5rem]">Actions</th>
@@ -145,6 +145,13 @@ const OrdersList = ({ setItemEdit }) => {
                 {page.data.map((item, key) => (
                   <tr key={key}>
                     <td> {counter++}.</td>
+                    <td>
+                      {item.orders_is_paid === 1 ? (
+                        <StatusActive text="Paid" />
+                      ) : (
+                        <StatusPending />
+                      )}
+                    </td>
                     <td className="uppercase">{item.orders_number}</td>
                     <td>{`${item.members_last_name}, ${item.members_first_name}`}</td>
                     <td>{`${formatDate(item.orders_date)} ${getTime(
@@ -167,14 +174,7 @@ const OrdersList = ({ setItemEdit }) => {
                     <td className="text-right pr-4">
                       {pesoSign} {computeFinalAmount(item)}
                     </td>
-                    <td className=" ">{item.orders_remarks}</td>
-                    <td>
-                      {item.orders_is_paid === 1 ? (
-                        <StatusActive text="Paid" />
-                      ) : (
-                        <StatusPending />
-                      )}
-                    </td>
+                    <td>{item.orders_remarks}</td>
 
                     {store.credentials.data.role_is_member === 0 && (
                       <td>
