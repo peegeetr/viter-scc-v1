@@ -112,7 +112,7 @@ const ModalUpdateSales = ({ item }) => {
                   Number(removeComma(props.values.sales_receive_amount)) -
                   modalComputeAmountWithDiscount(
                     item.orders_product_amount,
-                    props.values.sales_discount
+                    removeComma(props.values.sales_discount)
                   );
                 return (
                   <Form>
@@ -146,7 +146,7 @@ const ModalUpdateSales = ({ item }) => {
                           {numberWithCommas(
                             modalComputeAmountWithDiscount(
                               item.orders_product_amount,
-                              props.values.sales_discount
+                              removeComma(props.values.sales_discount)
                             )
                           )}
                         </span>
