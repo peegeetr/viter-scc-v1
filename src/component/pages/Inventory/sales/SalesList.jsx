@@ -107,14 +107,15 @@ const SalesList = ({ setItemEdit }) => {
             <tr>
               <th>#</th>
               <th>Status</th>
-              <th className="min-w-[10rem]">Name</th>
-              <th className="min-w-[5rem]">Sale #</th>
-              <th className="min-w-[8rem]">Product Name</th>
+              <th className="min-w-[8rem]">Name</th>
+              <th className="min-w-[5rem]">Sales #</th>
+              <th className="min-w-[7rem]">Product Name</th>
               <th className="min-w-[6rem] text-center pr-4">Qty</th>
               <th className="min-w-[6rem] text-right pr-4">Discounted</th>
-              <th className="min-w-[8rem] text-right pr-4">Total Amount</th>
-              <th className="min-w-[9rem] text-right pr-4">Recieve Amount</th>
-              <th className="min-w-[8rem]">Pay Date</th>
+              <th className="min-w-[7rem] text-right pr-4">Total Amnt.</th>
+              <th className="min-w-[9rem] pr-4">Remarks</th>
+              <th className="min-w-[7rem] text-right pr-4">Received</th>
+              <th className="min-w-[5rem]">Pay Date</th>
 
               {store.credentials.data.role_is_member === 0 && (
                 <th className="max-w-[5rem] text-right">Actions</th>
@@ -173,6 +174,7 @@ const SalesList = ({ setItemEdit }) => {
                       {/* ) : ( // numberWithCommas( //
                       Number(item.orders_product_amount).toFixed(2) // ) // )}*/}
                     </td>
+                    <td>{item.orders_remarks}</td>
                     <td className="text-right pr-4">
                       {pesoSign}{" "}
                       {numberWithCommas(
