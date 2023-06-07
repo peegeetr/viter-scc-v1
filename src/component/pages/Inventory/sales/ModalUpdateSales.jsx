@@ -143,10 +143,12 @@ const ModalUpdateSales = ({ item }) => {
                         Total Amount:
                         <span className="text-black ml-2">
                           {pesoSign}{" "}
-                          {modalComputeAmountWithDiscount(
-                            item.orders_product_amount,
-                            props.values.sales_discount
-                          ).toFixed(2)}
+                          {numberWithCommas(
+                            modalComputeAmountWithDiscount(
+                              item.orders_product_amount,
+                              props.values.sales_discount
+                            )
+                          )}
                         </span>
                       </p>
                       <p className="">

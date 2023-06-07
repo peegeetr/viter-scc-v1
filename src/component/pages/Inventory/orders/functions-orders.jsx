@@ -45,19 +45,19 @@ export const computeRemainingQuantity = (item, values, product) => {
 // compute Remaining Quantity
 export const computeFinalAmount = (item) => {
   let finalAmount = 0;
-  let productAmount = numberWithCommas(Number(item.orders_product_amount));
-  let discountAmount = numberWithCommas(Number(item.sales_discount));
+  let productAmount = Number(item.orders_product_amount);
+  let discountAmount = Number(item.sales_discount);
 
-  finalAmount = (productAmount - discountAmount).toFixed(2);
-  return finalAmount;
+  finalAmount = productAmount - discountAmount;
+  return finalAmount.toFixed(2);
 };
 
 // compute Remaining Quantity in modal
 export const modalComputeAmountWithDiscount = (amount, discount) => {
   let finalAmount = 0;
-  let productAmount = numberWithCommas(Number(amount));
-  let discountAmount = numberWithCommas(Number(discount));
+  let productAmount = Number(amount);
+  let discountAmount = Number(discount);
 
   finalAmount = productAmount - discountAmount;
-  return finalAmount;
+  return finalAmount.toFixed(2);
 };

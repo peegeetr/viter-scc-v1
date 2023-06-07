@@ -164,7 +164,7 @@ const OrdersList = ({ setItemEdit }) => {
                       {numberWithCommas(Number(item.sales_discount).toFixed(2))}
                     </td>
                     <td className="text-right pr-4">
-                      {pesoSign} {computeFinalAmount(item)}
+                      {pesoSign} {numberWithCommas(computeFinalAmount(item))}
                     </td>
                     <td>{item.orders_remarks}</td>
 
