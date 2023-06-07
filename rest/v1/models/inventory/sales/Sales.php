@@ -117,7 +117,9 @@ class Sales
             $sql .= "and orders.orders_aid = sales.sales_order_id ";
             $sql .= "and orders.orders_is_draft = '0' ";
             $sql .= "order by sales.sales_is_paid, ";
-            $sql .= "sales.sales_date desc ";
+            $sql .= "orders.orders_date desc, ";
+            $sql .= "member.members_last_name, ";
+            $sql .= "member.members_first_name asc ";
             $query = $this->connection->query($sql);
         } catch (PDOException $ex) {
             $query = false;
@@ -157,7 +159,9 @@ class Sales
             $sql .= "and orders.orders_aid = sales.sales_order_id ";
             $sql .= "and orders.orders_is_draft = '0' ";
             $sql .= "order by sales.sales_is_paid, ";
-            $sql .= "sales.sales_date desc ";
+            $sql .= "orders.orders_date desc, ";
+            $sql .= "member.members_last_name, ";
+            $sql .= "member.members_first_name asc ";
             $sql .= "limit :start, ";
             $sql .= ":total ";
             $query = $this->connection->prepare($sql);
@@ -212,7 +216,9 @@ class Sales
             $sql .= "or sales.sales_date like :sales_date ";
             $sql .= "or suppliersProducts.suppliers_products_name like :suppliers_products_name) ";
             $sql .= "order by sales.sales_is_paid, ";
-            $sql .= "sales.sales_date desc ";
+            $sql .= "orders.orders_date desc, ";
+            $sql .= "member.members_last_name, ";
+            $sql .= "member.members_first_name asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "suppliers_products_name" => "%{$this->sales_search}%",
@@ -261,7 +267,9 @@ class Sales
             $sql .= "and sales.sales_member_id = member.members_aid ";
             $sql .= "and orders.orders_aid = sales.sales_order_id ";
             $sql .= "order by sales.sales_is_paid, ";
-            $sql .= "sales.sales_date desc ";
+            $sql .= "orders.orders_date desc, ";
+            $sql .= "member.members_last_name, ";
+            $sql .= "member.members_first_name asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "orders_member_id" => $this->sales_member_id,
@@ -302,7 +310,9 @@ class Sales
             $sql .= "and sales.sales_member_id = member.members_aid ";
             $sql .= "and orders.orders_aid = sales.sales_order_id ";
             $sql .= "order by sales.sales_is_paid, ";
-            $sql .= "sales.sales_date desc ";
+            $sql .= "orders.orders_date desc, ";
+            $sql .= "member.members_last_name, ";
+            $sql .= "member.members_first_name asc ";
             $sql .= "limit :start, ";
             $sql .= ":total ";
             $query = $this->connection->prepare($sql);

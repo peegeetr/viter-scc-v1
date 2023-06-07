@@ -8,7 +8,7 @@
 
 *models      
     - inventory/orders/Orders.php    
-    - inventory/sales/Sales.php    
+    -> inventory/sales/Sales.php    
     -> inventory/stocks/Stocks.php    
 
 *htaccess 
