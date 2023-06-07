@@ -109,12 +109,12 @@ const SalesList = ({ setItemEdit }) => {
               <th>Status</th>
               <th className="min-w-[10rem]">Name</th>
               <th className="min-w-[5rem]">Sale #</th>
-              <th className="min-w-[8rem]">Product Name</th>
-              <th className="min-w-[6rem] text-center pr-4">Qty</th>
-              <th className="min-w-[6rem] text-right pr-4">Discounted</th>
-              <th className="min-w-[8rem] text-right pr-4">Total Amount</th>
+              <th className="min-w-[8rem]">Product</th>
+              <th className="min-w-[3rem] text-center ">Qty</th>
+              <th className="min-w-[6rem] text-right ">Discounted</th>
+              <th className="min-w-[8rem] text-right ">Total Amount</th>
               <th className="min-w-[9rem] text-right pr-4">Recieve Amount</th>
-              <th className="min-w-[8rem]">Pay Date</th>
+              <th className="min-w-[6rem]">Pay Date</th>
 
               {store.credentials.data.role_is_member === 0 && (
                 <th className="max-w-[5rem] text-right">Actions</th>
@@ -154,15 +154,14 @@ const SalesList = ({ setItemEdit }) => {
                     <td className="uppercase">{item.sales_number}</td>
                     <td>{item.suppliers_products_name}</td>
 
-                    <td className="text-center pr-4">
+                    <td className="text-center ">
                       {item.orders_product_quantity}
                     </td>
-                    <td className="text-right pr-4">
+                    <td className="text-right ">
                       {pesoSign}
                       {numberWithCommas(Number(item.sales_discount).toFixed(2))}
                     </td>
-                    <td className="text-right pr-4 font-bold text-primary ">
-                      {/* {item.sales_is_paid === 1 ? ( */}
+                    <td className="text-right font-bold text-primary ">
                       <span
                         className="cursor-pointer underline tooltip-action-table"
                         onClick={() => handleView(item)}
@@ -170,8 +169,6 @@ const SalesList = ({ setItemEdit }) => {
                       >
                         {pesoSign} {computeFinalAmount(item)}
                       </span>
-                      {/* ) : ( // numberWithCommas( //
-                      Number(item.orders_product_amount).toFixed(2) // ) // )}*/}
                     </td>
                     <td className="text-right pr-4">
                       {pesoSign}{" "}

@@ -98,13 +98,13 @@ const ProductsList = () => {
           <thead>
             <tr>
               <th>#</th>
-              <th className="min-w-[12rem]">Product Number</th>
-              <th className="min-w-[12rem]">Product Category</th>
-              <th className="min-w-[12rem]">Product Name</th>
-              <th className="min-w-[10rem] text-right">Supplier Price</th>
-              <th className="min-w-[10rem] text-right">SCC Price</th>
-              <th className="min-w-[10rem] text-right">Market Price</th>
-              <th className="min-w-[10rem] text-center">Remaning Quantity</th>
+              <th className="min-w-[6rem]">Product #</th>
+              <th className="min-w-[6rem]">Category</th>
+              <th className="min-w-[8rem]">Product</th>
+              <th className="min-w-[8rem] text-right">Supplier Price</th>
+              <th className="min-w-[8rem] text-right">SCC Price</th>
+              <th className="min-w-[8rem] text-right">Market Price</th>
+              <th className="min-w-[8rem] text-center">Remaning Qty</th>
               {(store.credentials.data.role_is_admin === 1 ||
                 store.credentials.data.role_is_developer === 1 ||
                 store.credentials.data.role_is_manager === 1) && (

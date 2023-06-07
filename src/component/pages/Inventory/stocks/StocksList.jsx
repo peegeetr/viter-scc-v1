@@ -104,12 +104,12 @@ const StocksList = ({ setItemEdit }) => {
             <tr>
               <th>#</th>
               <th>Status</th>
-              <th className="min-w-[8rem]">Stock Number</th>
-              <th className="min-w-[8rem]">Product Number</th>
+              <th className="min-w-[5rem]">Stock #</th>
+              <th className="min-w-[6rem]">Product #</th>
               <th className="min-w-[8rem]">Supplier</th>
               <th className="min-w-[8rem]">Product Name</th>
-              <th className="min-w-[5rem] text-center">Quantity</th>
-              <th className="min-w-[10rem]">Official Receipt</th>
+              <th className="min-w-[3rem] text-center">Qty</th>
+              <th className="min-w-[8rem]">Official Receipt</th>
               <th className="min-w-[8rem]">Created date</th>
 
               {(store.credentials.data.role_is_admin === 1 ||

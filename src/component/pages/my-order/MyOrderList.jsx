@@ -229,14 +229,14 @@ const MyOrderList = ({ setItemEdit }) => {
             <tr>
               <th>#</th>
               <th>Status</th>
-              <th className="min-w-[12rem]">Recieved Payment Date</th>
-              <th className="min-w-[10rem]">Product Name</th>
+              <th className="min-w-[6rem]">Pay Date</th>
+              <th className="min-w-[8rem]">Product</th>
               <th className="min-w-[8rem]">Official Receipt</th>
-              <th className="min-w-[5rem] text-center pr-4">Quantity</th>
-              <th className="min-w-[8rem] text-right pr-4">SRP Amount</th>
-              <th className="min-w-[8rem] text-right pr-4">Discounted</th>
+              <th className="min-w-[3rem] text-center">Qty</th>
+              <th className="min-w-[6rem] text-right">SRP Amount</th>
+              <th className="min-w-[6rem] text-right">Discounted</th>
               <th className="min-w-[8rem] text-right pr-4">Total Amount</th>
-              <th className="min-w-[15rem] ">Remarks</th>
+              <th className="min-w-[12rem] ">Remarks</th>
               <th className="!w-[5rem]"></th>
             </tr>
           </thead>
@@ -310,16 +310,16 @@ const MyOrderList = ({ setItemEdit }) => {
                           )}
                       </td>
                       <td>{item.sales_or === "" ? "N/A" : item.sales_or}</td>
-                      <td className=" text-center pr-4">
+                      <td className=" text-center">
                         {item.orders_product_quantity}
                       </td>
-                      <td className=" text-right pr-4">
+                      <td className=" text-right">
                         {pesoSign}{" "}
                         {numberWithCommas(
                           Number(item.suppliers_products_scc_price).toFixed(2)
                         )}
                       </td>
-                      <td className="text-right pr-4">
+                      <td className="text-right">
                         {pesoSign}
                         {numberWithCommas(
                           Number(item.sales_discount).toFixed(2)
