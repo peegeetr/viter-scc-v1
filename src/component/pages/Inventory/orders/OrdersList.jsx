@@ -1,9 +1,15 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import React from "react";
-import { FaEdit, FaFileInvoiceDollar, FaTrash } from "react-icons/fa";
+import { FaEdit, FaTrash } from "react-icons/fa";
 import { useInView } from "react-intersection-observer";
 import { setIsAdd, setIsRestore } from "../../../../store/StoreAction";
 import { StoreContext } from "../../../../store/StoreContext";
+import {
+  formatDate,
+  getTime,
+  numberWithCommas,
+  pesoSign,
+} from "../../../helpers/functions-general";
 import { queryDataInfinite } from "../../../helpers/queryDataInfinite";
 import Loadmore from "../../../partials/Loadmore";
 import NoData from "../../../partials/NoData";
@@ -11,15 +17,9 @@ import SearchBar from "../../../partials/SearchBar";
 import ServerError from "../../../partials/ServerError";
 import ModalDeleteRestore from "../../../partials/modals/ModalDeleteRestore";
 import TableSpinner from "../../../partials/spinners/TableSpinner";
-import {
-  formatDate,
-  getTime,
-  numberWithCommas,
-  pesoSign,
-} from "../../../helpers/functions-general";
 import StatusActive from "../../../partials/status/StatusActive";
 import StatusPending from "../../../partials/status/StatusPending";
-import StatusQuantity from "../../../partials/status/StatusQuantity";
+import { computeFinalAmount } from "./functions-orders";
 
 const OrdersList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -99,13 +99,15 @@ const OrdersList = ({ setItemEdit }) => {
           <thead>
             <tr>
               <th>#</th>
-              <th className="min-w-[10rem]">Order Number</th>
+              <th className="min-w-[8rem]">Order Number</th>
               <th className="min-w-[10rem]">Name</th>
               <th className="min-w-[8rem]">Date</th>
               <th className="min-w-[8rem]">Product</th>
               <th className="min-w-[8rem] text-center">Quantity</th>
               <th className="min-w-[8rem] text-right">SRP Price</th>
+              <th className="min-w-[8rem] text-right">Discounted</th>
               <th className="min-w-[8rem] text-right pr-4">Total Price</th>
+              <th className="min-w-[15rem] ">Remarks</th>
               <th>Status</th>
 
               {store.credentials.data.role_is_member === 0 && (
@@ -158,12 +160,14 @@ const OrdersList = ({ setItemEdit }) => {
                         Number(item.suppliers_products_scc_price).toFixed(2)
                       )}
                     </td>
-                    <td className="text-right pr-4">
-                      {pesoSign}{" "}
-                      {numberWithCommas(
-                        Number(item.orders_product_amount).toFixed(2)
-                      )}
+                    <td className="text-right">
+                      {pesoSign}
+                      {numberWithCommas(Number(item.sales_discount).toFixed(2))}
                     </td>
+                    <td className="text-right pr-4">
+                      {pesoSign} {computeFinalAmount(item)}
+                    </td>
+                    <td className=" ">{item.orders_remarks}</td>
                     <td>
                       {item.orders_is_paid === 1 ? (
                         <StatusActive text="Paid" />

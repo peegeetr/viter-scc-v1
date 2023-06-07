@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 05, 2023 at 05:05 AM
+-- Generation Time: Jun 07, 2023 at 04:15 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -37,6 +37,7 @@ CREATE TABLE `sccv1_orders` (
   `orders_product_quantity` varchar(20) NOT NULL,
   `orders_product_amount` varchar(20) NOT NULL,
   `orders_date` varchar(20) NOT NULL,
+  `orders_remarks` text NOT NULL,
   `orders_created` datetime NOT NULL,
   `orders_datetime` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

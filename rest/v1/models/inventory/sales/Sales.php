@@ -10,6 +10,7 @@ class Sales
     public $sales_member_change;
     public $sales_date;
     public $sales_or;
+    public $sales_discount;
     public $sales_created;
     public $sales_datetime;
 
@@ -50,6 +51,7 @@ class Sales
             $sql .= "sales_receive_amount, ";
             $sql .= "sales_date, ";
             $sql .= "sales_or, ";
+            $sql .= "sales_discount, ";
             $sql .= "sales_created, ";
             $sql .= "sales_datetime ) values ( ";
             $sql .= ":sales_member_id, ";
@@ -59,6 +61,7 @@ class Sales
             $sql .= ":sales_receive_amount, ";
             $sql .= ":sales_date, ";
             $sql .= ":sales_or, ";
+            $sql .= ":sales_discount, ";
             $sql .= ":sales_created, ";
             $sql .= ":sales_datetime ) ";
             $query = $this->connection->prepare($sql);
@@ -70,6 +73,7 @@ class Sales
                 "sales_receive_amount" => $this->sales_receive_amount,
                 "sales_date" => $this->sales_date,
                 "sales_or" => $this->sales_or,
+                "sales_discount" => $this->sales_discount,
                 "sales_created" => $this->sales_created,
                 "sales_datetime" => $this->sales_datetime,
             ]);
@@ -99,6 +103,7 @@ class Sales
             $sql .= "sales.sales_receive_amount, ";
             $sql .= "sales.sales_member_change, ";
             $sql .= "sales.sales_or, ";
+            $sql .= "sales.sales_discount, ";
             $sql .= "sales.sales_date, ";
             $sql .= "sales.sales_member_id ";
             $sql .= "from {$this->tblOrders} as orders, ";
@@ -137,6 +142,7 @@ class Sales
             $sql .= "sales.sales_receive_amount, ";
             $sql .= "sales.sales_member_change, ";
             $sql .= "sales.sales_or, ";
+            $sql .= "sales.sales_discount, ";
             $sql .= "sales.sales_date, ";
             $sql .= "sales.sales_member_id ";
             $sql .= "from {$this->tblOrders} as orders, ";
@@ -182,6 +188,7 @@ class Sales
             $sql .= "sales.sales_receive_amount, ";
             $sql .= "sales.sales_member_change, ";
             $sql .= "sales.sales_or, ";
+            $sql .= "sales.sales_discount, ";
             $sql .= "sales.sales_date, ";
             $sql .= "sales.sales_member_id ";
             $sql .= "from {$this->tblOrders} as orders, ";
@@ -237,6 +244,7 @@ class Sales
             $sql .= "sales.sales_is_paid, ";
             $sql .= "sales.sales_receive_amount, ";
             $sql .= "sales.sales_or, ";
+            $sql .= "sales.sales_discount, ";
             $sql .= "sales.sales_date, ";
             $sql .= "sales.sales_member_id ";
             $sql .= "from {$this->tblOrders} as orders, ";
@@ -277,6 +285,7 @@ class Sales
             $sql .= "sales.sales_is_paid, ";
             $sql .= "sales.sales_receive_amount, ";
             $sql .= "sales.sales_or, ";
+            $sql .= "sales.sales_discount, ";
             $sql .= "sales.sales_date, ";
             $sql .= "sales.sales_member_id ";
             $sql .= "from {$this->tblOrders} as orders, ";
@@ -314,6 +323,7 @@ class Sales
             $sql .= "sales_member_change = :sales_member_change, ";
             $sql .= "sales_date = :sales_date, ";
             $sql .= "sales_or = :sales_or, ";
+            $sql .= "sales_discount = :sales_discount, ";
             $sql .= "sales_is_paid = :sales_is_paid, ";
             $sql .= "sales_datetime = :sales_datetime ";
             $sql .= "where sales_aid = :sales_aid ";
@@ -323,6 +333,7 @@ class Sales
                 "sales_member_change" => $this->sales_member_change,
                 "sales_date" => $this->sales_date,
                 "sales_or" => $this->sales_or,
+                "sales_discount" => $this->sales_discount,
                 "sales_is_paid" => $this->sales_is_paid,
                 "sales_datetime" => $this->sales_datetime,
                 "sales_aid" => $this->sales_aid,
@@ -358,6 +369,7 @@ class Sales
             $sql .= "sales_receive_amount =  '', ";
             $sql .= "sales_or = '', ";
             $sql .= "sales_date = '', ";
+            $sql .= "sales_discount = '', ";
             $sql .= "sales_member_change = '', ";
             $sql .= "sales_datetime = :sales_datetime ";
             $sql .= "where sales_aid = :sales_aid ";
@@ -413,6 +425,7 @@ class Sales
         try {
             $sql = "select orders.orders_product_amount, ";
             $sql .= "orders.orders_is_paid, ";
+            $sql .= "sales.sales_discount, ";
             $sql .= "member.members_aid, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name ";
@@ -444,6 +457,7 @@ class Sales
     {
         try {
             $sql = "select sum(orders.orders_product_amount) as totalAmount, ";
+            $sql .= "sum(sales.sales_discount) as totalDiscount, ";
             $sql .= "member.members_picture, ";
             $sql .= "member.members_aid, ";
             $sql .= "member.members_last_name, ";
@@ -476,6 +490,7 @@ class Sales
     {
         try {
             $sql = "select sum(orders.orders_product_amount) as totalAmount, ";
+            $sql .= "sum(sales.sales_discount) as totalDiscount, ";
             $sql .= "member.members_picture, ";
             $sql .= "member.members_aid, ";
             $sql .= "member.members_last_name, ";

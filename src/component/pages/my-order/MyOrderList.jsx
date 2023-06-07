@@ -51,6 +51,7 @@ const MyOrderList = ({ setItemEdit }) => {
   let totalPendingAmount = 0;
   let totalDraftAmount = 0;
   let totalAmount = 0;
+  let totalDiscount = 0;
   const search = React.useRef(null);
   const memberid = getUrlParam().get("memberid");
   const { ref, inView } = useInView();
@@ -232,7 +233,9 @@ const MyOrderList = ({ setItemEdit }) => {
               <th className="min-w-[8rem]">Official Receipt</th>
               <th className="min-w-[5rem] text-center pr-4">Quantity</th>
               <th className="min-w-[8rem] text-right pr-4">SRP Amount</th>
+              <th className="min-w-[8rem] text-right pr-4">Discounted</th>
               <th className="min-w-[8rem] text-right pr-4">Total Amount</th>
+              <th className="min-w-[15rem] ">Remarks</th>
               <th>Status</th>
               <th className="!w-[5rem]"></th>
             </tr>
@@ -275,6 +278,7 @@ const MyOrderList = ({ setItemEdit }) => {
                     ? (totalDraftAmount += Number(item.orders_product_amount))
                     : "";
                   totalAmount += Number(item.orders_product_amount);
+                  totalDiscount += Number(item.sales_discount);
                   return (
                     <tr key={key}>
                       <td> {counter++}.</td>
@@ -306,15 +310,22 @@ const MyOrderList = ({ setItemEdit }) => {
                           Number(item.suppliers_products_scc_price).toFixed(2)
                         )}
                       </td>
+                      <td className="text-right">
+                        {pesoSign}
+                        {numberWithCommas(
+                          Number(item.sales_discount).toFixed(2)
+                        )}
+                      </td>
                       <td className=" text-right pr-4">
                         {pesoSign}
                         {numberWithCommas(
                           (
-                            Number(item.orders_product_quantity) *
-                            Number(item.suppliers_products_scc_price)
+                            Number(item.orders_product_amount) -
+                            Number(item.sales_discount)
                           ).toFixed(2)
                         )}
                       </td>
+                      <td>{item.orders_remarks}</td>
                       <td>
                         {item.orders_is_draft === 1 ? (
                           <StatusInactive text="draft" />
@@ -391,13 +402,15 @@ const MyOrderList = ({ setItemEdit }) => {
         <p className="mb-2">
           Total Paid Amount :
           <span className="  bg-green-100 text-green-800 text-[14px] font-medium ml-2 px-2.5 py-0.5 rounded-full">
-            {pesoSign} {numberWithCommas(totalPaidAmount.toFixed(2))}
+            {pesoSign}{" "}
+            {numberWithCommas((totalPaidAmount - totalDiscount).toFixed(2))}
           </span>
         </p>
         <p className="mb-2">
           Total Amount :
           <span className="bg-blue-100 text-primary text-[14px] font-medium ml-2 px-2.5 py-0.5 rounded-full">
-            {pesoSign} {numberWithCommas(totalAmount.toFixed(2))}
+            {pesoSign}{" "}
+            {numberWithCommas((totalAmount - totalDiscount).toFixed(2))}
           </span>
         </p>
       </div>

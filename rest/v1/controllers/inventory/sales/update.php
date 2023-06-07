@@ -17,6 +17,7 @@ if (array_key_exists("salesid", $_GET)) {
     $sales->sales_receive_amount = checkIndex($data, "sales_receive_amount");
     $sales->sales_member_change = checkIndex($data, "sales_member_change");
     $sales->sales_or = checkIndex($data, "sales_or");
+    $sales->sales_discount = checkIndex($data, "sales_discount");
     $sales->sales_is_paid = 1;
     $sales->sales_date = date("Y-m-d H:i:s");
     $sales->sales_datetime = date("Y-m-d H:i:s");

@@ -39,6 +39,7 @@ export const InputText = ({ label, ...props }) => {
           decimalScale={4}
           autoComplete="off"
           // prefix={"P "}
+          className={meta.touched && meta.error ? "error-show" : null}
         />
 
         <label htmlFor={props.id || props.name}>{label}</label>
@@ -59,6 +60,7 @@ export const InputText = ({ label, ...props }) => {
           allowEmptyFormatting
           mask="_"
           autoComplete="off"
+          className={meta.touched && meta.error ? "error-show" : null}
         />
 
         <label htmlFor={props.id || props.name}>{label}</label>
@@ -79,6 +81,7 @@ export const InputText = ({ label, ...props }) => {
           allowEmptyFormatting
           mask="_"
           autoComplete="off"
+          className={meta.touched && meta.error ? "error-show" : null}
         />
 
         <label htmlFor={props.id || props.name}>{label}</label>
@@ -99,6 +102,7 @@ export const InputText = ({ label, ...props }) => {
           allowEmptyFormatting
           mask="_"
           autoComplete="off"
+          className={meta.touched && meta.error ? "error-show" : null}
         />
 
         <label htmlFor={props.id || props.name}>{label}</label>

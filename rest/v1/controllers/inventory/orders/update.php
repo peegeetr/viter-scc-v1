@@ -19,6 +19,7 @@ if (array_key_exists("orderid", $_GET)) {
     $order->orders_product_quantity = checkIndex($data, "orders_product_quantity");
     $order->orders_product_amount = checkIndex($data, "orders_product_amount");
     $order->orders_date = checkIndex($data, "orders_date");
+    $order->orders_remarks = checkIndex($data, "orders_remarks");
     $order->orders_is_paid = 0;
     $order->orders_datetime = date("Y-m-d H:i:s");
 

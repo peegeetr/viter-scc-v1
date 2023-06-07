@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 08, 2023 at 09:43 AM
+-- Generation Time: Jun 07, 2023 at 04:15 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -34,19 +34,13 @@ CREATE TABLE `sccv1_sales` (
   `sales_member_id` varchar(20) NOT NULL,
   `sales_order_id` varchar(20) NOT NULL,
   `sales_receive_amount` varchar(20) NOT NULL,
+  `sales_member_change` varchar(20) NOT NULL,
   `sales_or` varchar(50) NOT NULL,
   `sales_date` varchar(20) NOT NULL,
+  `sales_discount` varchar(20) NOT NULL,
   `sales_created` datetime NOT NULL,
   `sales_datetime` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `sccv1_sales`
---
-
-INSERT INTO `sccv1_sales` (`sales_aid`, `sales_number`, `sales_is_paid`, `sales_member_id`, `sales_order_id`, `sales_receive_amount`, `sales_or`, `sales_date`, `sales_created`, `sales_datetime`) VALUES
-(1, 'sales-001', 0, '2', '1', '', '', '', '2023-05-08 09:59:35', '2023-05-08 13:42:33'),
-(3, 'sales-003', 1, '2', '3', '170', 'sf;asdufopiut', '2023-05-08', '2023-05-08 13:28:45', '2023-05-08 14:06:23');
 
 --
 -- Indexes for dumped tables
@@ -66,7 +60,7 @@ ALTER TABLE `sccv1_sales`
 -- AUTO_INCREMENT for table `sccv1_sales`
 --
 ALTER TABLE `sccv1_sales`
-  MODIFY `sales_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `sales_aid` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

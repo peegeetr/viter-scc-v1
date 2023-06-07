@@ -8,6 +8,7 @@ import {
   numberWithCommas,
   pesoSign,
 } from "../../../helpers/functions-general";
+import { computeFinalAmount } from "../orders/functions-orders";
 
 const ModalViewSales = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -57,30 +58,34 @@ const ModalViewSales = ({ item }) => {
               <p className="mb-0 text-black ml-2 capitalize">
                 {item.suppliers_products_name}
               </p>
-              <p className="mb-0">SRP Amountp:</p>
+              <p className="mb-0">SRP Amount:</p>
               <p className="mb-0 text-black ml-2">
                 {pesoSign}{" "}
                 {numberWithCommas(
                   Number(item.suppliers_products_scc_price).toFixed(2)
                 )}
               </p>
-              <p className="mb-0">Total Amount:</p>
+              <p className="mb-0">Discounted:</p>
               <p className="mb-0 text-black ml-2">
                 {pesoSign}{" "}
-                {numberWithCommas(
-                  Number(item.orders_product_amount).toFixed(2)
-                )}
+                {numberWithCommas(Number(item.sales_discount).toFixed(2))}
+              </p>
+              <p className="mb-0">Total Amount:</p>
+              <p className="mb-0 text-black ml-2">
+                {pesoSign} {computeFinalAmount(item)}
               </p>
               <p className="mb-0">Recieve Amount:</p>
               <p className="mb-0 text-black ml-2">
                 {pesoSign}{" "}
                 {numberWithCommas(Number(item.sales_receive_amount).toFixed(2))}
               </p>
-              <p className="">Change:</p>
-              <p className="text-black ml-2">
+              <p className="mb-0">Change:</p>
+              <p className="mb-0 text-black ml-2">
                 {pesoSign}{" "}
                 {numberWithCommas(Number(item.sales_member_change).toFixed(2))}
               </p>
+              <p className="">Remarks:</p>
+              <p className="text-black ml-2">{item.orders_remarks}</p>
             </div>
           </div>
         </div>

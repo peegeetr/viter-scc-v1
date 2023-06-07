@@ -44,13 +44,23 @@ export const getMonthName = (id) => {
 };
 
 export const getTotal = (amount, item) => {
+  let totalAmount = 0;
+  let discountAmount = 0;
   let finalAmount = 0;
-  let isPending = 0;
+  let isPending = 1;
+
   amount?.data.map((aItem) => {
     if (aItem.members_aid === item.members_aid) {
-      finalAmount += Number(aItem.orders_product_amount);
-      isPending = aItem.orders_is_paid;
+      totalAmount += Number(aItem.orders_product_amount);
+      discountAmount += Number(aItem.sales_discount);
+      // final Amount
+      finalAmount = totalAmount - discountAmount;
+    }
+    if (aItem.members_aid === item.members_aid && aItem.orders_is_paid === 0) {
+      isPending = 0;
     }
   });
+
+  console.log(item.members_aid, finalAmount, isPending);
   return { finalAmount, isPending };
 };

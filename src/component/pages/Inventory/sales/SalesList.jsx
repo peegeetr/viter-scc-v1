@@ -24,6 +24,7 @@ import ModalDeleteRestore from "../../../partials/modals/ModalDeleteRestore";
 import TableSpinner from "../../../partials/spinners/TableSpinner";
 import StatusActive from "../../../partials/status/StatusActive";
 import StatusPending from "../../../partials/status/StatusPending";
+import { computeFinalAmount } from "../orders/functions-orders";
 
 const SalesList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -108,9 +109,10 @@ const SalesList = ({ setItemEdit }) => {
               <th className="min-w-[10rem]">Name</th>
               <th className="min-w-[8rem]">Sale Number</th>
               <th className="min-w-[8rem]">Product Name</th>
-              <th className="min-w-[5rem] text-center pr-4">Quantity</th>
-              <th className="min-w-[6rem] text-right pr-4">Total Amount</th>
-              <th className="min-w-[10rem] text-right pr-4">Recieve Amount</th>
+              <th className="min-w-[6rem] text-center pr-4">Quantity</th>
+              <th className="min-w-[6rem] text-right pr-4">Discounted</th>
+              <th className="min-w-[8rem] text-right pr-4">Total Amount</th>
+              <th className="min-w-[9rem] text-right pr-4">Recieve Amount</th>
               <th className="min-w-[12rem]">Recieve Payment Date</th>
               <th>Status</th>
 
@@ -148,6 +150,10 @@ const SalesList = ({ setItemEdit }) => {
                     <td className="text-center pr-4">
                       {item.orders_product_quantity}
                     </td>
+                    <td className="text-right pr-4">
+                      {pesoSign}
+                      {numberWithCommas(Number(item.sales_discount).toFixed(2))}
+                    </td>
                     <td className="text-right pr-4 font-bold text-primary ">
                       {pesoSign}{" "}
                       {item.sales_is_paid === 1 ? (
@@ -156,9 +162,8 @@ const SalesList = ({ setItemEdit }) => {
                           onClick={() => handleView(item)}
                           data-tooltip="Receipt"
                         >
-                          {numberWithCommas(
-                            Number(item.orders_product_amount).toFixed(2)
-                          )}
+                          {" "}
+                          {computeFinalAmount(item)}
                         </span>
                       ) : (
                         numberWithCommas(
@@ -166,7 +171,7 @@ const SalesList = ({ setItemEdit }) => {
                         )
                       )}
                     </td>
-                    <td className=" text-right pr-4">
+                    <td className="text-right pr-4">
                       {pesoSign}{" "}
                       {numberWithCommas(
                         Number(item.sales_receive_amount).toFixed(2)

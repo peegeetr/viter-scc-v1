@@ -63,16 +63,15 @@ const TopSellerList = () => {
     networkMode: "always",
     cacheTime: 200,
   });
-
-  // // use if not loadmore button undertime
-  // const { data: total } = useQueryData(
-  //   `/v1/sales/report/all-pending-and-paid/${month}`, // endpoint
-  //   "get", // method
-  //   "pendingAndPaid", // key
-  //   {},
-  //   month
-  // );
-  // console.log(total);
+  // use if not loadmore button undertime
+  const { data: total } = useQueryData(
+    `/v1/sales/report/all-pending-and-paid/${month}`, // endpoint
+    "get", // method
+    "pendingAndPaid", // key
+    {},
+    month
+  );
+  console.log(total);
 
   React.useEffect(() => {
     if (inView) {
@@ -158,7 +157,7 @@ const TopSellerList = () => {
               return (
                 <div
                   key={key}
-                  className="flex justify-between py-2.5 items-center border-b-2 border-solid flex-col sm:flex-row"
+                  className="flex justify-between py-2.5 items-center border-b-2 border-solid  flex-row"
                 >
                   <div className="grid grid-cols-[5rem_1fr]  items-center">
                     {counter === 1 ? (
@@ -190,21 +189,23 @@ const TopSellerList = () => {
                           className="rounded-full h-12 w-12 object-cover object-center mx-5"
                         />
                       ) : (
-                        <FaUserCircle className="h-12 w-12 mx-5 fill-gray-400" />
+                        <FaUserCircle className="object-cover object-center h-12 w-12 mx-5 fill-gray-400" />
                       )}
                       <div>
                         <h2>
                           {item.members_last_name}, {item.members_first_name}
                         </h2>
-                        <div className="flex items-center">
+                        <div className="block items-center xs:flex">
                           <p className="mb-0 text-primary text-lg">
                             {pesoSign}{" "}
                             {numberWithCommas(
-                              Number(item.totalAmount).toFixed(2)
+                              Number(
+                                item.totalAmount - item.totalDiscount
+                              ).toFixed(2)
                             )}
                           </p>
-                          {/* {getTotal(total, item).isPending === 0 && (
-                            <p className="mb-0">
+                          {getTotal(total, item).isPending === 0 && (
+                            <p className="mb-0 mt-1 xs:mt-0">
                               <span
                                 className="!bg-blue-100 !text-primary text-xs font-medium ml-2 px-2.5 py-0.5 rounded-full tooltip-action-table"
                                 data-tooltip="Expected amount"
@@ -215,7 +216,7 @@ const TopSellerList = () => {
                                 )}
                               </span>
                             </p>
-                          )} */}
+                          )}
                         </div>
                       </div>
                     </div>

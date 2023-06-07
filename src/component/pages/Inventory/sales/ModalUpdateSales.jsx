@@ -18,6 +18,7 @@ import {
   pesoSign,
   removeComma,
 } from "../../../helpers/functions-general";
+import { modalComputeAmountWithDiscount } from "../orders/functions-orders";
 
 const ModalUpdateSales = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -52,11 +53,13 @@ const ModalUpdateSales = ({ item }) => {
     sales_receive_amount: item.sales_receive_amount,
     sales_member_change: "",
     sales_order_id: item.sales_order_id,
+    sales_discount: "",
   };
 
   const yupSchema = Yup.object({
     sales_or: Yup.string().required("Required"),
     sales_receive_amount: Yup.string().required("Required"),
+    sales_discount: Yup.string().required("Required"),
   });
 
   return (
@@ -83,9 +86,15 @@ const ModalUpdateSales = ({ item }) => {
                 const sales_receive_amount = removeComma(
                   `${values.sales_receive_amount}`
                 );
+                const sales_discount = removeComma(`${values.sales_discount}`);
                 if (
                   Number(sales_receive_amount) <
-                  Number(item.orders_product_amount)
+                  Number(
+                    modalComputeAmountWithDiscount(
+                      item.orders_product_amount,
+                      values.sales_discount
+                    )
+                  )
                 ) {
                   dispatch(setError(true));
                   dispatch(
@@ -98,13 +107,17 @@ const ModalUpdateSales = ({ item }) => {
                 mutation.mutate({
                   ...values,
                   sales_receive_amount,
+                  sales_discount,
                 });
               }}
             >
               {(props) => {
                 props.values.sales_member_change =
                   Number(removeComma(props.values.sales_receive_amount)) -
-                  Number(item.orders_product_amount);
+                  modalComputeAmountWithDiscount(
+                    item.orders_product_amount,
+                    props.values.sales_discount
+                  );
                 return (
                   <Form>
                     <div className="pl-3 text-primary">
@@ -121,12 +134,23 @@ const ModalUpdateSales = ({ item }) => {
                         </span>
                       </p>
                       <p className="mb-0">
-                        Amount:
+                        Discount Amount:
                         <span className="text-black ml-2">
                           {pesoSign}{" "}
-                          {numberWithCommas(
-                            Number(item.orders_product_amount).toFixed(2)
-                          )}
+                          {Number(
+                            removeComma(props.values.sales_discount)
+                          ).toFixed(2)}
+                        </span>
+                      </p>
+
+                      <p className="mb-0">
+                        Total Amount:
+                        <span className="text-black ml-2">
+                          {pesoSign}{" "}
+                          {modalComputeAmountWithDiscount(
+                            item.orders_product_amount,
+                            props.values.sales_discount
+                          ).toFixed(2)}
                         </span>
                       </p>
                       <p className="">
@@ -144,11 +168,20 @@ const ModalUpdateSales = ({ item }) => {
                       </p>
                     </div>
 
-                    <div className="relative mt-6 mb-8">
+                    <div className="relative mt-6 mb-5">
                       <InputText
                         label="Recieve Amount"
                         type="text"
                         name="sales_receive_amount"
+                        num="num"
+                        disabled={mutation.isLoading}
+                      />
+                    </div>
+                    <div className="relative mb-5">
+                      <InputText
+                        label="Discount Amount"
+                        type="text"
+                        name="sales_discount"
                         num="num"
                         disabled={mutation.isLoading}
                       />

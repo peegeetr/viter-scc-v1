@@ -47,6 +47,7 @@ $sales->sales_member_id = checkIndex($data, "sales_member_id");
 $sales->sales_order_id = checkIndex($data, "sales_order_id");
 $sales->sales_receive_amount = checkIndex($data, "sales_receive_amount");
 $sales->sales_date = checkIndex($data, "sales_date");
+$sales->sales_discount = checkIndex($data, "sales_discount");
 $sales->sales_is_paid = 0;
 $sales->sales_created = date("Y-m-d H:i:s");
 $sales->sales_datetime = date("Y-m-d H:i:s");

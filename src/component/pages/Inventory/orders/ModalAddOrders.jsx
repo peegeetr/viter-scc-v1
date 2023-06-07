@@ -11,7 +11,11 @@ import {
 } from "../../../../store/StoreAction";
 import { StoreContext } from "../../../../store/StoreContext";
 import useQueryData from "../../../custom-hooks/useQueryData";
-import { InputSelect, InputText } from "../../../helpers/FormInputs";
+import {
+  InputSelect,
+  InputText,
+  InputTextArea,
+} from "../../../helpers/FormInputs";
 import {
   getDateTimeNow,
   numberWithCommas,
@@ -116,14 +120,19 @@ const ModalAddOrders = ({ item, arrKey }) => {
     orders_is_paid: 0,
     orders_is_draft: 0,
     orders_product_amount: item ? item.orders_product_amount : "",
+    orders_remarks: item ? item.orders_remarks : "",
     orders_date: item ? item.orders_date : getDateTimeNow(),
     category_id: item ? item.suppliers_products_category_id : "",
+
+    // old quantity
+    old_quantity: item ? item.orders_product_quantity : "",
   };
 
   const yupSchema = Yup.object({
     orders_member_id: Yup.string().required("Required"),
     orders_product_id: Yup.string().required("Required"),
     orders_product_quantity: Yup.string().required("Required"),
+    orders_remarks: Yup.string().required("Required"),
     category_id: Yup.string().required("Required"),
     orders_date: Yup.string().required("Required"),
   });
@@ -148,25 +157,33 @@ const ModalAddOrders = ({ item, arrKey }) => {
               initialValues={initVal}
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
-                console.log(values);
+                // console.log(values);
+                const orders_product_quantity = removeComma(
+                  `${values.orders_product_quantity}`
+                );
                 if (
-                  Number(values.orders_product_quantity) >
+                  Number(orders_product_quantity) !==
+                    Number(values.old_quantity) &&
+                  (Number(orders_product_quantity) >
                     getRemaningQuantity(
                       values,
                       stocksGroupProd,
                       orderGroupProd
                     ) ||
-                  getRemaningQuantity(
-                    values,
-                    stocksGroupProd,
-                    orderGroupProd
-                  ) === 0
+                    getRemaningQuantity(
+                      values,
+                      stocksGroupProd,
+                      orderGroupProd
+                    ) === 0)
                 ) {
                   dispatch(setError(true));
                   dispatch(setMessage("Insufficient Quantity"));
                   return;
                 }
-                mutation.mutate(values);
+                mutation.mutate({
+                  ...values,
+                  orders_product_quantity,
+                });
               }}
             >
               {(props) => {
@@ -264,11 +281,19 @@ const ModalAddOrders = ({ item, arrKey }) => {
                       <InputText
                         label="Quantity"
                         type="text"
+                        num="num"
                         name="orders_product_quantity"
                         disabled={mutation.isLoading}
                       />
                     </div>
-
+                    <div className="relative my-5">
+                      <InputTextArea
+                        label="Remarks"
+                        type="text"
+                        name="orders_remarks"
+                        disabled={mutation.isLoading}
+                      />
+                    </div>
                     <div className="pl-3 text-primary">
                       <p className="">
                         Total Amount:
@@ -285,7 +310,6 @@ const ModalAddOrders = ({ item, arrKey }) => {
                         </span>
                       </p>
                     </div>
-
                     <div className="flex items-center gap-1 pt-5">
                       <button
                         type="submit"
