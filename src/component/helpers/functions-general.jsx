@@ -1,9 +1,9 @@
 import React from "react";
 import { setIsAdd } from "../../store/StoreAction.jsx";
 
-// // Online URL dev
-// export const urlScc = "https://app.sambahayancoop.com";
-// export const urlSccImg = "https://app.sambahayancoop.com/img";
+// Online URL dev
+export const urlScc = "https://app.sambahayancoop.com";
+export const urlSccImg = "https://app.sambahayancoop.com/img";
 
 // // cy url
 // export const urlSccImg = "http://localhost/projects/viter-scc-v1/public/img";
