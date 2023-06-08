@@ -35,7 +35,7 @@ const MyOrders = () => {
         </div>
         <hr />
 
-        <div className="w-full pb-20 ">
+        <div className="w-full pb-20 mt-3">
           <MemberOrdersList setItemEdit={setItemEdit} />
         </div>
         <Footer />
