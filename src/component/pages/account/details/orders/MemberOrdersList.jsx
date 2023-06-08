@@ -390,7 +390,7 @@ const MemberOrdersList = ({ setItemEdit }) => {
         <StatusAmount text="draft" amount={totalDraftAmount} />
         <StatusAmount text="pending" amount={totalPendingAmount} />
         <StatusAmount text="paid" amount={totalPaidAmount - totalDiscount} />
-        <StatusAmount text="" amount={totalAmount - totalDiscount} />
+        <StatusAmount text="amount" amount={totalAmount - totalDiscount} />
         <StatusAmount text="qty" amount={totalOty} />
       </div>
 

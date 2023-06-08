@@ -237,7 +237,7 @@ const OrdersList = ({ setItemEdit }) => {
         <StatusAmount text="discount" amount={totalDiscount} />
         <StatusAmount text="pending" amount={totalPendingAmount} />
         <StatusAmount text="paid" amount={totalPaidAmount} />
-        <StatusAmount text="" amount={totalAmount} />
+        <StatusAmount text="amount" amount={totalAmount} />
         <StatusAmount text="qty" amount={totalOty} />
       </div>
       {store.isRestore && (

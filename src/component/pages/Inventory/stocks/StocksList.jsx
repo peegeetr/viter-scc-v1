@@ -263,7 +263,7 @@ const StocksList = ({ setItemEdit }) => {
       <div className="text-right grid gap-2 grid-cols-[1fr_9rem] my-2">
         <StatusAmount text="pending" amount={totalPendingAmount} />
         <StatusAmount text="paid" amount={totalPaidAmount} />
-        <StatusAmount text="" amount={totalAmount} />
+        <StatusAmount text="amount" amount={totalAmount} />
         <StatusAmount text="qty" amount={totalOty} />
       </div>
 
