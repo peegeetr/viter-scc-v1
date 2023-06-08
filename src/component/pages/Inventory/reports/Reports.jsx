@@ -30,7 +30,7 @@ const Reports = () => {
         <hr />
         <div className="w-full pt-5 pb-20">
           <TopSellerLink />
-          <ReportSalesLink />
+          {/* <ReportSalesLink /> */}
         </div>
         <Footer />
       </div>
