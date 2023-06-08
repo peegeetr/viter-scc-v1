@@ -4,7 +4,7 @@ import { numberWithCommas, pesoSign } from "../../helpers/functions-general";
 const StatusAmount = ({ text = "", amount = 0 }) => {
   return (
     <>
-      <p className="m-0 capitalize">
+      <p className="m-0 capitalize font-bold">
         Total {text} {text !== "qty" && "Amount"} :
       </p>
       <p className="m-0">

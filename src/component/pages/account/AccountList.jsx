@@ -102,10 +102,10 @@ const AccountList = () => {
             <tr>
               <th>#</th>
               <th>Status</th>
-              <th className="min-w-[15rem]">Name</th>
+              <th className="min-w-[12rem]">Name</th>
               <th className="min-w-[10rem]">Account no.</th>
-              <th className="min-w-[25rem]">Email.</th>
-              <th className="min-w-[15rem]">Contact no.</th>
+              <th className="min-w-[15rem]">Email.</th>
+              <th className="min-w-[10rem]">Contact no.</th>
               <th className="max-w-[5rem]">Actions</th>
             </tr>
           </thead>

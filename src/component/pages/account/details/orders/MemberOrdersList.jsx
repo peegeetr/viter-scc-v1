@@ -234,10 +234,10 @@ const MemberOrdersList = ({ setItemEdit }) => {
               <th className="min-w-[8rem] w-[8rem]">Product</th>
               <th className="min-w-[8rem] w-[8rem]">Official Receipt</th>
               <th className="min-w-[3rem] w-[3rem] text-center">Qty</th>
-              <th className="min-w-[6rem] w-[6rem] text-right">SRP Amount</th>
+              <th className="min-w-[6rem] w-[6rem] text-right">SRP Price</th>
               <th className="min-w-[6rem] w-[6rem] text-right">Discounted</th>
               <th className="min-w-[8rem] w-[8rem] text-right pr-4">
-                Total Amount
+                Total Amnt.
               </th>
               <th className="min-w-[15rem] ">Remarks</th>
               {memberid === null && <th className="!w-[5rem]"></th>}

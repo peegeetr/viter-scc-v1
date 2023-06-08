@@ -110,13 +110,12 @@ const StocksList = ({ setItemEdit }) => {
               <th>#</th>
               <th>Status</th>
               <th className="min-w-[5rem]">Stock #</th>
-              <th className="min-w-[6rem]">Product #</th>
               <th className="min-w-[8rem]">Supplier</th>
               <th className="min-w-[8rem]">Product</th>
               <th className="min-w-[3rem] text-center">Qty</th>
               <th className="min-w-[8rem] text-right pr-4">Suplier Price</th>
               <th className="min-w-[6rem] text-right pr-4">Amount</th>
-              <th className="min-w-[8rem]">Official Receipt</th>
+              <th className="min-w-[5rem]">Official Receipt</th>
               <th className="min-w-[8rem]">Created date</th>
 
               {(store.credentials.data.role_is_admin === 1 ||
@@ -156,9 +155,7 @@ const StocksList = ({ setItemEdit }) => {
                       )}
                     </td>
                     <td className="uppercase">{item.stocks_number}</td>
-                    <td className="uppercase">
-                      {item.suppliers_products_number}
-                    </td>
+
                     <td>{item.suppliers_company_name}</td>
                     <td>{item.suppliers_products_name}</td>
 
@@ -178,7 +175,7 @@ const StocksList = ({ setItemEdit }) => {
                         ).toFixed(2)
                       )}
                     </td>
-                    <td>{item.stocks_or}</td>
+                    <td className=" break-words">{item.stocks_or}</td>
                     <td>
                       {`${formatDate(item.stocks_created)} ${getTime(
                         item.stocks_created

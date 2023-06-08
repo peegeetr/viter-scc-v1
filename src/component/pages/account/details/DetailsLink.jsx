@@ -48,12 +48,6 @@ const DetailsLink = () => {
         className="group flex items-center justify-between border-b border-solid border-gray-300"
         onClick={handleShow}
       >
-        <MyOrderLink />
-      </div>
-      <div
-        className="group flex items-center justify-between border-b border-solid border-gray-300"
-        onClick={handleShow}
-      >
         <PatronageLink />
       </div>
       <div
@@ -61,6 +55,12 @@ const DetailsLink = () => {
         onClick={handleShow}
       >
         <SavingsLink />
+      </div>
+      <div
+        className="group flex items-center justify-between border-b border-solid border-gray-300"
+        onClick={handleShow}
+      >
+        <MyOrderLink />
       </div>
     </>
   );

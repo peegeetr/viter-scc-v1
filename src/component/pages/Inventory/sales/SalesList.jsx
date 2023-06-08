@@ -109,11 +109,11 @@ const SalesList = ({ setItemEdit }) => {
               <th>Status</th>
               <th className="min-w-[8rem]">Name</th>
               <th className="min-w-[5rem]">Sales #</th>
-              <th className="min-w-[7rem]">Product Name</th>
-              <th className="min-w-[6rem] text-center pr-4">Qty</th>
+              <th className="min-w-[7rem]">Product</th>
+              <th className="min-w-[3rem] text-center">Qty</th>
               <th className="min-w-[6rem] text-right pr-4">Discounted</th>
               <th className="min-w-[7rem] text-right pr-4">Total Amnt.</th>
-              <th className="min-w-[9rem] pr-4">Remarks</th>
+              <th className="min-w-[8rem] pr-4">Remarks</th>
               <th className="min-w-[7rem] text-right pr-4">Received</th>
               <th className="min-w-[6rem]">Pay Date</th>
 
