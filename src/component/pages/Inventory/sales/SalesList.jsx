@@ -252,13 +252,6 @@ const SalesList = ({ setItemEdit }) => {
         </table>
       </div>
 
-      <div className="text-right grid gap-2 grid-cols-[1fr_9rem] my-2">
-        <StatusAmount text="discount" amount={totalDiscount} />
-        <StatusAmount text="pending" amount={totalPendingAmount} />
-        <StatusAmount text="paid" amount={totalPaidAmount} />
-        <StatusAmount text="received" amount={totalReceived - totalChange} />
-        <StatusAmount text="qty" amount={totalOty} />
-      </div>
       <div className="text-center">
         <Loadmore
           fetchNextPage={fetchNextPage}
@@ -269,6 +262,13 @@ const SalesList = ({ setItemEdit }) => {
           page={page}
           refView={ref}
         />
+      </div>
+      <div className="text-right grid gap-2 grid-cols-[1fr_9rem] my-2">
+        <StatusAmount text="discount" amount={totalDiscount} />
+        <StatusAmount text="pending" amount={totalPendingAmount} />
+        <StatusAmount text="paid" amount={totalPaidAmount} />
+        <StatusAmount text="received" amount={totalReceived - totalChange} />
+        <StatusAmount text="qty" amount={totalOty} />
       </div>
       {store.isRestore && (
         <ModalDeleteRestore
