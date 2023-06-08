@@ -46,6 +46,12 @@ import SystemProducts from "./component/pages/Inventory/products/links/SystemPro
 import AdminReports from "./component/pages/Inventory/reports/links/AdminReports";
 import ManagerReports from "./component/pages/Inventory/reports/links/ManagerReports";
 import SystemReports from "./component/pages/Inventory/reports/links/SystemReports";
+import AdminReportSales from "./component/pages/Inventory/reports/sales-report/links/AdminReportSales";
+import ManagerReportSales from "./component/pages/Inventory/reports/sales-report/links/ManagerReportSales";
+import SystemReportSales from "./component/pages/Inventory/reports/sales-report/links/SystemReportSales";
+import AdminTopSeller from "./component/pages/Inventory/reports/top-seller/links/AdminTopSeller";
+import ManagerTopSeller from "./component/pages/Inventory/reports/top-seller/links/ManagerTopSeller";
+import SystemTopSeller from "./component/pages/Inventory/reports/top-seller/links/SystemTopSeller";
 import AdminSales from "./component/pages/Inventory/sales/links/AdminSales";
 import ManagerSales from "./component/pages/Inventory/sales/links/ManagerSales";
 import SystemSales from "./component/pages/Inventory/sales/links/SystemSales";
@@ -64,6 +70,8 @@ import AdminCapitalShare from "./component/pages/account/details/capital-share/l
 import SystemCapitalShare from "./component/pages/account/details/capital-share/links/SystemCapitalShare";
 import AdminDeatils from "./component/pages/account/details/links/AdminDeatils";
 import SystemDeatils from "./component/pages/account/details/links/SystemDeatils";
+import AdminMemberOrders from "./component/pages/account/details/orders/links/AdminMemberOrders";
+import SystemMemberOrders from "./component/pages/account/details/orders/links/SystemMyOrders";
 import AdminPatronage from "./component/pages/account/details/patronage/links/AdminPatronage";
 import SystemPatronage from "./component/pages/account/details/patronage/links/SystemPatronage";
 import AdminProfile from "./component/pages/account/details/profile/links/AdminProfile";
@@ -90,6 +98,8 @@ import MemberMyCapitalShare from "./component/pages/my-account/capital-share/lin
 import AdminMyAccount from "./component/pages/my-account/links/AdminMyAccount";
 import ManagerMyAccount from "./component/pages/my-account/links/ManagerMyAccount";
 import MemberMyAccount from "./component/pages/my-account/links/MemberMyAccount";
+import ManagerMyOrders from "./component/pages/my-account/orders/links/ManagerMyOrders";
+import MemberMyOrders from "./component/pages/my-account/orders/links/MemberMyOrders";
 import AdminMyPatronage from "./component/pages/my-account/patronage/links/AdminMyPatronage";
 import ManagerMyPatronage from "./component/pages/my-account/patronage/links/ManagerMyPatronage";
 import MemberMyPatronage from "./component/pages/my-account/patronage/links/MemberMyPatronage";
@@ -99,7 +109,6 @@ import MemberMyProfile from "./component/pages/my-account/profile/links/MemberMy
 import AdminMySavings from "./component/pages/my-account/savings/links/AdminMySavings";
 import ManagerMySavings from "./component/pages/my-account/savings/links/ManagerMySavings";
 import MemberMySavings from "./component/pages/my-account/savings/links/MemberMySavings";
-import MemberMyOrder from "./component/pages/my-order/links/MemberMyOrder";
 import AdminSettingsLink from "./component/pages/settings/links/AdminSettingsLink";
 import SystemSettingsLink from "./component/pages/settings/links/SystemSettingsLink";
 import AdminNetSurPlus from "./component/pages/settings/net-surplus/links/AdminNetSurPlus";
@@ -107,9 +116,7 @@ import SystemNetSurPlus from "./component/pages/settings/net-surplus/links/Syste
 import AdminOtherUser from "./component/pages/settings/users/other/links/AdminOtherUser";
 import SystemOtherUser from "./component/pages/settings/users/other/links/SystemOtherUser";
 import { StoreProvider } from "./store/StoreContext";
-import AdminTopSeller from "./component/pages/Inventory/reports/top-seller/links/AdminTopSeller";
-import ManagerTopSeller from "./component/pages/Inventory/reports/top-seller/links/ManagerTopSeller";
-import SystemTopSeller from "./component/pages/Inventory/reports/top-seller/links/SystemTopSeller";
+import AdminMyOrders from "./component/pages/my-account/orders/links/AdminMyOrders";
 
 function App() {
   // Create a client
@@ -249,6 +256,14 @@ function App() {
                 </ProtectedRouteSystem>
               }
             />
+            <Route
+              path={`${devNavUrl}/${UrlSystem}/members/details/orders`}
+              element={
+                <ProtectedRouteSystem>
+                  <SystemMemberOrders />
+                </ProtectedRouteSystem>
+              }
+            />
 
             <Route
               path={`${devNavUrl}/${UrlSystem}/file-upload`}
@@ -329,6 +344,14 @@ function App() {
               element={
                 <ProtectedRouteSystem>
                   <SystemTopSeller />
+                </ProtectedRouteSystem>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlSystem}/inventory/reports/sales`}
+              element={
+                <ProtectedRouteSystem>
+                  <SystemReportSales />
                 </ProtectedRouteSystem>
               }
             />
@@ -458,10 +481,10 @@ function App() {
               }
             />
             <Route
-              path={`${devNavUrl}/${UrlMember}/my-order`}
+              path={`${devNavUrl}/${UrlMember}/details/orders`}
               element={
                 <ProtectedRouteOther>
-                  <MemberMyOrder />
+                  <MemberMyOrders />
                 </ProtectedRouteOther>
               }
             />
@@ -545,6 +568,14 @@ function App() {
               }
             />
             <Route
+              path={`${devNavUrl}/${UrlAdmin}/members/details/orders`}
+              element={
+                <ProtectedRouteOther>
+                  <AdminMemberOrders />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
               path={`${devNavUrl}/${UrlAdmin}/application/profile`}
               element={
                 <ProtectedRouteOther>
@@ -592,6 +623,14 @@ function App() {
               element={
                 <ProtectedRouteOther>
                   <AdminMyPatronage />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/details/orders`}
+              element={
+                <ProtectedRouteOther>
+                  <AdminMyOrders />
                 </ProtectedRouteOther>
               }
             />
@@ -674,6 +713,14 @@ function App() {
               element={
                 <ProtectedRouteOther>
                   <AdminTopSeller />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/inventory/reports/sales`}
+              element={
+                <ProtectedRouteOther>
+                  <AdminReportSales />
                 </ProtectedRouteOther>
               }
             />
@@ -789,6 +836,14 @@ function App() {
               }
             />
             <Route
+              path={`${devNavUrl}/${UrlManager}/details/orders`}
+              element={
+                <ProtectedRouteOther>
+                  <ManagerMyOrders />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
               path={`${devNavUrl}/${UrlManager}/file-upload`}
               element={
                 <ProtectedRouteOther>
@@ -867,6 +922,14 @@ function App() {
               element={
                 <ProtectedRouteOther>
                   <ManagerTopSeller />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlManager}/inventory/reports/sales`}
+              element={
+                <ProtectedRouteOther>
+                  <ManagerReportSales />
                 </ProtectedRouteOther>
               }
             />

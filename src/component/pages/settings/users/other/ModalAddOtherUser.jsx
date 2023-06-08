@@ -76,7 +76,7 @@ const ModalAddOtherUser = ({ item, role }) => {
   return (
     <>
       <div className="fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center bg-dark bg-opacity-50 z-50">
-        <div className="p-1 w-[350px] rounded-b-2xl">
+        <div className="p-1 w-[360px] rounded-b-2xl">
           <div className="flex justify-between items-center bg-primary p-3 rounded-t-2xl">
             <h3 className="text-white text-sm">
               {item ? "Update" : "Add"} user
@@ -101,14 +101,21 @@ const ModalAddOtherUser = ({ item, role }) => {
               {(props) => {
                 return (
                   <Form>
-                    <div className="relative mt-5">
-                      <InputText
-                        label="Member Email"
-                        type="text"
-                        name="members_email"
-                        disabled={mutation.isLoading}
-                      />
-                    </div>
+                    {item ? (
+                      <p className="ml-3 break-words text-primary">
+                        Member Email :{" "}
+                        <span className="text-black">{item.members_email}</span>
+                      </p>
+                    ) : (
+                      <div className="relative mt-5">
+                        <InputText
+                          label="Member Email"
+                          type="text"
+                          name="members_email"
+                          disabled={mutation.isLoading}
+                        />
+                      </div>
+                    )}
                     <div className="relative my-5 ">
                       <InputSelect
                         name="user_other_role_id"

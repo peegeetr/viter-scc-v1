@@ -72,7 +72,7 @@ class Beneficiaries
             $sql .= "beneficiaries_relationship ";
             $sql .= "from {$this->tblBeneficiaries} ";
             $sql .= "where beneficiaries_employee_id = :beneficiaries_employee_id ";
-            $sql .= "order by beneficiaries_name asc ";
+            $sql .= "order by beneficiaries_aid asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "beneficiaries_employee_id" => $this->beneficiaries_employee_id,

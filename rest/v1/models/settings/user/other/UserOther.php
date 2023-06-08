@@ -354,6 +354,7 @@ class UserOther
             $sql .= "member.members_aid, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
+            $sql .= "member.members_picture, ";
             $sql .= "role.* ";
             $sql .= "from {$this->tblUserOther} as otherUser, ";
             $sql .= "{$this->tblMembers} as member, ";

@@ -8,23 +8,23 @@ import {
   setIsAdd,
   setMessage,
   setSuccess,
-} from "../../../store/StoreAction";
-import { StoreContext } from "../../../store/StoreContext";
-import useQueryData from "../../custom-hooks/useQueryData";
+} from "../../../../store/StoreAction";
+import { StoreContext } from "../../../../store/StoreContext";
+import useQueryData from "../../../custom-hooks/useQueryData";
 import {
   InputSelect,
   InputText,
   InputTextArea,
-} from "../../helpers/FormInputs";
+} from "../../../helpers/FormInputs";
 import {
   getDateTimeNow,
   numberWithCommas,
   pesoSign,
   removeComma,
-} from "../../helpers/functions-general";
-import { queryData } from "../../helpers/queryData";
-import ButtonSpinner from "../../partials/spinners/ButtonSpinner";
-import { getRemaningQuantity } from "../Inventory/products/functions-product";
+} from "../../../helpers/functions-general";
+import { queryData } from "../../../helpers/queryData";
+import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
+import { getRemaningQuantity } from "../../Inventory/products/functions-product";
 
 const ModalAddMyOrder = ({ item, arrKey }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -51,7 +51,7 @@ const ModalAddMyOrder = ({ item, arrKey }) => {
       queryClient.invalidateQueries({ queryKey: [arrKey] });
       // show success box
       if (data.success) {
-        dispatch(setIsAdd(false));
+        item && dispatch(setIsAdd(false));
         dispatch(setSuccess(true));
         dispatch(setMessage(`Successfuly ${item ? "updated." : "added."}`));
       }

@@ -42,10 +42,8 @@ const ProfileList = ({ members, isLoading, error }) => {
   const [itemBeneficiaries, setItemBeneficiaries] = React.useState(null);
   const [isopen, setIsOpen] = React.useState(false);
   const memberid = getUrlParam().get("memberid");
-
-  let memId = memberid === null ? store.credentials.data.members_aid : memberid;
-
   let counter = 0;
+  let memId = memberid === null ? store.credentials.data.members_aid : memberid;
 
   // use if not loadmore button undertime
   const { data: beneficiaries } = useQueryData(
@@ -362,7 +360,7 @@ const ProfileList = ({ members, isLoading, error }) => {
                       counter++;
                       return (
                         <tr key={key}>
-                          <td>{counter++}.</td>
+                          <td>{counter}.</td>
                           <td>{itemB.beneficiaries_name}</td>
                           <td>{itemB.beneficiaries_relationship}</td>
 

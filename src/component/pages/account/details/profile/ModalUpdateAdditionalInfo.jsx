@@ -103,9 +103,9 @@ const ModalUpdateAdditionalInfo = ({ item }) => {
                         <option value="" hidden>
                           --
                         </option>
-                        <option value="single">Single</option>
-                        <option value="married">Married</option>
-                        <option value="widow">Widow</option>
+                        <option value="Single">Single</option>
+                        <option value="Married">Married</option>
+                        <option value="Widow">Widow</option>
                       </InputSelect>
                     </div>
 

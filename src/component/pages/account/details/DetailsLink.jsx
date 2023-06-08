@@ -7,6 +7,7 @@ import ProfileLink from "./profile/ProfileLink";
 import SavingsLink from "./savings/SavingsLink";
 import { getUrlParam } from "../../../helpers/functions-general";
 import useQueryData from "../../../custom-hooks/useQueryData";
+import MyOrderLink from "./orders/MyOrderLink";
 
 const DetailsLink = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -41,19 +42,25 @@ const DetailsLink = () => {
         className="group flex items-center justify-between border-b border-solid border-gray-300"
         onClick={handleShow}
       >
-        <SavingsLink />
-      </div>
-      <div
-        className="group flex items-center justify-between border-b border-solid border-gray-300"
-        onClick={handleShow}
-      >
         <CapitalShareLink />
       </div>
       <div
         className="group flex items-center justify-between border-b border-solid border-gray-300"
         onClick={handleShow}
       >
+        <MyOrderLink />
+      </div>
+      <div
+        className="group flex items-center justify-between border-b border-solid border-gray-300"
+        onClick={handleShow}
+      >
         <PatronageLink />
+      </div>
+      <div
+        className="group flex items-center justify-between border-b border-solid border-gray-300"
+        onClick={handleShow}
+      >
+        <SavingsLink />
       </div>
     </>
   );

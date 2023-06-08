@@ -5,6 +5,7 @@ import { setIsLogout, setIsShow } from "../../store/StoreAction";
 import { StoreContext } from "../../store/StoreContext";
 import Logo from "../svg/Logo.jsx";
 import ModalLogout from "./modals/ModalLogout.jsx";
+import { devBaseImgUrl } from "../helpers/functions-general";
 
 const Header = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -29,7 +30,15 @@ const Header = () => {
           <Logo /> <h1 className="ml-4">Sambahayan Consumer Cooperative</h1>
         </div>
         <div className="flex justify-between items-center gap-3">
-          <FaUserCircle className="w-9 h-9 text-white hidden md:block" />
+          {store.credentials.data.members_picture !== "" ? (
+            <img
+              src={devBaseImgUrl + "/" + store.credentials.data.members_picture}
+              alt="member photo"
+              className="rounded-full w-9 h-9 text-white hidden md:block object-cover object-center"
+            />
+          ) : (
+            <FaUserCircle className="w-9 h-9 text-white hidden md:block" />
+          )}
           <div className="hidden md:block leading-normal text-white min-w-[6rem]">
             <h4>
               Hi <span>{name},</span>

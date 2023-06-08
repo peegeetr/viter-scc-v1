@@ -7,6 +7,7 @@ import Footer from "../../../partials/Footer";
 import Header from "../../../partials/Header";
 import Navigation from "../../../partials/Navigation";
 import TopSellerLink from "./top-seller/ReportsLink";
+import ReportSalesLink from "./sales-report/ReportsLink";
 
 const Reports = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -23,22 +24,13 @@ const Reports = () => {
       <Navigation menu="inventory" />{" "}
       <div className="wrapper">
         <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2 ">
-          {/* <h4 className="text-xl mb-3">Reports</h4> */}
           <BreadCrumbs />
-
-          {/* {store.credentials.data.role_is_member === 0 && (
-            <div className="flex items-center gap-1 self-baseline">
-              <button type="button" className="btn-primary" onClick={handleAdd}>
-                <FaPlusCircle />
-                <span>Add</span>
-              </button>
-            </div>
-          )} */}
         </div>
 
         <hr />
         <div className="w-full pt-5 pb-20">
           <TopSellerLink />
+          <ReportSalesLink />
         </div>
         <Footer />
       </div>

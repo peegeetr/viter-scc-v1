@@ -5,6 +5,7 @@ import MyPatronageLink from "./patronage/MyPatronageLink";
 import MySavingsLink from "./savings/MySavingsLink";
 import MyProfileLink from "./profile/MyProfileLink";
 import { setIsSearch, setStartIndex } from "../../../store/StoreAction";
+import MyOrdersLink from "./orders/MyPatronageLink";
 
 const MyAccountDetailsLink = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -25,19 +26,25 @@ const MyAccountDetailsLink = () => {
         className="group flex items-center justify-between border-b border-solid border-gray-300"
         onClick={handleShow}
       >
-        <MySavingsLink />
-      </div>
-      <div
-        className="group flex items-center justify-between border-b border-solid border-gray-300"
-        onClick={handleShow}
-      >
         <MyCapitalShareLink />
       </div>
       <div
         className="group flex items-center justify-between border-b border-solid border-gray-300"
         onClick={handleShow}
       >
+        <MyOrdersLink />
+      </div>
+      <div
+        className="group flex items-center justify-between border-b border-solid border-gray-300"
+        onClick={handleShow}
+      >
         <MyPatronageLink />
+      </div>
+      <div
+        className="group flex items-center justify-between border-b border-solid border-gray-300"
+        onClick={handleShow}
+      >
+        <MySavingsLink />
       </div>
     </>
   );

@@ -1,14 +1,15 @@
 import React from "react";
-import Footer from "../../partials/Footer.jsx";
-import Header from "../../partials/Header.jsx";
-import Navigation from "../../partials/Navigation.jsx";
-import DashboardList from "./DashboardList.jsx";
 import { FaPlusCircle } from "react-icons/fa";
 import { setIsAdd } from "../../../store/StoreAction.jsx";
 import { StoreContext } from "../../../store/StoreContext.jsx";
-import ModalAddDashboard from "./ModalAddDashboard.jsx";
-import ModalSuccess from "../../partials/modals/ModalSuccess.jsx";
+import Footer from "../../partials/Footer.jsx";
+import Header from "../../partials/Header.jsx";
+import Navigation from "../../partials/Navigation.jsx";
 import ModalError from "../../partials/modals/ModalError.jsx";
+import ModalSuccess from "../../partials/modals/ModalSuccess.jsx";
+import DashboardSampleList from "./DashboardSampleList.jsx";
+import ModalAddDashboard from "./ModalAddDashboard.jsx";
+import DashboardList from "./DashboardList.jsx";
 
 const Dashboard = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -45,6 +46,7 @@ const Dashboard = () => {
         <hr />
         <div className=" w-full pt-5 pb-20">
           <DashboardList setItemEdit={setItemEdit} />
+          {/* <DashboardSampleList setItemEdit={setItemEdit} /> */}
         </div>
         <Footer />
       </div>

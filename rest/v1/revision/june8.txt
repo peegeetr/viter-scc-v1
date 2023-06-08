@@ -5,6 +5,8 @@
 
 *models      
     - inventory/stocks/Stocks.php
+    - account/details/Beneficiaries.php
+    - settings/user/other/UserOther.php
     
 *htaccess 
     -  

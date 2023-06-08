@@ -25,7 +25,7 @@ import ModalDeleteRestore from "../../partials/modals/ModalDeleteRestore";
 import TableSpinner from "../../partials/spinners/TableSpinner";
 import StatusActive from "../../partials/status/StatusActive";
 import StatusInactive from "../../partials/status/StatusInactive";
-const DashboardList = ({ setItemEdit }) => {
+const AnnouncementCard = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [dataItem, setData] = React.useState(null);
   const [id, setId] = React.useState(null);
@@ -102,18 +102,34 @@ const DashboardList = ({ setItemEdit }) => {
 
   return (
     <>
-      <SearchBar
-        search={search}
-        dispatch={dispatch}
-        store={store}
-        result={result?.pages}
-        isFetching={isFetching}
-        setOnSearch={setOnSearch}
-        onSearch={onSearch}
-      />
       <div className="flex flex-col ">
-        <div className="rounded-lg order-1 md:order-0 border ">
-          <div className="pb-3 ">
+        <div className="rounded-lg  order-1 md:order-0 border ">
+          <div className="grid grid-cols-2 items-center p-2">
+            {(store.credentials.data.role_is_developer === 1 ||
+              store.credentials.data.role_is_admin === 1) && (
+              <div className="flex items-center mx-2">
+                <button
+                  type="button"
+                  className="btn-primary"
+                  onClick={handleAdd}
+                >
+                  <FaPlusCircle />
+                  <span>Add</span>
+                </button>
+              </div>
+            )}
+            <SearchBar
+              search={search}
+              dispatch={dispatch}
+              store={store}
+              result={result?.pages}
+              isFetching={isFetching}
+              setOnSearch={setOnSearch}
+              onSearch={onSearch}
+            />
+          </div>
+
+          <div className="pb-3 px-4">
             {result?.pages.map((page, key) => (
               <React.Fragment key={key}>
                 {page.data.map((item, key) => (
@@ -257,4 +273,4 @@ const DashboardList = ({ setItemEdit }) => {
   );
 };
 
-export default DashboardList;
+export default AnnouncementCard;
