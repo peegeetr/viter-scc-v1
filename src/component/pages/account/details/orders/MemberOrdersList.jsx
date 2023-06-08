@@ -259,15 +259,7 @@ const MemberOrdersList = ({ setItemEdit }) => {
                 </td>
               </tr>
             )}
-            {/* use only for updating important records */}
-            {/* {status !== "loading" && isFetching && (
-              <tr className="text-center ">
-                <td colSpan="100%" className="p-10">
-                  <TableSpinner />
-                </td>
-              </tr>
-            )} */}
-            {/* use only for updating important records */}
+
             {result?.pages.map((page, key) => (
               <React.Fragment key={key}>
                 {page.data.map((item, key) => {

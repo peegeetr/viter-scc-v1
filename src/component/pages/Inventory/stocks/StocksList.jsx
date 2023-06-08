@@ -21,6 +21,7 @@ import StatusActive from "../../../partials/status/StatusActive";
 import StatusPending from "../../../partials/status/StatusPending";
 import ModalUpdateOR from "./ModalUpdateOR";
 import StatusQuantity from "../../../partials/status/StatusQuantity";
+import StatusAmount from "../../../partials/status/StatusAmount";
 
 const StocksList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -31,6 +32,10 @@ const StocksList = ({ setItemEdit }) => {
   const [page, setPage] = React.useState(1);
   const search = React.useRef(null);
   let counter = 1;
+  let totalPendingAmount = 0;
+  let totalPaidAmount = 0;
+  let totalAmount = 0;
+  let totalOty = 0;
   const { ref, inView } = useInView();
   // use if with loadmore button and search bar
   const {
@@ -144,86 +149,100 @@ const StocksList = ({ setItemEdit }) => {
 
             {result?.pages.map((page, key) => (
               <React.Fragment key={key}>
-                {page.data.map((item, key) => (
-                  <tr key={key}>
-                    <td> {counter++}.</td>
-                    <td>
-                      {item.stocks_is_pending === 1 ? (
-                        <StatusPending />
-                      ) : (
-                        <StatusActive text="Paid" />
-                      )}
-                    </td>
-                    <td className="uppercase">{item.stocks_number}</td>
-
-                    <td>{item.suppliers_company_name}</td>
-                    <td>{item.suppliers_products_name}</td>
-
-                    <td className="text-center">{item.stocks_quantity}</td>
-                    <td className="text-right pr-4">
-                      {pesoSign}
-                      {numberWithCommas(
-                        Number(item.stocks_suplier_price).toFixed(2)
-                      )}
-                    </td>
-                    <td className="text-right pr-4">
-                      {pesoSign}
-                      {numberWithCommas(
-                        (
-                          Number(item.stocks_suplier_price) *
-                          Number(item.stocks_quantity)
-                        ).toFixed(2)
-                      )}
-                    </td>
-                    <td className=" break-words">{item.stocks_or}</td>
-                    <td>
-                      {`${formatDate(item.stocks_created)} ${getTime(
-                        item.stocks_created
-                      )} 
-                       `}
-                    </td>
-                    {(store.credentials.data.role_is_admin === 1 ||
-                      store.credentials.data.role_is_developer === 1 ||
-                      store.credentials.data.role_is_manager === 1) && (
+                {page.data.map((item, key) => {
+                  totalPendingAmount +=
+                    item.stocks_is_pending === 1 &&
+                    Number(item.stocks_suplier_price) *
+                      Number(item.stocks_quantity);
+                  totalPaidAmount +=
+                    item.stocks_is_pending === 0 &&
+                    Number(item.stocks_suplier_price) *
+                      Number(item.stocks_quantity);
+                  totalAmount +=
+                    Number(item.stocks_suplier_price) *
+                    Number(item.stocks_quantity);
+                  totalOty += Number(item.stocks_quantity);
+                  return (
+                    <tr key={key}>
+                      <td> {counter++}.</td>
                       <td>
-                        <div className="flex items-center gap-1">
-                          {item.stocks_is_pending === 1 && (
-                            <>
-                              <button
-                                type="button"
-                                className="btn-action-table tooltip-action-table"
-                                data-tooltip="Paid"
-                                onClick={() => handlePending(item)}
-                              >
-                                <FaCheck />
-                              </button>
-                            </>
-                          )}
-                          {item.stocks_is_pending === 0 && (
-                            <>
-                              <button
-                                type="button"
-                                className="btn-action-table tooltip-action-table"
-                                data-tooltip="Pending"
-                                onClick={() => handleComplete(item)}
-                              >
-                                <FaHistory />
-                              </button>
-                            </>
-                          )}
-                          <button
-                            type="button"
-                            className="btn-action-table tooltip-action-table"
-                            data-tooltip="Delete"
-                            onClick={() => handleDelete(item)}
-                          >
-                            <FaTrash />
-                          </button>
-                        </div>
+                        {item.stocks_is_pending === 1 ? (
+                          <StatusPending />
+                        ) : (
+                          <StatusActive text="Paid" />
+                        )}
                       </td>
-                    )}
-                  </tr>
-                ))}
+                      <td className="uppercase">{item.stocks_number}</td>
+
+                      <td>{item.suppliers_company_name}</td>
+                      <td>{item.suppliers_products_name}</td>
+
+                      <td className="text-center">{item.stocks_quantity}</td>
+                      <td className="text-right pr-4">
+                        {pesoSign}
+                        {numberWithCommas(
+                          Number(item.stocks_suplier_price).toFixed(2)
+                        )}
+                      </td>
+                      <td className="text-right pr-4">
+                        {pesoSign}
+                        {numberWithCommas(
+                          (
+                            Number(item.stocks_suplier_price) *
+                            Number(item.stocks_quantity)
+                          ).toFixed(2)
+                        )}
+                      </td>
+                      <td className=" break-words">{item.stocks_or}</td>
+                      <td>
+                        {`${formatDate(item.stocks_created)} ${getTime(
+                          item.stocks_created
+                        )} 
+                       `}
+                      </td>
+                      {(store.credentials.data.role_is_admin === 1 ||
+                        store.credentials.data.role_is_developer === 1 ||
+                        store.credentials.data.role_is_manager === 1) && (
+                        <td>
+                          <div className="flex items-center gap-1">
+                            {item.stocks_is_pending === 1 && (
+                              <>
+                                <button
+                                  type="button"
+                                  className="btn-action-table tooltip-action-table"
+                                  data-tooltip="Paid"
+                                  onClick={() => handlePending(item)}
+                                >
+                                  <FaCheck />
+                                </button>
+                              </>
+                            )}
+                            {item.stocks_is_pending === 0 && (
+                              <>
+                                <button
+                                  type="button"
+                                  className="btn-action-table tooltip-action-table"
+                                  data-tooltip="Pending"
+                                  onClick={() => handleComplete(item)}
+                                >
+                                  <FaHistory />
+                                </button>
+                              </>
+                            )}
+                            <button
+                              type="button"
+                              className="btn-action-table tooltip-action-table"
+                              data-tooltip="Delete"
+                              onClick={() => handleDelete(item)}
+                            >
+                              <FaTrash />
+                            </button>
+                          </div>
+                        </td>
+                      )}
+                    </tr>
+                  );
+                })}
               </React.Fragment>
             ))}
           </tbody>
@@ -239,6 +258,13 @@ const StocksList = ({ setItemEdit }) => {
           page={page}
           refView={ref}
         />
+      </div>
+
+      <div className="text-right grid gap-2 grid-cols-[1fr_9rem] my-2">
+        <StatusAmount text="pending" amount={totalPendingAmount} />
+        <StatusAmount text="paid" amount={totalPaidAmount} />
+        <StatusAmount text="" amount={totalAmount} />
+        <StatusAmount text="qty" amount={totalOty} />
       </div>
 
       {store.isConfirm && (

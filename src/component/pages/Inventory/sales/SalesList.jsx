@@ -25,6 +25,7 @@ import TableSpinner from "../../../partials/spinners/TableSpinner";
 import StatusActive from "../../../partials/status/StatusActive";
 import StatusPending from "../../../partials/status/StatusPending";
 import { computeFinalAmount } from "../orders/functions-orders";
+import StatusAmount from "../../../partials/status/StatusAmount";
 
 const SalesList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -35,6 +36,12 @@ const SalesList = ({ setItemEdit }) => {
   const [page, setPage] = React.useState(1);
   const search = React.useRef(null);
   let counter = 1;
+  let totalPendingAmount = 0;
+  let totalPaidAmount = 0;
+  let totalDiscount = 0;
+  let totalOty = 0;
+  let totalReceived = 0;
+  let totalChange = 0;
   const { ref, inView } = useInView();
   // use if with loadmore button and search bar
   const {
@@ -141,93 +148,116 @@ const SalesList = ({ setItemEdit }) => {
 
             {result?.pages.map((page, key) => (
               <React.Fragment key={key}>
-                {page.data.map((item, key) => (
-                  <tr key={key}>
-                    <td> {counter++}.</td>
-                    <td>
-                      {item.sales_is_paid === 1 ? (
-                        <StatusActive text="Paid" />
-                      ) : (
-                        <StatusPending />
-                      )}
-                    </td>
-                    <td>{`${item.members_last_name}, ${item.members_first_name}`}</td>
-                    <td className="uppercase">{item.sales_number}</td>
-                    <td>{item.suppliers_products_name}</td>
-
-                    <td className="text-center ">
-                      {item.orders_product_quantity}
-                    </td>
-                    <td className="text-right ">
-                      {pesoSign}
-                      {numberWithCommas(Number(item.sales_discount).toFixed(2))}
-                    </td>
-                    <td className="text-right font-bold text-primary ">
-                      <span
-                        className="cursor-pointer underline tooltip-action-table"
-                        onClick={() => handleView(item)}
-                        data-tooltip="Details"
-                      >
-                        {pesoSign} {computeFinalAmount(item)}
-                      </span>
-                    </td>
-                    <td>{item.orders_remarks}</td>
-                    <td className="text-right pr-4">
-                      {pesoSign}{" "}
-                      {numberWithCommas(
-                        Number(item.sales_receive_amount).toFixed(2)
-                      )}
-                    </td>
-                    <td>
-                      {item.sales_date === ""
-                        ? "N/A"
-                        : `${formatDate(item.sales_date)} ${getTime(
-                            item.sales_date
-                          )}`}
-                    </td>
-
-                    {store.credentials.data.role_is_member === 0 && (
-                      <td className="text-right">
-                        {store.credentials.data.role_is_casher === 0 ? (
-                          item.sales_is_paid === 1 ? (
-                            <button
-                              type="button"
-                              className="btn-action-table tooltip-action-table"
-                              data-tooltip="Void"
-                              onClick={() => handleRestore(item)}
-                            >
-                              <FaEraser />
-                            </button>
-                          ) : (
-                            <button
-                              type="button"
-                              className="btn-action-table tooltip-action-table"
-                              data-tooltip="Accept"
-                              onClick={() => handleEdit(item)}
-                            >
-                              <GiReceiveMoney />
-                            </button>
-                          )
+                {page.data.map((item, key) => {
+                  totalPendingAmount +=
+                    item.sales_is_paid === 0 &&
+                    Number(item.orders_product_amount);
+                  totalPaidAmount +=
+                    item.sales_is_paid === 1 &&
+                    Number(item.orders_product_amount) -
+                      Number(item.sales_discount);
+                  totalDiscount += Number(item.sales_discount);
+                  totalReceived += Number(item.sales_receive_amount);
+                  totalChange += Number(item.sales_member_change);
+                  totalOty += Number(item.orders_product_quantity);
+                  return (
+                    <tr key={key}>
+                      <td> {counter++}.</td>
+                      <td>
+                        {item.sales_is_paid === 1 ? (
+                          <StatusActive text="Paid" />
                         ) : (
-                          item.sales_is_paid === 0 && (
-                            <button
-                              type="button"
-                              className="btn-action-table tooltip-action-table"
-                              data-tooltip="Accept"
-                              onClick={() => handleEdit(item)}
-                            >
-                              <GiReceiveMoney />
-                            </button>
-                          )
+                          <StatusPending />
                         )}
                       </td>
-                    )}
-                  </tr>
-                ))}
+                      <td>{`${item.members_last_name}, ${item.members_first_name}`}</td>
+                      <td className="uppercase">{item.sales_number}</td>
+                      <td>{item.suppliers_products_name}</td>
+
+                      <td className="text-center ">
+                        {item.orders_product_quantity}
+                      </td>
+                      <td className="text-right ">
+                        {pesoSign}
+                        {numberWithCommas(
+                          Number(item.sales_discount).toFixed(2)
+                        )}
+                      </td>
+                      <td className="text-right font-bold text-primary ">
+                        <span
+                          className="cursor-pointer underline tooltip-action-table"
+                          onClick={() => handleView(item)}
+                          data-tooltip="Details"
+                        >
+                          {pesoSign} {computeFinalAmount(item)}
+                        </span>
+                      </td>
+                      <td>{item.orders_remarks}</td>
+                      <td className="text-right pr-4">
+                        {pesoSign}{" "}
+                        {numberWithCommas(
+                          Number(item.sales_receive_amount).toFixed(2)
+                        )}
+                      </td>
+                      <td>
+                        {item.sales_date === ""
+                          ? "N/A"
+                          : `${formatDate(item.sales_date)} ${getTime(
+                              item.sales_date
+                            )}`}
+                      </td>
+
+                      {store.credentials.data.role_is_member === 0 && (
+                        <td className="text-right">
+                          {store.credentials.data.role_is_casher === 0 ? (
+                            item.sales_is_paid === 1 ? (
+                              <button
+                                type="button"
+                                className="btn-action-table tooltip-action-table"
+                                data-tooltip="Void"
+                                onClick={() => handleRestore(item)}
+                              >
+                                <FaEraser />
+                              </button>
+                            ) : (
+                              <button
+                                type="button"
+                                className="btn-action-table tooltip-action-table"
+                                data-tooltip="Accept"
+                                onClick={() => handleEdit(item)}
+                              >
+                                <GiReceiveMoney />
+                              </button>
+                            )
+                          ) : (
+                            item.sales_is_paid === 0 && (
+                              <button
+                                type="button"
+                                className="btn-action-table tooltip-action-table"
+                                data-tooltip="Accept"
+                                onClick={() => handleEdit(item)}
+                              >
+                                <GiReceiveMoney />
+                              </button>
+                            )
+                          )}
+                        </td>
+                      )}
+                    </tr>
+                  );
+                })}
               </React.Fragment>
             ))}
           </tbody>
         </table>
+      </div>
+
+      <div className="text-right grid gap-2 grid-cols-[1fr_9rem] my-2">
+        <StatusAmount text="discount" amount={totalDiscount} />
+        <StatusAmount text="pending" amount={totalPendingAmount} />
+        <StatusAmount text="paid" amount={totalPaidAmount} />
+        <StatusAmount text="received" amount={totalReceived - totalChange} />
+        <StatusAmount text="qty" amount={totalOty} />
       </div>
       <div className="text-center">
         <Loadmore

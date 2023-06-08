@@ -20,6 +20,7 @@ import TableSpinner from "../../../partials/spinners/TableSpinner";
 import StatusActive from "../../../partials/status/StatusActive";
 import StatusPending from "../../../partials/status/StatusPending";
 import { computeFinalAmount } from "./functions-orders";
+import StatusAmount from "../../../partials/status/StatusAmount";
 
 const OrdersList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -30,6 +31,11 @@ const OrdersList = ({ setItemEdit }) => {
   const [page, setPage] = React.useState(1);
   const search = React.useRef(null);
   let counter = 1;
+  let totalPendingAmount = 0;
+  let totalPaidAmount = 0;
+  let totalDiscount = 0;
+  let totalAmount = 0;
+  let totalOty = 0;
   const { ref, inView } = useInView();
   // use if with loadmore button and search bar
   const {
@@ -134,66 +140,82 @@ const OrdersList = ({ setItemEdit }) => {
 
             {result?.pages.map((page, key) => (
               <React.Fragment key={key}>
-                {page.data.map((item, key) => (
-                  <tr key={key}>
-                    <td> {counter++}.</td>
-                    <td>
-                      {item.orders_is_paid === 1 ? (
-                        <StatusActive text="Paid" />
-                      ) : (
-                        <StatusPending />
-                      )}
-                    </td>
-                    <td className="uppercase">{item.orders_number}</td>
-                    <td>{`${item.members_last_name}, ${item.members_first_name}`}</td>
-                    <td>{`${formatDate(item.orders_date)} ${getTime(
-                      item.orders_date
-                    )}`}</td>
-                    <td>{item.suppliers_products_name}</td>
-                    <td className="text-center">
-                      {item.orders_product_quantity}
-                    </td>
-                    <td className="text-right">
-                      {pesoSign}
-                      {numberWithCommas(
-                        Number(item.suppliers_products_scc_price).toFixed(2)
-                      )}
-                    </td>
-                    <td className="text-right">
-                      {pesoSign}
-                      {numberWithCommas(Number(item.sales_discount).toFixed(2))}
-                    </td>
-                    <td className="text-right pr-4">
-                      {pesoSign} {numberWithCommas(computeFinalAmount(item))}
-                    </td>
-                    <td>{item.orders_remarks}</td>
-
-                    {store.credentials.data.role_is_member === 0 && (
+                {page.data.map((item, key) => {
+                  totalPendingAmount +=
+                    item.orders_is_paid === 1 &&
+                    Number(item.orders_product_amount);
+                  totalPaidAmount +=
+                    item.orders_is_paid === 0 &&
+                    Number(item.orders_product_amount) -
+                      Number(item.sales_discount);
+                  totalAmount +=
+                    Number(item.orders_product_amount) -
+                    Number(item.sales_discount);
+                  totalDiscount += Number(item.sales_discount);
+                  totalOty += Number(item.orders_product_quantity);
+                  return (
+                    <tr key={key}>
+                      <td> {counter++}.</td>
                       <td>
-                        {item.orders_is_paid === 0 && (
-                          <div className="flex items-center gap-1">
-                            <button
-                              type="button"
-                              className="btn-action-table tooltip-action-table"
-                              data-tooltip="Edit"
-                              onClick={() => handleEdit(item)}
-                            >
-                              <FaEdit />
-                            </button>
-                            <button
-                              type="button"
-                              className="btn-action-table tooltip-action-table"
-                              data-tooltip="Delete"
-                              onClick={() => handleDelete(item)}
-                            >
-                              <FaTrash />
-                            </button>
-                          </div>
+                        {item.orders_is_paid === 1 ? (
+                          <StatusActive text="Paid" />
+                        ) : (
+                          <StatusPending />
                         )}
                       </td>
-                    )}
-                  </tr>
-                ))}
+                      <td className="uppercase">{item.orders_number}</td>
+                      <td>{`${item.members_last_name}, ${item.members_first_name}`}</td>
+                      <td>{`${formatDate(item.orders_date)} ${getTime(
+                        item.orders_date
+                      )}`}</td>
+                      <td>{item.suppliers_products_name}</td>
+                      <td className="text-center">
+                        {item.orders_product_quantity}
+                      </td>
+                      <td className="text-right">
+                        {pesoSign}
+                        {numberWithCommas(
+                          Number(item.suppliers_products_scc_price).toFixed(2)
+                        )}
+                      </td>
+                      <td className="text-right">
+                        {pesoSign}
+                        {numberWithCommas(
+                          Number(item.sales_discount).toFixed(2)
+                        )}
+                      </td>
+                      <td className="text-right pr-4">
+                        {pesoSign} {numberWithCommas(computeFinalAmount(item))}
+                      </td>
+                      <td>{item.orders_remarks}</td>
+
+                      {store.credentials.data.role_is_member === 0 && (
+                        <td>
+                          {item.orders_is_paid === 0 && (
+                            <div className="flex items-center gap-1">
+                              <button
+                                type="button"
+                                className="btn-action-table tooltip-action-table"
+                                data-tooltip="Edit"
+                                onClick={() => handleEdit(item)}
+                              >
+                                <FaEdit />
+                              </button>
+                              <button
+                                type="button"
+                                className="btn-action-table tooltip-action-table"
+                                data-tooltip="Delete"
+                                onClick={() => handleDelete(item)}
+                              >
+                                <FaTrash />
+                              </button>
+                            </div>
+                          )}
+                        </td>
+                      )}
+                    </tr>
+                  );
+                })}
               </React.Fragment>
             ))}
           </tbody>
@@ -211,6 +233,13 @@ const OrdersList = ({ setItemEdit }) => {
         />
       </div>
 
+      <div className="text-right grid gap-2 grid-cols-[1fr_9rem] my-2">
+        <StatusAmount text="discount" amount={totalDiscount} />
+        <StatusAmount text="pending" amount={totalPendingAmount} />
+        <StatusAmount text="paid" amount={totalPaidAmount} />
+        <StatusAmount text="" amount={totalAmount} />
+        <StatusAmount text="qty" amount={totalOty} />
+      </div>
       {store.isRestore && (
         <ModalDeleteRestore
           id={id}
