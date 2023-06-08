@@ -14,18 +14,18 @@ import {
   setIsAdd,
   setIsConfirm,
   setIsRestore,
-} from "../../../store/StoreAction";
-import { StoreContext } from "../../../store/StoreContext";
-import { formatDate } from "../../helpers/functions-general";
-import { queryDataInfinite } from "../../helpers/queryDataInfinite";
-import Loadmore from "../../partials/Loadmore";
-import SearchBar from "../../partials/SearchBar";
-import ServerError from "../../partials/ServerError";
-import ModalConfirm from "../../partials/modals/ModalConfirm";
-import ModalDeleteRestore from "../../partials/modals/ModalDeleteRestore";
-import TableSpinner from "../../partials/spinners/TableSpinner";
-import StatusActive from "../../partials/status/StatusActive";
-import StatusInactive from "../../partials/status/StatusInactive";
+} from "../../../../store/StoreAction";
+import { StoreContext } from "../../../../store/StoreContext";
+import { formatDate } from "../../../helpers/functions-general";
+import { queryDataInfinite } from "../../../helpers/queryDataInfinite";
+import Loadmore from "../../../partials/Loadmore";
+import SearchBar from "../../../partials/SearchBar";
+import ServerError from "../../../partials/ServerError";
+import ModalConfirm from "../../../partials/modals/ModalConfirm";
+import ModalDeleteRestore from "../../../partials/modals/ModalDeleteRestore";
+import TableSpinner from "../../../partials/spinners/TableSpinner";
+import StatusActive from "../../../partials/status/StatusActive";
+import StatusInactive from "../../../partials/status/StatusInactive";
 const AnnouncementCard = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [dataItem, setData] = React.useState(null);

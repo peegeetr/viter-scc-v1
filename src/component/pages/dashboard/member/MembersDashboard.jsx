@@ -1,6 +1,4 @@
 import React from "react";
-import { FaPlusCircle } from "react-icons/fa";
-import { setIsAdd } from "../../../../store/StoreAction.jsx";
 import { StoreContext } from "../../../../store/StoreContext.jsx";
 import Footer from "../../../partials/Footer.jsx";
 import Header from "../../../partials/Header.jsx";
@@ -11,6 +9,7 @@ import MembersDashboardList from "./MembersDashboardList.jsx";
 
 const MembersDashboard = () => {
   const { store, dispatch } = React.useContext(StoreContext);
+  const [itemEdit, setItemEdit] = React.useState(null);
 
   const name =
     store.credentials.data.role_is_developer === 1

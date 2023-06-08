@@ -46,8 +46,10 @@ const Dashboard = () => {
         <hr />
         <div className=" w-full pt-5 pb-20">
           <DashboardList setItemEdit={setItemEdit} />
-          {/* <DashboardSampleList setItemEdit={setItemEdit} /> */}
         </div>
+        {/* <div className=" w-full pt-5 pb-20">
+          <DashboardSampleList setItemEdit={setItemEdit} />
+        </div> */}
         <Footer />
       </div>
       {store.isAdd && <ModalAddDashboard item={itemEdit} />}

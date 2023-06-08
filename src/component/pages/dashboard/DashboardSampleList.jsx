@@ -1,6 +1,6 @@
 import React from "react";
-import AnnouncementCard from "./AnnouncementCard";
-import TopSellerCard from "./TopSellerCard";
+import AnnouncementCard from "./cards/AnnouncementCard";
+import TopSellerCard from "./cards/TopSellerCard";
 const DashboardSampleList = () => {
   return (
     <>
