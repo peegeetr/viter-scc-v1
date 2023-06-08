@@ -9,6 +9,7 @@ import {
 } from "react-icons/fa";
 import { useInView } from "react-intersection-observer";
 import { FaPlusCircle } from "react-icons/fa";
+import { BsFillPinAngleFill } from "react-icons/bs";
 import {
   setIsAdd,
   setIsConfirm,
@@ -104,10 +105,14 @@ const AnnouncementCard = ({ setItemEdit }) => {
     <>
       <div className="flex flex-col ">
         <div className="rounded-lg  order-1 md:order-0 border ">
-          <div className="grid grid-cols-2 items-center p-2">
+          <div className="flex items-center justify-between mb-2">
+            <p className="flex items-center m-2 font-bold text-primary">
+              <BsFillPinAngleFill className="animate-bounce mr-2 " />
+              Announcement
+            </p>
             {(store.credentials.data.role_is_developer === 1 ||
               store.credentials.data.role_is_admin === 1) && (
-              <div className="flex items-center mx-2">
+              <div className="flex items-center m-2">
                 <button
                   type="button"
                   className="btn-primary"
@@ -118,6 +123,8 @@ const AnnouncementCard = ({ setItemEdit }) => {
                 </button>
               </div>
             )}
+          </div>
+          <div className="m-2">
             <SearchBar
               search={search}
               dispatch={dispatch}
@@ -128,7 +135,6 @@ const AnnouncementCard = ({ setItemEdit }) => {
               onSearch={onSearch}
             />
           </div>
-
           <div className="pb-3 px-4">
             {result?.pages.map((page, key) => (
               <React.Fragment key={key}>
