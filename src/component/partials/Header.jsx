@@ -30,7 +30,7 @@ const Header = () => {
           <Logo /> <h1 className="ml-4">Sambahayan Consumer Cooperative</h1>
         </div>
         <div className="flex justify-between items-center gap-3">
-          {store.credentials.data.role_is_admin === 1 &&
+          {store.credentials.data.role_is_developer !== 1 &&
           store.credentials.data.members_picture !== "" ? (
             <img
               src={devBaseImgUrl + "/" + store.credentials.data.members_picture}
