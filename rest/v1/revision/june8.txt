@@ -1,14 +1,16 @@
 
 *controllers     
+    - inventory/stocks/create.php
     - 
 
 *models      
     - inventory/stocks/Stocks.php
+    
 *htaccess 
     -  
 
 *db tables 
-    - 
+    - sccv1_stocks.sql
 
 *core functions 
     - 

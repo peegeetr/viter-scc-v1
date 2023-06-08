@@ -22,6 +22,7 @@ import {
 const ModalAddStocks = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [supplierProductId, setSupplierProductId] = React.useState([]);
+  const [supplierPrice, setSupplierPice] = React.useState("");
   const [loading, setSelLoading] = React.useState(false);
 
   const queryClient = useQueryClient();
@@ -69,9 +70,15 @@ const ModalAddStocks = ({ item }) => {
       setSupplierProductId(results.data);
     }
   };
+  // get employee id
+  const handleSupplierPrice = async (e, props) => {
+    setSupplierPice(e.target.options[e.target.selectedIndex].id);
+  };
+
   const initVal = {
     supplier_id: item ? item.suppliers_aid : "",
     stocks_product_id: item ? item.stocks_product_id : "",
+    stocks_suplier_price: item ? item.stocks_suplier_price : "",
     stocks_quantity: item ? item.stocks_quantity : "",
     stocks_date: item ? item.stocks_date : getDateTimeNow(),
   };
@@ -83,6 +90,7 @@ const ModalAddStocks = ({ item }) => {
     stocks_date: Yup.string().required("Required"),
   });
 
+  console.log(supplierProductId, supplierPrice);
   return (
     <>
       <div className="fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center bg-dark bg-opacity-50 z-50">
@@ -104,7 +112,7 @@ const ModalAddStocks = ({ item }) => {
               initialValues={initVal}
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
-                // console.log(values);
+                console.log(values);
                 const stocks_quantity = removeComma(
                   `${values.stocks_quantity}`
                 );
@@ -115,6 +123,7 @@ const ModalAddStocks = ({ item }) => {
               }}
             >
               {(props) => {
+                props.values.stocks_suplier_price = supplierPrice;
                 return (
                   <Form>
                     <div className="relative my-5 ">
@@ -150,6 +159,7 @@ const ModalAddStocks = ({ item }) => {
                       <InputSelect
                         name="stocks_product_id"
                         label="Supplier Product"
+                        onChange={handleSupplierPrice}
                         disabled={mutation.isLoading}
                       >
                         <option value="" hidden>
@@ -160,6 +170,7 @@ const ModalAddStocks = ({ item }) => {
                             <option
                               key={key}
                               value={sItem.suppliers_products_aid}
+                              id={sItem.suppliers_products_price}
                             >
                               {`${sItem.suppliers_products_name} `}
                             </option>

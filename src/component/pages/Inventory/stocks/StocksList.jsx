@@ -4,7 +4,12 @@ import { FaCheck, FaHistory, FaTrash } from "react-icons/fa";
 import { useInView } from "react-intersection-observer";
 import { setIsConfirm, setIsRestore } from "../../../../store/StoreAction";
 import { StoreContext } from "../../../../store/StoreContext";
-import { formatDate, getTime } from "../../../helpers/functions-general";
+import {
+  formatDate,
+  getTime,
+  numberWithCommas,
+  pesoSign,
+} from "../../../helpers/functions-general";
 import { queryDataInfinite } from "../../../helpers/queryDataInfinite";
 import Loadmore from "../../../partials/Loadmore";
 import NoData from "../../../partials/NoData";
@@ -107,8 +112,10 @@ const StocksList = ({ setItemEdit }) => {
               <th className="min-w-[5rem]">Stock #</th>
               <th className="min-w-[6rem]">Product #</th>
               <th className="min-w-[8rem]">Supplier</th>
-              <th className="min-w-[8rem]">Product Name</th>
+              <th className="min-w-[8rem]">Product</th>
               <th className="min-w-[3rem] text-center">Qty</th>
+              <th className="min-w-[8rem] text-right pr-4">Suplier Price</th>
+              <th className="min-w-[6rem] text-right pr-4">Amount</th>
               <th className="min-w-[8rem]">Official Receipt</th>
               <th className="min-w-[8rem]">Created date</th>
 
@@ -154,7 +161,23 @@ const StocksList = ({ setItemEdit }) => {
                     </td>
                     <td>{item.suppliers_company_name}</td>
                     <td>{item.suppliers_products_name}</td>
+
                     <td className="text-center">{item.stocks_quantity}</td>
+                    <td className="text-right pr-4">
+                      {pesoSign}
+                      {numberWithCommas(
+                        Number(item.stocks_suplier_price).toFixed(2)
+                      )}
+                    </td>
+                    <td className="text-right pr-4">
+                      {pesoSign}
+                      {numberWithCommas(
+                        (
+                          Number(item.stocks_suplier_price) *
+                          Number(item.stocks_quantity)
+                        ).toFixed(2)
+                      )}
+                    </td>
                     <td>{item.stocks_or}</td>
                     <td>
                       {`${formatDate(item.stocks_created)} ${getTime(
