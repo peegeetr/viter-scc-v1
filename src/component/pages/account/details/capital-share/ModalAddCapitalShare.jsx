@@ -117,7 +117,7 @@ const ModalAddCapitalShare = ({ item }) => {
                     </div>
                     <div className="relative mb-5">
                       <InputText
-                        label="OR"
+                        label="Official Receipt"
                         type="text"
                         name="capital_share_or"
                         disabled={mutation.isLoading}

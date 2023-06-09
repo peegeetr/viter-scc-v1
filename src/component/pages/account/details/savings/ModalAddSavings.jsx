@@ -137,7 +137,7 @@ const ModalAddSavings = ({ item }) => {
                     </div>
                     <div className="relative mb-5">
                       <InputText
-                        label="OR"
+                        label="Official Receipt"
                         type="text"
                         name="savings_or"
                         disabled={mutation.isLoading}

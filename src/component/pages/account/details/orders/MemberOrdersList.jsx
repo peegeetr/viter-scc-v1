@@ -14,7 +14,6 @@ import {
   setMessage,
 } from "../../../../../store/StoreAction";
 import { StoreContext } from "../../../../../store/StoreContext";
-import StatusPending from "../../../../partials/status/StatusPending";
 import useQueryData from "../../../../custom-hooks/useQueryData";
 import { InputText } from "../../../../helpers/FormInputs";
 import {
@@ -34,8 +33,9 @@ import ButtonSpinner from "../../../../partials/spinners/ButtonSpinner";
 import TableSpinner from "../../../../partials/spinners/TableSpinner";
 import StatusActive from "../../../../partials/status/StatusActive";
 import StatusInactive from "../../../../partials/status/StatusInactive";
+import StatusPending from "../../../../partials/status/StatusPending";
 import { getRemaningQuantity } from "../../../Inventory/products/functions-product";
-import StatusAmount from "../../../../partials/status/StatusAmount";
+import MemberTotalAmountOrders from "./MemberTotalAmountOrders";
 const MemberOrdersList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [dataItem, setData] = React.useState(null);
@@ -47,12 +47,6 @@ const MemberOrdersList = ({ setItemEdit }) => {
   const [endDate, setEndDate] = React.useState(false);
   const [page, setPage] = React.useState(1);
   let counter = 1;
-  let totalPaidAmount = 0;
-  let totalPendingAmount = 0;
-  let totalDraftAmount = 0;
-  let totalAmount = 0;
-  let totalDiscount = 0;
-  let totalOty = 0;
   const search = React.useRef(null);
   const memberid = getUrlParam().get("memberid");
   const { ref, inView } = useInView();
@@ -151,13 +145,14 @@ const MemberOrdersList = ({ setItemEdit }) => {
   return (
     <>
       {memberid !== null && (
-        <p className="text-primary">
+        <p className="m-0 text-primary">
           <span className="pr-4 font-bold">Member Name :</span>
           {loadingmemberName === "loading"
             ? "Loading..."
             : `${memberName?.data[0].members_last_name}, ${memberName?.data[0].members_first_name}`}
         </p>
       )}
+
       <Formik
         initialValues={initVal}
         validationSchema={yupSchema}
@@ -173,7 +168,7 @@ const MemberOrdersList = ({ setItemEdit }) => {
         {(props) => {
           return (
             <Form>
-              <div className="lg:w-[50rem] grid gap-5 grid-cols-1 md:grid-cols-[1fr_1fr_150px] pt-2 pb-5 items-center print:hidden ">
+              <div className="lg:w-[50rem] grid gap-5 grid-cols-1 md:grid-cols-[1fr_1fr_150px] pt-2 pb-5 items-center print:hidden mt-6">
                 <div className="relative">
                   <InputText
                     label="From"
@@ -211,16 +206,8 @@ const MemberOrdersList = ({ setItemEdit }) => {
           );
         }}
       </Formik>
+      <MemberTotalAmountOrders result={result?.pages[0]} empid={empid} />
 
-      {/* <SearchBar
-          search={search}
-          dispatch={dispatch}
-          store={store}
-          result={result?.pages}
-          isFetching={isFetching}
-          setOnSearch={setOnSearch}
-          onSearch={onSearch}
-        />  */}
       <div className="relative text-center overflow-x-auto z-0 ">
         {/* use only for updating important records */}
         {status !== "loading" && isFetching && <TableSpinner />}
@@ -232,7 +219,7 @@ const MemberOrdersList = ({ setItemEdit }) => {
               <th className="w-[3rem]">Status</th>
               <th className="min-w-[6rem] w-[6rem]">Pay Date</th>
               <th className="min-w-[8rem] w-[8rem]">Product</th>
-              <th className="min-w-[8rem] w-[8rem]">Official Receipt</th>
+              <th className="min-w-[8rem] w-[8rem]">Sales invoice number</th>
               <th className="min-w-[3rem] w-[3rem] text-center">Qty</th>
               <th className="min-w-[6rem] w-[6rem] text-right">SRP Price</th>
               <th className="min-w-[6rem] w-[6rem] text-right">Discounted</th>
@@ -263,18 +250,6 @@ const MemberOrdersList = ({ setItemEdit }) => {
             {result?.pages.map((page, key) => (
               <React.Fragment key={key}>
                 {page.data.map((item, key) => {
-                  item.sales_is_paid === 1
-                    ? (totalPaidAmount += Number(item.orders_product_amount))
-                    : "";
-                  item.sales_is_paid === 0 && item.orders_is_draft === 0
-                    ? (totalPendingAmount += Number(item.orders_product_amount))
-                    : "";
-                  item.orders_is_draft === 1
-                    ? (totalDraftAmount += Number(item.orders_product_amount))
-                    : "";
-                  totalAmount += Number(item.orders_product_amount);
-                  totalDiscount += Number(item.sales_discount);
-                  totalOty += Number(item.orders_product_quantity);
                   return (
                     <tr key={key}>
                       <td> {counter++}.</td>
@@ -384,15 +359,6 @@ const MemberOrdersList = ({ setItemEdit }) => {
           page={page}
           refView={ref}
         />
-      </div>
-
-      <div className="text-right grid gap-2 grid-cols-[1fr_9rem] my-2">
-        <StatusAmount text="draft" amount={totalDraftAmount} />
-        <StatusAmount text="pending" amount={totalPendingAmount} />
-        <StatusAmount text="paid" amount={totalPaidAmount - totalDiscount} />
-        <StatusAmount text="amount" amount={totalAmount - totalDiscount} />
-        <StatusAmount text="discount" amount={totalDiscount} />
-        <StatusAmount text="qty" amount={totalOty} />
       </div>
 
       {store.isConfirm && (

@@ -26,6 +26,7 @@ import StatusActive from "../../../partials/status/StatusActive";
 import StatusPending from "../../../partials/status/StatusPending";
 import { computeFinalAmount } from "../orders/functions-orders";
 import StatusAmount from "../../../partials/status/StatusAmount";
+import SalesTotal from "./SalesTotal";
 
 const SalesList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -36,12 +37,7 @@ const SalesList = ({ setItemEdit }) => {
   const [page, setPage] = React.useState(1);
   const search = React.useRef(null);
   let counter = 1;
-  let totalPendingAmount = 0;
-  let totalPaidAmount = 0;
-  let totalDiscount = 0;
-  let totalOty = 0;
-  let totalReceived = 0;
-  let totalChange = 0;
+
   const { ref, inView } = useInView();
   // use if with loadmore button and search bar
   const {
@@ -104,7 +100,7 @@ const SalesList = ({ setItemEdit }) => {
         setOnSearch={setOnSearch}
         onSearch={onSearch}
       />
-
+      <SalesTotal result={result?.pages[0]} />
       <div className="text-center overflow-x-auto z-0">
         {/* use only for updating important records */}
         {status !== "loading" && isFetching && <TableSpinner />}
@@ -149,17 +145,6 @@ const SalesList = ({ setItemEdit }) => {
             {result?.pages.map((page, key) => (
               <React.Fragment key={key}>
                 {page.data.map((item, key) => {
-                  totalPendingAmount +=
-                    item.sales_is_paid === 0 &&
-                    Number(item.orders_product_amount);
-                  totalPaidAmount +=
-                    item.sales_is_paid === 1 &&
-                    Number(item.orders_product_amount) -
-                      Number(item.sales_discount);
-                  totalDiscount += Number(item.sales_discount);
-                  totalReceived += Number(item.sales_receive_amount);
-                  totalChange += Number(item.sales_member_change);
-                  totalOty += Number(item.orders_product_quantity);
                   return (
                     <tr key={key}>
                       <td> {counter++}.</td>
@@ -262,13 +247,6 @@ const SalesList = ({ setItemEdit }) => {
           page={page}
           refView={ref}
         />
-      </div>
-      <div className="text-right grid gap-2 grid-cols-[1fr_9rem] my-2">
-        <StatusAmount text="discount" amount={totalDiscount} />
-        <StatusAmount text="pending" amount={totalPendingAmount} />
-        <StatusAmount text="paid" amount={totalPaidAmount} />
-        <StatusAmount text="received" amount={totalReceived - totalChange} />
-        <StatusAmount text="qty" amount={totalOty} />
       </div>
       {store.isRestore && (
         <ModalDeleteRestore

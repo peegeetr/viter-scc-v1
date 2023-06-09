@@ -20,8 +20,7 @@ import TableSpinner from "../../../partials/spinners/TableSpinner";
 import StatusActive from "../../../partials/status/StatusActive";
 import StatusPending from "../../../partials/status/StatusPending";
 import ModalUpdateOR from "./ModalUpdateOR";
-import StatusQuantity from "../../../partials/status/StatusQuantity";
-import StatusAmount from "../../../partials/status/StatusAmount";
+import StocksTotal from "./StocksTotal";
 
 const StocksList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -32,10 +31,7 @@ const StocksList = ({ setItemEdit }) => {
   const [page, setPage] = React.useState(1);
   const search = React.useRef(null);
   let counter = 1;
-  let totalPendingAmount = 0;
-  let totalPaidAmount = 0;
-  let totalAmount = 0;
-  let totalOty = 0;
+
   const { ref, inView } = useInView();
   // use if with loadmore button and search bar
   const {
@@ -104,7 +100,7 @@ const StocksList = ({ setItemEdit }) => {
         setOnSearch={setOnSearch}
         onSearch={onSearch}
       />
-
+      <StocksTotal result={result?.pages[0]} />
       <div className="text-center overflow-x-auto z-0">
         {/* use only for updating important records */}
         {status !== "loading" && isFetching && <TableSpinner />}
@@ -120,7 +116,7 @@ const StocksList = ({ setItemEdit }) => {
               <th className="min-w-[3rem] text-center">Qty</th>
               <th className="min-w-[8rem] text-right pr-4">Suplier Price</th>
               <th className="min-w-[6rem] text-right pr-4">Amount</th>
-              <th className="min-w-[5rem]">Official Receipt</th>
+              <th className="min-w-[5rem]">Sales invoice number</th>
               <th className="min-w-[8rem]">Created date</th>
 
               {(store.credentials.data.role_is_admin === 1 ||
@@ -150,18 +146,6 @@ const StocksList = ({ setItemEdit }) => {
             {result?.pages.map((page, key) => (
               <React.Fragment key={key}>
                 {page.data.map((item, key) => {
-                  totalPendingAmount +=
-                    item.stocks_is_pending === 1 &&
-                    Number(item.stocks_suplier_price) *
-                      Number(item.stocks_quantity);
-                  totalPaidAmount +=
-                    item.stocks_is_pending === 0 &&
-                    Number(item.stocks_suplier_price) *
-                      Number(item.stocks_quantity);
-                  totalAmount +=
-                    Number(item.stocks_suplier_price) *
-                    Number(item.stocks_quantity);
-                  totalOty += Number(item.stocks_quantity);
                   return (
                     <tr key={key}>
                       <td> {counter++}.</td>
@@ -259,14 +243,6 @@ const StocksList = ({ setItemEdit }) => {
           refView={ref}
         />
       </div>
-
-      <div className="text-right grid gap-2 grid-cols-[1fr_9rem] my-2">
-        <StatusAmount text="pending" amount={totalPendingAmount} />
-        <StatusAmount text="paid" amount={totalPaidAmount} />
-        <StatusAmount text="amount" amount={totalAmount} />
-        <StatusAmount text="qty" amount={totalOty} />
-      </div>
-
       {store.isConfirm && (
         <ModalUpdateOR
           id={id}
@@ -277,7 +253,6 @@ const StocksList = ({ setItemEdit }) => {
           arrKey="stocks"
         />
       )}
-
       {store.isRestore && (
         <ModalDeleteRestore
           id={id}

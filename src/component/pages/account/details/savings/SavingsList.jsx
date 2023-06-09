@@ -117,7 +117,7 @@ const SavingsList = ({ setItemEdit }) => {
           <thead>
             <tr>
               <th>#</th>
-              <th className="w-[15rem]">OR number</th>
+              <th className="w-[15rem]">Official Receipt</th>
               <th className="w-[15rem]">Date</th>
               <th className="w-[15rem]">Saving Deposit</th>
               <th className="w-[15rem]">Withdrawal</th>

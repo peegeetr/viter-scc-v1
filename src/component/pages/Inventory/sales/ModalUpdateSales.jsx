@@ -186,7 +186,7 @@ const ModalUpdateSales = ({ item }) => {
                     </div>
                     <div className="relative mb-4 ">
                       <InputText
-                        label="Official Receipt"
+                        label="Sales invoice number"
                         type="text"
                         name="sales_or"
                         disabled={mutation.isLoading}

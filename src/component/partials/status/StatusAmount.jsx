@@ -4,8 +4,8 @@ import { numberWithCommas, pesoSign } from "../../helpers/functions-general";
 const StatusAmount = ({ text = "", amount = 0 }) => {
   return (
     <>
-      <p className="m-0 capitalize font-bold">Total {text}:</p>
-      <p className="m-0">
+      <p className="m-0 capitalize font-bold mr-8 mb-2 xl:mb-4">
+        {text}:
         <span
           className={`${
             text === "draft"
