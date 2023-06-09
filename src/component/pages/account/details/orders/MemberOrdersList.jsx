@@ -219,7 +219,7 @@ const MemberOrdersList = ({ setItemEdit }) => {
               <th className="w-[3rem]">Status</th>
               <th className="min-w-[6rem] w-[6rem]">Pay Date</th>
               <th className="min-w-[8rem] w-[8rem]">Product</th>
-              <th className="min-w-[8rem] w-[8rem]">Sales invoice number</th>
+              <th className="min-w-[8rem] w-[8rem]">Invoice #</th>
               <th className="min-w-[3rem] w-[3rem] text-center">Qty</th>
               <th className="min-w-[6rem] w-[6rem] text-right">SRP Price</th>
               <th className="min-w-[6rem] w-[6rem] text-right">Discounted</th>
