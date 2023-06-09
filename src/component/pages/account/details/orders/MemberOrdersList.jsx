@@ -75,7 +75,7 @@ const MemberOrdersList = ({ setItemEdit }) => {
       }
       return;
     },
-    // refetchOnWindowFocus: false,
+    refetchOnWindowFocus: false,
     networkMode: "always",
     cacheTime: 200,
   });
@@ -117,7 +117,7 @@ const MemberOrdersList = ({ setItemEdit }) => {
     setDel(true);
   };
   const handlePending = (item) => {
-    console.log(getRemaningQuantity(item, stocksGroupProd, orderGroupProd));
+    // console.log(getRemaningQuantity(item, stocksGroupProd, orderGroupProd));
     if (
       getRemaningQuantity(item, stocksGroupProd, orderGroupProd) === 0 ||
       getRemaningQuantity(item, stocksGroupProd, orderGroupProd) <
