@@ -174,7 +174,8 @@ const SalesList = ({ setItemEdit }) => {
                           onClick={() => handleView(item)}
                           data-tooltip="Details"
                         >
-                          {pesoSign} {computeFinalAmount(item)}
+                          {pesoSign}{" "}
+                          {numberWithCommas(computeFinalAmount(item))}
                         </span>
                       </td>
                       <td>{item.orders_remarks}</td>
