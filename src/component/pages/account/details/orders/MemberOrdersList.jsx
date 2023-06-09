@@ -81,7 +81,7 @@ const MemberOrdersList = ({ setItemEdit }) => {
       }
       return;
     },
-    // refetchOnWindowFocus: false,
+    refetchOnWindowFocus: false,
     networkMode: "always",
     cacheTime: 200,
   });
@@ -123,7 +123,7 @@ const MemberOrdersList = ({ setItemEdit }) => {
     setDel(true);
   };
   const handlePending = (item) => {
-    console.log(getRemaningQuantity(item, stocksGroupProd, orderGroupProd));
+    // console.log(getRemaningQuantity(item, stocksGroupProd, orderGroupProd));
     if (
       getRemaningQuantity(item, stocksGroupProd, orderGroupProd) === 0 ||
       getRemaningQuantity(item, stocksGroupProd, orderGroupProd) <
@@ -391,6 +391,7 @@ const MemberOrdersList = ({ setItemEdit }) => {
         <StatusAmount text="pending" amount={totalPendingAmount} />
         <StatusAmount text="paid" amount={totalPaidAmount - totalDiscount} />
         <StatusAmount text="amount" amount={totalAmount - totalDiscount} />
+        <StatusAmount text="discount" amount={totalDiscount} />
         <StatusAmount text="qty" amount={totalOty} />
       </div>
 
