@@ -116,7 +116,7 @@ const StocksList = ({ setItemEdit }) => {
               <th className="min-w-[3rem] text-center">Qty</th>
               <th className="min-w-[8rem] text-right pr-4">Suplier Price</th>
               <th className="min-w-[6rem] text-right pr-4">Amount</th>
-              <th className="min-w-[5rem]">Sales invoice number</th>
+              <th className="min-w-[5rem]">Invoice #</th>
               <th className="min-w-[8rem]">Created date</th>
 
               {(store.credentials.data.role_is_admin === 1 ||
