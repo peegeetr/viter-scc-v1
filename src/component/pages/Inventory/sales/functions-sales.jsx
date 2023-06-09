@@ -34,12 +34,8 @@ export const computeSalesTotalAmount = (result) => {
     totalPending,
     finalPaidAmount,
     finalAmount,
-    finalPaidAmount,
     totalOty,
     finalDiscount,
     finalReceivedAmount,
   };
 };
-
-// totalReceived += Number(item.sales_receive_amount);
-// totalChange += Number(item.sales_member_change);

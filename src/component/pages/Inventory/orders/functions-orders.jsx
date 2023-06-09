@@ -93,7 +93,6 @@ export const computeInventoryOrderTotalOrderAmount = (result) => {
     totalPending,
     finalPaidAmount,
     finalAmount,
-    finalPaidAmount,
     totalOty,
     finalDiscount,
   };
