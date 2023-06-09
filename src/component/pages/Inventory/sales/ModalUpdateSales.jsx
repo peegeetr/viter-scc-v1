@@ -168,7 +168,7 @@ const ModalUpdateSales = ({ item }) => {
 
                     <div className="relative mt-6 mb-5">
                       <InputText
-                        label="Recieve Amount"
+                        label="Receive Amount"
                         type="text"
                         name="sales_receive_amount"
                         num="num"

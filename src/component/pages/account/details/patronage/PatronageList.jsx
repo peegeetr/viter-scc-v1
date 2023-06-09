@@ -225,7 +225,7 @@ const PatronageList = ({ setItemEdit }) => {
               <th>Status</th>
               <th className="min-w-[12rem]">Recieved Payment Date</th>
               <th className="min-w-[10rem]">Product Name</th>
-              <th className="min-w-[8rem]">Sales invoice number</th>
+              <th className="min-w-[8rem]">Invoice #</th>
               <th className="min-w-[5rem] text-center pr-4">Quantity</th>
               <th className="min-w-[8rem] text-right pr-4">SRP Amount</th>
               <th className="min-w-[8rem] text-right pr-4">Total Amount</th>
