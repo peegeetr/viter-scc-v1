@@ -50,7 +50,7 @@ const ModalViewSales = ({ item }) => {
                   ? `${getTime(item.sales_date)}`
                   : "N/A"}
               </p>
-              <p className="mb-0">Sales invoice number:</p>
+              <p className="mb-0">Sales invoice #:</p>
               <p className="mb-0 text-black ml-2 uppercase">
                 {item.sales_is_paid === 1 ? item.sales_or : "N/A"}
               </p>
