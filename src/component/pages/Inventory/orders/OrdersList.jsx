@@ -21,6 +21,7 @@ import StatusActive from "../../../partials/status/StatusActive";
 import StatusPending from "../../../partials/status/StatusPending";
 import { computeFinalAmount } from "./functions-orders";
 import StatusAmount from "../../../partials/status/StatusAmount";
+import OrdersTotal from "./OrdersTotal";
 
 const OrdersList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -31,11 +32,6 @@ const OrdersList = ({ setItemEdit }) => {
   const [page, setPage] = React.useState(1);
   const search = React.useRef(null);
   let counter = 1;
-  let totalPendingAmount = 0;
-  let totalPaidAmount = 0;
-  let totalDiscount = 0;
-  let totalAmount = 0;
-  let totalOty = 0;
   const { ref, inView } = useInView();
   // use if with loadmore button and search bar
   const {
@@ -96,7 +92,7 @@ const OrdersList = ({ setItemEdit }) => {
         setOnSearch={setOnSearch}
         onSearch={onSearch}
       />
-
+      <OrdersTotal result={result?.pages[0]} />
       <div className="text-center overflow-x-auto z-0">
         {/* use only for updating important records */}
         {status !== "loading" && isFetching && <TableSpinner />}
@@ -141,18 +137,6 @@ const OrdersList = ({ setItemEdit }) => {
             {result?.pages.map((page, key) => (
               <React.Fragment key={key}>
                 {page.data.map((item, key) => {
-                  totalPendingAmount +=
-                    item.orders_is_paid === 1 &&
-                    Number(item.orders_product_amount);
-                  totalPaidAmount +=
-                    item.orders_is_paid === 0 &&
-                    Number(item.orders_product_amount) -
-                      Number(item.sales_discount);
-                  totalAmount +=
-                    Number(item.orders_product_amount) -
-                    Number(item.sales_discount);
-                  totalDiscount += Number(item.sales_discount);
-                  totalOty += Number(item.orders_product_quantity);
                   return (
                     <tr key={key}>
                       <td> {counter++}.</td>
@@ -233,13 +217,6 @@ const OrdersList = ({ setItemEdit }) => {
         />
       </div>
 
-      <div className="text-right grid gap-2 grid-cols-[1fr_9rem] my-2">
-        <StatusAmount text="discount" amount={totalDiscount} />
-        <StatusAmount text="pending" amount={totalPendingAmount} />
-        <StatusAmount text="paid" amount={totalPaidAmount} />
-        <StatusAmount text="amount" amount={totalAmount} />
-        <StatusAmount text="qty" amount={totalOty} />
-      </div>
       {store.isRestore && (
         <ModalDeleteRestore
           id={id}

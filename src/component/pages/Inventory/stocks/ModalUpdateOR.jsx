@@ -77,7 +77,7 @@ const ModalUpdateOR = ({
             <span className="text-sm font-bold">{msg}</span>
             <br />
             <span className="text-sm font-bold break-all">
-              {item}? if yes, enter Official Receipt
+              {item}? if yes, enter Sales invoice number
             </span>
 
             <div className="bg-white rounded-b-2xl">
@@ -94,7 +94,7 @@ const ModalUpdateOR = ({
                     <Form>
                       <div className="relative my-5">
                         <InputText
-                          label="Official Receipt"
+                          label="Sales invoice number"
                           type="text"
                           name="stocks_or"
                           disabled={mutation.isLoading}
