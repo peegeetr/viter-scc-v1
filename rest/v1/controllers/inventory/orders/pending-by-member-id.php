@@ -22,7 +22,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         $order->orders_member_id = $_GET['memberId'];
         //check to see if task id in query string is not empty and is number, if not return json error
         checkId($order->orders_member_id);
-        $query = checkReadAlPendingByMemberId($order);
+        $query = checkReadAllPendingByMemberId($order);
         http_response_code(200);
         getQueriedData($query);
     }

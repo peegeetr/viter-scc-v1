@@ -161,6 +161,7 @@ class Orders
             $sql .= "orders.orders_date, ";
             $sql .= "orders.orders_remarks, ";
             $sql .= "orders.orders_member_id, ";
+            $sql .= "orders.orders_created, ";
             $sql .= "sales.sales_aid, ";
             $sql .= "sales.sales_discount ";
             $sql .= "from {$this->tblOrders} as orders, ";
@@ -198,6 +199,7 @@ class Orders
             $sql .= "orders.orders_date, ";
             $sql .= "orders.orders_remarks, ";
             $sql .= "orders.orders_member_id, ";
+            $sql .= "orders.orders_created, ";
             $sql .= "sales.sales_aid, ";
             $sql .= "sales.sales_discount ";
             $sql .= "from {$this->tblOrders} as orders, ";
@@ -242,6 +244,7 @@ class Orders
             $sql .= "orders.orders_date, ";
             $sql .= "orders.orders_remarks, ";
             $sql .= "orders.orders_member_id, ";
+            $sql .= "orders.orders_created, ";
             $sql .= "sales.sales_aid, ";
             $sql .= "sales.sales_discount ";
             $sql .= "from {$this->tblOrders} as orders, ";
@@ -310,6 +313,7 @@ class Orders
             $sql .= "orders.orders_date, ";
             $sql .= "orders.orders_remarks, ";
             $sql .= "orders.orders_member_id, ";
+            $sql .= "orders.orders_created, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
             $sql .= "sales.sales_aid, ";
@@ -370,6 +374,7 @@ class Orders
             $sql .= "orders.orders_date, ";
             $sql .= "orders.orders_remarks, ";
             $sql .= "orders.orders_member_id, ";
+            $sql .= "orders.orders_created, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
             $sql .= "sales.sales_aid, ";
@@ -425,6 +430,7 @@ class Orders
             $sql .= "orders.orders_date, ";
             $sql .= "orders.orders_remarks, ";
             $sql .= "orders.orders_member_id, ";
+            $sql .= "orders.orders_created, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
             $sql .= "sales.sales_aid, ";
@@ -474,6 +480,7 @@ class Orders
             $sql .= "orders.orders_date, ";
             $sql .= "orders.orders_remarks, ";
             $sql .= "orders.orders_member_id, ";
+            $sql .= "orders.orders_created, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
             $sql .= "sales.sales_aid, ";
@@ -736,7 +743,7 @@ class Orders
     }
 
     // read all pending order by member id
-    public function readAlPendingByMemberId()
+    public function readAllPendingByMemberId()
     {
         try {
             $sql = "select suppliersProducts.suppliers_products_name, ";

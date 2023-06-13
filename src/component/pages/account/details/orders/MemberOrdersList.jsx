@@ -97,6 +97,7 @@ const MemberOrdersList = ({ setItemEdit }) => {
     "memberName" // key
   );
 
+  console.log(memberName);
   // use if not loadmore button undertime
   const { data: stocksGroupProd } = useQueryData(
     `/v1/stocks/group-by-prod`, // endpoint
@@ -222,6 +223,7 @@ const MemberOrdersList = ({ setItemEdit }) => {
             <tr>
               <th>#</th>
               <th className="w-[3rem]">Status</th>
+              <th className="min-w-[6rem] w-[6rem]">Created</th>
               <th className="min-w-[6rem] w-[6rem]">Pay Date</th>
               <th className="min-w-[8rem] w-[8rem]">Product</th>
               <th className="min-w-[8rem] w-[8rem]">Invoice #</th>
@@ -266,6 +268,13 @@ const MemberOrdersList = ({ setItemEdit }) => {
                         ) : (
                           <StatusPending />
                         )}
+                      </td>
+                      <td>
+                        {item.orders_created === ""
+                          ? "N/A"
+                          : `${formatDate(item.orders_created)} ${getTime(
+                              item.orders_created
+                            )}`}
                       </td>
                       <td>
                         {item.sales_date === ""

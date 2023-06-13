@@ -29,9 +29,9 @@ function checkReadLimitById($object)
     return $query;
 }
 // Read limit By Id
-function checkReadAlPendingByMemberId($object)
+function checkReadAllPendingByMemberId($object)
 {
-    $query = $object->readAlPendingByMemberId();
+    $query = $object->readAllPendingByMemberId();
     checkQuery($query, "Empty records. (pending order by member id)");
     return $query;
 }
