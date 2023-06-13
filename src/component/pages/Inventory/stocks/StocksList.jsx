@@ -100,7 +100,7 @@ const StocksList = ({ setItemEdit }) => {
         setOnSearch={setOnSearch}
         onSearch={onSearch}
       />
-      <StocksTotal result={result?.pages[0]} />
+      <StocksTotal result={result} />
       <div className="text-center overflow-x-auto z-0">
         {/* use only for updating important records */}
         {status !== "loading" && isFetching && <TableSpinner />}

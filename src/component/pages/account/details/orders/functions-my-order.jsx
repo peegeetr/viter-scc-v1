@@ -41,7 +41,7 @@ export const computeRemainingQuantity = (item, values, product) => {
 };
 
 // compute Remaining Quantity
-export const computeTotalAmount = (result, empid) => {
+export const computeTotalAmount = (result) => {
   let totalPaid = 0;
   let totalPending = 0;
   let totalDraft = 0;
@@ -50,8 +50,8 @@ export const computeTotalAmount = (result, empid) => {
   let totalAmount = 0;
   let finalPaidAmount = 0;
   let finalAmount = 0;
-  result?.data.map((item) => {
-    if (Number(item.sales_member_id) === Number(empid)) {
+  result?.pages.map((page) =>
+    page?.data.map((item) => {
       if (item.sales_is_paid === 1) {
         totalPaid += Number(item.orders_product_amount);
       }
@@ -66,8 +66,9 @@ export const computeTotalAmount = (result, empid) => {
       totalAmount += Number(item.orders_product_amount);
       finalPaidAmount = totalPaid - totalDiscount;
       finalAmount = totalAmount - totalDiscount;
-    }
-  });
+    })
+  );
+
   return {
     finalPaidAmount,
     totalPending,

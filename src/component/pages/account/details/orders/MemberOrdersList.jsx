@@ -52,6 +52,7 @@ const MemberOrdersList = ({ setItemEdit }) => {
   const { ref, inView } = useInView();
   // use if with loadmore button and search bar
   let empid = memberid === null ? store.credentials.data.members_aid : memberid;
+
   const {
     data: result,
     error,
@@ -79,6 +80,8 @@ const MemberOrdersList = ({ setItemEdit }) => {
     networkMode: "always",
     cacheTime: 200,
   });
+
+  console.log(result);
 
   React.useEffect(() => {
     if (inView) {
@@ -206,7 +209,9 @@ const MemberOrdersList = ({ setItemEdit }) => {
           );
         }}
       </Formik>
-      <MemberTotalAmountOrders result={result?.pages[0]} empid={empid} />
+
+      {/* compution of total amount */}
+      <MemberTotalAmountOrders result={result} />
 
       <div className="relative text-center overflow-x-auto z-0 ">
         {/* use only for updating important records */}

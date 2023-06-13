@@ -53,7 +53,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
       queryClient.invalidateQueries({ queryKey: [arrKey] });
       // show success box
       if (data.success) {
-        dispatch(setIsAdd(false));
+        // dispatch(setIsAdd(false));
         dispatch(setSuccess(true));
         dispatch(setMessage(`Successfuly ${item ? "updated." : "added."}`));
       }
@@ -185,7 +185,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                 );
                 const sales_discount = removeComma(`${values.sales_discount}`);
                 if (
-                  Number(values.orders_product_quantity) !==
+                  Number(orders_product_quantity) !==
                     Number(values.old_quantity) &&
                   (Number(values.orders_product_quantity) >
                     getRemaningQuantity(
@@ -204,8 +204,8 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                   return;
                 }
                 if (
-                  item &&
-                  isPaid === "0" &&
+                  !item &&
+                  isPaid === "1" &&
                   Number(sales_receive_amount) <
                     modalComputeAmountWithDiscount(
                       values.orders_product_amount,

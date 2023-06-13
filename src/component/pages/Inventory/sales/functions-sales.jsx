@@ -11,22 +11,24 @@ export const computeSalesTotalAmount = (result) => {
   let finalAmountWithOutDiscount = 0;
   let finalReceivedAmount = 0;
   let finalAmount = 0;
-  result?.data.map((item) => {
-    if (item.sales_is_paid === 0) {
-      totalPending += Number(item.orders_product_amount);
-    }
-    if (item.sales_is_paid === 1) {
-      totalPaid = Number(item.orders_product_amount);
-      totaldiscount = Number(item.sales_discount);
-      finalAmountWithOutDiscount = totalPaid - totaldiscount;
-      finalPaidAmount += finalAmountWithOutDiscount;
-    }
+  result?.pages.map((page) =>
+    page?.data.map((item) => {
+      if (item.sales_is_paid === 0) {
+        totalPending += Number(item.orders_product_amount);
+      }
+      if (item.sales_is_paid === 1) {
+        totalPaid = Number(item.orders_product_amount);
+        totaldiscount = Number(item.sales_discount);
+        finalAmountWithOutDiscount = totalPaid - totaldiscount;
+        finalPaidAmount += finalAmountWithOutDiscount;
+      }
 
-    totalReceived += Number(item.sales_receive_amount);
-    totalChange += Number(item.sales_member_change);
-    totalOty += Number(item.orders_product_quantity);
-    finalDiscount += Number(item.sales_discount);
-  });
+      totalReceived += Number(item.sales_receive_amount);
+      totalChange += Number(item.sales_member_change);
+      totalOty += Number(item.orders_product_quantity);
+      finalDiscount += Number(item.sales_discount);
+    })
+  );
   finalAmount = finalPaidAmount + totalPending;
   finalReceivedAmount = totalReceived - totalChange;
 

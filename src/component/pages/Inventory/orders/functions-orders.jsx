@@ -73,20 +73,22 @@ export const computeInventoryOrderTotalOrderAmount = (result) => {
   let finalAmountWithOutDiscount = 0;
   let finalAmount = 0;
 
-  result?.data.map((item) => {
-    if (item.orders_is_paid === 0) {
-      totalPending += Number(item.orders_product_amount);
-    }
-    if (item.orders_is_paid === 1) {
-      totalPaid = Number(item.orders_product_amount);
-      totaldiscount = Number(item.sales_discount);
-      finalAmountWithOutDiscount = totalPaid - totaldiscount;
-      finalPaidAmount += finalAmountWithOutDiscount;
-    }
+  result?.pages.map((page) =>
+    page?.data.map((item) => {
+      if (item.orders_is_paid === 0) {
+        totalPending += Number(item.orders_product_amount);
+      }
+      if (item.orders_is_paid === 1) {
+        totalPaid = Number(item.orders_product_amount);
+        totaldiscount = Number(item.sales_discount);
+        finalAmountWithOutDiscount = totalPaid - totaldiscount;
+        finalPaidAmount += finalAmountWithOutDiscount;
+      }
 
-    totalOty += Number(item.orders_product_quantity);
-    finalDiscount += Number(item.sales_discount);
-  });
+      totalOty += Number(item.orders_product_quantity);
+      finalDiscount += Number(item.sales_discount);
+    })
+  );
   finalAmount = finalPaidAmount + totalPending;
 
   return {
