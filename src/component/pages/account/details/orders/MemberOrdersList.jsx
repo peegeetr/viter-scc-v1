@@ -270,10 +270,10 @@ const MemberOrdersList = ({ setItemEdit }) => {
                         )}
                       </td>
                       <td>
-                        {item.orders_created === ""
+                        {item.orders_date === ""
                           ? "N/A"
-                          : `${formatDate(item.orders_created)} ${getTime(
-                              item.orders_created
+                          : `${formatDate(item.orders_date)} ${getTime(
+                              item.orders_date
                             )}`}
                       </td>
                       <td>
