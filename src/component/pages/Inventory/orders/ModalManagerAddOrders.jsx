@@ -53,7 +53,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
       queryClient.invalidateQueries({ queryKey: [arrKey] });
       // show success box
       if (data.success) {
-        // dispatch(setIsAdd(false));
+        dispatch(setIsAdd(false));
         dispatch(setSuccess(true));
         dispatch(setMessage(`Successfuly ${item ? "updated." : "added."}`));
       }
