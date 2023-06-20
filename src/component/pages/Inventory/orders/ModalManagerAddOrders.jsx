@@ -36,7 +36,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
     item ? item.suppliers_products_aid : ""
   );
   const [priceId, setPriceId] = React.useState(
-    item ? item.suppliers_products_scc_price : ""
+    item ? item.orders_product_srp : ""
   );
   const [isPaid, setIsPaid] = React.useState(item ? item.orders_is_paid : "");
 
@@ -124,6 +124,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
     orders_product_quantity: item ? item.orders_product_quantity : "",
     orders_remarks: item ? item.orders_remarks : "",
     suppliers_products_aid: "",
+    orders_product_srp: "",
     orders_product_amount: item ? item.orders_product_amount : "",
     orders_date: item ? item.orders_date : getDateTimeNow(),
     category_id: item ? item.suppliers_products_category_id : "",
@@ -225,6 +226,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
               }}
             >
               {(props) => {
+                props.values.orders_product_srp = priceId;
                 props.values.orders_product_amount =
                   Number(removeComma(props.values.orders_product_quantity)) *
                   priceId;

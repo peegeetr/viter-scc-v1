@@ -1,0 +1,21 @@
+
+*controllers     
+    - inventory/orders/create.php
+    - inventory/orders/update.php
+
+*models      
+    - inventory/orders/Orders.php
+    - inventory/sales/Sales.php
+    
+*htaccess 
+    -  
+
+*db tables 
+    - sccv1_orders.sql
+
+*core functions 
+    - 
+
+*extra
+    - 
+ 

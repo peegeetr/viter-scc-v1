@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 07, 2023 at 04:15 AM
+-- Generation Time: Jun 20, 2023 at 04:15 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -36,6 +36,7 @@ CREATE TABLE `sccv1_orders` (
   `orders_member_id` varchar(20) NOT NULL,
   `orders_product_quantity` varchar(20) NOT NULL,
   `orders_product_amount` varchar(20) NOT NULL,
+  `orders_product_srp` varchar(20) NOT NULL,
   `orders_date` varchar(20) NOT NULL,
   `orders_remarks` text NOT NULL,
   `orders_created` datetime NOT NULL,

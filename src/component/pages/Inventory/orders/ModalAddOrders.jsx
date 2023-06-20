@@ -35,7 +35,7 @@ const ModalAddOrders = ({ item, arrKey }) => {
     item ? item.suppliers_products_aid : ""
   );
   const [priceId, setPriceId] = React.useState(
-    item ? item.suppliers_products_scc_price : ""
+    item ? item.orders_product_srp : ""
   );
 
   const queryClient = useQueryClient();
@@ -117,6 +117,7 @@ const ModalAddOrders = ({ item, arrKey }) => {
     orders_product_id: item ? item.orders_product_id : "",
     orders_product_quantity: item ? item.orders_product_quantity : "",
     suppliers_products_aid: "",
+    orders_product_srp: "",
     orders_is_paid: 0,
     orders_is_draft: 0,
     orders_product_amount: item ? item.orders_product_amount : "",
@@ -187,6 +188,7 @@ const ModalAddOrders = ({ item, arrKey }) => {
               }}
             >
               {(props) => {
+                props.values.orders_product_srp = priceId;
                 props.values.orders_product_amount =
                   removeComma(props.values.orders_product_quantity) * priceId;
                 props.values.suppliers_products_aid = productId;

@@ -75,6 +75,7 @@ $order->orders_member_id = checkIndex($data, "orders_member_id");
 $order->orders_product_id = checkIndex($data, "orders_product_id");
 $order->orders_product_quantity = checkIndex($data, "orders_product_quantity");
 $order->orders_product_amount = checkIndex($data, "orders_product_amount");
+$order->orders_product_srp = checkIndex($data, "orders_product_srp");
 $order->orders_date = checkIndex($data, "orders_date");
 $order->orders_is_paid = checkIndex($data, "orders_is_paid");
 $order->orders_is_draft = checkIndex($data, "orders_is_draft");

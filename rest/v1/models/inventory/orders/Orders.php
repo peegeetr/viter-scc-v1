@@ -9,6 +9,7 @@ class Orders
     public $orders_product_id;
     public $orders_product_quantity;
     public $orders_product_amount;
+    public $orders_product_srp;
     public $orders_date;
     public $orders_remarks;
     public $orders_created;
@@ -57,6 +58,7 @@ class Orders
             $sql .= "orders_number, ";
             $sql .= "orders_product_quantity, ";
             $sql .= "orders_product_amount, ";
+            $sql .= "orders_product_srp, ";
             $sql .= "orders_date, ";
             $sql .= "orders_remarks, ";
             $sql .= "orders_created, ";
@@ -68,6 +70,7 @@ class Orders
             $sql .= ":orders_number, ";
             $sql .= ":orders_product_quantity, ";
             $sql .= ":orders_product_amount, ";
+            $sql .= ":orders_product_srp, ";
             $sql .= ":orders_date, ";
             $sql .= ":orders_remarks, ";
             $sql .= ":orders_created, ";
@@ -81,6 +84,7 @@ class Orders
                 "orders_number" => $this->orders_number,
                 "orders_product_quantity" => $this->orders_product_quantity,
                 "orders_product_amount" => $this->orders_product_amount,
+                "orders_product_srp" => $this->orders_product_srp,
                 "orders_date" => $this->orders_date,
                 "orders_remarks" => $this->orders_remarks,
                 "orders_created" => $this->orders_created,
@@ -158,6 +162,7 @@ class Orders
             $sql .= "orders.orders_product_id, ";
             $sql .= "orders.orders_product_quantity, ";
             $sql .= "orders.orders_product_amount, ";
+            $sql .= "orders.orders_product_srp, ";
             $sql .= "orders.orders_date, ";
             $sql .= "orders.orders_remarks, ";
             $sql .= "orders.orders_member_id, ";
@@ -196,6 +201,7 @@ class Orders
             $sql .= "orders.orders_product_id, ";
             $sql .= "orders.orders_product_quantity, ";
             $sql .= "orders.orders_product_amount, ";
+            $sql .= "orders.orders_product_srp, ";
             $sql .= "orders.orders_date, ";
             $sql .= "orders.orders_remarks, ";
             $sql .= "orders.orders_member_id, ";
@@ -241,6 +247,7 @@ class Orders
             $sql .= "orders.orders_product_id, ";
             $sql .= "orders.orders_product_quantity, ";
             $sql .= "orders.orders_product_amount, ";
+            $sql .= "orders.orders_product_srp, ";
             $sql .= "orders.orders_date, ";
             $sql .= "orders.orders_remarks, ";
             $sql .= "orders.orders_member_id, ";
@@ -310,6 +317,7 @@ class Orders
             $sql .= "orders.orders_product_id, ";
             $sql .= "orders.orders_product_quantity, ";
             $sql .= "orders.orders_product_amount, ";
+            $sql .= "orders.orders_product_srp, ";
             $sql .= "orders.orders_date, ";
             $sql .= "orders.orders_remarks, ";
             $sql .= "orders.orders_member_id, ";
@@ -371,6 +379,7 @@ class Orders
             $sql .= "orders.orders_product_id, ";
             $sql .= "orders.orders_product_quantity, ";
             $sql .= "orders.orders_product_amount, ";
+            $sql .= "orders.orders_product_srp, ";
             $sql .= "orders.orders_date, ";
             $sql .= "orders.orders_remarks, ";
             $sql .= "orders.orders_member_id, ";
@@ -427,6 +436,7 @@ class Orders
             $sql .= "orders.orders_product_id, ";
             $sql .= "orders.orders_product_quantity, ";
             $sql .= "orders.orders_product_amount, ";
+            $sql .= "orders.orders_product_srp, ";
             $sql .= "orders.orders_date, ";
             $sql .= "orders.orders_remarks, ";
             $sql .= "orders.orders_member_id, ";
@@ -477,6 +487,7 @@ class Orders
             $sql .= "orders.orders_product_id, ";
             $sql .= "orders.orders_product_quantity, ";
             $sql .= "orders.orders_product_amount, ";
+            $sql .= "orders.orders_product_srp, ";
             $sql .= "orders.orders_date, ";
             $sql .= "orders.orders_remarks, ";
             $sql .= "orders.orders_member_id, ";
@@ -525,6 +536,7 @@ class Orders
             $sql .= "orders_member_id = :orders_member_id, ";
             $sql .= "orders_product_id = :orders_product_id, ";
             $sql .= "orders_product_amount = :orders_product_amount, ";
+            $sql .= "orders_product_srp = :orders_product_srp, ";
             $sql .= "orders_date = :orders_date, ";
             $sql .= "orders_remarks = :orders_remarks, ";
             $sql .= "orders_is_paid = :orders_is_paid, ";
@@ -536,6 +548,7 @@ class Orders
                 "orders_member_id" => $this->orders_member_id,
                 "orders_product_id" => $this->orders_product_id,
                 "orders_product_amount" => $this->orders_product_amount,
+                "orders_product_srp" => $this->orders_product_srp,
                 "orders_date" => $this->orders_date,
                 "orders_remarks" => $this->orders_remarks,
                 "orders_is_paid" => $this->orders_is_paid,

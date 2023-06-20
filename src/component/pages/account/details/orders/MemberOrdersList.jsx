@@ -301,7 +301,7 @@ const MemberOrdersList = ({ setItemEdit }) => {
                       <td className=" text-right">
                         {pesoSign}{" "}
                         {numberWithCommas(
-                          Number(item.suppliers_products_scc_price).toFixed(2)
+                          Number(item.orders_product_srp).toFixed(2)
                         )}
                       </td>
                       <td className="text-right">

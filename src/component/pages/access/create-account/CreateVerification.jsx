@@ -1,6 +1,5 @@
 import { FaCheck } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import { devNavUrl, getUrlParam } from "../../../helpers/functions-general";
+import { devNavUrl } from "../../../helpers/functions-general";
 import SccLogo from "../../../svg/SccLogo";
 
 const CreateVerification = () => {

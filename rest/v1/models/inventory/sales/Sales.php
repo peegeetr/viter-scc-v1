@@ -95,6 +95,7 @@ class Sales
             $sql .= "orders.orders_number, ";
             $sql .= "orders.orders_remarks, ";
             $sql .= "orders.orders_product_amount, ";
+            $sql .= "orders.orders_product_srp, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
             $sql .= "sales.sales_aid, ";
@@ -137,6 +138,7 @@ class Sales
             $sql .= "orders.orders_number, ";
             $sql .= "orders.orders_remarks, ";
             $sql .= "orders.orders_product_amount, ";
+            $sql .= "orders.orders_product_srp, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
             $sql .= "sales.sales_aid, ";
@@ -186,6 +188,7 @@ class Sales
             $sql .= "orders.orders_number, ";
             $sql .= "orders.orders_remarks, ";
             $sql .= "orders.orders_product_amount, ";
+            $sql .= "orders.orders_product_srp, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
             $sql .= "sales.sales_aid, ";
@@ -245,6 +248,7 @@ class Sales
             $sql .= "orders.orders_aid, ";
             $sql .= "orders.orders_number, ";
             $sql .= "orders.orders_product_amount, ";
+            $sql .= "orders.orders_product_srp, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
             $sql .= "sales.sales_aid, ";
@@ -288,6 +292,7 @@ class Sales
             $sql .= "orders.orders_aid, ";
             $sql .= "orders.orders_number, ";
             $sql .= "orders.orders_product_amount, ";
+            $sql .= "orders.orders_product_srp, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
             $sql .= "sales.sales_aid, ";
@@ -438,6 +443,7 @@ class Sales
         try {
             $sql = "select orders.orders_product_amount, ";
             $sql .= "orders.orders_is_paid, ";
+            $sql .= "orders.orders_product_srp, ";
             $sql .= "sales.sales_discount, ";
             $sql .= "member.members_aid, ";
             $sql .= "member.members_last_name, ";

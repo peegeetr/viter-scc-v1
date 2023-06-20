@@ -65,9 +65,7 @@ const ModalViewSales = ({ item }) => {
               <p className="mb-0">SRP Amount:</p>
               <p className="mb-0 text-black ml-2">
                 {pesoSign}{" "}
-                {numberWithCommas(
-                  Number(item.suppliers_products_scc_price).toFixed(2)
-                )}
+                {numberWithCommas(Number(item.orders_product_srp).toFixed(2))}
               </p>
               <p className="mb-0">Discounted:</p>
               <p className="mb-0 text-black ml-2">
