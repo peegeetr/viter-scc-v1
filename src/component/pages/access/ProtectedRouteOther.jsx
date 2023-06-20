@@ -14,6 +14,16 @@ const ProtectedRouteOther = ({ children }) => {
   const sccToken = JSON.parse(localStorage.getItem("sccToken"));
 
   React.useEffect(() => {
+    const fetchIsMaintenance = async () => {
+      const isMaintenance = await queryData(
+        `/v1/system-maintenance/maintenance` // endpoint
+      );
+      if (isMaintenance?.count > 0 || isMaintenance?.data.length > 0) {
+        setLoading(false);
+        setIsAuth("456");
+        localStorage.removeItem("sccToken");
+      }
+    };
     const fetchLogin = async () => {
       const login = await queryData("/v1/user-others/token", "post", {
         token: sccToken.token,
@@ -36,6 +46,7 @@ const ProtectedRouteOther = ({ children }) => {
 
     if (sccToken !== null) {
       fetchLogin();
+      fetchIsMaintenance();
     } else {
       setLoading(false);
       localStorage.removeItem("sccToken");

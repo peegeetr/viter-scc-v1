@@ -117,6 +117,7 @@ import AdminOtherUser from "./component/pages/settings/users/other/links/AdminOt
 import SystemOtherUser from "./component/pages/settings/users/other/links/SystemOtherUser";
 import { StoreProvider } from "./store/StoreContext";
 import AdminMyOrders from "./component/pages/my-account/orders/links/AdminMyOrders";
+import SystemMode from "./component/pages/settings/system-mode/SystemMode";
 
 function App() {
   // Create a client
@@ -158,10 +159,6 @@ function App() {
 
             {/* login system user */}
 
-            <Route
-              path={`/${devNavUrl}/order-page/success`}
-              element={<OrderSuccess />}
-            />
             <Route
               path={`/${devNavUrl}/${UrlSystem}/login`}
               element={<SystemLogin />}
@@ -420,6 +417,14 @@ function App() {
               element={
                 <ProtectedRouteSystem>
                   <Role />
+                </ProtectedRouteSystem>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlSystem}/settings/system-mode`}
+              element={
+                <ProtectedRouteSystem>
+                  <SystemMode />
                 </ProtectedRouteSystem>
               }
             />

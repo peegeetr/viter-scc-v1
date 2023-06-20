@@ -19,7 +19,6 @@ const ModalConfirm = ({
   msg,
   item,
   isDeveloper,
-  role_id,
   arrKey,
 }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -37,14 +36,16 @@ const ModalConfirm = ({
       queryClient.invalidateQueries({ queryKey: [arrKey] });
       // show success box
 
-      if (data.success && isDel === true) {
+      if (data.success) {
         dispatch(setSuccess(true));
         dispatch(
           setMessage(
             `${
               isDel
                 ? "Please check your email to continue resetting password."
-                : "Successfuly archive."
+                : `Successfuly ${
+                    arrKey === "systemMode" ? "turn off" : "archive"
+                  }.`
             }`
           )
         );

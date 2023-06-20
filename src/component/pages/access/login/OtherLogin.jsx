@@ -1,21 +1,19 @@
 import { Form, Formik } from "formik";
 import React from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { setStartIndex } from "../../../../store/StoreAction";
 import { StoreContext } from "../../../../store/StoreContext";
-import { fetchData } from "../../../helpers/fetchData";
+import useOtherIsLogin from "../../../custom-hooks/useOtherIsLogin";
+import useQueryData from "../../../custom-hooks/useQueryData";
 import { InputText } from "../../../helpers/FormInputs";
-import {
-  devApiUrl,
-  devNavUrl,
-  UrlAdmin,
-} from "../../../helpers/functions-general";
+import { fetchData } from "../../../helpers/fetchData";
+import { devNavUrl } from "../../../helpers/functions-general";
+import PageUnderMaintenance from "../../../partials/PageUnderMaintenance";
 import ModalError from "../../../partials/modals/ModalError";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
 import TableSpinner from "../../../partials/spinners/TableSpinner";
-import useOtherIsLogin from "../../../custom-hooks/useOtherIsLogin";
 import SccLogo from "../../../svg/SccLogo";
 
 const OtherLogin = () => {
@@ -29,6 +27,13 @@ const OtherLogin = () => {
     setPasswordShown(!passwordShown);
   };
 
+  // use if not loadmore button undertime
+  const { isLoading, data: isOnSystemMode } = useQueryData(
+    `/v1/system-maintenance/maintenance`, // endpoint
+    "get", // method
+    "isOnSystemMode" // key
+  );
+
   const initVal = {
     members_email: "",
     password: "",
@@ -41,8 +46,10 @@ const OtherLogin = () => {
 
   return (
     <>
-      {loginLoading ? (
+      {loginLoading || isLoading ? (
         <TableSpinner />
+      ) : isOnSystemMode?.count > 0 || isOnSystemMode?.data.length > 0 ? (
+        <PageUnderMaintenance />
       ) : (
         <div
           className="flex justify-center items-center"

@@ -13,6 +13,7 @@ import PageNotFound from "../../../partials/PageNotFound";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
 import ContentSpinner from "../../../partials/spinners/ContentSpinner";
 import SccLogo from "../../../svg/SccLogo";
+import PageUnderMaintenance from "../../../partials/PageUnderMaintenance";
 
 const CreateOtherPassword = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -26,6 +27,14 @@ const CreateOtherPassword = () => {
     "get", // method
     "key" // key
   );
+
+  // use if not loadmore button undertime
+  const { isLoading: isLoadingOnSystemMode, data: isOnSystemMode } =
+    useQueryData(
+      `/v1/system-maintenance/maintenance`, // endpoint
+      "get", // method
+      "isOnSystemMode" // key
+    );
 
   const toggleNewPassword = () => {
     setNewPasswordShown(!newPasswordShown);
@@ -77,10 +86,12 @@ const CreateOtherPassword = () => {
 
   return (
     <>
-      {isLoading ? (
+      {isLoading || isLoadingOnSystemMode ? (
         <div className="relative h-screen">
           <ContentSpinner />
         </div>
+      ) : isOnSystemMode?.count > 0 || isOnSystemMode?.data.length > 0 ? (
+        <PageUnderMaintenance />
       ) : key?.data.length === 0 || paramKey === null || paramKey === "" ? (
         <div className="relative h-screen">
           <PageNotFound />

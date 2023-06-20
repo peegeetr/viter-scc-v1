@@ -11,8 +11,7 @@ Header set Access-Control-Allow-Origin *
 RewriteRule ^roles$ controllers/settings/user/role/role.php [L]
 RewriteRule ^roles/([0-9]+)$ controllers/settings/user/role/role.php?roleid=$1 [L]
 RewriteRule ^roles/active/([0-9]+)$ controllers/settings/user/role/active.php?roleid=$1 [L]
-
-
+ 
 #SETTINGS USER SYSTEM
 RewriteRule ^user-systems$ controllers/settings/user/system/system.php [L]
 RewriteRule ^user-systems/([0-9]+)$ controllers/settings/user/system/system.php?usersystemid=$1 [L]
@@ -159,3 +158,8 @@ RewriteRule ^my-order/active/([0-9]+)$ controllers/account/details/my-order/acti
 RewriteRule ^my-order/search/by-member-id/([A-Za-z0-9-]+)/([0-9]+)$ controllers/account/details/my-order/search-by-member-id.php?search=$1&membersid=$2 [L]
 RewriteRule ^my-order/filter/by-member-id/([A-Za-z0-9-]+)/([A-Za-z0-9-]+)/([0-9]+)$ controllers/account/details/my-order/filter-by-member-id.php?startDate=$1&endDate=$2&membersid=$3 [L]
  
+#SETTINGS SYSTEM MODE
+RewriteRule ^system-maintenance$ controllers/settings/system-maintenance/system-mode.php [L]
+RewriteRule ^system-maintenance/([0-9]+)$ controllers/settings/system-maintenance/system-mode.php?systemModeId=$1 [L]
+RewriteRule ^system-maintenance/active/([0-9]+)$ controllers/settings/system-maintenance/active.php?systemModeId=$1 [L]
+RewriteRule ^system-maintenance/maintenance$ controllers/settings/system-maintenance/read-maintenance-on.php [L]

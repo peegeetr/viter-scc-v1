@@ -2,16 +2,19 @@
 *controllers     
     - inventory/orders/create.php
     - inventory/orders/update.php
+    -> settings/system-maintenance {note: all files}
 
 *models      
     - inventory/orders/Orders.php
     - inventory/sales/Sales.php
+    -> settings/system-maintenance/system-maintenance.php
     
 *htaccess 
-    -  
+    -  #SETTINGS SYSTEM MODE
 
 *db tables 
     - sccv1_orders.sql
+    -> sccv1_settings_maintenance.sql
 
 *core functions 
     - 

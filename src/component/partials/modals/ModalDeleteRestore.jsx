@@ -37,7 +37,15 @@ const ModalDeleteRestore = ({
       if (data.success) {
         dispatch(setIsRestore(false));
         dispatch(setSuccess(true));
-        dispatch(setMessage(`Successfuly ${isDel ? "deleted." : "restore."}`));
+        dispatch(
+          setMessage(
+            `Successfuly ${
+              isDel
+                ? "deleted."
+                : `${arrKey === "systemMode" ? "turn on" : "restore"}.`
+            }`
+          )
+        );
       }
       // show error box
       if (!data.success) {

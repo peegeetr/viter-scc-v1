@@ -7,6 +7,7 @@ import NetSurplusLink from "./net-surplus/NetSurplusLink.jsx";
 import OtherUserLink from "./users/other/OtherUserLink.jsx";
 
 import UserLink from "./users/UserLink.jsx";
+import SystemModeLink from "./system-mode/SystemModeLink.jsx";
 
 const SettingsLink = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -25,6 +26,11 @@ const SettingsLink = () => {
               <OtherUserLink />
             )}
           </li>
+          {store.credentials.data.role_is_developer === 1 && (
+            <li className="py-1">
+              <SystemModeLink />
+            </li>
+          )}
           {/* <li className="py-1">
             <NetSurplusLink />
           </li> */}

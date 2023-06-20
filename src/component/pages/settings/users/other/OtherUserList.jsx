@@ -121,7 +121,7 @@ const OtherUserList = ({ setItemEdit }) => {
               <th className="min-w-[15rem]">Name</th>
               <th className="min-w-[25rem]">Email</th>
               <th className="min-w-[10rem]">Role</th>
-              <th>Actions</th>
+              <th className="!w-[5rem]">Actions</th>
             </tr>
           </thead>
           <tbody>
