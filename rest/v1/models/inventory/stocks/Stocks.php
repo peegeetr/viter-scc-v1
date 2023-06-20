@@ -7,6 +7,7 @@ class Stocks
     public $stocks_product_id;
     public $stocks_or;
     public $stocks_suplier_price;
+    public $stocks_remarks;
     public $stocks_date;
     public $stocks_quantity;
     public $stocks_created;
@@ -41,6 +42,7 @@ class Stocks
             $sql .= "stocks_date, ";
             $sql .= "stocks_suplier_price, ";
             $sql .= "stocks_quantity, ";
+            $sql .= "stocks_remarks, ";
             $sql .= "stocks_created, ";
             $sql .= "stocks_datetime ) values ( ";
             $sql .= ":stocks_number, ";
@@ -49,6 +51,7 @@ class Stocks
             $sql .= ":stocks_date, ";
             $sql .= ":stocks_suplier_price, ";
             $sql .= ":stocks_quantity, ";
+            $sql .= ":stocks_remarks, ";
             $sql .= ":stocks_created, ";
             $sql .= ":stocks_datetime ) ";
             $query = $this->connection->prepare($sql);
@@ -59,6 +62,7 @@ class Stocks
                 "stocks_date" => $this->stocks_date,
                 "stocks_suplier_price" => $this->stocks_suplier_price,
                 "stocks_quantity" => $this->stocks_quantity,
+                "stocks_remarks" => $this->stocks_remarks,
                 "stocks_created" => $this->stocks_created,
                 "stocks_datetime" => $this->stocks_datetime,
             ]);
@@ -78,6 +82,7 @@ class Stocks
             $sql .= "stocks.stocks_quantity, ";
             $sql .= "stocks.stocks_or, ";
             $sql .= "stocks.stocks_aid, ";
+            $sql .= "stocks.stocks_remarks, ";
             $sql .= "stocks.stocks_created, ";
             $sql .= "stocks.stocks_is_pending, ";
             $sql .= "stocks.stocks_product_id, ";
@@ -110,6 +115,7 @@ class Stocks
             $sql .= "stocks.stocks_quantity, ";
             $sql .= "stocks.stocks_or, ";
             $sql .= "stocks.stocks_aid, ";
+            $sql .= "stocks.stocks_remarks, ";
             $sql .= "stocks.stocks_created, ";
             $sql .= "stocks.stocks_is_pending, ";
             $sql .= "stocks.stocks_product_id, ";
@@ -149,6 +155,7 @@ class Stocks
             $sql .= "stocks.stocks_quantity, ";
             $sql .= "stocks.stocks_or, ";
             $sql .= "stocks.stocks_aid, ";
+            $sql .= "stocks.stocks_remarks, ";
             $sql .= "stocks.stocks_created, ";
             $sql .= "stocks.stocks_is_pending, ";
             $sql .= "stocks.stocks_product_id, ";
@@ -210,6 +217,7 @@ class Stocks
             $sql .= "stocks_product_id = :stocks_product_id, ";
             $sql .= "stocks_or = :stocks_or, ";
             $sql .= "stocks_date = :stocks_date, ";
+            $sql .= "stocks_remarks = :stocks_remarks, ";
             $sql .= "stocks_quantity = :stocks_quantity, ";
             $sql .= "stocks_datetime = :stocks_datetime ";
             $sql .= "where stocks_aid = :stocks_aid ";
@@ -218,6 +226,7 @@ class Stocks
                 "stocks_product_id" => $this->stocks_product_id,
                 "stocks_or" => $this->stocks_or,
                 "stocks_date" => $this->stocks_date,
+                "stocks_remarks" => $this->stocks_remarks,
                 "stocks_quantity" => $this->stocks_quantity,
                 "stocks_datetime" => $this->stocks_datetime,
                 "stocks_aid" => $this->stocks_aid,

@@ -2,7 +2,12 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import React from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { useInView } from "react-intersection-observer";
-import { setIsAdd, setIsRestore } from "../../../../store/StoreAction";
+import {
+  setError,
+  setIsAdd,
+  setIsRestore,
+  setMessage,
+} from "../../../../store/StoreAction";
 import { StoreContext } from "../../../../store/StoreContext";
 import { queryDataInfinite } from "../../../helpers/queryDataInfinite";
 import Loadmore from "../../../partials/Loadmore";
@@ -13,7 +18,7 @@ import ModalDeleteRestore from "../../../partials/modals/ModalDeleteRestore";
 import TableSpinner from "../../../partials/spinners/TableSpinner";
 import ModalUpdateProducts from "./ModalUpdateProducts";
 import useQueryData from "../../../custom-hooks/useQueryData";
-import { getRemaningQuantity } from "./functions-product";
+import { getPendingOrders, getRemaningQuantity } from "./functions-product";
 import { numberWithCommas, pesoSign } from "../../../helpers/functions-general";
 import StatusQuantity from "../../../partials/status/StatusQuantity";
 
@@ -61,7 +66,19 @@ const ProductsList = () => {
     }
   }, [inView]);
 
+  // use if not loadmore button undertime
+  const { data: pendingAllOrder, isLoading } = useQueryData(
+    `/v1/orders/all-pending`, // endpoint
+    "get", // method
+    "pendingAllOrder" // key
+  );
+
   const handleEdit = (item) => {
+    // check if have pending
+    // can't edit if have pending
+    if (getPendingOrders(pendingAllOrder, item, dispatch)) {
+      return;
+    }
     dispatch(setIsAdd(true));
     setItemEdit(item);
   };
@@ -91,9 +108,6 @@ const ProductsList = () => {
       />
 
       <div className="text-center overflow-x-auto z-0">
-        {/* use only for updating important records */}
-        {status !== "loading" && isFetching && <TableSpinner />}
-        {/* use only for updating important records */}
         <table>
           <thead>
             <tr>
@@ -113,10 +127,12 @@ const ProductsList = () => {
             </tr>
           </thead>
           <tbody>
-            {(status === "loading" || result?.pages[0].data.length === 0) && (
+            {(isLoading ||
+              status === "loading" ||
+              result?.pages[0].data.length === 0) && (
               <tr className="text-center relative">
                 <td colSpan="100%" className="p-10">
-                  {status === "loading" && <TableSpinner />}
+                  {(isLoading || status === "loading") && <TableSpinner />}
                   <NoData />
                 </td>
               </tr>

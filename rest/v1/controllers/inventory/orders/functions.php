@@ -35,6 +35,13 @@ function checkReadAllPendingByMemberId($object)
     checkQuery($query, "Empty records. (pending order by member id)");
     return $query;
 }
+// Read all pending order
+function checkReadAllPendingOrder($object)
+{
+    $query = $object->readAllPendingOrder();
+    checkQuery($query, "Empty records. (read all pending order.)");
+    return $query;
+}
 
 // Create sales
 function checkCreateSales($object)

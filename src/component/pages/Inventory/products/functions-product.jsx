@@ -1,3 +1,5 @@
+import { setError, setMessage } from "../../../../store/StoreAction";
+
 // get beenifits leave
 export const getRemaningQuantity = (item, stocksGroupProd, orderGroupProd) => {
   let remaingQunatity = 0;
@@ -21,4 +23,22 @@ export const getRemaningQuantity = (item, stocksGroupProd, orderGroupProd) => {
   });
   remaingQunatity = Number(stockQuantity) - Number(orderQuantity);
   return remaingQunatity;
+};
+
+// check if have pending order
+export const getPendingOrders = (pendingAllOrder, item, dispatch) => {
+  let havePending = false;
+  pendingAllOrder?.data.map((poItem) => {
+    // check if leave type aid is equal
+    if (item.suppliers_products_aid === Number(poItem.orders_product_id)) {
+      dispatch(setError(true));
+      dispatch(
+        setMessage(
+          `You cannot update "${item.suppliers_products_name}" because it has pending order.`
+        )
+      );
+      havePending = true;
+    }
+  });
+  return havePending;
 };

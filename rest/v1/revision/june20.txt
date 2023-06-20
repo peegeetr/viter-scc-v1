@@ -1,20 +1,27 @@
 
 *controllers     
+    -> inventory/orders/functions.php
+    -> inventory/orders/pending-order.php
+    -> inventory/stocks/create.php
+    -> inventory/stocks/update.php
     - inventory/orders/create.php
     - inventory/orders/update.php
-    -> settings/system-maintenance {note: all files}
+    - settings/system-maintenance {note: all files}
 
 *models      
-    - inventory/orders/Orders.php
+    -> inventory/orders/Orders.php
+    -> inventory/stocks/Stocks.php
     - inventory/sales/Sales.php
-    -> settings/system-maintenance/system-maintenance.php
+    - settings/system-maintenance/system-maintenance.php
     
 *htaccess 
+    -> #ORDERS
     -  #SETTINGS SYSTEM MODE
 
 *db tables 
+    -> sccv1_stocks.sql
     - sccv1_orders.sql
-    -> sccv1_settings_maintenance.sql
+    - sccv1_settings_maintenance.sql
 
 *core functions 
     - 

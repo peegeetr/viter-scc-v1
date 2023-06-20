@@ -77,7 +77,7 @@ const ModalUpdateOR = ({
             <span className="text-sm font-bold">{msg}</span>
             <br />
             <span className="text-sm font-bold break-all">
-              {item}? if yes, enter Sales invoice number
+              {item} ?<br /> if yes, enter Sales invoice number
             </span>
 
             <div className="bg-white rounded-b-2xl">

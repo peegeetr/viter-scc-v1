@@ -115,8 +115,9 @@ const StocksList = ({ setItemEdit }) => {
               <th className="min-w-[8rem]">Product</th>
               <th className="min-w-[3rem] text-center">Qty</th>
               <th className="min-w-[8rem] text-right pr-4">Suplier Price</th>
-              <th className="min-w-[6rem] text-right pr-4">Amount</th>
+              <th className="min-w-[8rem] text-right pr-4">Amount</th>
               <th className="min-w-[5rem]">Invoice #</th>
+              <th className="min-w-[5rem]">Remarks</th>
               <th className="min-w-[8rem]">Created date</th>
 
               {(store.credentials.data.role_is_admin === 1 ||
@@ -178,6 +179,7 @@ const StocksList = ({ setItemEdit }) => {
                         )}
                       </td>
                       <td className=" break-words">{item.stocks_or}</td>
+                      <td>{item.stocks_remarks}</td>
                       <td>
                         {`${formatDate(item.stocks_created)} ${getTime(
                           item.stocks_created

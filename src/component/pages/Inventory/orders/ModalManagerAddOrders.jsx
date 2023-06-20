@@ -248,7 +248,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                         disabled={mutation.isLoading}
                       />
                     </div>
-                    <div className="relative my-5">
+                    <div className="relative mt-5 mb-2">
                       <InputSelect
                         name="orders_member_id"
                         label="Member"

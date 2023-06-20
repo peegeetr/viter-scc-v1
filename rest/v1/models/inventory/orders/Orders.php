@@ -146,7 +146,7 @@ class Orders
     }
 
 
-    // read all pending
+    // read all not draft
     public function readAll()
     {
         try {
@@ -802,6 +802,33 @@ class Orders
                 "orders_datetime" => $this->orders_datetime,
                 "orders_aid" => $this->orders_aid,
             ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    // read all pending
+    public function readAllPendingOrder()
+    {
+        try {
+            $sql = "select suppliersProducts.suppliers_products_name, ";
+            $sql .= "member.members_last_name, ";
+            $sql .= "member.members_first_name, ";
+            $sql .= "orders.orders_product_id, ";
+            $sql .= "orders.orders_number, ";
+            $sql .= "sales.sales_number ";
+            $sql .= "from {$this->tblOrders} as orders, ";
+            $sql .= "{$this->tblSales} as sales, ";
+            $sql .= "{$this->tblMembers} as member, ";
+            $sql .= "{$this->tblSuppliersProducts} as suppliersProducts ";
+            $sql .= "where orders.orders_product_id = suppliersProducts.suppliers_products_aid ";
+            $sql .= "and orders.orders_aid = sales.sales_order_id ";
+            $sql .= "and orders.orders_member_id = member.members_aid ";
+            $sql .= "and orders.orders_is_paid = 0 ";
+            $sql .= "order by orders.orders_is_paid, ";
+            $sql .= "orders.orders_date desc ";
+            $query = $this->connection->query($sql);
         } catch (PDOException $ex) {
             $query = false;
         }
