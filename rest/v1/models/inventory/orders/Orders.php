@@ -826,6 +826,7 @@ class Orders
             $sql .= "and orders.orders_aid = sales.sales_order_id ";
             $sql .= "and orders.orders_member_id = member.members_aid ";
             $sql .= "and orders.orders_is_paid = 0 ";
+            $sql .= "and orders.orders_is_draft = 0 ";
             $sql .= "order by orders.orders_is_paid, ";
             $sql .= "orders.orders_date desc ";
             $query = $this->connection->query($sql);
