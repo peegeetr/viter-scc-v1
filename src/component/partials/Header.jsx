@@ -27,7 +27,7 @@ const Header = () => {
     <>
       <div className="fixed z-30 bg-primary w-full flex justify-between items-center h-16 px-3 border-solid border-b-2 border-primary print:hidden">
         <div className="w-[50rem] flex text-white items-center ">
-          {/* <Logo /> <h1 className="ml-4">Sambahayan Consumer Cooperative</h1> */}
+          <Logo /> <h1 className="ml-4">Sambahayan Consumer Cooperative</h1>
         </div>
         <div className="flex justify-between items-center gap-3">
           {store.credentials.data.role_is_developer !== 1 &&
