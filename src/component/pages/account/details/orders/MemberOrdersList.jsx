@@ -76,7 +76,7 @@ const MemberOrdersList = ({ setItemEdit }) => {
       }
       return;
     },
-    refetchOnWindowFocus: false,
+    // refetchOnWindowFocus: false,
     networkMode: "always",
     cacheTime: 200,
   });

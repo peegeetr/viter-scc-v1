@@ -51,7 +51,7 @@ const ModalAddMyOrder = ({ item, arrKey }) => {
       queryClient.invalidateQueries({ queryKey: [arrKey] });
       // show success box
       if (data.success) {
-        item && dispatch(setIsAdd(false));
+        dispatch(setIsAdd(false));
         dispatch(setSuccess(true));
         dispatch(setMessage(`Successfuly ${item ? "updated." : "added."}`));
       }
@@ -271,13 +271,13 @@ const ModalAddMyOrder = ({ item, arrKey }) => {
                     </div>
 
                     <div className="pl-3 text-primary">
-                      <p className="">
+                      <p className="text-lg">
                         Total Amount:
                         <span className="text-black ml-2">
                           {pesoSign}{" "}
                           {props.values.orders_product_quantity === "" ||
                           Number(props.values.orders_product_quantity) === 0
-                            ? 0
+                            ? "0.00"
                             : numberWithCommas(
                                 Number(
                                   props.values.orders_product_amount

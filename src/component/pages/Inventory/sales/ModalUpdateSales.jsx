@@ -117,19 +117,19 @@ const ModalUpdateSales = ({ item }) => {
                 return (
                   <Form>
                     <div className="pl-3 text-primary">
-                      <p className="mb-0">
+                      <p className="mb-0 text-lg">
                         Name:
                         <span className="text-black ml-2">
                           {`${item.members_last_name}, ${item.members_first_name}`}
                         </span>
                       </p>
-                      <p className="mb-0">
+                      <p className="mb-0 text-lg">
                         Product:
                         <span className="text-black ml-2 capitalize">
                           {item.suppliers_products_name}
                         </span>
                       </p>
-                      <p className="mb-0">
+                      <p className="mb-0 text-lg">
                         Discount Amount:
                         <span className="text-black ml-2">
                           {pesoSign}{" "}
@@ -139,7 +139,7 @@ const ModalUpdateSales = ({ item }) => {
                         </span>
                       </p>
 
-                      <p className="mb-0">
+                      <p className="mb-0 text-lg">
                         Total Amount:
                         <span className="text-black ml-2">
                           {pesoSign}{" "}
@@ -151,12 +151,12 @@ const ModalUpdateSales = ({ item }) => {
                           )}
                         </span>
                       </p>
-                      <p className="">
+                      <p className="text-lg">
                         Change:
                         <span className="text-black ml-2">
                           {pesoSign}{" "}
                           {Number(props.values.sales_receive_amount) === 0
-                            ? 0
+                            ? "0.00"
                             : numberWithCommas(
                                 Number(
                                   props.values.sales_member_change

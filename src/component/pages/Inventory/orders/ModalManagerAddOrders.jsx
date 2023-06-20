@@ -53,7 +53,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
       queryClient.invalidateQueries({ queryKey: [arrKey] });
       // show success box
       if (data.success) {
-        // dispatch(setIsAdd(false));
+        dispatch(setIsAdd(false));
         dispatch(setSuccess(true));
         dispatch(setMessage(`Successfuly ${item ? "updated." : "added."}`));
       }
@@ -399,12 +399,12 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                       </>
                     )}
                     <div className="pl-3 text-primary">
-                      <p className="">
+                      <p className="text-lg">
                         Total Amount:
                         <span className="text-black ml-2">
                           {pesoSign}{" "}
                           {Number(props.values.orders_product_amount) === 0
-                            ? 0
+                            ? "0.00"
                             : numberWithCommas(
                                 modalComputeAmountWithDiscount(
                                   props.values.orders_product_amount,
@@ -416,12 +416,12 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                     </div>
                     {!item && Number(props.values.orders_is_paid) === 1 && (
                       <div className="pl-3 text-primary">
-                        <p className="">
+                        <p className="text-lg">
                           Change:
                           <span className="text-black ml-2">
                             {pesoSign}{" "}
                             {Number(props.values.sales_receive_amount) === 0
-                              ? 0
+                              ? "0.00"
                               : Number(
                                   props.values.sales_member_change
                                 ).toFixed(2)}
