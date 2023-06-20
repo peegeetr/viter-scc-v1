@@ -15,6 +15,7 @@ if (array_key_exists("stockid", $_GET)) {
     $stocks->stocks_aid = $_GET['stockid'];
     $stocks->stocks_product_id = checkIndex($data, "stocks_product_id");
     $stocks->stocks_quantity = checkIndex($data, "stocks_quantity");
+    $stocks->stocks_remarks = checkIndex($data, "stocks_remarks");
     $stocks->stocks_or = checkIndex($data, "stocks_or");
     $stocks->stocks_date = checkIndex($data, "stocks_date");
     $stocks->stocks_datetime = date("Y-m-d H:i:s");

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 08, 2023 at 02:04 AM
+-- Generation Time: Jun 20, 2023 at 07:30 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -36,6 +36,7 @@ CREATE TABLE `sccv1_stocks` (
   `stocks_date` varchar(20) NOT NULL,
   `stocks_quantity` varchar(20) NOT NULL,
   `stocks_suplier_price` varchar(20) NOT NULL,
+  `stocks_remarks` varchar(200) NOT NULL,
   `stocks_created` datetime NOT NULL,
   `stocks_datetime` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

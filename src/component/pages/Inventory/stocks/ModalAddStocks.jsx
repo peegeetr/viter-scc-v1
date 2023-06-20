@@ -11,7 +11,11 @@ import {
   setMessage,
   setSuccess,
 } from "../../../../store/StoreAction";
-import { InputSelect, InputText } from "../../../helpers/FormInputs";
+import {
+  InputSelect,
+  InputText,
+  InputTextArea,
+} from "../../../helpers/FormInputs";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
 import useQueryData from "../../../custom-hooks/useQueryData";
 import {
@@ -79,6 +83,7 @@ const ModalAddStocks = ({ item }) => {
     supplier_id: item ? item.suppliers_aid : "",
     stocks_product_id: item ? item.stocks_product_id : "",
     stocks_suplier_price: item ? item.stocks_suplier_price : "",
+    stocks_remarks: item ? item.stocks_remarks : "",
     stocks_quantity: item ? item.stocks_quantity : "",
     stocks_date: item ? item.stocks_date : getDateTimeNow(),
   };
@@ -90,7 +95,6 @@ const ModalAddStocks = ({ item }) => {
     stocks_date: Yup.string().required("Required"),
   });
 
-  console.log(supplierProductId, supplierPrice);
   return (
     <>
       <div className="fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center bg-dark bg-opacity-50 z-50">
@@ -184,6 +188,15 @@ const ModalAddStocks = ({ item }) => {
                         type="text"
                         num="num"
                         name="stocks_quantity"
+                        disabled={mutation.isLoading}
+                      />
+                    </div>
+                    <div className="relative my-5">
+                      <InputTextArea
+                        label="Remarks"
+                        type="text"
+                        num="num"
+                        name="stocks_remarks"
                         disabled={mutation.isLoading}
                       />
                     </div>
