@@ -134,7 +134,9 @@ const Navigation = ({ menu }) => {
               </Link>
             </li>
 
-            {store.credentials.data.role_is_member === 0 && (
+            {(store.credentials.data.role_is_admin === 1 ||
+              store.credentials.data.role_is_manager === 1 ||
+              store.credentials.data.role_is_developer === 1) && (
               <>
                 <li
                   className={
@@ -151,6 +153,29 @@ const Navigation = ({ menu }) => {
                   >
                     <MdOutlineInventory className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
                     <span className="md:hidden lg:block">Inventory</span>
+                  </Link>
+                </li>
+              </>
+            )}
+
+            {store.credentials.data.role_is_cashier === 1 && (
+              <>
+                <li
+                  className={
+                    menu === "inventory"
+                      ? "active"
+                      : "hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white"
+                  }
+                >
+                  <Link
+                    to={`${getUserType(store)}/point-of-sales`}
+                    target="_blank"
+                    className="w-full flex items-center !p-4 md:justify-center lg:justify-start tooltip-navigation"
+                    onClick={handleShow}
+                    data-tooltip="Point Of Sales"
+                  >
+                    <MdOutlineInventory className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
+                    <span className="md:hidden lg:block">Point Of Sales</span>
                   </Link>
                 </li>
               </>
