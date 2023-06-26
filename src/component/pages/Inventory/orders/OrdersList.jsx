@@ -222,7 +222,7 @@ const OrdersList = ({ setItemEdit }) => {
           id={id}
           isDel={isDel}
           mysqlApiDelete={`/v1/orders/${id}`}
-          msg={"Are you sure you want to delete this file"}
+          msg={"Are you sure you want to delete this "}
           item={`${dataItem.orders_number}`}
           arrKey="orders"
         />
