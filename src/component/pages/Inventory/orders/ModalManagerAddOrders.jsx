@@ -185,6 +185,14 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                   `${values.sales_receive_amount}`
                 );
                 const sales_discount = removeComma(`${values.sales_discount}`);
+
+                if (
+                  Number(sales_discount) > Number(values.orders_product_amount)
+                ) {
+                  dispatch(setError(true));
+                  dispatch(setMessage("Invalid Discount Amount"));
+                  return;
+                }
                 if (
                   Number(orders_product_quantity) !==
                     Number(values.old_quantity) &&

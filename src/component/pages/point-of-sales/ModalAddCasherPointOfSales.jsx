@@ -161,6 +161,11 @@ const ModalAddCasherPointOfSales = ({ item, arrKey, memberId, memberName }) => {
                 const sales_discount = removeComma(`${values.sales_discount}`);
                 const orders_product_amount =
                   Number(orders_product_quantity) * Number(priceId);
+                if (Number(sales_discount) > orders_product_amount) {
+                  dispatch(setError(true));
+                  dispatch(setMessage("Invalid Discount Amount"));
+                  return;
+                }
                 if (
                   Number(orders_product_quantity) !==
                     Number(values.old_quantity) &&
@@ -180,12 +185,6 @@ const ModalAddCasherPointOfSales = ({ item, arrKey, memberId, memberName }) => {
                   dispatch(setMessage("Insufficient Quantity"));
                   return;
                 }
-                console.log(
-                  values,
-                  orders_product_quantity,
-                  sales_discount,
-                  orders_product_amount
-                );
                 mutation.mutate({
                   ...values,
                   orders_product_quantity,
@@ -259,7 +258,8 @@ const ModalAddCasherPointOfSales = ({ item, arrKey, memberId, memberName }) => {
                                     pItem,
                                     stocksGroupProd,
                                     orderGroupProd
-                                  )})`}
+                                  )}) `}
+                                  &#8369;{pItem.suppliers_products_scc_price}
                                 </option>
                               )
                             );

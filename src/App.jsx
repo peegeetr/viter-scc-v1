@@ -117,6 +117,14 @@ import SystemMode from "./component/pages/settings/system-mode/SystemMode";
 import AdminOtherUser from "./component/pages/settings/users/other/links/AdminOtherUser";
 import SystemOtherUser from "./component/pages/settings/users/other/links/SystemOtherUser";
 import { StoreProvider } from "./store/StoreContext";
+import CashierDashboard from "./component/pages/dashboard/links/CashierDashboard";
+import CashierMyAccount from "./component/pages/my-account/links/CashierMyAccount";
+import CashierMyProfile from "./component/pages/my-account/profile/links/CashierMyProfile";
+import CashierMyCapitalShare from "./component/pages/my-account/capital-share/links/CashierMyCapitalShare";
+import CashierMySavings from "./component/pages/my-account/savings/links/CashierMySavings";
+import CashierMyPatronage from "./component/pages/my-account/patronage/links/CashierMyPatronage";
+import CashierMyOrders from "./component/pages/my-account/orders/links/CashierMyOrders";
+import CashierFileUpload from "./component/pages/file-upload/links/CashierFileUpload";
 
 function App() {
   // Create a client
@@ -783,6 +791,76 @@ function App() {
                 </ProtectedRouteOther>
               }
             />
+
+            <Route
+              path={`${devNavUrl}/${UrlCasher}/dashboard`}
+              element={
+                <ProtectedRouteOther>
+                  <CashierDashboard />
+                </ProtectedRouteOther>
+              }
+            />
+
+            <Route
+              path={`${devNavUrl}/${UrlCasher}/details`}
+              element={
+                <ProtectedRouteOther>
+                  <CashierMyAccount />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlCasher}/details/profile`}
+              element={
+                <ProtectedRouteOther>
+                  <CashierMyProfile />
+                </ProtectedRouteOther>
+              }
+            />
+
+            <Route
+              path={`${devNavUrl}/${UrlCasher}/details/savings`}
+              element={
+                <ProtectedRouteOther>
+                  <CashierMySavings />
+                </ProtectedRouteOther>
+              }
+            />
+
+            <Route
+              path={`${devNavUrl}/${UrlCasher}/details/capital-share`}
+              element={
+                <ProtectedRouteOther>
+                  <CashierMyCapitalShare />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlCasher}/details/patronage`}
+              element={
+                <ProtectedRouteOther>
+                  <CashierMyPatronage />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlCasher}/details/orders`}
+              element={
+                <ProtectedRouteOther>
+                  <CashierMyOrders />
+                </ProtectedRouteOther>
+              }
+            />
+
+            <Route
+              path={`${devNavUrl}/${UrlCasher}/file-upload`}
+              element={
+                <ProtectedRouteOther>
+                  <CashierFileUpload />
+                </ProtectedRouteOther>
+              }
+            />
+
             {/* manager user */}
             <Route
               path={`${devNavUrl}/${UrlManager}/dashboard`}
