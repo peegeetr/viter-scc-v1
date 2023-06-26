@@ -175,7 +175,7 @@ const CasherPointOfSalesList = () => {
         </div>
         <button type="button" className="btn-primary" onClick={handleAdd}>
           <FaShoppingCart />
-          <span>Order Now</span>
+          <span>Add</span>
         </button>
       </div>
       <div className="w-full pt-3 pb-20">

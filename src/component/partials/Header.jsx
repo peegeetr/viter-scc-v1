@@ -49,7 +49,7 @@ const Header = () => {
             </h4>
             <span>{store.credentials.data.role_name}</span>
           </div>
-          {store.credentials.data.role_is_casher !== 1 ? (
+          {store.credentials.data.role_is_cashier !== 1 ? (
             <>
               <span className="border-l-2 h-12 border-white"></span>
               <div

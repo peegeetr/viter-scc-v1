@@ -9,7 +9,7 @@
     - #POINT OF SALES
 
 *db tables 
-    - 
+    - sccv1_settings_role.sql
 
 *core functions 
     - 

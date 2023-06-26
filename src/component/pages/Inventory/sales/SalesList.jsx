@@ -195,7 +195,7 @@ const SalesList = ({ setItemEdit }) => {
 
                       {store.credentials.data.role_is_member === 0 && (
                         <td className="text-right">
-                          {store.credentials.data.role_is_casher === 0 ? (
+                          {store.credentials.data.role_is_cashier === 0 ? (
                             item.sales_is_paid === 1 ? (
                               <button
                                 type="button"

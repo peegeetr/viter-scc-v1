@@ -20,7 +20,7 @@ const BreadCrumbs = ({ param = "" }) => {
       ? "/admin"
       : store.credentials.data.role_is_manager === 1
       ? "/manager"
-      : store.credentials.data.role_is_casher === 1
+      : store.credentials.data.role_is_cashier === 1
       ? "/casher"
       : "/member";
   let currentLink = "";
