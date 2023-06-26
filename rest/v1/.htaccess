@@ -164,3 +164,11 @@ RewriteRule ^system-maintenance$ controllers/settings/system-maintenance/system-
 RewriteRule ^system-maintenance/([0-9]+)$ controllers/settings/system-maintenance/system-mode.php?systemModeId=$1 [L]
 RewriteRule ^system-maintenance/active/([0-9]+)$ controllers/settings/system-maintenance/active.php?systemModeId=$1 [L]
 RewriteRule ^system-maintenance/maintenance$ controllers/settings/system-maintenance/read-maintenance-on.php [L]
+
+#POINT OF SALES
+RewriteRule ^pos/orders/([0-9]+)$ controllers/point-of-sales/pages.php?membersid=$1 [L] 
+RewriteRule ^pos/orders/filter/([0-9]+)$ controllers/point-of-sales/pages.php?membersid=$1 [L]
+RewriteRule ^pos/create/orders$ controllers/point-of-sales/pointOfSales.php [L] 
+RewriteRule ^pos/update/orders/([0-9]+)$ controllers/point-of-sales/pointOfSales.php?orderid=$1 [L] 
+RewriteRule ^pos/payment$ controllers/point-of-sales/payment.php [L] 
+ 

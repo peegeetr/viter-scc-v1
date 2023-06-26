@@ -35,9 +35,7 @@ import SystemInventoryDetails from "./component/pages/Inventory/links/SystemInve
 import AdminOrders from "./component/pages/Inventory/orders/links/AdminOrders";
 import ManagerOrders from "./component/pages/Inventory/orders/links/ManagerOrders";
 import SystemOrders from "./component/pages/Inventory/orders/links/SystemOrders";
-import OrderSuccess from "./component/pages/Inventory/orders/order-page/OrderSuccess";
 import AdminPointOfSales from "./component/pages/Inventory/point-of-sales/links/AdminPointOfSales";
-import CasherPointOfSales from "./component/pages/Inventory/point-of-sales/links/CasherPointOfSales";
 import ManagerPointOfSales from "./component/pages/Inventory/point-of-sales/links/ManagerPointOfSales";
 import SystemPointOfSales from "./component/pages/Inventory/point-of-sales/links/SystemPointOfSales";
 import AdminProducts from "./component/pages/Inventory/products/links/AdminProducts";
@@ -98,6 +96,7 @@ import MemberMyCapitalShare from "./component/pages/my-account/capital-share/lin
 import AdminMyAccount from "./component/pages/my-account/links/AdminMyAccount";
 import ManagerMyAccount from "./component/pages/my-account/links/ManagerMyAccount";
 import MemberMyAccount from "./component/pages/my-account/links/MemberMyAccount";
+import AdminMyOrders from "./component/pages/my-account/orders/links/AdminMyOrders";
 import ManagerMyOrders from "./component/pages/my-account/orders/links/ManagerMyOrders";
 import MemberMyOrders from "./component/pages/my-account/orders/links/MemberMyOrders";
 import AdminMyPatronage from "./component/pages/my-account/patronage/links/AdminMyPatronage";
@@ -109,15 +108,15 @@ import MemberMyProfile from "./component/pages/my-account/profile/links/MemberMy
 import AdminMySavings from "./component/pages/my-account/savings/links/AdminMySavings";
 import ManagerMySavings from "./component/pages/my-account/savings/links/ManagerMySavings";
 import MemberMySavings from "./component/pages/my-account/savings/links/MemberMySavings";
+import CasherPointOfSales from "./component/pages/point-of-sales/CasherPointOfSales";
 import AdminSettingsLink from "./component/pages/settings/links/AdminSettingsLink";
 import SystemSettingsLink from "./component/pages/settings/links/SystemSettingsLink";
 import AdminNetSurPlus from "./component/pages/settings/net-surplus/links/AdminNetSurPlus";
 import SystemNetSurPlus from "./component/pages/settings/net-surplus/links/SystemNetSurPlus";
+import SystemMode from "./component/pages/settings/system-mode/SystemMode";
 import AdminOtherUser from "./component/pages/settings/users/other/links/AdminOtherUser";
 import SystemOtherUser from "./component/pages/settings/users/other/links/SystemOtherUser";
 import { StoreProvider } from "./store/StoreContext";
-import AdminMyOrders from "./component/pages/my-account/orders/links/AdminMyOrders";
-import SystemMode from "./component/pages/settings/system-mode/SystemMode";
 
 function App() {
   // Create a client
@@ -777,7 +776,7 @@ function App() {
 
             {/* casher user */}
             <Route
-              path={`${devNavUrl}/${UrlCasher}/pos`}
+              path={`${devNavUrl}/${UrlCasher}/point-of-sales`}
               element={
                 <ProtectedRouteOther>
                   <CasherPointOfSales />

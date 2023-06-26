@@ -17,7 +17,7 @@ export const devNavUrl = "";
 
 export const UrlAdmin = "admin";
 export const UrlManager = "manager";
-export const UrlCasher = "casher";
+export const UrlCasher = "cashier";
 export const UrlMember = "member";
 export const UrlSystem = "system";
 
@@ -178,7 +178,7 @@ export const getUserType = (store) => {
   let developer = store.credentials.data.role_is_developer;
   let admin = store.credentials.data.role_is_admin;
   let manager = store.credentials.data.role_is_manager;
-  let casher = store.credentials.data.role_is_casher;
+  let casher = store.credentials.data.role_is_cashier;
 
   developer === 1
     ? (link = `${devNavUrl}/${UrlSystem}`)

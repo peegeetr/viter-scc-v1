@@ -6,6 +6,7 @@ import Navigation from "../../../partials/Navigation";
 import ModalError from "../../../partials/modals/ModalError";
 import ModalSuccess from "../../../partials/modals/ModalSuccess";
 import BreadCrumbs from "../../../partials/BreadCrumbs";
+import CasherPointOfSalesList from "../../point-of-sales/CasherPointOfSalesList";
 
 const PointOfSales = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -16,18 +17,8 @@ const PointOfSales = () => {
       <Header />
       <Navigation menu="inventory" />
       <div className="wrapper">
-        {/* <h4 className="text-xl mb-3">Point Of Sales</h4> */}
         <BreadCrumbs />
-
-        <hr />
-        <div className="w-full pt-5 pb-20">
-          {" "}
-          <p className="text-primary">
-            We'll be right back! We are just doing some improvement in this
-            page. Thank you for understaning.
-          </p>
-          {/* <PointOfSalesList setItemEdit={setItemEdit} /> */}
-        </div>
+        <hr /> <CasherPointOfSalesList />
         <Footer />
       </div>
       {store.success && <ModalSuccess />}

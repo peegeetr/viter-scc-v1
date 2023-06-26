@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 08, 2023 at 09:43 AM
+-- Generation Time: Jun 26, 2023 at 08:05 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -36,17 +36,21 @@ CREATE TABLE `sccv1_settings_role` (
   `role_datetime` datetime NOT NULL,
   `role_is_developer` tinyint(1) NOT NULL,
   `role_is_admin` tinyint(1) NOT NULL,
-  `role_is_member` tinyint(1) NOT NULL
+  `role_is_member` tinyint(1) NOT NULL,
+  `role_is_manager` tinyint(1) NOT NULL,
+  `role_is_cashier` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `sccv1_settings_role`
 --
 
-INSERT INTO `sccv1_settings_role` (`role_aid`, `role_is_active`, `role_name`, `role_description`, `role_created`, `role_datetime`, `role_is_developer`, `role_is_admin`, `role_is_member`) VALUES
-(12, 1, 'Developer', 'for admin.', '2023-03-09 16:03:26', '2023-03-23 16:20:06', 1, 0, 0),
-(13, 1, 'admin', 'for developer', '2023-03-09 16:25:26', '2023-03-09 16:25:26', 0, 1, 0),
-(14, 1, 'member', 'for member', '2023-03-23 16:17:15', '2023-03-23 16:17:15', 0, 0, 1);
+INSERT INTO `sccv1_settings_role` (`role_aid`, `role_is_active`, `role_name`, `role_description`, `role_created`, `role_datetime`, `role_is_developer`, `role_is_admin`, `role_is_member`, `role_is_manager`, `role_is_cashier`) VALUES
+(12, 1, 'Developer', 'for admin.', '2023-03-09 16:03:26', '2023-03-23 16:20:06', 1, 0, 0, 0, 0),
+(13, 1, 'Admin', 'for developer', '2023-03-09 16:25:26', '2023-03-09 16:25:26', 0, 1, 0, 0, 0),
+(14, 1, 'Member', 'for member', '2023-03-23 16:17:15', '2023-03-23 16:17:15', 0, 0, 1, 0, 0),
+(15, 1, 'Manager', 'for manager', '2023-05-10 13:27:48', '2023-05-10 13:27:48', 0, 0, 0, 1, 0),
+(16, 1, 'Cashier', 'for casher', '2023-05-10 13:28:21', '2023-05-10 13:28:21', 0, 0, 0, 0, 1);
 
 --
 -- Indexes for dumped tables
@@ -66,7 +70,7 @@ ALTER TABLE `sccv1_settings_role`
 -- AUTO_INCREMENT for table `sccv1_settings_role`
 --
 ALTER TABLE `sccv1_settings_role`
-  MODIFY `role_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `role_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
