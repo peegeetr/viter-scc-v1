@@ -51,6 +51,7 @@ const CasherPointOfSalesList = () => {
   const {
     data: result,
     error,
+    isFetching,
     fetchNextPage,
     status,
   } = useInfiniteQuery({
@@ -67,7 +68,7 @@ const CasherPointOfSalesList = () => {
       }
       return;
     },
-    refetchOnWindowFocus: false,
+    // refetchOnWindowFocus: false,
     cacheTime: 200,
   });
 
@@ -180,6 +181,7 @@ const CasherPointOfSalesList = () => {
       </div>
       <div className="w-full pt-3 pb-20">
         <div className="relative text-center overflow-x-auto z-0">
+          {status !== "loading" && isFetching && <TableSpinner />}
           <table>
             <thead>
               <tr>
