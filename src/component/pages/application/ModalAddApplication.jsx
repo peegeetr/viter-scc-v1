@@ -6,9 +6,10 @@ import * as Yup from "yup";
 import { setError, setMessage, setSuccess } from "../../../store/StoreAction";
 import { StoreContext } from "../../../store/StoreContext";
 import { InputSelect, InputText } from "../../helpers/FormInputs";
-import { closeModal } from "../../helpers/functions-general";
+import { closeModal, numberWithCommas } from "../../helpers/functions-general";
 import { queryData } from "../../helpers/queryData";
 import ButtonSpinner from "../../partials/spinners/ButtonSpinner";
+import useQueryData from "../../custom-hooks/useQueryData";
 
 const ModalAddApplication = () => {
   const { dispatch } = React.useContext(StoreContext);
@@ -38,6 +39,12 @@ const ModalAddApplication = () => {
     closeModal(setShow, dispatch);
   };
 
+  // use if not loadmore button undertime
+  const { isLoading, data: subscribeCapitalActive } = useQueryData(
+    `/v1/subscribe-capital`,
+    "get", // method
+    "subscribe-capital-active" // key
+  );
   const initVal = {
     members_pre_membership_date: "",
     members_first_name: "",
@@ -46,6 +53,7 @@ const ModalAddApplication = () => {
     members_gender: "",
     members_email: "",
     members_birth_date: "",
+    members_subscribe_capital_id: "",
   };
 
   const yupSchema = Yup.object({
@@ -55,6 +63,8 @@ const ModalAddApplication = () => {
     members_gender: Yup.string().required("Required"),
     members_email: Yup.string().required("Required"),
     members_birth_date: Yup.string().required("Required"),
+    members_birth_date: Yup.string().required("Required"),
+    members_subscribe_capital_id: Yup.string().required("Required"),
   });
 
   return (
@@ -95,6 +105,36 @@ const ModalAddApplication = () => {
                         name="members_pre_membership_date"
                         disabled={mutation.isLoading}
                       />
+                    </div>
+                    <div className="relative mb-5">
+                      <InputSelect
+                        label="Subscribe Capital Share"
+                        type="text"
+                        name="members_subscribe_capital_id"
+                        disabled={mutation.isLoading}
+                      >
+                        <option value="" hidden>
+                          {isLoading ? "...Loading" : "--"}
+                        </option>
+                        {subscribeCapitalActive?.data.map((scsItem, key) => {
+                          return (
+                            <option
+                              key={key}
+                              value={scsItem.subscribe_capital_aid}
+                            >
+                              &#8369;
+                              {` ${numberWithCommas(
+                                Number(
+                                  scsItem.subscribe_capital_amount
+                                ).toFixed(2)
+                              )} ${
+                                scsItem.subscribe_capital_is_active === 1 &&
+                                "(Current)"
+                              } `}
+                            </option>
+                          );
+                        })}
+                      </InputSelect>
                     </div>
                     <div className="relative mb-5">
                       <InputText

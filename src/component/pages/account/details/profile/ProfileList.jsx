@@ -141,11 +141,18 @@ const ProfileList = ({ members, isLoading, error }) => {
                       ? ""
                       : `${formatDate(item.members_birth_date)}`}
                   </p>
-                  <p className="font-semibold mb-0">Joined :</p>
+                  <p className="font-semibold ">Joined :</p>
                   <p className=" mb-0">
                     {item.members_birth_date === ""
                       ? ""
                       : `${formatDate(item.members_pre_membership_date)}`}
+                  </p>
+                  <p className="font-semibold mb-0">Subscribe Capital :</p>
+                  <p className=" mb-0">
+                    &#8369;
+                    {` ${numberWithCommas(
+                      Number(item.subscribe_capital_amount).toFixed(2)
+                    )} `}
                   </p>
                 </div>
                 <div className="hidden sm:block m-auto justify-center">

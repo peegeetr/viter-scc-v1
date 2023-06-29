@@ -117,17 +117,17 @@ const ModalAddCapitalShare = ({ item }) => {
                     </div>
                     <div className="relative mb-5">
                       <InputText
-                        label="Official Receipt"
+                        label="Amount"
                         type="text"
-                        name="capital_share_or"
+                        name="capital_share_paid_up"
                         disabled={mutation.isLoading}
                       />
                     </div>
                     <div className="relative mb-5">
                       <InputText
-                        label="Amount"
+                        label="Official Receipt"
                         type="text"
-                        name="capital_share_paid_up"
+                        name="capital_share_or"
                         disabled={mutation.isLoading}
                       />
                     </div>

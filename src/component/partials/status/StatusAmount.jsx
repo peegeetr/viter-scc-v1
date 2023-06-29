@@ -1,14 +1,14 @@
 import React from "react";
 import { numberWithCommas, pesoSign } from "../../helpers/functions-general";
 
-const StatusAmount = ({ text = "", amount = 0 }) => {
+const StatusAmount = ({ text = "", amount = 0, type = "" }) => {
   return (
     <>
       <p className="m-0 capitalize font-bold mr-8 mb-2 xl:mb-4">
         {text}:
         <span
           className={`${
-            text === "draft"
+            type === "draft"
               ? "bg-gray-100 text-gray-800  "
               : text === "discount"
               ? "bg-gray-100 text-gray-800  "

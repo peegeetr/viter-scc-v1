@@ -9,19 +9,23 @@ const StocksTotal = ({ result }) => {
         <StatusAmount
           text="pending"
           amount={computeStockTotalAmount(result).finalPendingAmount}
+          type="pending"
         />
 
         <StatusAmount
           text="paid"
           amount={computeStockTotalAmount(result).finalPaidAmount}
+          type="paid"
         />
         <StatusAmount
           text="total"
           amount={computeStockTotalAmount(result).finalAmount}
+          type="total"
         />
         <StatusAmount
           text="qty"
           amount={computeStockTotalAmount(result).totalOty}
+          type="qty"
         />
       </div>
     </>

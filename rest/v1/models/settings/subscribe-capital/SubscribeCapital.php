@@ -8,6 +8,7 @@ class SubscribeCapital
     public $subscribe_capital_created;
     public $subscribe_capital_datetime;
 
+    public $members_aid;
     public $connection;
     public $lastInsertedId;
     public $subscribe_capital_start;
@@ -15,10 +16,12 @@ class SubscribeCapital
     public $subscribe_capital_search;
     public $currentYear;
     public $tblSubscribeCapital;
+    public $tblMembers;
 
     public function __construct($db)
     {
         $this->connection = $db;
+        $this->tblMembers = "sccv1_members";
         $this->tblSubscribeCapital = "sccv1_settings_subscribe_capital";
     }
 
@@ -177,6 +180,29 @@ class SubscribeCapital
             $sql .= "where subscribe_capital_is_active = 1 ";
             $sql .= "order by subscribe_capital_is_active desc ";
             $query = $this->connection->query($sql);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    // read all active create validation
+    public function readAllActiveById()
+    {
+        try {
+            $sql = "select subscribeC.subscribe_capital_amount, ";
+            $sql .= "subscribeC.subscribe_capital_is_active, ";
+            $sql .= "member.members_aid ";
+            $sql .= "from ";
+            $sql .= "{$this->tblSubscribeCapital} as subscribeC, ";
+            $sql .= "{$this->tblMembers} as member ";
+            $sql .= "where member.members_aid = :members_aid ";
+            $sql .= "and member.members_subscribe_capital_id = subscribeC.subscribe_capital_aid ";
+            $sql .= "order by subscribeC.subscribe_capital_is_active desc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "members_aid" => $this->members_aid,
+            ]);
         } catch (PDOException $ex) {
             $query = false;
         }

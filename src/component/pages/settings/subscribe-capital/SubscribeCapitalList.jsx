@@ -18,6 +18,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import StatusInactive from "../../../partials/status/StatusInactive";
 import { queryDataInfinite } from "../../../helpers/queryDataInfinite";
 import SearchBar from "../../../partials/SearchBar";
+import Loadmore from "../../../partials/Loadmore";
 
 const SubscribeCapitalList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -162,8 +163,18 @@ const SubscribeCapitalList = ({ setItemEdit }) => {
             ))}
           </tbody>
         </table>
+        <div className="text-center">
+          <Loadmore
+            fetchNextPage={fetchNextPage}
+            isFetchingNextPage={isFetchingNextPage}
+            hasNextPage={hasNextPage}
+            result={result?.pages[0]}
+            setPage={setPage}
+            page={page}
+            refView={ref}
+          />
+        </div>
       </div>
-
       {store.isRestore && (
         <ModalDeleteRestore
           id={id}

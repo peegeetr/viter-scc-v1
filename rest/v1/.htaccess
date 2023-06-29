@@ -71,6 +71,7 @@ RewriteRule ^capital-share$ controllers/account/details/capital-share/capitalSha
 RewriteRule ^capital-share/([0-9]+)$ controllers/account/details/capital-share/capitalShare.php?shareid=$1 [L] 
 RewriteRule ^capital-share/page/([0-9]+)/([0-9]+)$ controllers/account/details/capital-share/page.php?start=$1&membersid=$2 [L]
 RewriteRule ^capital-share/search/([A-Za-z0-9-]+)/([0-9]+)$ controllers/account/details/capital-share/search.php?search=$1&membersid=$2 [L]
+RewriteRule ^capital-share/read-total-capital/([0-9]+)$ controllers/account/details/capital-share/read-capital-total.php?memberId=$1 [L]
 
 #patronage
 RewriteRule ^patronage/page/by-employee-id/([0-9]+)/([0-9]+)$ controllers/account/details/patronage/page-by-employee-id.php?start=$1&membersid=$2 [L]
@@ -177,3 +178,4 @@ RewriteRule ^subscribe-capital$ controllers/settings/subscribe-capital/subscribe
 RewriteRule ^subscribe-capital/([0-9]+)$ controllers/settings/subscribe-capital/subscribe-capital.php?subscribeCapitalId=$1 [L] 
 RewriteRule ^subscribe-capital/page/([0-9]+)$ controllers/settings/subscribe-capital/page.php?start=$1 [L]
 RewriteRule ^subscribe-capital/search/([A-Za-z0-9-]+)$ controllers/settings/subscribe-capital/search.php?search=$1 [L]
+RewriteRule ^subscribe-capital/active-by-id/([0-9]+)$ controllers/settings/subscribe-capital/read-active-by-id.php?membersId=$1 [L]

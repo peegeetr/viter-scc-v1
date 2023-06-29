@@ -9,25 +9,34 @@ const MemberTotalAmountOrders = ({ result }) => {
         <StatusAmount
           text="draft"
           amount={computeTotalAmount(result).totalDraft}
+          type="draft"
         />
         <StatusAmount
           text="pending"
           amount={computeTotalAmount(result).totalPending}
+          type="pending"
         />
 
         <StatusAmount
           text="paid"
           amount={computeTotalAmount(result).finalPaidAmount}
+          type="paid"
         />
         <StatusAmount
           text="discount"
           amount={computeTotalAmount(result).totalDiscount}
+          type="discount"
         />
         <StatusAmount
           text="total"
           amount={computeTotalAmount(result).finalAmount}
+          type="total"
         />
-        <StatusAmount text="qty" amount={computeTotalAmount(result).totalOty} />
+        <StatusAmount
+          text="qty"
+          amount={computeTotalAmount(result).totalOty}
+          type="qty"
+        />
       </div>
     </>
   );

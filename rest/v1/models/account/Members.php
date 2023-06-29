@@ -33,6 +33,7 @@ class Members
     public $members_spouse_net_income;
     public $members_properties_owned;
     public $members_pre_membership_date;
+    public $members_subscribe_capital_id;
     public $members_created;
     public $members_datetime;
 
@@ -47,6 +48,7 @@ class Members
     public $tblOrders;
     public $tblSales;
     public $tblCapitalShare;
+    public $tblSubscribeCapital;
 
     public function __construct($db)
     {
@@ -56,6 +58,7 @@ class Members
         $this->tblSales = "sccv1_sales";
         $this->tblUserOther = "sccv1_settings_user_other";
         $this->tblCapitalShare = "sccv1_capital_share";
+        $this->tblSubscribeCapital = "sccv1_settings_subscribe_capital";
     }
 
     // create
@@ -72,6 +75,7 @@ class Members
             $sql .= "members_middle_name, ";
             $sql .= "members_gender, ";
             $sql .= "members_birth_date, ";
+            $sql .= "members_subscribe_capital_id, ";
             $sql .= "members_created, ";
             $sql .= "members_datetime ) values ( ";
             $sql .= ":members_id, ";
@@ -83,6 +87,7 @@ class Members
             $sql .= ":members_middle_name, ";
             $sql .= ":members_gender, ";
             $sql .= ":members_birth_date, ";
+            $sql .= ":members_subscribe_capital_id, ";
             $sql .= ":members_created, ";
             $sql .= ":members_datetime ) ";
             $query = $this->connection->prepare($sql);
@@ -96,6 +101,7 @@ class Members
                 "members_middle_name" => $this->members_middle_name,
                 "members_gender" => $this->members_gender,
                 "members_birth_date" => $this->members_birth_date,
+                "members_subscribe_capital_id" => $this->members_subscribe_capital_id,
                 "members_created" => $this->members_created,
                 "members_datetime" => $this->members_datetime,
             ]);
@@ -255,12 +261,16 @@ class Members
     public function readById()
     {
         try {
-            $sql = "select * from ";
-            $sql .= "{$this->tblMembers} ";
-            $sql .= "where members_aid = :members_aid ";
-            $sql .= "order by members_is_active desc, ";
-            $sql .= "members_last_name, ";
-            $sql .= "members_first_name asc ";
+            $sql = "select member.*, ";
+            $sql .= "subscribeCapital.subscribe_capital_amount, ";
+            $sql .= "subscribeCapital.subscribe_capital_date ";
+            $sql .= "from {$this->tblMembers} as member, ";
+            $sql .= "{$this->tblSubscribeCapital} as subscribeCapital ";
+            $sql .= "where member.members_aid = :members_aid ";
+            $sql .= "and member.members_subscribe_capital_id = subscribeCapital.subscribe_capital_aid  ";
+            $sql .= "order by member.members_is_active desc, ";
+            $sql .= "member.members_last_name, ";
+            $sql .= "member.members_first_name asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "members_aid" => $this->members_aid,
@@ -307,6 +317,7 @@ class Members
             $sql .= "members_gender = :members_gender, ";
             $sql .= "members_picture = :members_picture, ";
             $sql .= "members_birth_date = :members_birth_date, ";
+            $sql .= "members_subscribe_capital_id = :members_subscribe_capital_id, ";
             $sql .= "members_datetime = :members_datetime ";
             $sql .= "where members_aid  = :members_aid ";
             $query = $this->connection->prepare($sql);
@@ -319,6 +330,7 @@ class Members
                 "members_gender" => $this->members_gender,
                 "members_picture" => $this->members_picture,
                 "members_birth_date" => $this->members_birth_date,
+                "members_subscribe_capital_id" => $this->members_subscribe_capital_id,
                 "members_datetime" => $this->members_datetime,
                 "members_aid" => $this->members_aid,
             ]);

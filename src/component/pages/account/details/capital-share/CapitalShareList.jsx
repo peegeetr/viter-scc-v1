@@ -4,6 +4,7 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 import { useInView } from "react-intersection-observer";
 import { setIsAdd, setIsRestore } from "../../../../../store/StoreAction";
 import { StoreContext } from "../../../../../store/StoreContext";
+import useQueryData from "../../../../custom-hooks/useQueryData";
 import {
   formatDate,
   getTime,
@@ -13,15 +14,22 @@ import {
 } from "../../../../helpers/functions-general";
 import { queryDataInfinite } from "../../../../helpers/queryDataInfinite";
 import Loadmore from "../../../../partials/Loadmore";
-import ModalDeleteRestore from "../../../../partials/modals/ModalDeleteRestore";
 import NoData from "../../../../partials/NoData";
 import SearchBar from "../../../../partials/SearchBar";
 import ServerError from "../../../../partials/ServerError";
+import ModalDeleteRestore from "../../../../partials/modals/ModalDeleteRestore";
 import TableSpinner from "../../../../partials/spinners/TableSpinner";
 import { computeTotalCapital } from "./functions-capital-share";
-import useQueryData from "../../../../custom-hooks/useQueryData";
+import StatusAmount from "../../../../partials/status/StatusAmount";
 
-const CapitalShareList = ({ setItemEdit }) => {
+const CapitalShareList = ({
+  setItemEdit,
+  totalCapital,
+  subscribeCapital,
+  remainingAmount,
+  loadingCapital,
+  loadingSubsC,
+}) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [dataItem, setData] = React.useState(null);
   const [id, setId] = React.useState(null);
@@ -79,7 +87,7 @@ const CapitalShareList = ({ setItemEdit }) => {
     setData(item);
     setDel(true);
   };
-  // use if not loadmore button undertime
+  // use if not loadmore button undertime read-capital-total
   const { data: memberName, isLoading: loadingmemberName } = useQueryData(
     `/v1/members/name/${empid}`, // endpoint
     "get", // method
@@ -105,17 +113,35 @@ const CapitalShareList = ({ setItemEdit }) => {
         onSearch={onSearch}
       />
       <div className="relative text-center overflow-x-auto z-0">
-        {status !== "loading" && result?.pages[0].data.length > 0 && (
-          <div className="text-center my-4 text-primary font-bold">
-            <p>
-              <span className="mr-4">Total Capital Share : </span>
-              {pesoSign}{" "}
-              {numberWithCommas(
-                computeTotalCapital(result?.pages[0]).toFixed(2)
-              )}
-            </p>
-          </div>
-        )}
+        <div className="flex my-4 pb-2  text-primary">
+          <StatusAmount
+            text="Paid Capital"
+            amount={subscribeCapital}
+            type="paid"
+          />
+
+          {status === "loading" || loadingCapital ? (
+            "Loading..."
+          ) : totalCapital?.count > 0 && !store.isSearch ? (
+            <StatusAmount
+              text="Total Capital Share "
+              amount={totalCapital}
+              type="paid"
+            />
+          ) : (
+            <StatusAmount
+              text="Total Capital Share "
+              amount={computeTotalCapital(result?.pages[0])}
+              type="paid"
+            />
+          )}
+
+          <StatusAmount
+            text="Remaining Capital "
+            amount={remainingAmount}
+            type="pending"
+          />
+        </div>
         <table>
           <thead>
             <tr>

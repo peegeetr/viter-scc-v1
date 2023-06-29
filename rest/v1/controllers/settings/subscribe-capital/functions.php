@@ -15,10 +15,19 @@ function haveActiveNotById($object)
     checkExistence($count, "You can't edit this subscribe capital because you already have active status.");
 }
 
-// compare email
+
+// compare email 
 function compareCurrentCapitalIsActive($object, $active_old, $active)
 {
     if (strtolower($active_old) !=  strtolower($active)) {
         haveActiveNotById($object);
     }
+}
+
+// Read active
+function checkReadActiveById($object)
+{
+    $query = $object->readAllActiveById();
+    checkQuery($query, "Empty records (read active by id).");
+    return $query;
 }

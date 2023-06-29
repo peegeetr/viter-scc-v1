@@ -1,12 +1,19 @@
 
 *controllers     
     - settings/subscribe-capital {note: all files}
+    - account/details/capital-share/functions.php
+    - account/details/capital-share/read-capital-total.php 
+    - account/details/create.php  
+    - account/details/update.php   
 
 *models      
     - settings/subscribe-capital/SubscribeCapital.php
+    - account/details/CapitalShare.php  
+    - account/Members.php  
     
 *htaccess 
     - #SUBSCRIBE CAPITAL
+    - #capital share
 
 *db tables 
     - sccv1_settings_subscribe_capital.sql

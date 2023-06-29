@@ -102,6 +102,7 @@ if (array_key_exists("membersid", $_GET)) {
     $members->members_aid = $_GET['membersid'];
     $members->members_id = checkIndex($data, "members_id");
     $members->members_pre_membership_date = checkIndex($data, "members_pre_membership_date");
+    $members->members_subscribe_capital_id = checkIndex($data, "members_subscribe_capital_id");
     $members->members_first_name = checkIndex($data, "members_first_name");
     $members->members_last_name = checkIndex($data, "members_last_name");
     $members->members_middle_name = checkIndex($data, "members_middle_name");
