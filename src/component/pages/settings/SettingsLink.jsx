@@ -8,6 +8,7 @@ import OtherUserLink from "./users/other/OtherUserLink.jsx";
 
 import UserLink from "./users/UserLink.jsx";
 import SystemModeLink from "./system-mode/SystemModeLink.jsx";
+import SubscribeCapitalLink from "./subscribe-capital/SubscribeCapitalLink.jsx";
 
 const SettingsLink = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -31,9 +32,9 @@ const SettingsLink = () => {
               <SystemModeLink />
             </li>
           )}
-          {/* <li className="py-1">
-            <NetSurplusLink />
-          </li> */}
+          <li className="py-1">
+            <SubscribeCapitalLink />
+          </li>
         </ul>
         <Footer />
       </div>

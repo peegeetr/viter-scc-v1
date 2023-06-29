@@ -172,3 +172,8 @@ RewriteRule ^pos/create/orders$ controllers/point-of-sales/pointOfSales.php [L]
 RewriteRule ^pos/update/orders/([0-9]+)$ controllers/point-of-sales/pointOfSales.php?orderid=$1 [L] 
 RewriteRule ^pos/payment$ controllers/point-of-sales/payment.php [L] 
  
+#SUBSCRIBE CAPITAL
+RewriteRule ^subscribe-capital$ controllers/settings/subscribe-capital/subscribe-capital.php [L]
+RewriteRule ^subscribe-capital/([0-9]+)$ controllers/settings/subscribe-capital/subscribe-capital.php?subscribeCapitalId=$1 [L] 
+RewriteRule ^subscribe-capital/page/([0-9]+)$ controllers/settings/subscribe-capital/page.php?start=$1 [L]
+RewriteRule ^subscribe-capital/search/([A-Za-z0-9-]+)$ controllers/settings/subscribe-capital/search.php?search=$1 [L]

@@ -125,6 +125,8 @@ import CashierMySavings from "./component/pages/my-account/savings/links/Cashier
 import CashierMyPatronage from "./component/pages/my-account/patronage/links/CashierMyPatronage";
 import CashierMyOrders from "./component/pages/my-account/orders/links/CashierMyOrders";
 import CashierFileUpload from "./component/pages/file-upload/links/CashierFileUpload";
+import AdminSubscribeCapital from "./component/pages/settings/subscribe-capital/links/AdminSubscribeCapital";
+import SystemSubscribeCapital from "./component/pages/settings/subscribe-capital/links/SystemSubscribeCapital";
 
 function App() {
   // Create a client
@@ -432,6 +434,14 @@ function App() {
               element={
                 <ProtectedRouteSystem>
                   <SystemMode />
+                </ProtectedRouteSystem>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlSystem}/settings/subscribe-capital`}
+              element={
+                <ProtectedRouteSystem>
+                  <SystemSubscribeCapital />
                 </ProtectedRouteSystem>
               }
             />
@@ -778,6 +788,14 @@ function App() {
               element={
                 <ProtectedRouteOther>
                   <AdminOtherUser />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/settings/subscribe-capital`}
+              element={
+                <ProtectedRouteOther>
+                  <AdminSubscribeCapital />
                 </ProtectedRouteOther>
               }
             />

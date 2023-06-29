@@ -1,0 +1,19 @@
+
+*controllers     
+    - settings/subscribe-capital {note: all files}
+
+*models      
+    - settings/subscribe-capital/SubscribeCapital.php
+    
+*htaccess 
+    - #SUBSCRIBE CAPITAL
+
+*db tables 
+    - sccv1_settings_subscribe_capital.sql
+
+*core functions 
+    - 
+
+*extra
+    - 
+ 

@@ -8,7 +8,6 @@ import {
   FaTrash,
 } from "react-icons/fa";
 import { useInView } from "react-intersection-observer";
-import { FaPlusCircle } from "react-icons/fa";
 import {
   setIsAdd,
   setIsConfirm,

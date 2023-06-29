@@ -15,7 +15,7 @@ export const checkRoleToRedirect = (navigate, data) => {
     : data.role_is_manager === 1
     ? navigate(`${devNavUrl}/${UrlManager}/dashboard`)
     : data.role_is_cashier === 1
-    ? navigate(`${devNavUrl}/${UrlCasher}/point-of-sales`)
+    ? navigate(`${devNavUrl}/${UrlCasher}/dashboard`)
     : data.role_is_member === 1
     ? navigate(`${devNavUrl}/${UrlMember}/dashboard`)
     : navigate(`${devNavUrl}/nopage`);
