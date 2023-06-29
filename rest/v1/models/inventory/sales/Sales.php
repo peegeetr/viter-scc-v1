@@ -29,6 +29,7 @@ class Sales
     public $tblOrders;
     public $tblMembers;
     public $tblSuppliersProducts;
+    public $tblProductCategory;
 
     public function __construct($db)
     {
@@ -37,6 +38,7 @@ class Sales
         $this->tblOrders = "sccv1_orders";
         $this->tblMembers = "sccv1_members";
         $this->tblSuppliersProducts = "sccv1_suppliers_products";
+        $this->tblProductCategory = "sccv1_product_category";
     }
 
     // create
@@ -204,11 +206,13 @@ class Sales
             $sql .= "from {$this->tblOrders} as orders, ";
             $sql .= "{$this->tblSales} as sales, ";
             $sql .= "{$this->tblMembers} as member, ";
-            $sql .= "{$this->tblSuppliersProducts} as suppliersProducts ";
+            $sql .= "{$this->tblSuppliersProducts} as suppliersProducts, ";
+            $sql .= "{$this->tblProductCategory} as productCategory ";
             $sql .= "where orders.orders_product_id = suppliersProducts.suppliers_products_aid ";
             $sql .= "and orders.orders_aid = sales.sales_order_id ";
             $sql .= "and orders.orders_member_id = member.members_aid ";
             $sql .= "and sales.sales_member_id = member.members_aid ";
+            $sql .= "and productCategory.product_category_aid = suppliersProducts.suppliers_products_category_id ";
             $sql .= "and (orders.orders_number like :orders_number ";
             $sql .= "or sales.sales_number like :sales_number ";
             $sql .= "or member.members_last_name like :members_last_name ";
@@ -217,14 +221,17 @@ class Sales
             $sql .= "or MONTHNAME(sales.sales_date) like :sales_month_date ";
             $sql .= "or orders.orders_date like :orders_date ";
             $sql .= "or sales.sales_date like :sales_date ";
+            $sql .= "or productCategory.product_category_name like :product_category_name ";
             $sql .= "or suppliersProducts.suppliers_products_name like :suppliers_products_name) ";
             $sql .= "order by sales.sales_is_paid, ";
-            $sql .= "orders.orders_date desc, ";
+            $sql .= "suppliersProducts.suppliers_products_name asc, ";
+            // $sql .= "orders.orders_date desc, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "suppliers_products_name" => "%{$this->sales_search}%",
+                "product_category_name" => "%{$this->sales_search}%",
                 "orders_month_date" => "%{$this->sales_search}%",
                 "sales_month_date" => "%{$this->sales_search}%",
                 "orders_date" => "%{$this->sales_search}%",
