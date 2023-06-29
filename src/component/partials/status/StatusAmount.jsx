@@ -10,11 +10,11 @@ const StatusAmount = ({ text = "", amount = 0, type = "" }) => {
           className={`${
             type === "draft"
               ? "bg-gray-100 text-gray-800  "
-              : text === "discount"
+              : type === "discount"
               ? "bg-gray-100 text-gray-800  "
-              : text === "pending"
+              : type === "pending"
               ? "bg-orange-100 text-orange-800 "
-              : text === "paid"
+              : type === "paid"
               ? "bg-green-100 text-green-800 "
               : "bg-blue-100 text-primary "
           } text-[14px] font-medium ml-2 px-2.5 py-0.5 rounded-full`}

@@ -26,13 +26,13 @@ const CapitalShare = () => {
   };
 
   // use if not loadmore button undertime
-  const { data: totalCapital, isLoading: loadingCapital } = useQueryData(
+  const { data: totalCapital } = useQueryData(
     `/v1/capital-share/read-total-capital/${empid}`, // endpoint
     "get", // method
     "capital-share" // key
   );
   // use if not loadmore button undertime
-  const { data: subscribeCapital, isLoading } = useQueryData(
+  const { data: subscribeCapital } = useQueryData(
     `/v1/subscribe-capital/active-by-id/${empid}`, // endpoint
     "get", // method
     "subscribeCapital" // key
@@ -73,8 +73,6 @@ const CapitalShare = () => {
             remainingAmount={
               checkCapitalShare(totalCapital, subscribeCapital).remainingAmount
             }
-            loadingCapital={loadingCapital}
-            loadingSubsC={isLoading}
           />
         </div>
         <Footer />

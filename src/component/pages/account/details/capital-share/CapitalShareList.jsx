@@ -27,8 +27,6 @@ const CapitalShareList = ({
   totalCapital,
   subscribeCapital,
   remainingAmount,
-  loadingCapital,
-  loadingSubsC,
 }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [dataItem, setData] = React.useState(null);
@@ -87,6 +85,7 @@ const CapitalShareList = ({
     setData(item);
     setDel(true);
   };
+
   // use if not loadmore button undertime read-capital-total
   const { data: memberName, isLoading: loadingmemberName } = useQueryData(
     `/v1/members/name/${empid}`, // endpoint
@@ -112,27 +111,18 @@ const CapitalShareList = ({
         setOnSearch={setOnSearch}
         onSearch={onSearch}
       />
-      <div className="relative text-center overflow-x-auto z-0">
-        <div className="flex my-4 pb-2  text-primary">
-          <StatusAmount
-            text="Paid Capital"
-            amount={subscribeCapital}
-            type="paid"
-          />
-
-          {status === "loading" || loadingCapital ? (
-            "Loading..."
-          ) : totalCapital?.count > 0 && !store.isSearch ? (
+      <div className="relative overflow-x-auto z-0">
+        <div className="xl:flex items-center xl:mt-4 mb-2 text-primary">
+          {result?.pages[0].count > 0 ? (
             <StatusAmount
-              text="Total Capital Share "
+              text="Paid Capital Share"
               amount={totalCapital}
               type="paid"
             />
           ) : (
             <StatusAmount
-              text="Total Capital Share "
+              text="Subscribes Capital Share "
               amount={computeTotalCapital(result?.pages[0])}
-              type="paid"
             />
           )}
 
@@ -140,6 +130,10 @@ const CapitalShareList = ({
             text="Remaining Capital "
             amount={remainingAmount}
             type="pending"
+          />
+          <StatusAmount
+            text="Subscribes Capital Share "
+            amount={subscribeCapital}
           />
         </div>
         <table>
@@ -215,15 +209,17 @@ const CapitalShareList = ({
             ))}
           </tbody>
         </table>
-        <Loadmore
-          fetchNextPage={fetchNextPage}
-          isFetchingNextPage={isFetchingNextPage}
-          hasNextPage={hasNextPage}
-          result={result?.pages[0]}
-          setPage={setPage}
-          page={page}
-          refView={ref}
-        />
+        <div className="text-center">
+          <Loadmore
+            fetchNextPage={fetchNextPage}
+            isFetchingNextPage={isFetchingNextPage}
+            hasNextPage={hasNextPage}
+            result={result?.pages[0]}
+            setPage={setPage}
+            page={page}
+            refView={ref}
+          />
+        </div>
       </div>
 
       {store.isRestore && (
