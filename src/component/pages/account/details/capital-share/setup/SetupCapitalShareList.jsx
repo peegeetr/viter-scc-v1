@@ -145,16 +145,18 @@ const SetupCapitalShareList = ({
         <div className="bg-gray-200 p-2 flex justify-between items-center">
           <h4>Amortization</h4>
 
-          {store.credentials.data.role_is_member === 0 && memberid !== null && (
-            <button
-              type="button"
-              className=" btn-primary !py-[3px] "
-              onClick={handleAdd}
-            >
-              <FaPlusCircle />
-              <span>Add</span>
-            </button>
-          )}
+          {store.credentials.data.role_is_member === 0 &&
+            memberid !== null &&
+            subscribeCapital?.count > 0 && (
+              <button
+                type="button"
+                className=" btn-primary !py-[3px] "
+                onClick={handleAdd}
+              >
+                <FaPlusCircle />
+                <span>Add</span>
+              </button>
+            )}
         </div>
         <div className="relative text-center overflow-x-auto z-0">
           <table>
