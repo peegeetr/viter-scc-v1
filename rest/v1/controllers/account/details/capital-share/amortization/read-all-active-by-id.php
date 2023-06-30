@@ -1,29 +1,34 @@
 <?php
-
 // set http header
-require '../../../../core/header.php';
+require '../../../../../core/header.php';
 // use needed functions
-require '../../../../core/functions.php';
+require '../../../../../core/functions.php';
 require 'functions.php';
 // use needed classes
-require '../../../../models/account/details/capital-share/CapitalShare.php';
+require '../../../../../models/account/details/capital-share/Amortization.php';
 // check database connection
 $conn = null;
 $conn = checkDbConnection();
 // make instance of classes
-$share = new CapitalShare($conn);
+$amortization = new Amortization($conn);
 $response = new Response();
+// get payload
+$body = file_get_contents("php://input");
+$data = json_decode($body, true);
+// get $_GET data
+// check if stocksid is in the url e.g. /jobtitle/1
+$error = [];
+$returnData = [];
 // validate api key
 if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     checkApiKey();
 
-    if (array_key_exists("memberId", $_GET)) {
+    if (array_key_exists("amortizationId", $_GET)) {
         // get task id from query string
-        $share->capital_share_member_id = $_GET['memberId'];
+        $amortization->capital_amortization_member_id = $_GET['amortizationId'];
         //check to see if task id in query string is not empty and is number, if not return json error
-        checkId($share->capital_share_member_id);
-        // if request is a GET e.g. /capital_share
-        $query = checkReadTotalCapitalById($share);
+        checkId($amortization->capital_amortization_member_id);
+        $query = checkReadActiveById($amortization);
         http_response_code(200);
         getQueriedData($query);
     }

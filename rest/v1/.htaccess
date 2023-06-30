@@ -55,6 +55,7 @@ RewriteRule ^members/approved$ controllers/account/read-all-approved.php [L]
 RewriteRule ^members/search/approved/([A-Za-z0-9-]+)$ controllers/account/search-approved.php?search=$1 [L]
 RewriteRule ^members/([0-9]+)/([A-Za-z0-9-]+)$ controllers/account/account.php?membersid=$1&isUpdate=$2 [L]
 RewriteRule ^members/name/([0-9]+)$ controllers/account/read-name.php?membersid=$1 [L]
+RewriteRule ^members/read-subscribe-capital-by-id/([0-9]+)$ controllers/account/read-subscribe-capital-by-id.php?membersid=$1 [L]
 
 #beneficiaries
 RewriteRule ^beneficiaries$ controllers/account/details/beneficiaries/beneficiaries.php [L]
@@ -72,6 +73,7 @@ RewriteRule ^capital-share/([0-9]+)$ controllers/account/details/capital-share/c
 RewriteRule ^capital-share/page/([0-9]+)/([0-9]+)$ controllers/account/details/capital-share/page.php?start=$1&membersid=$2 [L]
 RewriteRule ^capital-share/search/([A-Za-z0-9-]+)/([0-9]+)$ controllers/account/details/capital-share/search.php?search=$1&membersid=$2 [L]
 RewriteRule ^capital-share/read-total-capital/([0-9]+)$ controllers/account/details/capital-share/read-capital-total.php?memberId=$1 [L]
+RewriteRule ^capital-share/update-capital-details/([0-9]+)$ controllers/account/details/capital-share/update-capital-details.php?membersId=$1 [L]
 
 #patronage
 RewriteRule ^patronage/page/by-employee-id/([0-9]+)/([0-9]+)$ controllers/account/details/patronage/page-by-employee-id.php?start=$1&membersid=$2 [L]
@@ -179,3 +181,9 @@ RewriteRule ^subscribe-capital/([0-9]+)$ controllers/settings/subscribe-capital/
 RewriteRule ^subscribe-capital/page/([0-9]+)$ controllers/settings/subscribe-capital/page.php?start=$1 [L]
 RewriteRule ^subscribe-capital/search/([A-Za-z0-9-]+)$ controllers/settings/subscribe-capital/search.php?search=$1 [L]
 RewriteRule ^subscribe-capital/active-by-id/([0-9]+)$ controllers/settings/subscribe-capital/read-active-by-id.php?membersId=$1 [L]
+ 
+#CAPITAL AMORTIZATION
+RewriteRule ^capital-amortization$ controllers/account/details/capital-share/amortization/amortization.php [L]
+RewriteRule ^capital-amortization/([0-9]+)$ controllers/account/details/capital-share/amortization/amortization.php?amortizationId=$1 [L]  
+RewriteRule ^capital-amortization/active/([0-9]+)$ controllers/account/details/capital-share/amortization/active.php?amortizationId=$1 [L] 
+RewriteRule ^capital-amortization/read-all-active-by-id/([0-9]+)$ controllers/account/details/capital-share/amortization/read-all-active-by-id.php?amortizationId=$1 [L]  

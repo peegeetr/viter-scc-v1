@@ -1,9 +1,9 @@
 import React from "react";
-import CapitalDeatilsLinks from "../CapitalDeatilsLinks";
-import { StoreContext } from "../../../../../../store/StoreContext";
-import PageNotFound from "../../../../../partials/PageNotFound";
+import SetupCapitalShare from "../SetupCapitalShare";
+import { StoreContext } from "../../../../../../../store/StoreContext";
+import PageNotFound from "../../../../../../partials/PageNotFound";
 
-const SystemCapitalShare = () => {
+const SystemSetupCapitalShare = () => {
   const { store } = React.useContext(StoreContext);
   const sccToken = JSON.parse(localStorage.getItem("sccToken"));
   if (sccToken.isDev === false) {
@@ -14,9 +14,9 @@ const SystemCapitalShare = () => {
   }
   return (
     <>
-      <CapitalDeatilsLinks />
+      <SetupCapitalShare />
     </>
   );
 };
 
-export default SystemCapitalShare;
+export default SystemSetupCapitalShare;

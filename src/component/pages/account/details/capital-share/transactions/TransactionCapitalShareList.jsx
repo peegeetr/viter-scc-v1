@@ -2,32 +2,27 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import React from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { useInView } from "react-intersection-observer";
-import { setIsAdd, setIsRestore } from "../../../../../store/StoreAction";
-import { StoreContext } from "../../../../../store/StoreContext";
-import useQueryData from "../../../../custom-hooks/useQueryData";
+import { setIsAdd, setIsRestore } from "../../../../../../store/StoreAction";
+import { StoreContext } from "../../../../../../store/StoreContext";
+import useQueryData from "../../../../../custom-hooks/useQueryData";
 import {
   formatDate,
   getTime,
   getUrlParam,
   numberWithCommas,
   pesoSign,
-} from "../../../../helpers/functions-general";
-import { queryDataInfinite } from "../../../../helpers/queryDataInfinite";
-import Loadmore from "../../../../partials/Loadmore";
-import NoData from "../../../../partials/NoData";
-import SearchBar from "../../../../partials/SearchBar";
-import ServerError from "../../../../partials/ServerError";
-import ModalDeleteRestore from "../../../../partials/modals/ModalDeleteRestore";
-import TableSpinner from "../../../../partials/spinners/TableSpinner";
-import { computeTotalCapital } from "./functions-capital-share";
-import StatusAmount from "../../../../partials/status/StatusAmount";
+} from "../../../../../helpers/functions-general";
+import { queryDataInfinite } from "../../../../../helpers/queryDataInfinite";
+import Loadmore from "../../../../../partials/Loadmore";
+import NoData from "../../../../../partials/NoData";
+import SearchBar from "../../../../../partials/SearchBar";
+import ServerError from "../../../../../partials/ServerError";
+import ModalDeleteRestore from "../../../../../partials/modals/ModalDeleteRestore";
+import TableSpinner from "../../../../../partials/spinners/TableSpinner";
+import { computeTotalCapital } from "../functions-capital-share";
+import StatusAmount from "../../../../../partials/status/StatusAmount";
 
-const CapitalShareList = ({
-  setItemEdit,
-  totalCapital,
-  subscribeCapital,
-  remainingAmount,
-}) => {
+const TransactionCapitalShareList = ({ setItemEdit, totalCapital }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [dataItem, setData] = React.useState(null);
   const [id, setId] = React.useState(null);
@@ -116,7 +111,7 @@ const CapitalShareList = ({
           {result?.pages[0].count > 0 ? (
             <StatusAmount
               text="Paid Capital Share"
-              amount={totalCapital}
+              amount={totalCapital.totalCapital}
               type="paid"
             />
           ) : (
@@ -128,12 +123,16 @@ const CapitalShareList = ({
 
           <StatusAmount
             text="Remaining Capital "
-            amount={remainingAmount}
+            amount={totalCapital.remainingAmount}
             type="pending"
           />
           <StatusAmount
             text="Subscribes Capital Share "
-            amount={subscribeCapital}
+            amount={totalCapital.subscribeC}
+          />
+          <StatusAmount
+            text="Membership Fee "
+            amount={totalCapital.memberFee}
           />
         </div>
         <table>
@@ -236,4 +235,4 @@ const CapitalShareList = ({
   );
 };
 
-export default CapitalShareList;
+export default TransactionCapitalShareList;

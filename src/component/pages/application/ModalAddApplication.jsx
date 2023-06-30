@@ -45,6 +45,10 @@ const ModalAddApplication = () => {
     "get", // method
     "subscribe-capital-active" // key
   );
+
+  const currentSC = subscribeCapitalActive?.data.filter(
+    (item) => item.subscribe_capital_is_active === 1
+  );
   const initVal = {
     members_pre_membership_date: "",
     members_first_name: "",
@@ -53,7 +57,6 @@ const ModalAddApplication = () => {
     members_gender: "",
     members_email: "",
     members_birth_date: "",
-    members_subscribe_capital_id: "",
   };
 
   const yupSchema = Yup.object({
@@ -64,7 +67,6 @@ const ModalAddApplication = () => {
     members_email: Yup.string().required("Required"),
     members_birth_date: Yup.string().required("Required"),
     members_birth_date: Yup.string().required("Required"),
-    members_subscribe_capital_id: Yup.string().required("Required"),
   });
 
   return (
@@ -88,7 +90,7 @@ const ModalAddApplication = () => {
               initialValues={initVal}
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
-                // console.log(values)
+                // console.log(values );
                 // mutate data
                 mutation.mutate(values);
               }}
@@ -106,36 +108,7 @@ const ModalAddApplication = () => {
                         disabled={mutation.isLoading}
                       />
                     </div>
-                    <div className="relative mb-5">
-                      <InputSelect
-                        label="Subscribe Capital Share"
-                        type="text"
-                        name="members_subscribe_capital_id"
-                        disabled={mutation.isLoading}
-                      >
-                        <option value="" hidden>
-                          {isLoading ? "...Loading" : "--"}
-                        </option>
-                        {subscribeCapitalActive?.data.map((scsItem, key) => {
-                          return (
-                            <option
-                              key={key}
-                              value={scsItem.subscribe_capital_aid}
-                            >
-                              &#8369;
-                              {` ${numberWithCommas(
-                                Number(
-                                  scsItem.subscribe_capital_amount
-                                ).toFixed(2)
-                              )} ${
-                                scsItem.subscribe_capital_is_active === 1 &&
-                                "(Current)"
-                              } `}
-                            </option>
-                          );
-                        })}
-                      </InputSelect>
-                    </div>
+
                     <div className="relative mb-5">
                       <InputText
                         label="Last Name"

@@ -1,13 +1,11 @@
 import React from "react";
-import { FaPlusCircle } from "react-icons/fa";
 import { StoreContext } from "../../../../store/StoreContext";
 import BreadCrumbs from "../../../partials/BreadCrumbs";
+import Footer from "../../../partials/Footer";
 import Header from "../../../partials/Header";
+import Navigation from "../../../partials/Navigation";
 import ModalError from "../../../partials/modals/ModalError";
 import ModalSuccess from "../../../partials/modals/ModalSuccess";
-import Navigation from "../../../partials/Navigation";
-import Footer from "../../../partials/Footer";
-import CapitalShareList from "../../account/details/capital-share/CapitalShareList";
 
 const MyCapitalShare = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -21,9 +19,7 @@ const MyCapitalShare = () => {
         </div>
         <hr />
 
-        <div className="w-full pb-20 mt-3 ">
-          <CapitalShareList />
-        </div>
+        <div className="w-full pb-20 mt-3 ">{/* <CapitalShareList /> */}</div>
         <Footer />
       </div>
 

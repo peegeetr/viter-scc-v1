@@ -32,7 +32,7 @@ const BreadCrumbs = ({ param = "" }) => {
     .filter((crumb) => crumb !== "")
 
     .map((crumb, key) => {
-      currentLink += `/${crumb}`;
+      currentLink += `/${crumb.replace(" ", "-")}`;
 
       return (
         <li

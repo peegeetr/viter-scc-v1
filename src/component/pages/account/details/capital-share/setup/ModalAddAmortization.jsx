@@ -8,15 +8,20 @@ import {
   setIsAdd,
   setMessage,
   setSuccess,
-} from "../../../../../store/StoreAction";
-import { StoreContext } from "../../../../../store/StoreContext";
-import useQueryData from "../../../../custom-hooks/useQueryData";
-import { InputText } from "../../../../helpers/FormInputs";
-import { getDateNow, getUrlParam } from "../../../../helpers/functions-general";
-import { queryData } from "../../../../helpers/queryData";
-import ButtonSpinner from "../../../../partials/spinners/ButtonSpinner";
+} from "../../../../../../store/StoreAction";
+import { StoreContext } from "../../../../../../store/StoreContext";
+import useQueryData from "../../../../../custom-hooks/useQueryData";
+import { InputText, MyCheckbox } from "../../../../../helpers/FormInputs";
+import {
+  getDateNow,
+  getUrlParam,
+  removeComma,
+} from "../../../../../helpers/functions-general";
+import { queryData } from "../../../../../helpers/queryData";
+import ButtonSpinner from "../../../../../partials/spinners/ButtonSpinner";
+import { getTotalPaidUp } from "../functions-capital-share";
 
-const ModalAddCapitalShare = ({ item }) => {
+const ModalAddAmortization = ({ item, subscribeCapital }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const memberid = getUrlParam().get("memberid");
 
@@ -24,24 +29,26 @@ const ModalAddCapitalShare = ({ item }) => {
   const [show, setShow] = React.useState("show");
 
   // use if not loadmore button undertime
-  const { data: capitalShare } = useQueryData(
-    `/v1/capital-share`, // endpoint
+  const { data: totalCapital } = useQueryData(
+    `/v1/capital-share/read-total-capital/${memberid}`, // endpoint
     "get", // method
-    "payslip" // key
+    "capital-share" // key
   );
 
   const mutation = useMutation({
     mutationFn: (values) =>
       queryData(
         item
-          ? `/v1/capital-share/${item.capital_share_aid}`
-          : `/v1/capital-share`,
+          ? `/v1/capital-amortization/${item.capital_amortization_aid}`
+          : `/v1/capital-amortization`,
         item ? "put" : "post",
         values
       ),
     onSuccess: (data) => {
       // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ["capital-share"] });
+      queryClient.invalidateQueries({
+        queryKey: ["capital-amortization-by-id"],
+      });
       dispatch(setIsAdd(false));
 
       // show success box
@@ -62,16 +69,14 @@ const ModalAddCapitalShare = ({ item }) => {
   };
 
   const initVal = {
-    capital_share_or: item ? item.capital_share_or : "",
-    capital_share_date: item ? item.capital_share_date : getDateNow(),
-    capital_share_paid_up: item ? item.capital_share_paid_up : "",
-    capital_share_member_id: item ? item.capital_share_member_id : memberid,
+    capital_amortization_amount: item ? item.capital_amortization_amount : "",
+    capital_amortization_member_id: item
+      ? item.capital_amortization_member_id
+      : memberid,
   };
 
   const yupSchema = Yup.object({
-    capital_share_or: Yup.string().required("Required"),
-    capital_share_paid_up: Yup.string().required("Required"),
-    capital_share_date: Yup.string().required("Required"),
+    capital_amortization_amount: Yup.string().required("Required"),
   });
 
   return (
@@ -82,7 +87,7 @@ const ModalAddCapitalShare = ({ item }) => {
         <div className="p-1 w-[350px] rounded-b-2xl animate-slideUp ">
           <div className="flex justify-between items-center bg-primary p-3 rounded-t-2xl">
             <h3 className="text-white text-sm">
-              {item ? "Update" : "Add"} Capital Share
+              {item ? "Update" : "Add"} Amortization
             </h3>
             <button
               type="button"
@@ -98,8 +103,23 @@ const ModalAddCapitalShare = ({ item }) => {
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
                 // console.log(values);
+                const capital_amortization_amount = removeComma(
+                  `${values.capital_amortization_amount}`
+                );
+                if (
+                  getTotalPaidUp(
+                    totalCapital,
+                    subscribeCapital,
+                    capital_amortization_amount
+                  )
+                ) {
+                  dispatch(setError(true));
+                  dispatch(setMessage("invalid amount"));
+                  return;
+                }
+
                 // mutate data
-                mutation.mutate(values);
+                mutation.mutate({ ...values, capital_amortization_amount });
               }}
             >
               {(props) => {
@@ -107,27 +127,10 @@ const ModalAddCapitalShare = ({ item }) => {
                   <Form className="">
                     <div className="relative my-5">
                       <InputText
-                        label="Date"
-                        type="text"
-                        onFocus={(e) => (e.target.type = "date")}
-                        onBlur={(e) => (e.target.type = "text")}
-                        name="capital_share_date"
-                        disabled={mutation.isLoading}
-                      />
-                    </div>
-                    <div className="relative mb-5">
-                      <InputText
                         label="Amount"
                         type="text"
-                        name="capital_share_paid_up"
-                        disabled={mutation.isLoading}
-                      />
-                    </div>
-                    <div className="relative mb-5">
-                      <InputText
-                        label="Official Receipt"
-                        type="text"
-                        name="capital_share_or"
+                        num="num"
+                        name="capital_amortization_amount"
                         disabled={mutation.isLoading}
                       />
                     </div>
@@ -166,4 +169,4 @@ const ModalAddCapitalShare = ({ item }) => {
   );
 };
 
-export default ModalAddCapitalShare;
+export default ModalAddAmortization;

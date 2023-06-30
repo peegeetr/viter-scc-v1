@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Form, Formik } from "formik";
 import React from "react";
+import { AiFillCamera } from "react-icons/ai";
 import { FaTimesCircle, FaUserCircle } from "react-icons/fa";
 import * as Yup from "yup";
 import {
@@ -10,21 +11,15 @@ import {
   setSuccess,
 } from "../../../../../store/StoreAction";
 import { StoreContext } from "../../../../../store/StoreContext";
+import useUploadPhoto from "../../../../custom-hooks/useUploadPhoto";
 import {
   InputFileUpload,
   InputSelect,
   InputText,
 } from "../../../../helpers/FormInputs";
+import { devBaseImgUrl } from "../../../../helpers/functions-general";
 import { queryData } from "../../../../helpers/queryData";
 import ButtonSpinner from "../../../../partials/spinners/ButtonSpinner";
-import { AiFillCamera } from "react-icons/ai";
-import useUploadPhoto from "../../../../custom-hooks/useUploadPhoto";
-import {
-  devBaseImgUrl,
-  numberWithCommas,
-} from "../../../../helpers/functions-general";
-import useQueryData from "../../../../custom-hooks/useQueryData";
-import { NumberFormatBase } from "react-number-format";
 
 const ModalUpdateBasicInfo = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -60,15 +55,8 @@ const ModalUpdateBasicInfo = ({ item }) => {
     dispatch
   );
 
-  // use if not loadmore button undertime
-  const { isLoading, data: subscribeCapitalActive } = useQueryData(
-    `/v1/subscribe-capital`,
-    "get", // method
-    "subscribe-capital-active" // key
-  );
   const initVal = {
     members_pre_membership_date: item.members_pre_membership_date,
-    members_subscribe_capital_id: item.members_subscribe_capital_id,
     members_id: item.members_id,
     members_gender: item.members_gender,
     members_birth_date: item.members_birth_date,
@@ -83,7 +71,6 @@ const ModalUpdateBasicInfo = ({ item }) => {
 
   const yupSchema = Yup.object({
     members_pre_membership_date: Yup.string().required("Required"),
-    members_subscribe_capital_id: Yup.string().required("Required"),
     members_first_name: Yup.string().required("Required"),
     members_last_name: Yup.string().required("Required"),
     members_middle_name: Yup.string().required("Required"),
@@ -107,7 +94,7 @@ const ModalUpdateBasicInfo = ({ item }) => {
               <FaTimesCircle />
             </button>
           </div>
-          <div className="bg-white p-4 rounded-b-2xl overflow-y-auto max-h-[35rem]">
+          <div className="bg-white p-4 rounded-b-2xl ">
             <Formik
               initialValues={initVal}
               validationSchema={yupSchema}
@@ -166,33 +153,6 @@ const ModalUpdateBasicInfo = ({ item }) => {
                         name="members_pre_membership_date"
                         disabled={mutation.isLoading}
                       />
-                    </div>
-                    <div className="relative mb-5">
-                      <InputSelect
-                        label="Subscribe Capital Share"
-                        type="text"
-                        name="members_subscribe_capital_id"
-                        disabled={mutation.isLoading}
-                      >
-                        <option value="" hidden>
-                          {isLoading ? "...Loading" : "--"}
-                        </option>
-                        {subscribeCapitalActive?.data.map((scsItem, key) => {
-                          return (
-                            <option
-                              key={key}
-                              value={scsItem.subscribe_capital_aid}
-                            >
-                              &#8369;
-                              {` ${numberWithCommas(
-                                Number(
-                                  scsItem.subscribe_capital_amount
-                                ).toFixed(2)
-                              )} `}
-                            </option>
-                          );
-                        })}
-                      </InputSelect>
                     </div>
                     <div className="relative mb-5">
                       <InputText

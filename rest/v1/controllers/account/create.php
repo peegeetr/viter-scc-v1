@@ -19,7 +19,6 @@ $members->members_email = checkIndex($data, "members_email");
 $members->members_middle_name = checkIndex($data, "members_middle_name");
 $members->members_gender = checkIndex($data, "members_gender");
 $members->members_birth_date = checkIndex($data, "members_birth_date");
-$members->members_subscribe_capital_id = checkIndex($data, "members_subscribe_capital_id");
 $members->members_is_active = 1;
 $members->members_created = date("Y-m-d H:i:s");
 $members->members_datetime = date("Y-m-d H:i:s");

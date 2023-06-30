@@ -1,22 +1,29 @@
 
 *controllers     
     - settings/subscribe-capital {note: all files}
-    - account/details/capital-share/functions.php
-    - account/details/capital-share/read-capital-total.php 
+    - account/details/capital-share {note: all files}
+    - account/details/capital-share/amortization {note: all files}
     - account/details/create.php  
     - account/details/update.php   
+    - account/details/functions.php   
+    - account/details/read-subscribe-capital-by-id.php   
 
 *models      
     - settings/subscribe-capital/SubscribeCapital.php
-    - account/details/CapitalShare.php  
+    - account/details/capital-share/CapitalShare.php  
+    - account/details/capital-share/Amortization.php  
     - account/Members.php  
     
 *htaccess 
     - #SUBSCRIBE CAPITAL
     - #capital share
+    - #members
+    - #CAPITAL AMORTIZATION 
 
 *db tables 
     - sccv1_settings_subscribe_capital.sql
+    - sccv1_capital_amortization.sql
+    - sccv1_members.sql {note: members_subscribe_capital_id (varchar20), members_member_fee (varchar20)}
 
 *core functions 
     - 

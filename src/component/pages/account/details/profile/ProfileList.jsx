@@ -100,10 +100,6 @@ const ProfileList = ({ members, isLoading, error }) => {
     setDel(true);
   };
 
-  const initVal = {};
-
-  const yupSchema = Yup.object({});
-
   return (
     <>
       <div className="text-center overflow-x-auto z-0">
@@ -146,13 +142,6 @@ const ProfileList = ({ members, isLoading, error }) => {
                     {item.members_birth_date === ""
                       ? ""
                       : `${formatDate(item.members_pre_membership_date)}`}
-                  </p>
-                  <p className="font-semibold mb-0">Subscribe Capital :</p>
-                  <p className=" mb-0">
-                    &#8369;
-                    {` ${numberWithCommas(
-                      Number(item.subscribe_capital_amount).toFixed(2)
-                    )} `}
                   </p>
                 </div>
                 <div className="hidden sm:block m-auto justify-center">

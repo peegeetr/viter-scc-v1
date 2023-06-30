@@ -1,6 +1,14 @@
 <?php
 
 // Read all
+function checkReadSubscribeCapitalById($object)
+{
+    $query = $object->readSubscribeCapitalById();
+    checkQuery($query, "Empty records.(subscribe capital)");
+    return $query;
+}
+
+// Read all
 function checkReadNameById($object)
 {
     $query = $object->readNameById();

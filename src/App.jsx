@@ -127,6 +127,10 @@ import CashierMyOrders from "./component/pages/my-account/orders/links/CashierMy
 import CashierFileUpload from "./component/pages/file-upload/links/CashierFileUpload";
 import AdminSubscribeCapital from "./component/pages/settings/subscribe-capital/links/AdminSubscribeCapital";
 import SystemSubscribeCapital from "./component/pages/settings/subscribe-capital/links/SystemSubscribeCapital";
+import AdminTransactionCapitalShare from "./component/pages/account/details/capital-share/transactions/links/AdminTransactionCapitalShare";
+import AdminSetupCapitalShare from "./component/pages/account/details/capital-share/setup/links/AdminSetupCapitalShare";
+import SystemSetupCapitalShare from "./component/pages/account/details/capital-share/setup/links/SystemSetupCapitalShare";
+import SystemTransactionCapitalShare from "./component/pages/account/details/capital-share/transactions/links/SystemTransactionCapitalShare";
 
 function App() {
   // Create a client
@@ -247,6 +251,22 @@ function App() {
               element={
                 <ProtectedRouteSystem>
                   <SystemCapitalShare />
+                </ProtectedRouteSystem>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlSystem}/members/details/capital-share/setup`}
+              element={
+                <ProtectedRouteSystem>
+                  <SystemSetupCapitalShare />
+                </ProtectedRouteSystem>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlSystem}/members/details/capital-share/transactions`}
+              element={
+                <ProtectedRouteSystem>
+                  <SystemTransactionCapitalShare />
                 </ProtectedRouteSystem>
               }
             />
@@ -574,6 +594,22 @@ function App() {
               element={
                 <ProtectedRouteOther>
                   <AdminCapitalShare />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/members/details/capital-share/setup`}
+              element={
+                <ProtectedRouteOther>
+                  <AdminSetupCapitalShare />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/members/details/capital-share/transactions`}
+              element={
+                <ProtectedRouteOther>
+                  <AdminTransactionCapitalShare />
                 </ProtectedRouteOther>
               }
             />

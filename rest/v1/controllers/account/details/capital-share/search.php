@@ -4,9 +4,9 @@
 require '../../../../core/header.php';
 // use needed functions
 require '../../../../core/functions.php';
-require 'functions.php'; 
+require 'functions.php';
 // use needed classes
-require '../../../../models/account/details/CapitalShare.php';  
+require '../../../../models/account/details/capital-share/CapitalShare.php';
 // check database connection
 $conn = null;
 $conn = checkDbConnection();

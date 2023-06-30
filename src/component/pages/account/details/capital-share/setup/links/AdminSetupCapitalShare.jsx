@@ -1,9 +1,9 @@
 import React from "react";
-import CapitalDeatilsLinks from "../CapitalDeatilsLinks";
-import { StoreContext } from "../../../../../../store/StoreContext";
-import PageNotFound from "../../../../../partials/PageNotFound";
+import SetupCapitalShare from "../SetupCapitalShare";
+import { StoreContext } from "../../../../../../../store/StoreContext";
+import PageNotFound from "../../../../../../partials/PageNotFound";
 
-const AdminCapitalShare = () => {
+const AdminSetupCapitalShare = () => {
   const { store } = React.useContext(StoreContext);
   const sccToken = JSON.parse(localStorage.getItem("sccToken"));
 
@@ -15,9 +15,9 @@ const AdminCapitalShare = () => {
   }
   return (
     <>
-      <CapitalDeatilsLinks />
+      <SetupCapitalShare />
     </>
   );
 };
 
-export default AdminCapitalShare;
+export default AdminSetupCapitalShare;
