@@ -49,7 +49,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         if (count($allOrders) > 0) {
             for ($d = 0; $d < count($allOrders); $d++) {
                 $pos->orders_aid = $allOrders[$d]["orders_aid"];
-                $pos->sales_receive_amount = $allOrders[$d]["orders_product_amount"] - $allOrders[$d]["sales_discount"];
+                $pos->sales_receive_amount = (int)$allOrders[$d]["orders_product_amount"] - (int)$allOrders[$d]["sales_discount"];
                 $query = checkSalesPaymentUpdate($pos);
                 checkIsPaidOrder($pos);
             }
