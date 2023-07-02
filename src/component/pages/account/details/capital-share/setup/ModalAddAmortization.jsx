@@ -14,6 +14,7 @@ import useQueryData from "../../../../../custom-hooks/useQueryData";
 import { InputText, MyCheckbox } from "../../../../../helpers/FormInputs";
 import {
   getDateNow,
+  getDateTimeNow,
   getUrlParam,
   removeComma,
 } from "../../../../../helpers/functions-general";
@@ -70,6 +71,9 @@ const ModalAddAmortization = ({ item, subscribeCapital }) => {
 
   const initVal = {
     capital_amortization_amount: item ? item.capital_amortization_amount : "",
+    capital_amortization_date: item
+      ? item.capital_amortization_date
+      : getDateTimeNow(),
     capital_amortization_member_id: item
       ? item.capital_amortization_member_id
       : memberid,
@@ -77,6 +81,7 @@ const ModalAddAmortization = ({ item, subscribeCapital }) => {
 
   const yupSchema = Yup.object({
     capital_amortization_amount: Yup.string().required("Required"),
+    capital_amortization_date: Yup.string().required("Required"),
   });
 
   return (
@@ -125,6 +130,14 @@ const ModalAddAmortization = ({ item, subscribeCapital }) => {
               {(props) => {
                 return (
                   <Form className="">
+                    <div className="relative my-5">
+                      <InputText
+                        label="Date"
+                        type="datetime-local"
+                        name="capital_amortization_date"
+                        disabled={mutation.isLoading}
+                      />
+                    </div>
                     <div className="relative my-5">
                       <InputText
                         label="Amount"

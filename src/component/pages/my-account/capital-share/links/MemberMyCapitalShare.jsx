@@ -2,6 +2,7 @@ import React from "react";
 import MyCapitalShare from "../MyCapitalShare";
 import { StoreContext } from "../../../../../store/StoreContext";
 import PageNotFound from "../../../../partials/PageNotFound";
+import CapitalDeatilsLinks from "../../../account/details/capital-share/CapitalDeatilsLinks";
 
 const MemberMyCapitalShare = () => {
   const { store } = React.useContext(StoreContext);

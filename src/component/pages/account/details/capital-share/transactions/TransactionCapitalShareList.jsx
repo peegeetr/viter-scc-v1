@@ -143,9 +143,8 @@ const TransactionCapitalShareList = ({ setItemEdit, totalCapital }) => {
               <th className="min-w-[15rem]">Official Receipt</th>
               <th className="min-w-[15rem]">Paid up Capital</th>
               {(store.credentials.data.role_is_developer === 1 ||
-                store.credentials.data.role_is_admin === 1) && (
-                <th className="!w-[5rem]">Actions</th>
-              )}
+                store.credentials.data.role_is_admin === 1) &&
+                memberid !== null && <th className="!w-[5rem]">Actions</th>}
             </tr>
           </thead>
           <tbody>

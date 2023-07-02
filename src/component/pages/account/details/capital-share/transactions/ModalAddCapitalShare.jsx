@@ -13,7 +13,7 @@ import { StoreContext } from "../../../../../../store/StoreContext";
 import useQueryData from "../../../../../custom-hooks/useQueryData";
 import { InputText } from "../../../../../helpers/FormInputs";
 import {
-  getDateNow,
+  getDateTimeNow,
   getUrlParam,
 } from "../../../../../helpers/functions-general";
 import { queryData } from "../../../../../helpers/queryData";
@@ -66,7 +66,7 @@ const ModalAddCapitalShare = ({ item, amount, raminingAmount }) => {
 
   const initVal = {
     capital_share_or: item ? item.capital_share_or : "",
-    capital_share_date: item ? item.capital_share_date : getDateNow(),
+    capital_share_date: item ? item.capital_share_date : getDateTimeNow(),
   };
 
   const yupSchema = Yup.object({
@@ -123,9 +123,7 @@ const ModalAddCapitalShare = ({ item, amount, raminingAmount }) => {
                     <div className="relative my-5">
                       <InputText
                         label="Date"
-                        type="text"
-                        onFocus={(e) => (e.target.type = "date")}
-                        onBlur={(e) => (e.target.type = "text")}
+                        type="datetime-local"
                         name="capital_share_date"
                         disabled={mutation.isLoading}
                       />

@@ -146,11 +146,13 @@ class Amortization
         try {
             $sql = "update {$this->tblAmortization} set ";
             $sql .= "capital_amortization_amount = :capital_amortization_amount, ";
+            $sql .= "capital_amortization_date = :capital_amortization_date, ";
             $sql .= "capital_amortization_datetime = :capital_amortization_datetime ";
             $sql .= "where capital_amortization_aid  = :capital_amortization_aid ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "capital_amortization_amount" => $this->capital_amortization_amount,
+                "capital_amortization_date" => $this->capital_amortization_date,
                 "capital_amortization_datetime" => $this->capital_amortization_datetime,
                 "capital_amortization_aid" => $this->capital_amortization_aid,
             ]);

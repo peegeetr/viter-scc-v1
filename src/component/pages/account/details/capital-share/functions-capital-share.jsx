@@ -41,11 +41,6 @@ export const getTotalPaidUp = (capital, subscribeCapital, amount) => {
   // total paid capital + amortization amount
   totalAmount = totalCapital + Number(amount);
 
-  // if total paid capital ay mababa sa amortization amount
-  if (totalCapital < Number(amount)) {
-    result = true;
-  }
-
   // if subscribe capital ay mababa sa total paid capital
   if (Number(subscribeCapital) < totalAmount) {
     result = true;

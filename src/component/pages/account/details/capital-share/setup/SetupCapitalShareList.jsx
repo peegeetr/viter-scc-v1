@@ -17,6 +17,7 @@ import { StoreContext } from "../../../../../../store/StoreContext";
 import useQueryData from "../../../../../custom-hooks/useQueryData";
 import {
   formatDate,
+  getTime,
   getUrlParam,
   numberWithCommas,
   pesoSign,
@@ -166,9 +167,10 @@ const SetupCapitalShareList = ({
                 <th>Date</th>
                 <th>Amount</th>
                 <th>Status</th>
-                {store.credentials.data.role_is_member === 0 && (
-                  <th className="max-w-[5rem]">Actions</th>
-                )}
+                {store.credentials.data.role_is_member === 0 &&
+                  memberid !== null && (
+                    <th className="max-w-[5rem]">Actions</th>
+                  )}
               </tr>
             </thead>
             <tbody>
@@ -191,7 +193,10 @@ const SetupCapitalShareList = ({
                 return (
                   <tr key={key}>
                     <td>{counter++}.</td>
-                    <td>{formatDate(aItem.capital_amortization_date)}</td>
+                    <td>
+                      {formatDate(aItem.capital_amortization_date)}{" "}
+                      {getTime(aItem.capital_amortization_date)}
+                    </td>
                     <td>
                       {pesoSign}
                       {numberWithCommas(
@@ -206,53 +211,55 @@ const SetupCapitalShareList = ({
                       )}
                     </td>
 
-                    {store.credentials.data.role_is_member === 0 && (
-                      <td>
-                        <div className="flex items-center gap-1">
-                          {aItem.capital_amortization_is_active === 1 && (
-                            <>
-                              <button
-                                type="button"
-                                className="btn-action-table tooltip-action-table"
-                                data-tooltip="Edit"
-                                onClick={() => handleEdit(aItem)}
-                              >
-                                <FaEdit />
-                              </button>
-                              <button
-                                type="button"
-                                className="btn-action-table tooltip-action-table"
-                                data-tooltip="Archive"
-                                onClick={() => handleArchive(aItem)}
-                              >
-                                <FaArchive />
-                              </button>{" "}
-                            </>
-                          )}
-                          {aItem.capital_amortization_is_active === 0 &&
-                            store.credentials.data.role_is_developer === 1 && (
+                    {store.credentials.data.role_is_member === 0 &&
+                      memberid !== null && (
+                        <td>
+                          <div className="flex items-center gap-1">
+                            {aItem.capital_amortization_is_active === 1 && (
                               <>
                                 <button
                                   type="button"
                                   className="btn-action-table tooltip-action-table"
-                                  data-tooltip="Restore"
-                                  onClick={() => handleRestore(aItem)}
+                                  data-tooltip="Edit"
+                                  onClick={() => handleEdit(aItem)}
                                 >
-                                  <FaHistory />
+                                  <FaEdit />
                                 </button>
                                 <button
                                   type="button"
                                   className="btn-action-table tooltip-action-table"
-                                  data-tooltip="Delete"
-                                  onClick={() => handleDelete(aItem)}
+                                  data-tooltip="Archive"
+                                  onClick={() => handleArchive(aItem)}
                                 >
-                                  <FaTrash />
-                                </button>
+                                  <FaArchive />
+                                </button>{" "}
                               </>
                             )}
-                        </div>
-                      </td>
-                    )}
+                            {aItem.capital_amortization_is_active === 0 &&
+                              store.credentials.data.role_is_developer ===
+                                1 && (
+                                <>
+                                  <button
+                                    type="button"
+                                    className="btn-action-table tooltip-action-table"
+                                    data-tooltip="Restore"
+                                    onClick={() => handleRestore(aItem)}
+                                  >
+                                    <FaHistory />
+                                  </button>
+                                  <button
+                                    type="button"
+                                    className="btn-action-table tooltip-action-table"
+                                    data-tooltip="Delete"
+                                    onClick={() => handleDelete(aItem)}
+                                  >
+                                    <FaTrash />
+                                  </button>
+                                </>
+                              )}
+                          </div>
+                        </td>
+                      )}
                   </tr>
                 );
               })}

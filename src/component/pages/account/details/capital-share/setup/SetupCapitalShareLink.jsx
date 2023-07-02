@@ -8,14 +8,18 @@ import {
   getUserType,
 } from "../../../../../helpers/functions-general";
 
-const SetupCapitalShareLink = () => {
+const SetupCapitalShareLink = ({ menu }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const memberid = getUrlParam().get("memberid");
   const urlLink = getUserType(store);
   return (
     <>
       <Link
-        to={`${urlLink}/members/details/capital-share/setup?memberid=${memberid}`}
+        to={
+          menu === "members"
+            ? `${urlLink}/members/details/capital-share/setup?memberid=${memberid}`
+            : `${urlLink}/details/capital-share/setup`
+        }
         className="w-full py-2"
       >
         <div className="flex items-center">
@@ -28,7 +32,11 @@ const SetupCapitalShareLink = () => {
       </Link>
 
       <Link
-        to={`${urlLink}/members/details/capital-share/setup?memberid=${memberid}`}
+        to={
+          menu === "members"
+            ? `${urlLink}/members/details/capital-share/setup?memberid=${memberid}`
+            : `${urlLink}/details/capital-share/setup`
+        }
         className="btn-action-table group-hover:bg-primary group-hover:text-white"
       >
         <SlArrowRight className="inline" />

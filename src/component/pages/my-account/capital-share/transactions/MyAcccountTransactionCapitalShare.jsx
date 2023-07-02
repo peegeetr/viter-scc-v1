@@ -1,0 +1,61 @@
+import React from "react";
+import { StoreContext } from "../../../../../store/StoreContext";
+import useQueryData from "../../../../custom-hooks/useQueryData";
+import BreadCrumbs from "../../../../partials/BreadCrumbs";
+import Footer from "../../../../partials/Footer";
+import Header from "../../../../partials/Header";
+import Navigation from "../../../../partials/Navigation";
+import ModalError from "../../../../partials/modals/ModalError";
+import ModalSuccess from "../../../../partials/modals/ModalSuccess";
+import { checkCapitalShare } from "../../../account/details/capital-share/functions-capital-share";
+import TransactionCapitalShareList from "../../../account/details/capital-share/transactions/TransactionCapitalShareList";
+
+const MyAcccountTransactionCapitalShare = () => {
+  const { store, dispatch } = React.useContext(StoreContext);
+  const [itemEdit, setItemEdit] = React.useState(null);
+
+  // use if not loadmore button undertime
+  const { data: totalCapital } = useQueryData(
+    `/v1/capital-share/read-total-capital/${store.credentials.data.members_aid}`, // endpoint
+    "get", // method
+    "capital-share" // key
+  );
+  // use if not loadmore button undertime
+  const { data: subscribeCapital } = useQueryData(
+    `/v1/subscribe-capital/active-by-id/${store.credentials.data.members_aid}`, // endpoint
+    "get", // method
+    "subscribeCapital" // key
+  );
+  // use if not loadmore button undertime
+  const { data: activeAmortization } = useQueryData(
+    `/v1/capital-amortization/read-all-active-by-id/${store.credentials.data.members_aid}`, // endpoint
+    "get", // method
+    "activeAmortization" // key
+  );
+
+  return (
+    <>
+      <Header />
+      <Navigation menu="myaccount" />
+      <div className="wrapper ">
+        <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2">
+          <BreadCrumbs param={`${location.search}`} />{" "}
+        </div>
+        <hr />
+
+        <div className="w-full pb-20 mt-3 ">
+          <TransactionCapitalShareList
+            setItemEdit={setItemEdit}
+            totalCapital={checkCapitalShare(totalCapital, subscribeCapital)}
+          />
+        </div>
+        <Footer />
+      </div>
+
+      {store.success && <ModalSuccess />}
+      {store.error && <ModalError />}
+    </>
+  );
+};
+
+export default MyAcccountTransactionCapitalShare;

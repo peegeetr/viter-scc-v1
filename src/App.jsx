@@ -66,6 +66,10 @@ import CreateAccount from "./component/pages/access/create-account/CreateAccount
 import CreateVerification from "./component/pages/access/create-account/CreateVerification";
 import AdminCapitalShare from "./component/pages/account/details/capital-share/links/AdminCapitalShare";
 import SystemCapitalShare from "./component/pages/account/details/capital-share/links/SystemCapitalShare";
+import AdminSetupCapitalShare from "./component/pages/account/details/capital-share/setup/links/AdminSetupCapitalShare";
+import SystemSetupCapitalShare from "./component/pages/account/details/capital-share/setup/links/SystemSetupCapitalShare";
+import AdminTransactionCapitalShare from "./component/pages/account/details/capital-share/transactions/links/AdminTransactionCapitalShare";
+import SystemTransactionCapitalShare from "./component/pages/account/details/capital-share/transactions/links/SystemTransactionCapitalShare";
 import AdminDeatils from "./component/pages/account/details/links/AdminDeatils";
 import SystemDeatils from "./component/pages/account/details/links/SystemDeatils";
 import AdminMemberOrders from "./component/pages/account/details/orders/links/AdminMemberOrders";
@@ -83,29 +87,37 @@ import SystemAppProfile from "./component/pages/application/details/links/System
 import AdminApplication from "./component/pages/application/links/AdminApplication";
 import SystemApplication from "./component/pages/application/links/SystemApplication";
 import AdminDashboard from "./component/pages/dashboard/links/AdminDashboard";
+import CashierDashboard from "./component/pages/dashboard/links/CashierDashboard";
 import ManagerDashboard from "./component/pages/dashboard/links/ManagerDashboard";
 import MemberDashboard from "./component/pages/dashboard/links/MemberDashboard";
 import SystemDashboard from "./component/pages/dashboard/links/SystemDashboard";
 import AdminFileUpload from "./component/pages/file-upload/links/AdminFileUpload";
+import CashierFileUpload from "./component/pages/file-upload/links/CashierFileUpload";
 import ManagerFileUpload from "./component/pages/file-upload/links/ManagerFileUpload";
 import MemberFileUpload from "./component/pages/file-upload/links/MemberFileUpload";
 import SystemFileUpload from "./component/pages/file-upload/links/SystemFileUpload";
 import AdminMyCapitalShare from "./component/pages/my-account/capital-share/links/AdminMyCapitalShare";
+import CashierMyCapitalShare from "./component/pages/my-account/capital-share/links/CashierMyCapitalShare";
 import ManagerMyCapitalShare from "./component/pages/my-account/capital-share/links/ManagerMyCapitalShare";
 import MemberMyCapitalShare from "./component/pages/my-account/capital-share/links/MemberMyCapitalShare";
 import AdminMyAccount from "./component/pages/my-account/links/AdminMyAccount";
+import CashierMyAccount from "./component/pages/my-account/links/CashierMyAccount";
 import ManagerMyAccount from "./component/pages/my-account/links/ManagerMyAccount";
 import MemberMyAccount from "./component/pages/my-account/links/MemberMyAccount";
 import AdminMyOrders from "./component/pages/my-account/orders/links/AdminMyOrders";
+import CashierMyOrders from "./component/pages/my-account/orders/links/CashierMyOrders";
 import ManagerMyOrders from "./component/pages/my-account/orders/links/ManagerMyOrders";
 import MemberMyOrders from "./component/pages/my-account/orders/links/MemberMyOrders";
 import AdminMyPatronage from "./component/pages/my-account/patronage/links/AdminMyPatronage";
+import CashierMyPatronage from "./component/pages/my-account/patronage/links/CashierMyPatronage";
 import ManagerMyPatronage from "./component/pages/my-account/patronage/links/ManagerMyPatronage";
 import MemberMyPatronage from "./component/pages/my-account/patronage/links/MemberMyPatronage";
 import AdminMyProfile from "./component/pages/my-account/profile/links/AdminMyProfile";
+import CashierMyProfile from "./component/pages/my-account/profile/links/CashierMyProfile";
 import ManagerMyProfile from "./component/pages/my-account/profile/links/ManagerMyProfile";
 import MemberMyProfile from "./component/pages/my-account/profile/links/MemberMyProfile";
 import AdminMySavings from "./component/pages/my-account/savings/links/AdminMySavings";
+import CashierMySavings from "./component/pages/my-account/savings/links/CashierMySavings";
 import ManagerMySavings from "./component/pages/my-account/savings/links/ManagerMySavings";
 import MemberMySavings from "./component/pages/my-account/savings/links/MemberMySavings";
 import CasherPointOfSales from "./component/pages/point-of-sales/CasherPointOfSales";
@@ -113,24 +125,20 @@ import AdminSettingsLink from "./component/pages/settings/links/AdminSettingsLin
 import SystemSettingsLink from "./component/pages/settings/links/SystemSettingsLink";
 import AdminNetSurPlus from "./component/pages/settings/net-surplus/links/AdminNetSurPlus";
 import SystemNetSurPlus from "./component/pages/settings/net-surplus/links/SystemNetSurPlus";
+import AdminSubscribeCapital from "./component/pages/settings/subscribe-capital/links/AdminSubscribeCapital";
+import SystemSubscribeCapital from "./component/pages/settings/subscribe-capital/links/SystemSubscribeCapital";
 import SystemMode from "./component/pages/settings/system-mode/SystemMode";
 import AdminOtherUser from "./component/pages/settings/users/other/links/AdminOtherUser";
 import SystemOtherUser from "./component/pages/settings/users/other/links/SystemOtherUser";
 import { StoreProvider } from "./store/StoreContext";
-import CashierDashboard from "./component/pages/dashboard/links/CashierDashboard";
-import CashierMyAccount from "./component/pages/my-account/links/CashierMyAccount";
-import CashierMyProfile from "./component/pages/my-account/profile/links/CashierMyProfile";
-import CashierMyCapitalShare from "./component/pages/my-account/capital-share/links/CashierMyCapitalShare";
-import CashierMySavings from "./component/pages/my-account/savings/links/CashierMySavings";
-import CashierMyPatronage from "./component/pages/my-account/patronage/links/CashierMyPatronage";
-import CashierMyOrders from "./component/pages/my-account/orders/links/CashierMyOrders";
-import CashierFileUpload from "./component/pages/file-upload/links/CashierFileUpload";
-import AdminSubscribeCapital from "./component/pages/settings/subscribe-capital/links/AdminSubscribeCapital";
-import SystemSubscribeCapital from "./component/pages/settings/subscribe-capital/links/SystemSubscribeCapital";
-import AdminTransactionCapitalShare from "./component/pages/account/details/capital-share/transactions/links/AdminTransactionCapitalShare";
-import AdminSetupCapitalShare from "./component/pages/account/details/capital-share/setup/links/AdminSetupCapitalShare";
-import SystemSetupCapitalShare from "./component/pages/account/details/capital-share/setup/links/SystemSetupCapitalShare";
-import SystemTransactionCapitalShare from "./component/pages/account/details/capital-share/transactions/links/SystemTransactionCapitalShare";
+import MemberMyAccountSetupCapitalShare from "./component/pages/my-account/capital-share/setup/links/MemberSetupCapitalShare";
+import MemberMyAcccountTransactionCapitalShare from "./component/pages/my-account/capital-share/transactions/links/MemberMyAcccountTransactionCapitalShare";
+import ManagerMyAccountSetupCapitalShare from "./component/pages/my-account/capital-share/setup/links/ManagerSetupCapitalShare";
+import ManagerMyAcccountTransactionCapitalShare from "./component/pages/my-account/capital-share/transactions/links/ManagerMyAcccountTransactionCapitalShare";
+import CashierMyAccountSetupCapitalShare from "./component/pages/my-account/capital-share/setup/links/CashierSetupCapitalShare";
+import CashierMyAcccountTransactionCapitalShare from "./component/pages/my-account/capital-share/transactions/links/CashierMyAcccountTransactionCapitalShare";
+import AdminMyAccountSetupCapitalShare from "./component/pages/my-account/capital-share/setup/links/AdminSetupCapitalShare";
+import AdminMyAcccountTransactionCapitalShare from "./component/pages/my-account/capital-share/transactions/links/AdminMyAcccountTransactionCapitalShare";
 
 function App() {
   // Create a client
@@ -510,6 +518,24 @@ function App() {
                 </ProtectedRouteOther>
               }
             />
+
+            <Route
+              path={`${devNavUrl}/${UrlMember}/details/capital-share/setup`}
+              element={
+                <ProtectedRouteOther>
+                  <MemberMyAccountSetupCapitalShare />
+                </ProtectedRouteOther>
+              }
+            />
+
+            <Route
+              path={`${devNavUrl}/${UrlMember}/details/capital-share/transactions`}
+              element={
+                <ProtectedRouteOther>
+                  <MemberMyAcccountTransactionCapitalShare />
+                </ProtectedRouteOther>
+              }
+            />
             <Route
               path={`${devNavUrl}/${UrlMember}/details/patronage`}
               element={
@@ -597,6 +623,7 @@ function App() {
                 </ProtectedRouteOther>
               }
             />
+
             <Route
               path={`${devNavUrl}/${UrlAdmin}/members/details/capital-share/setup`}
               element={
@@ -669,6 +696,24 @@ function App() {
               element={
                 <ProtectedRouteOther>
                   <AdminMyCapitalShare />
+                </ProtectedRouteOther>
+              }
+            />
+
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/details/capital-share/setup`}
+              element={
+                <ProtectedRouteOther>
+                  <AdminMyAccountSetupCapitalShare />
+                </ProtectedRouteOther>
+              }
+            />
+
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/details/capital-share/transactions`}
+              element={
+                <ProtectedRouteOther>
+                  <AdminMyAcccountTransactionCapitalShare />
                 </ProtectedRouteOther>
               }
             />
@@ -889,6 +934,24 @@ function App() {
                 </ProtectedRouteOther>
               }
             />
+
+            <Route
+              path={`${devNavUrl}/${UrlCasher}/details/capital-share/setup`}
+              element={
+                <ProtectedRouteOther>
+                  <CashierMyAccountSetupCapitalShare />
+                </ProtectedRouteOther>
+              }
+            />
+
+            <Route
+              path={`${devNavUrl}/${UrlCasher}/details/capital-share/transactions`}
+              element={
+                <ProtectedRouteOther>
+                  <CashierMyAcccountTransactionCapitalShare />
+                </ProtectedRouteOther>
+              }
+            />
             <Route
               path={`${devNavUrl}/${UrlCasher}/details/patronage`}
               element={
@@ -956,6 +1019,24 @@ function App() {
               element={
                 <ProtectedRouteOther>
                   <ManagerMyCapitalShare />
+                </ProtectedRouteOther>
+              }
+            />
+
+            <Route
+              path={`${devNavUrl}/${UrlManager}/details/capital-share/setup`}
+              element={
+                <ProtectedRouteOther>
+                  <ManagerMyAccountSetupCapitalShare />
+                </ProtectedRouteOther>
+              }
+            />
+
+            <Route
+              path={`${devNavUrl}/${UrlManager}/details/capital-share/transactions`}
+              element={
+                <ProtectedRouteOther>
+                  <ManagerMyAcccountTransactionCapitalShare />
                 </ProtectedRouteOther>
               }
             />

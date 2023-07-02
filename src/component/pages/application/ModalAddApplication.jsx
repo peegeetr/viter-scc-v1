@@ -66,7 +66,6 @@ const ModalAddApplication = () => {
     members_gender: Yup.string().required("Required"),
     members_email: Yup.string().required("Required"),
     members_birth_date: Yup.string().required("Required"),
-    members_birth_date: Yup.string().required("Required"),
   });
 
   return (

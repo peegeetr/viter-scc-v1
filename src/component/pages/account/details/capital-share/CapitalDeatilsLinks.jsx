@@ -31,13 +31,13 @@ const CapitalDeatilsLinks = () => {
             className="group flex items-center justify-between border-b border-solid border-gray-300"
             onClick={handleShow}
           >
-            <SetupCapitalShareLink />
+            <SetupCapitalShareLink menu="members" />
           </div>
           <div
             className="group flex items-center justify-between border-b border-solid border-gray-300"
             onClick={handleShow}
           >
-            <TransactionCapitalShareLink />
+            <TransactionCapitalShareLink menu="members" />
           </div>
         </div>
         <Footer />
