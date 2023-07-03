@@ -10,11 +10,18 @@ import ModalSuccess from "../../../partials/modals/ModalSuccess";
 import MemberOrdersList from "../../account/details/orders/MemberOrdersList";
 import { FaShoppingCart } from "react-icons/fa";
 import ModalAddMyOrder from "./ModalAddMyOrder";
+import useQueryData from "../../../custom-hooks/useQueryData";
 
 const MyOrders = () => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [itemEdit, setItemEdit] = React.useState(null);
 
+  // use if not loadmore button undertime
+  const { data: memberName, isLoading } = useQueryData(
+    `/v1/members/name/${store.credentials.data.members_aid}`, // endpoint
+    "get", // method
+    "memberName" // key
+  );
   const handleAdd = () => {
     dispatch(setIsAdd(true));
     setItemEdit(null);
@@ -36,7 +43,12 @@ const MyOrders = () => {
         <hr />
 
         <div className="w-full pb-20 mt-3">
-          <MemberOrdersList setItemEdit={setItemEdit} />
+          <MemberOrdersList
+            setItemEdit={setItemEdit}
+            memberName={memberName}
+            isLoading={isLoading}
+            menu="myaccount"
+          />
         </div>
         <Footer />
       </div>

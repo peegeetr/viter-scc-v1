@@ -36,7 +36,7 @@ import StatusInactive from "../../../../partials/status/StatusInactive";
 import StatusPending from "../../../../partials/status/StatusPending";
 import { getRemaningQuantity } from "../../../Inventory/products/functions-product";
 import MemberTotalAmountOrders from "./MemberTotalAmountOrders";
-const MemberOrdersList = ({ setItemEdit }) => {
+const MemberOrdersList = ({ setItemEdit, memberName, isLoading, menu }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [dataItem, setData] = React.useState(null);
   const [id, setId] = React.useState(null);
@@ -51,7 +51,8 @@ const MemberOrdersList = ({ setItemEdit }) => {
   const memberid = getUrlParam().get("memberid");
   const { ref, inView } = useInView();
   // use if with loadmore button and search bar
-  let empid = memberid === null ? store.credentials.data.members_aid : memberid;
+  let empid =
+    menu === "members" ? memberid : store.credentials.data.members_aid;
 
   const {
     data: result,
@@ -81,8 +82,6 @@ const MemberOrdersList = ({ setItemEdit }) => {
     cacheTime: 200,
   });
 
-  console.log(result);
-
   React.useEffect(() => {
     if (inView) {
       setPage((prev) => prev + 1);
@@ -90,14 +89,6 @@ const MemberOrdersList = ({ setItemEdit }) => {
     }
   }, [inView]);
 
-  // use if not loadmore button undertime
-  const { data: memberName, isLoading: loadingmemberName } = useQueryData(
-    `/v1/members/name/${empid}`, // endpoint
-    "get", // method
-    "memberName" // key
-  );
-
-  console.log(memberName);
   // use if not loadmore button undertime
   const { data: stocksGroupProd } = useQueryData(
     `/v1/stocks/group-by-prod`, // endpoint
@@ -148,233 +139,247 @@ const MemberOrdersList = ({ setItemEdit }) => {
   });
   return (
     <>
-      {memberid !== null && (
-        <p className="m-0 text-primary">
-          <span className="pr-4 font-bold">Member Name :</span>
-          {loadingmemberName === "loading"
-            ? "Loading..."
-            : `${memberName?.data[0].members_last_name}, ${memberName?.data[0].members_first_name}`}
-        </p>
-      )}
+      {isLoading ? (
+        <TableSpinner />
+      ) : memberName?.data.length > 0 ? (
+        <>
+          {menu === "members" && (
+            <p className="m-0 text-primary">
+              <span className="pr-4 font-bold">Member Name :</span>
+              {isLoading === "loading"
+                ? "Loading..."
+                : `${memberName?.data[0].members_last_name}, ${memberName?.data[0].members_first_name}`}
+            </p>
+          )}
 
-      <Formik
-        initialValues={initVal}
-        validationSchema={yupSchema}
-        onSubmit={async (values, { setSubmitting, resetForm }) => {
-          setFilter(true);
-          setOnSearch(!onSearch);
-          setStartDate(values.start_date);
-          setEndDate(values.end_date);
-          // // refetch data of query
-          // refetch();
-        }}
-      >
-        {(props) => {
-          return (
-            <Form>
-              <div className="lg:w-[50rem] grid gap-5 grid-cols-1 md:grid-cols-[1fr_1fr_150px] pt-2 pb-5 items-center print:hidden mt-6">
-                <div className="relative">
-                  <InputText
-                    label="From"
-                    name="start_date"
-                    type="text"
-                    disabled={isFetching}
-                    onFocus={(e) => (e.target.type = "date")}
-                    onBlur={(e) => (e.target.type = "date")}
-                  />
-                </div>
+          <Formik
+            initialValues={initVal}
+            validationSchema={yupSchema}
+            onSubmit={async (values, { setSubmitting, resetForm }) => {
+              setFilter(true);
+              setOnSearch(!onSearch);
+              setStartDate(values.start_date);
+              setEndDate(values.end_date);
+              // // refetch data of query
+              // refetch();
+            }}
+          >
+            {(props) => {
+              return (
+                <Form>
+                  <div className="lg:w-[50rem] grid gap-5 grid-cols-1 md:grid-cols-[1fr_1fr_150px] pt-2 pb-5 items-center print:hidden mt-6">
+                    <div className="relative">
+                      <InputText
+                        label="From"
+                        name="start_date"
+                        type="text"
+                        disabled={isFetching}
+                        onFocus={(e) => (e.target.type = "date")}
+                        onBlur={(e) => (e.target.type = "date")}
+                      />
+                    </div>
 
-                <div className="relative">
-                  <InputText
-                    label="To"
-                    name="end_date"
-                    type="text"
-                    disabled={isFetching}
-                    onFocus={(e) => (e.target.type = "date")}
-                    onBlur={(e) => (e.target.type = "date")}
-                  />
-                </div>
+                    <div className="relative">
+                      <InputText
+                        label="To"
+                        name="end_date"
+                        type="text"
+                        disabled={isFetching}
+                        onFocus={(e) => (e.target.type = "date")}
+                        onBlur={(e) => (e.target.type = "date")}
+                      />
+                    </div>
 
-                <button
-                  className="btn-modal-submit relative"
-                  type="submit"
-                  disabled={isFetching || !props.dirty}
-                >
-                  {/* {isFetching && <ButtonSpinner />} */}
-                  {status === "loading" && <ButtonSpinner />}
-                  <MdFilterAlt className="text-lg" />
-                  <span>Filter</span>
-                </button>
-              </div>
-            </Form>
-          );
-        }}
-      </Formik>
+                    <button
+                      className="btn-modal-submit relative"
+                      type="submit"
+                      disabled={isFetching || !props.dirty}
+                    >
+                      {/* {isFetching && <ButtonSpinner />} */}
+                      {status === "loading" && <ButtonSpinner />}
+                      <MdFilterAlt className="text-lg" />
+                      <span>Filter</span>
+                    </button>
+                  </div>
+                </Form>
+              );
+            }}
+          </Formik>
 
-      {/* compution of total amount */}
-      <MemberTotalAmountOrders result={result} />
+          {/* compution of total amount */}
+          <MemberTotalAmountOrders result={result} />
 
-      <div className="relative text-center overflow-x-auto z-0 ">
-        {/* use only for updating important records */}
-        {status !== "loading" && isFetching && <TableSpinner />}
-        {/* use only for updating important records */}
-        <table>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th className="w-[3rem]">Status</th>
-              <th className="min-w-[6rem] w-[6rem]">Created</th>
-              <th className="min-w-[6rem] w-[6rem]">Pay Date</th>
-              <th className="min-w-[8rem] w-[8rem]">Product</th>
-              <th className="min-w-[8rem] w-[8rem]">Invoice #</th>
-              <th className="min-w-[3rem] w-[3rem] text-center">Qty</th>
-              <th className="min-w-[6rem] w-[6rem] text-right">SRP Price</th>
-              <th className="min-w-[6rem] w-[6rem] text-right">Discounted</th>
-              <th className="min-w-[8rem] w-[8rem] text-right pr-4">
-                Total Amnt.
-              </th>
-              <th className="min-w-[15rem] ">Remarks</th>
-              {memberid === null && <th className="!w-[5rem]"></th>}
-            </tr>
-          </thead>
-          <tbody>
-            {(status === "loading" || result?.pages[0].data.length === 0) && (
-              <tr className="text-center relative">
-                <td colSpan="100%" className="p-10">
-                  {status === "loading" && <TableSpinner />}
-                  <NoData />
-                </td>
-              </tr>
-            )}
-            {error && (
-              <tr className="text-center ">
-                <td colSpan="100%" className="p-10">
-                  <ServerError />
-                </td>
-              </tr>
-            )}
+          <div className="relative text-center overflow-x-auto z-0 ">
+            {/* use only for updating important records */}
+            {status !== "loading" && isFetching && <TableSpinner />}
+            {/* use only for updating important records */}
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th className="w-[3rem]">Status</th>
+                  <th className="min-w-[6rem] w-[6rem]">Created</th>
+                  <th className="min-w-[6rem] w-[6rem]">Pay Date</th>
+                  <th className="min-w-[8rem] w-[8rem]">Product</th>
+                  <th className="min-w-[8rem] w-[8rem]">Invoice #</th>
+                  <th className="min-w-[3rem] w-[3rem] text-center">Qty</th>
+                  <th className="min-w-[6rem] w-[6rem] text-right">
+                    SRP Price
+                  </th>
+                  <th className="min-w-[6rem] w-[6rem] text-right">
+                    Discounted
+                  </th>
+                  <th className="min-w-[8rem] w-[8rem] text-right pr-4">
+                    Total Amnt.
+                  </th>
+                  <th className="min-w-[15rem] ">Remarks</th>
+                  {memberid === null && <th className="!w-[5rem]"></th>}
+                </tr>
+              </thead>
+              <tbody>
+                {(status === "loading" ||
+                  result?.pages[0].data.length === 0) && (
+                  <tr className="text-center relative">
+                    <td colSpan="100%" className="p-10">
+                      {status === "loading" && <TableSpinner />}
+                      <NoData />
+                    </td>
+                  </tr>
+                )}
+                {error && (
+                  <tr className="text-center ">
+                    <td colSpan="100%" className="p-10">
+                      <ServerError />
+                    </td>
+                  </tr>
+                )}
 
-            {result?.pages.map((page, key) => (
-              <React.Fragment key={key}>
-                {page.data.map((item, key) => {
-                  return (
-                    <tr key={key}>
-                      <td> {counter++}.</td>
-                      <td>
-                        {item.orders_is_draft === 1 ? (
-                          <StatusInactive text="draft" />
-                        ) : item.sales_is_paid === 1 ? (
-                          <StatusActive text="Paid" />
-                        ) : (
-                          <StatusPending />
-                        )}
-                      </td>
-                      <td>
-                        {item.orders_date === ""
-                          ? "N/A"
-                          : `${formatDate(item.orders_date)} ${getTime(
-                              item.orders_date
-                            )}`}
-                      </td>
-                      <td>
-                        {item.sales_date === ""
-                          ? "N/A"
-                          : `${formatDate(item.sales_date)} ${getTime(
-                              item.sales_date
-                            )}`}
-                      </td>
-                      <td>
-                        {item.suppliers_products_name}
-                        {getRemaningQuantity(
-                          item,
-                          stocksGroupProd,
-                          orderGroupProd
-                        ) === 0 &&
-                          item.orders_is_draft === 1 && (
-                            <StatusPending text="sold out" />
+                {result?.pages.map((page, key) => (
+                  <React.Fragment key={key}>
+                    {page.data.map((item, key) => {
+                      return (
+                        <tr key={key}>
+                          <td> {counter++}.</td>
+                          <td>
+                            {item.orders_is_draft === 1 ? (
+                              <StatusInactive text="draft" />
+                            ) : item.sales_is_paid === 1 ? (
+                              <StatusActive text="Paid" />
+                            ) : (
+                              <StatusPending />
+                            )}
+                          </td>
+                          <td>
+                            {item.orders_date === ""
+                              ? "N/A"
+                              : `${formatDate(item.orders_date)} ${getTime(
+                                  item.orders_date
+                                )}`}
+                          </td>
+                          <td>
+                            {item.sales_date === ""
+                              ? "N/A"
+                              : `${formatDate(item.sales_date)} ${getTime(
+                                  item.sales_date
+                                )}`}
+                          </td>
+                          <td>
+                            {item.suppliers_products_name}
+                            {getRemaningQuantity(
+                              item,
+                              stocksGroupProd,
+                              orderGroupProd
+                            ) === 0 &&
+                              item.orders_is_draft === 1 && (
+                                <StatusPending text="sold out" />
+                              )}
+                          </td>
+                          <td>
+                            {item.sales_or === "" ? "N/A" : item.sales_or}
+                          </td>
+                          <td className=" text-center">
+                            {item.orders_product_quantity}
+                          </td>
+                          <td className=" text-right">
+                            {pesoSign}{" "}
+                            {numberWithCommas(
+                              Number(item.orders_product_srp).toFixed(2)
+                            )}
+                          </td>
+                          <td className="text-right">
+                            {pesoSign}
+                            {numberWithCommas(
+                              Number(item.sales_discount).toFixed(2)
+                            )}
+                          </td>
+                          <td className=" text-right pr-4">
+                            {pesoSign}
+                            {numberWithCommas(
+                              (
+                                Number(item.orders_product_amount) -
+                                Number(item.sales_discount)
+                              ).toFixed(2)
+                            )}
+                          </td>
+                          <td>{item.orders_remarks}</td>
+
+                          {memberid === null && (
+                            <td>
+                              <div className="flex justify-end items-center gap-1">
+                                {item.orders_is_draft === 1 && (
+                                  <>
+                                    <button
+                                      type="button"
+                                      className="btn-action-table tooltip-action-table"
+                                      data-tooltip="Edit"
+                                      onClick={() => handleEdit(item)}
+                                    >
+                                      <FaEdit />
+                                    </button>
+                                    <button
+                                      type="button"
+                                      className="btn-action-table tooltip-action-table"
+                                      data-tooltip="Submit"
+                                      onClick={() => handlePending(item)}
+                                    >
+                                      <FaCheck />
+                                    </button>
+                                  </>
+                                )}
+                                {item.sales_is_paid === 0 && (
+                                  <button
+                                    type="button"
+                                    className="btn-action-table tooltip-action-table"
+                                    data-tooltip="Cancel"
+                                    onClick={() => handleDelete(item)}
+                                  >
+                                    <ImCross />
+                                  </button>
+                                )}
+                              </div>
+                            </td>
                           )}
-                      </td>
-                      <td>{item.sales_or === "" ? "N/A" : item.sales_or}</td>
-                      <td className=" text-center">
-                        {item.orders_product_quantity}
-                      </td>
-                      <td className=" text-right">
-                        {pesoSign}{" "}
-                        {numberWithCommas(
-                          Number(item.orders_product_srp).toFixed(2)
-                        )}
-                      </td>
-                      <td className="text-right">
-                        {pesoSign}
-                        {numberWithCommas(
-                          Number(item.sales_discount).toFixed(2)
-                        )}
-                      </td>
-                      <td className=" text-right pr-4">
-                        {pesoSign}
-                        {numberWithCommas(
-                          (
-                            Number(item.orders_product_amount) -
-                            Number(item.sales_discount)
-                          ).toFixed(2)
-                        )}
-                      </td>
-                      <td>{item.orders_remarks}</td>
-
-                      {memberid === null && (
-                        <td>
-                          <div className="flex justify-end items-center gap-1">
-                            {item.orders_is_draft === 1 && (
-                              <>
-                                <button
-                                  type="button"
-                                  className="btn-action-table tooltip-action-table"
-                                  data-tooltip="Edit"
-                                  onClick={() => handleEdit(item)}
-                                >
-                                  <FaEdit />
-                                </button>
-                                <button
-                                  type="button"
-                                  className="btn-action-table tooltip-action-table"
-                                  data-tooltip="Submit"
-                                  onClick={() => handlePending(item)}
-                                >
-                                  <FaCheck />
-                                </button>
-                              </>
-                            )}
-                            {item.sales_is_paid === 0 && (
-                              <button
-                                type="button"
-                                className="btn-action-table tooltip-action-table"
-                                data-tooltip="Cancel"
-                                onClick={() => handleDelete(item)}
-                              >
-                                <ImCross />
-                              </button>
-                            )}
-                          </div>
-                        </td>
-                      )}
-                    </tr>
-                  );
-                })}
-              </React.Fragment>
-            ))}
-          </tbody>
-        </table>
-        <Loadmore
-          fetchNextPage={fetchNextPage}
-          isFetchingNextPage={isFetchingNextPage}
-          hasNextPage={hasNextPage}
-          result={result?.pages[0]}
-          setPage={setPage}
-          page={page}
-          refView={ref}
-        />
-      </div>
-
+                        </tr>
+                      );
+                    })}
+                  </React.Fragment>
+                ))}
+              </tbody>
+            </table>
+            <Loadmore
+              fetchNextPage={fetchNextPage}
+              isFetchingNextPage={isFetchingNextPage}
+              hasNextPage={hasNextPage}
+              result={result?.pages[0]}
+              setPage={setPage}
+              page={page}
+              refView={ref}
+            />
+          </div>
+        </>
+      ) : (
+        <NoData />
+      )}
       {store.isConfirm && (
         <ModalConfirm
           id={id}

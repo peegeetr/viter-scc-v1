@@ -7,11 +7,20 @@ import Navigation from "../../../../partials/Navigation";
 import ModalError from "../../../../partials/modals/ModalError";
 import ModalSuccess from "../../../../partials/modals/ModalSuccess";
 import MemberOrdersList from "./MemberOrdersList";
+import useQueryData from "../../../../custom-hooks/useQueryData";
+import { getUrlParam } from "../../../../helpers/functions-general";
 
 const MemberOrders = () => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [itemEdit, setItemEdit] = React.useState(null);
+  const memberid = getUrlParam().get("memberid");
 
+  // use if not loadmore button undertime
+  const { data: memberName, isLoading } = useQueryData(
+    `/v1/members/name/${memberid}`, // endpoint
+    "get", // method
+    "memberName" // key
+  );
   return (
     <>
       <Header />
@@ -23,7 +32,12 @@ const MemberOrders = () => {
         <hr />
 
         <div className="w-full pb-20 mt-3 ">
-          <MemberOrdersList setItemEdit={setItemEdit} />
+          <MemberOrdersList
+            setItemEdit={setItemEdit}
+            memberName={memberName}
+            isLoading={isLoading}
+            menu="members"
+          />
         </div>
         <Footer />
       </div>
