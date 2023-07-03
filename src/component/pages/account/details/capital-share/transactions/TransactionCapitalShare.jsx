@@ -22,23 +22,28 @@ const TransactionCapitalShare = () => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [itemEdit, setItemEdit] = React.useState(null);
   const memberid = getUrlParam().get("memberid");
-  let empid = memberid === null ? store.credentials.data.members_aid : memberid;
 
+  // use if not loadmore button undertime read-capital-total
+  const { data: memberName, isLoading } = useQueryData(
+    `/v1/members/name/${memberid}`, // endpoint
+    "get", // method
+    "memberName" // key
+  );
   // use if not loadmore button undertime
   const { data: totalCapital } = useQueryData(
-    `/v1/capital-share/read-total-capital/${empid}`, // endpoint
+    `/v1/capital-share/read-total-capital/${memberid}`, // endpoint
     "get", // method
     "capital-share" // key
   );
   // use if not loadmore button undertime
   const { data: subscribeCapital } = useQueryData(
-    `/v1/subscribe-capital/active-by-id/${empid}`, // endpoint
+    `/v1/subscribe-capital/active-by-id/${memberid}`, // endpoint
     "get", // method
     "subscribeCapital" // key
   );
   // use if not loadmore button undertime
   const { data: activeAmortization } = useQueryData(
-    `/v1/capital-amortization/read-all-active-by-id/${empid}`, // endpoint
+    `/v1/capital-amortization/read-all-active-by-id/${memberid}`, // endpoint
     "get", // method
     "activeAmortization" // key
   );
@@ -82,6 +87,9 @@ const TransactionCapitalShare = () => {
           <TransactionCapitalShareList
             setItemEdit={setItemEdit}
             totalCapital={checkCapitalShare(totalCapital, subscribeCapital)}
+            memberName={memberName}
+            isLoading={isLoading}
+            menu="members"
           />
         </div>
         <Footer />

@@ -14,6 +14,12 @@ const MyAcccountTransactionCapitalShare = () => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [itemEdit, setItemEdit] = React.useState(null);
 
+  // use if not loadmore button undertime read-capital-total
+  const { data: memberName, isLoading } = useQueryData(
+    `/v1/members/name/${store.credentials.data.members_aid}`, // endpoint
+    "get", // method
+    "memberName" // key
+  );
   // use if not loadmore button undertime
   const { data: totalCapital } = useQueryData(
     `/v1/capital-share/read-total-capital/${store.credentials.data.members_aid}`, // endpoint
@@ -25,12 +31,6 @@ const MyAcccountTransactionCapitalShare = () => {
     `/v1/subscribe-capital/active-by-id/${store.credentials.data.members_aid}`, // endpoint
     "get", // method
     "subscribeCapital" // key
-  );
-  // use if not loadmore button undertime
-  const { data: activeAmortization } = useQueryData(
-    `/v1/capital-amortization/read-all-active-by-id/${store.credentials.data.members_aid}`, // endpoint
-    "get", // method
-    "activeAmortization" // key
   );
 
   return (
@@ -47,6 +47,9 @@ const MyAcccountTransactionCapitalShare = () => {
           <TransactionCapitalShareList
             setItemEdit={setItemEdit}
             totalCapital={checkCapitalShare(totalCapital, subscribeCapital)}
+            memberName={memberName}
+            isLoading={isLoading}
+            menu="myaccount"
           />
         </div>
         <Footer />

@@ -47,6 +47,7 @@ const SetupCapitalShare = () => {
             isLoading={isLoading}
             error={error}
             subscribeCapital={membersSubscribeCapital}
+            menu="members"
           />
         </div>
         <Footer />

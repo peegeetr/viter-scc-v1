@@ -37,6 +37,7 @@ const SetupCapitalShareList = ({
   isLoading,
   error,
   subscribeCapital,
+  menu,
 }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [itemEdit, setItemEdit] = React.useState(null);
@@ -46,7 +47,8 @@ const SetupCapitalShareList = ({
   const memberid = getUrlParam().get("memberid");
   let counter = 1;
   // use if with loadmore button and search bar
-  let empid = memberid === null ? store.credentials.data.members_aid : memberid;
+  let empid =
+    menu === "members" ? memberid : store.credentials.data.members_aid;
 
   // use if not loadmore button undertime
   const {
@@ -96,178 +98,185 @@ const SetupCapitalShareList = ({
 
   return (
     <>
-      {memberid !== null && (
-        <p className="text-primary mb-0">
-          <span className="pr-4 font-bold">Member Name :</span>
-          {isLoading
-            ? "Loading..."
-            : error
-            ? "N/A"
-            : `${members?.data[0].members_last_name}, ${members?.data[0].members_first_name}`}
-        </p>
-      )}
-      <div className="text-center overflow-x-auto z-0 w-full max-w-[750px]">
-        {members?.data.map((aItem, key) => {
-          return (
-            <div
-              key={key}
-              className="bg-gray-200 p-2 my-5 flex justify-between items-center"
-            >
-              <h4>
-                Subscribe Capital :{pesoSign}
-                {subscribeCapital?.count === 0
-                  ? "0.00"
-                  : ` ${numberWithCommas(
-                      Number(
-                        subscribeCapital?.data[0].subscribe_capital_amount
-                      ).toFixed(2)
-                    )} `}
-              </h4>
+      {isLoading ? (
+        <TableSpinner />
+      ) : members?.data.length > 0 ? (
+        <>
+          {memberid !== null && (
+            <p className="text-primary mb-0">
+              <span className="pr-4 font-bold">Member Name :</span>
+              {isLoading
+                ? "Loading..."
+                : error
+                ? "N/A"
+                : `${members?.data[0].members_last_name}, ${members?.data[0].members_first_name}`}
+            </p>
+          )}
+          <div className="text-center overflow-x-auto z-0 w-full max-w-[750px]">
+            {members?.data.map((aItem, key) => {
+              return (
+                <div
+                  key={key}
+                  className="bg-gray-200 p-2 my-5 flex justify-between items-center"
+                >
+                  <h4>
+                    Subscribe Capital :{pesoSign}
+                    {subscribeCapital?.count === 0
+                      ? "0.00"
+                      : ` ${numberWithCommas(
+                          Number(
+                            subscribeCapital?.data[0].subscribe_capital_amount
+                          ).toFixed(2)
+                        )} `}
+                  </h4>
+                  {store.credentials.data.role_is_member === 0 &&
+                    memberid !== null && (
+                      <button
+                        type="button"
+                        className="tooltip-action-table"
+                        data-tooltip="Edit"
+                        onClick={() =>
+                          handleCapitalDetailsEdit(
+                            subscribeCapital?.count === 0
+                              ? aItem
+                              : subscribeCapital?.data[0]
+                          )
+                        }
+                      >
+                        <FaEdit />
+                      </button>
+                    )}
+                </div>
+              );
+            })}
+            <div className="bg-gray-200 p-2 flex justify-between items-center">
+              <h4>Amortization</h4>
+
               {store.credentials.data.role_is_member === 0 &&
-                memberid !== null && (
+                memberid !== null &&
+                subscribeCapital?.count > 0 && (
                   <button
                     type="button"
-                    className="tooltip-action-table"
-                    data-tooltip="Edit"
-                    onClick={() =>
-                      handleCapitalDetailsEdit(
-                        subscribeCapital?.count === 0
-                          ? aItem
-                          : subscribeCapital?.data[0]
-                      )
-                    }
+                    className=" btn-primary !py-[3px] "
+                    onClick={handleAdd}
                   >
-                    <FaEdit />
+                    <FaPlusCircle />
+                    <span>Add</span>
                   </button>
                 )}
             </div>
-          );
-        })}
-        <div className="bg-gray-200 p-2 flex justify-between items-center">
-          <h4>Amortization</h4>
-
-          {store.credentials.data.role_is_member === 0 &&
-            memberid !== null &&
-            subscribeCapital?.count > 0 && (
-              <button
-                type="button"
-                className=" btn-primary !py-[3px] "
-                onClick={handleAdd}
-              >
-                <FaPlusCircle />
-                <span>Add</span>
-              </button>
-            )}
-        </div>
-        <div className="relative text-center overflow-x-auto z-0">
-          <table>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Date</th>
-                <th>Amount</th>
-                <th>Status</th>
-                {store.credentials.data.role_is_member === 0 &&
-                  memberid !== null && (
-                    <th className="max-w-[5rem]">Actions</th>
-                  )}
-              </tr>
-            </thead>
-            <tbody>
-              {(loadingAmortization || amortization?.data.length === 0) && (
-                <tr className="text-center ">
-                  <td colSpan="100%" className="p-10">
-                    {loadingAmortization && <TableSpinner />}
-                    <NoData />
-                  </td>
-                </tr>
-              )}
-              {errorAmortization && (
-                <tr className="text-center ">
-                  <td colSpan="100%" className="p-10">
-                    <ServerError />
-                  </td>
-                </tr>
-              )}
-              {amortization?.data.map((aItem, key) => {
-                return (
-                  <tr key={key}>
-                    <td>{counter++}.</td>
-                    <td>
-                      {formatDate(aItem.capital_amortization_date)}{" "}
-                      {getTime(aItem.capital_amortization_date)}
-                    </td>
-                    <td>
-                      {pesoSign}
-                      {numberWithCommas(
-                        Number(aItem.capital_amortization_amount).toFixed(2)
-                      )}
-                    </td>
-                    <td>
-                      {aItem.capital_amortization_is_active === 1 ? (
-                        <StatusActive />
-                      ) : (
-                        <StatusInactive />
-                      )}
-                    </td>
-
+            <div className="relative text-center overflow-x-auto z-0">
+              <table>
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th className="min-w-[6rem]">Date</th>
+                    <th className="min-w-[8rem] text-right pr-4">Amount</th>
+                    <th>Status</th>
                     {store.credentials.data.role_is_member === 0 &&
                       memberid !== null && (
-                        <td>
-                          <div className="flex items-center gap-1">
-                            {aItem.capital_amortization_is_active === 1 && (
-                              <>
-                                <button
-                                  type="button"
-                                  className="btn-action-table tooltip-action-table"
-                                  data-tooltip="Edit"
-                                  onClick={() => handleEdit(aItem)}
-                                >
-                                  <FaEdit />
-                                </button>
-                                <button
-                                  type="button"
-                                  className="btn-action-table tooltip-action-table"
-                                  data-tooltip="Archive"
-                                  onClick={() => handleArchive(aItem)}
-                                >
-                                  <FaArchive />
-                                </button>{" "}
-                              </>
-                            )}
-                            {aItem.capital_amortization_is_active === 0 &&
-                              store.credentials.data.role_is_developer ===
-                                1 && (
-                                <>
-                                  <button
-                                    type="button"
-                                    className="btn-action-table tooltip-action-table"
-                                    data-tooltip="Restore"
-                                    onClick={() => handleRestore(aItem)}
-                                  >
-                                    <FaHistory />
-                                  </button>
-                                  <button
-                                    type="button"
-                                    className="btn-action-table tooltip-action-table"
-                                    data-tooltip="Delete"
-                                    onClick={() => handleDelete(aItem)}
-                                  >
-                                    <FaTrash />
-                                  </button>
-                                </>
-                              )}
-                          </div>
-                        </td>
+                        <th className="max-w-[5rem]">Actions</th>
                       )}
                   </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      </div>
+                </thead>
+                <tbody>
+                  {(loadingAmortization || amortization?.data.length === 0) && (
+                    <tr className="text-center ">
+                      <td colSpan="100%" className="p-10">
+                        {loadingAmortization && <TableSpinner />}
+                        <NoData />
+                      </td>
+                    </tr>
+                  )}
+                  {errorAmortization && (
+                    <tr className="text-center ">
+                      <td colSpan="100%" className="p-10">
+                        <ServerError />
+                      </td>
+                    </tr>
+                  )}
+                  {amortization?.data.map((aItem, key) => {
+                    return (
+                      <tr key={key}>
+                        <td>{counter++}.</td>
+                        <td>
+                          {formatDate(aItem.capital_amortization_date)}{" "}
+                          {getTime(aItem.capital_amortization_date)}
+                        </td>
+                        <td className=" text-right pr-4">
+                          {pesoSign}
+                          {numberWithCommas(
+                            Number(aItem.capital_amortization_amount).toFixed(2)
+                          )}
+                        </td>
+                        <td>
+                          {aItem.capital_amortization_is_active === 1 ? (
+                            <StatusActive />
+                          ) : (
+                            <StatusInactive />
+                          )}
+                        </td>
 
+                        {store.credentials.data.role_is_member === 0 &&
+                          memberid !== null && (
+                            <td>
+                              <div className="flex items-center gap-1">
+                                {aItem.capital_amortization_is_active === 1 && (
+                                  <>
+                                    <button
+                                      type="button"
+                                      className="btn-action-table tooltip-action-table"
+                                      data-tooltip="Edit"
+                                      onClick={() => handleEdit(aItem)}
+                                    >
+                                      <FaEdit />
+                                    </button>
+                                    <button
+                                      type="button"
+                                      className="btn-action-table tooltip-action-table"
+                                      data-tooltip="Archive"
+                                      onClick={() => handleArchive(aItem)}
+                                    >
+                                      <FaArchive />
+                                    </button>{" "}
+                                  </>
+                                )}
+                                {aItem.capital_amortization_is_active === 0 &&
+                                  store.credentials.data.role_is_developer ===
+                                    1 && (
+                                    <>
+                                      <button
+                                        type="button"
+                                        className="btn-action-table tooltip-action-table"
+                                        data-tooltip="Restore"
+                                        onClick={() => handleRestore(aItem)}
+                                      >
+                                        <FaHistory />
+                                      </button>
+                                      <button
+                                        type="button"
+                                        className="btn-action-table tooltip-action-table"
+                                        data-tooltip="Delete"
+                                        onClick={() => handleDelete(aItem)}
+                                      >
+                                        <FaTrash />
+                                      </button>
+                                    </>
+                                  )}
+                              </div>
+                            </td>
+                          )}
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </>
+      ) : (
+        <NoData />
+      )}
       {store.isEditProfile && <ModalEditSetupCapitalShare item={itemEdit} />}
       {store.isAdd && (
         <ModalAddAmortization

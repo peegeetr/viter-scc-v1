@@ -8,15 +8,10 @@
     - account/details/capital-share/Amortization.php   
     
 *htaccess 
-    - #SUBSCRIBE CAPITAL
-    - #capital share
-    - #members
-    - #CAPITAL AMORTIZATION 
+    - 
 
 *db tables 
-    - sccv1_settings_subscribe_capital.sql
-    - sccv1_capital_amortization.sql
-    - sccv1_members.sql {note: members_subscribe_capital_id (varchar20), members_member_fee (varchar20)}
+    - 
 
 *core functions 
     - 
