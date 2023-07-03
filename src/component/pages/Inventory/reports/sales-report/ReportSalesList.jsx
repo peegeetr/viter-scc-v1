@@ -6,7 +6,7 @@ import { useInView } from "react-intersection-observer";
 import * as Yup from "yup";
 import { StoreContext } from "../../../../../store/StoreContext";
 import useQueryData from "../../../../custom-hooks/useQueryData";
-import { InputSelect } from "../../../../helpers/FormInputs";
+import { InputSelect, InputText } from "../../../../helpers/FormInputs";
 import {
   formatDate,
   getTime,
@@ -58,16 +58,6 @@ const TopSellerList = () => {
     networkMode: "always",
     cacheTime: 200,
   });
-  // use if not loadmore button undertime
-  const { data: total } = useQueryData(
-    `/v1/sales/report/all-pending-and-paid/${month}`, // endpoint
-    "get", // method
-    "pendingAndPaid", // key
-    {},
-    month
-  );
-  console.log(total);
-
   React.useEffect(() => {
     if (inView) {
       setPage((prev) => prev + 1);
@@ -76,12 +66,11 @@ const TopSellerList = () => {
   }, [inView]);
 
   // use if not loadmore button undertime
-  const { data: memberApproved, isLoading: memberApprovedLoading } =
-    useQueryData(
-      `/v1/members/approved`, // endpoint
-      "get", // method
-      "memberApproved" // key
-    );
+  const { data: suppliersList, isLoading: suppliersListLoading } = useQueryData(
+    `/v1/suppliers`, // endpoint
+    "get", // method
+    "suppliers-list" // key
+  );
   const handleMonth = async (e) => {
     let monthName = e.target.value;
     setMonth(monthName);
@@ -99,72 +88,105 @@ const TopSellerList = () => {
   });
   return (
     <>
-      <div className="lg:w-[50rem]">
-        <Formik
-          initialValues={initVal}
-          validationSchema={yupSchema}
-          onSubmit={async (values, { setSubmitting, resetForm }) => {}}
-        >
-          {(props) => {
-            props.values.month = !isFilter
-              ? getMonthName(getCurrentMonth())
-              : props.values.month;
-            return (
-              <Form>
-                <div className="grid gap-4 sm:grid-cols-[1fr_1fr_15rem] pb-5 items-center print:hidden ">
-                  <div className="relative ">
-                    <InputSelect
-                      name="member"
-                      label="Member"
-                      disabled={status === "loading" || memberApprovedLoading}
-                    >
-                      <option value="" hidden>
-                        {memberApprovedLoading ? "Loading..." : "--"}
-                      </option>
-                      {memberApproved?.data.map((cItem, key) => {
-                        return (
-                          <option key={key} value={cItem.members_aid}>
-                            {`${cItem.members_last_name}, ${cItem.members_first_name} `}
-                          </option>
-                        );
-                      })}
-                    </InputSelect>
-                  </div>
-                  <div className="relative">
-                    <InputSelect
-                      label="Month"
-                      name="month"
-                      type="text"
-                      onChange={handleMonth}
-                      disabled={status === "loading"}
-                    >
-                      <option value="" hidden>
-                        {status === "loading" && "Loading..."}
-                      </option>
-                      {getMonth()?.map((yItem, key) => {
-                        return (
-                          <option key={key} value={yItem.month_name}>
-                            {`${yItem.month_name}`}
-                          </option>
-                        );
-                      })}
-                    </InputSelect>
-                  </div>
-                  <button
-                    className="btn-modal-submit relative"
-                    type="submit"
-                    disabled={isFetching || !props.dirty}
+      <Formik
+        initialValues={initVal}
+        validationSchema={yupSchema}
+        onSubmit={async (values, { setSubmitting, resetForm }) => {}}
+      >
+        {(props) => {
+          props.values.month = !isFilter
+            ? getMonthName(getCurrentMonth())
+            : props.values.month;
+          return (
+            <Form>
+              <div className="grid gap-4 sm:grid-cols-[1fr_1fr_1fr_1fr_1fr_15rem] pb-5 items-center print:hidden ">
+                <div className="relative ">
+                  <InputSelect
+                    name="supplier_id"
+                    label="Supplier"
+                    disabled={status === "loading" || suppliersListLoading}
                   >
-                    {isFetching && <ButtonSpinner />}
-                    <MdFilterAlt className="text-lg" />
-                    <span>Filter</span>
-                  </button>
+                    <option value="" hidden>
+                      {suppliersListLoading ? "Loading..." : "--"}
+                    </option>
+                    <option value="0">All</option>
+                    {suppliersList?.data.map((cItem, key) => {
+                      return (
+                        <option key={key} value={cItem.members_aid}>
+                          {`${cItem.members_last_name}, ${cItem.members_first_name} `}
+                        </option>
+                      );
+                    })}
+                  </InputSelect>
                 </div>
-              </Form>
-            );
-          }}
-        </Formik>
-      </div>
+                <div className="relative ">
+                  <InputSelect
+                    name="category_id"
+                    label="Category"
+                    disabled={status === "loading" || suppliersListLoading}
+                  >
+                    <option value="" hidden>
+                      {suppliersListLoading ? "Loading..." : "--"}
+                    </option>
+                    {suppliersList?.data.map((cItem, key) => {
+                      return (
+                        <option key={key} value={cItem.members_aid}>
+                          {`${cItem.members_last_name}, ${cItem.members_first_name} `}
+                        </option>
+                      );
+                    })}
+                  </InputSelect>
+                </div>
+                <div className="relative ">
+                  <InputSelect
+                    name="product_id"
+                    label="Product"
+                    disabled={status === "loading" || suppliersListLoading}
+                  >
+                    <option value="" hidden>
+                      {suppliersListLoading ? "Loading..." : "--"}
+                    </option>
+                    {suppliersList?.data.map((cItem, key) => {
+                      return (
+                        <option key={key} value={cItem.members_aid}>
+                          {`${cItem.members_last_name}, ${cItem.members_first_name} `}
+                        </option>
+                      );
+                    })}
+                  </InputSelect>
+                </div>
+
+                <div className="relative">
+                  <InputText
+                    label="Start Date"
+                    name="start_date"
+                    type="date"
+                    disabled={isFetching}
+                  />
+                </div>
+
+                <div className="relative">
+                  <InputText
+                    label="End Date"
+                    name="end_date"
+                    type="date"
+                    disabled={isFetching}
+                  />
+                </div>
+                <button
+                  className="btn-modal-submit relative"
+                  type="submit"
+                  disabled={isFetching || !props.dirty}
+                >
+                  {isFetching && <ButtonSpinner />}
+                  <MdFilterAlt className="text-lg" />
+                  <span>Filter</span>
+                </button>
+              </div>
+            </Form>
+          );
+        }}
+      </Formik>
 
       <div className="text-center overflow-x-auto z-0">
         {/* use only for updating important records */}

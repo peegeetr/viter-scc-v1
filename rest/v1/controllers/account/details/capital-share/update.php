@@ -13,7 +13,6 @@ if (array_key_exists("shareid", $_GET)) {
     checkPayload($data);
     // get shareid from query string
     $share->capital_share_aid = $_GET['shareid'];
-    $share->capital_share_paid_up = checkIndex($data, "capital_share_paid_up");
     $share->capital_share_or = checkIndex($data, "capital_share_or");
     $share->capital_share_date = checkIndex($data, "capital_share_date");
     $share->capital_share_datetime = date("Y-m-d H:i:s");

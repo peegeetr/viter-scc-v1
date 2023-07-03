@@ -168,14 +168,12 @@ class CapitalShare
     {
         try {
             $sql = "update {$this->tblCapitalShare} set ";
-            $sql .= "capital_share_paid_up = :capital_share_paid_up, ";
             $sql .= "capital_share_or = :capital_share_or, ";
             $sql .= "capital_share_date = :capital_share_date, ";
             $sql .= "capital_share_datetime = :capital_share_datetime ";
             $sql .= "where capital_share_aid  = :capital_share_aid ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "capital_share_paid_up" => $this->capital_share_paid_up,
                 "capital_share_or" => $this->capital_share_or,
                 "capital_share_date" => $this->capital_share_date,
                 "capital_share_datetime" => $this->capital_share_datetime,

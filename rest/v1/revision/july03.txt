@@ -8,11 +8,12 @@
     - account/details/capital-share/functions.php
     - account/details/capital-share/search-by-id.php
     - settings/subscribe-capital/delete.php
-    -> account/details/capital-share/update-capital-details.php
+    - account/details/capital-share/update-capital-details.php
+    -> account/details/capital-share/update.php
 
 *models       
     - account/details/capital-share/Amortization.php   
-    - account/details/capital-share/CapitalShare.php   
+    -> account/details/capital-share/CapitalShare.php   
     - settings/subscribe-capital/SubscribeCapital.php
     
 *htaccess 

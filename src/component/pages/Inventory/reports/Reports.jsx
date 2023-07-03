@@ -1,22 +1,14 @@
 import React from "react";
-import { FaPlusCircle } from "react-icons/fa";
-import { setIsAdd } from "../../../../store/StoreAction";
 import { StoreContext } from "../../../../store/StoreContext";
 import BreadCrumbs from "../../../partials/BreadCrumbs";
 import Footer from "../../../partials/Footer";
 import Header from "../../../partials/Header";
 import Navigation from "../../../partials/Navigation";
-import TopSellerLink from "./top-seller/ReportsLink";
 import ReportSalesLink from "./sales-report/ReportsLink";
+import TopSellerLink from "./top-seller/ReportsLink";
 
 const Reports = () => {
   const { store, dispatch } = React.useContext(StoreContext);
-  const [itemEdit, setItemEdit] = React.useState(null);
-
-  const handleAdd = () => {
-    dispatch(setIsAdd(true));
-    setItemEdit(null);
-  };
 
   return (
     <>
@@ -30,7 +22,7 @@ const Reports = () => {
         <hr />
         <div className="w-full pt-5 pb-20">
           <TopSellerLink />
-          {/* <ReportSalesLink /> */}
+          <ReportSalesLink />
         </div>
         <Footer />
       </div>
