@@ -21,6 +21,7 @@ import TransactionCapitalShareList from "./TransactionCapitalShareList";
 const TransactionCapitalShare = () => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [itemEdit, setItemEdit] = React.useState(null);
+  const [isSubscribeCapital, setIsSubscribeCapital] = React.useState(false);
   const memberid = getUrlParam().get("memberid");
 
   // use if not loadmore button undertime read-capital-total
@@ -29,24 +30,30 @@ const TransactionCapitalShare = () => {
     "get", // method
     "memberName" // key
   );
+
   // use if not loadmore button undertime
   const { data: totalCapital } = useQueryData(
     `/v1/capital-share/read-total-capital/${memberid}`, // endpoint
     "get", // method
     "capital-share" // key
   );
+
   // use if not loadmore button undertime
   const { data: subscribeCapital } = useQueryData(
     `/v1/subscribe-capital/active-by-id/${memberid}`, // endpoint
     "get", // method
-    "subscribeCapital" // key
+    "subscribeCapital", // key
+    {},
+    isSubscribeCapital
   );
+
   // use if not loadmore button undertime
   const { data: activeAmortization } = useQueryData(
     `/v1/capital-amortization/read-all-active-by-id/${memberid}`, // endpoint
     "get", // method
     "activeAmortization" // key
   );
+
   const handleAdd = () => {
     if (
       activeAmortization?.count === 0 ||
@@ -66,7 +73,7 @@ const TransactionCapitalShare = () => {
       <Navigation menu="members" />
       <div className="wrapper ">
         <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2">
-          <BreadCrumbs param={`${location.search}`} />{" "}
+          <BreadCrumbs param={`${location.search}`} />
           {checkCapitalShare(totalCapital, subscribeCapital).result &&
             subscribeCapital?.count > 0 && (
               <div className="flex items-center gap-1">
@@ -89,6 +96,7 @@ const TransactionCapitalShare = () => {
             totalCapital={checkCapitalShare(totalCapital, subscribeCapital)}
             memberName={memberName}
             isLoading={isLoading}
+            setIsSubscribeCapital={setIsSubscribeCapital}
             menu="members"
           />
         </div>

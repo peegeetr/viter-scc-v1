@@ -71,7 +71,7 @@ RewriteRule ^savings/search/([A-Za-z0-9-]+)/([0-9]+)$ controllers/account/detail
 RewriteRule ^capital-share$ controllers/account/details/capital-share/capitalShare.php [L]
 RewriteRule ^capital-share/([0-9]+)$ controllers/account/details/capital-share/capitalShare.php?shareid=$1 [L] 
 RewriteRule ^capital-share/page/([0-9]+)/([0-9]+)$ controllers/account/details/capital-share/page.php?start=$1&membersid=$2 [L]
-RewriteRule ^capital-share/search/([A-Za-z0-9-]+)/([0-9]+)$ controllers/account/details/capital-share/search.php?search=$1&membersid=$2 [L]
+RewriteRule ^capital-share/search-by-id/([A-Za-z0-9-]+)/([0-9]+)$ controllers/account/details/capital-share/search-by-id.php?search=$1&membersid=$2 [L]
 RewriteRule ^capital-share/read-total-capital/([0-9]+)$ controllers/account/details/capital-share/read-capital-total.php?memberId=$1 [L]
 RewriteRule ^capital-share/update-capital-details/([0-9]+)$ controllers/account/details/capital-share/update-capital-details.php?membersId=$1 [L]
 

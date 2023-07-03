@@ -18,6 +18,7 @@ const ModalDeleteRestore = ({
   msg,
   item,
   dataItem,
+  setIsSubscribeCapital,
   orderId = "0",
   isApproved = "active",
   arrKey,
@@ -36,6 +37,7 @@ const ModalDeleteRestore = ({
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: [arrKey] });
       if (data.success) {
+        setIsSubscribeCapital(true);
         dispatch(setIsRestore(false));
         dispatch(setSuccess(true));
         dispatch(

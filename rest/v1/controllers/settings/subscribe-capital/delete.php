@@ -16,6 +16,7 @@ if (array_key_exists("subscribeCapitalId", $_GET)) {
     //check to see if task id in query string is not empty and is number, if not return json error
     checkId($subscribe_capital->subscribe_capital_aid);
     // delete
+    isAssociated($subscribe_capital);
     $query = checkDelete($subscribe_capital);
 
     returnSuccess($subscribe_capital, "Subscribe Capital", $query);

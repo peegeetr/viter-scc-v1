@@ -3,12 +3,20 @@
     - account/details/capital-share/amortization/active.php
     - account/details/capital-share/amortization/create.php
     - account/details/capital-share/amortization/update.php
+    -> account/details/capital-share/create.php
+    -> account/details/capital-share/delete.php
+    -> account/details/capital-share/functions.php
+    -> account/details/capital-share/search-by-id.php
+    -> account/details/capital-share/update-capital-details.php
+    -> settings/subscribe-capital/delete.php
 
 *models       
     - account/details/capital-share/Amortization.php   
+    -> account/details/capital-share/CapitalShare.php   
+    -> settings/subscribe-capital/SubscribeCapital.php
     
 *htaccess 
-    - 
+    -> #capital share
 
 *db tables 
     - 

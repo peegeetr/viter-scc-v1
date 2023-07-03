@@ -23,7 +23,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         $share->capital_search = $_GET['search'];
         //check to see if search keyword in query string is not empty and less than 50 chars
         checkKeyword($share->capital_search);
-        $query = checkSearch($share);
+        $query = checkSearchById($share);
         http_response_code(200);
         getQueriedData($query);
     }

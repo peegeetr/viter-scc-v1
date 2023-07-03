@@ -209,6 +209,25 @@ class SubscribeCapital
         return $query;
     }
 
+    // read all active create validation
+    public function checkAssociation()
+    {
+        try {
+            $sql = "select members_aid ";
+            $sql .= "from ";
+            $sql .= "{$this->tblMembers} ";
+            $sql .= "where members_subscribe_capital_id = :subscribe_capital_aid ";
+            $sql .= "order by members_aid desc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "subscribe_capital_aid" => $this->subscribe_capital_aid,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
     // read all active edit validation
     public function readAllActiveNotById()
     {

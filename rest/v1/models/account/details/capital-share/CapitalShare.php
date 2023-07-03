@@ -6,6 +6,7 @@ class CapitalShare
     public $capital_share_paid_up;
     public $capital_share_or;
     public $capital_share_date;
+    public $capital_share_is_initial_pay;
     public $capital_share_created;
     public $capital_share_datetime;
 
@@ -39,12 +40,14 @@ class CapitalShare
             $sql .= "capital_share_paid_up, ";
             $sql .= "capital_share_or, ";
             $sql .= "capital_share_date, ";
+            $sql .= "capital_share_is_initial_pay, ";
             $sql .= "capital_share_created, ";
             $sql .= "capital_share_datetime ) values ( ";
             $sql .= ":capital_share_member_id, ";
             $sql .= ":capital_share_paid_up, ";
             $sql .= ":capital_share_or, ";
             $sql .= ":capital_share_date, ";
+            $sql .= ":capital_share_is_initial_pay, ";
             $sql .= ":capital_share_created, ";
             $sql .= ":capital_share_datetime ) ";
             $query = $this->connection->prepare($sql);
@@ -53,6 +56,7 @@ class CapitalShare
                 "capital_share_paid_up" => $this->capital_share_paid_up,
                 "capital_share_or" => $this->capital_share_or,
                 "capital_share_date" => $this->capital_share_date,
+                "capital_share_is_initial_pay" => $this->capital_share_is_initial_pay,
                 "capital_share_created" => $this->capital_share_created,
                 "capital_share_datetime" => $this->capital_share_datetime,
             ]);
@@ -78,10 +82,16 @@ class CapitalShare
     }
 
     // search not approved members
-    public function search()
+    public function searchById()
     {
         try {
-            $sql = "select * from ";
+            $sql = "select capital_share_aid, ";
+            $sql .= "capital_share_member_id, ";
+            $sql .= "capital_share_paid_up, ";
+            $sql .= "capital_share_or, ";
+            $sql .= "capital_share_date, ";
+            $sql .= "capital_share_is_initial_pay ";
+            $sql .= "from ";
             $sql .= "{$this->tblCapitalShare} ";
             $sql .= "where capital_share_member_id = :capital_share_member_id ";
             $sql .= "and (capital_share_paid_up like :capital_share_paid_up ";
@@ -106,7 +116,13 @@ class CapitalShare
     public function readById()
     {
         try {
-            $sql = "select * from ";
+            $sql = "select capital_share_aid, ";
+            $sql .= "capital_share_member_id, ";
+            $sql .= "capital_share_paid_up, ";
+            $sql .= "capital_share_or, ";
+            $sql .= "capital_share_date, ";
+            $sql .= "capital_share_is_initial_pay ";
+            $sql .= "from ";
             $sql .= "{$this->tblCapitalShare} ";
             $sql .= "where capital_share_member_id = :capital_share_member_id ";
             $sql .= "order by capital_share_date desc ";
@@ -123,7 +139,13 @@ class CapitalShare
     public function readLimitById()
     {
         try {
-            $sql = "select * from ";
+            $sql = "select capital_share_aid, ";
+            $sql .= "capital_share_member_id, ";
+            $sql .= "capital_share_paid_up, ";
+            $sql .= "capital_share_or, ";
+            $sql .= "capital_share_date, ";
+            $sql .= "capital_share_is_initial_pay ";
+            $sql .= "from ";
             $sql .= "{$this->tblCapitalShare} ";
             $sql .= "where capital_share_member_id = :capital_share_member_id ";
             $sql .= "order by capital_share_date desc,";
@@ -181,6 +203,23 @@ class CapitalShare
         return $query;
     }
 
+    // delete
+    public function deleteInitialPayById()
+    {
+        try {
+            $sql = "delete from {$this->tblCapitalShare} ";
+            $sql .= "where capital_share_member_id = :capital_share_member_id ";
+            $sql .= "and capital_share_is_initial_pay = 1 ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "capital_share_member_id" => $this->capital_share_member_id,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
     // read by id
     public function readTotalCapitalById()
     {
@@ -227,6 +266,7 @@ class CapitalShare
         return $query;
     }
 
+
     // create
     public function createMemberFee()
     {
@@ -236,12 +276,14 @@ class CapitalShare
             $sql .= "capital_share_paid_up, ";
             $sql .= "capital_share_or, ";
             $sql .= "capital_share_date, ";
+            $sql .= "capital_share_is_initial_pay, ";
             $sql .= "capital_share_created, ";
             $sql .= "capital_share_datetime ) values ( ";
             $sql .= ":capital_share_member_id, ";
             $sql .= ":capital_share_paid_up, ";
             $sql .= ":capital_share_or, ";
             $sql .= ":capital_share_date, ";
+            $sql .= ":capital_share_is_initial_pay, ";
             $sql .= ":capital_share_created, ";
             $sql .= ":capital_share_datetime ) ";
             $query = $this->connection->prepare($sql);
@@ -250,6 +292,7 @@ class CapitalShare
                 "capital_share_paid_up" => $this->members_member_fee,
                 "capital_share_or" => $this->capital_share_or,
                 "capital_share_date" => $this->capital_share_date,
+                "capital_share_is_initial_pay" => $this->capital_share_is_initial_pay,
                 "capital_share_created" => $this->capital_share_created,
                 "capital_share_datetime" => $this->capital_share_datetime,
             ]);

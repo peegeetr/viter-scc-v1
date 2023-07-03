@@ -19,13 +19,13 @@ import ServerError from "../../../../../partials/ServerError";
 import ModalDeleteRestore from "../../../../../partials/modals/ModalDeleteRestore";
 import TableSpinner from "../../../../../partials/spinners/TableSpinner";
 import StatusAmount from "../../../../../partials/status/StatusAmount";
-import { computeTotalCapital } from "../functions-capital-share";
 
 const TransactionCapitalShareList = ({
   setItemEdit,
   totalCapital,
   memberName,
   isLoading,
+  setIsSubscribeCapital,
   menu,
 }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -53,7 +53,7 @@ const TransactionCapitalShareList = ({
     queryKey: ["capital-share", onSearch, store.isSearch],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
-        `/v1/capital-share/search/${search.current.value}/${empid}`, // search endpoint
+        `/v1/capital-share/search-by-id/${search.current.value}/${empid}`, // search endpoint
         `/v1/capital-share/page/${pageParam}/${empid}`, // list endpoint
         store.isSearch // search boolean
       ),
@@ -63,7 +63,7 @@ const TransactionCapitalShareList = ({
       }
       return;
     },
-    refetchOnWindowFocus: false,
+    // refetchOnWindowFocus: false,
     networkMode: "always",
     cacheTime: 200,
   });
@@ -119,10 +119,7 @@ const TransactionCapitalShareList = ({
                   type="paid"
                 />
               ) : (
-                <StatusAmount
-                  text="Subscribes Capital Share "
-                  amount={computeTotalCapital(result?.pages[0])}
-                />
+                <StatusAmount text="Subscribes Capital Share " amount={0} />
               )}
 
               <StatusAmount
@@ -197,14 +194,27 @@ const TransactionCapitalShareList = ({
                               >
                                 <FaEdit />
                               </button>
-                              <button
-                                type="button"
-                                className="btn-action-table tooltip-action-table"
-                                data-tooltip="Delete"
-                                onClick={() => handleDelete(item)}
-                              >
-                                <FaTrash />
-                              </button>
+                              {result?.pages[0].count > 2 &&
+                                item.capital_share_is_initial_pay === 0 && (
+                                  <button
+                                    type="button"
+                                    className="btn-action-table tooltip-action-table"
+                                    data-tooltip="Delete"
+                                    onClick={() => handleDelete(item)}
+                                  >
+                                    <FaTrash />
+                                  </button>
+                                )}
+                              {result?.pages[0].count <= 2 && (
+                                <button
+                                  type="button"
+                                  className="btn-action-table tooltip-action-table"
+                                  data-tooltip="Delete"
+                                  onClick={() => handleDelete(item)}
+                                >
+                                  <FaTrash />
+                                </button>
+                              )}
                             </div>
                           </td>
                         )}
@@ -236,7 +246,11 @@ const TransactionCapitalShareList = ({
           isDel={isDel}
           mysqlApiDelete={`/v1/capital-share/${id}`}
           msg={"Are you sure you want to delete "}
-          item={`${dataItem.capital_share_date}`}
+          item={`${formatDate(dataItem.capital_share_date)} ${getTime(
+            dataItem.capital_share_date
+          )}`}
+          dataItem={dataItem}
+          setIsSubscribeCapital={setIsSubscribeCapital}
           arrKey="capital-share"
         />
       )}

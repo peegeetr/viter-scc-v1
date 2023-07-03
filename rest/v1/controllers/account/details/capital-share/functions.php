@@ -24,6 +24,7 @@ function checkUpdateCapitalDetails($object)
     return $query;
 }
 
+
 // Update 
 function checkUpdateMemberFee($object)
 {
@@ -36,5 +37,21 @@ function checkCreateMemberFee($object)
 {
     $query = $object->createMemberFee();
     checkQuery($query, "There's a problem processing your request. (create paid up)");
+    return $query;
+}
+
+// Read search by id
+function checkSearchById($object)
+{
+    $query = $object->searchById();
+    checkQuery($query, "Empty records. (search By Id)");
+    return $query;
+}
+
+// Delete Initial Pay By Id
+function checkDeleteInitialPayById($object)
+{
+    $query = $object->deleteInitialPayById();
+    checkQuery($query, "There's a problem processing your request. (delete Initial Pay By Id)");
     return $query;
 }

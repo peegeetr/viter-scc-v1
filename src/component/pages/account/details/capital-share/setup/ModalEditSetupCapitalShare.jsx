@@ -141,25 +141,29 @@ const ModalEditSetupCapitalShare = ({ item }) => {
                         <option value="" hidden>
                           {isLoading ? "Loading..." : "--"}
                         </option>
-                        {subscribeCapitalActive?.data.map((scItem, key) => {
-                          return (
-                            <option
-                              key={key}
-                              value={scItem.subscribe_capital_aid}
-                            >
-                              &#8369;
-                              {` ${numberWithCommas(
-                                Number(scItem.subscribe_capital_amount).toFixed(
-                                  2
-                                )
-                              )} ${
-                                scItem.subscribe_capital_is_active === 1
-                                  ? "(Active)"
-                                  : ""
-                              }`}
-                            </option>
-                          );
-                        })}
+                        {subscribeCapitalActive?.data.length > 0 ? (
+                          subscribeCapitalActive?.data.map((scItem, key) => {
+                            return (
+                              <option
+                                key={key}
+                                value={scItem.subscribe_capital_aid}
+                              >
+                                &#8369;
+                                {` ${numberWithCommas(
+                                  Number(
+                                    scItem.subscribe_capital_amount
+                                  ).toFixed(2)
+                                )} ${
+                                  scItem.subscribe_capital_is_active === 1
+                                    ? "(Active)"
+                                    : ""
+                                }`}
+                              </option>
+                            );
+                          })
+                        ) : (
+                          <option value="">No Data</option>
+                        )}
                       </InputSelect>
                     </div>
                     {item.members_subscribe_capital_id === "" && (
