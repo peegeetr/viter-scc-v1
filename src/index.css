@@ -45,7 +45,7 @@ input[type="text"]:not(:placeholder-shown) ~ label {
     @apply font-bold bg-gray-100 p-1.5 whitespace-nowrap sm:whitespace-normal first:w-[2rem];
   }
   table th:last-child {
-    @apply w-52;
+    @apply w-[5rem];
   }
   input,
   select {

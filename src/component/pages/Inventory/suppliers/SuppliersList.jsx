@@ -98,11 +98,9 @@ const suppliersList = ({ setItemEdit }) => {
               <th className="min-w-[10rem]">Contact Person</th>
               <th className="min-w-[10rem]">Contact Number</th>
 
-              {store.credentials.data.role_is_admin === 1 ||
-              store.credentials.data.role_is_developer === 1 ? (
+              {(store.credentials.data.role_is_admin === 1 ||
+                store.credentials.data.role_is_developer === 1) && (
                 <th>Actions</th>
-              ) : (
-                <th className="!w-[5rem]"></th>
               )}
             </tr>
           </thead>
