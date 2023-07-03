@@ -409,4 +409,92 @@ class SuppliersProducts
         }
         return $query;
     }
+    // read by id
+    public function readCategoryBySupplierId()
+    {
+        try {
+            $sql = "select ";
+            $sql .= "suppliersProducts.suppliers_products_aid, ";
+            $sql .= "suppliersProducts.suppliers_products_number, ";
+            $sql .= "suppliersProducts.suppliers_products_name, ";
+            $sql .= "suppliersProducts.suppliers_products_price, ";
+            $sql .= "suppliersProducts.suppliers_products_category_id, ";
+            $sql .= "supplier.suppliers_company_name, ";
+            $sql .= "category.product_category_aid, ";
+            $sql .= "category.product_category_name ";
+            $sql .= "from ";
+            $sql .= "{$this->tblSuppliersProducts} as suppliersProducts, ";
+            $sql .= "{$this->tblSuppliers} as supplier, ";
+            $sql .= "{$this->tblCategory} as category ";
+            $sql .= "where suppliersProducts.suppliers_products_suppliers_id = :suppliers_products_suppliers_id ";
+            $sql .= "and category.product_category_aid = suppliersProducts.suppliers_products_category_id ";
+            $sql .= "and suppliersProducts.suppliers_products_suppliers_id = supplier.suppliers_aid ";
+            $sql .= "group by suppliersProducts.suppliers_products_category_id ";
+            $sql .= "order by suppliersProducts.suppliers_products_name asc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "suppliers_products_suppliers_id" => $this->suppliers_products_suppliers_id,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+    // read by id
+    public function readSupplierCategoryBySupplierId()
+    {
+        try {
+            $sql = "select ";
+            $sql .= "suppliersProducts.suppliers_products_aid, ";
+            $sql .= "suppliersProducts.suppliers_products_number, ";
+            $sql .= "suppliersProducts.suppliers_products_name, ";
+            $sql .= "suppliersProducts.suppliers_products_price, ";
+            $sql .= "suppliersProducts.suppliers_products_category_id, ";
+            $sql .= "supplier.suppliers_company_name, ";
+            $sql .= "category.product_category_name ";
+            $sql .= "from ";
+            $sql .= "{$this->tblSuppliersProducts} as suppliersProducts, ";
+            $sql .= "{$this->tblSuppliers} as supplier, ";
+            $sql .= "{$this->tblCategory} as category ";
+            $sql .= "where suppliersProducts.suppliers_products_suppliers_id = :suppliers_products_suppliers_id ";
+            $sql .= "and suppliersProducts.suppliers_products_category_id = :suppliers_products_category_id ";
+            $sql .= "and category.product_category_aid = suppliersProducts.suppliers_products_category_id ";
+            $sql .= "and suppliersProducts.suppliers_products_suppliers_id = supplier.suppliers_aid ";
+            $sql .= "order by suppliersProducts.suppliers_products_name asc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "suppliers_products_suppliers_id" => $this->suppliers_products_suppliers_id,
+                "suppliers_products_category_id" => $this->suppliers_products_category_id,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+    // read by id
+    public function readSupplierCategoryByCategoryId()
+    {
+        try {
+            $sql = "select ";
+            $sql .= "suppliersProducts.suppliers_products_aid, ";
+            $sql .= "suppliersProducts.suppliers_products_number, ";
+            $sql .= "suppliersProducts.suppliers_products_name, ";
+            $sql .= "suppliersProducts.suppliers_products_price, ";
+            $sql .= "suppliersProducts.suppliers_products_category_id, ";
+            $sql .= "category.product_category_name ";
+            $sql .= "from ";
+            $sql .= "{$this->tblSuppliersProducts} as suppliersProducts, ";
+            $sql .= "{$this->tblCategory} as category ";
+            $sql .= "where suppliersProducts.suppliers_products_category_id = :suppliers_products_category_id ";
+            $sql .= "and category.product_category_aid = suppliersProducts.suppliers_products_category_id ";
+            $sql .= "order by suppliersProducts.suppliers_products_name asc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "suppliers_products_category_id" => $this->suppliers_products_category_id,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
 }

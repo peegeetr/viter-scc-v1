@@ -1,0 +1,27 @@
+
+*controllers      
+    - inventory/sales/fuctions.php
+    - inventory/sales/report-filter-sales.php
+    - inventory/supplier/product/functions.php
+    - inventory/supplier/product/report-category-list-by-supplier-id.php
+    - inventory/supplier/product/report-product-by-category-id.php
+    - inventory/supplier/product/report-product-by-supplier-category-id.php
+
+*models       
+    - inventory/sales/Sales.php
+    - inventory/supplier/product/SuppliersProducts.php
+    
+*htaccess 
+    - #suppliers product
+    - #sales 
+    - 
+
+*db tables 
+    - 
+
+*core functions 
+    - 
+
+*extra
+    - Uploaded
+ 

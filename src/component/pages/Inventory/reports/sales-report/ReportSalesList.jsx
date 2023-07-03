@@ -2,7 +2,6 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { Form, Formik } from "formik";
 import React from "react";
 import { MdFilterAlt } from "react-icons/md";
-import { useInView } from "react-intersection-observer";
 import * as Yup from "yup";
 import { StoreContext } from "../../../../../store/StoreContext";
 import useQueryData from "../../../../custom-hooks/useQueryData";
@@ -16,36 +15,34 @@ import {
 import { queryDataInfinite } from "../../../../helpers/queryDataInfinite";
 import NoData from "../../../../partials/NoData";
 import ServerError from "../../../../partials/ServerError";
+import ButtonSpinner from "../../../../partials/spinners/ButtonSpinner";
 import TableSpinner from "../../../../partials/spinners/TableSpinner";
 import { computeFinalAmount } from "../../orders/functions-orders";
-import { getCurrentMonth, getMonth, getMonthName } from "../report-function";
-import ButtonSpinner from "../../../../partials/spinners/ButtonSpinner";
 
 const TopSellerList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [isFilter, setFilter] = React.useState(false);
   const [isSubmit, setSubmit] = React.useState(false);
-  const [month, setMonth] = React.useState(
-    !isFilter ? getMonthName(getCurrentMonth()) : ""
-  );
-  const [page, setPage] = React.useState(1);
-  const { ref, inView } = useInView();
+  const [isSupplierId, setIsSupplierId] = React.useState("0");
+  const [isCategoryId, setIsCategoryId] = React.useState("0");
+  const [supplierId, setSupplierId] = React.useState("0");
+  const [categoryId, setCategoryId] = React.useState("0");
+  const [productId, setProductId] = React.useState("0");
+  const [startDate, setStartDate] = React.useState("0");
+  const [endDate, setEndDate] = React.useState("0");
   let counter = 1;
   // use if with loadmore button and search bar
   const {
     data: result,
     error,
-    fetchNextPage,
-    hasNextPage,
     isFetching,
-    isFetchingNextPage,
     status,
   } = useInfiniteQuery({
     queryKey: ["patronage", isSubmit],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
-        `/v1/sales/report/filter/top-seller/${month}`, // filter endpoint // filter
-        `/v1/sales/page/${pageParam}`, // list endpoint
+        `/v1/sales/report/filter-sales/${supplierId}/${categoryId}/${productId}/${startDate}/${endDate}`, // filter endpoint // filter
+        `/v1/sales/page/${0}`, // list endpoint
         isFilter // search boolean
       ),
     getNextPageParam: (lastPage) => {
@@ -58,12 +55,6 @@ const TopSellerList = () => {
     networkMode: "always",
     cacheTime: 200,
   });
-  React.useEffect(() => {
-    if (inView) {
-      setPage((prev) => prev + 1);
-      fetchNextPage();
-    }
-  }, [inView]);
 
   // use if not loadmore button undertime
   const { data: suppliersList, isLoading: suppliersListLoading } = useQueryData(
@@ -71,32 +62,74 @@ const TopSellerList = () => {
     "get", // method
     "suppliers-list" // key
   );
-  const handleMonth = async (e) => {
-    let monthName = e.target.value;
-    setMonth(monthName);
-    setFilter(true);
-    setSubmit(!isSubmit);
+
+  // use if not loadmore button undertime
+  const { data: category, isLoading: categoryLoading } = useQueryData(
+    isSupplierId === "0"
+      ? `/v1/category`
+      : `/v1/suppliers-product/report-category-list-by-supplier-id/${isSupplierId}`, // endpoint
+    "get", // method
+    "category-list", // key
+    {},
+    isSupplierId
+  );
+
+  // use if not loadmore button undertime
+  const { data: productList, isLoading: productListLoading } = useQueryData(
+    isSupplierId === "0" && isCategoryId === "0"
+      ? `/v1/suppliers-product`
+      : isSupplierId === "0"
+      ? `/v1/suppliers-product/report-product-list-by-category/${isCategoryId}`
+      : isCategoryId === "0"
+      ? `/v1/suppliers-product/by-supplier-product-id/${isSupplierId}`
+      : `/v1/suppliers-product/report-product-list/${isSupplierId}/${isCategoryId}`, // endpoint
+    "get", // method
+    "product-list", // key
+    {},
+    isCategoryId
+  );
+
+  const handleSupplier = async (e) => {
+    let supplierId = e.target.value;
+    setIsSupplierId(supplierId);
   };
+
+  const handleCategory = async (e) => {
+    let categoryId = e.target.value;
+    setIsCategoryId(categoryId);
+  };
+
   const initVal = {
-    month: "",
-    member: "",
+    supplier_id: "",
+    category_id: "",
+    product_id: "",
+    start_date: "",
+    end_date: "",
   };
 
   const yupSchema = Yup.object({
-    month: Yup.string().required("Required"),
-    member: Yup.string().required("Required"),
+    supplier_id: Yup.string().required("Required"),
+    category_id: Yup.string().required("Required"),
+    product_id: Yup.string().required("Required"),
+    start_date: Yup.string().required("Required"),
+    end_date: Yup.string().required("Required"),
   });
   return (
     <>
       <Formik
         initialValues={initVal}
         validationSchema={yupSchema}
-        onSubmit={async (values, { setSubmitting, resetForm }) => {}}
+        onSubmit={async (values, { setSubmitting, resetForm }) => {
+          setFilter(true);
+          setSubmit(!isSubmit);
+          setSupplierId(values.supplier_id);
+          setCategoryId(values.category_id);
+          setProductId(values.product_id);
+          setStartDate(values.start_date);
+          setEndDate(values.end_date);
+        }}
       >
         {(props) => {
-          props.values.month = !isFilter
-            ? getMonthName(getCurrentMonth())
-            : props.values.month;
           return (
             <Form>
               <div className="grid gap-4 sm:grid-cols-[1fr_1fr_1fr_1fr_1fr_15rem] pb-5 items-center print:hidden ">
@@ -104,16 +137,17 @@ const TopSellerList = () => {
                   <InputSelect
                     name="supplier_id"
                     label="Supplier"
+                    onChange={handleSupplier}
                     disabled={status === "loading" || suppliersListLoading}
                   >
                     <option value="" hidden>
                       {suppliersListLoading ? "Loading..." : "--"}
                     </option>
-                    <option value="0">All</option>
+                    <option value="0">All Supplier</option>
                     {suppliersList?.data.map((cItem, key) => {
                       return (
-                        <option key={key} value={cItem.members_aid}>
-                          {`${cItem.members_last_name}, ${cItem.members_first_name} `}
+                        <option key={key} value={cItem.suppliers_aid}>
+                          {`${cItem.suppliers_company_name}`}
                         </option>
                       );
                     })}
@@ -123,15 +157,17 @@ const TopSellerList = () => {
                   <InputSelect
                     name="category_id"
                     label="Category"
-                    disabled={status === "loading" || suppliersListLoading}
+                    onChange={handleCategory}
+                    disabled={status === "loading" || categoryLoading}
                   >
                     <option value="" hidden>
-                      {suppliersListLoading ? "Loading..." : "--"}
+                      {categoryLoading ? "Loading..." : "--"}
                     </option>
-                    {suppliersList?.data.map((cItem, key) => {
+                    <option value="0">All Category</option>
+                    {category?.data.map((cItem, key) => {
                       return (
-                        <option key={key} value={cItem.members_aid}>
-                          {`${cItem.members_last_name}, ${cItem.members_first_name} `}
+                        <option key={key} value={cItem.product_category_aid}>
+                          {`${cItem.product_category_name}`}
                         </option>
                       );
                     })}
@@ -141,15 +177,16 @@ const TopSellerList = () => {
                   <InputSelect
                     name="product_id"
                     label="Product"
-                    disabled={status === "loading" || suppliersListLoading}
+                    disabled={status === "loading" || productListLoading}
                   >
                     <option value="" hidden>
-                      {suppliersListLoading ? "Loading..." : "--"}
+                      {productListLoading ? "Loading..." : "--"}
                     </option>
-                    {suppliersList?.data.map((cItem, key) => {
+                    <option value="0">All Product</option>
+                    {productList?.data.map((cItem, key) => {
                       return (
-                        <option key={key} value={cItem.members_aid}>
-                          {`${cItem.members_last_name}, ${cItem.members_first_name} `}
+                        <option key={key} value={cItem.suppliers_products_aid}>
+                          {`${cItem.suppliers_products_name}`}
                         </option>
                       );
                     })}
@@ -211,7 +248,7 @@ const TopSellerList = () => {
               <tr className="text-center relative">
                 <td colSpan="100%" className="p-10">
                   {status === "loading" && <TableSpinner />}
-                  <NoData />
+                  <NoData text="Filter data using above controls." />
                 </td>
               </tr>
             )}

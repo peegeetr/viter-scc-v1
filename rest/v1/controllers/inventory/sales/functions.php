@@ -45,3 +45,24 @@ function checkReadAllPendingPaidByMonth($object)
     checkQuery($query, "Empty records. (read all pending and paid by month)");
     return $query;
 }
+// Report Read filter sales
+function checkReadReportFilterSales($object)
+{
+    $query = $object->readReportFilterSales();
+    checkQuery($query, "Empty records. (read report filter sales)");
+    return $query;
+}
+// Read 
+function checkReadReportAllProductFilterSalesByCategory($object)
+{
+    $query = $object->readReportAllProductFilterSalesByCategory();
+    checkQuery($query, "Empty records. (read report all product filter sales by category)");
+    return $query;
+}
+// Read 
+function checkReadReportAllProductFilterSalesBySupplierProduct($object)
+{
+    $query = $object->readReportAllProductFilterSalesBySupplierProduct();
+    checkQuery($query, "Empty records. (read report all product filter sales by product and supplier)");
+    return $query;
+}

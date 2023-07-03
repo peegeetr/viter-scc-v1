@@ -16,9 +16,14 @@ class Sales
 
     public $sold_product;
     public $remaining_quantity;
+    public $suppliers_products_suppliers_id;
+    public $suppliers_products_category_id;
+    public $orders_product_id;
 
     public $connection;
     public $lastInsertedId;
+    public $start_date;
+    public $end_date;
     public $sales_start;
     public $sales_month;
     public $sales_year;
@@ -542,6 +547,149 @@ class Sales
                 "year" => $this->sales_year,
                 "start" => $this->sales_start - 1,
                 "total" => $this->sales_total,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    public function readReportFilterSales()
+    {
+        try {
+            $sql = "select suppliersProducts.suppliers_products_name, ";
+            $sql .= "suppliersProducts.suppliers_products_scc_price, ";
+            $sql .= "orders.orders_aid, ";
+            $sql .= "orders.orders_product_quantity, ";
+            $sql .= "orders.orders_number, ";
+            $sql .= "orders.orders_remarks, ";
+            $sql .= "orders.orders_product_amount, ";
+            $sql .= "orders.orders_product_srp, ";
+            $sql .= "member.members_last_name, ";
+            $sql .= "member.members_first_name, ";
+            $sql .= "sales.sales_aid, ";
+            $sql .= "sales.sales_order_id, ";
+            $sql .= "sales.sales_number, ";
+            $sql .= "sales.sales_is_paid, ";
+            $sql .= "sales.sales_receive_amount, ";
+            $sql .= "sales.sales_member_change, ";
+            $sql .= "sales.sales_or, ";
+            $sql .= "sales.sales_discount, ";
+            $sql .= "sales.sales_date, ";
+            $sql .= "sales.sales_member_id ";
+            $sql .= "from {$this->tblOrders} as orders, ";
+            $sql .= "{$this->tblSales} as sales, ";
+            $sql .= "{$this->tblMembers} as member, ";
+            $sql .= "{$this->tblSuppliersProducts} as suppliersProducts ";
+            $sql .= "where suppliersProducts.suppliers_products_aid = :suppliers_products_aid ";
+            $sql .= "and orders.orders_product_id = suppliersProducts.suppliers_products_aid ";
+            $sql .= "and orders.orders_member_id = member.members_aid ";
+            $sql .= "and orders.orders_aid = sales.sales_order_id ";
+            $sql .= "and sales.sales_member_id = member.members_aid ";
+            $sql .= "and DATE(sales.sales_date) between ";
+            $sql .= ":start_date and :end_date ";
+            $sql .= "order by DATE(sales.sales_date) desc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "suppliers_products_aid" => $this->orders_product_id,
+                "start_date" => $this->start_date,
+                "end_date" => $this->end_date,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    public function readReportAllProductFilterSalesByCategory()
+    {
+        try {
+            $sql = "select suppliersProducts.suppliers_products_name, ";
+            $sql .= "suppliersProducts.suppliers_products_scc_price, ";
+            $sql .= "orders.orders_aid, ";
+            $sql .= "orders.orders_product_quantity, ";
+            $sql .= "orders.orders_number, ";
+            $sql .= "orders.orders_remarks, ";
+            $sql .= "orders.orders_product_amount, ";
+            $sql .= "orders.orders_product_srp, ";
+            $sql .= "member.members_last_name, ";
+            $sql .= "member.members_first_name, ";
+            $sql .= "sales.sales_aid, ";
+            $sql .= "sales.sales_order_id, ";
+            $sql .= "sales.sales_number, ";
+            $sql .= "sales.sales_is_paid, ";
+            $sql .= "sales.sales_receive_amount, ";
+            $sql .= "sales.sales_member_change, ";
+            $sql .= "sales.sales_or, ";
+            $sql .= "sales.sales_discount, ";
+            $sql .= "sales.sales_date, ";
+            $sql .= "sales.sales_member_id ";
+            $sql .= "from {$this->tblOrders} as orders, ";
+            $sql .= "{$this->tblSales} as sales, ";
+            $sql .= "{$this->tblMembers} as member, ";
+            $sql .= "{$this->tblSuppliersProducts} as suppliersProducts ";
+            $sql .= "where suppliersProducts.suppliers_products_category_id = :suppliers_products_category_id ";
+            $sql .= "and orders.orders_product_id = suppliersProducts.suppliers_products_aid ";
+            $sql .= "and orders.orders_member_id = member.members_aid ";
+            $sql .= "and orders.orders_aid = sales.sales_order_id ";
+            $sql .= "and sales.sales_member_id = member.members_aid ";
+            $sql .= "and DATE(sales.sales_date) between ";
+            $sql .= ":start_date and :end_date ";
+            $sql .= "order by DATE(sales.sales_date) desc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "suppliers_products_category_id" => $this->suppliers_products_category_id,
+                "start_date" => $this->start_date,
+                "end_date" => $this->end_date,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    public function readReportAllProductFilterSalesBySupplierProduct()
+    {
+        try {
+            $sql = "select suppliersProducts.suppliers_products_name, ";
+            $sql .= "suppliersProducts.suppliers_products_scc_price, ";
+            $sql .= "orders.orders_aid, ";
+            $sql .= "orders.orders_product_quantity, ";
+            $sql .= "orders.orders_number, ";
+            $sql .= "orders.orders_remarks, ";
+            $sql .= "orders.orders_product_amount, ";
+            $sql .= "orders.orders_product_srp, ";
+            $sql .= "member.members_last_name, ";
+            $sql .= "member.members_first_name, ";
+            $sql .= "sales.sales_aid, ";
+            $sql .= "sales.sales_order_id, ";
+            $sql .= "sales.sales_number, ";
+            $sql .= "sales.sales_is_paid, ";
+            $sql .= "sales.sales_receive_amount, ";
+            $sql .= "sales.sales_member_change, ";
+            $sql .= "sales.sales_or, ";
+            $sql .= "sales.sales_discount, ";
+            $sql .= "sales.sales_date, ";
+            $sql .= "sales.sales_member_id ";
+            $sql .= "from {$this->tblOrders} as orders, ";
+            $sql .= "{$this->tblSales} as sales, ";
+            $sql .= "{$this->tblMembers} as member, ";
+            $sql .= "{$this->tblSuppliersProducts} as suppliersProducts ";
+            $sql .= "where suppliersProducts.suppliers_products_aid = :orders_product_id ";
+            $sql .= "and suppliersProducts.suppliers_products_suppliers_id = :suppliers_products_suppliers_id  ";
+            $sql .= "and orders.orders_product_id = suppliersProducts.suppliers_products_aid ";
+            $sql .= "and orders.orders_member_id = member.members_aid ";
+            $sql .= "and orders.orders_aid = sales.sales_order_id ";
+            $sql .= "and sales.sales_member_id = member.members_aid ";
+            $sql .= "and DATE(sales.sales_date) between ";
+            $sql .= ":start_date and :end_date ";
+            $sql .= "order by DATE(sales.sales_date) desc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "suppliers_products_suppliers_id" => $this->suppliers_products_suppliers_id,
+                "orders_product_id" => $this->orders_product_id,
+                "start_date" => $this->start_date,
+                "end_date" => $this->end_date,
             ]);
         } catch (PDOException $ex) {
             $query = false;
