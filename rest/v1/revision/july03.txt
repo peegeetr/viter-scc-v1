@@ -19,7 +19,7 @@
     -> #capital share
 
 *db tables 
-    - 
+    - sccv1_capital_share.sql {note: capital_share_is_initial_pay tinyint(1)}
 
 *core functions 
     - 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 09, 2023 at 02:29 AM
+-- Generation Time: Jul 03, 2023 at 06:52 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -33,6 +33,7 @@ CREATE TABLE `sccv1_capital_share` (
   `capital_share_paid_up` varchar(20) NOT NULL,
   `capital_share_or` varchar(20) NOT NULL,
   `capital_share_date` varchar(20) NOT NULL,
+  `capital_share_is_initial_pay` tinyint(1) NOT NULL,
   `capital_share_created` datetime NOT NULL,
   `capital_share_datetime` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

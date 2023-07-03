@@ -11,13 +11,14 @@ import { StoreContext } from "../../../store/StoreContext";
 import { queryData } from "../../helpers/queryData";
 import ButtonSpinner from "../spinners/ButtonSpinner";
 
-const ModalDeleteRestore = ({
+const ModalDeleteRestoreCapital = ({
   isDel,
   mysqlApiDelete,
   mysqlApiRestore,
   msg,
   item,
   dataItem,
+  setIsSubscribeCapital,
   orderId = "0",
   isApproved = "active",
   arrKey,
@@ -36,6 +37,7 @@ const ModalDeleteRestore = ({
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: [arrKey] });
       if (data.success) {
+        setIsSubscribeCapital(true);
         dispatch(setIsRestore(false));
         dispatch(setSuccess(true));
         dispatch(
@@ -116,4 +118,4 @@ const ModalDeleteRestore = ({
   );
 };
 
-export default ModalDeleteRestore;
+export default ModalDeleteRestoreCapital;

@@ -16,7 +16,7 @@ import Loadmore from "../../../../../partials/Loadmore";
 import NoData from "../../../../../partials/NoData";
 import SearchBar from "../../../../../partials/SearchBar";
 import ServerError from "../../../../../partials/ServerError";
-import ModalDeleteRestore from "../../../../../partials/modals/ModalDeleteRestore";
+import ModalDeleteRestoreCapital from "../../../../../partials/modals/ModalDeleteRetoreCapital";
 import TableSpinner from "../../../../../partials/spinners/TableSpinner";
 import StatusAmount from "../../../../../partials/status/StatusAmount";
 
@@ -241,7 +241,7 @@ const TransactionCapitalShareList = ({
         <NoData />
       )}
       {store.isRestore && (
-        <ModalDeleteRestore
+        <ModalDeleteRestoreCapital
           id={id}
           isDel={isDel}
           mysqlApiDelete={`/v1/capital-share/${id}`}
