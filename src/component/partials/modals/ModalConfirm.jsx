@@ -18,6 +18,7 @@ const ModalConfirm = ({
   mysqlApiArchive,
   msg,
   item,
+  dataItem,
   isDeveloper,
   arrKey,
 }) => {
@@ -66,6 +67,7 @@ const ModalConfirm = ({
     mutation.mutate({
       isActive: 0,
       email: item,
+      item: dataItem,
       isApproved: "active",
       isDeveloper: isDeveloper,
     });

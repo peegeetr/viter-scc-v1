@@ -17,6 +17,7 @@ const ModalDeleteRestore = ({
   mysqlApiRestore,
   msg,
   item,
+  dataItem,
   orderId = "0",
   isApproved = "active",
   arrKey,
@@ -64,6 +65,7 @@ const ModalDeleteRestore = ({
     mutation.mutate({
       isActive: 1,
       stocks_or: "",
+      item: dataItem,
       sales_order_id: orderId,
       isApproved,
     });

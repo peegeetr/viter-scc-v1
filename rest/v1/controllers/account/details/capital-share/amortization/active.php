@@ -28,10 +28,15 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         // get task id from query string
         $amortization->capital_amortization_aid = $_GET['amortizationId'];
         $amortization->capital_amortization_is_active = trim($data["isActive"]);
-        $amortization->capital_amortization_is_active = trim($data["isActive"]);
         $amortization->capital_amortization_datetime = date("Y-m-d H:i:s");
+
+        $allItem = $data["item"];
+        if (count($allItem) > 0) {
+            $amortization->capital_amortization_member_id = $allItem["capital_amortization_member_id"];
+        }
         //check to see if task id in query string is not empty and is number, if not return json error
         checkId($amortization->capital_amortization_aid);
+        checkId($amortization->capital_amortization_member_id);
         haveActiveNotById($amortization);
 
         $query = checkActive($amortization);

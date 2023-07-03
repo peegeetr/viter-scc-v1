@@ -1,5 +1,6 @@
 
 *controllers      
+    - account/details/capital-share/amortization/active.php
     - account/details/capital-share/amortization/create.php
     - account/details/capital-share/amortization/update.php
 

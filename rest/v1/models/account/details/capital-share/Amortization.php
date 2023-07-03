@@ -227,12 +227,14 @@ class Amortization
             $sql .= "capital_amortization_is_active ";
             $sql .= "from ";
             $sql .= "{$this->tblAmortization} ";
-            $sql .= "where capital_amortization_is_active = 1 ";
+            $sql .= "where capital_amortization_is_active = '1' ";
+            $sql .= "and capital_amortization_member_id = :capital_amortization_member_id ";
             $sql .= "and capital_amortization_aid != :capital_amortization_aid ";
             $sql .= "order by capital_amortization_is_active desc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "capital_amortization_aid" => $this->capital_amortization_aid,
+                "capital_amortization_member_id" => $this->capital_amortization_member_id,
             ]);
         } catch (PDOException $ex) {
             $query = false;

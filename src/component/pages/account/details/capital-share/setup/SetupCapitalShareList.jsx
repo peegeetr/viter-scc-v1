@@ -281,7 +281,10 @@ const SetupCapitalShareList = ({
           isDel={isDel}
           mysqlApiArchive={`/v1/capital-amortization/active/${id}`}
           msg={"Are you sure you want to archive "}
-          item={`${formatDate(dataItem.capital_amortization_date)}`}
+          item={`${formatDate(dataItem.capital_amortization_date)} ${getTime(
+            dataItem.capital_amortization_date
+          )}`}
+          dataItem={dataItem}
           arrKey="capital-amortization-by-id"
         />
       )}
@@ -297,7 +300,10 @@ const SetupCapitalShareList = ({
               ? "Are you sure you want to delete "
               : "Are you sure you want to restore "
           }
-          item={`${formatDate(dataItem.capital_amortization_date)}`}
+          item={`${formatDate(dataItem.capital_amortization_date)} ${getTime(
+            dataItem.capital_amortization_date
+          )}`}
+          dataItem={dataItem}
           arrKey="capital-amortization-by-id"
         />
       )}
