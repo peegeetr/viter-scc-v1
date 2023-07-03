@@ -15,6 +15,7 @@ import useQueryData from "../../../../../custom-hooks/useQueryData";
 import { InputSelect, InputText } from "../../../../../helpers/FormInputs";
 import {
   getDateNow,
+  getDateTimeNow,
   getUrlParam,
   numberWithCommas,
   removeComma,
@@ -76,6 +77,7 @@ const ModalEditSetupCapitalShare = ({ item }) => {
     members_initial_payment: "",
     members_member_fee: item.members_member_fee,
     capital_share_or: "",
+    capital_share_date: getDateTimeNow(),
   };
 
   const yupSchema = Yup.object({
@@ -87,6 +89,9 @@ const ModalEditSetupCapitalShare = ({ item }) => {
       item.members_subscribe_capital_id === "" &&
       Yup.string().required("Required"),
     capital_share_or:
+      item.members_subscribe_capital_id === "" &&
+      Yup.string().required("Required"),
+    capital_share_date:
       item.members_subscribe_capital_id === "" &&
       Yup.string().required("Required"),
   });
@@ -132,6 +137,16 @@ const ModalEditSetupCapitalShare = ({ item }) => {
               {(props) => {
                 return (
                   <Form className="">
+                    {item.members_subscribe_capital_id === "" && (
+                      <div className="relative my-5">
+                        <InputText
+                          label="Date"
+                          type="datetime-local"
+                          name="capital_share_date"
+                          disabled={mutation.isLoading}
+                        />
+                      </div>
+                    )}
                     <div className="relative my-5 ">
                       <InputSelect
                         name="members_subscribe_capital_id"

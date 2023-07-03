@@ -27,7 +27,6 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         $share->capital_share_member_id = $_GET['membersId'];
         $share->members_member_fee = checkIndex($data, "members_member_fee");
         $share->members_subscribe_capital_id = checkIndex($data, "members_subscribe_capital_id");
-        $share->capital_share_date = date("Y-m-d H:i:s");
         $share->capital_share_created = date("Y-m-d H:i:s");
         $share->capital_share_datetime = date("Y-m-d H:i:s");
 
@@ -42,6 +41,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         // if member fee is empty create
         if ($members_member_fee === "") {
             $share->capital_share_paid_up = checkIndex($data, "members_initial_payment");
+            $share->capital_share_date = checkIndex($data, "capital_share_date");
             $share->capital_share_or = checkIndex($data, "capital_share_or");
             $share->capital_share_is_initial_pay = 1;
             // create initails
