@@ -28,7 +28,7 @@ export const computeSccSales = (result) => {
         finalAmount += sccPriceAmount - totalSupplierAmount;
       }
       if (sccPricePendingAmount !== 0) {
-        pendingAmount += sccPriceAmount - totalSupplierAmount;
+        pendingAmount += sccPricePendingAmount - totalSupplierAmount;
       }
     })
   );

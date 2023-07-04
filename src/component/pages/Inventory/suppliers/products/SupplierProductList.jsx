@@ -7,6 +7,7 @@ import { StoreContext } from "../../../../../store/StoreContext";
 import useQueryData from "../../../../custom-hooks/useQueryData";
 import {
   getUrlParam,
+  getUserType,
   numberWithCommas,
   pesoSign,
 } from "../../../../helpers/functions-general";
@@ -18,9 +19,12 @@ import ServerError from "../../../../partials/ServerError";
 import ModalDeleteRestore from "../../../../partials/modals/ModalDeleteRestore";
 import TableSpinner from "../../../../partials/spinners/TableSpinner";
 import { getPendingOrders } from "../../products/functions-product";
+import { Link } from "react-router-dom";
+import { SlArrowRight } from "react-icons/sl";
 
 const SupplierProductList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
+  const urlLink = getUserType(store);
   const [dataItem, setData] = React.useState(null);
   const [id, setId] = React.useState(null);
   const [isDel, setDel] = React.useState(false);
@@ -153,7 +157,15 @@ const SupplierProductList = ({ setItemEdit }) => {
                       store.credentials.data.role_is_developer === 1 ||
                       store.credentials.data.role_is_manager === 1) && (
                       <td>
+                        {" "}
                         <div className="flex items-center gap-1">
+                          {/* <Link
+                            to={`${urlLink}/inventory/suppliers/products?supplierId=${item.suppliers_aid}`}
+                            className="btn-action-table tooltip-action-table"
+                            data-tooltip="View"
+                          >
+                            <SlArrowRight className="inline" />
+                          </Link> */}
                           <button
                             type="button"
                             className="btn-action-table tooltip-action-table"
