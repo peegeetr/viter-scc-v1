@@ -15,6 +15,9 @@ export const computeSccSales = (result) => {
         totalSupplierAmount = totalOty * supplierPrice;
         sccPriceAmount =
           Number(item.orders_product_amount) - Number(item.sales_discount);
+        if (sccPriceAmount !== 0) {
+          finalAmount += sccPriceAmount - totalSupplierAmount;
+        }
       }
 
       if (item.sales_is_paid === 0) {
@@ -23,12 +26,9 @@ export const computeSccSales = (result) => {
         totalSupplierAmount = totalOty * supplierPrice;
         sccPricePendingAmount =
           Number(item.orders_product_amount) - Number(item.sales_discount);
-      }
-      if (sccPriceAmount !== 0) {
-        finalAmount += sccPriceAmount - totalSupplierAmount;
-      }
-      if (sccPricePendingAmount !== 0) {
-        pendingAmount += sccPricePendingAmount - totalSupplierAmount;
+        if (sccPricePendingAmount !== 0) {
+          pendingAmount += sccPricePendingAmount - totalSupplierAmount;
+        }
       }
     })
   );

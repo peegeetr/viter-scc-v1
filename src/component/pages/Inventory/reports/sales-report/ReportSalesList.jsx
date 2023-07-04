@@ -255,6 +255,7 @@ const TopSellerList = () => {
               <th className="min-w-[7rem] text-right pr-4">Total Amnt.</th>
               {/* <th className="min-w-[7rem] text-right pr-4">Received</th> */}
               <th className="min-w-[6rem]">Pay Date</th>
+              <th className="min-w-[6rem] text-right pr-4">Supplier Price</th>
               <th className="!w-[10rem] text-right pr-4">SCC Sales</th>
             </tr>
           </thead>
@@ -318,6 +319,12 @@ const TopSellerList = () => {
                         : `${formatDate(item.sales_date)} ${getTime(
                             item.sales_date
                           )}`}
+                    </td>
+                    <td className="text-right pr-4">
+                      {pesoSign}{" "}
+                      {numberWithCommas(
+                        Number(item.orders_suplier_price).toFixed(2)
+                      )}{" "}
                     </td>
                     <td className="text-right pr-4">
                       {pesoSign}{" "}
