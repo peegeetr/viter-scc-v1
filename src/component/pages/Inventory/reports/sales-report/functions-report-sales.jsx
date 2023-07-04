@@ -41,7 +41,10 @@ export const computeSccSalesByItem = (item) => {
   amount = totalOty * supplierPrice;
   sccPriceAmount =
     Number(item.orders_product_amount) - Number(item.sales_discount);
-  finalAmount += sccPriceAmount - amount;
+  finalAmount = sccPriceAmount - amount;
 
+  if (finalAmount < 0) {
+    finalAmount = 0;
+  }
   return finalAmount;
 };
