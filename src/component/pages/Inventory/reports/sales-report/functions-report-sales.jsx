@@ -10,7 +10,6 @@ export const computeSccSales = (result) => {
 
   // supplier
   let totalSupplierPriceAmount = 0;
-  let finalSupplierPriceAmount = 0;
 
   result?.pages.map((page) =>
     page?.data.map((item) => {
