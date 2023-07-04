@@ -37,6 +37,9 @@ const ModalAddMyOrder = ({ item, arrKey }) => {
   const [priceId, setPriceId] = React.useState(
     item ? item.orders_product_srp : ""
   );
+  const [supplierPriceId, setSupplierPriceId] = React.useState(
+    item ? item.orders_suplier_price : "0"
+  );
 
   const queryClient = useQueryClient();
   const mutation = useMutation({
@@ -103,6 +106,7 @@ const ModalAddMyOrder = ({ item, arrKey }) => {
   const handleProduct = async (e, props) => {
     setProductId(e.target.value);
     setPriceId(e.target.options[e.target.selectedIndex].id);
+    setSupplierPriceId(e.target.options[e.target.selectedIndex].title);
   };
   const initVal = {
     orders_member_id: store.credentials.data.members_aid,
@@ -179,6 +183,7 @@ const ModalAddMyOrder = ({ item, arrKey }) => {
               }}
             >
               {(props) => {
+                props.values.orders_suplier_price = supplierPriceId;
                 props.values.orders_product_srp = priceId;
                 props.values.orders_product_amount =
                   removeComma(props.values.orders_product_quantity) * priceId;
@@ -237,6 +242,7 @@ const ModalAddMyOrder = ({ item, arrKey }) => {
                                   key={key}
                                   value={pItem.suppliers_products_aid}
                                   id={pItem.suppliers_products_scc_price}
+                                  title={pItem.suppliers_products_price}
                                 >
                                   {`${
                                     pItem.suppliers_products_name

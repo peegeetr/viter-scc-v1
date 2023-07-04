@@ -319,7 +319,10 @@ const TopSellerList = () => {
                             item.sales_date
                           )}`}
                     </td>
-                    <td>{computeSccSalesByItem(item)}</td>
+                    <td>
+                      {pesoSign}{" "}
+                      {numberWithCommas(computeSccSalesByItem(item).toFixed(2))}{" "}
+                    </td>
                   </tr>
                 ))}
               </React.Fragment>

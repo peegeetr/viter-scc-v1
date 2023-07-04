@@ -31,6 +31,9 @@ const ModalAddOrders = ({ item, arrKey }) => {
   const [categoryId, setCategoryId] = React.useState(
     item ? item.suppliers_products_category_id : "0"
   );
+  const [supplierPriceId, setSupplierPriceId] = React.useState(
+    item ? item.orders_suplier_price : "0"
+  );
   const [productId, setProductId] = React.useState(
     item ? item.suppliers_products_aid : ""
   );
@@ -111,7 +114,7 @@ const ModalAddOrders = ({ item, arrKey }) => {
   const handleProduct = async (e, props) => {
     setProductId(e.target.value);
     setPriceId(e.target.options[e.target.selectedIndex].id);
-    console.log("123123", e.target.options[e.target.selectedIndex].title);
+    setSupplierPriceId(e.target.options[e.target.selectedIndex].title);
   };
   const initVal = {
     orders_member_id: item ? item.orders_member_id : "",
@@ -192,6 +195,7 @@ const ModalAddOrders = ({ item, arrKey }) => {
               }}
             >
               {(props) => {
+                props.values.orders_suplier_price = supplierPriceId;
                 props.values.orders_product_srp = priceId;
                 props.values.orders_product_amount =
                   removeComma(props.values.orders_product_quantity) * priceId;
