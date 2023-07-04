@@ -255,7 +255,7 @@ const TopSellerList = () => {
               <th className="min-w-[7rem] text-right pr-4">Total Amnt.</th>
               {/* <th className="min-w-[7rem] text-right pr-4">Received</th> */}
               <th className="min-w-[6rem]">Pay Date</th>
-              <th className="min-w-[6rem]">SCC Sales</th>
+              <th className="!w-[10rem] text-right pr-4">SCC Sales</th>
             </tr>
           </thead>
           <tbody>
@@ -319,7 +319,7 @@ const TopSellerList = () => {
                             item.sales_date
                           )}`}
                     </td>
-                    <td>
+                    <td className="text-right pr-4">
                       {pesoSign}{" "}
                       {numberWithCommas(computeSccSalesByItem(item).toFixed(2))}{" "}
                     </td>
