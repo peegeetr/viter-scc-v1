@@ -41,12 +41,12 @@ const SalesTotal = ({ result, menu = "" }) => {
         {menu === "report-sales" && (
           <>
             <StatusAmount
-              text="scc sales"
+              text="SCC sales"
               amount={computeSccSales(result).finalAmount}
               type="paid"
             />
             <StatusAmount
-              text="scc sales pending"
+              text="SCC sales pending"
               amount={computeSccSales(result).pendingAmount}
               type="pending"
             />

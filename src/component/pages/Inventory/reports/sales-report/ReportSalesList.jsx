@@ -253,10 +253,9 @@ const TopSellerList = () => {
               <th className="min-w-[6rem] text-center pr-4">Qty</th>
               <th className="min-w-[6rem] text-right pr-4">Discounted</th>
               <th className="min-w-[7rem] text-right pr-4">Total Amnt.</th>
-              <th className="min-w-[7rem] text-right pr-4">Received</th>
+              {/* <th className="min-w-[7rem] text-right pr-4">Received</th> */}
               <th className="min-w-[6rem]">Pay Date</th>
-              <th className="min-w-[6rem]">Scc Sales</th>
-              <th className="min-w-[6rem]">supplier price</th>
+              <th className="min-w-[6rem]">SCC Sales</th>
             </tr>
           </thead>
           <tbody>
@@ -307,12 +306,12 @@ const TopSellerList = () => {
                         {pesoSign} {computeFinalAmount(item)}
                       </span>
                     </td>
-                    <td className="text-right pr-4">
+                    {/* <td className="text-right pr-4">
                       {pesoSign}{" "}
                       {numberWithCommas(
                         Number(item.sales_receive_amount).toFixed(2)
                       )}
-                    </td>
+                    </td> */}
                     <td>
                       {item.sales_date === ""
                         ? "N/A"
@@ -321,7 +320,6 @@ const TopSellerList = () => {
                           )}`}
                     </td>
                     <td>{computeSccSalesByItem(item)}</td>
-                    <td>{item.orders_suplier_price}</td>
                   </tr>
                 ))}
               </React.Fragment>
