@@ -141,20 +141,13 @@ RewriteRule ^suppliers-product/read-supplier-id/([0-9]+)$ controllers/inventory/
 RewriteRule ^suppliers-product/page/([0-9]+)$ controllers/inventory/suppliers/product/page.php?start=$1 [L]
 RewriteRule ^suppliers-product/search/([A-Za-z0-9-]+)$ controllers/inventory/suppliers/product/search.php?search=$1 [L]
 RewriteRule ^suppliers-product/read-category-id/([0-9]+)$ controllers/inventory/suppliers/product/read-by-category-id.php?categoryid=$1 [L]
-RewriteRule ^suppliers-product/report-category-list-by-supplier-id/([0-9]+)$ controllers/inventory/suppliers/product/report-category-list-by-supplier-id.php?supplierProductsid=$1 [L]
-RewriteRule ^suppliers-product/report-product-list/([0-9]+)/([0-9]+)$ controllers/inventory/suppliers/product/report-product-by-supplier-category-id.php?supplierId=$1&categoryId=$2 [L]
-RewriteRule ^suppliers-product/report-product-list-by-category/([0-9]+)$ controllers/inventory/suppliers/product/report-product-by-category-id.php?categoryId=$1 [L]
- 
+
 #sales 
 RewriteRule ^sales$ controllers/inventory/sales/sales.php [L]
 RewriteRule ^sales/([0-9]+)$ controllers/inventory/sales/sales.php?salesid=$1 [L]
 RewriteRule ^sales/active/([0-9]+)$ controllers/inventory/sales/active.php?salesid=$1 [L]
 RewriteRule ^sales/page/([0-9]+)$ controllers/inventory/sales/page.php?start=$1 [L]
 RewriteRule ^sales/search/([A-Za-z0-9-]+)$ controllers/inventory/sales/search.php?search=$1 [L] 
-RewriteRule ^sales/report/top-seller/([0-9]+)/([A-Za-z0-9-]+)$ controllers/inventory/sales/report-top-seller.php?start=$1&month=$2 [L] 
-RewriteRule ^sales/report/filter/top-seller/([A-Za-z0-9-]+)$ controllers/inventory/sales/report-top-seller.php?month=$1 [L]
-RewriteRule ^sales/report/all-pending-and-paid/([A-Za-z0-9-]+)$ controllers/inventory/sales/read-all-pending-and-paid.php?month=$1 [L]
-RewriteRule ^sales/report/filter-sales/([0-9]+)/([0-9]+)/([0-9]+)/([A-Za-z0-9-]+)/([A-Za-z0-9-]+)$ controllers/inventory/sales/report-filter-sales.php?supplierId=$1&categoryId=$2&productId=$3&startDate=$4&endDate=$5 [L]
 
 #upload Photo
 RewriteRule ^member/upload/photo$ core/upload-photo.php [L]
@@ -190,3 +183,16 @@ RewriteRule ^capital-amortization$ controllers/account/details/capital-share/amo
 RewriteRule ^capital-amortization/([0-9]+)$ controllers/account/details/capital-share/amortization/amortization.php?amortizationId=$1 [L]  
 RewriteRule ^capital-amortization/active/([0-9]+)$ controllers/account/details/capital-share/amortization/active.php?amortizationId=$1 [L] 
 RewriteRule ^capital-amortization/read-all-active-by-id/([0-9]+)$ controllers/account/details/capital-share/amortization/read-all-active-by-id.php?amortizationId=$1 [L]  
+
+#REPORT TOP SELLER
+RewriteRule ^top-seller-report/page/([0-9]+)/([A-Za-z0-9-]+)$ controllers/inventory/report/top-seller/report-top-seller.php?start=$1&month=$2 [L] 
+RewriteRule ^top-seller-report/filter-by-month/([A-Za-z0-9-]+)$ controllers/inventory/report/top-seller/report-top-seller.php?month=$1 [L]
+RewriteRule ^top-seller-report/all-pending-and-paid/([A-Za-z0-9-]+)$ controllers/inventory/report/top-seller/read-all-pending-and-paid.php?month=$1 [L]
+ 
+#REPORT SALES
+RewriteRule ^report-sales/report-category-list-by-supplier-id/([0-9]+)$ controllers/inventory/report/sales-report/report-category-list-by-supplier-id.php?supplierProductsid=$1 [L]
+RewriteRule ^report-sales/report-product-list/([0-9]+)/([0-9]+)$ controllers/inventory/report/sales-report/report-product-by-supplier-category-id.php?supplierId=$1&categoryId=$2 [L]
+RewriteRule ^report-sales/report-product-list-by-category/([0-9]+)$ controllers/inventory/report/sales-report/report-product-by-category-id.php?categoryId=$1 [L]
+RewriteRule ^report-sales/filter-sales/([0-9]+)/([0-9]+)/([0-9]+)/([A-Za-z0-9-]+)/([A-Za-z0-9-]+)$ controllers/inventory/report/sales-report/report-filter-sales.php?supplierId=$1&categoryId=$2&productId=$3&startDate=$4&endDate=$5 [L]
+ 
+

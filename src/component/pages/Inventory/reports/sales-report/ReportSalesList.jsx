@@ -18,9 +18,16 @@ import ServerError from "../../../../partials/ServerError";
 import ButtonSpinner from "../../../../partials/spinners/ButtonSpinner";
 import TableSpinner from "../../../../partials/spinners/TableSpinner";
 import { computeFinalAmount } from "../../orders/functions-orders";
+import SalesTotal from "../../sales/SalesTotal";
+import StatusActive from "../../../../partials/status/StatusActive";
+import StatusPending from "../../../../partials/status/StatusPending";
+import { setIsAdd } from "../../../../../store/StoreAction";
+import ModalViewSales from "../../sales/ModalViewSales";
+import { computeSccSalesByItem } from "./functions-report-sales";
 
 const TopSellerList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
+  const [itemEdit, setItemEdit] = React.useState(null);
   const [isFilter, setFilter] = React.useState(false);
   const [isSubmit, setSubmit] = React.useState(false);
   const [isSupplierId, setIsSupplierId] = React.useState("0");
@@ -41,7 +48,7 @@ const TopSellerList = () => {
     queryKey: ["patronage", isSubmit],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
-        `/v1/sales/report/filter-sales/${supplierId}/${categoryId}/${productId}/${startDate}/${endDate}`, // filter endpoint // filter
+        `/v1/report-sales/filter-sales/${supplierId}/${categoryId}/${productId}/${startDate}/${endDate}`, // filter endpoint // filter
         `/v1/sales/page/${0}`, // list endpoint
         isFilter // search boolean
       ),
@@ -67,7 +74,7 @@ const TopSellerList = () => {
   const { data: category, isLoading: categoryLoading } = useQueryData(
     isSupplierId === "0"
       ? `/v1/category`
-      : `/v1/suppliers-product/report-category-list-by-supplier-id/${isSupplierId}`, // endpoint
+      : `/v1/report-sales/report-category-list-by-supplier-id/${isSupplierId}`, // endpoint
     "get", // method
     "category-list", // key
     {},
@@ -78,14 +85,15 @@ const TopSellerList = () => {
   const { data: productList, isLoading: productListLoading } = useQueryData(
     isSupplierId === "0" && isCategoryId === "0"
       ? `/v1/suppliers-product`
-      : isSupplierId === "0"
-      ? `/v1/suppliers-product/report-product-list-by-category/${isCategoryId}`
-      : isCategoryId === "0"
+      : isSupplierId === "0" && isCategoryId !== "0"
+      ? `/v1/report-sales/report-product-list-by-category/${isCategoryId}`
+      : isSupplierId !== "0" && isCategoryId === "0"
       ? `/v1/suppliers-product/by-supplier-product-id/${isSupplierId}`
-      : `/v1/suppliers-product/report-product-list/${isSupplierId}/${isCategoryId}`, // endpoint
+      : `/v1/report-sales/report-product-list/${isSupplierId}/${isCategoryId}`, // endpoint
     "get", // method
     "product-list", // key
     {},
+    isSupplierId,
     isCategoryId
   );
 
@@ -99,6 +107,10 @@ const TopSellerList = () => {
     setIsCategoryId(categoryId);
   };
 
+  const handleView = (item) => {
+    dispatch(setIsAdd(true));
+    setItemEdit(item);
+  };
   const initVal = {
     supplier_id: "",
     category_id: "",
@@ -132,7 +144,7 @@ const TopSellerList = () => {
         {(props) => {
           return (
             <Form>
-              <div className="grid gap-4 sm:grid-cols-[1fr_1fr_1fr_1fr_1fr_15rem] pb-5 items-center print:hidden ">
+              <div className="grid gap-4 xl:grid-cols-[1fr_1fr_1fr_1fr_1fr_15rem] pb-5 items-center print:hidden ">
                 <div className="relative ">
                   <InputSelect
                     name="supplier_id"
@@ -225,6 +237,7 @@ const TopSellerList = () => {
         }}
       </Formik>
 
+      <SalesTotal result={result} menu="report-sales" />
       <div className="text-center overflow-x-auto z-0">
         {/* use only for updating important records */}
         {status !== "loading" && isFetching && <TableSpinner />}
@@ -233,6 +246,7 @@ const TopSellerList = () => {
           <thead>
             <tr>
               <th>#</th>
+              <th className="min-w-[2rem]">Status</th>
               <th className="min-w-[8rem]">Name</th>
               <th className="min-w-[5rem]">Sales #</th>
               <th className="min-w-[7rem]">Product Name</th>
@@ -241,6 +255,8 @@ const TopSellerList = () => {
               <th className="min-w-[7rem] text-right pr-4">Total Amnt.</th>
               <th className="min-w-[7rem] text-right pr-4">Received</th>
               <th className="min-w-[6rem]">Pay Date</th>
+              <th className="min-w-[6rem]">Scc Sales</th>
+              <th className="min-w-[6rem]">supplier price</th>
             </tr>
           </thead>
           <tbody>
@@ -265,6 +281,13 @@ const TopSellerList = () => {
                 {page.data.map((item, key) => (
                   <tr key={key}>
                     <td> {counter++}.</td>
+                    <td>
+                      {item.sales_is_paid === 1 ? (
+                        <StatusActive text="Paid" />
+                      ) : (
+                        <StatusPending />
+                      )}
+                    </td>
                     <td>{`${item.members_last_name}, ${item.members_first_name}`}</td>
                     <td className="uppercase">{item.sales_number}</td>
                     <td>{item.suppliers_products_name}</td>
@@ -297,6 +320,8 @@ const TopSellerList = () => {
                             item.sales_date
                           )}`}
                     </td>
+                    <td>{computeSccSalesByItem(item)}</td>
+                    <td>{item.orders_suplier_price}</td>
                   </tr>
                 ))}
               </React.Fragment>
@@ -304,6 +329,7 @@ const TopSellerList = () => {
           </tbody>
         </table>
       </div>
+      {store.isAdd && <ModalViewSales item={itemEdit} />}
     </>
   );
 };

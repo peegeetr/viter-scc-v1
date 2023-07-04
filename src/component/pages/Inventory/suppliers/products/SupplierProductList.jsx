@@ -4,6 +4,12 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 import { useInView } from "react-intersection-observer";
 import { setIsAdd, setIsRestore } from "../../../../../store/StoreAction";
 import { StoreContext } from "../../../../../store/StoreContext";
+import useQueryData from "../../../../custom-hooks/useQueryData";
+import {
+  getUrlParam,
+  numberWithCommas,
+  pesoSign,
+} from "../../../../helpers/functions-general";
 import { queryDataInfinite } from "../../../../helpers/queryDataInfinite";
 import Loadmore from "../../../../partials/Loadmore";
 import NoData from "../../../../partials/NoData";
@@ -11,11 +17,7 @@ import SearchBar from "../../../../partials/SearchBar";
 import ServerError from "../../../../partials/ServerError";
 import ModalDeleteRestore from "../../../../partials/modals/ModalDeleteRestore";
 import TableSpinner from "../../../../partials/spinners/TableSpinner";
-import {
-  getUrlParam,
-  numberWithCommas,
-  pesoSign,
-} from "../../../../helpers/functions-general";
+import { getPendingOrders } from "../../products/functions-product";
 
 const SupplierProductList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -63,7 +65,18 @@ const SupplierProductList = ({ setItemEdit }) => {
     }
   }, [inView]);
 
+  // use if not loadmore button undertime
+  const { data: pendingAllOrder } = useQueryData(
+    `/v1/orders/all-pending`, // endpoint
+    "get", // method
+    "pendingAllOrder" // key
+  );
   const handleEdit = (item) => {
+    // check if have pending
+    // can't edit if have pending
+    if (getPendingOrders(pendingAllOrder, item, dispatch)) {
+      return;
+    }
     dispatch(setIsAdd(true));
     setItemEdit(item);
   };

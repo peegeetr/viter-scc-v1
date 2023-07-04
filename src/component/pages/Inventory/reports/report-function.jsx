@@ -61,6 +61,5 @@ export const getTotal = (amount, item) => {
     }
   });
 
-  console.log(item.members_aid, finalAmount, isPending);
   return { finalAmount, isPending };
 };

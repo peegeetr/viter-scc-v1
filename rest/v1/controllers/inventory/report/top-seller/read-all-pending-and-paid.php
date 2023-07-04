@@ -1,12 +1,12 @@
 <?php
 
 // set http header
-require '../../../core/header.php';
+require '../../../../core/header.php';
 // use needed functions
-require '../../../core/functions.php';
+require '../../../../core/functions.php';
 require 'functions.php';
 // use needed classes
-require '../../../models/inventory/sales/Sales.php';
+require '../../../../models/inventory/sales/Sales.php';
 // check database connection
 $conn = null;
 $conn = checkDbConnection();
@@ -25,6 +25,16 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
 
         //check to see if task id in query string is not empty and is number, if not return json error 
         $query = checkReadAllPendingPaidByMonth($sales);
+        http_response_code(200);
+        getQueriedData($query);
+    }
+    if (empty($_GET)) {
+        // get data
+        // get task id from query string  
+        $sales->sales_year = date("Y");
+
+        //check to see if task id in query string is not empty and is number, if not return json error 
+        $query = checkReadAllPendingByYear($sales);
         http_response_code(200);
         getQueriedData($query);
     }

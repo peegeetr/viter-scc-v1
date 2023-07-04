@@ -32,6 +32,9 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
   const [categoryId, setCategoryId] = React.useState(
     item ? item.suppliers_products_category_id : "0"
   );
+  const [supplierPriceId, setSupplierPriceId] = React.useState(
+    item ? item.orders_suplier_price : "0"
+  );
   const [productId, setProductId] = React.useState(
     item ? item.suppliers_products_aid : ""
   );
@@ -112,6 +115,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
   const handleProduct = async (e, props) => {
     setProductId(e.target.value);
     setPriceId(e.target.options[e.target.selectedIndex].id);
+    setSupplierPriceId(e.target.options[e.target.selectedIndex].title);
   };
   // get employee id
   const handleIsPaid = async (e, props) => {
@@ -125,6 +129,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
     orders_remarks: item ? item.orders_remarks : "",
     suppliers_products_aid: "",
     orders_product_srp: "",
+    orders_suplier_price: "",
     orders_product_amount: item ? item.orders_product_amount : "",
     orders_date: item ? item.orders_date : getDateTimeNow(),
     category_id: item ? item.suppliers_products_category_id : "",
@@ -152,6 +157,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
     sales_discount: isPaid === "1" && Yup.string().required("Required"),
   });
 
+  console.log("SupProd", SupProd);
   return (
     <>
       <div className="fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center bg-dark bg-opacity-50 z-50 ">
@@ -173,11 +179,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
               initialValues={initVal}
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
-                console.log(
-                  values,
-                  Number(values.orders_product_quantity),
-                  Number(values.old_quantity)
-                );
+                console.log(values);
                 const orders_product_quantity = removeComma(
                   `${values.orders_product_quantity}`
                 );
@@ -234,6 +236,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
               }}
             >
               {(props) => {
+                props.values.orders_suplier_price = supplierPriceId;
                 props.values.orders_product_srp = priceId;
                 props.values.orders_product_amount =
                   Number(removeComma(props.values.orders_product_quantity)) *
@@ -316,6 +319,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                                   key={key}
                                   value={pItem.suppliers_products_aid}
                                   id={pItem.suppliers_products_scc_price}
+                                  title={pItem.suppliers_products_price}
                                 >
                                   {`${
                                     pItem.suppliers_products_name

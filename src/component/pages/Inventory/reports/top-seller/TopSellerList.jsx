@@ -49,8 +49,8 @@ const TopSellerList = () => {
     queryKey: ["patronage", isSubmit],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
-        `/v1/sales/report/filter/top-seller/${month}`, // filter endpoint // filter
-        `/v1/sales/report/top-seller/${pageParam}/${month}`, // list endpoint
+        `/v1/top-seller-report/filter-by-month/${month}`, // filter endpoint // filter
+        `/v1/top-seller-report/page/${pageParam}/${month}`, // list endpoint
         isFilter // search boolean
       ),
     getNextPageParam: (lastPage) => {
@@ -65,13 +65,13 @@ const TopSellerList = () => {
   });
   // use if not loadmore button undertime
   const { data: total } = useQueryData(
-    `/v1/sales/report/all-pending-and-paid/${month}`, // endpoint
+    `/v1/top-seller-report/all-pending-and-paid/${month}`, // endpoint
     "get", // method
     "pendingAndPaid", // key
     {},
     month
   );
-  console.log(total);
+  console.log("total", total);
 
   React.useEffect(() => {
     if (inView) {

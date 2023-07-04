@@ -1,29 +1,4 @@
 <?php
-
-// Read category by category id
-function checkReadSupplierCategoryByCategoryId($object)
-{
-    $query = $object->readSupplierCategoryByCategoryId();
-    checkQuery($query, "Empty records.(Read by category id)");
-    return $query;
-}
-
-// Read category by supplier id
-function checkReadCategoryBySupplierId($object)
-{
-    $query = $object->readCategoryBySupplierId();
-    checkQuery($query, "Empty records.(Read by supplier id)");
-    return $query;
-}
-
-// Read product by supplier id and category
-function checkReadSupplierCategoryBySupplierId($object)
-{
-    $query = $object->readSupplierCategoryBySupplierId();
-    checkQuery($query, "Empty records.(Read by supplier id)");
-    return $query;
-}
-
 // Read all Summary
 function checkReadBySupplierId($object)
 {

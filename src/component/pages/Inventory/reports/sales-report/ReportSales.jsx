@@ -7,6 +7,7 @@ import ModalSuccess from "../../../../partials/modals/ModalSuccess";
 import ModalError from "../../../../partials/modals/ModalError";
 import ReportSalesList from "./ReportSalesList";
 import BreadCrumbs from "../../../../partials/BreadCrumbs";
+import ModalViewSales from "../../sales/ModalViewSales";
 
 const ReportSales = () => {
   const { store, dispatch } = React.useContext(StoreContext);

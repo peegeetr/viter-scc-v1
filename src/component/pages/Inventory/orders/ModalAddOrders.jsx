@@ -111,6 +111,7 @@ const ModalAddOrders = ({ item, arrKey }) => {
   const handleProduct = async (e, props) => {
     setProductId(e.target.value);
     setPriceId(e.target.options[e.target.selectedIndex].id);
+    console.log("123123", e.target.options[e.target.selectedIndex].title);
   };
   const initVal = {
     orders_member_id: item ? item.orders_member_id : "",
@@ -118,6 +119,7 @@ const ModalAddOrders = ({ item, arrKey }) => {
     orders_product_quantity: item ? item.orders_product_quantity : "",
     suppliers_products_aid: "",
     orders_product_srp: "",
+    orders_suplier_price: "",
     orders_is_paid: 0,
     orders_is_draft: 0,
     orders_product_amount: item ? item.orders_product_amount : "",
@@ -137,6 +139,8 @@ const ModalAddOrders = ({ item, arrKey }) => {
     category_id: Yup.string().required("Required"),
     orders_date: Yup.string().required("Required"),
   });
+
+  console.log("SupProd", SupProd);
   return (
     <>
       <div className="fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center bg-dark bg-opacity-50 z-50">
@@ -264,6 +268,7 @@ const ModalAddOrders = ({ item, arrKey }) => {
                                   key={key}
                                   value={pItem.suppliers_products_aid}
                                   id={pItem.suppliers_products_scc_price}
+                                  title={pItem.suppliers_products_price}
                                 >
                                   {`${
                                     pItem.suppliers_products_name
