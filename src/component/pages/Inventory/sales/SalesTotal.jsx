@@ -42,7 +42,7 @@ const SalesTotal = ({ result, menu = "" }) => {
           <>
             <StatusAmount
               text="Supplier Amount"
-              amount={computeSccSales(result).finalAmount}
+              amount={computeSccSales(result).totalSupplierPriceAmount}
               type="discount"
             />
             <StatusAmount
