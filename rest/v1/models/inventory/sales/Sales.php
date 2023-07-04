@@ -221,6 +221,7 @@ class Sales
             $sql .= "and orders.orders_member_id = member.members_aid ";
             $sql .= "and sales.sales_member_id = member.members_aid ";
             $sql .= "and productCategory.product_category_aid = suppliersProducts.suppliers_products_category_id ";
+            $sql .= "and orders.orders_is_draft = '0' ";
             $sql .= "and (orders.orders_number like :orders_number ";
             $sql .= "or sales.sales_number like :sales_number ";
             $sql .= "or member.members_last_name like :members_last_name ";
