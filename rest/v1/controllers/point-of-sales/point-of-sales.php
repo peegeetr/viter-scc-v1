@@ -30,6 +30,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         $pos->orders_product_quantity = checkIndex($data, "orders_product_quantity");
         $pos->orders_product_amount = checkIndex($data, "orders_product_amount");
         $pos->orders_product_srp = checkIndex($data, "orders_product_srp");
+        $pos->orders_suplier_price = checkIndex($data, "orders_suplier_price");
         $pos->orders_remarks = checkIndex($data, "orders_remarks");
         $pos->sales_discount = checkIndex($data, "sales_discount");
         $pos->orders_is_paid = 0;
@@ -108,6 +109,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         $pos->orders_product_quantity = checkIndex($data, "orders_product_quantity");
         $pos->orders_product_amount = checkIndex($data, "orders_product_amount");
         $pos->orders_product_srp = checkIndex($data, "orders_product_srp");
+        $pos->orders_suplier_price = checkIndex($data, "orders_suplier_price");
         $pos->orders_date = checkIndex($data, "orders_date");
         $pos->orders_is_paid = checkIndex($data, "orders_is_paid");
         $pos->orders_is_draft = checkIndex($data, "orders_is_draft");

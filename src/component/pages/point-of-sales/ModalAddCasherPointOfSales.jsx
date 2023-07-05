@@ -34,6 +34,9 @@ const ModalAddCasherPointOfSales = ({ item, arrKey, memberId, memberName }) => {
   const [categoryId, setCategoryId] = React.useState(
     item ? item.suppliers_products_category_id : "0"
   );
+  const [supplierPriceId, setSupplierPriceId] = React.useState(
+    item ? item.orders_suplier_price : "0"
+  );
   const [productId, setProductId] = React.useState(
     item ? item.suppliers_products_aid : ""
   );
@@ -109,6 +112,7 @@ const ModalAddCasherPointOfSales = ({ item, arrKey, memberId, memberName }) => {
   const handleProduct = async (e, props) => {
     setProductId(e.target.value);
     setPriceId(e.target.options[e.target.selectedIndex].id);
+    setSupplierPriceId(e.target.options[e.target.selectedIndex].title);
   };
   const initVal = {
     orders_member_id: item ? item.orders_member_id : memberId,
@@ -116,6 +120,7 @@ const ModalAddCasherPointOfSales = ({ item, arrKey, memberId, memberName }) => {
     orders_product_quantity: item ? item.orders_product_quantity : "",
     suppliers_products_aid: "",
     orders_product_srp: "",
+    orders_suplier_price: "",
     orders_is_paid: 0,
     orders_is_draft: 0,
     orders_product_amount: item ? item.orders_product_amount : "",
@@ -194,6 +199,7 @@ const ModalAddCasherPointOfSales = ({ item, arrKey, memberId, memberName }) => {
               }}
             >
               {(props) => {
+                props.values.orders_suplier_price = supplierPriceId;
                 props.values.orders_product_srp = priceId;
                 props.values.suppliers_products_aid = productId;
                 return (
@@ -252,6 +258,7 @@ const ModalAddCasherPointOfSales = ({ item, arrKey, memberId, memberName }) => {
                                   key={key}
                                   value={pItem.suppliers_products_aid}
                                   id={pItem.suppliers_products_scc_price}
+                                  title={pItem.suppliers_products_price}
                                 >
                                   {`${
                                     pItem.suppliers_products_name

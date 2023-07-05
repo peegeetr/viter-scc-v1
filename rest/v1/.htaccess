@@ -168,8 +168,8 @@ RewriteRule ^system-maintenance/maintenance$ controllers/settings/system-mainten
 #POINT OF SALES
 RewriteRule ^pos/orders/([0-9]+)$ controllers/point-of-sales/pages.php?membersid=$1 [L] 
 RewriteRule ^pos/orders/filter/([0-9]+)$ controllers/point-of-sales/pages.php?membersid=$1 [L]
-RewriteRule ^pos/create/orders$ controllers/point-of-sales/pointOfSales.php [L] 
-RewriteRule ^pos/update/orders/([0-9]+)$ controllers/point-of-sales/pointOfSales.php?orderid=$1 [L] 
+RewriteRule ^pos/create/orders$ controllers/point-of-sales/point-of-sales.php [L] 
+RewriteRule ^pos/update/orders/([0-9]+)$ controllers/point-of-sales/point-of-sales.php?orderid=$1 [L] 
 RewriteRule ^pos/payment$ controllers/point-of-sales/payment.php [L] 
  
 #SUBSCRIBE CAPITAL

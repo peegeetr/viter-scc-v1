@@ -10,6 +10,7 @@ class PointOfSales
     public $orders_product_quantity;
     public $orders_product_amount;
     public $orders_product_srp;
+    public $orders_suplier_price;
     public $orders_date;
     public $orders_remarks;
     public $orders_created;
@@ -59,6 +60,7 @@ class PointOfSales
             $sql .= "orders_product_quantity, ";
             $sql .= "orders_product_amount, ";
             $sql .= "orders_product_srp, ";
+            $sql .= "orders_suplier_price, ";
             $sql .= "orders_date, ";
             $sql .= "orders_remarks, ";
             $sql .= "orders_created, ";
@@ -71,6 +73,7 @@ class PointOfSales
             $sql .= ":orders_product_quantity, ";
             $sql .= ":orders_product_amount, ";
             $sql .= ":orders_product_srp, ";
+            $sql .= ":orders_suplier_price, ";
             $sql .= ":orders_date, ";
             $sql .= ":orders_remarks, ";
             $sql .= ":orders_created, ";
@@ -85,6 +88,7 @@ class PointOfSales
                 "orders_product_quantity" => $this->orders_product_quantity,
                 "orders_product_amount" => $this->orders_product_amount,
                 "orders_product_srp" => $this->orders_product_srp,
+                "orders_suplier_price" => $this->orders_suplier_price,
                 "orders_date" => $this->orders_date,
                 "orders_remarks" => $this->orders_remarks,
                 "orders_created" => $this->orders_created,
@@ -266,6 +270,7 @@ class PointOfSales
             $sql .= "orders_product_id = :orders_product_id, ";
             $sql .= "orders_product_amount = :orders_product_amount, ";
             $sql .= "orders_product_srp = :orders_product_srp, ";
+            $sql .= "orders_suplier_price = :orders_suplier_price, ";
             $sql .= "orders_remarks = :orders_remarks, ";
             $sql .= "orders_is_paid = :orders_is_paid, ";
             $sql .= "orders_datetime = :orders_datetime ";
@@ -276,6 +281,7 @@ class PointOfSales
                 "orders_product_id" => $this->orders_product_id,
                 "orders_product_amount" => $this->orders_product_amount,
                 "orders_product_srp" => $this->orders_product_srp,
+                "orders_suplier_price" => $this->orders_suplier_price,
                 "orders_remarks" => $this->orders_remarks,
                 "orders_is_paid" => $this->orders_is_paid,
                 "orders_datetime" => $this->orders_datetime,
