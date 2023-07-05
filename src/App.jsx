@@ -139,6 +139,9 @@ import CashierMyAccountSetupCapitalShare from "./component/pages/my-account/capi
 import CashierMyAcccountTransactionCapitalShare from "./component/pages/my-account/capital-share/transactions/links/CashierMyAcccountTransactionCapitalShare";
 import AdminMyAccountSetupCapitalShare from "./component/pages/my-account/capital-share/setup/links/AdminSetupCapitalShare";
 import AdminMyAcccountTransactionCapitalShare from "./component/pages/my-account/capital-share/transactions/links/AdminMyAcccountTransactionCapitalShare";
+import AdminSupplierProductHistory from "./component/pages/Inventory/suppliers/products/product-history/links/AdminSupplierProductHistory";
+import ManagerSupplierProductHistory from "./component/pages/Inventory/suppliers/products/product-history/links/ManagerSupplierProductHistory";
+import SystemSupplierProductHistory from "./component/pages/Inventory/suppliers/products/product-history/links/SystemSupplierProductHistory";
 
 function App() {
   // Create a client
@@ -406,6 +409,14 @@ function App() {
               element={
                 <ProtectedRouteSystem>
                   <SystemSupplierProduct />
+                </ProtectedRouteSystem>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlSystem}/inventory/suppliers/products/history`}
+              element={
+                <ProtectedRouteSystem>
+                  <SystemSupplierProductHistory />
                 </ProtectedRouteSystem>
               }
             />
@@ -847,6 +858,14 @@ function App() {
                 </ProtectedRouteOther>
               }
             />
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/inventory/suppliers/products/history`}
+              element={
+                <ProtectedRouteOther>
+                  <AdminSupplierProductHistory />
+                </ProtectedRouteOther>
+              }
+            />
             {/* system settings */}
             <Route
               path={`${devNavUrl}/${UrlAdmin}/settings`}
@@ -1167,6 +1186,14 @@ function App() {
               element={
                 <ProtectedRouteOther>
                   <ManagerSupplierProduct />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlManager}/inventory/suppliers/products/history`}
+              element={
+                <ProtectedRouteOther>
+                  <ManagerSupplierProductHistory />
                 </ProtectedRouteOther>
               }
             />

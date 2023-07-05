@@ -17,7 +17,7 @@ const ModalDeleteRestoreCapital = ({
   mysqlApiRestore,
   msg,
   item,
-  dataItem,
+  dataItem = null,
   setIsSubscribeCapital,
   orderId = "0",
   isApproved = "active",

@@ -114,6 +114,7 @@ const ProductsList = () => {
               <th>#</th>
               <th className="min-w-[6rem]">Product #</th>
               <th className="min-w-[6rem]">Category</th>
+              <th className="min-w-[6rem]">Supplier</th>
               <th className="min-w-[8rem]">Product</th>
               <th className="min-w-[8rem] text-right">Supplier Price</th>
               <th className="min-w-[8rem] text-right">SCC Price</th>
@@ -154,6 +155,7 @@ const ProductsList = () => {
                       {item.suppliers_products_number}
                     </td>
                     <td>{item.product_category_name}</td>
+                    <td>{item.suppliers_company_name}</td>
                     <td>{item.suppliers_products_name}</td>
                     <td className="text-right">
                       {pesoSign}{" "}

@@ -314,6 +314,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                         ) : (
                           SupProd?.data.map((pItem, key) => {
                             return (
+                              pItem.suppliers_products_price !== "" &&
                               pItem.suppliers_products_scc_price !== "" && (
                                 <option
                                   key={key}
@@ -327,7 +328,13 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                                     pItem,
                                     stocksGroupProd,
                                     orderGroupProd
-                                  )})`}
+                                  )}) `}
+                                  &#8369;{" "}
+                                  {numberWithCommas(
+                                    Number(
+                                      pItem.suppliers_products_scc_price
+                                    ).toFixed(2)
+                                  )}
                                 </option>
                               )
                             );

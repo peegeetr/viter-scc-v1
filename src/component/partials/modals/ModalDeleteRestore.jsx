@@ -17,7 +17,7 @@ const ModalDeleteRestore = ({
   mysqlApiRestore,
   msg,
   item,
-  dataItem,
+  dataItem = null,
   orderId = "0",
   isApproved = "active",
   arrKey,

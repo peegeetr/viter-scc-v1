@@ -57,5 +57,6 @@ $suppliersProducts->suppliers_products_datetime = date("Y-m-d H:i:s");
 isNameExist($suppliersProducts, $suppliersProducts->suppliers_products_name);
 // create
 $query = checkCreate($suppliersProducts);
+checkCreateHistoryPrice($suppliersProducts);
 
 returnSuccess($suppliersProducts, "Suppliers Products", $query);

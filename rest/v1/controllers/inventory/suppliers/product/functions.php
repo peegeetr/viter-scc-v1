@@ -1,4 +1,13 @@
 <?php
+
+// Create 
+function checkCreateHistoryPrice($object)
+{
+    $query = $object->createHistoryPrice();
+    checkQuery($query, "There's a problem processing your request. (create history price)");
+    return $query;
+}
+
 // Read all Summary
 function checkReadBySupplierId($object)
 {
@@ -35,6 +44,14 @@ function checkReadByCategoryid($object)
 function isAssociatedInOrder($object)
 {
     $query = $object->checkAssociationInOrder();
+    $count = $query->rowCount();
+    checkExistence($count, "You cannot delete this item because it is already associated with other module.");
+}
+
+// check association
+function isAssociatedInHistory($object)
+{
+    $query = $object->checkAssociationInHistory();
     $count = $query->rowCount();
     checkExistence($count, "You cannot delete this item because it is already associated with other module.");
 }

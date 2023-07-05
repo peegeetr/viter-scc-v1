@@ -19,6 +19,7 @@ if (array_key_exists("supplierProductsid", $_GET)) {
     // delete
     isAssociated($suppliersProducts);
     isAssociatedInOrder($suppliersProducts);
+    isAssociatedInHistory($suppliersProducts);
     $query = checkDelete($suppliersProducts);
 
     returnSuccess($suppliersProducts, "Suppliers Products", $query);

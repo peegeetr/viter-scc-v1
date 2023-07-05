@@ -139,7 +139,7 @@ RewriteRule ^suppliers-product/by-supplier-product-id/([0-9]+)$ controllers/inve
 RewriteRule ^suppliers-product/page/supplier-id/([0-9]+)/([0-9]+)$ controllers/inventory/suppliers/product/read-by-supplier-id.php?start=$1&supplierid=$2 [L]
 RewriteRule ^suppliers-product/read-supplier-id/([0-9]+)$ controllers/inventory/suppliers/product/read-by-supplier-id.php?supplierid=$1 [L]
 RewriteRule ^suppliers-product/page/([0-9]+)$ controllers/inventory/suppliers/product/page.php?start=$1 [L]
-RewriteRule ^suppliers-product/search/([A-Za-z0-9-]+)$ controllers/inventory/suppliers/product/search.php?search=$1 [L]
+RewriteRule ^suppliers-product/search-by-id/([0-9]+)/([A-Za-z0-9-]+)$ controllers/inventory/suppliers/product/search-by-id.php?supplierid=$1&search=$2 [L]
 RewriteRule ^suppliers-product/read-category-id/([0-9]+)$ controllers/inventory/suppliers/product/read-by-category-id.php?categoryid=$1 [L]
 
 #sales 
@@ -194,5 +194,11 @@ RewriteRule ^report-sales/report-category-list-by-supplier-id/([0-9]+)$ controll
 RewriteRule ^report-sales/report-product-list/([0-9]+)/([0-9]+)$ controllers/inventory/report/sales-report/report-product-by-supplier-category-id.php?supplierId=$1&categoryId=$2 [L]
 RewriteRule ^report-sales/report-product-list-by-category/([0-9]+)$ controllers/inventory/report/sales-report/report-product-by-category-id.php?categoryId=$1 [L]
 RewriteRule ^report-sales/filter-sales/([0-9]+)/([0-9]+)/([0-9]+)/([A-Za-z0-9-]+)/([A-Za-z0-9-]+)$ controllers/inventory/report/sales-report/report-filter-sales.php?supplierId=$1&categoryId=$2&productId=$3&startDate=$4&endDate=$5 [L]
- 
-
+  
+#PRODUCT HISTORY 
+RewriteRule ^product-history$ controllers/inventory/suppliers/product/products-history/products-history.php [L]
+RewriteRule ^product-history/([0-9]+)$ controllers/inventory/suppliers/product/products-history/products-history.php?productHistoryId=$1 [L]
+RewriteRule ^product-history/active/([0-9]+)$ controllers/inventory/suppliers/product/products-history/active.php?productHistoryId=$1 [L]
+RewriteRule ^product-history/page-by-id/([0-9]+)/([0-9]+)$ controllers/inventory/suppliers/product/products-history/page-by-id.php?start=$1&productHistoryId=$2 [L]
+RewriteRule ^product-history/search-by-id/([A-Za-z0-9-]+)/([0-9]+)$ controllers/inventory/suppliers/product/products-history/search-by-id.php?search=$1&productHistoryId=$2 [L]
+  

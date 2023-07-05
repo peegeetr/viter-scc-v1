@@ -18,7 +18,7 @@ const ModalConfirm = ({
   mysqlApiArchive,
   msg,
   item,
-  dataItem,
+  dataItem = null,
   isDeveloper,
   arrKey,
 }) => {

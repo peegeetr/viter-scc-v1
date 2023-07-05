@@ -15,6 +15,8 @@ import { InputSelect, InputText } from "../../../../helpers/FormInputs";
 import ButtonSpinner from "../../../../partials/spinners/ButtonSpinner";
 import {
   getUrlParam,
+  numberWithCommas,
+  pesoSign,
   removeComma,
 } from "../../../../helpers/functions-general";
 import useQueryData from "../../../../custom-hooks/useQueryData";
@@ -72,7 +74,7 @@ const ModalAddSuppliersProducts = ({ item }) => {
 
   const yupSchema = Yup.object({
     suppliers_products_name: Yup.string().required("Required"),
-    suppliers_products_price: Yup.string().required("Required"),
+    suppliers_products_price: !item && Yup.string().required("Required"),
     suppliers_products_category_id: Yup.string().required("Required"),
   });
 
@@ -139,15 +141,27 @@ const ModalAddSuppliersProducts = ({ item }) => {
                         })}
                       </InputSelect>
                     </div>
-                    <div className="relative my-5">
-                      <InputText
-                        label="Supplier Price"
-                        type="text"
-                        num="num"
-                        name="suppliers_products_price"
-                        disabled={mutation.isLoading}
-                      />
-                    </div>
+                    {item ? (
+                      <p className="ml-3 text-primary">
+                        Supplier price :{" "}
+                        <span className="text-black">
+                          {pesoSign}{" "}
+                          {numberWithCommas(
+                            Number(item.suppliers_products_price).toFixed(2)
+                          )}
+                        </span>
+                      </p>
+                    ) : (
+                      <div className="relative my-5">
+                        <InputText
+                          label="Supplier Price"
+                          type="text"
+                          num="num"
+                          name="suppliers_products_price"
+                          disabled={mutation.isLoading}
+                        />
+                      </div>
+                    )}
 
                     <div className="flex items-center gap-1 pt-5">
                       <button

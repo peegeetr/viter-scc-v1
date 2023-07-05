@@ -246,7 +246,8 @@ const ModalAddCasherPointOfSales = ({ item, arrKey, memberId, memberName }) => {
                         ) : (
                           SupProd?.data.map((pItem, key) => {
                             return (
-                              pItem.suppliers_products_scc_price !== "" && (
+                              pItem.suppliers_products_scc_price !== "" &&
+                              pItem.suppliers_products_price !== "" && (
                                 <option
                                   key={key}
                                   value={pItem.suppliers_products_aid}

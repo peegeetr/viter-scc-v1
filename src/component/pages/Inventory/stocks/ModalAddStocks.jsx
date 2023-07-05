@@ -171,13 +171,15 @@ const ModalAddStocks = ({ item }) => {
                         </option>
                         {supplierProductId?.map((sItem, key) => {
                           return (
-                            <option
-                              key={key}
-                              value={sItem.suppliers_products_aid}
-                              id={sItem.suppliers_products_price}
-                            >
-                              {`${sItem.suppliers_products_name} `}
-                            </option>
+                            sItem.suppliers_products_price !== "" && (
+                              <option
+                                key={key}
+                                value={sItem.suppliers_products_aid}
+                                id={sItem.suppliers_products_price}
+                              >
+                                {`${sItem.suppliers_products_name} `}
+                              </option>
+                            )
                           );
                         })}
                       </InputSelect>

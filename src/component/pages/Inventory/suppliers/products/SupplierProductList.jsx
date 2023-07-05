@@ -47,7 +47,7 @@ const SupplierProductList = ({ setItemEdit }) => {
     queryKey: ["suppliers-product", onSearch, store.isSearch],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
-        `/v1/suppliers-product/search/${search.current.value}`, // search endpoint
+        `/v1/suppliers-product/search-by-id/${supplierId}/${search.current.value}`, // search endpoint
         `/v1/suppliers-product/page/supplier-id/${pageParam}/${supplierId}`, // list endpoint
         store.isSearch // search boolean
       ),
@@ -159,13 +159,13 @@ const SupplierProductList = ({ setItemEdit }) => {
                       <td>
                         {" "}
                         <div className="flex items-center gap-1">
-                          {/* <Link
-                            to={`${urlLink}/inventory/suppliers/products?supplierId=${item.suppliers_aid}`}
+                          <Link
+                            to={`${urlLink}/inventory/suppliers/products/history?supplierId=${item.suppliers_aid}&supplierProductId=${item.suppliers_products_aid}`}
                             className="btn-action-table tooltip-action-table"
                             data-tooltip="View"
                           >
                             <SlArrowRight className="inline" />
-                          </Link> */}
+                          </Link>
                           <button
                             type="button"
                             className="btn-action-table tooltip-action-table"

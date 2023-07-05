@@ -23,6 +23,7 @@ class SuppliersProducts
     public $tblCategory;
     public $tblStocks;
     public $tblOrders;
+    public $tblProductsHistory;
 
     public function __construct($db)
     {
@@ -32,6 +33,7 @@ class SuppliersProducts
         $this->tblCategory = "sccv1_product_category";
         $this->tblStocks = "sccv1_stocks";
         $this->tblOrders = "sccv1_orders";
+        $this->tblProductsHistory = "sccv1_product_history";
     }
 
     // create
@@ -62,6 +64,39 @@ class SuppliersProducts
                 "suppliers_products_suppliers_id" => $this->suppliers_products_suppliers_id,
                 "suppliers_products_created" => $this->suppliers_products_created,
                 "suppliers_products_datetime" => $this->suppliers_products_datetime,
+            ]);
+            $this->lastInsertedId = $this->connection->lastInsertId();
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    // create
+    public function createHistoryPrice()
+    {
+        try {
+            $sql = "insert into {$this->tblProductsHistory} ";
+            $sql .= "( product_history_product_id, ";
+            $sql .= "product_history_is_active, ";
+            $sql .= "product_history_date, ";
+            $sql .= "product_history_price, ";
+            $sql .= "product_history_created, ";
+            $sql .= "product_history_datetime ) values ( ";
+            $sql .= ":product_history_product_id, ";
+            $sql .= ":product_history_is_active, ";
+            $sql .= ":product_history_date, ";
+            $sql .= ":product_history_price, ";
+            $sql .= ":product_history_created, ";
+            $sql .= ":product_history_datetime ) ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "product_history_product_id" => $this->lastInsertedId,
+                "product_history_is_active" => 1,
+                "product_history_date" => $this->suppliers_products_created,
+                "product_history_price" => $this->suppliers_products_price,
+                "product_history_created" => $this->suppliers_products_created,
+                "product_history_datetime" => $this->suppliers_products_datetime,
             ]);
             $this->lastInsertedId = $this->connection->lastInsertId();
         } catch (PDOException $ex) {
@@ -127,39 +162,6 @@ class SuppliersProducts
         return $query;
     }
 
-    // search not approved members
-    public function search()
-    {
-        try {
-            $sql = "select ";
-            $sql .= "suppliersProducts.suppliers_products_aid, ";
-            $sql .= "suppliersProducts.suppliers_products_number, ";
-            $sql .= "suppliersProducts.suppliers_products_name, ";
-            $sql .= "suppliersProducts.suppliers_products_price, ";
-            $sql .= "suppliersProducts.suppliers_products_scc_price, ";
-            $sql .= "suppliersProducts.suppliers_products_market_price, ";
-            $sql .= "suppliersProducts.suppliers_products_category_id, ";
-            $sql .= "category.product_category_name ";
-            $sql .= "from ";
-            $sql .= "{$this->tblSuppliersProducts} as suppliersProducts, ";
-            $sql .= "{$this->tblCategory} as category ";
-            $sql .= "where category.product_category_aid = suppliersProducts.suppliers_products_category_id ";
-            $sql .= "and (suppliersProducts.suppliers_products_name like :suppliers_products_name ";
-            $sql .= "or category.product_category_name like :product_category_name ";
-            $sql .= "or suppliersProducts.suppliers_products_number like :suppliers_products_number) ";
-            $sql .= "order by category.product_category_name, ";
-            $sql .= "suppliersProducts.suppliers_products_name asc ";
-            $query = $this->connection->prepare($sql);
-            $query->execute([
-                "suppliers_products_name" => "%{$this->suppliers_products_search}%",
-                "suppliers_products_number" => "%{$this->suppliers_products_search}%",
-                "product_category_name" => "%{$this->suppliers_products_search}%",
-            ]);
-        } catch (PDOException $ex) {
-            $query = false;
-        }
-        return $query;
-    }
 
     // read by id
     public function readById()
@@ -178,6 +180,7 @@ class SuppliersProducts
         }
         return $query;
     }
+
     // read by id
     public function readBySupplierId()
     {
@@ -188,6 +191,7 @@ class SuppliersProducts
             $sql .= "suppliersProducts.suppliers_products_name, ";
             $sql .= "suppliersProducts.suppliers_products_price, ";
             $sql .= "suppliersProducts.suppliers_products_category_id, ";
+            $sql .= "supplier.suppliers_aid, ";
             $sql .= "supplier.suppliers_company_name, ";
             $sql .= "category.product_category_name ";
             $sql .= "from ";
@@ -195,20 +199,19 @@ class SuppliersProducts
             $sql .= "{$this->tblSuppliers} as supplier, ";
             $sql .= "{$this->tblCategory} as category ";
             $sql .= "where suppliersProducts.suppliers_products_suppliers_id = :suppliers_products_suppliers_id ";
-            $sql .= "and supplier.suppliers_aid = :suppliers_aid ";
             $sql .= "and category.product_category_aid = suppliersProducts.suppliers_products_category_id ";
             $sql .= "and suppliersProducts.suppliers_products_suppliers_id = supplier.suppliers_aid ";
             $sql .= "order by suppliersProducts.suppliers_products_name asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "suppliers_products_suppliers_id" => $this->suppliers_products_suppliers_id,
-                "suppliers_aid" => $this->suppliers_products_suppliers_id,
             ]);
         } catch (PDOException $ex) {
             $query = false;
         }
         return $query;
     }
+
     // read by id
     public function readBySupplierIdLimit()
     {
@@ -219,6 +222,7 @@ class SuppliersProducts
             $sql .= "suppliersProducts.suppliers_products_name, ";
             $sql .= "suppliersProducts.suppliers_products_price, ";
             $sql .= "suppliersProducts.suppliers_products_category_id, ";
+            $sql .= "supplier.suppliers_aid, ";
             $sql .= "supplier.suppliers_company_name, ";
             $sql .= "category.product_category_name ";
             $sql .= "from ";
@@ -226,7 +230,6 @@ class SuppliersProducts
             $sql .= "{$this->tblSuppliers} as supplier, ";
             $sql .= "{$this->tblCategory} as category ";
             $sql .= "where suppliersProducts.suppliers_products_suppliers_id = :suppliers_products_suppliers_id ";
-            $sql .= "and supplier.suppliers_aid = :suppliers_aid ";
             $sql .= "and category.product_category_aid = suppliersProducts.suppliers_products_category_id ";
             $sql .= "and suppliersProducts.suppliers_products_suppliers_id = supplier.suppliers_aid ";
             $sql .= "order by suppliersProducts.suppliers_products_name asc ";
@@ -235,7 +238,6 @@ class SuppliersProducts
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "suppliers_products_suppliers_id" => $this->suppliers_products_suppliers_id,
-                "suppliers_aid" => $this->suppliers_products_suppliers_id,
                 "start" => $this->suppliers_products_start - 1,
                 "total" => $this->suppliers_products_total,
             ]);
@@ -245,13 +247,49 @@ class SuppliersProducts
         return $query;
     }
 
+    // search not approved members
+    public function search()
+    {
+        try {
+            $sql = "select ";
+            $sql .= "suppliersProducts.suppliers_products_aid, ";
+            $sql .= "suppliersProducts.suppliers_products_number, ";
+            $sql .= "suppliersProducts.suppliers_products_name, ";
+            $sql .= "suppliersProducts.suppliers_products_price, ";
+            $sql .= "suppliersProducts.suppliers_products_category_id, ";
+            $sql .= "supplier.suppliers_aid, ";
+            $sql .= "supplier.suppliers_company_name, ";
+            $sql .= "category.product_category_name ";
+            $sql .= "from ";
+            $sql .= "{$this->tblSuppliersProducts} as suppliersProducts, ";
+            $sql .= "{$this->tblSuppliers} as supplier, ";
+            $sql .= "{$this->tblCategory} as category ";
+            $sql .= "where suppliersProducts.suppliers_products_suppliers_id = :suppliers_products_suppliers_id ";
+            $sql .= "and category.product_category_aid = suppliersProducts.suppliers_products_category_id ";
+            $sql .= "and suppliersProducts.suppliers_products_suppliers_id = supplier.suppliers_aid ";
+            $sql .= "and (suppliersProducts.suppliers_products_name like :suppliers_products_name ";
+            $sql .= "or category.product_category_name like :product_category_name ";
+            $sql .= "or suppliersProducts.suppliers_products_number like :suppliers_products_number) ";
+            $sql .= "order by category.product_category_name, ";
+            $sql .= "suppliersProducts.suppliers_products_name asc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "suppliers_products_suppliers_id" => $this->suppliers_products_suppliers_id,
+                "suppliers_products_name" => "%{$this->suppliers_products_search}%",
+                "suppliers_products_number" => "%{$this->suppliers_products_search}%",
+                "product_category_name" => "%{$this->suppliers_products_search}%",
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
     // update
     public function update()
     {
         try {
             $sql = "update {$this->tblSuppliersProducts} set ";
             $sql .= "suppliers_products_name = :suppliers_products_name, ";
-            $sql .= "suppliers_products_price = :suppliers_products_price, ";
             $sql .= "suppliers_products_category_id = :suppliers_products_category_id, ";
             $sql .= "suppliers_products_suppliers_id = :suppliers_products_suppliers_id, ";
             $sql .= "suppliers_products_datetime = :suppliers_products_datetime ";
@@ -259,7 +297,6 @@ class SuppliersProducts
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "suppliers_products_name" => $this->suppliers_products_name,
-                "suppliers_products_price" => $this->suppliers_products_price,
                 "suppliers_products_category_id" => $this->suppliers_products_category_id,
                 "suppliers_products_suppliers_id" => $this->suppliers_products_suppliers_id,
                 "suppliers_products_datetime" => $this->suppliers_products_datetime,
@@ -370,6 +407,24 @@ class SuppliersProducts
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "orders_product_id" => $this->suppliers_products_aid,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    // read all Association In history
+    public function checkAssociationInHistory()
+    {
+        try {
+            $sql = "select product_history_product_id from ";
+            $sql .= "{$this->tblProductsHistory} ";
+            $sql .= "where product_history_product_id = :product_history_product_id ";
+            $sql .= "order by product_history_product_id desc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "product_history_product_id" => $this->suppliers_products_aid,
             ]);
         } catch (PDOException $ex) {
             $query = false;

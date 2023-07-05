@@ -267,7 +267,8 @@ const ModalAddOrders = ({ item, arrKey }) => {
                         ) : (
                           SupProd?.data.map((pItem, key) => {
                             return (
-                              pItem.suppliers_products_scc_price !== "" && (
+                              pItem.suppliers_products_scc_price !== "" &&
+                              pItem.suppliers_products_price !== "" && (
                                 <option
                                   key={key}
                                   value={pItem.suppliers_products_aid}
@@ -276,11 +277,17 @@ const ModalAddOrders = ({ item, arrKey }) => {
                                 >
                                   {`${
                                     pItem.suppliers_products_name
-                                  }  (${getRemaningQuantity(
+                                  } (${getRemaningQuantity(
                                     pItem,
                                     stocksGroupProd,
                                     orderGroupProd
                                   )})`}
+                                  &#8369;{" "}
+                                  {numberWithCommas(
+                                    Number(
+                                      pItem.suppliers_products_scc_price
+                                    ).toFixed(2)
+                                  )}
                                 </option>
                               )
                             );
