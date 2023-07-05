@@ -21,7 +21,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         // get data
         // get task id from query string
         $sales->sales_start = $_GET['start'];
-        $sales->sales_total = 20;
+        $sales->sales_total = 5;
         $sales->sales_month = $_GET['month'];
         $sales->sales_year = date("Y");
         //check to see if task id in query string is not empty and is number, if not return json error

@@ -1,29 +1,20 @@
 import React from "react";
-import { FaPlusCircle } from "react-icons/fa";
-import { setIsAdd } from "../../../store/StoreAction.jsx";
 import { StoreContext } from "../../../store/StoreContext.jsx";
 import Footer from "../../partials/Footer.jsx";
 import Header from "../../partials/Header.jsx";
 import Navigation from "../../partials/Navigation.jsx";
 import ModalError from "../../partials/modals/ModalError.jsx";
 import ModalSuccess from "../../partials/modals/ModalSuccess.jsx";
-import DashboardSampleList from "./DashboardSampleList.jsx";
-import ModalAddDashboard from "./ModalAddDashboard.jsx";
 import DashboardList from "./DashboardList.jsx";
+import ModalAddDashboard from "./ModalAddDashboard.jsx";
 
 const Dashboard = () => {
   const { store, dispatch } = React.useContext(StoreContext);
-  const [itemEdit, setItemEdit] = React.useState(null);
 
   const name =
     store.credentials.data.role_is_developer === 1
       ? store.credentials.data.user_system_name
       : store.credentials.data.members_first_name;
-
-  const handleAdd = () => {
-    dispatch(setIsAdd(true));
-    setItemEdit(null);
-  };
 
   return (
     <>
@@ -32,27 +23,15 @@ const Dashboard = () => {
       <div className="wrapper">
         <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2 ">
           <h4 className="text-xl mb-3">Hello {name}!</h4>
-          {/* {(store.credentials.data.role_is_developer === 1 ||
-            store.credentials.data.role_is_admin === 1) && (
-            <div className="flex items-center gap-1 self-baseline">
-              <button type="button" className="btn-primary" onClick={handleAdd}>
-                <FaPlusCircle />
-                <span>Add</span>
-              </button>
-            </div>
-          )} */}
         </div>
 
         <hr />
-        {/* <div className=" w-full pt-5 pb-20">
-          <DashboardList setItemEdit={setItemEdit} />
-        </div> */}
         <div className=" w-full pt-5 pb-20">
-          <DashboardSampleList setItemEdit={setItemEdit} />
+          <DashboardList />
         </div>
         <Footer />
       </div>
-      {store.isAdd && <ModalAddDashboard item={itemEdit} />}
+      {store.isAdd && <ModalAddDashboard />}
       {store.success && <ModalSuccess />}
       {store.error && <ModalError />}
     </>

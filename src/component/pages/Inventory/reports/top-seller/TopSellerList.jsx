@@ -25,9 +25,9 @@ import {
 } from "../report-function";
 import Loadmore from "../../../../partials/Loadmore";
 import useQueryData from "../../../../custom-hooks/useQueryData";
+import { BsFillPinAngleFill } from "react-icons/bs";
 
-const TopSellerList = ({ width = "" }) => {
-  const { store, dispatch } = React.useContext(StoreContext);
+const TopSellerList = ({ width = "", menu = "" }) => {
   const [isFilter, setFilter] = React.useState(false);
   const [isSubmit, setSubmit] = React.useState(false);
   const [month, setMonth] = React.useState(
@@ -95,47 +95,56 @@ const TopSellerList = ({ width = "" }) => {
   });
   return (
     <>
-      <div className="sm:w-[30rem]">
-        <Formik
-          initialValues={initVal}
-          validationSchema={yupSchema}
-          onSubmit={async (values, { setSubmitting, resetForm }) => {}}
-        >
-          {(props) => {
-            props.values.month = !isFilter
-              ? getMonthName(getCurrentMonth())
-              : props.values.month;
-            return (
-              <Form>
-                <div className="sm:w-[15rem] pb-5 items-center print:hidden ">
-                  <div className="relative">
-                    <InputSelect
-                      label="Month"
-                      name="month"
-                      type="text"
-                      onChange={handleMonth}
-                      disabled={status === "loading"}
-                    >
-                      <option value="" hidden>
-                        {status === "loading" && "Loading..."}
-                      </option>
-                      {getMonth()?.map((yItem, key) => {
-                        return (
-                          <option key={key} value={yItem.month_name}>
-                            {`${yItem.month_name}`}
-                          </option>
-                        );
-                      })}
-                    </InputSelect>
+      <div className="sm:flex items-center justify-between mb-4">
+        {menu !== "" && (
+          <p className="flex items-center mt-4 mb-6 font-bold text-primary">
+            <BsFillPinAngleFill className="animate-bounce mr-2 " />
+            Top Seller
+          </p>
+        )}
+        <div className={`${width}`}>
+          <Formik
+            initialValues={initVal}
+            validationSchema={yupSchema}
+            onSubmit={async (values, { setSubmitting, resetForm }) => {}}
+          >
+            {(props) => {
+              props.values.month = !isFilter
+                ? getMonthName(getCurrentMonth())
+                : props.values.month;
+              return (
+                <Form>
+                  <div className="sm:w-[10rem] items-center print:hidden ">
+                    <div className="relative">
+                      <InputSelect
+                        label="Month"
+                        name="month"
+                        type="text"
+                        onChange={handleMonth}
+                        disabled={status === "loading"}
+                      >
+                        <option value="" hidden>
+                          {status === "loading" && "Loading..."}
+                        </option>
+                        {getMonth()?.map((yItem, key) => {
+                          return (
+                            <option key={key} value={yItem.month_name}>
+                              {`${yItem.month_name}`}
+                            </option>
+                          );
+                        })}
+                      </InputSelect>
+                    </div>
                   </div>
-                </div>
-              </Form>
-            );
-          }}
-        </Formik>
+                </Form>
+              );
+            }}
+          </Formik>
+        </div>
       </div>
+
       <div className={`relative ${width} `}>
-        <div className="font-bold text-base my-5 text-center ">
+        <div className="font-bold text-base text-center ">
           <p className="m-0 uppercase">Top Seller {month} 2023</p>
         </div>
 
