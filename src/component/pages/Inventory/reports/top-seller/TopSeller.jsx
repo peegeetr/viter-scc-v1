@@ -21,7 +21,7 @@ const TopSeller = () => {
         </div>
         <hr />
         <div className="w-full pt-5 pb-20">
-          <TopSellerList />
+          <TopSellerList width="sm:w-[30rem]" />
         </div>
         <Footer />
       </div>

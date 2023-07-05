@@ -54,7 +54,7 @@ const Navigation = ({ menu }) => {
                 data-tooltip="Dashboard"
               >
                 <MdDashboard className="mr-4 w-4 h-4 md:mr-0 lg:mr-4" />
-                <span className="md:hidden lg:block">Announcement</span>
+                <span className="md:hidden lg:block">Dashboard</span>
               </Link>
             </li>
             {(store.credentials.data.role_is_admin === 1 ||

@@ -26,7 +26,7 @@ import {
 import Loadmore from "../../../../partials/Loadmore";
 import useQueryData from "../../../../custom-hooks/useQueryData";
 
-const TopSellerList = () => {
+const TopSellerList = ({ width = "" }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [isFilter, setFilter] = React.useState(false);
   const [isSubmit, setSubmit] = React.useState(false);
@@ -63,6 +63,7 @@ const TopSellerList = () => {
     networkMode: "always",
     cacheTime: 200,
   });
+
   // use if not loadmore button undertime
   const { data: total } = useQueryData(
     `/v1/top-seller-report/all-pending-and-paid/${month}`, // endpoint
@@ -133,7 +134,7 @@ const TopSellerList = () => {
           }}
         </Formik>
       </div>
-      <div className="relative sm:w-[30rem]">
+      <div className={`relative ${width} `}>
         <div className="font-bold text-base my-5 text-center ">
           <p className="m-0 uppercase">Top Seller {month} 2023</p>
         </div>
@@ -141,7 +142,7 @@ const TopSellerList = () => {
         {(status === "loading" || result?.pages[0].data.length === 0) && (
           <div className=" flex justify-center py-2.5 items-center border-b-2 border-solid flex-col sm:flex-row">
             {status === "loading" && <TableSpinner />}
-            <NoData text="Filter data using above controls." />
+            <NoData />
           </div>
         )}
         {error && (

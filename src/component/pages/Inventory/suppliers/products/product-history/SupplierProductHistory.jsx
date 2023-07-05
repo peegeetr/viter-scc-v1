@@ -12,6 +12,7 @@ import { setIsAdd } from "../../../../../../store/StoreAction";
 import ModalAddSuppliersProductsHistory from "./ModalAddSuppliersProductsHistory";
 import { getUrlParam } from "../../../../../helpers/functions-general";
 import useQueryData from "../../../../../custom-hooks/useQueryData";
+import TableSpinner from "../../../../../partials/spinners/TableSpinner";
 
 const SupplierProductHistory = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -19,7 +20,7 @@ const SupplierProductHistory = () => {
   const supplierProductId = getUrlParam().get("supplierProductId");
 
   // use if not loadmore button undertime
-  const { data: supplierProductName } = useQueryData(
+  const { data: supplierProductName, isLoading } = useQueryData(
     `/v1/suppliers-product/${supplierProductId}`, // endpoint
     "get", // method
     "productName" // key
@@ -59,8 +60,13 @@ const SupplierProductHistory = () => {
         <hr />
 
         <div className="w-full pb-20 mt-3 ">
-          {supplierProductName?.count > 0 && supplierId !== "" && (
-            <SupplierProductHistoryList productName={productName} />
+          {isLoading ? (
+            <TableSpinner />
+          ) : (
+            supplierProductName?.count > 0 &&
+            supplierId !== "" && (
+              <SupplierProductHistoryList productName={productName} />
+            )
           )}
         </div>
         <Footer />

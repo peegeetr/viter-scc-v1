@@ -104,8 +104,8 @@ const AnnouncementCard = ({ setItemEdit }) => {
   return (
     <>
       <div className="flex flex-col ">
-        <div className="rounded-lg  order-1 md:order-0 border ">
-          <div className="flex items-center justify-between mb-2">
+        <div className="rounded-lg order-1 md:order-0 border !pt-2 p-4">
+          <div className="flex items-center justify-between mb-2 ">
             <p className="flex items-center m-2 font-bold text-primary">
               <BsFillPinAngleFill className="animate-bounce mr-2 " />
               Announcement
