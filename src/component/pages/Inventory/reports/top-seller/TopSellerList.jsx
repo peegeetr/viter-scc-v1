@@ -9,7 +9,9 @@ import * as Yup from "yup";
 import { StoreContext } from "../../../../../store/StoreContext";
 import { InputSelect } from "../../../../helpers/FormInputs";
 import {
+  AssociateMemberId,
   devBaseImgUrl,
+  notMemberId,
   numberWithCommas,
   pesoSign,
 } from "../../../../helpers/functions-general";
@@ -168,73 +170,76 @@ const TopSellerList = ({ width = "", menu = "" }) => {
             {page.data.map((item, key) => {
               counter++;
               return (
-                <div
-                  key={key}
-                  className="flex justify-between py-2.5 items-center border-b-2 border-solid  flex-row"
-                >
-                  <div className="grid grid-cols-[5rem_1fr]  items-center">
-                    {counter === 1 ? (
-                      <div className="flex items-center">
-                        <p className="m-0">{counter}.</p>
-                        <FaTrophy className="h-14 w-14 ml-5 fill-[#FFD700]" />
-                      </div>
-                    ) : counter === 2 ? (
-                      <div className="flex items-center">
-                        <p className="m-0">{counter}.</p>
-                        <FaMedal className="h-10 w-10 ml-6 fill-[#C0C0C0]" />
-                      </div>
-                    ) : counter === 3 ? (
-                      <div className="flex items-center">
-                        <p className="m-0">{counter}.</p>
-                        <IoIosMedal className="h-10 w-10 ml-6 fill-[#CD7F32]" />
-                      </div>
-                    ) : (
-                      <div className="flex items-center">
-                        <p className="m-0">{counter}.</p>
-                        <TfiMedall className="h-8 w-8 ml-7" />
-                      </div>
-                    )}
-                    <div className="flex items-center">
-                      {item.members_picture !== "" ? (
-                        <img
-                          src={devBaseImgUrl + "/" + item.members_picture}
-                          alt="employee photo"
-                          className="rounded-full h-12 w-12 object-cover object-center mx-5"
-                        />
+                item.members_aid !== notMemberId &&
+                item.members_aid !== AssociateMemberId && (
+                  <div
+                    key={key}
+                    className="flex justify-between py-2.5 items-center border-b-2 border-solid  flex-row"
+                  >
+                    <div className="grid grid-cols-[5rem_1fr]  items-center">
+                      {counter === 1 ? (
+                        <div className="flex items-center">
+                          <p className="m-0">{counter}.</p>
+                          <FaTrophy className="h-14 w-14 ml-5 fill-[#FFD700]" />
+                        </div>
+                      ) : counter === 2 ? (
+                        <div className="flex items-center">
+                          <p className="m-0">{counter}.</p>
+                          <FaMedal className="h-10 w-10 ml-6 fill-[#C0C0C0]" />
+                        </div>
+                      ) : counter === 3 ? (
+                        <div className="flex items-center">
+                          <p className="m-0">{counter}.</p>
+                          <IoIosMedal className="h-10 w-10 ml-6 fill-[#CD7F32]" />
+                        </div>
                       ) : (
-                        <FaUserCircle className="object-cover object-center h-12 w-12 mx-5 fill-gray-400" />
+                        <div className="flex items-center">
+                          <p className="m-0">{counter}.</p>
+                          <TfiMedall className="h-8 w-8 ml-7" />
+                        </div>
                       )}
-                      <div>
-                        <h2>
-                          {item.members_last_name}, {item.members_first_name}
-                        </h2>
-                        <div className="block items-center xs:flex">
-                          <p className="mb-0 text-primary text-lg">
-                            {pesoSign}{" "}
-                            {numberWithCommas(
-                              Number(
-                                item.totalAmount - item.totalDiscount
-                              ).toFixed(2)
-                            )}
-                          </p>
-                          {getTotal(total, item).isPending === 0 && (
-                            <p className="mb-0 mt-1 xs:mt-0">
-                              <span
-                                className="!bg-blue-100 !text-primary text-xs font-medium ml-2 px-2.5 py-0.5 rounded-full tooltip-action-table"
-                                data-tooltip="Expected amount"
-                              >
-                                {pesoSign}{" "}
-                                {numberWithCommas(
-                                  getTotal(total, item).finalAmount.toFixed(2)
-                                )}
-                              </span>
+                      <div className="flex items-center">
+                        {item.members_picture !== "" ? (
+                          <img
+                            src={devBaseImgUrl + "/" + item.members_picture}
+                            alt="employee photo"
+                            className="rounded-full h-12 w-12 object-cover object-center mx-5"
+                          />
+                        ) : (
+                          <FaUserCircle className="object-cover object-center h-12 w-12 mx-5 fill-gray-400" />
+                        )}
+                        <div>
+                          <h2>
+                            {item.members_last_name}, {item.members_first_name}
+                          </h2>
+                          <div className="block items-center xs:flex">
+                            <p className="mb-0 text-primary text-lg">
+                              {pesoSign}{" "}
+                              {numberWithCommas(
+                                Number(
+                                  item.totalAmount - item.totalDiscount
+                                ).toFixed(2)
+                              )}
                             </p>
-                          )}
+                            {getTotal(total, item).isPending === 0 && (
+                              <p className="mb-0 mt-1 xs:mt-0">
+                                <span
+                                  className="!bg-blue-100 !text-primary text-xs font-medium ml-2 px-2.5 py-0.5 rounded-full tooltip-action-table"
+                                  data-tooltip="Expected amount"
+                                >
+                                  {pesoSign}{" "}
+                                  {numberWithCommas(
+                                    getTotal(total, item).finalAmount.toFixed(2)
+                                  )}
+                                </span>
+                              </p>
+                            )}
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                )
               );
             })}
           </React.Fragment>

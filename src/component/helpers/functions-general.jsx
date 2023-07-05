@@ -15,6 +15,8 @@ export const devApiUrl = `${urlScc}/rest`;
 export const devBaseUrl = `${urlScc}`;
 export const devNavUrl = "";
 
+export const notMemberId = 33;
+export const AssociateMemberId = 32;
 export const UrlAdmin = "admin";
 export const UrlManager = "manager";
 export const UrlCasher = "cashier";
