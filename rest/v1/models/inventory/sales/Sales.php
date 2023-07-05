@@ -542,8 +542,8 @@ class Sales
             $sql .= "and sales.sales_member_id = member.members_aid ";
             $sql .= "and orders.orders_aid = sales.sales_order_id ";
             $sql .= "and sales.sales_is_paid = '1' ";
-            $sql .= "and MONTHNAME(sales.sales_date) = :month ";
-            $sql .= "and YEAR(sales.sales_date) = :year ";
+            $sql .= "and MONTHNAME(orders.orders_date) = :month ";
+            $sql .= "and YEAR(orders.orders_date) = :year ";
             $sql .= "group by member.members_aid ";
             $sql .= "order by sum(orders.orders_product_amount) desc ";
             $query = $this->connection->prepare($sql);
@@ -575,8 +575,8 @@ class Sales
             $sql .= "and sales.sales_member_id = member.members_aid ";
             $sql .= "and orders.orders_aid = sales.sales_order_id ";
             $sql .= "and sales.sales_is_paid = '1' ";
-            $sql .= "and MONTHNAME(sales.sales_date) = :month ";
-            $sql .= "and YEAR(sales.sales_date) = :year ";
+            $sql .= "and MONTHNAME(orders.orders_date) = :month ";
+            $sql .= "and YEAR(orders.orders_date) = :year ";
             $sql .= "group by member.members_aid ";
             $sql .= "order by sum(orders.orders_product_amount) desc ";
             $sql .= "limit :start, ";

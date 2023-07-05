@@ -10,6 +10,7 @@
 *models       
     -  inventory/suppliers/product/ProductsHistory.php
     -  inventory/suppliers/product/SuppliersProducts.php
+    -> inventory/sales/Sales.php
     
 *htaccess 
     - #suppliers product
