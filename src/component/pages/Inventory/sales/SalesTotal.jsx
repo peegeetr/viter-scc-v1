@@ -17,11 +17,11 @@ const SalesTotal = ({ result }) => {
           amount={computeSalesTotalAmount(result).finalPaidAmount}
           type="paid"
         />
-        <StatusAmount
+        {/* <StatusAmount
           text="received"
           amount={computeSalesTotalAmount(result).finalReceivedAmount}
           type="received"
-        />
+        /> */}
         <StatusAmount
           text="total"
           amount={computeSalesTotalAmount(result).finalAmount}
