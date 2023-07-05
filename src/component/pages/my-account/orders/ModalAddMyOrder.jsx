@@ -251,7 +251,16 @@ const ModalAddMyOrder = ({ item, arrKey }) => {
                                     pItem,
                                     stocksGroupProd,
                                     orderGroupProd
-                                  )})`}
+                                  )} pcs) - ${pItem.suppliers_company_name.slice(
+                                    0,
+                                    10
+                                  )} `}
+                                  &#8369;{" "}
+                                  {numberWithCommas(
+                                    Number(
+                                      pItem.suppliers_products_scc_price
+                                    ).toFixed(2)
+                                  )}
                                 </option>
                               )
                             );

@@ -4,7 +4,6 @@
 require '../../../../core/header.php';
 // use needed functions
 require '../../../../core/functions.php';
-require 'functions.php';
 // use needed classes
 require '../../../../models/inventory/suppliers/product/SuppliersProducts.php';
 // check database connection
@@ -16,14 +15,12 @@ $response = new Response();
 // // validate api key
 if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     checkApiKey();
-    if (array_key_exists("supplierid", $_GET) && array_key_exists("search", $_GET)) {
-        // get task id from query string
-        $suppliersProducts->suppliers_products_suppliers_id = $_GET['supplierid'];
+    if (array_key_exists("search", $_GET)) {
+        // get task id from query string 
         $suppliersProducts->suppliers_products_search = $_GET['search'];
-        //check to see if search keyword in query string is not empty and less than 50 chars
-        checkId($suppliersProducts->suppliers_products_suppliers_id);
+        //check to see if search keyword in query string is not empty and less than 50 chars 
         checkKeyword($suppliersProducts->suppliers_products_search);
-        $query = checkSearchById($suppliersProducts);
+        $query = checkSearch($suppliersProducts);
         http_response_code(200);
         getQueriedData($query);
     }

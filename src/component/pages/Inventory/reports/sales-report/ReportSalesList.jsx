@@ -24,6 +24,7 @@ import StatusPending from "../../../../partials/status/StatusPending";
 import { setIsAdd } from "../../../../../store/StoreAction";
 import ModalViewSales from "../../sales/ModalViewSales";
 import { computeSccSalesByItem } from "./functions-report-sales";
+import SccSalesTotal from "./SccSalesTotal";
 
 const TopSellerList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -237,7 +238,8 @@ const TopSellerList = () => {
         }}
       </Formik>
 
-      <SalesTotal result={result} menu="report-sales" />
+      <SalesTotal result={result} />
+      <SccSalesTotal result={result} />
       <div className="text-center overflow-x-auto z-0">
         {/* use only for updating important records */}
         {status !== "loading" && isFetching && <TableSpinner />}
@@ -253,7 +255,6 @@ const TopSellerList = () => {
               <th className="min-w-[6rem] text-center pr-4">Qty</th>
               <th className="min-w-[6rem] text-right pr-4">Discounted</th>
               <th className="min-w-[7rem] text-right pr-4">Total Amnt.</th>
-              {/* <th className="min-w-[7rem] text-right pr-4">Received</th> */}
               <th className="min-w-[6rem]">Pay Date</th>
               <th className="min-w-[6rem] text-right pr-4">Supplier Price</th>
               <th className="!w-[10rem] text-right pr-4">SCC Sales</th>
@@ -307,12 +308,6 @@ const TopSellerList = () => {
                         {pesoSign} {computeFinalAmount(item)}
                       </span>
                     </td>
-                    {/* <td className="text-right pr-4">
-                      {pesoSign}{" "}
-                      {numberWithCommas(
-                        Number(item.sales_receive_amount).toFixed(2)
-                      )}
-                    </td> */}
                     <td>
                       {item.sales_date === ""
                         ? "N/A"

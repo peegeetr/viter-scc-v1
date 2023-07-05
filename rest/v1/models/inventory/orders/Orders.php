@@ -35,6 +35,7 @@ class Orders
     public $currentYear;
     public $tblOrders;
     public $tblSuppliersProducts;
+    public $tblSuppliers;
     public $tblMembers;
     public $tblSales;
 
@@ -44,6 +45,7 @@ class Orders
         $this->tblOrders = "sccv1_orders";
         $this->tblSales = "sccv1_sales";
         $this->tblMembers = "sccv1_members";
+        $this->tblSuppliers = "sccv1_suppliers";
         $this->tblSuppliersProducts = "sccv1_suppliers_products";
     }
 

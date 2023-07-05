@@ -1,20 +1,22 @@
 
 *controllers      
-    -  inventory/suppliers/product/create.php
-    -  inventory/suppliers/product/delete.php
-    -  inventory/suppliers/product/fuctions.php
-    -  inventory/suppliers/product/serch-by-id.php 
-    -  inventory/suppliers/product/update.php 
-    -  inventory/suppliers/product/products-history/ {note: all files}
+    - inventory/suppliers/product/create.php
+    - inventory/suppliers/product/delete.php
+    - inventory/suppliers/product/update.php 
+    - inventory/suppliers/product/products-history/ {note: all files}
+    -> inventory/suppliers/product/fuctions.php
+    -> inventory/suppliers/product/serch-by-id.php 
+    -> inventory/suppliers/product/serch.php 
 
 *models       
-    -  inventory/suppliers/product/ProductsHistory.php
-    -  inventory/suppliers/product/SuppliersProducts.php
-    -> inventory/sales/Sales.php
-    
+    - inventory/suppliers/product/ProductsHistory.php
+    - inventory/sales/Sales.php 
+    -> inventory/suppliers/product/SuppliersProducts.php
+    -> inventory/orders/Orders.php
+
 *htaccess 
-    - #suppliers product
     - #PRODUCT HISTORY 
+    -> #suppliers product
 
 *db tables 
     - sccv1_product_history.sql 

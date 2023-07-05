@@ -1,9 +1,8 @@
 import React from "react";
 import StatusAmount from "../../../partials/status/StatusAmount";
 import { computeSalesTotalAmount } from "./functions-sales";
-import { computeSccSales } from "../reports/sales-report/functions-report-sales";
 
-const SalesTotal = ({ result, menu = "" }) => {
+const SalesTotal = ({ result }) => {
   return (
     <>
       <div className=" grid xl:flex xs:grid-cols-2 items-center mt-2 ">
@@ -38,25 +37,6 @@ const SalesTotal = ({ result, menu = "" }) => {
           amount={computeSalesTotalAmount(result).totalOty}
           type="qty"
         />
-        {menu === "report-sales" && (
-          <>
-            <StatusAmount
-              text="Supplier Amount"
-              amount={computeSccSales(result).totalSupplierPriceAmount}
-              type="discount"
-            />
-            <StatusAmount
-              text="SCC sales paid"
-              amount={computeSccSales(result).finalAmount}
-              type="paid"
-            />
-            <StatusAmount
-              text="SCC sales pending"
-              amount={computeSccSales(result).pendingAmount}
-              type="pending"
-            />
-          </>
-        )}
       </div>
     </>
   );

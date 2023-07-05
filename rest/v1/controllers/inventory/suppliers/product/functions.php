@@ -55,3 +55,11 @@ function isAssociatedInHistory($object)
     $count = $query->rowCount();
     checkExistence($count, "You cannot delete this item because it is already associated with other module.");
 }
+
+// Read search by id
+function checkSearchById($object)
+{
+    $query = $object->searchById();
+    checkQuery($query, "Empty records. (search By Id)");
+    return $query;
+}
