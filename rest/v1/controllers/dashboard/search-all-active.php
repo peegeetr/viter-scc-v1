@@ -13,21 +13,21 @@ $conn = checkDbConnection();
 // make instance of classes
 $announcement = new Announcement($conn);
 $response = new Response();
+// get payload
+$body = file_get_contents("php://input");
+$data = json_decode($body, true);
 // // validate api key
 if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     checkApiKey();
-    if (array_key_exists("search", $_GET)) {
-        // get data
-        // get task id from query string
-        $announcement->announcement_search = $_GET['search'];
-        //check to see if search keyword in query string is not empty and less than 50 chars
-        checkKeyword($announcement->announcement_search);
-        $query = checkSearchAllActive($announcement);
-        http_response_code(200);
-        getQueriedData($query);
-    }
-    // return 404 error if endpoint not available
-    checkEndpoint();
+    // check data
+    checkPayload($data);
+    // get task id from query string
+    $announcement->announcement_search = checkIndex($data, "search");
+    //check to see if search keyword in query string is not empty and less than 50 chars
+    checkKeyword($announcement->announcement_search);
+    $query = checkSearchAllActive($announcement);
+    http_response_code(200);
+    getQueriedData($query);
 }
 
 http_response_code(200);

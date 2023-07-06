@@ -6,7 +6,6 @@ import Navigation from "../../partials/Navigation.jsx";
 import ModalError from "../../partials/modals/ModalError.jsx";
 import ModalSuccess from "../../partials/modals/ModalSuccess.jsx";
 import DashboardList from "./DashboardList.jsx";
-import ModalAddDashboard from "./ModalAddDashboard.jsx";
 
 const Dashboard = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -31,7 +30,6 @@ const Dashboard = () => {
         </div>
         <Footer />
       </div>
-      {store.isAdd && <ModalAddDashboard />}
       {store.success && <ModalSuccess />}
       {store.error && <ModalError />}
     </>

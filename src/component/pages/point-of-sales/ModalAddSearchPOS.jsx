@@ -95,12 +95,12 @@ const ModalAddSearchPOS = ({ item, arrKey, memberId, memberName }) => {
 
   const initVal = {
     orders_member_id: item ? item.orders_member_id : memberId,
-    orders_product_quantity: item ? item.orders_product_quantity : "",
+    orders_product_quantity: item ? item.orders_product_quantity : "1",
     orders_is_paid: 0,
     orders_is_draft: 0,
     orders_remarks: item ? item.orders_remarks : "",
     orders_date: item ? item.orders_date : getDateTimeNow(),
-    sales_discount: item ? item.sales_discount : "",
+    sales_discount: item ? item.sales_discount : "0",
 
     // old quantity
     old_quantity: item ? item.orders_product_quantity : "",
@@ -109,7 +109,6 @@ const ModalAddSearchPOS = ({ item, arrKey, memberId, memberName }) => {
   const yupSchema = Yup.object({
     sales_discount: Yup.string().required("Required"),
     orders_product_quantity: Yup.string().required("Required"),
-    orders_remarks: Yup.string().required("Required"),
   });
   return (
     <>
@@ -275,7 +274,10 @@ const ModalAddSearchPOS = ({ item, arrKey, memberId, memberName }) => {
                     <div className="flex items-center gap-1 pt-5">
                       <button
                         type="submit"
-                        disabled={mutation.isLoading || !props.dirty}
+                        disabled={
+                          mutation.isLoading ||
+                          (item ? !props.dirty : totalPrice === "")
+                        }
                         className="btn-modal-submit relative"
                       >
                         {mutation.isLoading ? (

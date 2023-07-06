@@ -14,7 +14,7 @@ import { InputText, InputTextArea } from "../../helpers/FormInputs";
 import { queryData } from "../../helpers/queryData";
 import ButtonSpinner from "../../partials/spinners/ButtonSpinner";
 
-const ModalAddDashboard = ({ item }) => {
+const ModalAddAnnouncement = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
 
   const queryClient = useQueryClient();
@@ -148,4 +148,4 @@ const ModalAddDashboard = ({ item }) => {
   );
 };
 
-export default ModalAddDashboard;
+export default ModalAddAnnouncement;

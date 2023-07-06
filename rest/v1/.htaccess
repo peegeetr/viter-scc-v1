@@ -40,9 +40,9 @@ RewriteRule ^announcement$ controllers/dashboard/dashboard.php [L]
 RewriteRule ^announcement/([0-9]+)$ controllers/dashboard/dashboard.php?announcementid=$1 [L]
 RewriteRule ^announcement/active/([0-9]+)$ controllers/dashboard/active.php?announcementid=$1 [L]
 RewriteRule ^announcement/page/([0-9]+)$ controllers/dashboard/page.php?start=$1 [L]
-RewriteRule ^announcement/search/([A-Za-z0-9-]+)$ controllers/dashboard/search.php?search=$1 [L]
+RewriteRule ^announcement/search$ controllers/dashboard/search.php [L]
 RewriteRule ^announcement/member/page/([0-9]+)$ controllers/dashboard/member-page.php?start=$1 [L]
-RewriteRule ^announcement/member/search/([A-Za-z0-9-]+)$ controllers/dashboard/search-all-active.php?search=$1 [L]
+RewriteRule ^announcement/member/search$ controllers/dashboard/search-all-active.php [L]
   
 #members
 RewriteRule ^members$ controllers/account/account.php [L]
@@ -50,9 +50,9 @@ RewriteRule ^members/([0-9]+)$ controllers/account/account.php?membersid=$1 [L]
 RewriteRule ^members/status/([0-9]+)$ controllers/account/status.php?membersid=$1 [L]
 RewriteRule ^members/page/([0-9]+)$ controllers/account/page.php?start=$1 [L]
 RewriteRule ^member/page/([0-9]+)/([A-Za-z0-9-]+)$ controllers/account/page.php?start=$1&approved=$2 [L]
-RewriteRule ^members/search/([A-Za-z0-9-]+)$ controllers/account/search.php?search=$1 [L]
+RewriteRule ^members/search$ controllers/account/search.php [L]
 RewriteRule ^members/approved$ controllers/account/read-all-approved.php [L]
-RewriteRule ^members/search/approved/([A-Za-z0-9-]+)$ controllers/account/search-approved.php?search=$1 [L]
+RewriteRule ^members/search/approved$ controllers/account/search-approved.php [L]
 RewriteRule ^members/([0-9]+)/([A-Za-z0-9-]+)$ controllers/account/account.php?membersid=$1&isUpdate=$2 [L]
 RewriteRule ^members/name/([0-9]+)$ controllers/account/read-name.php?membersid=$1 [L]
 RewriteRule ^members/read-subscribe-capital-by-id/([0-9]+)$ controllers/account/read-subscribe-capital-by-id.php?membersid=$1 [L]
@@ -71,7 +71,7 @@ RewriteRule ^savings/search/([A-Za-z0-9-]+)/([0-9]+)$ controllers/account/detail
 RewriteRule ^capital-share$ controllers/account/details/capital-share/capitalShare.php [L]
 RewriteRule ^capital-share/([0-9]+)$ controllers/account/details/capital-share/capitalShare.php?shareid=$1 [L] 
 RewriteRule ^capital-share/page/([0-9]+)/([0-9]+)$ controllers/account/details/capital-share/page.php?start=$1&membersid=$2 [L]
-RewriteRule ^capital-share/search-by-id/([A-Za-z0-9-]+)/([0-9]+)$ controllers/account/details/capital-share/search-by-id.php?search=$1&membersid=$2 [L]
+RewriteRule ^capital-share/search-by-id/([0-9]+)$ controllers/account/details/capital-share/search-by-id.php?membersid=$1 [L]
 RewriteRule ^capital-share/read-total-capital/([0-9]+)$ controllers/account/details/capital-share/read-capital-total.php?memberId=$1 [L]
 RewriteRule ^capital-share/update-capital-details/([0-9]+)$ controllers/account/details/capital-share/update-capital-details.php?membersId=$1 [L]
 
@@ -187,8 +187,8 @@ RewriteRule ^capital-amortization/active/([0-9]+)$ controllers/account/details/c
 RewriteRule ^capital-amortization/read-all-active-by-id/([0-9]+)$ controllers/account/details/capital-share/amortization/read-all-active-by-id.php?amortizationId=$1 [L]  
 
 #REPORT TOP SELLER
-RewriteRule ^top-seller-report/page/([0-9]+)/([A-Za-z0-9-]+)$ controllers/inventory/report/top-seller/report-top-seller.php?start=$1&month=$2 [L] 
-RewriteRule ^top-seller-report/filter-by-month/([A-Za-z0-9-]+)$ controllers/inventory/report/top-seller/report-top-seller.php?month=$1 [L]
+RewriteRule ^top-seller-report/page/([0-9]+)$ controllers/inventory/report/top-seller/report-top-seller.php?start=$1 [L] 
+RewriteRule ^top-seller-report/filter-by-month$ controllers/inventory/report/top-seller/report-top-seller.php [L]
 RewriteRule ^top-seller-report/all-pending-and-paid/([A-Za-z0-9-]+)$ controllers/inventory/report/top-seller/read-all-pending-and-paid.php?month=$1 [L]
  
 #REPORT SALES

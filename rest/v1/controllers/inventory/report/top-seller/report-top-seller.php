@@ -13,16 +13,20 @@ $conn = checkDbConnection();
 // make instance of classes
 $sales = new Sales($conn);
 $response = new Response();
+$body = file_get_contents("php://input");
+$data = json_decode($body, true);
 // validate api key
 if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     checkApiKey();
+    // check data
+    checkPayload($data);
 
-    if (array_key_exists("start", $_GET) && array_key_exists("month", $_GET)) {
+    if (array_key_exists("start", $_GET)) {
         // get data
         // get task id from query string
         $sales->sales_start = $_GET['start'];
         $sales->sales_total = 5;
-        $sales->sales_month = $_GET['month'];
+        $sales->sales_month = checkIndex($data, "month");
         $sales->sales_year = date("Y");
         //check to see if task id in query string is not empty and is number, if not return json error
         checkLimitId($sales->sales_start, $sales->sales_total);
@@ -41,10 +45,10 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         $response->send();
         exit;
     }
-    if (array_key_exists("month", $_GET)) {
+    if (empty($_GET)) {
         // get data
-        // get task id from query string 
-        $sales->sales_month = $_GET['month'];
+        // get task id from query string  
+        $sales->sales_month = checkIndex($data, "month");
         $sales->sales_year = date("Y");
         //check to see if task id in query string is not empty and is number, if not return json error 
         $query = checkReadReportTopSellerByMonth($sales);

@@ -1,15 +1,15 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import React from "react";
+import { BsFillPinAngleFill } from "react-icons/bs";
 import {
   FaArchive,
   FaBullhorn,
   FaEdit,
   FaHistory,
+  FaPlusCircle,
   FaTrash,
 } from "react-icons/fa";
 import { useInView } from "react-intersection-observer";
-import { FaPlusCircle } from "react-icons/fa";
-import { BsFillPinAngleFill } from "react-icons/bs";
 import {
   setIsAdd,
   setIsConfirm,
@@ -17,7 +17,7 @@ import {
 } from "../../../../store/StoreAction";
 import { StoreContext } from "../../../../store/StoreContext";
 import { formatDate } from "../../../helpers/functions-general";
-import { queryDataInfinite } from "../../../helpers/queryDataInfinite";
+import { queryDataInfiniteSearch } from "../../../helpers/queryDataInfiniteSearch";
 import Loadmore from "../../../partials/Loadmore";
 import SearchBar from "../../../partials/SearchBar";
 import ServerError from "../../../partials/ServerError";
@@ -26,7 +26,9 @@ import ModalDeleteRestore from "../../../partials/modals/ModalDeleteRestore";
 import TableSpinner from "../../../partials/spinners/TableSpinner";
 import StatusActive from "../../../partials/status/StatusActive";
 import StatusInactive from "../../../partials/status/StatusInactive";
-const AnnouncementCard = ({ setItemEdit }) => {
+import ModalAddAnnouncement from "../ModalAddAnnouncement";
+const AnnouncementCard = () => {
+  const [itemEdit, setItemEdit] = React.useState(null);
   const { store, dispatch } = React.useContext(StoreContext);
   const [dataItem, setData] = React.useState(null);
   const [id, setId] = React.useState(null);
@@ -47,10 +49,12 @@ const AnnouncementCard = ({ setItemEdit }) => {
   } = useInfiniteQuery({
     queryKey: ["announcement", onSearch, store.isSearch],
     queryFn: async ({ pageParam = 1 }) =>
-      await queryDataInfinite(
-        `/v1/announcement/search/${search.current.value}`, // search endpoint
+      await queryDataInfiniteSearch(
+        `/v1/announcement/search`, // search endpoint
         `/v1/announcement/page/${pageParam}`, // list endpoint
-        store.isSearch // search boolean
+        store.isSearch, // search boolean
+        "post",
+        { search: search.current.value }
       ),
     getNextPageParam: (lastPage) => {
       if (lastPage.page < lastPage.total) {
@@ -249,6 +253,7 @@ const AnnouncementCard = ({ setItemEdit }) => {
         </div>
       </div>
 
+      {store.isAdd && <ModalAddAnnouncement item={itemEdit} />}
       {store.isConfirm && (
         <ModalConfirm
           id={id}

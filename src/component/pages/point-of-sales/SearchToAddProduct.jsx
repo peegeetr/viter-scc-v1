@@ -64,7 +64,7 @@ const SearchToAddProduct = ({
             <>
               {result?.data.map((item, key) => {
                 return (
-                  <p key={key}>
+                  <p key={key} className="hover:bg-slate-200 cursor-pointer">
                     <option
                       className="ml-2"
                       onClick={() => handleProductChange(item)}

@@ -4,6 +4,10 @@
     - inventory/products/page.php
     - inventory/products/search-product.php
     - point-of-sales/point-of-sales.php
+    - account/details/capital-share/search-by-id.php
+    - dashboard/search-all-active.php
+    - dashboard/search.php
+    - inventory/report/top-seller/report-top-seller.php
 
 *models       
     - point-of-sales/PointOfSales.php
@@ -11,6 +15,9 @@
 
 *htaccess 
     - #products
+    - #REPORT TOP SELLER
+    - #announcement or dashboard
+    - #capital share
 
 *db tables 
     - 
@@ -19,5 +26,5 @@
     - functions.php
 
 *extra
-    - Uploaded
+    - 
  

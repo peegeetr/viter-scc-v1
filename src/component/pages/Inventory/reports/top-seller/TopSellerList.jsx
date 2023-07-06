@@ -15,7 +15,6 @@ import {
   numberWithCommas,
   pesoSign,
 } from "../../../../helpers/functions-general";
-import { queryDataInfinite } from "../../../../helpers/queryDataInfinite";
 import NoData from "../../../../partials/NoData";
 import ServerError from "../../../../partials/ServerError";
 import TableSpinner from "../../../../partials/spinners/TableSpinner";
@@ -28,6 +27,7 @@ import {
 import Loadmore from "../../../../partials/Loadmore";
 import useQueryData from "../../../../custom-hooks/useQueryData";
 import { BsFillPinAngleFill } from "react-icons/bs";
+import { queryDataInfiniteSearch } from "../../../../helpers/queryDataInfiniteSearch";
 
 const TopSellerList = ({ width = "", menu = "" }) => {
   const [isFilter, setFilter] = React.useState(false);
@@ -50,10 +50,12 @@ const TopSellerList = ({ width = "", menu = "" }) => {
   } = useInfiniteQuery({
     queryKey: ["patronage", isSubmit],
     queryFn: async ({ pageParam = 1 }) =>
-      await queryDataInfinite(
-        `/v1/top-seller-report/filter-by-month/${month}`, // filter endpoint // filter
-        `/v1/top-seller-report/page/${pageParam}/${month}`, // list endpoint
-        isFilter // search boolean
+      await queryDataInfiniteSearch(
+        `/v1/top-seller-report/filter-by-month`, // filter endpoint // filter
+        `/v1/top-seller-report/page/${pageParam}`, // list endpoint
+        isFilter, // search boolean
+        "post",
+        { month }
       ),
     getNextPageParam: (lastPage) => {
       if (lastPage.page < lastPage.total) {

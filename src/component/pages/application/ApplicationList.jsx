@@ -17,6 +17,7 @@ import ModalDeleteRestore from "../../partials/modals/ModalDeleteRestore";
 import TableSpinner from "../../partials/spinners/TableSpinner";
 import StatusActive from "../../partials/status/StatusActive";
 import StatusPending from "../../partials/status/StatusPending";
+import { queryDataInfiniteSearch } from "../../helpers/queryDataInfiniteSearch";
 
 const ApplicationList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -41,10 +42,12 @@ const ApplicationList = () => {
   } = useInfiniteQuery({
     queryKey: ["members-application", onSearch, store.isSearch],
     queryFn: async ({ pageParam = 1 }) =>
-      await queryDataInfinite(
-        `/v1/members/search/${search.current.value}`, // search endpoint
+      await queryDataInfiniteSearch(
+        `/v1/members/search`, // search endpoint
         `/v1/members/page/${pageParam}`, // list endpoint
-        store.isSearch // search boolean
+        store.isSearch, // search boolean
+        "post",
+        { search: search.current.value }
       ),
     getNextPageParam: (lastPage) => {
       if (lastPage.page < lastPage.total) {
@@ -137,7 +140,7 @@ const ApplicationList = () => {
               <React.Fragment key={key}>
                 {page.data.map((item, key) => (
                   <tr key={key}>
-                    <td> {counter++}.</td>{" "}
+                    <td> {counter++}.</td>
                     <td>
                       {item.members_is_cancel === 0 ? (
                         <StatusPending />
