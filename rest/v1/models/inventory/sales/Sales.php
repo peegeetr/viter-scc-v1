@@ -538,6 +538,8 @@ class Sales
             $sql .= "{$this->tblMembers} as member, ";
             $sql .= "{$this->tblSuppliersProducts} as suppliersProducts ";
             $sql .= "where orders.orders_product_id = suppliersProducts.suppliers_products_aid ";
+            $sql .= "and member.members_aid != 33 ";
+            $sql .= "and member.members_aid != 32 ";
             $sql .= "and orders.orders_member_id = member.members_aid ";
             $sql .= "and sales.sales_member_id = member.members_aid ";
             $sql .= "and orders.orders_aid = sales.sales_order_id ";
@@ -571,6 +573,8 @@ class Sales
             $sql .= "{$this->tblMembers} as member, ";
             $sql .= "{$this->tblSuppliersProducts} as suppliersProducts ";
             $sql .= "where orders.orders_product_id = suppliersProducts.suppliers_products_aid ";
+            $sql .= "and member.members_aid != 33 ";
+            $sql .= "and member.members_aid != 32 ";
             $sql .= "and orders.orders_member_id = member.members_aid ";
             $sql .= "and sales.sales_member_id = member.members_aid ";
             $sql .= "and orders.orders_aid = sales.sales_order_id ";
