@@ -201,7 +201,11 @@ const ModalAddSearchPOS = ({ item, arrKey, memberId, memberName }) => {
                         {" "}
                         {item
                           ? item.suppliers_products_name
-                          : items.suppliers_products_name}{" "}
+                          : `${
+                              items.suppliers_products_name === undefined
+                                ? "No Product"
+                                : items.suppliers_products_name
+                            }`}{" "}
                         {`(${getRemaningQuantity(
                           item ? item : items,
                           stocksGroupProd,

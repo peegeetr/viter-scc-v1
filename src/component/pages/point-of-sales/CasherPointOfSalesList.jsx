@@ -125,7 +125,6 @@ const CasherPointOfSalesList = () => {
     dispatch(setIsConfirm(true));
   };
 
-  console.log("result", result);
   const initVal = {
     posMember: "",
   };

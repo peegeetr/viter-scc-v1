@@ -5,6 +5,7 @@ import { numberWithCommas } from "../../helpers/functions-general";
 import NoData from "../../partials/NoData";
 import TableSpinner from "../../partials/spinners/TableSpinner";
 import { getRemaningQuantity } from "../Inventory/products/functions-product";
+import { FaFolderOpen } from "react-icons/fa";
 
 const SearchToAddProduct = ({
   stocksGroupProd,
@@ -48,11 +49,16 @@ const SearchToAddProduct = ({
         }
       />
       {store.isSearch && (
-        <div className="overflow-auto h-[15rem] absolute rounded-tr-none rounded-tl-none rounded bg-slate-100 z-50 w-full">
+        <div className="overflow-auto max-h-[15rem] absolute rounded-tr-none rounded-tl-none rounded bg-slate-100 z-50 w-full">
           {isLoading || result?.data.length === 0 ? (
             <>
               {isLoading && <TableSpinner />}
-              <NoData />
+              <div className="flex justify-center items-center flex-col p-2">
+                <span className="text-5xl text-gray-400">
+                  <FaFolderOpen />
+                </span>
+                <span className="font-bold text-gray-300 text-lg">No Data</span>
+              </div>
             </>
           ) : (
             <>

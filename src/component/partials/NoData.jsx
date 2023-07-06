@@ -1,7 +1,7 @@
 import React from "react";
 import { FaFolderOpen } from "react-icons/fa";
 
-const NoData = ({ text = "No Data" }) => {
+const NoData = ({ text = "No Data", width = "" }) => {
   return (
     <>
       <div className="flex justify-center items-center flex-col p-2">
