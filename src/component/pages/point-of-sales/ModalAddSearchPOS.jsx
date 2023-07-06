@@ -198,20 +198,24 @@ const ModalAddSearchPOS = ({ item, arrKey, memberId, memberName }) => {
                       Product :
                       <span className="font-bold">
                         {" "}
-                        {item
-                          ? item.suppliers_products_name
-                          : `${
-                              items.suppliers_products_name === undefined
-                                ? "No Product"
-                                : items.suppliers_products_name
-                            }`}{" "}
-                        {`(${getRemaningQuantity(
-                          item ? item : items,
-                          stocksGroupProd,
-                          orderGroupProd
-                        )} pcs)`}
-                        {pesoSign}{" "}
-                        {`${numberWithCommas(Number(totalPrice).toFixed(2))}`}
+                        {items.suppliers_products_name === undefined ? (
+                          "--"
+                        ) : (
+                          <>
+                            {item
+                              ? item.suppliers_products_name
+                              : items.suppliers_products_name}
+                            {`(${getRemaningQuantity(
+                              item ? item : items,
+                              stocksGroupProd,
+                              orderGroupProd
+                            )} pcs) `}
+                            {pesoSign}{" "}
+                            {`${numberWithCommas(
+                              Number(totalPrice).toFixed(2)
+                            )}`}
+                          </>
+                        )}
                       </span>
                     </p>
                     <div className=" text-primary">
