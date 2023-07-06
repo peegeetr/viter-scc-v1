@@ -603,4 +603,38 @@ class SuppliersProducts
         }
         return $query;
     }
+
+    // check Search Product 
+    public function searchProduct()
+    {
+        try {
+            $sql = "select ";
+            $sql .= "suppliersProducts.suppliers_products_aid, ";
+            $sql .= "suppliersProducts.suppliers_products_number, ";
+            $sql .= "suppliersProducts.suppliers_products_name, ";
+            $sql .= "suppliersProducts.suppliers_products_price, ";
+            $sql .= "suppliersProducts.suppliers_products_scc_price, ";
+            $sql .= "suppliersProducts.suppliers_products_market_price, ";
+            $sql .= "suppliersProducts.suppliers_products_category_id, ";
+            $sql .= "supplier.suppliers_aid, ";
+            $sql .= "supplier.suppliers_company_name, ";
+            $sql .= "category.product_category_name ";
+            $sql .= "from ";
+            $sql .= "{$this->tblSuppliersProducts} as suppliersProducts, ";
+            $sql .= "{$this->tblSuppliers} as supplier, ";
+            $sql .= "{$this->tblCategory} as category ";
+            $sql .= "where category.product_category_aid = suppliersProducts.suppliers_products_category_id ";
+            $sql .= "and suppliersProducts.suppliers_products_suppliers_id = supplier.suppliers_aid ";
+            $sql .= "and suppliersProducts.suppliers_products_name like :suppliers_products_name ";
+            $sql .= "order by category.product_category_name, ";
+            $sql .= "suppliersProducts.suppliers_products_name asc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "suppliers_products_name" => "%{$this->suppliers_products_search}%",
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
 }

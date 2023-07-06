@@ -440,6 +440,18 @@ function checkEndpoint()
 
 // validator
 
+// if error
+function resultError($msg)
+{
+    $response = new Response();
+    $error = [];
+    $response->setSuccess(false);
+    $error['error'] = $msg;
+    $error["success"] = false;
+    $response->setData($error);
+    $response->send();
+    exit;
+}
 // check existence
 function checkExistence($count, $msg = "")
 {

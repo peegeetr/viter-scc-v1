@@ -22,16 +22,14 @@ import {
   pesoSign,
 } from "../../helpers/functions-general";
 import { queryDataInfinite } from "../../helpers/queryDataInfinite";
-import Loadmore from "../../partials/Loadmore";
 import NoData from "../../partials/NoData";
-import SearchBar from "../../partials/SearchBar";
 import ServerError from "../../partials/ServerError";
 import ModalDeleteRestore from "../../partials/modals/ModalDeleteRestore";
 import TableSpinner from "../../partials/spinners/TableSpinner";
-import ModalAddCasherPointOfSales from "./ModalAddCasherPointOfSales";
-import StatusPending from "../../partials/status/StatusPending";
 import StatusActive from "../../partials/status/StatusActive";
+import StatusPending from "../../partials/status/StatusPending";
 import { computeFinalAmount } from "../Inventory/orders/functions-orders";
+import ModalAddSearchPOS from "./ModalAddSearchPOS";
 import ModalPayNow from "./ModalPayNow";
 import { getDataPayNow } from "./functions-pos";
 const CasherPointOfSalesList = () => {
@@ -127,6 +125,7 @@ const CasherPointOfSalesList = () => {
     dispatch(setIsConfirm(true));
   };
 
+  console.log("result", result);
   const initVal = {
     posMember: "",
   };
@@ -307,7 +306,7 @@ const CasherPointOfSalesList = () => {
         </div>
       </div>
       {store.isAdd && (
-        <ModalAddCasherPointOfSales
+        <ModalAddSearchPOS
           item={itemEdit}
           arrKey="pos-order"
           memberId={memberId}

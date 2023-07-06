@@ -1,0 +1,23 @@
+
+*controllers      
+    - inventory/products/fuctions.php
+    - inventory/products/page.php
+    - inventory/products/search-product.php
+    - point-of-sales/point-of-sales.php
+
+*models       
+    - point-of-sales/PointOfSales.php
+    - inventory/suppliers/product/SuppliersProducts.php
+
+*htaccess 
+    - #products
+
+*db tables 
+    - 
+
+*core functions 
+    - functions.php
+
+*extra
+    - Uploaded
+ 

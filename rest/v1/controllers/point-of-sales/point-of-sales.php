@@ -26,15 +26,13 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
 
         // get ordersid from query string
         $pos->orders_aid = $_GET['orderid'];
-        $pos->orders_product_id = checkIndex($data, "orders_product_id");
         $pos->orders_product_quantity = checkIndex($data, "orders_product_quantity");
         $pos->orders_product_amount = checkIndex($data, "orders_product_amount");
-        $pos->orders_product_srp = checkIndex($data, "orders_product_srp");
-        $pos->orders_suplier_price = checkIndex($data, "orders_suplier_price");
         $pos->orders_remarks = checkIndex($data, "orders_remarks");
         $pos->sales_discount = checkIndex($data, "sales_discount");
         $pos->orders_is_paid = 0;
         $pos->orders_datetime = date("Y-m-d H:i:s");
+
 
         //check to see if task id in query string is not empty and is number, if not return json error
         checkId($pos->orders_aid);
@@ -105,11 +103,8 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         $pos->orders_number = $formattedOrderId;
         $pos->sales_number = $formattedSalesId;
         $pos->orders_member_id = checkIndex($data, "orders_member_id");
-        $pos->orders_product_id = checkIndex($data, "orders_product_id");
         $pos->orders_product_quantity = checkIndex($data, "orders_product_quantity");
         $pos->orders_product_amount = checkIndex($data, "orders_product_amount");
-        $pos->orders_product_srp = checkIndex($data, "orders_product_srp");
-        $pos->orders_suplier_price = checkIndex($data, "orders_suplier_price");
         $pos->orders_date = checkIndex($data, "orders_date");
         $pos->orders_is_paid = checkIndex($data, "orders_is_paid");
         $pos->orders_is_draft = checkIndex($data, "orders_is_draft");
@@ -122,6 +117,16 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         $pos->orders_created = date("Y-m-d H:i:s");
         $pos->orders_datetime = date("Y-m-d H:i:s");
 
+        $allItem = $data["items"];
+
+        if (count($allItem) === 0) {
+            resultError("Please check if you have product.");
+        }
+        if (count($allItem) > 0) {
+            $pos->orders_product_id = checkIndex($allItem, "suppliers_products_aid");
+            $pos->orders_product_srp = checkIndex($allItem, "suppliers_products_scc_price");
+            $pos->orders_suplier_price = checkIndex($allItem, "suppliers_products_price");
+        }
         // create
         $query = checkCreate($pos);
         checkCreateSales($pos);

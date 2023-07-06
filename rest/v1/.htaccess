@@ -90,6 +90,7 @@ RewriteRule ^file/search/([A-Za-z0-9-]+)$ controllers/files/search.php?search=$1
 #products 
 RewriteRule ^product/page/([0-9]+)$ controllers/inventory/products/page.php?start=$1 [L]
 RewriteRule ^product/([0-9]+)$ controllers/inventory/products/update-price.php?supplierProductsId=$1 [L]  
+RewriteRule ^product/search/product$ controllers/inventory/products/search-product.php [L]
 
 #stocks
 RewriteRule ^stocks$ controllers/inventory/stocks/stocks.php [L]

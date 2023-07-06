@@ -1,3 +1,5 @@
+import { numberWithCommas, removeComma } from "../../helpers/functions-general";
+
 // compute Remaining Quantity
 export const getDataPayNow = (result, memberId) => {
   let amount = 0;
@@ -16,4 +18,17 @@ export const getDataPayNow = (result, memberId) => {
   totalAmount = amount - discount;
 
   return { name, totalAmount, discount, amount };
+};
+
+export const getTotaAmountPOS = (values, totalPrice) => {
+  let result = 0;
+  if (totalPrice !== "") {
+    result = numberWithCommas(
+      Number(
+        removeComma(values.orders_product_quantity) * totalPrice -
+          Number(removeComma(values.sales_discount))
+      ).toFixed(2)
+    );
+  }
+  return result;
 };
