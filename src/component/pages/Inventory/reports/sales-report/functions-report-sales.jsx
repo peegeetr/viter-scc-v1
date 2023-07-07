@@ -19,7 +19,7 @@ export const computeSccSales = (result) => {
         totalSupplierAmount = totalOty * supplierPrice;
         sccPriceAmount =
           Number(item.orders_product_amount) - Number(item.sales_discount);
-        if (sccPriceAmount !== 0) {
+        if (sccPriceAmount !== 0 || sccPricePendingAmount > 0) {
           finalAmount += sccPriceAmount - totalSupplierAmount;
         }
       }
@@ -30,7 +30,7 @@ export const computeSccSales = (result) => {
         totalSupplierAmount = totalOty * supplierPrice;
         sccPricePendingAmount =
           Number(item.orders_product_amount) - Number(item.sales_discount);
-        if (sccPricePendingAmount !== 0) {
+        if (sccPricePendingAmount !== 0 || sccPricePendingAmount > 0) {
           pendingAmount += sccPricePendingAmount - totalSupplierAmount;
         }
       }

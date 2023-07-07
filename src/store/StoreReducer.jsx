@@ -72,6 +72,12 @@ export const StoreReducer = (state, action) => {
         isSearch: action.payload,
       };
 
+    case "IS_MODAL_SEARCH":
+      return {
+        ...state,
+        isModalSearch: action.payload,
+      };
+
     case "START_INDEX":
       return {
         ...state,

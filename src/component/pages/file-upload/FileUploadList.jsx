@@ -1,18 +1,16 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import React from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
-import { TbFileDownload } from "react-icons/tb";
 import { useInView } from "react-intersection-observer";
 import { setIsAdd, setIsRestore } from "../../../store/StoreAction";
 import { StoreContext } from "../../../store/StoreContext";
 import { formatDate } from "../../helpers/functions-general";
 import { queryDataInfinite } from "../../helpers/queryDataInfinite";
 import Loadmore from "../../partials/Loadmore";
-import ModalDeleteRestore from "../../partials/modals/ModalDeleteRestore";
 import NoData from "../../partials/NoData";
 import SearchBar from "../../partials/SearchBar";
 import ServerError from "../../partials/ServerError";
-import FetchingSpinner from "../../partials/spinners/FetchingSpinner";
+import ModalDeleteRestore from "../../partials/modals/ModalDeleteRestore";
 import TableSpinner from "../../partials/spinners/TableSpinner";
 const FileUploadList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -37,9 +35,11 @@ const FileUploadList = ({ setItemEdit }) => {
     queryKey: ["file", onSearch, store.isSearch],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
-        `/v1/file/search/${search.current.value}`, // search endpoint
+        `/v1/file/search`, // search endpoint
         `/v1/file/page/${pageParam}`, // list endpoint
-        store.isSearch // search boolean
+        store.isSearch, // search boolean
+        "post",
+        { search: search.current.value }
       ),
     getNextPageParam: (lastPage) => {
       if (lastPage.page < lastPage.total) {

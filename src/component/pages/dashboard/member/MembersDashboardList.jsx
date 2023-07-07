@@ -9,7 +9,6 @@ import Loadmore from "../../../partials/Loadmore";
 import SearchBar from "../../../partials/SearchBar";
 import ServerError from "../../../partials/ServerError";
 import TableSpinner from "../../../partials/spinners/TableSpinner";
-import { queryDataInfiniteSearch } from "../../../helpers/queryDataInfiniteSearch";
 const MemberDashboardList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [onSearch, setOnSearch] = React.useState(false);
@@ -28,7 +27,7 @@ const MemberDashboardList = () => {
   } = useInfiniteQuery({
     queryKey: ["announcement", onSearch, store.isSearch],
     queryFn: async ({ pageParam = 1 }) =>
-      await queryDataInfiniteSearch(
+      await queryDataInfinite(
         `/v1/announcement/member/search`, // search endpoint
         `/v1/announcement/member/page/${pageParam}`, // list endpoint
         store.isSearch, // search boolean

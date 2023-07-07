@@ -82,6 +82,13 @@ export const setIsSearch = (val) => {
   };
 };
 
+export const setIsModalSearch = (val) => {
+  return {
+    type: "IS_MODAL_SEARCH",
+    payload: val,
+  };
+};
+
 export const setStartIndex = (val) => {
   return {
     type: "START_INDEX",

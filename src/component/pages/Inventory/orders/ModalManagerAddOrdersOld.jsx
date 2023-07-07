@@ -25,25 +25,23 @@ import {
 import { queryData } from "../../../helpers/queryData";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
 import { getRemaningQuantity } from "../products/functions-product";
-import {
-  getProductDetails,
-  modalComputeAmountWithDiscount,
-} from "./functions-orders";
-import SearchToAddProduct from "../../point-of-sales/SearchToAddProduct";
-import { getTotaAmountPOS } from "../../point-of-sales/functions-pos";
+import { modalComputeAmountWithDiscount } from "./functions-orders";
 
-const ModalManagerAddOrders = ({ item, arrKey }) => {
+const ModalManagerAddOrdersOld = ({ item, arrKey }) => {
   const { store, dispatch } = React.useContext(StoreContext);
-  const [items, setItems] = React.useState([]);
-  const [totalPrice, setTotalPrice] = React.useState(
+  const [categoryId, setCategoryId] = React.useState(
+    item ? item.suppliers_products_category_id : "0"
+  );
+  const [supplierPriceId, setSupplierPriceId] = React.useState(
+    item ? item.orders_suplier_price : "0"
+  );
+  const [productId, setProductId] = React.useState(
+    item ? item.suppliers_products_aid : ""
+  );
+  const [priceId, setPriceId] = React.useState(
     item ? item.orders_product_srp : ""
   );
-  const [search, setSearch] = React.useState(
-    item ? item.suppliers_products_name : "0"
-  );
-  const onSearch = React.useRef("0");
-
-  const [isPaid, setIsPaid] = React.useState(item ? item.orders_is_paid : "0");
+  const [isPaid, setIsPaid] = React.useState(item ? item.orders_is_paid : "");
 
   const queryClient = useQueryClient();
   const mutation = useMutation({
@@ -93,25 +91,50 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
       "memberApproved" // key
     );
 
+  // use if not loadmore button undertime
+  const { data: categoryData, isLoading: categoryLoading } = useQueryData(
+    `/v1/category`, // endpoint
+    "get", // method
+    "categoryData" // key
+  );
+
+  // use if not loadmore button undertime
+  const { data: SupProd, isLoading } = useQueryData(
+    `/v1/suppliers-product/read-category-id/${categoryId}`, // filter endpoint
+    "get", // method
+    "SupProd", // key
+    {},
+    categoryId
+  );
+  // get employee id
+  const handleSupplierProduct = async (e, props) => {
+    let categoryId = e.target.value;
+    setCategoryId(categoryId);
+  };
+  // get employee id
+  const handleProduct = async (e, props) => {
+    setProductId(e.target.value);
+    setPriceId(e.target.options[e.target.selectedIndex].id);
+    setSupplierPriceId(e.target.options[e.target.selectedIndex].title);
+  };
   // get employee id
   const handleIsPaid = async (e, props) => {
     setIsPaid(e.target.value);
   };
 
-  // use if not loadmore button undertime
-  const { data: ProductList, isLoading } = useQueryData(
-    `/v1/product/search/product`, // filter endpoint
-    "post", // method
-    "ProductList", // key
-    { search },
-    search
-  );
-
   const initVal = {
     orders_member_id: item ? item.orders_member_id : "",
+    orders_product_id: item ? item.orders_product_id : "",
     orders_product_quantity: item ? item.orders_product_quantity : "",
     orders_remarks: item ? item.orders_remarks : "",
+    suppliers_products_aid: "",
+    orders_product_srp: "",
+    orders_suplier_price: "",
+    orders_product_amount: item ? item.orders_product_amount : "",
     orders_date: item ? item.orders_date : getDateTimeNow(),
+    category_id: item ? item.suppliers_products_category_id : "",
+    // old quantity
+    old_quantity: item ? item.orders_product_quantity : "",
     // sales
     sales_receive_amount: "",
     sales_or: "",
@@ -124,7 +147,10 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
 
   const yupSchema = Yup.object({
     orders_member_id: Yup.string().required("Required"),
+    orders_product_id: Yup.string().required("Required"),
+    orders_remarks: Yup.string().required("Required"),
     orders_product_quantity: Yup.string().required("Required"),
+    category_id: Yup.string().required("Required"),
     orders_date: Yup.string().required("Required"),
     sales_receive_amount: isPaid === "1" && Yup.string().required("Required"),
     sales_or: isPaid === "1" && Yup.string().required("Required"),
@@ -147,17 +173,12 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
               <FaTimesCircle />
             </button>
           </div>
-          <div className="bg-white p-4 rounded-b-2xl ">
+          <div className="bg-white p-4 rounded-b-2xl h-[30rem] overflow-auto">
             <Formik
               initialValues={initVal}
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
-                // console.log(values, items);
-                if (!item && items?.suppliers_products_aid === undefined) {
-                  dispatch(setError(true));
-                  dispatch(setMessage("Please check if you have product."));
-                  return;
-                }
+                console.log(values);
                 const orders_product_quantity = removeComma(
                   `${values.orders_product_quantity}`
                 );
@@ -166,31 +187,27 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                 );
                 const sales_discount = removeComma(`${values.sales_discount}`);
 
-                const orders_product_amount =
-                  Number(orders_product_quantity) *
-                  Number(
-                    item
-                      ? item.suppliers_products_scc_price
-                      : items.suppliers_products_scc_price
-                  );
-
-                if (Number(sales_discount) > Number(orders_product_amount)) {
+                if (
+                  Number(sales_discount) > Number(values.orders_product_amount)
+                ) {
                   dispatch(setError(true));
                   dispatch(setMessage("Invalid Discount Amount"));
                   return;
                 }
                 if (
-                  Number(values.orders_product_quantity) >
+                  Number(orders_product_quantity) !==
+                    Number(values.old_quantity) &&
+                  (Number(values.orders_product_quantity) >
                     getRemaningQuantity(
-                      item ? item : items,
+                      values,
                       stocksGroupProd,
                       orderGroupProd
                     ) ||
-                  getRemaningQuantity(
-                    item ? item : items,
-                    stocksGroupProd,
-                    orderGroupProd
-                  ) === 0
+                    getRemaningQuantity(
+                      values,
+                      stocksGroupProd,
+                      orderGroupProd
+                    ) === 0)
                 ) {
                   dispatch(setError(true));
                   dispatch(setMessage("Insufficient quantity"));
@@ -201,7 +218,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                   isPaid === "1" &&
                   Number(sales_receive_amount) <
                     modalComputeAmountWithDiscount(
-                      orders_product_amount,
+                      values.orders_product_amount,
                       values.sales_discount
                     )
                 ) {
@@ -214,13 +231,23 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                   orders_product_quantity,
                   sales_receive_amount,
                   sales_discount,
-                  orders_product_amount,
-                  items,
                 });
               }}
             >
               {(props) => {
+                props.values.orders_suplier_price = supplierPriceId;
+                props.values.orders_product_srp = priceId;
+                props.values.orders_product_amount =
+                  Number(removeComma(props.values.orders_product_quantity)) *
+                  priceId;
+                props.values.suppliers_products_aid = productId;
                 props.values.orders_is_paid = isPaid;
+                props.values.sales_member_change =
+                  Number(removeComma(props.values.sales_receive_amount)) -
+                  modalComputeAmountWithDiscount(
+                    props.values.orders_product_amount,
+                    removeComma(props.values.sales_discount)
+                  );
                 return (
                   <Form>
                     <div className="relative mb-6 mt-5">
@@ -249,54 +276,75 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                         })}
                       </InputSelect>
                     </div>
-                    {!item && (
-                      <div className="relative mt-5">
-                        <SearchToAddProduct
-                          stocksGroupProd={stocksGroupProd}
-                          orderGroupProd={orderGroupProd}
-                          setSearch={setSearch}
-                          onSearch={onSearch}
-                          isLoading={isLoading}
-                          setItems={setItems}
-                          setTotalPrice={setTotalPrice}
-                          result={ProductList}
-                          name="search product"
-                        />
-                      </div>
-                    )}
-                    <p className="m-0 font-light mt-4 ml-3 text-primary">
-                      Product :
-                      <span className="font-bold break-words">
-                        {item ? (
-                          <>
-                            {` ${getProductDetails(
-                              item,
-                              stocksGroupProd,
-                              orderGroupProd
-                            )} `}
-                            {pesoSign}
-                            {` ${numberWithCommas(
-                              Number(totalPrice).toFixed(2)
-                            )}`}
-                          </>
-                        ) : items.suppliers_products_name === undefined ? (
-                          "--"
-                        ) : (
-                          <>
-                            {` ${getProductDetails(
-                              items,
-                              stocksGroupProd,
-                              orderGroupProd
-                            )} `}
-                            {pesoSign}
-                            {` ${numberWithCommas(
-                              Number(totalPrice).toFixed(2)
-                            )}`}
-                          </>
-                        )}
-                      </span>
-                    </p>
 
+                    <div className="relative my-5">
+                      <InputSelect
+                        name="category_id"
+                        label="Category"
+                        onChange={handleSupplierProduct}
+                        disabled={categoryLoading || mutation.isLoading}
+                      >
+                        <option value="" hidden>
+                          {categoryLoading ? "Loading..." : "--"}
+                        </option>
+                        {categoryData?.data.map((cItem, key) => {
+                          return (
+                            <option
+                              key={key}
+                              value={cItem.product_category_aid}
+                            >
+                              {`${cItem.product_category_name} `}
+                            </option>
+                          );
+                        })}
+                      </InputSelect>
+                    </div>
+                    <div className="relative my-5">
+                      <InputSelect
+                        name="orders_product_id"
+                        label="Supplier Product"
+                        onChange={handleProduct}
+                        disabled={isLoading || mutation.isLoading}
+                      >
+                        <option value="" hidden>
+                          {isLoading ? "Loading..." : "--"}
+                        </option>{" "}
+                        {SupProd?.data.length === 0 ? (
+                          <option value="">NO DATA</option>
+                        ) : (
+                          SupProd?.data.map((pItem, key) => {
+                            return (
+                              pItem.suppliers_products_price !== "" &&
+                              pItem.suppliers_products_scc_price !== "" && (
+                                <option
+                                  key={key}
+                                  value={pItem.suppliers_products_aid}
+                                  id={pItem.suppliers_products_scc_price}
+                                  title={pItem.suppliers_products_price}
+                                >
+                                  {`${
+                                    pItem.suppliers_products_name
+                                  }  (${getRemaningQuantity(
+                                    pItem,
+                                    stocksGroupProd,
+                                    orderGroupProd
+                                  )} pcs) - ${pItem.suppliers_company_name.slice(
+                                    0,
+                                    10
+                                  )} `}
+                                  &#8369;{" "}
+                                  {numberWithCommas(
+                                    Number(
+                                      pItem.suppliers_products_scc_price
+                                    ).toFixed(2)
+                                  )}
+                                </option>
+                              )
+                            );
+                          })
+                        )}
+                      </InputSelect>
+                    </div>
                     <div className="relative my-5">
                       <InputText
                         label="Quantity"
@@ -325,8 +373,11 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                               mutation.isLoading || memberApprovedLoading
                             }
                           >
-                            <option value="0">No</option>
+                            <option value="" hidden>
+                              --
+                            </option>
                             <option value="1">Yes</option>
+                            <option value="0">No</option>
                           </InputSelect>
                         </div>
                         {Number(props.values.orders_is_paid) === 1 && (
@@ -374,11 +425,11 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                         Total Amount:
                         <span className="text-black ml-2">
                           {pesoSign}{" "}
-                          {Number(totalPrice) === 0
+                          {Number(props.values.orders_product_amount) === 0
                             ? "0.00"
                             : numberWithCommas(
                                 modalComputeAmountWithDiscount(
-                                  getTotaAmountPOS(props.values, totalPrice),
+                                  props.values.orders_product_amount,
                                   removeComma(props.values.sales_discount)
                                 )
                               )}
@@ -434,4 +485,4 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
   );
 };
 
-export default ModalManagerAddOrders;
+export default ModalManagerAddOrdersOld;

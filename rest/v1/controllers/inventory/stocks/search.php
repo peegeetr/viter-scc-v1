@@ -12,15 +12,17 @@ $conn = checkDbConnection();
 // make instance of classes
 $stocks = new Stocks($conn);
 $response = new Response();
+// get data
+$body = file_get_contents("php://input");
+$data = json_decode($body, true);
 // // validate api key
 if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     checkApiKey();
-    if (array_key_exists("search", $_GET)) {
-        // get data
+    // check data
+    checkPayload($data);
+    if (empty($_GET)) {
         // get task id from query string
-        $stocks->stocks_search = $_GET['search'];
-        //check to see if search keyword in query string is not empty and less than 50 chars
-        checkKeyword($stocks->stocks_search);
+        $stocks->stocks_search = checkIndex($data, "search");
         $query = checkSearch($stocks);
         http_response_code(200);
         getQueriedData($query);

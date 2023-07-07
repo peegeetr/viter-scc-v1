@@ -13,6 +13,7 @@ const initVal = {
   isEditProfile: false,
   isBeneficiaries: false,
   isSearch: false,
+  isModalSearch: false,
   startIndex: 0,
   isCreatePassSuccess: false,
   isForgotPassSuccess: false,

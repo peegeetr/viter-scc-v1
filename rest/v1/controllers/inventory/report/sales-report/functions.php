@@ -1,6 +1,6 @@
 <?php
 // REPORT FILTER SALES
-// if all supplier , category by id, all product 
+// if all member, all supplier , category by id, all product 
 function checkReadReportSalesFilterByCategory($object)
 {
     $query = $object->readReportSalesFilterByCategory();
@@ -9,7 +9,7 @@ function checkReadReportSalesFilterByCategory($object)
 }
 
 // REPORT FILTER SALES
-// if supplier by id, by id category, all product
+// if all member, supplier by id, by id category, all product
 function checkReadReportSalesFilterBySupplierCategory($object)
 {
     $query = $object->readReportSalesFilterBySupplierCategory();
@@ -18,7 +18,7 @@ function checkReadReportSalesFilterBySupplierCategory($object)
 }
 
 // REPORT FILTER SALES
-// if supplier by id, all category, all product 
+// if all member, supplier by id, all category, all product 
 function checkReadReportSalesFilterBySupplier($object)
 {
     $query = $object->readReportSalesFilterBySupplier();
@@ -27,7 +27,7 @@ function checkReadReportSalesFilterBySupplier($object)
 }
 
 // REPORT FILTER SALES
-// if supplier by id, all category, product by id  
+// if all member, supplier by id, all category, product by id  
 function checkReadReportSalesFilterBySupplierProduct($object)
 {
     $query = $object->readReportSalesFilterBySupplierProduct();
@@ -36,7 +36,7 @@ function checkReadReportSalesFilterBySupplierProduct($object)
 }
 
 // REPORT FILTER SALES
-// if  all supplier, category by id, product by id  
+// if  all member, all supplier, category by id, product by id  
 function checkReadReportSalesFilterByCategoryProduct($object)
 {
     $query = $object->readReportSalesFilterByCategoryProduct();
@@ -45,7 +45,7 @@ function checkReadReportSalesFilterByCategoryProduct($object)
 }
 
 // REPORT FILTER SALES
-// if supplier by id, category by id, product by id
+// if all member, supplier by id, category by id, product by id
 function checkReadReportFilterSalesBySupplierCategoryProduct($object)
 {
     $query = $object->readReportFilterSalesBySupplierCategoryProduct();
@@ -54,11 +54,83 @@ function checkReadReportFilterSalesBySupplierCategoryProduct($object)
 }
 
 // REPORT FILTER SALES
-// if all supplier, all category, product by id 
+// if all member, all supplier, all category, product by id 
 function checkReadReportSalesFilterByProduct($object)
 {
     $query = $object->readReportSalesFilterByProduct();
     checkQuery($query, "Empty records. (read report filter sales by product)");
+    return $query;
+}
+
+// REPORT FILTER SALES
+// if member by id, all supplier, all category, all product 
+function checkReadReportSalesFilterByMember($object)
+{
+    $query = $object->readReportSalesFilterByMember();
+    checkQuery($query, "Empty records. (read report filter sales by member)");
+    return $query;
+}
+
+// REPORT FILTER SALES
+// if member by id, supplier by id, all category, all product
+function checkReadReportSalesFilterByMemberSupplier($object)
+{
+    $query = $object->readReportSalesFilterByMemberSupplier();
+    checkQuery($query, "Empty records. (read report filter sales by member, supplier)");
+    return $query;
+}
+
+// REPORT FILTER SALES
+// if member by id, supplier by id, category by id, all product
+function checkReadReportSalesFilterByMemberSupplierCategory($object)
+{
+    $query = $object->readReportSalesFilterByMemberSupplierCategory();
+    checkQuery($query, "Empty records. (read report filter sales by member, supplier, category)");
+    return $query;
+}
+
+// REPORT FILTER SALES
+// if member by Id, supplier by Id, category by Id, product by Id
+function checkReadReportSalesFilterByMemberSupplierCategoryProduct($object)
+{
+    $query = $object->readReportSalesFilterByMemberSupplierCategoryProduct();
+    checkQuery($query, "Empty records. (read report filter sales by member, supplier, category, product)");
+    return $query;
+}
+
+// REPORT FILTER SALES
+// if member by Id, supplier by Id, all category , product by Id
+function checkReadReportSalesFilterByMemberSupplierProduct($object)
+{
+    $query = $object->readReportSalesFilterByMemberSupplierProduct();
+    checkQuery($query, "Empty records. (read report filter sales by member, supplier, product)");
+    return $query;
+}
+
+// REPORT FILTER SALES
+// if member by Id, all supplier, category by Id , product by Id
+function checkReadReportSalesFilterByMemberCategoryProduct($object)
+{
+    $query = $object->readReportSalesFilterByMemberCategoryProduct();
+    checkQuery($query, "Empty records. (read report filter sales by member, category, product)");
+    return $query;
+}
+
+// REPORT FILTER SALES
+// if member by Id, all supplier, all category , product by Id
+function checkReadReportSalesFilterByMemberProduct($object)
+{
+    $query = $object->readReportSalesFilterByMemberProduct();
+    checkQuery($query, "Empty records. (read report filter sales by member, product)");
+    return $query;
+}
+
+// REPORT FILTER SALES
+// if member by Id, all supplier, category by Id , all product
+function checkReadReportSalesFilterByMemberCategory($object)
+{
+    $query = $object->readReportSalesFilterByMemberCategory();
+    checkQuery($query, "Empty records. (read report filter sales by member, category)");
     return $query;
 }
 

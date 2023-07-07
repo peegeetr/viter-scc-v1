@@ -19,9 +19,8 @@ import ModalDeleteRestore from "../../../partials/modals/ModalDeleteRestore";
 import TableSpinner from "../../../partials/spinners/TableSpinner";
 import StatusActive from "../../../partials/status/StatusActive";
 import StatusPending from "../../../partials/status/StatusPending";
-import { computeFinalAmount } from "./functions-orders";
-import StatusAmount from "../../../partials/status/StatusAmount";
 import OrdersTotal from "./OrdersTotal";
+import { computeFinalAmount } from "./functions-orders";
 
 const OrdersList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -46,9 +45,11 @@ const OrdersList = ({ setItemEdit }) => {
     queryKey: ["orders", onSearch, store.isSearch],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
-        `/v1/orders/search/${search.current.value}`, // search endpoint
+        `/v1/orders/search`, // search endpoint
         `/v1/orders/page/${pageParam}`, // list endpoint
-        store.isSearch // search boolean
+        store.isSearch, // search boolean
+        "post",
+        { search: search.current.value }
       ),
     getNextPageParam: (lastPage) => {
       if (lastPage.page < lastPage.total) {
@@ -80,7 +81,7 @@ const OrdersList = ({ setItemEdit }) => {
     setDel(true);
   };
 
-  // console.log(result);
+  console.log(result);
   return (
     <>
       <SearchBar

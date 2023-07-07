@@ -41,9 +41,11 @@ const suppliersList = ({ setItemEdit }) => {
     queryKey: ["suppliers", onSearch, store.isSearch],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
-        `/v1/suppliers/search/${search.current.value}`, // search endpoint
+        `/v1/suppliers/search`, // search endpoint
         `/v1/suppliers/page/${pageParam}`, // list endpoint
-        store.isSearch // search boolean
+        store.isSearch, // search boolean
+        "post",
+        { search: search.current.value }
       ),
     getNextPageParam: (lastPage) => {
       if (lastPage.page < lastPage.total) {

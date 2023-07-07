@@ -12,21 +12,21 @@ $conn = checkDbConnection();
 // make instance of classes
 $file = new Files($conn);
 $response = new Response();
+// get data
+$body = file_get_contents("php://input");
+$data = json_decode($body, true);
 // // validate api key
 if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     checkApiKey();
-    if (array_key_exists("search", $_GET)) {
-        // get data
-        // get task id from query string
-        $file->file_search = $_GET['search'];
-        //check to see if search keyword in query string is not empty and less than 50 chars
-        checkKeyword($file->file_search);
+    // check data
+    checkPayload($data);
+    if (empty($_GET)) {
+        // get task id from query string 
+        $file->file_search = checkIndex($data, "search");
         $query = checkSearch($file);
         http_response_code(200);
         getQueriedData($query);
     }
-    // return 404 error if endpoint not available
-    checkEndpoint();
 }
 
 http_response_code(200);

@@ -37,9 +37,11 @@ const CategoryList = ({ setItemEdit }) => {
     queryKey: ["category", onSearch, store.isSearch],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
-        `/v1/category/search/${search.current.value}`, // search endpoint
+        `/v1/category/search`, // search endpoint
         `/v1/category/page/${pageParam}`, // list endpoint
-        store.isSearch // search boolean
+        store.isSearch, // search boolean
+        "post",
+        { search: search.current.value }
       ),
     getNextPageParam: (lastPage) => {
       if (lastPage.page < lastPage.total) {

@@ -33,6 +33,7 @@ const StocksList = ({ setItemEdit }) => {
   let counter = 1;
 
   const { ref, inView } = useInView();
+
   // use if with loadmore button and search bar
   const {
     data: result,
@@ -46,9 +47,11 @@ const StocksList = ({ setItemEdit }) => {
     queryKey: ["stocks", onSearch, store.isSearch],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
-        `/v1/stocks/search/${search.current.value}`, // search endpoint
+        `/v1/stocks/search`, // search endpoint
         `/v1/stocks/page/${pageParam}`, // list endpoint
-        store.isSearch // search boolean
+        store.isSearch, // search boolean
+        "post",
+        { search: search.current.value }
       ),
     getNextPageParam: (lastPage) => {
       if (lastPage.page < lastPage.total) {

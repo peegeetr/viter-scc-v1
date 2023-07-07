@@ -25,7 +25,6 @@ import TableSpinner from "../../../partials/spinners/TableSpinner";
 import StatusActive from "../../../partials/status/StatusActive";
 import StatusPending from "../../../partials/status/StatusPending";
 import { computeFinalAmount } from "../orders/functions-orders";
-import StatusAmount from "../../../partials/status/StatusAmount";
 import SalesTotal from "./SalesTotal";
 
 const SalesList = ({ setItemEdit }) => {
@@ -52,9 +51,11 @@ const SalesList = ({ setItemEdit }) => {
     queryKey: ["sales", onSearch, store.isSearch],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
-        `/v1/sales/search/${search.current.value}`, // search endpoint
+        `/v1/sales/search`, // search endpoint
         `/v1/sales/page/${pageParam}`, // list endpoint
-        store.isSearch // search boolean
+        store.isSearch, // search boolean
+        "post",
+        { search: search.current.value }
       ),
     getNextPageParam: (lastPage) => {
       if (lastPage.page < lastPage.total) {

@@ -11,11 +11,7 @@ import {
 } from "../../../../store/StoreAction";
 import { StoreContext } from "../../../../store/StoreContext";
 import useQueryData from "../../../custom-hooks/useQueryData";
-import {
-  InputSelect,
-  InputText,
-  InputTextArea,
-} from "../../../helpers/FormInputs";
+import { InputText, InputTextArea } from "../../../helpers/FormInputs";
 import {
   getDateTimeNow,
   numberWithCommas,
@@ -24,22 +20,21 @@ import {
 } from "../../../helpers/functions-general";
 import { queryData } from "../../../helpers/queryData";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
+import { getProductDetails } from "../../Inventory/orders/functions-orders";
 import { getRemaningQuantity } from "../../Inventory/products/functions-product";
+import SearchToAddProduct from "../../point-of-sales/SearchToAddProduct";
+import { getTotaAmountProduct } from "../../point-of-sales/functions-pos";
 
 const ModalAddMyOrder = ({ item, arrKey }) => {
   const { store, dispatch } = React.useContext(StoreContext);
-  const [categoryId, setCategoryId] = React.useState(
-    item ? item.suppliers_products_category_id : "0"
-  );
-  const [productId, setProductId] = React.useState(
-    item ? item.suppliers_products_aid : ""
-  );
-  const [priceId, setPriceId] = React.useState(
+  const [items, setItems] = React.useState([]);
+  const [totalPrice, setTotalPrice] = React.useState(
     item ? item.orders_product_srp : ""
   );
-  const [supplierPriceId, setSupplierPriceId] = React.useState(
-    item ? item.orders_suplier_price : "0"
+  const [search, setSearch] = React.useState(
+    item ? item.suppliers_products_name : "0"
   );
+  const onSearch = React.useRef("0");
 
   const queryClient = useQueryClient();
   const mutation = useMutation({
@@ -68,6 +63,7 @@ const ModalAddMyOrder = ({ item, arrKey }) => {
   const handleClose = () => {
     dispatch(setIsAdd(false));
   };
+
   // use if not loadmore button undertime
   const { data: stocksGroupProd } = useQueryData(
     `/v1/stocks/group-by-prod`, // endpoint
@@ -82,54 +78,26 @@ const ModalAddMyOrder = ({ item, arrKey }) => {
   );
 
   // use if not loadmore button undertime
-  const { data: categoryData, isLoading: categoryLoading } = useQueryData(
-    `/v1/category`, // endpoint
-    "get", // method
-    "categoryData" // key
+  const { data: ProductList, isLoading } = useQueryData(
+    `/v1/product/search/product`, // filter endpoint
+    "post", // method
+    "ProductList", // key
+    { search },
+    search
   );
 
-  // use if not loadmore button undertime
-  const { data: SupProd, isLoading } = useQueryData(
-    `/v1/suppliers-product/read-category-id/${categoryId}`, // filter endpoint
-    "get", // method
-    "SupProd", // key
-    {},
-    categoryId
-  );
-
-  // get employee id
-  const handleSupplierProduct = async (e, props) => {
-    let categoryId = e.target.value;
-    setCategoryId(categoryId);
-  };
-  // get employee id
-  const handleProduct = async (e, props) => {
-    setProductId(e.target.value);
-    setPriceId(e.target.options[e.target.selectedIndex].id);
-    setSupplierPriceId(e.target.options[e.target.selectedIndex].title);
-  };
   const initVal = {
     orders_member_id: store.credentials.data.members_aid,
-    orders_product_id: item ? item.orders_product_id : "",
-    orders_product_srp: "",
     orders_product_quantity: item ? item.orders_product_quantity : "",
-    suppliers_products_aid: item ? item.suppliers_products_aid : "",
-    orders_is_paid: 0,
-    orders_is_draft: 1,
-    orders_product_amount: item ? item.orders_product_amount : "",
-    orders_date: item ? item.orders_date : getDateTimeNow(),
-    category_id: item ? item.suppliers_products_category_id : "",
+    orders_is_paid: item ? item.orders_is_paid : 0,
+    orders_is_draft: item ? item.orders_is_draft : 1,
     orders_remarks: item ? item.orders_remarks : "",
-    // old quantity
-    old_quantity: item ? item.orders_product_quantity : "",
+    orders_date: item ? item.orders_date : getDateTimeNow(),
   };
 
   const yupSchema = Yup.object({
-    orders_product_id: Yup.string().required("Required"),
     orders_product_quantity: Yup.string().required("Required"),
-    category_id: Yup.string().required("Required"),
     orders_date: Yup.string().required("Required"),
-    orders_remarks: Yup.string().required("Required"),
   });
   return (
     <>
@@ -153,23 +121,34 @@ const ModalAddMyOrder = ({ item, arrKey }) => {
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
                 // console.log(values);
+                if (!item && items?.suppliers_products_aid === undefined) {
+                  dispatch(setError(true));
+                  dispatch(setMessage("Please check if you have product."));
+                  return;
+                }
                 const orders_product_quantity = removeComma(
                   `${values.orders_product_quantity}`
                 );
+
+                const orders_product_amount =
+                  Number(orders_product_quantity) *
+                  Number(
+                    item
+                      ? item.suppliers_products_scc_price
+                      : items.suppliers_products_scc_price
+                  );
                 if (
-                  Number(orders_product_quantity) !==
-                    Number(values.old_quantity) &&
-                  (Number(orders_product_quantity) >
+                  Number(orders_product_quantity) >
                     getRemaningQuantity(
-                      values,
+                      item ? item : items,
                       stocksGroupProd,
                       orderGroupProd
                     ) ||
-                    getRemaningQuantity(
-                      values,
-                      stocksGroupProd,
-                      orderGroupProd
-                    ) === 0)
+                  getRemaningQuantity(
+                    item ? item : items,
+                    stocksGroupProd,
+                    orderGroupProd
+                  ) === 0
                 ) {
                   dispatch(setError(true));
                   dispatch(setMessage("Insufficient Quantity"));
@@ -179,18 +158,15 @@ const ModalAddMyOrder = ({ item, arrKey }) => {
                 mutation.mutate({
                   ...values,
                   orders_product_quantity,
+                  orders_product_amount,
+                  items,
                 });
               }}
             >
               {(props) => {
-                props.values.orders_suplier_price = supplierPriceId;
-                props.values.orders_product_srp = priceId;
-                props.values.orders_product_amount =
-                  removeComma(props.values.orders_product_quantity) * priceId;
-                props.values.suppliers_products_aid = productId;
                 return (
                   <Form>
-                    <div className="relative mb-6 mt-5">
+                    <div className="relative my-5">
                       <InputText
                         label="Date"
                         type="text"
@@ -200,74 +176,53 @@ const ModalAddMyOrder = ({ item, arrKey }) => {
                         disabled={mutation.isLoading}
                       />
                     </div>
-                    <div className="relative my-5">
-                      <InputSelect
-                        name="category_id"
-                        label="Category"
-                        onChange={handleSupplierProduct}
-                        disabled={categoryLoading || mutation.isLoading}
-                      >
-                        <option value="" hidden>
-                          {categoryLoading ? "Loading..." : "--"}
-                        </option>
-                        {categoryData?.data.map((cItem, key) => {
-                          return (
-                            <option
-                              key={key}
-                              value={cItem.product_category_aid}
-                            >
-                              {`${cItem.product_category_name}`}
-                            </option>
-                          );
-                        })}
-                      </InputSelect>
-                    </div>
-                    <div className="relative my-5">
-                      <InputSelect
-                        name="orders_product_id"
-                        label="Supplier Product"
-                        onChange={handleProduct}
-                        disabled={isLoading || mutation.isLoading}
-                      >
-                        <option value="" hidden>
-                          {isLoading ? "Loading..." : "--"}
-                        </option>{" "}
-                        {SupProd?.data.length === 0 ? (
-                          <option value="">NO DATA</option>
+                    {!item && (
+                      <div className="relative mb-5">
+                        <SearchToAddProduct
+                          stocksGroupProd={stocksGroupProd}
+                          orderGroupProd={orderGroupProd}
+                          setSearch={setSearch}
+                          onSearch={onSearch}
+                          isLoading={isLoading}
+                          setItems={setItems}
+                          setTotalPrice={setTotalPrice}
+                          result={ProductList}
+                          name="search product"
+                        />
+                      </div>
+                    )}
+                    <p className="m-0 font-light ml-3 text-primary">
+                      Product :
+                      <span className="font-bold break-words">
+                        {item ? (
+                          <>
+                            {` ${getProductDetails(
+                              item,
+                              stocksGroupProd,
+                              orderGroupProd
+                            )} `}
+                            {pesoSign}
+                            {` ${numberWithCommas(
+                              Number(totalPrice).toFixed(2)
+                            )}`}
+                          </>
+                        ) : items.suppliers_products_name === undefined ? (
+                          "--"
                         ) : (
-                          SupProd?.data.map((pItem, key) => {
-                            return (
-                              pItem.suppliers_products_scc_price !== "" &&
-                              pItem.suppliers_products_price !== "" && (
-                                <option
-                                  key={key}
-                                  value={pItem.suppliers_products_aid}
-                                  id={pItem.suppliers_products_scc_price}
-                                  title={pItem.suppliers_products_price}
-                                >
-                                  {`${
-                                    pItem.suppliers_products_name
-                                  }  (${getRemaningQuantity(
-                                    pItem,
-                                    stocksGroupProd,
-                                    orderGroupProd
-                                  )} pcs) - ${pItem.suppliers_company_name.slice(
-                                    0,
-                                    10
-                                  )} `}
-                                  &#8369;{" "}
-                                  {numberWithCommas(
-                                    Number(
-                                      pItem.suppliers_products_scc_price
-                                    ).toFixed(2)
-                                  )}
-                                </option>
-                              )
-                            );
-                          })
+                          <>
+                            {` ${getProductDetails(
+                              items,
+                              stocksGroupProd,
+                              orderGroupProd
+                            )} `}
+                            {pesoSign}
+                            {` ${numberWithCommas(
+                              Number(totalPrice).toFixed(2)
+                            )}`}
+                          </>
                         )}
-                      </InputSelect>
-                    </div>
+                      </span>
+                    </p>
                     <div className="relative my-5">
                       <InputText
                         label="Quantity"
@@ -294,11 +249,7 @@ const ModalAddMyOrder = ({ item, arrKey }) => {
                           {props.values.orders_product_quantity === "" ||
                           Number(props.values.orders_product_quantity) === 0
                             ? "0.00"
-                            : numberWithCommas(
-                                Number(
-                                  props.values.orders_product_amount
-                                ).toFixed(2)
-                              )}
+                            : getTotaAmountProduct(props.values, totalPrice)}
                         </span>
                       </p>
                     </div>
@@ -309,13 +260,7 @@ const ModalAddMyOrder = ({ item, arrKey }) => {
                         disabled={mutation.isLoading || !props.dirty}
                         className="btn-modal-submit relative"
                       >
-                        {mutation.isLoading ? (
-                          <ButtonSpinner />
-                        ) : item ? (
-                          "Save"
-                        ) : (
-                          "Add"
-                        )}
+                        {mutation.isLoading && <ButtonSpinner />} Add
                       </button>
                       <button
                         type="reset"

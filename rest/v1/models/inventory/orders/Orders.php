@@ -549,10 +549,7 @@ class Orders
             $sql = "update {$this->tblOrders} set ";
             $sql .= "orders_product_quantity = :orders_product_quantity, ";
             $sql .= "orders_member_id = :orders_member_id, ";
-            $sql .= "orders_product_id = :orders_product_id, ";
             $sql .= "orders_product_amount = :orders_product_amount, ";
-            $sql .= "orders_product_srp = :orders_product_srp, ";
-            $sql .= "orders_suplier_price = :orders_suplier_price, ";
             $sql .= "orders_date = :orders_date, ";
             $sql .= "orders_remarks = :orders_remarks, ";
             $sql .= "orders_is_paid = :orders_is_paid, ";
@@ -562,10 +559,7 @@ class Orders
             $query->execute([
                 "orders_product_quantity" => $this->orders_product_quantity,
                 "orders_member_id" => $this->orders_member_id,
-                "orders_product_id" => $this->orders_product_id,
                 "orders_product_amount" => $this->orders_product_amount,
-                "orders_product_srp" => $this->orders_product_srp,
-                "orders_suplier_price" => $this->orders_suplier_price,
                 "orders_date" => $this->orders_date,
                 "orders_remarks" => $this->orders_remarks,
                 "orders_is_paid" => $this->orders_is_paid,

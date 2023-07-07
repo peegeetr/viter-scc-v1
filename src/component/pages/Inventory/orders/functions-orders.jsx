@@ -1,4 +1,5 @@
-import { numberWithCommas } from "../../../helpers/functions-general";
+import { numberWithCommas, pesoSign } from "../../../helpers/functions-general";
+import { getRemaningQuantity } from "../products/functions-product";
 
 // compute sold
 export const computeSoldProduct = (item, values, product) => {
@@ -50,6 +51,17 @@ export const computeFinalAmount = (item) => {
 
   finalAmount = productAmount - discountAmount;
   return finalAmount.toFixed(2);
+};
+
+// compute Remaining Quantity
+export const getProductDetails = (item, stocksGroupProd, orderGroupProd) => {
+  let finalResult = "";
+  let result = item.suppliers_products_name;
+  let remaining = getRemaningQuantity(item, stocksGroupProd, orderGroupProd);
+
+  finalResult = `${result} (${remaining} pcs) `;
+
+  return finalResult;
 };
 
 // compute Remaining Quantity in modal

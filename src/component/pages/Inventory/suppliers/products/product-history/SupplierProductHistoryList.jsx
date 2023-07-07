@@ -49,9 +49,11 @@ const SupplierProductHistoryList = ({ productName }) => {
     queryKey: ["product-history", onSearch, store.isSearch],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
-        `/v1/product-history/search-by-id/${search.current.value}/${supplierProductId}`, // search endpoint
+        `/v1/product-history/search-by-id/${supplierProductId}`, // search endpoint
         `/v1/product-history/page-by-id/${pageParam}/${supplierProductId}`, // list endpoint
-        store.isSearch // search boolean
+        store.isSearch, // search boolean
+        "post",
+        { search: search.current.value }
       ),
     getNextPageParam: (lastPage) => {
       if (lastPage.page < lastPage.total) {

@@ -36,6 +36,7 @@ import StatusInactive from "../../../../partials/status/StatusInactive";
 import StatusPending from "../../../../partials/status/StatusPending";
 import { getRemaningQuantity } from "../../../Inventory/products/functions-product";
 import MemberTotalAmountOrders from "./MemberTotalAmountOrders";
+
 const MemberOrdersList = ({ setItemEdit, memberName, isLoading, menu }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [dataItem, setData] = React.useState(null);
@@ -43,8 +44,7 @@ const MemberOrdersList = ({ setItemEdit, memberName, isLoading, menu }) => {
   const [isDel, setDel] = React.useState(false);
   const [onSearch, setOnSearch] = React.useState(false);
   const [filter, setFilter] = React.useState(false);
-  const [startDate, setStartDate] = React.useState(false);
-  const [endDate, setEndDate] = React.useState(false);
+  const [value, setValue] = React.useState([]);
   const [page, setPage] = React.useState(1);
   let counter = 1;
   const search = React.useRef(null);
@@ -67,9 +67,11 @@ const MemberOrdersList = ({ setItemEdit, memberName, isLoading, menu }) => {
     queryKey: ["my-order", onSearch],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
-        `/v1/my-order/filter/by-member-id/${startDate}/${endDate}/${empid}`, // filter endpoint // filter
+        `/v1/my-order/filter/by-member-id/${empid}`, // filter endpoint // filter
         `/v1/my-order/page/by-member-id/${pageParam}/${empid}`, // list endpoint
-        filter // search boolean
+        filter, // search boolean
+        "post",
+        { value }
       ),
     getNextPageParam: (lastPage) => {
       if (lastPage.page < lastPage.total) {
@@ -158,8 +160,7 @@ const MemberOrdersList = ({ setItemEdit, memberName, isLoading, menu }) => {
             onSubmit={async (values, { setSubmitting, resetForm }) => {
               setFilter(true);
               setOnSearch(!onSearch);
-              setStartDate(values.start_date);
-              setEndDate(values.end_date);
+              setValue(values);
               // // refetch data of query
               // refetch();
             }}

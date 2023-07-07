@@ -58,6 +58,10 @@ const ModalViewSales = ({ item }) => {
               <p className="mb-0 text-black ml-2 uppercase">
                 {item.orders_number}
               </p>
+              <p className="mb-0">Sales Number:</p>
+              <p className="mb-0 text-black ml-2 uppercase">
+                {item.sales_number}
+              </p>
               <p className="mb-0">Product Name:</p>
               <p className="mb-0 text-black ml-2 capitalize">
                 {item.suppliers_products_name}

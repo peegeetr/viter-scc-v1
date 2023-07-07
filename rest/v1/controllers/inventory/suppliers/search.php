@@ -3,30 +3,33 @@
 // set http header
 require '../../../core/header.php';
 // use needed functions
-require '../../../core/functions.php'; 
+require '../../../core/functions.php';
 // use needed classes
-require '../../../models/inventory/suppliers/Suppliers.php'; 
+require '../../../models/inventory/suppliers/Suppliers.php';
 // check database connection
 $conn = null;
 $conn = checkDbConnection();
 // make instance of classes
 $suppliers = new Suppliers($conn);
 $response = new Response();
-// // validate api key
+// get data
+$body = file_get_contents("php://input");
+$data = json_decode($body, true);
+// validate api key
 if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     checkApiKey();
-    if (array_key_exists("search", $_GET)) {
-        // get data
-        // get task id from query string
-        $suppliers->suppliers_search = $_GET['search'];
+    // check data
+    checkPayload($data);
+
+    if (empty($_GET)) {
+        // get task id from query string 
+        $suppliers->suppliers_search = checkIndex($data, "search");
         //check to see if search keyword in query string is not empty and less than 50 chars
         checkKeyword($suppliers->suppliers_search);
         $query = checkSearch($suppliers);
         http_response_code(200);
         getQueriedData($query);
     }
-    // return 404 error if endpoint not available
-    checkEndpoint();
 }
 
 http_response_code(200);

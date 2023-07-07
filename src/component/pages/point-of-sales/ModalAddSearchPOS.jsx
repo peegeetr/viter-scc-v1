@@ -6,11 +6,12 @@ import * as Yup from "yup";
 import {
   setError,
   setIsAdd,
-  setIsSearch,
+  setIsModalSearch,
   setMessage,
   setSuccess,
 } from "../../../store/StoreAction";
 import { StoreContext } from "../../../store/StoreContext";
+import useQueryData from "../../custom-hooks/useQueryData";
 import { InputText, InputTextArea } from "../../helpers/FormInputs";
 import {
   formatDate,
@@ -25,7 +26,6 @@ import { queryData } from "../../helpers/queryData";
 import ButtonSpinner from "../../partials/spinners/ButtonSpinner";
 import { getRemaningQuantity } from "../Inventory/products/functions-product";
 import SearchToAddProduct from "./SearchToAddProduct";
-import useQueryData from "../../custom-hooks/useQueryData";
 import { getTotaAmountPOS } from "./functions-pos";
 
 const ModalAddSearchPOS = ({ item, arrKey, memberId, memberName }) => {
@@ -55,7 +55,7 @@ const ModalAddSearchPOS = ({ item, arrKey, memberId, memberName }) => {
       // show success box
       if (data.success) {
         item && dispatch(setIsAdd(false));
-        dispatch(setIsSearch(false));
+        dispatch(setIsModalSearch(false));
         dispatch(setSuccess(true));
         dispatch(setMessage(`Successfuly ${item ? "updated." : "added."}`));
       }
@@ -68,7 +68,7 @@ const ModalAddSearchPOS = ({ item, arrKey, memberId, memberName }) => {
   });
   const handleClose = () => {
     dispatch(setIsAdd(false));
-    dispatch(setIsSearch(false));
+    dispatch(setIsModalSearch(false));
   };
 
   // use if not loadmore button undertime
@@ -132,7 +132,7 @@ const ModalAddSearchPOS = ({ item, arrKey, memberId, memberName }) => {
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
                 // console.log(values);
-                if (!item && items === "") {
+                if (!item && items?.suppliers_products_aid === undefined) {
                   dispatch(setError(true));
                   dispatch(setMessage("Please check if you have product."));
                   return;
@@ -241,7 +241,7 @@ const ModalAddSearchPOS = ({ item, arrKey, memberId, memberName }) => {
                           setItems={setItems}
                           setTotalPrice={setTotalPrice}
                           result={ProductList}
-                          name="search"
+                          name="search product"
                         />
                       </div>
                     )}

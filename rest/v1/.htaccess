@@ -85,7 +85,7 @@ RewriteRule ^patronage/filter/by-employee-id/([A-Za-z0-9-]+)/([A-Za-z0-9-]+)/([0
 RewriteRule ^file$ controllers/files/files.php [L]
 RewriteRule ^file/([0-9]+)$ controllers/files/files.php?fileid=$1 [L] 
 RewriteRule ^file/page/([0-9]+)$ controllers/files/page.php?start=$1 [L]
-RewriteRule ^file/search/([A-Za-z0-9-]+)$ controllers/files/search.php?search=$1 [L]
+RewriteRule ^file/search$ controllers/files/search.php [L]
 
 #products 
 RewriteRule ^product/page/([0-9]+)$ controllers/inventory/products/page.php?start=$1 [L]
@@ -97,7 +97,7 @@ RewriteRule ^stocks$ controllers/inventory/stocks/stocks.php [L]
 RewriteRule ^stocks/([0-9]+)$ controllers/inventory/stocks/stocks.php?stockid=$1 [L] 
 RewriteRule ^stocks/active/([0-9]+)$ controllers/inventory/stocks/active.php?stockid=$1 [L]
 RewriteRule ^stocks/page/([0-9]+)$ controllers/inventory/stocks/page.php?start=$1 [L]
-RewriteRule ^stocks/search/([A-Za-z0-9-]+)$ controllers/inventory/stocks/search.php?search=$1 [L]
+RewriteRule ^stocks/search$ controllers/inventory/stocks/search.php [L]
 RewriteRule ^stocks/group-by-prod$ controllers/inventory/stocks/group-by-product-number.php [L]
 
 #Net Surplus
@@ -111,14 +111,14 @@ RewriteRule ^category$ controllers/inventory/category/category.php [L]
 RewriteRule ^category/([0-9]+)$ controllers/inventory/category/category.php?categoryid=$1 [L]
 RewriteRule ^category/active/([0-9]+)$ controllers/inventory/category/active.php?categoryid=$1 [L]
 RewriteRule ^category/page/([0-9]+)$ controllers/inventory/category/page.php?start=$1 [L]
-RewriteRule ^category/search/([A-Za-z0-9-]+)$ controllers/inventory/category/search.php?search=$1 [L]
+RewriteRule ^category/search$ controllers/inventory/category/search.php [L]
 
 #ORDERS 
 RewriteRule ^orders$ controllers/inventory/orders/orders.php [L]
 RewriteRule ^orders/([0-9]+)$ controllers/inventory/orders/orders.php?orderid=$1 [L]
 RewriteRule ^orders/active/([0-9]+)$ controllers/inventory/orders/active.php?orderid=$1 [L]
 RewriteRule ^orders/page/([0-9]+)$ controllers/inventory/orders/page.php?start=$1 [L]
-RewriteRule ^orders/search/([A-Za-z0-9-]+)$ controllers/inventory/orders/search.php?search=$1 [L]
+RewriteRule ^orders/search$ controllers/inventory/orders/search.php [L]
 RewriteRule ^orders/group-by-prod$ controllers/inventory/orders/group-by-product-number.php [L]
 RewriteRule ^orders/invoice/page/([0-9]+)$ controllers/inventory/orders/invoice-page.php?start=$1 [L]
 RewriteRule ^orders/invoice/search/([A-Za-z0-9-]+)$ controllers/inventory/orders/invoice-search.php?search=$1 [L]
@@ -130,7 +130,7 @@ RewriteRule ^suppliers$ controllers/inventory/suppliers/suppliers.php [L]
 RewriteRule ^suppliers/([0-9]+)$ controllers/inventory/suppliers/suppliers.php?supplierid=$1 [L]
 RewriteRule ^suppliers/active/([0-9]+)$ controllers/inventory/suppliers/active.php?supplierid=$1 [L]
 RewriteRule ^suppliers/page/([0-9]+)$ controllers/inventory/suppliers/page.php?start=$1 [L]
-RewriteRule ^suppliers/search/([A-Za-z0-9-]+)$ controllers/inventory/suppliers/search.php?search=$1 [L]
+RewriteRule ^suppliers/search$ controllers/inventory/suppliers/search.php [L]
   
 #suppliers product
 RewriteRule ^suppliers-product$ controllers/inventory/suppliers/product/suppliers-product.php [L]
@@ -140,8 +140,8 @@ RewriteRule ^suppliers-product/by-supplier-product-id/([0-9]+)$ controllers/inve
 RewriteRule ^suppliers-product/page/supplier-id/([0-9]+)/([0-9]+)$ controllers/inventory/suppliers/product/read-by-supplier-id.php?start=$1&supplierid=$2 [L]
 RewriteRule ^suppliers-product/read-supplier-id/([0-9]+)$ controllers/inventory/suppliers/product/read-by-supplier-id.php?supplierid=$1 [L]
 RewriteRule ^suppliers-product/page/([0-9]+)$ controllers/inventory/suppliers/product/page.php?start=$1 [L]
-RewriteRule ^suppliers-product/search-by-id/([0-9]+)/([A-Za-z0-9-]+)$ controllers/inventory/suppliers/product/search-by-id.php?supplierid=$1&search=$2 [L]
-RewriteRule ^suppliers-product/search/([A-Za-z0-9-]+)$ controllers/inventory/suppliers/product/search.php?search=$1 [L]
+RewriteRule ^suppliers-product/search-by-id/([0-9]+)$ controllers/inventory/suppliers/product/search.php?supplierid=$1 [L]
+RewriteRule ^suppliers-product/search$ controllers/inventory/suppliers/product/search.php [L]
 RewriteRule ^suppliers-product/read-category-id/([0-9]+)$ controllers/inventory/suppliers/product/read-by-category-id.php?categoryid=$1 [L]
 
 #sales 
@@ -149,7 +149,7 @@ RewriteRule ^sales$ controllers/inventory/sales/sales.php [L]
 RewriteRule ^sales/([0-9]+)$ controllers/inventory/sales/sales.php?salesid=$1 [L]
 RewriteRule ^sales/active/([0-9]+)$ controllers/inventory/sales/active.php?salesid=$1 [L]
 RewriteRule ^sales/page/([0-9]+)$ controllers/inventory/sales/page.php?start=$1 [L]
-RewriteRule ^sales/search/([A-Za-z0-9-]+)$ controllers/inventory/sales/search.php?search=$1 [L] 
+RewriteRule ^sales/search$ controllers/inventory/sales/search.php [L] 
 
 #upload Photo
 RewriteRule ^member/upload/photo$ core/upload-photo.php [L]
@@ -158,7 +158,7 @@ RewriteRule ^member/upload/photo$ core/upload-photo.php [L]
 RewriteRule ^my-order/page/by-member-id/([0-9]+)/([0-9]+)$ controllers/account/details/my-order/page-by-member-id.php?start=$1&membersid=$2 [L]
 RewriteRule ^my-order/active/([0-9]+)$ controllers/account/details/my-order/active.php?orderid=$1 [L]
 RewriteRule ^my-order/search/by-member-id/([A-Za-z0-9-]+)/([0-9]+)$ controllers/account/details/my-order/search-by-member-id.php?search=$1&membersid=$2 [L]
-RewriteRule ^my-order/filter/by-member-id/([A-Za-z0-9-]+)/([A-Za-z0-9-]+)/([0-9]+)$ controllers/account/details/my-order/filter-by-member-id.php?startDate=$1&endDate=$2&membersid=$3 [L]
+RewriteRule ^my-order/filter/by-member-id/([0-9]+)$ controllers/account/details/my-order/filter-by-member-id.php?membersid=$1 [L]
  
 #SETTINGS SYSTEM MODE
 RewriteRule ^system-maintenance$ controllers/settings/system-maintenance/system-mode.php [L]
@@ -195,12 +195,12 @@ RewriteRule ^top-seller-report/all-pending-and-paid/([A-Za-z0-9-]+)$ controllers
 RewriteRule ^report-sales/report-category-list-by-supplier-id/([0-9]+)$ controllers/inventory/report/sales-report/report-category-list-by-supplier-id.php?supplierProductsid=$1 [L]
 RewriteRule ^report-sales/report-product-list/([0-9]+)/([0-9]+)$ controllers/inventory/report/sales-report/report-product-by-supplier-category-id.php?supplierId=$1&categoryId=$2 [L]
 RewriteRule ^report-sales/report-product-list-by-category/([0-9]+)$ controllers/inventory/report/sales-report/report-product-by-category-id.php?categoryId=$1 [L]
-RewriteRule ^report-sales/filter-sales/([0-9]+)/([0-9]+)/([0-9]+)/([A-Za-z0-9-]+)/([A-Za-z0-9-]+)$ controllers/inventory/report/sales-report/report-filter-sales.php?supplierId=$1&categoryId=$2&productId=$3&startDate=$4&endDate=$5 [L]
+RewriteRule ^report-sales/filter-sales$ controllers/inventory/report/sales-report/report-filter-sales.php [L]
   
 #PRODUCT HISTORY 
 RewriteRule ^product-history$ controllers/inventory/suppliers/product/products-history/products-history.php [L]
 RewriteRule ^product-history/([0-9]+)$ controllers/inventory/suppliers/product/products-history/products-history.php?productHistoryId=$1 [L]
 RewriteRule ^product-history/active/([0-9]+)$ controllers/inventory/suppliers/product/products-history/active.php?productHistoryId=$1 [L]
 RewriteRule ^product-history/page-by-id/([0-9]+)/([0-9]+)$ controllers/inventory/suppliers/product/products-history/page-by-id.php?start=$1&productHistoryId=$2 [L]
-RewriteRule ^product-history/search-by-id/([A-Za-z0-9-]+)/([0-9]+)$ controllers/inventory/suppliers/product/products-history/search-by-id.php?search=$1&productHistoryId=$2 [L]
+RewriteRule ^product-history/search-by-id/([0-9]+)$ controllers/inventory/suppliers/product/products-history/search.php?productHistoryId=$1 [L]
   

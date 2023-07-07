@@ -33,11 +33,7 @@ const TopSellerList = () => {
   const [isSubmit, setSubmit] = React.useState(false);
   const [isSupplierId, setIsSupplierId] = React.useState("0");
   const [isCategoryId, setIsCategoryId] = React.useState("0");
-  const [supplierId, setSupplierId] = React.useState("0");
-  const [categoryId, setCategoryId] = React.useState("0");
-  const [productId, setProductId] = React.useState("0");
-  const [startDate, setStartDate] = React.useState("0");
-  const [endDate, setEndDate] = React.useState("0");
+  const [value, setValue] = React.useState([]);
   let counter = 1;
   // use if with loadmore button and search bar
   const {
@@ -49,9 +45,11 @@ const TopSellerList = () => {
     queryKey: ["patronage", isSubmit],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
-        `/v1/report-sales/filter-sales/${supplierId}/${categoryId}/${productId}/${startDate}/${endDate}`, // filter endpoint // filter
+        `/v1/report-sales/filter-sales`, // filter endpoint // filter
         `/v1/sales/page/${0}`, // list endpoint
-        isFilter // search boolean
+        isFilter, // search boolean
+        "post",
+        { value }
       ),
     getNextPageParam: (lastPage) => {
       if (lastPage.page < lastPage.total) {
@@ -64,6 +62,12 @@ const TopSellerList = () => {
     cacheTime: 200,
   });
 
+  // use if not loadmore button undertime
+  const { data: memberList, isLoading: memberListLoading } = useQueryData(
+    `/v1/members/approved`, // endpoint
+    "get", // method
+    "member-list" // key
+  );
   // use if not loadmore button undertime
   const { data: suppliersList, isLoading: suppliersListLoading } = useQueryData(
     `/v1/suppliers`, // endpoint
@@ -135,17 +139,33 @@ const TopSellerList = () => {
         onSubmit={async (values, { setSubmitting, resetForm }) => {
           setFilter(true);
           setSubmit(!isSubmit);
-          setSupplierId(values.supplier_id);
-          setCategoryId(values.category_id);
-          setProductId(values.product_id);
-          setStartDate(values.start_date);
-          setEndDate(values.end_date);
+          setValue(values);
         }}
       >
         {(props) => {
           return (
             <Form>
-              <div className="grid gap-4 xl:grid-cols-[1fr_1fr_1fr_1fr_1fr_15rem] pb-5 items-center print:hidden ">
+              <div className="grid gap-4 xl:grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr_8rem] pb-5 items-center print:hidden ">
+                <div className="relative ">
+                  <InputSelect
+                    name="member_id"
+                    label="Member"
+                    onChange={handleSupplier}
+                    disabled={status === "loading" || memberListLoading}
+                  >
+                    <option value="" hidden>
+                      {memberListLoading ? "Loading..." : "--"}
+                    </option>
+                    <option value="0">All Member</option>
+                    {memberList?.data.map((mItem, key) => {
+                      return (
+                        <option key={key} value={mItem.members_aid}>
+                          {`${mItem.members_last_name}, ${mItem.members_first_name}`}
+                        </option>
+                      );
+                    })}
+                  </InputSelect>
+                </div>
                 <div className="relative ">
                   <InputSelect
                     name="supplier_id"
@@ -250,8 +270,9 @@ const TopSellerList = () => {
               <th>#</th>
               <th className="min-w-[2rem]">Status</th>
               <th className="min-w-[8rem]">Name</th>
-              <th className="min-w-[5rem]">Sales #</th>
-              <th className="min-w-[7rem]">Product Name</th>
+              <th className="min-w-[10rem]">Comapany</th>
+              <th className="min-w-[8rem]">Category</th>
+              <th className="min-w-[7rem]">Product</th>
               <th className="min-w-[6rem] text-center pr-4">Qty</th>
               <th className="min-w-[6rem] text-right pr-4">Discounted</th>
               <th className="min-w-[7rem] text-right pr-4">Total Amnt.</th>
@@ -290,7 +311,8 @@ const TopSellerList = () => {
                       )}
                     </td>
                     <td>{`${item.members_last_name}, ${item.members_first_name}`}</td>
-                    <td className="uppercase">{item.sales_number}</td>
+                    <td>{item.suppliers_company_name}</td>
+                    <td>{item.product_category_name}</td>
                     <td>{item.suppliers_products_name}</td>
                     <td className="text-center ">
                       {item.orders_product_quantity}

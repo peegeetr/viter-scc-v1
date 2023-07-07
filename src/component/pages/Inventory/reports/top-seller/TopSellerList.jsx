@@ -1,20 +1,21 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { Form, Formik } from "formik";
 import React from "react";
+import { BsFillPinAngleFill } from "react-icons/bs";
 import { FaMedal, FaTrophy, FaUserCircle } from "react-icons/fa";
-import { TfiMedall } from "react-icons/tfi";
 import { IoIosMedal } from "react-icons/io";
+import { TfiMedall } from "react-icons/tfi";
 import { useInView } from "react-intersection-observer";
 import * as Yup from "yup";
-import { StoreContext } from "../../../../../store/StoreContext";
+import useQueryData from "../../../../custom-hooks/useQueryData";
 import { InputSelect } from "../../../../helpers/FormInputs";
 import {
-  AssociateMemberId,
   devBaseImgUrl,
-  notMemberId,
   numberWithCommas,
   pesoSign,
 } from "../../../../helpers/functions-general";
+import { queryDataInfinite } from "../../../../helpers/queryDataInfinite";
+import Loadmore from "../../../../partials/Loadmore";
 import NoData from "../../../../partials/NoData";
 import ServerError from "../../../../partials/ServerError";
 import TableSpinner from "../../../../partials/spinners/TableSpinner";
@@ -24,10 +25,6 @@ import {
   getMonthName,
   getTotal,
 } from "../report-function";
-import Loadmore from "../../../../partials/Loadmore";
-import useQueryData from "../../../../custom-hooks/useQueryData";
-import { BsFillPinAngleFill } from "react-icons/bs";
-import { queryDataInfiniteSearch } from "../../../../helpers/queryDataInfiniteSearch";
 
 const TopSellerList = ({ width = "", menu = "" }) => {
   const [isFilter, setFilter] = React.useState(false);
@@ -50,7 +47,7 @@ const TopSellerList = ({ width = "", menu = "" }) => {
   } = useInfiniteQuery({
     queryKey: ["patronage", isSubmit],
     queryFn: async ({ pageParam = 1 }) =>
-      await queryDataInfiniteSearch(
+      await queryDataInfinite(
         `/v1/top-seller-report/filter-by-month`, // filter endpoint // filter
         `/v1/top-seller-report/page/${pageParam}`, // list endpoint
         isFilter, // search boolean

@@ -17,7 +17,7 @@ import {
 } from "../../../../store/StoreAction";
 import { StoreContext } from "../../../../store/StoreContext";
 import { formatDate } from "../../../helpers/functions-general";
-import { queryDataInfiniteSearch } from "../../../helpers/queryDataInfiniteSearch";
+import { queryDataInfinite } from "../../../helpers/queryDataInfinite";
 import Loadmore from "../../../partials/Loadmore";
 import SearchBar from "../../../partials/SearchBar";
 import ServerError from "../../../partials/ServerError";
@@ -49,7 +49,7 @@ const AnnouncementCard = () => {
   } = useInfiniteQuery({
     queryKey: ["announcement", onSearch, store.isSearch],
     queryFn: async ({ pageParam = 1 }) =>
-      await queryDataInfiniteSearch(
+      await queryDataInfinite(
         `/v1/announcement/search`, // search endpoint
         `/v1/announcement/page/${pageParam}`, // list endpoint
         store.isSearch, // search boolean

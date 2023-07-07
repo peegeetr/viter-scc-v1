@@ -1,26 +1,20 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import React from "react";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaEdit } from "react-icons/fa";
 import { useInView } from "react-intersection-observer";
-import {
-  setError,
-  setIsAdd,
-  setIsRestore,
-  setMessage,
-} from "../../../../store/StoreAction";
+import { setIsAdd } from "../../../../store/StoreAction";
 import { StoreContext } from "../../../../store/StoreContext";
+import useQueryData from "../../../custom-hooks/useQueryData";
+import { numberWithCommas, pesoSign } from "../../../helpers/functions-general";
 import { queryDataInfinite } from "../../../helpers/queryDataInfinite";
 import Loadmore from "../../../partials/Loadmore";
 import NoData from "../../../partials/NoData";
 import SearchBar from "../../../partials/SearchBar";
 import ServerError from "../../../partials/ServerError";
-import ModalDeleteRestore from "../../../partials/modals/ModalDeleteRestore";
 import TableSpinner from "../../../partials/spinners/TableSpinner";
-import ModalUpdateProducts from "./ModalUpdateProducts";
-import useQueryData from "../../../custom-hooks/useQueryData";
-import { getPendingOrders, getRemaningQuantity } from "./functions-product";
-import { numberWithCommas, pesoSign } from "../../../helpers/functions-general";
 import StatusQuantity from "../../../partials/status/StatusQuantity";
+import ModalUpdateProducts from "./ModalUpdateProducts";
+import { getPendingOrders, getRemaningQuantity } from "./functions-product";
 
 const ProductsList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -44,9 +38,11 @@ const ProductsList = () => {
     queryKey: ["all-product", onSearch, store.isSearch],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
-        `/v1/suppliers-product/search/${search.current.value}`, // search endpoint
+        `/v1/suppliers-product/search`, // search endpoint
         `/v1/product/page/${pageParam}`, // list endpoint
-        store.isSearch // search boolean
+        store.isSearch, // search boolean
+        "post",
+        { search: search.current.value }
       ),
     getNextPageParam: (lastPage) => {
       if (lastPage.page < lastPage.total) {

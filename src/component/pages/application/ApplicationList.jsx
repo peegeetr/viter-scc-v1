@@ -17,7 +17,6 @@ import ModalDeleteRestore from "../../partials/modals/ModalDeleteRestore";
 import TableSpinner from "../../partials/spinners/TableSpinner";
 import StatusActive from "../../partials/status/StatusActive";
 import StatusPending from "../../partials/status/StatusPending";
-import { queryDataInfiniteSearch } from "../../helpers/queryDataInfiniteSearch";
 
 const ApplicationList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -42,7 +41,7 @@ const ApplicationList = () => {
   } = useInfiniteQuery({
     queryKey: ["members-application", onSearch, store.isSearch],
     queryFn: async ({ pageParam = 1 }) =>
-      await queryDataInfiniteSearch(
+      await queryDataInfinite(
         `/v1/members/search`, // search endpoint
         `/v1/members/page/${pageParam}`, // list endpoint
         store.isSearch, // search boolean

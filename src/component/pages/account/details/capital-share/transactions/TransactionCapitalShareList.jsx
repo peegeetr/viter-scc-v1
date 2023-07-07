@@ -19,7 +19,6 @@ import ServerError from "../../../../../partials/ServerError";
 import ModalDeleteRestoreCapital from "../../../../../partials/modals/ModalDeleteRetoreCapital";
 import TableSpinner from "../../../../../partials/spinners/TableSpinner";
 import StatusAmount from "../../../../../partials/status/StatusAmount";
-import { queryDataInfiniteSearch } from "../../../../../helpers/queryDataInfiniteSearch";
 
 const TransactionCapitalShareList = ({
   setItemEdit,
@@ -53,7 +52,7 @@ const TransactionCapitalShareList = ({
   } = useInfiniteQuery({
     queryKey: ["capital-share", onSearch, store.isSearch],
     queryFn: async ({ pageParam = 1 }) =>
-      await queryDataInfiniteSearch(
+      await queryDataInfinite(
         `/v1/capital-share/search-by-id/${empid}`, // search endpoint
         `/v1/capital-share/page/${pageParam}/${empid}`, // list endpoint
         store.isSearch, // search boolean

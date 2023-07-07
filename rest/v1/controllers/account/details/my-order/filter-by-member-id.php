@@ -13,18 +13,23 @@ $conn = checkDbConnection();
 // make instance of classes
 $order = new Orders($conn);
 $response = new Response();
-// // validate api key
+// get data
+$body = file_get_contents("php://input");
+$data = json_decode($body, true);
+// validate api key
 if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     checkApiKey();
-    if (array_key_exists("startDate", $_GET) && array_key_exists("endDate", $_GET) && array_key_exists("membersid", $_GET)) {
-        // get data
+    // check data
+    checkPayload($data);
+    if (array_key_exists("membersid", $_GET)) {
         // get task id from query string
         $order->orders_member_id = $_GET['membersid'];
-        $order->orders_from = $_GET['startDate'];
-        $order->orders_to = $_GET['endDate'];
+
+        $allValues = $data['value'];
+
+        $order->orders_from = checkIndex($allValues, "start_date");
+        $order->orders_to = checkIndex($allValues, "end_date");
         //check to see if search keyword in query string is not empty and less than 50 chars
-        checkKeyword($order->orders_from);
-        checkKeyword($order->orders_to);
         checkId($order->orders_member_id);
         $query = checkFilterById($order);
         http_response_code(200);

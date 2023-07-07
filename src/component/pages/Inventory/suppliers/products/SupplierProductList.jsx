@@ -1,7 +1,9 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import React from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import { SlArrowRight } from "react-icons/sl";
 import { useInView } from "react-intersection-observer";
+import { Link } from "react-router-dom";
 import { setIsAdd, setIsRestore } from "../../../../../store/StoreAction";
 import { StoreContext } from "../../../../../store/StoreContext";
 import useQueryData from "../../../../custom-hooks/useQueryData";
@@ -19,8 +21,6 @@ import ServerError from "../../../../partials/ServerError";
 import ModalDeleteRestore from "../../../../partials/modals/ModalDeleteRestore";
 import TableSpinner from "../../../../partials/spinners/TableSpinner";
 import { getPendingOrders } from "../../products/functions-product";
-import { Link } from "react-router-dom";
-import { SlArrowRight } from "react-icons/sl";
 
 const SupplierProductList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -47,9 +47,11 @@ const SupplierProductList = ({ setItemEdit }) => {
     queryKey: ["suppliers-product", onSearch, store.isSearch],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
-        `/v1/suppliers-product/search-by-id/${supplierId}/${search.current.value}`, // search endpoint
+        `/v1/suppliers-product/search-by-id/${supplierId}`, // search endpoint
         `/v1/suppliers-product/page/supplier-id/${pageParam}/${supplierId}`, // list endpoint
-        store.isSearch // search boolean
+        store.isSearch, // search boolean
+        "post",
+        { search: search.current.value }
       ),
     getNextPageParam: (lastPage) => {
       if (lastPage.page < lastPage.total) {

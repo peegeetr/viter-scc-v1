@@ -69,18 +69,17 @@ if ($salesLastId->rowCount() == 0) {
 checkKeyword($formattedOrderId);
 checkKeyword($formattedSalesId);
 
+$allItem = $data["items"];
+
 $order->orders_number = $formattedOrderId;
 $order->sales_number = $formattedSalesId;
 $order->orders_member_id = checkIndex($data, "orders_member_id");
-$order->orders_product_id = checkIndex($data, "orders_product_id");
 $order->orders_product_quantity = checkIndex($data, "orders_product_quantity");
 $order->orders_product_amount = checkIndex($data, "orders_product_amount");
-$order->orders_product_srp = checkIndex($data, "orders_product_srp");
-$order->orders_suplier_price = checkIndex($data, "orders_suplier_price");
 $order->orders_date = checkIndex($data, "orders_date");
 $order->orders_is_paid = checkIndex($data, "orders_is_paid");
 $order->orders_is_draft = checkIndex($data, "orders_is_draft");
-$order->orders_remarks = checkIndex($data, "orders_remarks");
+$order->orders_remarks = $data["orders_remarks"];
 $order->sales_receive_amount = "";
 $order->sales_or = "";
 $order->sales_member_change = "";
@@ -89,6 +88,14 @@ $order->sales_discount = "";
 $order->orders_created = date("Y-m-d H:i:s");
 $order->orders_datetime = date("Y-m-d H:i:s");
 
+if (count($allItem) === 0) {
+    resultError("Please check if you have product.");
+}
+if (count($allItem) > 0) {
+    $order->orders_product_id = checkIndex($allItem, "suppliers_products_aid");
+    $order->orders_product_srp = checkIndex($allItem, "suppliers_products_scc_price");
+    $order->orders_suplier_price = checkIndex($allItem, "suppliers_products_price");
+}
 // sales 
 if ($order->orders_is_paid === "1") {
     $order->sales_receive_amount = checkIndex($data, "sales_receive_amount");

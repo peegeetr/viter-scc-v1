@@ -13,16 +13,20 @@ $conn = checkDbConnection();
 // make instance of classes
 $suppliersProducts = new SuppliersProducts($conn);
 $response = new Response();
+// get data
+$body = file_get_contents("php://input");
+$data = json_decode($body, true);
 // // validate api key
 if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     checkApiKey();
-    if (array_key_exists("supplierid", $_GET) && array_key_exists("search", $_GET)) {
+    // check data
+    checkPayload($data);
+    if (array_key_exists("supplierid", $_GET)) {
         // get task id from query string
         $suppliersProducts->suppliers_products_suppliers_id = $_GET['supplierid'];
-        $suppliersProducts->suppliers_products_search = $_GET['search'];
+        $suppliersProducts->suppliers_products_search = checkIndex($data, "search");
         //check to see if search keyword in query string is not empty and less than 50 chars
         checkId($suppliersProducts->suppliers_products_suppliers_id);
-        checkKeyword($suppliersProducts->suppliers_products_search);
         $query = checkSearchById($suppliersProducts);
         http_response_code(200);
         getQueriedData($query);

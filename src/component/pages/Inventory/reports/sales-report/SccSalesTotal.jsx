@@ -7,19 +7,19 @@ const SccSalesTotal = ({ result }) => {
     <>
       <div className=" grid xl:flex xs:grid-cols-2 items-center ">
         <StatusAmount
-          text="Supplier Amount"
-          amount={computeSccSales(result).totalSupplierPriceAmount}
-          type="discount"
+          text="SCC sales pending"
+          amount={computeSccSales(result).pendingAmount}
+          type="pending"
         />
         <StatusAmount
-          text="SCC sales paid"
+          text="SCC sales"
           amount={computeSccSales(result).finalAmount}
           type="paid"
         />
         <StatusAmount
-          text="SCC sales pending"
-          amount={computeSccSales(result).pendingAmount}
-          type="pending"
+          text="Supplier total Amount"
+          amount={computeSccSales(result).totalSupplierPriceAmount}
+          type="discount"
         />
       </div>
     </>
