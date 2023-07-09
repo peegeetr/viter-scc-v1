@@ -180,7 +180,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                   return;
                 }
                 if (
-                  Number(values.orders_product_quantity) >
+                  Number(orders_product_quantity) >
                     getRemaningQuantity(
                       item ? item : items,
                       stocksGroupProd,
