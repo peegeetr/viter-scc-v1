@@ -41,12 +41,13 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         // if member fee is empty create
         if ($members_member_fee === "") {
             $share->capital_share_paid_up = checkIndex($data, "members_initial_payment");
+            $share->capital_share_total = "";
             $share->capital_share_date = checkIndex($data, "capital_share_date");
             $share->capital_share_or = checkIndex($data, "capital_share_or");
             $share->capital_share_is_initial_pay = 1;
             // create initails
-            checkCreate($share);
             checkCreateMemberFee($share);
+            checkCreate($share);
         }
         // update
         $query = checkUpdateCapitalDetails($share);

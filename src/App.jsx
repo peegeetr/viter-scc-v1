@@ -142,6 +142,13 @@ import AdminMyAcccountTransactionCapitalShare from "./component/pages/my-account
 import AdminSupplierProductHistory from "./component/pages/Inventory/suppliers/products/product-history/links/AdminSupplierProductHistory";
 import ManagerSupplierProductHistory from "./component/pages/Inventory/suppliers/products/product-history/links/ManagerSupplierProductHistory";
 import SystemSupplierProductHistory from "./component/pages/Inventory/suppliers/products/product-history/links/SystemSupplierProductHistory";
+import ManagerReportDetailedCapitalShare from "./component/pages/Inventory/reports/capital-report/detailed/links/ManagerReportDetailedCapitalShare";
+import SystemReportDetailedCapitalShare from "./component/pages/Inventory/reports/capital-report/detailed/links/SystemReportDetailedCapitalShare";
+import AdminReportDetailedCapitalShare from "./component/pages/Inventory/reports/capital-report/detailed/links/AdminReportDetailedCapitalShare";
+import ReportsCapitalShare from "./component/pages/Inventory/reports/capital-report/ReportsCapitalShare";
+import ManagerReportDividendCapitalShare from "./component/pages/Inventory/reports/capital-report/dividend/links/ManagerReportDividendCapitalShare";
+import SystemReportDividendCapitalShare from "./component/pages/Inventory/reports/capital-report/dividend/links/SystemReportDividendCapitalShare";
+import AdminReportDividendCapitalShare from "./component/pages/Inventory/reports/capital-report/dividend/links/AdminReportDividendCapitalShare";
 
 function App() {
   // Create a client
@@ -385,6 +392,30 @@ function App() {
               element={
                 <ProtectedRouteSystem>
                   <SystemReportSales />
+                </ProtectedRouteSystem>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlSystem}/inventory/reports/capital-share`}
+              element={
+                <ProtectedRouteSystem>
+                  <ReportsCapitalShare />
+                </ProtectedRouteSystem>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlSystem}/inventory/reports/capital-share/detailed`}
+              element={
+                <ProtectedRouteSystem>
+                  <SystemReportDetailedCapitalShare />
+                </ProtectedRouteSystem>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlSystem}/inventory/reports/capital-share/dividend`}
+              element={
+                <ProtectedRouteSystem>
+                  <SystemReportDividendCapitalShare />
                 </ProtectedRouteSystem>
               }
             />
@@ -835,6 +866,30 @@ function App() {
               }
             />
             <Route
+              path={`${devNavUrl}/${UrlAdmin}/inventory/reports/capital-share`}
+              element={
+                <ProtectedRouteOther>
+                  <ReportsCapitalShare />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/inventory/reports/capital-share/detailed`}
+              element={
+                <ProtectedRouteOther>
+                  <AdminReportDetailedCapitalShare />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/inventory/reports/capital-share/dividend`}
+              element={
+                <ProtectedRouteOther>
+                  <AdminReportDividendCapitalShare />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
               path={`${devNavUrl}/${UrlAdmin}/inventory/sales`}
               element={
                 <ProtectedRouteOther>
@@ -1162,6 +1217,30 @@ function App() {
               element={
                 <ProtectedRouteOther>
                   <ManagerReportSales />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlManager}/inventory/reports/capital-share`}
+              element={
+                <ProtectedRouteOther>
+                  <ReportsCapitalShare />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlManager}/inventory/reports/capital-share/detailed`}
+              element={
+                <ProtectedRouteOther>
+                  <ManagerReportDetailedCapitalShare />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlManager}/inventory/reports/capital-share/dividend`}
+              element={
+                <ProtectedRouteOther>
+                  <ManagerReportDividendCapitalShare />
                 </ProtectedRouteOther>
               }
             />

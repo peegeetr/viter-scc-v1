@@ -19,19 +19,12 @@ import {
 import { queryData } from "../../../../../helpers/queryData";
 import ButtonSpinner from "../../../../../partials/spinners/ButtonSpinner";
 
-const ModalAddCapitalShare = ({ item, amount, raminingAmount }) => {
+const ModalAddCapitalShare = ({ item, amount, raminingAmount, total }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const memberid = getUrlParam().get("memberid");
 
   const queryClient = useQueryClient();
   const [show, setShow] = React.useState("show");
-
-  // use if not loadmore button undertime
-  const { data: capitalShare } = useQueryData(
-    `/v1/capital-share`, // endpoint
-    "get", // method
-    "payslip" // key
-  );
 
   const mutation = useMutation({
     mutationFn: (values) =>
@@ -103,7 +96,9 @@ const ModalAddCapitalShare = ({ item, amount, raminingAmount }) => {
                 const capital_share_member_id = item
                   ? item.capital_share_member_id
                   : memberid;
-
+                const capital_share_total =
+                  Number(total) + Number(capital_share_paid_up);
+                console.log("capital_share_total", capital_share_total);
                 if (Number(raminingAmount) < Number(capital_share_paid_up)) {
                   dispatch(setError(true));
                   dispatch(setMessage("invalid amount"));
@@ -112,6 +107,7 @@ const ModalAddCapitalShare = ({ item, amount, raminingAmount }) => {
                 // mutate data
                 mutation.mutate({
                   ...values,
+                  capital_share_total,
                   capital_share_paid_up,
                   capital_share_member_id,
                 });

@@ -1,5 +1,18 @@
+export const getYearList = () => {
+  const d = new Date();
+  let currentYear = d.getFullYear();
+  let yearCount = 10;
+  let list = [];
+
+  for (let i = 0; i < yearCount; i++) {
+    currentYear--;
+    list.push({ year: `${Number(currentYear) + 1}` });
+  }
+  return list;
+};
+
 // compute capital
-export const checkCapitalShare = (capital, subscribeCapital) => {
+export const checkReportCapitalShare = (capital, subscribeCapital) => {
   let totalCapital = 0;
   let avg = 0;
   let paid = 0;
@@ -30,36 +43,4 @@ export const checkCapitalShare = (capital, subscribeCapital) => {
   remainingAmount = subscribeC - totalCapital;
   avg = paid / 12;
   return { result, totalCapital, subscribeC, remainingAmount, memberFee, avg };
-};
-
-// compute capital
-export const getTotalPaidCapital = (item) => {
-  let total = "";
-  let avg = 0;
-  total = Number(item.capital_share_paid_up);
-  if (item.capital_share_is_initial_pay === 1) {
-    total = "";
-  }
-
-  return { total, avg };
-};
-
-// get total paid up
-export const getTotalPaidUp = (capital, subscribeCapital, amount) => {
-  let totalCapital = 0;
-  let totalAmount = 0;
-  let result = false;
-
-  capital?.data.map((cItem) => {
-    totalCapital = Number(cItem.totalPaidUp) - Number(cItem.members_member_fee);
-  });
-
-  // total paid capital + amortization amount
-  totalAmount = totalCapital + Number(amount);
-
-  // if subscribe capital ay mababa sa total paid capital
-  if (Number(subscribeCapital) < totalAmount) {
-    result = true;
-  }
-  return result;
 };

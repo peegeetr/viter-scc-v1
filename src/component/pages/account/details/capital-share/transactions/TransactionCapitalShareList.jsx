@@ -19,6 +19,7 @@ import ServerError from "../../../../../partials/ServerError";
 import ModalDeleteRestoreCapital from "../../../../../partials/modals/ModalDeleteRetoreCapital";
 import TableSpinner from "../../../../../partials/spinners/TableSpinner";
 import StatusAmount from "../../../../../partials/status/StatusAmount";
+import { getTotalPaidCapital } from "../functions-capital-share";
 
 const TransactionCapitalShareList = ({
   setItemEdit,
@@ -37,6 +38,7 @@ const TransactionCapitalShareList = ({
   const memberid = getUrlParam().get("memberid");
   let counter = 1;
   const search = React.useRef(null);
+  let total = 0;
   const { ref, inView } = useInView();
   // use if with loadmore button and search bar
   let empid =
@@ -113,7 +115,7 @@ const TransactionCapitalShareList = ({
             onSearch={onSearch}
           />
           <div className="relative overflow-x-auto z-0">
-            <div className="xl:flex items-center xl:mt-4 mb-2 text-primary">
+            <div className="xl:flex items-center xl:mt-4  text-primary">
               {result?.pages[0].count > 0 ? (
                 <StatusAmount
                   text="Paid Capital Share"
@@ -138,18 +140,31 @@ const TransactionCapitalShareList = ({
                 amount={totalCapital.memberFee}
               />
             </div>
+            <div className="xl:flex items-center mb-2 text-primary">
+              <StatusAmount
+                text="Average Monthly Balance"
+                amount={totalCapital.avg}
+              />
+            </div>
             <table>
               <thead>
                 <tr>
                   <th>#</th>
                   <th className="min-w-[6rem] w-[15rem]">Date</th>
                   <th className="min-w-[6rem] w-[10rem] text-right pr-4">
-                    Paid up Capital
+                    Amortization
+                  </th>
+                  <th className="min-w-[11rem] !w-[11rem] text-right pr-4">
+                    Total Paid up Capital
                   </th>
                   <th className="min-w-[10rem]">Official Receipt</th>
-                  {(store.credentials.data.role_is_developer === 1 ||
-                    store.credentials.data.role_is_admin === 1) &&
-                    memberid !== null && <th className="!w-[5rem]">Actions</th>}
+                  {menu === "members" ? (
+                    (store.credentials.data.role_is_developer === 1 ||
+                      store.credentials.data.role_is_admin === 1) &&
+                    memberid !== null && <th className="!w-[5rem]">Actions</th>
+                  ) : (
+                    <th></th>
+                  )}
                 </tr>
               </thead>
               <tbody>
@@ -171,57 +186,73 @@ const TransactionCapitalShareList = ({
                 )}
                 {result?.pages.map((page, key) => (
                   <React.Fragment key={key}>
-                    {page.data.map((item, key) => (
-                      <tr key={key}>
-                        <td>{counter++}.</td>
-                        <td>{`${formatDate(item.capital_share_date)} ${getTime(
-                          item.capital_share_date
-                        )}`}</td>
-                        <td className=" text-right pr-4">
-                          {pesoSign}{" "}
-                          {numberWithCommas(
-                            Number(item.capital_share_paid_up).toFixed(2)
-                          )}
-                        </td>
-                        <td>{item.capital_share_or}</td>
-                        {(store.credentials.data.role_is_developer === 1 ||
-                          store.credentials.data.role_is_admin === 1) && (
-                          <td>
-                            <div className="flex items-center gap-1">
-                              <button
-                                type="button"
-                                className="btn-action-table tooltip-action-table"
-                                data-tooltip="Edit"
-                                onClick={() => handleEdit(item)}
-                              >
-                                <FaEdit />
-                              </button>
-                              {result?.pages[0].count > 2 &&
-                                item.capital_share_is_initial_pay === 0 && (
+                    {page.data.map((item, key) => {
+                      return (
+                        <tr key={key}>
+                          <td>{counter++}.</td>
+                          <td>{`${formatDate(
+                            item.capital_share_date
+                          )} ${getTime(item.capital_share_date)}`}</td>
+                          <td className=" text-right pr-4">
+                            {pesoSign}{" "}
+                            {numberWithCommas(
+                              Number(item.capital_share_paid_up).toFixed(2)
+                            )}
+                          </td>
+                          <td className=" text-right pr-4">
+                            {pesoSign}{" "}
+                            {item.capital_share_total !== ""
+                              ? numberWithCommas(
+                                  Number(item.capital_share_total).toFixed(2)
+                                )
+                              : numberWithCommas(
+                                  Number(item.capital_share_paid_up).toFixed(2)
+                                )}
+                          </td>
+                          <td>{item.capital_share_or}</td>
+                          {menu === "members" ? (
+                            (store.credentials.data.role_is_developer === 1 ||
+                              store.credentials.data.role_is_admin === 1) && (
+                              <td>
+                                <div className="flex items-center gap-1">
                                   <button
                                     type="button"
                                     className="btn-action-table tooltip-action-table"
-                                    data-tooltip="Delete"
-                                    onClick={() => handleDelete(item)}
+                                    data-tooltip="Edit"
+                                    onClick={() => handleEdit(item)}
                                   >
-                                    <FaTrash />
+                                    <FaEdit />
                                   </button>
-                                )}
-                              {result?.pages[0].count <= 2 && (
-                                <button
-                                  type="button"
-                                  className="btn-action-table tooltip-action-table"
-                                  data-tooltip="Delete"
-                                  onClick={() => handleDelete(item)}
-                                >
-                                  <FaTrash />
-                                </button>
-                              )}
-                            </div>
-                          </td>
-                        )}
-                      </tr>
-                    ))}
+                                  {result?.pages[0].count > 2 &&
+                                    item.capital_share_is_initial_pay === 0 && (
+                                      <button
+                                        type="button"
+                                        className="btn-action-table tooltip-action-table"
+                                        data-tooltip="Delete"
+                                        onClick={() => handleDelete(item)}
+                                      >
+                                        <FaTrash />
+                                      </button>
+                                    )}
+                                  {result?.pages[0].count <= 2 && (
+                                    <button
+                                      type="button"
+                                      className="btn-action-table tooltip-action-table"
+                                      data-tooltip="Delete"
+                                      onClick={() => handleDelete(item)}
+                                    >
+                                      <FaTrash />
+                                    </button>
+                                  )}
+                                </div>
+                              </td>
+                            )
+                          ) : (
+                            <td></td>
+                          )}
+                        </tr>
+                      );
+                    })}
                   </React.Fragment>
                 ))}
               </tbody>

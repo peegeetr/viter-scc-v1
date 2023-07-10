@@ -4,6 +4,7 @@ class CapitalShare
     public $capital_share_aid;
     public $capital_share_member_id;
     public $capital_share_paid_up;
+    public $capital_share_total;
     public $capital_share_or;
     public $capital_share_date;
     public $capital_share_is_initial_pay;
@@ -38,6 +39,7 @@ class CapitalShare
             $sql = "insert into {$this->tblCapitalShare} ";
             $sql .= "( capital_share_member_id, ";
             $sql .= "capital_share_paid_up, ";
+            $sql .= "capital_share_total, ";
             $sql .= "capital_share_or, ";
             $sql .= "capital_share_date, ";
             $sql .= "capital_share_is_initial_pay, ";
@@ -45,6 +47,7 @@ class CapitalShare
             $sql .= "capital_share_datetime ) values ( ";
             $sql .= ":capital_share_member_id, ";
             $sql .= ":capital_share_paid_up, ";
+            $sql .= ":capital_share_total, ";
             $sql .= ":capital_share_or, ";
             $sql .= ":capital_share_date, ";
             $sql .= ":capital_share_is_initial_pay, ";
@@ -54,6 +57,7 @@ class CapitalShare
             $query->execute([
                 "capital_share_member_id" => $this->capital_share_member_id,
                 "capital_share_paid_up" => $this->capital_share_paid_up,
+                "capital_share_total" => $this->capital_share_total,
                 "capital_share_or" => $this->capital_share_or,
                 "capital_share_date" => $this->capital_share_date,
                 "capital_share_is_initial_pay" => $this->capital_share_is_initial_pay,
@@ -88,6 +92,7 @@ class CapitalShare
             $sql = "select capital_share_aid, ";
             $sql .= "capital_share_member_id, ";
             $sql .= "capital_share_paid_up, ";
+            $sql .= "capital_share_total, ";
             $sql .= "capital_share_or, ";
             $sql .= "capital_share_date, ";
             $sql .= "capital_share_is_initial_pay ";
@@ -119,6 +124,7 @@ class CapitalShare
             $sql = "select capital_share_aid, ";
             $sql .= "capital_share_member_id, ";
             $sql .= "capital_share_paid_up, ";
+            $sql .= "capital_share_total, ";
             $sql .= "capital_share_or, ";
             $sql .= "capital_share_date, ";
             $sql .= "capital_share_is_initial_pay ";
@@ -142,6 +148,7 @@ class CapitalShare
             $sql = "select capital_share_aid, ";
             $sql .= "capital_share_member_id, ";
             $sql .= "capital_share_paid_up, ";
+            $sql .= "capital_share_total, ";
             $sql .= "capital_share_or, ";
             $sql .= "capital_share_date, ";
             $sql .= "capital_share_is_initial_pay ";
@@ -223,6 +230,7 @@ class CapitalShare
     {
         try {
             $sql = "select sum(capitalShare.capital_share_paid_up) as totalPaidUp, ";
+            $sql .= "sum(capitalShare.capital_share_total) as total, ";
             $sql .= "members.members_last_name, ";
             $sql .= "members.members_member_fee, ";
             $sql .= "members.members_first_name ";

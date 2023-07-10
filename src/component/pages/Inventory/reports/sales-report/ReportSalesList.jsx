@@ -26,7 +26,7 @@ import ModalViewSales from "../../sales/ModalViewSales";
 import { computeSccSalesByItem } from "./functions-report-sales";
 import SccSalesTotal from "./SccSalesTotal";
 
-const TopSellerList = () => {
+const ReportSalesList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [itemEdit, setItemEdit] = React.useState(null);
   const [isFilter, setFilter] = React.useState(false);
@@ -359,4 +359,4 @@ const TopSellerList = () => {
   );
 };
 
-export default TopSellerList;
+export default ReportSalesList;

@@ -203,4 +203,6 @@ RewriteRule ^product-history/([0-9]+)$ controllers/inventory/suppliers/product/p
 RewriteRule ^product-history/active/([0-9]+)$ controllers/inventory/suppliers/product/products-history/active.php?productHistoryId=$1 [L]
 RewriteRule ^product-history/page-by-id/([0-9]+)/([0-9]+)$ controllers/inventory/suppliers/product/products-history/page-by-id.php?start=$1&productHistoryId=$2 [L]
 RewriteRule ^product-history/search-by-id/([0-9]+)$ controllers/inventory/suppliers/product/products-history/search.php?productHistoryId=$1 [L]
-  
+   
+#REPORT CAPITAL
+RewriteRule ^report-capital/filter/detailed$ controllers/inventory/report/capital-report/report-filter-capital-detailed.php [L] 

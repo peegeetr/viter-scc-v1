@@ -74,7 +74,7 @@ const TransactionCapitalShare = () => {
       <div className="wrapper ">
         <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2">
           <BreadCrumbs param={`${location.search}`} />
-          {checkCapitalShare(totalCapital, subscribeCapital).result &&
+          {checkCapitalShare(totalCapital, subscribeCapital).result === true &&
             subscribeCapital?.count > 0 && (
               <div className="flex items-center gap-1">
                 <button
@@ -110,6 +110,7 @@ const TransactionCapitalShare = () => {
           raminingAmount={
             checkCapitalShare(totalCapital, subscribeCapital).remainingAmount
           }
+          total={checkCapitalShare(totalCapital, subscribeCapital).totalCapital}
         />
       )}
       {store.success && <ModalSuccess />}

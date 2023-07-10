@@ -14,6 +14,7 @@ checkPayload($data);
 
 $share->capital_share_member_id = checkIndex($data, "capital_share_member_id");
 $share->capital_share_paid_up = checkIndex($data, "capital_share_paid_up");
+$share->capital_share_total = checkIndex($data, "capital_share_total");
 $share->capital_share_or = checkIndex($data, "capital_share_or");
 $share->capital_share_date = checkIndex($data, "capital_share_date");
 $share->capital_share_is_initial_pay = 0;

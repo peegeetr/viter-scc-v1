@@ -1,0 +1,23 @@
+
+*controllers     
+    - account/details/capital-share/create.php 
+    - account/details/capital-share/update-capital-details.php 
+    - inventory/report/capital-report/functions.php
+    - inventory/report/capital-report/report-filter-capital-detailed.php
+
+*models       
+    - account/details/capital-share/CapitalShare.php
+    - inventory/report/ReportCapitalShare.php
+
+*htaccess 
+    - #REPORT CAPITAL
+
+*db tables 
+    - 
+
+*core functions 
+    - 
+
+*extra
+    - 
+ 
