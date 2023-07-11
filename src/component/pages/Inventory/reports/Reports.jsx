@@ -4,9 +4,9 @@ import BreadCrumbs from "../../../partials/BreadCrumbs";
 import Footer from "../../../partials/Footer";
 import Header from "../../../partials/Header";
 import Navigation from "../../../partials/Navigation";
+import ReportCapitalShareLink from "./capital-report/ReportCapitalShareLink";
 import ReportSalesLink from "./sales-report/ReportsLink";
 import TopSellerLink from "./top-seller/ReportsLink";
-import ReportDetailedCapitalShareLink from "./capital-report/detailed/ReportDetailedCapitalShareLink";
 
 const Reports = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -24,7 +24,7 @@ const Reports = () => {
         <div className="w-full pt-5 pb-20">
           <TopSellerLink />
           <ReportSalesLink />
-          <ReportDetailedCapitalShareLink />
+          <ReportCapitalShareLink />
         </div>
         <Footer />
       </div>
