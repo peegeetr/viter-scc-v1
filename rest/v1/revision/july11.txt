@@ -13,7 +13,7 @@
     - #REPORT CAPITAL
 
 *db tables 
-    - 
+    - sccv1_capital_share.sql
 
 *core functions 
     - 
