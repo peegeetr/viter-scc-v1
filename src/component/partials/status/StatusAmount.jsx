@@ -1,7 +1,7 @@
 import React from "react";
 import { numberWithCommas, pesoSign } from "../../helpers/functions-general";
 
-const StatusAmount = ({ text = "", amount = 0, type = "" }) => {
+const StatusAmount = ({ text = "", amount = 0, type = "", qty = "" }) => {
   return (
     <>
       <p className="m-0 capitalize font-bold mr-8 mb-2 xl:mb-4">
@@ -20,7 +20,7 @@ const StatusAmount = ({ text = "", amount = 0, type = "" }) => {
           } text-[14px] font-medium ml-2 px-2.5 py-0.5 rounded-full`}
         >
           {text === "qty" ? (
-            `${numberWithCommas(amount)}`
+            `${numberWithCommas(amount)} ${qty}`
           ) : (
             <>
               {pesoSign} {numberWithCommas(amount.toFixed(2))}

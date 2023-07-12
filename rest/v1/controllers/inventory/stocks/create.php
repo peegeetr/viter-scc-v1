@@ -15,7 +15,7 @@ checkPayload($data);
 $stocks->stocks_product_id = checkIndex($data, "stocks_product_id");
 $stocks->stocks_quantity = checkIndex($data, "stocks_quantity");
 $stocks->stocks_date = checkIndex($data, "stocks_date");
-$stocks->stocks_suplier_price = checkIndex($data, "stocks_suplier_price");
+$stocks->stocks_suplier_price_history_id = checkIndex($data, "stocks_suplier_price_history_id");
 $stocks->stocks_remarks = checkIndex($data, "stocks_remarks");
 $stocks->stocks_is_pending = 1;
 $stocks->stocks_created = date("Y-m-d H:i:s");

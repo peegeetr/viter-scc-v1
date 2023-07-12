@@ -206,3 +206,7 @@ RewriteRule ^product-history/search-by-id/([0-9]+)$ controllers/inventory/suppli
    
 #REPORT CAPITAL
 RewriteRule ^report-capital/filter/detailed$ controllers/inventory/report/capital-report/report-filter-capital-detailed.php [L] 
+   
+#REPORT STOCKS
+RewriteRule ^report-stock/filter$ controllers/inventory/report/stocks-report/report-filter-stocks.php [L] 
+RewriteRule ^report-stock/all-order$ controllers/inventory/report/stocks-report/order-group-by-product.php [L] 

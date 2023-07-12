@@ -16,6 +16,14 @@ function checkReadBySupplierId($object)
     return $query;
 }
 
+// Read product history by id
+function checkReadBySupplierProductHistoryId($object)
+{
+    $query = $object->readBySupplierProductHistoryId();
+    checkQuery($query, "Empty records.(Read by supplier id with history id)");
+    return $query;
+}
+
 // Read all Summary
 function checkReadBySupplierIdLimit($object)
 {

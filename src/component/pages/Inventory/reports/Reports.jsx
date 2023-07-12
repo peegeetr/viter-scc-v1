@@ -5,8 +5,9 @@ import Footer from "../../../partials/Footer";
 import Header from "../../../partials/Header";
 import Navigation from "../../../partials/Navigation";
 import ReportCapitalShareLink from "./capital-report/ReportCapitalShareLink";
-import ReportSalesLink from "./sales-report/ReportsLink";
+import ReportSalesLink from "./sales-report/ReportSalesLink";
 import TopSellerLink from "./top-seller/ReportsLink";
+import ReportStocksLink from "./stocks-report/ReportStocksLink";
 
 const Reports = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -24,6 +25,7 @@ const Reports = () => {
         <div className="w-full pt-5 pb-20">
           <TopSellerLink />
           <ReportSalesLink />
+          <ReportStocksLink />
           <ReportCapitalShareLink />
         </div>
         <Footer />

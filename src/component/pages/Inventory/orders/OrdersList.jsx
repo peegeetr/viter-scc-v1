@@ -81,7 +81,6 @@ const OrdersList = ({ setItemEdit }) => {
     setDel(true);
   };
 
-  console.log(result);
   return (
     <>
       <SearchBar

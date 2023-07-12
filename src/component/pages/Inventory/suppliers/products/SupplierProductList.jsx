@@ -115,6 +115,9 @@ const SupplierProductList = ({ setItemEdit }) => {
               <th className="min-w-[10rem] w-[15rem] text-right pr-8">
                 Supplier Price
               </th>
+              <th className="min-w-[10rem] w-[15rem] text-right pr-8">
+                SCC Price
+              </th>
               <th className="min-w-[10rem] ">Product Category</th>
 
               {(store.credentials.data.role_is_admin === 1 ||
@@ -151,6 +154,12 @@ const SupplierProductList = ({ setItemEdit }) => {
                       {pesoSign}{" "}
                       {numberWithCommas(
                         Number(item.suppliers_products_price).toFixed(2)
+                      )}
+                    </td>
+                    <td className=" pr-8 text-right">
+                      {pesoSign}{" "}
+                      {numberWithCommas(
+                        Number(item.suppliers_products_scc_price).toFixed(2)
                       )}
                     </td>
                     <td>{item.product_category_name}</td>

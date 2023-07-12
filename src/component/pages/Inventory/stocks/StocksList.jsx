@@ -21,6 +21,7 @@ import StatusActive from "../../../partials/status/StatusActive";
 import StatusPending from "../../../partials/status/StatusPending";
 import ModalUpdateOR from "./ModalUpdateOR";
 import StocksTotal from "./StocksTotal";
+import useQueryData from "../../../custom-hooks/useQueryData";
 
 const StocksList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -117,7 +118,7 @@ const StocksList = ({ setItemEdit }) => {
               <th className="min-w-[8rem]">Supplier</th>
               <th className="min-w-[8rem]">Product</th>
               <th className="min-w-[3rem] text-center">Qty</th>
-              <th className="min-w-[8rem] text-right pr-4">Suplier Price</th>
+              <th className="min-w-[8rem] text-right pr-4">Supplier Price</th>
               <th className="min-w-[8rem] text-right pr-4">Amount</th>
               <th className="min-w-[5rem]">Invoice #</th>
               <th className="min-w-[5rem]">Remarks</th>
@@ -169,14 +170,14 @@ const StocksList = ({ setItemEdit }) => {
                       <td className="text-right pr-4">
                         {pesoSign}
                         {numberWithCommas(
-                          Number(item.stocks_suplier_price).toFixed(2)
+                          Number(item.product_history_price).toFixed(2)
                         )}
                       </td>
                       <td className="text-right pr-4">
                         {pesoSign}
                         {numberWithCommas(
                           (
-                            Number(item.stocks_suplier_price) *
+                            Number(item.product_history_price) *
                             Number(item.stocks_quantity)
                           ).toFixed(2)
                         )}
@@ -204,28 +205,38 @@ const StocksList = ({ setItemEdit }) => {
                                 >
                                   <FaCheck />
                                 </button>
-                              </>
-                            )}
-                            {item.stocks_is_pending === 0 && (
-                              <>
                                 <button
                                   type="button"
                                   className="btn-action-table tooltip-action-table"
-                                  data-tooltip="Pending"
-                                  onClick={() => handleComplete(item)}
+                                  data-tooltip="Delete"
+                                  onClick={() => handleDelete(item)}
                                 >
-                                  <FaHistory />
+                                  <FaTrash />
                                 </button>
                               </>
                             )}
-                            <button
-                              type="button"
-                              className="btn-action-table tooltip-action-table"
-                              data-tooltip="Delete"
-                              onClick={() => handleDelete(item)}
-                            >
-                              <FaTrash />
-                            </button>
+                            {item.stocks_is_pending === 0 &&
+                              store.credentials.data.role_is_developer ===
+                                1 && (
+                                <>
+                                  <button
+                                    type="button"
+                                    className="btn-action-table tooltip-action-table"
+                                    data-tooltip="Pending"
+                                    onClick={() => handleComplete(item)}
+                                  >
+                                    <FaHistory />
+                                  </button>
+                                  <button
+                                    type="button"
+                                    className="btn-action-table tooltip-action-table"
+                                    data-tooltip="Delete"
+                                    onClick={() => handleDelete(item)}
+                                  >
+                                    <FaTrash />
+                                  </button>
+                                </>
+                              )}
                           </div>
                         </td>
                       )}

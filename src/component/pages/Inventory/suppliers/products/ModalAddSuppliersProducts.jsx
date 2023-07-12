@@ -65,6 +65,7 @@ const ModalAddSuppliersProducts = ({ item }) => {
     suppliers_products_suppliers_id: supplierId,
     suppliers_products_name: item ? item.suppliers_products_name : "",
     suppliers_products_price: item ? item.suppliers_products_price : "",
+    suppliers_products_scc_price: item ? item.suppliers_products_scc_price : "",
     suppliers_products_category_id: item
       ? item.suppliers_products_category_id
       : "",
@@ -75,6 +76,7 @@ const ModalAddSuppliersProducts = ({ item }) => {
   const yupSchema = Yup.object({
     suppliers_products_name: Yup.string().required("Required"),
     suppliers_products_price: !item && Yup.string().required("Required"),
+    suppliers_products_scc_price: !item && Yup.string().required("Required"),
     suppliers_products_category_id: Yup.string().required("Required"),
   });
 
@@ -103,9 +105,13 @@ const ModalAddSuppliersProducts = ({ item }) => {
                 const suppliers_products_price = removeComma(
                   `${values.suppliers_products_price}`
                 );
+                const product_history_scc_price = removeComma(
+                  `${values.product_history_scc_price}`
+                );
                 mutation.mutate({
                   ...values,
                   suppliers_products_price,
+                  product_history_scc_price,
                 });
               }}
             >
@@ -142,25 +148,49 @@ const ModalAddSuppliersProducts = ({ item }) => {
                       </InputSelect>
                     </div>
                     {item ? (
-                      <p className="ml-3 text-primary">
-                        Supplier price :{" "}
-                        <span className="text-black">
-                          {pesoSign}{" "}
-                          {numberWithCommas(
-                            Number(item.suppliers_products_price).toFixed(2)
-                          )}
-                        </span>
-                      </p>
+                      <>
+                        <p className="ml-3 text-primary">
+                          Supplier price :{" "}
+                          <span className="text-black">
+                            {pesoSign}{" "}
+                            {numberWithCommas(
+                              Number(item.suppliers_products_price).toFixed(2)
+                            )}
+                          </span>
+                        </p>
+                        <p className="ml-3 text-primary">
+                          SCC price :{" "}
+                          <span className="text-black">
+                            {pesoSign}{" "}
+                            {numberWithCommas(
+                              Number(item.suppliers_products_scc_price).toFixed(
+                                2
+                              )
+                            )}
+                          </span>
+                        </p>
+                      </>
                     ) : (
-                      <div className="relative my-5">
-                        <InputText
-                          label="Supplier Price"
-                          type="text"
-                          num="num"
-                          name="suppliers_products_price"
-                          disabled={mutation.isLoading}
-                        />
-                      </div>
+                      <>
+                        <div className="relative my-5">
+                          <InputText
+                            label="Supplier Price"
+                            type="text"
+                            num="num"
+                            name="suppliers_products_price"
+                            disabled={mutation.isLoading}
+                          />
+                        </div>
+                        <div className="relative my-5">
+                          <InputText
+                            label="SCC Price"
+                            type="text"
+                            num="num"
+                            name="suppliers_products_scc_price"
+                            disabled={mutation.isLoading}
+                          />
+                        </div>
+                      </>
                     )}
 
                     <div className="flex items-center gap-1 pt-5">

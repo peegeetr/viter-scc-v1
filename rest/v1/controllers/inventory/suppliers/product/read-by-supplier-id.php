@@ -46,7 +46,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         $suppliersProducts->suppliers_products_suppliers_id = $_GET['supplierid'];
 
         checkId($suppliersProducts->suppliers_products_suppliers_id);
-        $query = checkReadBySupplierId($suppliersProducts);
+        $query = checkReadBySupplierProductHistoryId($suppliersProducts);
         http_response_code(200);
         getQueriedData($query);
     }

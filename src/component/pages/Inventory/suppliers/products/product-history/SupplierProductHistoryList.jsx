@@ -117,6 +117,9 @@ const SupplierProductHistoryList = ({ productName }) => {
               <th className="min-w-[10rem] w-[5rem] text-right pr-8">
                 Supplier Price
               </th>
+              <th className="min-w-[10rem] w-[5rem] text-right pr-8">
+                SCC Price
+              </th>
               <th className="min-w-[15rem] ">Date</th>
               <th className="min-w-[15rem] ">Status</th>
               <th className="max-w-[5rem] ">Actions</th>
@@ -148,6 +151,12 @@ const SupplierProductHistoryList = ({ productName }) => {
                       {pesoSign}{" "}
                       {numberWithCommas(
                         Number(item.product_history_price).toFixed(2)
+                      )}
+                    </td>
+                    <td className=" pr-8 text-right">
+                      {pesoSign}{" "}
+                      {numberWithCommas(
+                        Number(item.product_history_scc_price).toFixed(2)
                       )}
                     </td>
                     <td>

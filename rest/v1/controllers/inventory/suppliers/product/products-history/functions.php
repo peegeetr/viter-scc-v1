@@ -22,6 +22,13 @@ function haveActiveById($object)
     $count = $query->rowCount();
     checkExistence($count, "You can't create this new product price because you already have active status.");
 }
+// check if have active
+function isProductHistoryExist($object)
+{
+    $query = $object->productHistoryExist();
+    $count = $query->rowCount();
+    checkExistence($count, "Already exist.");
+}
 
 // check if have active except aid
 function haveActiveNotById($object)

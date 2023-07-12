@@ -149,6 +149,9 @@ import ReportsCapitalShare from "./component/pages/Inventory/reports/capital-rep
 import ManagerReportDividendCapitalShare from "./component/pages/Inventory/reports/capital-report/dividend/links/ManagerReportDividendCapitalShare";
 import SystemReportDividendCapitalShare from "./component/pages/Inventory/reports/capital-report/dividend/links/SystemReportDividendCapitalShare";
 import AdminReportDividendCapitalShare from "./component/pages/Inventory/reports/capital-report/dividend/links/AdminReportDividendCapitalShare";
+import AdminReportStocks from "./component/pages/Inventory/reports/stocks-report/links/AdminReportStocks";
+import ManagerReportStocks from "./component/pages/Inventory/reports/stocks-report/links/ManagerReportStocks";
+import SystemReportStocks from "./component/pages/Inventory/reports/stocks-report/links/SystemReportStocks";
 
 function App() {
   // Create a client
@@ -392,6 +395,14 @@ function App() {
               element={
                 <ProtectedRouteSystem>
                   <SystemReportSales />
+                </ProtectedRouteSystem>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlSystem}/inventory/reports/stocks`}
+              element={
+                <ProtectedRouteSystem>
+                  <SystemReportStocks />
                 </ProtectedRouteSystem>
               }
             />
@@ -866,6 +877,14 @@ function App() {
               }
             />
             <Route
+              path={`${devNavUrl}/${UrlAdmin}/inventory/reports/stocks`}
+              element={
+                <ProtectedRouteOther>
+                  <AdminReportStocks />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
               path={`${devNavUrl}/${UrlAdmin}/inventory/reports/capital-share`}
               element={
                 <ProtectedRouteOther>
@@ -1217,6 +1236,14 @@ function App() {
               element={
                 <ProtectedRouteOther>
                   <ManagerReportSales />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlManager}/inventory/reports/stocks`}
+              element={
+                <ProtectedRouteOther>
+                  <ManagerReportStocks />
                 </ProtectedRouteOther>
               }
             />

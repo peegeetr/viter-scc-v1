@@ -10,12 +10,12 @@ export const computeStockTotalAmount = (result) => {
     page?.data.map((item) => {
       if (item.stocks_is_pending === 0) {
         totalPaid =
-          Number(item.stocks_suplier_price) * Number(item.stocks_quantity);
+          Number(item.product_history_price) * Number(item.stocks_quantity);
         finalPaidAmount += Number(totalPaid);
       }
       if (item.stocks_is_pending === 1) {
         totalPending =
-          Number(item.stocks_suplier_price) * Number(item.stocks_quantity);
+          Number(item.product_history_price) * Number(item.stocks_quantity);
         finalPendingAmount += Number(totalPending);
       }
 

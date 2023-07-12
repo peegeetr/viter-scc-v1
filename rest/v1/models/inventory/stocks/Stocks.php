@@ -6,7 +6,7 @@ class Stocks
     public $stocks_is_pending;
     public $stocks_product_id;
     public $stocks_or;
-    public $stocks_suplier_price;
+    public $stocks_suplier_price_history_id;
     public $stocks_remarks;
     public $stocks_date;
     public $stocks_quantity;
@@ -20,15 +20,19 @@ class Stocks
     public $stocks_search;
     public $currentYear;
     public $tblStocks;
+    public $tblOrders;
     public $tblSuppliersProducts;
     public $tblSuppliers;
+    public $tblProductsHistory;
 
     public function __construct($db)
     {
         $this->connection = $db;
         $this->tblStocks = "sccv1_stocks";
         $this->tblSuppliersProducts = "sccv1_suppliers_products";
+        $this->tblOrders = "sccv1_orders";
         $this->tblSuppliers = "sccv1_suppliers";
+        $this->tblProductsHistory = "sccv1_product_history";
     }
 
     // create
@@ -40,7 +44,7 @@ class Stocks
             $sql .= "stocks_is_pending, ";
             $sql .= "stocks_product_id, ";
             $sql .= "stocks_date, ";
-            $sql .= "stocks_suplier_price, ";
+            $sql .= "stocks_suplier_price_history_id, ";
             $sql .= "stocks_quantity, ";
             $sql .= "stocks_remarks, ";
             $sql .= "stocks_created, ";
@@ -49,7 +53,7 @@ class Stocks
             $sql .= ":stocks_is_pending, ";
             $sql .= ":stocks_product_id, ";
             $sql .= ":stocks_date, ";
-            $sql .= ":stocks_suplier_price, ";
+            $sql .= ":stocks_suplier_price_history_id, ";
             $sql .= ":stocks_quantity, ";
             $sql .= ":stocks_remarks, ";
             $sql .= ":stocks_created, ";
@@ -60,7 +64,7 @@ class Stocks
                 "stocks_is_pending" => $this->stocks_is_pending,
                 "stocks_product_id" => $this->stocks_product_id,
                 "stocks_date" => $this->stocks_date,
-                "stocks_suplier_price" => $this->stocks_suplier_price,
+                "stocks_suplier_price_history_id" => $this->stocks_suplier_price_history_id,
                 "stocks_quantity" => $this->stocks_quantity,
                 "stocks_remarks" => $this->stocks_remarks,
                 "stocks_created" => $this->stocks_created,
@@ -78,7 +82,6 @@ class Stocks
     {
         try {
             $sql = "select stocks.stocks_number, ";
-            $sql .= "stocks.stocks_suplier_price, ";
             $sql .= "stocks.stocks_quantity, ";
             $sql .= "stocks.stocks_or, ";
             $sql .= "stocks.stocks_aid, ";
@@ -86,6 +89,9 @@ class Stocks
             $sql .= "stocks.stocks_created, ";
             $sql .= "stocks.stocks_is_pending, ";
             $sql .= "stocks.stocks_product_id, ";
+            $sql .= "productHistory.product_history_aid, ";
+            $sql .= "productHistory.product_history_price, ";
+            $sql .= "productHistory.product_history_scc_price, ";
             $sql .= "suppliers.suppliers_company_name, ";
             $sql .= "suppliers.suppliers_aid, ";
             $sql .= "supplierProduct.suppliers_products_number, ";
@@ -94,8 +100,10 @@ class Stocks
             $sql .= "from ";
             $sql .= "{$this->tblStocks} as stocks, ";
             $sql .= "{$this->tblSuppliers} as suppliers, ";
+            $sql .= "{$this->tblProductsHistory} as productHistory, ";
             $sql .= "{$this->tblSuppliersProducts} as supplierProduct ";
             $sql .= "where stocks.stocks_product_id = supplierProduct.suppliers_products_aid ";
+            $sql .= "and stocks.stocks_suplier_price_history_id = productHistory.product_history_aid ";
             $sql .= "and suppliers.suppliers_aid = supplierProduct.suppliers_products_suppliers_id ";
             $sql .= "order by stocks.stocks_is_pending desc, ";
             $sql .= "stocks.stocks_created desc, ";
@@ -111,7 +119,6 @@ class Stocks
     {
         try {
             $sql = "select stocks.stocks_number, ";
-            $sql .= "stocks.stocks_suplier_price, ";
             $sql .= "stocks.stocks_quantity, ";
             $sql .= "stocks.stocks_or, ";
             $sql .= "stocks.stocks_aid, ";
@@ -119,6 +126,9 @@ class Stocks
             $sql .= "stocks.stocks_created, ";
             $sql .= "stocks.stocks_is_pending, ";
             $sql .= "stocks.stocks_product_id, ";
+            $sql .= "productHistory.product_history_aid, ";
+            $sql .= "productHistory.product_history_price, ";
+            $sql .= "productHistory.product_history_scc_price, ";
             $sql .= "suppliers.suppliers_company_name, ";
             $sql .= "suppliers.suppliers_aid, ";
             $sql .= "supplierProduct.suppliers_products_number, ";
@@ -127,8 +137,10 @@ class Stocks
             $sql .= "from ";
             $sql .= "{$this->tblStocks} as stocks, ";
             $sql .= "{$this->tblSuppliers} as suppliers, ";
+            $sql .= "{$this->tblProductsHistory} as productHistory, ";
             $sql .= "{$this->tblSuppliersProducts} as supplierProduct ";
             $sql .= "where stocks.stocks_product_id = supplierProduct.suppliers_products_aid ";
+            $sql .= "and stocks.stocks_suplier_price_history_id = productHistory.product_history_aid ";
             $sql .= "and suppliers.suppliers_aid = supplierProduct.suppliers_products_suppliers_id ";
             $sql .= "order by stocks.stocks_is_pending desc, ";
             $sql .= "stocks.stocks_created desc, ";
@@ -151,7 +163,6 @@ class Stocks
     {
         try {
             $sql = "select stocks.stocks_number, ";
-            $sql .= "stocks.stocks_suplier_price, ";
             $sql .= "stocks.stocks_quantity, ";
             $sql .= "stocks.stocks_or, ";
             $sql .= "stocks.stocks_aid, ";
@@ -159,6 +170,9 @@ class Stocks
             $sql .= "stocks.stocks_created, ";
             $sql .= "stocks.stocks_is_pending, ";
             $sql .= "stocks.stocks_product_id, ";
+            $sql .= "productHistory.product_history_aid, ";
+            $sql .= "productHistory.product_history_price, ";
+            $sql .= "productHistory.product_history_scc_price, ";
             $sql .= "suppliers.suppliers_company_name, ";
             $sql .= "suppliers.suppliers_aid, ";
             $sql .= "supplierProduct.suppliers_products_number, ";
@@ -167,8 +181,10 @@ class Stocks
             $sql .= "from ";
             $sql .= "{$this->tblStocks} as stocks, ";
             $sql .= "{$this->tblSuppliers} as suppliers, ";
+            $sql .= "{$this->tblProductsHistory} as productHistory, ";
             $sql .= "{$this->tblSuppliersProducts} as supplierProduct ";
             $sql .= "where stocks.stocks_product_id = supplierProduct.suppliers_products_aid ";
+            $sql .= "and stocks.stocks_suplier_price_history_id = productHistory.product_history_aid ";
             $sql .= "and suppliers.suppliers_aid = supplierProduct.suppliers_products_suppliers_id ";
             $sql .= "and (stocks.stocks_number like :stocks_number ";
             $sql .= "or supplierProduct.suppliers_products_number like :suppliers_products_number ";
@@ -197,11 +213,11 @@ class Stocks
         try {
             $sql = "select * from ";
             $sql .= "{$this->tblStocks} ";
-            $sql .= "where stocks_aid = :stocks_aid  ";
+            $sql .= "where stocks_aid = :stocks_aid ";
             $sql .= "order by stocks_number desc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "stocks_aid " => $this->stocks_aid,
+                "stocks_aid" => $this->stocks_aid,
             ]);
         } catch (PDOException $ex) {
             $query = false;

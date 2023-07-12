@@ -49,11 +49,13 @@ const ModalAddSuppliersProductsHistory = () => {
     product_history_product_id: supplierProductId,
     product_history_date: getDateTimeNow(),
     product_history_price: "",
+    product_history_scc_price: "",
   };
 
   const yupSchema = Yup.object({
     product_history_date: Yup.string().required("Required"),
     product_history_price: Yup.string().required("Required"),
+    product_history_scc_price: Yup.string().required("Required"),
   });
 
   return (
@@ -79,9 +81,13 @@ const ModalAddSuppliersProductsHistory = () => {
                 const product_history_price = removeComma(
                   `${values.product_history_price}`
                 );
+                const product_history_scc_price = removeComma(
+                  `${values.product_history_scc_price}`
+                );
                 mutation.mutate({
                   ...values,
                   product_history_price,
+                  product_history_scc_price,
                 });
               }}
             >
@@ -98,10 +104,19 @@ const ModalAddSuppliersProductsHistory = () => {
                     </div>
                     <div className="relative my-5">
                       <InputText
-                        label="Product Price"
+                        label="Product Supplier Price"
                         type="text"
                         num="num"
                         name="product_history_price"
+                        disabled={mutation.isLoading}
+                      />
+                    </div>
+                    <div className="relative my-5">
+                      <InputText
+                        label="Product SCC Price"
+                        type="text"
+                        num="num"
+                        name="product_history_scc_price"
                         disabled={mutation.isLoading}
                       />
                     </div>

@@ -26,7 +26,8 @@ import {
 const ModalAddStocks = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [supplierProductId, setSupplierProductId] = React.useState([]);
-  const [supplierPrice, setSupplierPice] = React.useState("");
+  const [supplierProductHistoryId, setSupplierProductHistoryId] =
+    React.useState("");
   const [loading, setSelLoading] = React.useState(false);
 
   const queryClient = useQueryClient();
@@ -76,13 +77,17 @@ const ModalAddStocks = ({ item }) => {
   };
   // get employee id
   const handleSupplierPrice = async (e, props) => {
-    setSupplierPice(e.target.options[e.target.selectedIndex].id);
+    setSupplierProductHistoryId(e.target.options[e.target.selectedIndex].id);
   };
+
+  console.log("supplierProductId", supplierProductId);
 
   const initVal = {
     supplier_id: item ? item.suppliers_aid : "",
     stocks_product_id: item ? item.stocks_product_id : "",
-    stocks_suplier_price: item ? item.stocks_suplier_price : "",
+    stocks_suplier_price_history_id: item
+      ? item.stocks_suplier_price_history_id
+      : "",
     stocks_remarks: item ? item.stocks_remarks : "",
     stocks_quantity: item ? item.stocks_quantity : "",
     stocks_date: item ? item.stocks_date : getDateTimeNow(),
@@ -127,7 +132,8 @@ const ModalAddStocks = ({ item }) => {
               }}
             >
               {(props) => {
-                props.values.stocks_suplier_price = supplierPrice;
+                props.values.stocks_suplier_price_history_id =
+                  supplierProductHistoryId;
                 return (
                   <Form>
                     <div className="relative my-5 ">
@@ -175,7 +181,7 @@ const ModalAddStocks = ({ item }) => {
                               <option
                                 key={key}
                                 value={sItem.suppliers_products_aid}
-                                id={sItem.suppliers_products_price}
+                                id={sItem.product_history_aid}
                               >
                                 {`${sItem.suppliers_products_name} `}
                               </option>

@@ -63,23 +63,6 @@ const ProductsList = () => {
   }, [inView]);
 
   // use if not loadmore button undertime
-  const { data: pendingAllOrder, isLoading } = useQueryData(
-    `/v1/orders/all-pending`, // endpoint
-    "get", // method
-    "pendingAllOrder" // key
-  );
-
-  const handleEdit = (item) => {
-    // check if have pending
-    // can't edit if have pending
-    if (getPendingOrders(pendingAllOrder, item, dispatch)) {
-      return;
-    }
-    dispatch(setIsAdd(true));
-    setItemEdit(item);
-  };
-
-  // use if not loadmore button undertime
   const { data: stocksGroupProd } = useQueryData(
     `/v1/stocks/group-by-prod`, // endpoint
     "get", // method
@@ -108,28 +91,27 @@ const ProductsList = () => {
           <thead>
             <tr>
               <th>#</th>
-              <th className="min-w-[6rem]">Product #</th>
-              <th className="min-w-[6rem]">Category</th>
+              <th className="min-w-[5rem]">Product #</th>
+              <th className="min-w-[5rem]">Category</th>
               <th className="min-w-[6rem]">Supplier</th>
               <th className="min-w-[8rem]">Product</th>
-              <th className="min-w-[8rem] text-right">Supplier Price</th>
+              {/* <th className="min-w-[8rem] text-right">Supplier Price</th>
               <th className="min-w-[8rem] text-right">SCC Price</th>
-              <th className="min-w-[8rem] text-right">Market Price</th>
+              <th className="min-w-[8rem] text-right">Market Price</th> */}
               <th className="min-w-[8rem] text-center">Remaning Qty</th>
-              {(store.credentials.data.role_is_admin === 1 ||
+              <th className="max-w-[5rem]"></th>
+              {/* {(store.credentials.data.role_is_admin === 1 ||
                 store.credentials.data.role_is_developer === 1 ||
                 store.credentials.data.role_is_manager === 1) && (
                 <th className="max-w-[5rem] text-right">Actions</th>
-              )}
+              )} */}
             </tr>
           </thead>
           <tbody>
-            {(isLoading ||
-              status === "loading" ||
-              result?.pages[0].data.length === 0) && (
+            {(status === "loading" || result?.pages[0].data.length === 0) && (
               <tr className="text-center relative">
                 <td colSpan="100%" className="p-10">
-                  {(isLoading || status === "loading") && <TableSpinner />}
+                  {status === "loading" && <TableSpinner />}
                   <NoData />
                 </td>
               </tr>
@@ -153,24 +135,7 @@ const ProductsList = () => {
                     <td>{item.product_category_name}</td>
                     <td>{item.suppliers_company_name}</td>
                     <td>{item.suppliers_products_name}</td>
-                    <td className="text-right">
-                      {pesoSign}{" "}
-                      {numberWithCommas(
-                        Number(item.suppliers_products_price).toFixed(2)
-                      )}
-                    </td>
-                    <td className="text-right">
-                      {pesoSign}{" "}
-                      {numberWithCommas(
-                        Number(item.suppliers_products_scc_price).toFixed(2)
-                      )}
-                    </td>
-                    <td className="text-right">
-                      {pesoSign}
-                      {numberWithCommas(
-                        Number(item.suppliers_products_market_price).toFixed(2)
-                      )}
-                    </td>
+
                     <td className="text-center">
                       <StatusQuantity
                         text={getRemaningQuantity(
@@ -180,22 +145,7 @@ const ProductsList = () => {
                         )}
                       />
                     </td>
-                    {(store.credentials.data.role_is_admin === 1 ||
-                      store.credentials.data.role_is_developer === 1 ||
-                      store.credentials.data.role_is_manager === 1) && (
-                      <td className=" text-right">
-                        <div className="gap-1">
-                          <button
-                            type="button"
-                            className="btn-action-table tooltip-action-table"
-                            data-tooltip="Edit"
-                            onClick={() => handleEdit(item)}
-                          >
-                            <FaEdit />
-                          </button>
-                        </div>
-                      </td>
-                    )}
+                    <td></td>
                   </tr>
                 ))}
               </React.Fragment>
