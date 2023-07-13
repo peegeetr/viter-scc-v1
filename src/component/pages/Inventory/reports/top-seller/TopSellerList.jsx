@@ -73,7 +73,6 @@ const TopSellerList = ({ width = "", menu = "" }) => {
     {},
     month
   );
-  console.log("123", total);
 
   React.useEffect(() => {
     if (inView) {

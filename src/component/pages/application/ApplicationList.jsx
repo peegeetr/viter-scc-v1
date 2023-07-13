@@ -4,7 +4,12 @@ import { FaCheck, FaEdit, FaHistory, FaTrash } from "react-icons/fa";
 import { ImCross } from "react-icons/im";
 import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
-import { setIsConfirm, setIsRestore } from "../../../store/StoreAction";
+import {
+  setIsConfirm,
+  setIsRestore,
+  setIsSearch,
+  setStartIndex,
+} from "../../../store/StoreAction";
 import { StoreContext } from "../../../store/StoreContext";
 import { getUserType } from "../../helpers/functions-general";
 import { queryDataInfinite } from "../../helpers/queryDataInfinite";
@@ -29,6 +34,10 @@ const ApplicationList = () => {
   const [page, setPage] = React.useState(1);
   const search = React.useRef(null);
   const { ref, inView } = useInView();
+  const handleShow = () => {
+    dispatch(setIsSearch(false));
+    dispatch(setStartIndex(0));
+  };
   // use if with loadmore button and search bar
   const {
     data: result,
@@ -158,6 +167,7 @@ const ApplicationList = () => {
                         {item.members_is_active === 1 ? (
                           <>
                             <Link
+                              onClick={handleShow}
                               to={`${urlLink}/application/profile?memberid=${item.members_aid}`}
                               className="btn-action-table tooltip-action-table"
                               data-tooltip="Edit"

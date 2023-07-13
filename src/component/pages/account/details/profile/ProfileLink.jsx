@@ -7,14 +7,20 @@ import {
   getUrlParam,
   getUserType,
 } from "../../../../helpers/functions-general";
+import { setIsSearch, setStartIndex } from "../../../../../store/StoreAction";
 
 const ProfileLink = () => {
   const { store } = React.useContext(StoreContext);
   const memberid = getUrlParam().get("memberid");
   const urlLink = getUserType(store);
+  const handleShow = () => {
+    dispatch(setIsSearch(false));
+    dispatch(setStartIndex(0));
+  };
   return (
     <>
       <Link
+        onClick={handleShow}
         to={`${urlLink}/members/details/profile?memberid=${memberid}`}
         className="w-full py-2"
       >
@@ -30,6 +36,7 @@ const ProfileLink = () => {
         </p>
       </Link>
       <Link
+        onClick={handleShow}
         to={`${urlLink}/members/details/profile?memberid=${memberid}`}
         className="btn-action-table group-hover:bg-primary group-hover:text-white"
       >
