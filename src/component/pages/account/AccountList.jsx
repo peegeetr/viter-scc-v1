@@ -85,7 +85,6 @@ const AccountList = () => {
     setData(item);
     setDel(true);
   };
-  console.log(result);
 
   return (
     <>

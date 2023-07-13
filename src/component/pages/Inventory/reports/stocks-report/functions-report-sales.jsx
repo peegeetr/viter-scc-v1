@@ -1,22 +1,59 @@
+// get beenifits leave
+// get beenifits leave
+export const getProductRemaningQty = (
+  item,
+  stocksGroupProd,
+  orderGroupProd
+) => {
+  let remaingQunatity = 0;
+  let stockQuantity = 0;
+  let orderQuantity = 0;
+  stocksGroupProd?.data.map((sqItem) => {
+    // check if leave type aid is equal
+    if (item.suppliers_products_aid === Number(sqItem.stocks_product_id)) {
+      stockQuantity = sqItem.stockQuantity;
+    }
+  });
+  orderGroupProd?.data.map((oqItem) => {
+    // check if leave type aid is equal
+    if (item.suppliers_products_aid === Number(oqItem.orders_product_id)) {
+      orderQuantity = oqItem.orderQuantity;
+    }
+  });
+  remaingQunatity = Number(stockQuantity) - Number(orderQuantity);
+  return { remaingQunatity, stockQuantity };
+};
+
 // compute Remaining Quantity
-export const computeStockReportTotal = (result) => {
-  let totalOty = 0;
-  let supplierPrice = 0;
-
-  // supplier
-  let totalSupplierPriceAmount = 0;
-
+export const computeStockReportTotal = (
+  result,
+  orderGroupProd,
+  stocksGroupProd
+) => {
+  let totalQty = 0;
+  let pendingQty = 0;
+  let sccPrice = 0;
+  let totalRemAmount = 0;
   result?.pages.map((page) =>
     page?.data.map((item) => {
-      totalOty = Number(item.stocksQuntity);
-      supplierPrice = Number(item.product_history_price);
-      totalSupplierPriceAmount += supplierPrice * totalOty;
+      // remainig quantity
+      pendingQty = getProductRemaningQty(
+        item,
+        stocksGroupProd,
+        orderGroupProd
+      ).remaingQunatity;
+
+      totalQty += pendingQty;
+
+      sccPrice = Number(item.suppliers_products_scc_price);
+
+      totalRemAmount += sccPrice * pendingQty;
     })
   );
 
   return {
-    totalOty,
-    totalSupplierPriceAmount,
+    totalQty,
+    totalRemAmount,
   };
 };
 
@@ -58,22 +95,4 @@ export const computeSupplierTotalAmount = (item) => {
     finalAmount = 0;
   }
   return finalAmount;
-};
-
-// get beenifits leave
-export const getProductRemaningQty = (item, orderGroupProd) => {
-  let remaingQunatity = 0;
-  let stockQuantity = 0;
-  let orderQuantity = 0;
-  // check if leave type aid is equal
-  stockQuantity = item.stocksQuntity;
-  orderGroupProd?.data.map((oqItem) => {
-    // check if leave type aid is equal
-    if (item.suppliers_products_aid === Number(oqItem.orders_product_id)) {
-      orderQuantity = oqItem.orderQuantity;
-    }
-  });
-
-  remaingQunatity = Number(stockQuantity) - Number(orderQuantity);
-  return remaingQunatity;
 };

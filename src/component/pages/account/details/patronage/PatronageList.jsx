@@ -119,7 +119,6 @@ const PatronageList = ({ setItemEdit }) => {
     setDel(true);
   };
   const handlePending = (item) => {
-    console.log(getRemaningQuantity(item, stocksGroupProd, orderGroupProd));
     if (
       getRemaningQuantity(item, stocksGroupProd, orderGroupProd) === 0 ||
       getRemaningQuantity(item, stocksGroupProd, orderGroupProd) <

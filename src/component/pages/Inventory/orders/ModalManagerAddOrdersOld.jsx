@@ -178,7 +178,7 @@ const ModalManagerAddOrdersOld = ({ item, arrKey }) => {
               initialValues={initVal}
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
-                console.log(values);
+                // console.log(values);
                 const orders_product_quantity = removeComma(
                   `${values.orders_product_quantity}`
                 );

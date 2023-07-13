@@ -22,7 +22,7 @@ $product_history->product_history_datetime = date("Y-m-d H:i:s");
 
 // create
 haveActiveById($product_history);
-// isProductHistoryExist($product_history);
+isProductHistoryExist($product_history);
 $query = checkCreate($product_history);
 checkUpdateSupplierPrice($product_history);
 

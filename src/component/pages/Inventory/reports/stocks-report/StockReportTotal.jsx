@@ -2,24 +2,21 @@ import React from "react";
 import StatusAmount from "../../../../partials/status/StatusAmount";
 import { computeStockReportTotal } from "./functions-report-sales";
 
-const StockReportTotal = ({ result }) => {
+const StockReportTotal = ({ result, orderGroupProd, stocksGroupProd }) => {
   return (
     <>
       <div className=" grid xl:flex xs:grid-cols-2 items-center ">
         <StatusAmount
-          text="Supplier total amount"
-          amount={computeStockReportTotal(result).totalSupplierPriceAmount}
-          qty={`(${computeStockReportTotal(result).totalOty})`}
-        />
-        <StatusAmount
-          text="SCC sales"
-          amount={computeStockReportTotal(result).finalAmount}
+          text="Total Rem. amnt. "
+          amount={
+            computeStockReportTotal(result, orderGroupProd, stocksGroupProd)
+              .totalRemAmount
+          }
           type="paid"
-        />
-        <StatusAmount
-          text="Supplier total Amount"
-          amount={computeStockReportTotal(result).totalSupplierPriceAmount}
-          type="discount"
+          qty={`(${
+            computeStockReportTotal(result, orderGroupProd, stocksGroupProd)
+              .totalQty
+          } qty)`}
         />
       </div>
     </>

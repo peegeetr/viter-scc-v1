@@ -80,8 +80,6 @@ const ModalAddStocks = ({ item }) => {
     setSupplierProductHistoryId(e.target.options[e.target.selectedIndex].id);
   };
 
-  console.log("supplierProductId", supplierProductId);
-
   const initVal = {
     supplier_id: item ? item.suppliers_aid : "",
     stocks_product_id: item ? item.stocks_product_id : "",
@@ -121,7 +119,7 @@ const ModalAddStocks = ({ item }) => {
               initialValues={initVal}
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
-                console.log(values);
+                // console.log(values);
                 const stocks_quantity = removeComma(
                   `${values.stocks_quantity}`
                 );

@@ -14,6 +14,7 @@ import { StoreContext } from "../../../store/StoreContext";
 import useQueryData from "../../custom-hooks/useQueryData";
 import { InputText, InputTextArea } from "../../helpers/FormInputs";
 import {
+  GetFocus,
   formatDate,
   getDateNow,
   getDateTimeNow,
@@ -31,6 +32,7 @@ import { getTotaAmountPOS } from "./functions-pos";
 const ModalAddSearchPOS = ({ item, arrKey, memberId, memberName }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [items, setItems] = React.useState([]);
+
   const [totalPrice, setTotalPrice] = React.useState(
     item ? item.orders_product_srp : ""
   );
@@ -113,20 +115,20 @@ const ModalAddSearchPOS = ({ item, arrKey, memberId, memberName }) => {
   return (
     <>
       <div className="fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center bg-dark bg-opacity-50 z-50">
-        <div className="p-1 w-[350px] rounded-b-2xl">
+        <div className="p-1 w-[800px] rounded-b-2xl">
           <div className="flex justify-between items-center bg-primary p-3 rounded-t-2xl">
-            <h3 className="text-white text-sm">
+            <h3 className="text-white text-lg">
               {item ? "Update" : "Add"} Order
             </h3>
             <button
               type="button"
-              className="text-gray-200 text-base"
+              className="text-gray-200 text-xl"
               onClick={handleClose}
             >
               <FaTimesCircle />
             </button>
           </div>
-          <div className="bg-white p-4 rounded-b-2xl">
+          <div className="bg-white p-4 rounded-b-2xl ">
             <Formik
               initialValues={initVal}
               validationSchema={yupSchema}
@@ -184,54 +186,19 @@ const ModalAddSearchPOS = ({ item, arrKey, memberId, memberName }) => {
               {(props) => {
                 return (
                   <Form>
-                    <p className="m-0 font-light  text-primary">
+                    <p className="m-0 font-light text-lg text-primary">
                       Date :
                       <span className="font-bold">
                         {" "}
                         {`${formatDate(getDateNow())} ${getTimeNow()}`}
                       </span>
                     </p>
-                    <p className="m-0 font-light  text-primary">
+                    <p className="m-0 font-light text-lg text-primary">
                       Name :<span className="font-bold"> {memberName}</span>
                     </p>
-                    <p className="m-0 font-light  text-primary">
-                      Product :
-                      <span className="font-bold">
-                        {" "}
-                        {items.suppliers_products_name === undefined ? (
-                          "--"
-                        ) : (
-                          <>
-                            {item
-                              ? item.suppliers_products_name
-                              : items.suppliers_products_name}
-                            {`(${getRemaningQuantity(
-                              item ? item : items,
-                              stocksGroupProd,
-                              orderGroupProd
-                            )} pcs) `}
-                            {pesoSign}{" "}
-                            {`${numberWithCommas(
-                              Number(totalPrice).toFixed(2)
-                            )}`}
-                          </>
-                        )}
-                      </span>
-                    </p>
-                    <div className=" text-primary">
-                      <p className="text-lg">
-                        Total Amount:
-                        <span className="text-black ml-2">
-                          {pesoSign}{" "}
-                          {props.values.orders_product_quantity === "" ||
-                          Number(props.values.orders_product_quantity) === 0
-                            ? "0.00"
-                            : getTotaAmountPOS(props.values, totalPrice)}
-                        </span>
-                      </p>
-                    </div>
+
                     {!item && (
-                      <div className="relative mt-5">
+                      <div className="relative mt-10 text-2xl">
                         <SearchToAddProduct
                           stocksGroupProd={stocksGroupProd}
                           orderGroupProd={orderGroupProd}
@@ -245,9 +212,45 @@ const ModalAddSearchPOS = ({ item, arrKey, memberId, memberName }) => {
                         />
                       </div>
                     )}
+                    <p className="mt-5 font-light text-lg text-primary capitalize">
+                      Product :
+                      <span className="font-bold">
+                        {" "}
+                        {items.suppliers_products_name === undefined ? (
+                          "--"
+                        ) : (
+                          <>
+                            {item
+                              ? item.suppliers_products_name
+                              : items.suppliers_products_name}
+                            {` (${getRemaningQuantity(
+                              item ? item : items,
+                              stocksGroupProd,
+                              orderGroupProd
+                            )} pcs) `}
+                            {pesoSign}{" "}
+                            {`${numberWithCommas(
+                              Number(totalPrice).toFixed(2)
+                            )}`}
+                          </>
+                        )}
+                      </span>
+                    </p>
+                    <div className=" text-primary">
+                      <p className="text-xl">
+                        Total Amount:
+                        <span className="text-black ml-2">
+                          {pesoSign}{" "}
+                          {props.values.orders_product_quantity === "" ||
+                          Number(props.values.orders_product_quantity) === 0
+                            ? "0.00"
+                            : getTotaAmountPOS(props.values, totalPrice)}
+                        </span>
+                      </p>
+                    </div>
                     {(item || items?.length !== 0) && (
                       <>
-                        <div className="relative my-5">
+                        <div className="relative my-5 text-2xl">
                           <InputText
                             label="Quantity"
                             type="text"
@@ -256,7 +259,7 @@ const ModalAddSearchPOS = ({ item, arrKey, memberId, memberName }) => {
                             disabled={mutation.isLoading}
                           />
                         </div>
-                        <div className="relative my-5">
+                        <div className="relative my-5 text-2xl">
                           <InputText
                             label="Discount"
                             type="text"
@@ -265,7 +268,7 @@ const ModalAddSearchPOS = ({ item, arrKey, memberId, memberName }) => {
                             disabled={mutation.isLoading}
                           />
                         </div>
-                        <div className="relative my-5">
+                        <div className="relative my-5 text-2xl">
                           <InputTextArea
                             label="Remarks"
                             type="text"
@@ -273,34 +276,26 @@ const ModalAddSearchPOS = ({ item, arrKey, memberId, memberName }) => {
                             disabled={mutation.isLoading}
                           />
                         </div>
+                        <div className="flex justify-center items-center pt-5">
+                          <button
+                            type="submit"
+                            disabled={
+                              mutation.isLoading ||
+                              (item ? !props.dirty : totalPrice === "")
+                            }
+                            className="btn-modal-submit relative "
+                          >
+                            {mutation.isLoading ? (
+                              <ButtonSpinner />
+                            ) : item ? (
+                              "Save"
+                            ) : (
+                              "Add"
+                            )}
+                          </button>
+                        </div>
                       </>
                     )}
-                    <div className="flex items-center gap-1 pt-5">
-                      <button
-                        type="submit"
-                        disabled={
-                          mutation.isLoading ||
-                          (item ? !props.dirty : totalPrice === "")
-                        }
-                        className="btn-modal-submit relative"
-                      >
-                        {mutation.isLoading ? (
-                          <ButtonSpinner />
-                        ) : item ? (
-                          "Save"
-                        ) : (
-                          "Add"
-                        )}
-                      </button>
-                      <button
-                        type="reset"
-                        className="btn-modal-cancel"
-                        onClick={handleClose}
-                        disabled={mutation.isLoading}
-                      >
-                        Cancel
-                      </button>
-                    </div>
                   </Form>
                 );
               }}

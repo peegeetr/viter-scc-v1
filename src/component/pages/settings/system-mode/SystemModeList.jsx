@@ -31,8 +31,6 @@ const SystemModeList = () => {
 
   // const is_open = false;
 
-  console.log(systemMode);
-
   const handleTurnOn = (item) => {
     dispatch(setIsConfirm(true));
     setId(item.settings_system_mode_aid);

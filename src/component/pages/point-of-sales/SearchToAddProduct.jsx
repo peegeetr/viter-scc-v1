@@ -5,6 +5,7 @@ import { StoreContext } from "../../../store/StoreContext";
 import { numberWithCommas } from "../../helpers/functions-general";
 import TableSpinner from "../../partials/spinners/TableSpinner";
 import { getRemaningQuantity } from "../Inventory/products/functions-product";
+import { InputSelect } from "../../helpers/FormInputs";
 
 const SearchToAddProduct = ({
   stocksGroupProd,
@@ -48,8 +49,10 @@ const SearchToAddProduct = ({
             ? `rounded-bl-none rounded-br-none border-b-0`
             : ``
         }
+        autoComplete="off"
       />
       <label className="capitalize">{name}</label>
+
       {store.isModalSearch && (
         <div className="overflow-auto max-h-[15rem] absolute rounded-tr-none rounded-tl-none rounded bg-slate-100 z-50 w-full">
           {isLoading || result?.data.length === 0 ? (
@@ -59,17 +62,19 @@ const SearchToAddProduct = ({
                 <span className="text-5xl text-gray-400">
                   <FaFolderOpen />
                 </span>
-                <span className="font-bold text-gray-300 text-lg">No Data</span>
+                <span className="font-bold text-gray-300 ">No Data</span>
               </div>
             </>
           ) : (
             <>
-              {result?.data.map((item, key) => {
-                return (
-                  <p key={key} className="hover:bg-slate-200 cursor-pointer">
-                    <option
+              <p className=" cursor-pointer flex flex-col items-start">
+                {result?.data.map((item, key) => {
+                  return (
+                    <button
+                      key={key}
                       className="ml-2"
                       onClick={() => handleProductChange(item)}
+                      type="button"
                     >
                       {`${item.suppliers_products_name}  (${getRemaningQuantity(
                         item,
@@ -80,10 +85,10 @@ const SearchToAddProduct = ({
                       {numberWithCommas(
                         Number(item.suppliers_products_scc_price).toFixed(2)
                       )}
-                    </option>
-                  </p>
-                );
-              })}
+                    </button>
+                  );
+                })}
+              </p>
             </>
           )}
         </div>

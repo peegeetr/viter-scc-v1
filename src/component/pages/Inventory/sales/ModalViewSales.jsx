@@ -38,13 +38,21 @@ const ModalViewSales = ({ item }) => {
               <p className="mb-0 text-black ml-2">
                 {`${item.members_last_name}, ${item.members_first_name}`}
               </p>
+              <p className="mb-0">Order Date:</p>
+              <p className="mb-0 text-black ml-2">
+                {formatDate(item.orders_date)}
+              </p>
+              <p className="mb-0"> </p>
+              <p className="mb-0 text-black ml-2">
+                {getTime(item.orders_date)}
+              </p>
               <p className="mb-0">Recieve Date:</p>
               <p className="mb-0 text-black ml-2">
                 {item.sales_is_paid === 1
                   ? `${formatDate(item.sales_date)}`
                   : "N/A"}
               </p>
-              <p className="mb-0">Time:</p>
+              <p className="mb-0"> </p>
               <p className="mb-0 text-black ml-2">
                 {item.sales_is_paid === 1
                   ? `${getTime(item.sales_date)}`

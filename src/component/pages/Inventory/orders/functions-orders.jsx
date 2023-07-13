@@ -1,4 +1,8 @@
-import { numberWithCommas, pesoSign } from "../../../helpers/functions-general";
+import { setError, setMessage } from "../../../../store/StoreAction";
+import {
+  numberWithCommas,
+  removeComma,
+} from "../../../helpers/functions-general";
 import { getRemaningQuantity } from "../products/functions-product";
 
 // compute sold
@@ -74,6 +78,18 @@ export const modalComputeAmountWithDiscount = (amount, discount) => {
   return finalAmount.toFixed(2);
 };
 
+export const getTotaAmountOrder = (values, totalPrice) => {
+  let result = 0;
+  if (totalPrice !== "") {
+    result = numberWithCommas(
+      Number(
+        Number(removeComma(values.orders_product_quantity)) * totalPrice
+      ).toFixed(2)
+    );
+  }
+  return result;
+};
+
 // compute tota amount
 export const computeInventoryOrderTotalOrderAmount = (result) => {
   let totaldiscount = 0;
@@ -109,5 +125,84 @@ export const computeInventoryOrderTotalOrderAmount = (result) => {
     finalAmount,
     totalOty,
     finalDiscount,
+  };
+};
+
+// compute tota amount
+export const getValidationOrderAdd = (
+  values,
+  item,
+  items,
+  dispatch,
+  isPaid,
+  stocksGroupProd,
+  orderGroupProd
+) => {
+  let invalidAmount = false;
+  let list = [];
+
+  const orders_product_quantity = removeComma(
+    `${values.orders_product_quantity}`
+  );
+  const sales_receive_amount = removeComma(`${values.sales_receive_amount}`);
+  const sales_discount = removeComma(`${values.sales_discount}`);
+
+  const orders_product_amount =
+    Number(orders_product_quantity) *
+    Number(
+      item
+        ? item.suppliers_products_scc_price
+        : items.suppliers_products_scc_price
+    );
+
+  if (Number(sales_discount) > Number(orders_product_amount)) {
+    dispatch(setError(true));
+    dispatch(setMessage("Invalid Discount Amount"));
+    invalidAmount = true;
+  }
+  if (
+    Number(orders_product_quantity) >
+      getRemaningQuantity(
+        item ? item : items,
+        stocksGroupProd,
+        orderGroupProd
+      ) ||
+    getRemaningQuantity(
+      item ? item : items,
+      stocksGroupProd,
+      orderGroupProd
+    ) === 0
+  ) {
+    dispatch(setError(true));
+    dispatch(setMessage("Insufficient quantity"));
+    invalidAmount = true;
+  }
+  if (
+    !item &&
+    isPaid === "1" &&
+    Number(sales_receive_amount) <
+      modalComputeAmountWithDiscount(
+        orders_product_amount,
+        values.sales_discount
+      )
+  ) {
+    dispatch(setError(true));
+    dispatch(setMessage("Insufficient amount"));
+    invalidAmount = true;
+  }
+  const sales_member_change =
+    sales_receive_amount - (orders_product_amount - sales_discount);
+
+  list.push({
+    sales_member_change: sales_member_change,
+    orders_product_amount: orders_product_amount,
+    sales_discount: sales_discount,
+    sales_receive_amount: sales_receive_amount,
+    orders_product_quantity: orders_product_quantity,
+  });
+
+  return {
+    list,
+    invalidAmount,
   };
 };

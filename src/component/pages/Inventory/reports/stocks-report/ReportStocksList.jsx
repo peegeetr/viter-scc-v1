@@ -18,6 +18,7 @@ import TableSpinner from "../../../../partials/spinners/TableSpinner";
 import ModalViewSales from "../../sales/ModalViewSales";
 import StockReportTotal from "./StockReportTotal";
 import { getProductRemaningQty } from "./functions-report-sales";
+import { getRemaningQuantity } from "../../products/functions-product";
 
 const ReportStocksList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -54,8 +55,6 @@ const ReportStocksList = () => {
     networkMode: "always",
     cacheTime: 200,
   });
-
-  console.log("result", result);
 
   // use if not loadmore button undertime
   const { data: suppliersList, isLoading: suppliersListLoading } = useQueryData(
@@ -102,27 +101,27 @@ const ReportStocksList = () => {
   };
 
   // use if not loadmore button undertime
+  const { data: stocksGroupProd } = useQueryData(
+    `/v1/stocks/group-by-prod`, // endpoint
+    "get", // method
+    "stocksGroupProd" // key
+  );
+  // use if not loadmore button undertime
   const { data: orderGroupProd } = useQueryData(
-    `/v1/report-stock/all-order`, // endpoint
+    `/v1/orders/group-by-prod`, // endpoint
     "get", // method
     "orderGroupProd" // key
   );
-
-  console.log("orderGroupProd", orderGroupProd);
   const initVal = {
     supplier_id: "",
     category_id: "",
     product_id: "",
-    start_date: "",
-    end_date: "",
   };
 
   const yupSchema = Yup.object({
     supplier_id: Yup.string().required("Required"),
     category_id: Yup.string().required("Required"),
     product_id: Yup.string().required("Required"),
-    start_date: Yup.string().required("Required"),
-    end_date: Yup.string().required("Required"),
   });
   return (
     <>
@@ -138,7 +137,7 @@ const ReportStocksList = () => {
         {(props) => {
           return (
             <Form>
-              <div className="grid gap-4 xl:grid-cols-[1fr_1fr_1fr_1fr_1fr_15rem] pb-5 items-center print:hidden ">
+              <div className="grid gap-4 xl:grid-cols-[1fr_1fr_1fr_15rem] pb-5 items-center print:hidden ">
                 <div className="relative ">
                   <InputSelect
                     name="supplier_id"
@@ -199,23 +198,6 @@ const ReportStocksList = () => {
                   </InputSelect>
                 </div>
 
-                <div className="relative">
-                  <InputText
-                    label="Start Date"
-                    name="start_date"
-                    type="date"
-                    disabled={isFetching}
-                  />
-                </div>
-
-                <div className="relative">
-                  <InputText
-                    label="End Date"
-                    name="end_date"
-                    type="date"
-                    disabled={isFetching}
-                  />
-                </div>
                 <button
                   className="btn-modal-submit relative"
                   type="submit"
@@ -230,7 +212,14 @@ const ReportStocksList = () => {
           );
         }}
       </Formik>
-      <StockReportTotal result={result} />
+
+      {/* total */}
+      <StockReportTotal
+        result={result}
+        orderGroupProd={orderGroupProd}
+        stocksGroupProd={stocksGroupProd}
+      />
+
       <div className="text-center overflow-x-auto z-0">
         {/* use only for updating important records */}
         {status !== "loading" && isFetching && <TableSpinner />}
@@ -239,11 +228,10 @@ const ReportStocksList = () => {
           <thead>
             <tr>
               <th>#</th>
+              <th className="min-w-[7rem]">Supplier</th>
               <th className="min-w-[7rem]">Product</th>
               <th className="min-w-[5rem] text-center pr-4">Total qty</th>
-              <th className="min-w-[10rem] text-right pr-4">Sup. price</th>
-              <th className="min-w-[10rem] text-right pr-4">Sup. amnt</th>
-              <th className="min-w-[8rem] text-center pr-4">Rem. qty</th>
+              <th className="min-w-[2rem] text-center ">Rem. qty</th>
               <th className="min-w-[7rem] text-right pr-4">SCC price</th>
               <th className="min-w-[12rem] text-right pr-4">Rem. amnt.</th>
             </tr>
@@ -271,39 +259,46 @@ const ReportStocksList = () => {
                   <tr key={key}>
                     <td> {counter++}.</td>
 
+                    <td>{item.suppliers_company_name}</td>
                     <td>{item.suppliers_products_name}</td>
-                    <td className="text-center">{item.stocksQuntity}</td>
-                    <td className="text-right pr-4">
-                      {pesoSign}
-                      {numberWithCommas(
-                        Number(item.product_history_price).toFixed(2)
-                      )}
-                    </td>
-                    <td className="text-right pr-4">
-                      {pesoSign}
-                      {numberWithCommas(
-                        (
-                          Number(item.product_history_price) *
-                          Number(item.stocksQuntity)
-                        ).toFixed(2)
-                      )}
-                    </td>
                     <td className="text-center">
-                      {getProductRemaningQty(item, orderGroupProd)}
+                      {
+                        getProductRemaningQty(
+                          item,
+                          stocksGroupProd,
+                          orderGroupProd
+                        ).stockQuantity
+                      }
                     </td>
-                    <td className="text-right pr-4">
+
+                    <td className="text-center bg-orange-100">
+                      {
+                        getProductRemaningQty(
+                          item,
+                          stocksGroupProd,
+                          orderGroupProd
+                        ).remaingQunatity
+                      }
+                    </td>
+                    <td className="text-right pr-4 bg-orange-100">
                       {pesoSign}
                       {numberWithCommas(
-                        Number(item.product_history_scc_price).toFixed(2)
+                        Number(item.suppliers_products_scc_price).toFixed(2)
                       )}
                     </td>
 
-                    <td className="text-right pr-4">
+                    <td className="text-right pr-4 bg-orange-100">
                       {pesoSign}
                       {numberWithCommas(
                         (
-                          Number(item.product_history_scc_price) *
-                          Number(getProductRemaningQty(item, orderGroupProd))
+                          Number(item.suppliers_products_scc_price) *
+                          Number(
+                            getProductRemaningQty(
+                              item,
+                              stocksGroupProd,
+                              orderGroupProd
+                            ).remaingQunatity
+                          )
                         ).toFixed(2)
                       )}
                     </td>

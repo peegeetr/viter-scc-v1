@@ -28,9 +28,9 @@ import { getRemaningQuantity } from "../products/functions-product";
 import SearchToAddProduct from "../../point-of-sales/SearchToAddProduct";
 import {
   getProductDetails,
+  getTotaAmountOrder,
   modalComputeAmountWithDiscount,
 } from "./functions-orders";
-import { getTotaAmountPOS } from "../../point-of-sales/functions-pos";
 
 const ModalAddOrders = ({ item, arrKey }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -297,8 +297,8 @@ const ModalAddOrders = ({ item, arrKey }) => {
                             ? "0.00"
                             : numberWithCommas(
                                 modalComputeAmountWithDiscount(
-                                  getTotaAmountPOS(props.values, totalPrice),
-                                  removeComma(props.values.sales_discount)
+                                  getTotaAmountOrder(props.values, totalPrice),
+                                  0
                                 )
                               )}
                         </span>

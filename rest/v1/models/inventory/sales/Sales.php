@@ -108,6 +108,7 @@ class Sales
             $sql .= "orders.orders_product_amount, ";
             $sql .= "orders.orders_product_srp, ";
             $sql .= "orders.orders_suplier_price, ";
+            $sql .= "orders.orders_date, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
             $sql .= "sales.sales_aid, ";
@@ -152,6 +153,7 @@ class Sales
             $sql .= "orders.orders_product_amount, ";
             $sql .= "orders.orders_product_srp, ";
             $sql .= "orders.orders_suplier_price, ";
+            $sql .= "orders.orders_date, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
             $sql .= "sales.sales_aid, ";
@@ -203,6 +205,7 @@ class Sales
             $sql .= "orders.orders_product_amount, ";
             $sql .= "orders.orders_product_srp, ";
             $sql .= "orders.orders_suplier_price, ";
+            $sql .= "orders.orders_date, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
             $sql .= "sales.sales_aid, ";
@@ -237,8 +240,7 @@ class Sales
             $sql .= "or productCategory.product_category_name like :product_category_name ";
             $sql .= "or suppliersProducts.suppliers_products_name like :suppliers_products_name) ";
             $sql .= "order by sales.sales_is_paid, ";
-            $sql .= "suppliersProducts.suppliers_products_name asc, ";
-            // $sql .= "orders.orders_date desc, ";
+            $sql .= "orders.orders_date desc, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name asc ";
             $query = $this->connection->prepare($sql);
@@ -270,6 +272,7 @@ class Sales
             $sql .= "orders.orders_product_amount, ";
             $sql .= "orders.orders_product_srp, ";
             $sql .= "orders.orders_suplier_price, ";
+            $sql .= "orders.orders_date, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
             $sql .= "sales.sales_aid, ";
@@ -315,6 +318,7 @@ class Sales
             $sql .= "orders.orders_product_amount, ";
             $sql .= "orders.orders_product_srp, ";
             $sql .= "orders.orders_suplier_price, ";
+            $sql .= "orders.orders_date, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
             $sql .= "sales.sales_aid, ";
@@ -467,6 +471,7 @@ class Sales
             $sql .= "orders.orders_is_paid, ";
             $sql .= "orders.orders_product_srp, ";
             $sql .= "orders.orders_suplier_price, ";
+            $sql .= "orders.orders_date, ";
             $sql .= "sales.sales_discount, ";
             $sql .= "member.members_aid, ";
             $sql .= "member.members_last_name, ";
@@ -502,6 +507,7 @@ class Sales
             $sql .= "orders.orders_is_paid, ";
             $sql .= "orders.orders_product_srp, ";
             $sql .= "orders.orders_suplier_price, ";
+            $sql .= "orders.orders_date, ";
             $sql .= "sales.sales_discount, ";
             $sql .= "member.members_aid, ";
             $sql .= "member.members_last_name, ";
@@ -617,6 +623,7 @@ class Sales
             $sql .= "orders.orders_product_amount, ";
             $sql .= "orders.orders_product_srp, ";
             $sql .= "orders.orders_suplier_price, ";
+            $sql .= "orders.orders_date, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
             $sql .= "category.product_category_name, ";
@@ -674,6 +681,7 @@ class Sales
             $sql .= "orders.orders_product_amount, ";
             $sql .= "orders.orders_product_srp, ";
             $sql .= "orders.orders_suplier_price, ";
+            $sql .= "orders.orders_date, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
             $sql .= "category.product_category_name, ";
@@ -733,6 +741,7 @@ class Sales
             $sql .= "orders.orders_product_amount, ";
             $sql .= "orders.orders_product_srp, ";
             $sql .= "orders.orders_suplier_price, ";
+            $sql .= "orders.orders_date, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
             $sql .= "category.product_category_name, ";
@@ -790,6 +799,7 @@ class Sales
             $sql .= "orders.orders_product_amount, ";
             $sql .= "orders.orders_product_srp, ";
             $sql .= "orders.orders_suplier_price, ";
+            $sql .= "orders.orders_date, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
             $sql .= "category.product_category_name, ";
@@ -849,6 +859,7 @@ class Sales
             $sql .= "orders.orders_product_amount, ";
             $sql .= "orders.orders_product_srp, ";
             $sql .= "orders.orders_suplier_price, ";
+            $sql .= "orders.orders_date, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
             $sql .= "category.product_category_name, ";
@@ -908,6 +919,7 @@ class Sales
             $sql .= "orders.orders_product_amount, ";
             $sql .= "orders.orders_product_srp, ";
             $sql .= "orders.orders_suplier_price, ";
+            $sql .= "orders.orders_date, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
             $sql .= "category.product_category_name, ";
@@ -969,6 +981,7 @@ class Sales
             $sql .= "orders.orders_product_amount, ";
             $sql .= "orders.orders_product_srp, ";
             $sql .= "orders.orders_suplier_price, ";
+            $sql .= "orders.orders_date, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
             $sql .= "category.product_category_name, ";
@@ -1027,6 +1040,7 @@ class Sales
             $sql .= "orders.orders_product_amount, ";
             $sql .= "orders.orders_product_srp, ";
             $sql .= "orders.orders_suplier_price, ";
+            $sql .= "orders.orders_date, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
             $sql .= "category.product_category_name, ";
@@ -1084,6 +1098,7 @@ class Sales
             $sql .= "orders.orders_product_amount, ";
             $sql .= "orders.orders_product_srp, ";
             $sql .= "orders.orders_suplier_price, ";
+            $sql .= "orders.orders_date, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
             $sql .= "category.product_category_name, ";
@@ -1143,6 +1158,7 @@ class Sales
             $sql .= "orders.orders_product_amount, ";
             $sql .= "orders.orders_product_srp, ";
             $sql .= "orders.orders_suplier_price, ";
+            $sql .= "orders.orders_date, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
             $sql .= "category.product_category_name, ";
@@ -1204,6 +1220,7 @@ class Sales
             $sql .= "orders.orders_product_amount, ";
             $sql .= "orders.orders_product_srp, ";
             $sql .= "orders.orders_suplier_price, ";
+            $sql .= "orders.orders_date, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
             $sql .= "category.product_category_name, ";
@@ -1267,6 +1284,7 @@ class Sales
             $sql .= "orders.orders_product_amount, ";
             $sql .= "orders.orders_product_srp, ";
             $sql .= "orders.orders_suplier_price, ";
+            $sql .= "orders.orders_date, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
             $sql .= "category.product_category_name, ";
@@ -1328,6 +1346,7 @@ class Sales
             $sql .= "orders.orders_product_amount, ";
             $sql .= "orders.orders_product_srp, ";
             $sql .= "orders.orders_suplier_price, ";
+            $sql .= "orders.orders_date, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
             $sql .= "category.product_category_name, ";
@@ -1389,6 +1408,7 @@ class Sales
             $sql .= "orders.orders_product_amount, ";
             $sql .= "orders.orders_product_srp, ";
             $sql .= "orders.orders_suplier_price, ";
+            $sql .= "orders.orders_date, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
             $sql .= "category.product_category_name, ";
@@ -1448,6 +1468,7 @@ class Sales
             $sql .= "orders.orders_product_amount, ";
             $sql .= "orders.orders_product_srp, ";
             $sql .= "orders.orders_suplier_price, ";
+            $sql .= "orders.orders_date, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
             $sql .= "category.product_category_name, ";
@@ -1507,6 +1528,7 @@ class Sales
             $sql .= "orders.orders_product_amount, ";
             $sql .= "orders.orders_product_srp, ";
             $sql .= "orders.orders_suplier_price, ";
+            $sql .= "orders.orders_date, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
             $sql .= "category.product_category_name, ";

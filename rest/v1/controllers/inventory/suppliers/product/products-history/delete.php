@@ -15,13 +15,18 @@ if (array_key_exists("productHistoryId", $_GET)) {
     $allItem = $data["item"];
 
     if (count($allItem) > 0) {
-        $product_history->product_history_product_id = $allItem["product_history_product_id"];
+        $product_history->product_history_product_id = checkIndex($allItem, "product_history_product_id");
+        $product_history->product_history_scc_price = checkIndex($allItem, "product_history_scc_price");
+        $product_history->product_history_price = checkIndex($allItem, "product_history_price");
     }
 
     //check to see if task id in query string is not empty and is number, if not return json error
     checkId($product_history->product_history_aid);
+    // check if exist in stocks
     isAssociated($product_history);
+    // check if exist in order
     checkAssociationInOrder($product_history);
+
     // delete
     $query = checkDelete($product_history);
 

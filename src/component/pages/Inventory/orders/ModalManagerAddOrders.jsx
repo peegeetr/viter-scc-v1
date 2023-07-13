@@ -24,13 +24,13 @@ import {
 } from "../../../helpers/functions-general";
 import { queryData } from "../../../helpers/queryData";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
-import { getRemaningQuantity } from "../products/functions-product";
+import SearchToAddProduct from "../../point-of-sales/SearchToAddProduct";
 import {
   getProductDetails,
+  getTotaAmountOrder,
+  getValidationOrderAdd,
   modalComputeAmountWithDiscount,
 } from "./functions-orders";
-import SearchToAddProduct from "../../point-of-sales/SearchToAddProduct";
-import { getTotaAmountPOS } from "../../point-of-sales/functions-pos";
 
 const ModalManagerAddOrders = ({ item, arrKey }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -147,7 +147,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
               <FaTimesCircle />
             </button>
           </div>
-          <div className="bg-white p-4 rounded-b-2xl ">
+          <div className="bg-white p-4 rounded-b-2xl h-[35rem] overflow-auto">
             <Formik
               initialValues={initVal}
               validationSchema={yupSchema}
@@ -158,63 +158,30 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                   dispatch(setMessage("Please check if you have product."));
                   return;
                 }
-                const orders_product_quantity = removeComma(
-                  `${values.orders_product_quantity}`
+                // for validation
+                const validation = getValidationOrderAdd(
+                  values,
+                  item,
+                  items,
+                  dispatch,
+                  isPaid,
+                  stocksGroupProd,
+                  orderGroupProd
                 );
-                const sales_receive_amount = removeComma(
-                  `${values.sales_receive_amount}`
-                );
-                const sales_discount = removeComma(`${values.sales_discount}`);
+                // new list
+                const list = validation.list;
+                // for validation if invalid amount
+                if (validation.invalidAmount === true || list.length === 0) {
+                  return;
+                }
 
-                const orders_product_amount =
-                  Number(orders_product_quantity) *
-                  Number(
-                    item
-                      ? item.suppliers_products_scc_price
-                      : items.suppliers_products_scc_price
-                  );
-
-                if (Number(sales_discount) > Number(orders_product_amount)) {
-                  dispatch(setError(true));
-                  dispatch(setMessage("Invalid Discount Amount"));
-                  return;
-                }
-                if (
-                  Number(orders_product_quantity) >
-                    getRemaningQuantity(
-                      item ? item : items,
-                      stocksGroupProd,
-                      orderGroupProd
-                    ) ||
-                  getRemaningQuantity(
-                    item ? item : items,
-                    stocksGroupProd,
-                    orderGroupProd
-                  ) === 0
-                ) {
-                  dispatch(setError(true));
-                  dispatch(setMessage("Insufficient quantity"));
-                  return;
-                }
-                if (
-                  !item &&
-                  isPaid === "1" &&
-                  Number(sales_receive_amount) <
-                    modalComputeAmountWithDiscount(
-                      orders_product_amount,
-                      values.sales_discount
-                    )
-                ) {
-                  dispatch(setError(true));
-                  dispatch(setMessage("Insufficient amount"));
-                  return;
-                }
                 mutation.mutate({
                   ...values,
-                  orders_product_quantity,
-                  sales_receive_amount,
-                  sales_discount,
-                  orders_product_amount,
+                  orders_product_quantity: list[0].orders_product_quantity,
+                  sales_receive_amount: list[0].sales_receive_amount,
+                  sales_discount: list[0].sales_discount,
+                  orders_product_amount: list[0].orders_product_amount,
+                  sales_member_change: list[0].sales_member_change,
                   items,
                 });
               }}
@@ -378,7 +345,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                             ? "0.00"
                             : numberWithCommas(
                                 modalComputeAmountWithDiscount(
-                                  getTotaAmountPOS(props.values, totalPrice),
+                                  getTotaAmountOrder(props.values, totalPrice),
                                   removeComma(props.values.sales_discount)
                                 )
                               )}
@@ -394,7 +361,14 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                             {Number(props.values.sales_receive_amount) === 0
                               ? "0.00"
                               : Number(
-                                  props.values.sales_member_change
+                                  props.values.sales_receive_amount -
+                                    modalComputeAmountWithDiscount(
+                                      getTotaAmountOrder(
+                                        props.values,
+                                        totalPrice
+                                      ),
+                                      removeComma(props.values.sales_discount)
+                                    )
                                 ).toFixed(2)}
                           </span>
                         </p>

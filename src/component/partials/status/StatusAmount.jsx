@@ -20,10 +20,11 @@ const StatusAmount = ({ text = "", amount = 0, type = "", qty = "" }) => {
           } text-[14px] font-medium ml-2 px-2.5 py-0.5 rounded-full`}
         >
           {text === "qty" ? (
-            `${numberWithCommas(amount)} ${qty}`
+            `${numberWithCommas(amount)}`
           ) : (
             <>
               {pesoSign} {numberWithCommas(amount.toFixed(2))}
+              {` ${qty}`}
             </>
           )}
         </span>

@@ -27,9 +27,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     // get task id from query string  
     $stocks->suppliers_products_suppliers_id = checkIndex($allValues, "supplier_id");
     $stocks->suppliers_products_category_id = checkIndex($allValues, "category_id");
-    $stocks->stocks_product_id = checkIndex($allValues, "product_id");
-    $stocks->start_date = checkIndex($allValues, "start_date");
-    $stocks->end_date = checkIndex($allValues, "end_date");
+    $stocks->suppliers_products_aid = checkIndex($allValues, "product_id");
 
     // if all supplier , category by id, all product 
     // 0 = all, 1 = by item id
@@ -37,7 +35,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
 
     if (
         $stocks->suppliers_products_suppliers_id === "0"
-        && $stocks->suppliers_products_category_id !== "0" && $stocks->stocks_product_id === "0"
+        && $stocks->suppliers_products_category_id !== "0" && $stocks->suppliers_products_aid === "0"
     ) {
 
         $query = checkReadReportStocksFilterByCategory($stocks);
@@ -50,7 +48,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     // 1,1,0
     if (
         $stocks->suppliers_products_suppliers_id !== "0"
-        && $stocks->suppliers_products_category_id !== "0" && $stocks->stocks_product_id === "0"
+        && $stocks->suppliers_products_category_id !== "0" && $stocks->suppliers_products_aid === "0"
     ) {
 
         $query = checkReadReportStocksFilterBySupplierCategory($stocks);
@@ -63,7 +61,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     // 1,0,0
     if (
         $stocks->suppliers_products_suppliers_id !== "0"
-        && $stocks->suppliers_products_category_id === "0" && $stocks->stocks_product_id === "0"
+        && $stocks->suppliers_products_category_id === "0" && $stocks->suppliers_products_aid === "0"
     ) {
 
         $query = checkReadReportStocksFilterBySupplier($stocks);
@@ -76,7 +74,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     // 1,0,1
     if (
         $stocks->suppliers_products_suppliers_id !== "0"
-        && $stocks->suppliers_products_category_id === "0" && $stocks->stocks_product_id !== "0"
+        && $stocks->suppliers_products_category_id === "0" && $stocks->suppliers_products_aid !== "0"
     ) {
 
         $query = checkReadReportStocksFilterBySupplierProduct($stocks);
@@ -89,7 +87,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     // 0,1,1
     if (
         $stocks->suppliers_products_suppliers_id === "0"
-        && $stocks->suppliers_products_category_id !== "0" && $stocks->stocks_product_id !== "0"
+        && $stocks->suppliers_products_category_id !== "0" && $stocks->suppliers_products_aid !== "0"
     ) {
 
         $query = checkReadReportStocksFilterByCategoryProduct($stocks);
@@ -102,7 +100,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     // 1,1,1 
     if (
         $stocks->suppliers_products_suppliers_id !== "0"
-        && $stocks->suppliers_products_category_id !== "0" && $stocks->stocks_product_id !== "0"
+        && $stocks->suppliers_products_category_id !== "0" && $stocks->suppliers_products_aid !== "0"
     ) {
         $query = checkReadReportFilterStocksBySupplierCategoryProduct($stocks);
         http_response_code(200);
@@ -114,7 +112,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     // 0,0,1
     if (
         $stocks->suppliers_products_suppliers_id === "0"
-        && $stocks->suppliers_products_category_id === "0" && $stocks->stocks_product_id !== "0"
+        && $stocks->suppliers_products_category_id === "0" && $stocks->suppliers_products_aid !== "0"
     ) {
         $query = checkReadReportStocksFilterByProduct($stocks);
         http_response_code(200);

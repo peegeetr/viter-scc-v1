@@ -15,6 +15,7 @@ class ReportStocks
 
     public $suppliers_products_category_id;
     public $suppliers_products_suppliers_id;
+    public $suppliers_products_aid;
 
     public $connection;
     public $lastInsertedId;
@@ -74,20 +75,7 @@ class ReportStocks
     public function readReportStocksFilterByCategory()
     {
         try {
-            $sql = "select stocks.stocks_number, ";
-            $sql .= "stocks.stocks_quantity, ";
-            $sql .= "stocks.stocks_or, ";
-            $sql .= "stocks.stocks_aid, ";
-            $sql .= "stocks.stocks_remarks, ";
-            $sql .= "stocks.stocks_created, ";
-            $sql .= "stocks.stocks_is_pending, ";
-            $sql .= "stocks.stocks_product_id, ";
-            $sql .= "count(stocks.stocks_product_id) as count, ";
-            $sql .= "sum(stocks.stocks_quantity) as stocksQuntity, ";
-            $sql .= "productHistory.product_history_aid, ";
-            $sql .= "productHistory.product_history_price, ";
-            $sql .= "productHistory.product_history_scc_price, ";
-            $sql .= "category.product_category_aid, ";
+            $sql = "select category.product_category_aid, ";
             $sql .= "category.product_category_name, ";
             $sql .= "suppliers.suppliers_company_name, ";
             $sql .= "suppliers.suppliers_aid, ";
@@ -97,30 +85,17 @@ class ReportStocks
             $sql .= "supplierProduct.suppliers_products_price, ";
             $sql .= "supplierProduct.suppliers_products_scc_price ";
             $sql .= "from ";
-            $sql .= "{$this->tblStocks} as stocks, ";
             $sql .= "{$this->tblSuppliers} as suppliers, ";
             $sql .= "{$this->tblCategory} as category, ";
-            $sql .= "{$this->tblProductsHistory} as productHistory, ";
             $sql .= "{$this->tblSuppliersProducts} as supplierProduct ";
             $sql .= "where category.product_category_aid = :suppliers_products_category_id ";
-            $sql .= "and stocks.stocks_is_pending = 0 ";
             $sql .= "and category.product_category_aid = supplierProduct.suppliers_products_category_id ";
-            $sql .= "and stocks.stocks_suplier_price_history_id = productHistory.product_history_aid ";
-            $sql .= "and stocks.stocks_product_id = supplierProduct.suppliers_products_aid ";
             $sql .= "and suppliers.suppliers_aid = supplierProduct.suppliers_products_suppliers_id ";
-            $sql .= "and DATE(stocks.stocks_date) between ";
-            $sql .= ":start_date and :end_date ";
-            $sql .= "group by stocks.stocks_product_id, ";
-            $sql .= "productHistory.product_history_price, ";
-            $sql .= "productHistory.product_history_scc_price ";
-            $sql .= "order by stocks.stocks_is_pending desc, ";
-            $sql .= "stocks.stocks_created desc, ";
-            $sql .= "supplierProduct.suppliers_products_name asc ";
+            $sql .= "group by supplierProduct.suppliers_products_aid ";
+            $sql .= "order by supplierProduct.suppliers_products_name asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "suppliers_products_category_id" => $this->suppliers_products_category_id,
-                "start_date" => $this->start_date,
-                "end_date" => $this->end_date,
             ]);
         } catch (PDOException $ex) {
             $query = false;
@@ -133,20 +108,7 @@ class ReportStocks
     public function readReportStocksFilterBySupplierCategory()
     {
         try {
-            $sql = "select stocks.stocks_number, ";
-            $sql .= "stocks.stocks_quantity, ";
-            $sql .= "stocks.stocks_or, ";
-            $sql .= "stocks.stocks_aid, ";
-            $sql .= "stocks.stocks_remarks, ";
-            $sql .= "stocks.stocks_created, ";
-            $sql .= "stocks.stocks_is_pending, ";
-            $sql .= "stocks.stocks_product_id, ";
-            $sql .= "count(stocks.stocks_product_id) as count, ";
-            $sql .= "sum(stocks.stocks_quantity) as stocksQuntity, ";
-            $sql .= "productHistory.product_history_aid, ";
-            $sql .= "productHistory.product_history_price, ";
-            $sql .= "productHistory.product_history_scc_price, ";
-            $sql .= "category.product_category_aid, ";
+            $sql = "select category.product_category_aid, ";
             $sql .= "category.product_category_name, ";
             $sql .= "suppliers.suppliers_company_name, ";
             $sql .= "suppliers.suppliers_aid, ";
@@ -156,32 +118,19 @@ class ReportStocks
             $sql .= "supplierProduct.suppliers_products_price, ";
             $sql .= "supplierProduct.suppliers_products_scc_price ";
             $sql .= "from ";
-            $sql .= "{$this->tblStocks} as stocks, ";
             $sql .= "{$this->tblSuppliers} as suppliers, ";
             $sql .= "{$this->tblCategory} as category, ";
-            $sql .= "{$this->tblProductsHistory} as productHistory, ";
             $sql .= "{$this->tblSuppliersProducts} as supplierProduct ";
-            $sql .= "where category.product_category_aid = :suppliers_products_category_id ";
-            $sql .= "and supplierProduct.suppliers_products_suppliers_id = :suppliers_products_suppliers_id ";
-            $sql .= "and stocks.stocks_is_pending = 0 ";
+            $sql .= "where suppliers.suppliers_aid = :suppliers_products_suppliers_id ";
+            $sql .= "and category.product_category_aid = :suppliers_products_category_id ";
             $sql .= "and category.product_category_aid = supplierProduct.suppliers_products_category_id ";
-            $sql .= "and stocks.stocks_suplier_price_history_id = productHistory.product_history_aid ";
-            $sql .= "and stocks.stocks_product_id = supplierProduct.suppliers_products_aid ";
             $sql .= "and suppliers.suppliers_aid = supplierProduct.suppliers_products_suppliers_id ";
-            $sql .= "and DATE(stocks.stocks_date) between ";
-            $sql .= ":start_date and :end_date ";
-            $sql .= "group by stocks.stocks_product_id, ";
-            $sql .= "productHistory.product_history_price, ";
-            $sql .= "productHistory.product_history_scc_price ";
-            $sql .= "order by stocks.stocks_is_pending desc, ";
-            $sql .= "stocks.stocks_created desc, ";
-            $sql .= "supplierProduct.suppliers_products_name asc ";
+            $sql .= "group by supplierProduct.suppliers_products_aid ";
+            $sql .= "order by supplierProduct.suppliers_products_name asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "suppliers_products_suppliers_id" => $this->suppliers_products_suppliers_id,
                 "suppliers_products_category_id" => $this->suppliers_products_category_id,
-                "start_date" => $this->start_date,
-                "end_date" => $this->end_date,
             ]);
         } catch (PDOException $ex) {
             $query = false;
@@ -194,20 +143,7 @@ class ReportStocks
     public function readReportStocksFilterBySupplier()
     {
         try {
-            $sql = "select stocks.stocks_number, ";
-            $sql .= "stocks.stocks_quantity, ";
-            $sql .= "stocks.stocks_or, ";
-            $sql .= "stocks.stocks_aid, ";
-            $sql .= "stocks.stocks_remarks, ";
-            $sql .= "stocks.stocks_created, ";
-            $sql .= "stocks.stocks_is_pending, ";
-            $sql .= "stocks.stocks_product_id, ";
-            $sql .= "count(stocks.stocks_product_id) as count, ";
-            $sql .= "sum(stocks.stocks_quantity) as stocksQuntity, ";
-            $sql .= "productHistory.product_history_aid, ";
-            $sql .= "productHistory.product_history_price, ";
-            $sql .= "productHistory.product_history_scc_price, ";
-            $sql .= "category.product_category_aid, ";
+            $sql = "select category.product_category_aid, ";
             $sql .= "category.product_category_name, ";
             $sql .= "suppliers.suppliers_company_name, ";
             $sql .= "suppliers.suppliers_aid, ";
@@ -217,30 +153,17 @@ class ReportStocks
             $sql .= "supplierProduct.suppliers_products_price, ";
             $sql .= "supplierProduct.suppliers_products_scc_price ";
             $sql .= "from ";
-            $sql .= "{$this->tblStocks} as stocks, ";
             $sql .= "{$this->tblSuppliers} as suppliers, ";
             $sql .= "{$this->tblCategory} as category, ";
-            $sql .= "{$this->tblProductsHistory} as productHistory, ";
             $sql .= "{$this->tblSuppliersProducts} as supplierProduct ";
-            $sql .= "where supplierProduct.suppliers_products_suppliers_id = :suppliers_products_suppliers_id ";
-            $sql .= "and stocks.stocks_is_pending = 0 ";
+            $sql .= "where suppliers.suppliers_aid = :suppliers_products_suppliers_id ";
             $sql .= "and category.product_category_aid = supplierProduct.suppliers_products_category_id ";
-            $sql .= "and stocks.stocks_suplier_price_history_id = productHistory.product_history_aid ";
-            $sql .= "and stocks.stocks_product_id = supplierProduct.suppliers_products_aid ";
             $sql .= "and suppliers.suppliers_aid = supplierProduct.suppliers_products_suppliers_id ";
-            $sql .= "and DATE(stocks.stocks_date) between ";
-            $sql .= ":start_date and :end_date ";
-            $sql .= "group by stocks.stocks_product_id, ";
-            $sql .= "productHistory.product_history_price, ";
-            $sql .= "productHistory.product_history_scc_price ";
-            $sql .= "order by stocks.stocks_is_pending desc, ";
-            $sql .= "stocks.stocks_created desc, ";
-            $sql .= "supplierProduct.suppliers_products_name asc ";
+            $sql .= "group by supplierProduct.suppliers_products_aid ";
+            $sql .= "order by supplierProduct.suppliers_products_name asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "suppliers_products_suppliers_id" => $this->suppliers_products_suppliers_id,
-                "start_date" => $this->start_date,
-                "end_date" => $this->end_date,
             ]);
         } catch (PDOException $ex) {
             $query = false;
@@ -253,20 +176,7 @@ class ReportStocks
     public function readReportStocksFilterBySupplierProduct()
     {
         try {
-            $sql = "select stocks.stocks_number, ";
-            $sql .= "stocks.stocks_quantity, ";
-            $sql .= "stocks.stocks_or, ";
-            $sql .= "stocks.stocks_aid, ";
-            $sql .= "stocks.stocks_remarks, ";
-            $sql .= "stocks.stocks_created, ";
-            $sql .= "stocks.stocks_is_pending, ";
-            $sql .= "stocks.stocks_product_id, ";
-            $sql .= "count(stocks.stocks_product_id) as count, ";
-            $sql .= "sum(stocks.stocks_quantity) as stocksQuntity, ";
-            $sql .= "productHistory.product_history_aid, ";
-            $sql .= "productHistory.product_history_price, ";
-            $sql .= "productHistory.product_history_scc_price, ";
-            $sql .= "category.product_category_aid, ";
+            $sql = "select category.product_category_aid, ";
             $sql .= "category.product_category_name, ";
             $sql .= "suppliers.suppliers_company_name, ";
             $sql .= "suppliers.suppliers_aid, ";
@@ -276,32 +186,19 @@ class ReportStocks
             $sql .= "supplierProduct.suppliers_products_price, ";
             $sql .= "supplierProduct.suppliers_products_scc_price ";
             $sql .= "from ";
-            $sql .= "{$this->tblStocks} as stocks, ";
             $sql .= "{$this->tblSuppliers} as suppliers, ";
             $sql .= "{$this->tblCategory} as category, ";
-            $sql .= "{$this->tblProductsHistory} as productHistory, ";
             $sql .= "{$this->tblSuppliersProducts} as supplierProduct ";
-            $sql .= "where supplierProduct.suppliers_products_suppliers_id = :suppliers_products_suppliers_id ";
-            $sql .= "and supplierProduct.suppliers_products_aid = :stocks_product_id ";
-            $sql .= "and stocks.stocks_is_pending = 0 ";
+            $sql .= "where suppliers.suppliers_aid = :suppliers_products_suppliers_id ";
+            $sql .= "and supplierProduct.suppliers_products_aid = :suppliers_products_aid ";
             $sql .= "and category.product_category_aid = supplierProduct.suppliers_products_category_id ";
-            $sql .= "and stocks.stocks_suplier_price_history_id = productHistory.product_history_aid ";
-            $sql .= "and stocks.stocks_product_id = supplierProduct.suppliers_products_aid ";
             $sql .= "and suppliers.suppliers_aid = supplierProduct.suppliers_products_suppliers_id ";
-            $sql .= "and DATE(stocks.stocks_date) between ";
-            $sql .= ":start_date and :end_date ";
-            $sql .= "group by stocks.stocks_product_id, ";
-            $sql .= "productHistory.product_history_price, ";
-            $sql .= "productHistory.product_history_scc_price ";
-            $sql .= "order by stocks.stocks_is_pending desc, ";
-            $sql .= "stocks.stocks_created desc, ";
-            $sql .= "supplierProduct.suppliers_products_name asc ";
+            $sql .= "group by supplierProduct.suppliers_products_aid ";
+            $sql .= "order by supplierProduct.suppliers_products_name asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "suppliers_products_suppliers_id" => $this->suppliers_products_suppliers_id,
-                "stocks_product_id" => $this->stocks_product_id,
-                "start_date" => $this->start_date,
-                "end_date" => $this->end_date,
+                "suppliers_products_aid" => $this->suppliers_products_aid,
             ]);
         } catch (PDOException $ex) {
             $query = false;
@@ -314,20 +211,7 @@ class ReportStocks
     public function readReportStocksFilterByCategoryProduct()
     {
         try {
-            $sql = "select stocks.stocks_number, ";
-            $sql .= "stocks.stocks_quantity, ";
-            $sql .= "stocks.stocks_or, ";
-            $sql .= "stocks.stocks_aid, ";
-            $sql .= "stocks.stocks_remarks, ";
-            $sql .= "stocks.stocks_created, ";
-            $sql .= "stocks.stocks_is_pending, ";
-            $sql .= "stocks.stocks_product_id, ";
-            $sql .= "count(stocks.stocks_product_id) as count, ";
-            $sql .= "sum(stocks.stocks_quantity) as stocksQuntity, ";
-            $sql .= "productHistory.product_history_aid, ";
-            $sql .= "productHistory.product_history_price, ";
-            $sql .= "productHistory.product_history_scc_price, ";
-            $sql .= "category.product_category_aid, ";
+            $sql = "select category.product_category_aid, ";
             $sql .= "category.product_category_name, ";
             $sql .= "suppliers.suppliers_company_name, ";
             $sql .= "suppliers.suppliers_aid, ";
@@ -337,32 +221,19 @@ class ReportStocks
             $sql .= "supplierProduct.suppliers_products_price, ";
             $sql .= "supplierProduct.suppliers_products_scc_price ";
             $sql .= "from ";
-            $sql .= "{$this->tblStocks} as stocks, ";
             $sql .= "{$this->tblSuppliers} as suppliers, ";
             $sql .= "{$this->tblCategory} as category, ";
-            $sql .= "{$this->tblProductsHistory} as productHistory, ";
             $sql .= "{$this->tblSuppliersProducts} as supplierProduct ";
-            $sql .= "where supplierProduct.suppliers_products_category_id = :suppliers_products_category_id ";
-            $sql .= "and supplierProduct.suppliers_products_aid = :stocks_product_id ";
-            $sql .= "and stocks.stocks_is_pending = 0 ";
+            $sql .= "where category.product_category_aid = :suppliers_products_category_id ";
+            $sql .= "and supplierProduct.suppliers_products_aid = :suppliers_products_aid ";
             $sql .= "and category.product_category_aid = supplierProduct.suppliers_products_category_id ";
-            $sql .= "and stocks.stocks_suplier_price_history_id = productHistory.product_history_aid ";
-            $sql .= "and stocks.stocks_product_id = supplierProduct.suppliers_products_aid ";
             $sql .= "and suppliers.suppliers_aid = supplierProduct.suppliers_products_suppliers_id ";
-            $sql .= "and DATE(stocks.stocks_date) between ";
-            $sql .= ":start_date and :end_date ";
-            $sql .= "group by stocks.stocks_product_id, ";
-            $sql .= "productHistory.product_history_price, ";
-            $sql .= "productHistory.product_history_scc_price ";
-            $sql .= "order by stocks.stocks_is_pending desc, ";
-            $sql .= "stocks.stocks_created desc, ";
-            $sql .= "supplierProduct.suppliers_products_name asc ";
+            $sql .= "group by supplierProduct.suppliers_products_aid ";
+            $sql .= "order by supplierProduct.suppliers_products_name asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "suppliers_products_category_id" => $this->suppliers_products_category_id,
-                "stocks_product_id" => $this->stocks_product_id,
-                "start_date" => $this->start_date,
-                "end_date" => $this->end_date,
+                "suppliers_products_aid" => $this->suppliers_products_aid,
             ]);
         } catch (PDOException $ex) {
             $query = false;
@@ -375,20 +246,7 @@ class ReportStocks
     public function readReportFilterStocksBySupplierCategoryProduct()
     {
         try {
-            $sql = "select stocks.stocks_number, ";
-            $sql .= "stocks.stocks_quantity, ";
-            $sql .= "stocks.stocks_or, ";
-            $sql .= "stocks.stocks_aid, ";
-            $sql .= "stocks.stocks_remarks, ";
-            $sql .= "stocks.stocks_created, ";
-            $sql .= "stocks.stocks_is_pending, ";
-            $sql .= "stocks.stocks_product_id, ";
-            $sql .= "count(stocks.stocks_product_id) as count, ";
-            $sql .= "sum(stocks.stocks_quantity) as stocksQuntity, ";
-            $sql .= "productHistory.product_history_aid, ";
-            $sql .= "productHistory.product_history_price, ";
-            $sql .= "productHistory.product_history_scc_price, ";
-            $sql .= "category.product_category_aid, ";
+            $sql = "select category.product_category_aid, ";
             $sql .= "category.product_category_name, ";
             $sql .= "suppliers.suppliers_company_name, ";
             $sql .= "suppliers.suppliers_aid, ";
@@ -398,34 +256,21 @@ class ReportStocks
             $sql .= "supplierProduct.suppliers_products_price, ";
             $sql .= "supplierProduct.suppliers_products_scc_price ";
             $sql .= "from ";
-            $sql .= "{$this->tblStocks} as stocks, ";
             $sql .= "{$this->tblSuppliers} as suppliers, ";
             $sql .= "{$this->tblCategory} as category, ";
-            $sql .= "{$this->tblProductsHistory} as productHistory, ";
             $sql .= "{$this->tblSuppliersProducts} as supplierProduct ";
-            $sql .= "where supplierProduct.suppliers_products_category_id = :suppliers_products_category_id ";
-            $sql .= "and supplierProduct.suppliers_products_suppliers_id = :suppliers_products_suppliers_id ";
-            $sql .= "and supplierProduct.suppliers_products_aid = :stocks_product_id ";
-            $sql .= "and stocks.stocks_is_pending = 0 ";
+            $sql .= "where supplierProduct.suppliers_products_aid = :suppliers_products_aid ";
+            $sql .= "and category.product_category_aid = :suppliers_products_category_id ";
+            $sql .= "and suppliers.suppliers_aid = :suppliers_products_suppliers_id ";
             $sql .= "and category.product_category_aid = supplierProduct.suppliers_products_category_id ";
-            $sql .= "and stocks.stocks_suplier_price_history_id = productHistory.product_history_aid ";
-            $sql .= "and stocks.stocks_product_id = supplierProduct.suppliers_products_aid ";
             $sql .= "and suppliers.suppliers_aid = supplierProduct.suppliers_products_suppliers_id ";
-            $sql .= "and DATE(stocks.stocks_date) between ";
-            $sql .= ":start_date and :end_date ";
-            $sql .= "group by stocks.stocks_product_id, ";
-            $sql .= "productHistory.product_history_price, ";
-            $sql .= "productHistory.product_history_scc_price ";
-            $sql .= "order by stocks.stocks_is_pending desc, ";
-            $sql .= "stocks.stocks_created desc, ";
-            $sql .= "supplierProduct.suppliers_products_name asc ";
+            $sql .= "group by supplierProduct.suppliers_products_aid ";
+            $sql .= "order by supplierProduct.suppliers_products_name asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "suppliers_products_suppliers_id" => $this->suppliers_products_suppliers_id,
                 "suppliers_products_category_id" => $this->suppliers_products_category_id,
-                "stocks_product_id" => $this->stocks_product_id,
-                "start_date" => $this->start_date,
-                "end_date" => $this->end_date,
+                "suppliers_products_aid" => $this->suppliers_products_aid,
             ]);
         } catch (PDOException $ex) {
             $query = false;
@@ -438,20 +283,7 @@ class ReportStocks
     public function readReportStocksFilterByProduct()
     {
         try {
-            $sql = "select stocks.stocks_number, ";
-            $sql .= "stocks.stocks_quantity, ";
-            $sql .= "stocks.stocks_or, ";
-            $sql .= "stocks.stocks_aid, ";
-            $sql .= "stocks.stocks_remarks, ";
-            $sql .= "stocks.stocks_created, ";
-            $sql .= "stocks.stocks_is_pending, ";
-            $sql .= "stocks.stocks_product_id, ";
-            $sql .= "count(stocks.stocks_product_id) as count, ";
-            $sql .= "sum(stocks.stocks_quantity) as stocksQuntity, ";
-            $sql .= "productHistory.product_history_aid, ";
-            $sql .= "productHistory.product_history_price, ";
-            $sql .= "productHistory.product_history_scc_price, ";
-            $sql .= "category.product_category_aid, ";
+            $sql = "select category.product_category_aid, ";
             $sql .= "category.product_category_name, ";
             $sql .= "suppliers.suppliers_company_name, ";
             $sql .= "suppliers.suppliers_aid, ";
@@ -461,30 +293,17 @@ class ReportStocks
             $sql .= "supplierProduct.suppliers_products_price, ";
             $sql .= "supplierProduct.suppliers_products_scc_price ";
             $sql .= "from ";
-            $sql .= "{$this->tblStocks} as stocks, ";
             $sql .= "{$this->tblSuppliers} as suppliers, ";
             $sql .= "{$this->tblCategory} as category, ";
-            $sql .= "{$this->tblProductsHistory} as productHistory, ";
             $sql .= "{$this->tblSuppliersProducts} as supplierProduct ";
-            $sql .= "where supplierProduct.suppliers_products_aid = :stocks_product_id ";
-            $sql .= "and stocks.stocks_is_pending = 0 ";
+            $sql .= "where supplierProduct.suppliers_products_aid = :suppliers_products_aid ";
             $sql .= "and category.product_category_aid = supplierProduct.suppliers_products_category_id ";
-            $sql .= "and stocks.stocks_suplier_price_history_id = productHistory.product_history_aid ";
-            $sql .= "and stocks.stocks_product_id = supplierProduct.suppliers_products_aid ";
             $sql .= "and suppliers.suppliers_aid = supplierProduct.suppliers_products_suppliers_id ";
-            $sql .= "and DATE(stocks.stocks_date) between ";
-            $sql .= ":start_date and :end_date ";
-            $sql .= "group by stocks.stocks_product_id, ";
-            $sql .= "productHistory.product_history_price, ";
-            $sql .= "productHistory.product_history_scc_price ";
-            $sql .= "order by stocks.stocks_is_pending desc, ";
-            $sql .= "stocks.stocks_created desc, ";
-            $sql .= "supplierProduct.suppliers_products_name asc ";
+            $sql .= "group by supplierProduct.suppliers_products_aid ";
+            $sql .= "order by supplierProduct.suppliers_products_name asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "stocks_product_id" => $this->stocks_product_id,
-                "start_date" => $this->start_date,
-                "end_date" => $this->end_date,
+                "suppliers_products_aid" => $this->suppliers_products_aid,
             ]);
         } catch (PDOException $ex) {
             $query = false;
@@ -497,20 +316,7 @@ class ReportStocks
     public function readReportStocksFilterAll()
     {
         try {
-            $sql = "select stocks.stocks_number, ";
-            $sql .= "stocks.stocks_quantity, ";
-            $sql .= "stocks.stocks_or, ";
-            $sql .= "stocks.stocks_aid, ";
-            $sql .= "stocks.stocks_remarks, ";
-            $sql .= "stocks.stocks_created, ";
-            $sql .= "stocks.stocks_is_pending, ";
-            $sql .= "stocks.stocks_product_id, ";
-            $sql .= "count(stocks.stocks_product_id) as count, ";
-            $sql .= "sum(stocks.stocks_quantity) as stocksQuntity, ";
-            $sql .= "productHistory.product_history_aid, ";
-            $sql .= "productHistory.product_history_price, ";
-            $sql .= "productHistory.product_history_scc_price, ";
-            $sql .= "category.product_category_aid, ";
+            $sql = "select category.product_category_aid, ";
             $sql .= "category.product_category_name, ";
             $sql .= "suppliers.suppliers_company_name, ";
             $sql .= "suppliers.suppliers_aid, ";
@@ -520,29 +326,14 @@ class ReportStocks
             $sql .= "supplierProduct.suppliers_products_price, ";
             $sql .= "supplierProduct.suppliers_products_scc_price ";
             $sql .= "from ";
-            $sql .= "{$this->tblStocks} as stocks, ";
             $sql .= "{$this->tblSuppliers} as suppliers, ";
             $sql .= "{$this->tblCategory} as category, ";
-            $sql .= "{$this->tblProductsHistory} as productHistory, ";
             $sql .= "{$this->tblSuppliersProducts} as supplierProduct ";
-            $sql .= "where stocks.stocks_is_pending = 0 ";
-            $sql .= "and category.product_category_aid = supplierProduct.suppliers_products_category_id ";
-            $sql .= "and stocks.stocks_suplier_price_history_id = productHistory.product_history_aid ";
-            $sql .= "and stocks.stocks_product_id = supplierProduct.suppliers_products_aid ";
+            $sql .= "where category.product_category_aid = supplierProduct.suppliers_products_category_id ";
             $sql .= "and suppliers.suppliers_aid = supplierProduct.suppliers_products_suppliers_id ";
-            $sql .= "and DATE(stocks.stocks_date) between ";
-            $sql .= ":start_date and :end_date ";
-            $sql .= "group by stocks.stocks_product_id, ";
-            $sql .= "productHistory.product_history_price, ";
-            $sql .= "productHistory.product_history_scc_price ";
-            $sql .= "order by stocks.stocks_is_pending desc, ";
-            $sql .= "stocks.stocks_created desc, ";
-            $sql .= "supplierProduct.suppliers_products_name asc ";
-            $query = $this->connection->prepare($sql);
-            $query->execute([
-                "start_date" => $this->start_date,
-                "end_date" => $this->end_date,
-            ]);
+            $sql .= "group by supplierProduct.suppliers_products_aid ";
+            $sql .= "order by supplierProduct.suppliers_products_name asc ";
+            $query = $this->connection->query($sql);
         } catch (PDOException $ex) {
             $query = false;
         }

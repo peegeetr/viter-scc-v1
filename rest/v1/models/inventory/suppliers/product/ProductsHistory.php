@@ -301,10 +301,14 @@ class ProductsHistory
             $sql = "select orders_product_id from ";
             $sql .= "{$this->tblOrders} ";
             $sql .= "where orders_product_id = :orders_product_id ";
-            $sql .= "order by orders_product_id desc ";
+            $sql .= "and orders_product_srp = :orders_product_srp ";
+            $sql .= "and orders_suplier_price = :orders_suplier_price ";
+            $sql .= "order by orders_aid desc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "orders_product_id" => $this->product_history_product_id,
+                "orders_product_srp" => $this->product_history_scc_price,
+                "orders_suplier_price" => $this->product_history_price,
             ]);
         } catch (PDOException $ex) {
             $query = false;
@@ -317,13 +321,13 @@ class ProductsHistory
     public function checkAssociation()
     {
         try {
-            $sql = "select stocks_product_id from ";
+            $sql = "select stocks_suplier_price_history_id from ";
             $sql .= "{$this->tblStocks} ";
-            $sql .= "where stocks_product_id = :stocks_product_id ";
-            $sql .= "order by stocks_product_id desc ";
+            $sql .= "where stocks_suplier_price_history_id = :stocks_suplier_price_history_id ";
+            $sql .= "order by stocks_suplier_price_history_id desc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "stocks_product_id" => $this->product_history_product_id,
+                "stocks_suplier_price_history_id" => $this->product_history_aid,
             ]);
         } catch (PDOException $ex) {
             $query = false;

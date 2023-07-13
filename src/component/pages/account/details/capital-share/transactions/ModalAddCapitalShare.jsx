@@ -98,7 +98,7 @@ const ModalAddCapitalShare = ({ item, amount, raminingAmount, total }) => {
                   : memberid;
                 const capital_share_total =
                   Number(total) + Number(capital_share_paid_up);
-                console.log("capital_share_total", capital_share_total);
+
                 if (Number(raminingAmount) < Number(capital_share_paid_up)) {
                   dispatch(setError(true));
                   dispatch(setMessage("invalid amount"));
