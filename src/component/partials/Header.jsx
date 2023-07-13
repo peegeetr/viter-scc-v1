@@ -30,7 +30,7 @@ const Header = () => {
           <Logo />{" "}
           <h1 className="hidden xs:block ml-4">
             Sambahayan Consumer Cooperative
-          </h1>
+          </h1>{" "}
         </div>
         <div className="flex justify-between items-center gap-3">
           {store.credentials.data.role_is_developer !== 1 &&
@@ -49,33 +49,19 @@ const Header = () => {
             </h4>
             <span>{store.credentials.data.role_name}</span>
           </div>
-          {store.credentials.data.role_is_cashier !== 1 ? (
-            <>
-              <span className="border-l-2 h-12 border-white"></span>
-              <div
-                className="hidden md:block btn-action-table hover:bg-white hover:text-primary"
-                onClick={handleLogout}
-              >
-                <FaSignOutAlt className="w-5 h-5 hidden md:block " />
-              </div>
-              <span
-                className="btn-action-table md:hidden hover:bg-white hover:text-primary"
-                onClick={handleShow}
-              >
-                {store.isShow ? <FaTimes /> : <GiHamburgerMenu />}
-              </span>
-            </>
-          ) : (
-            <>
-              <span className="border-l-2 h-12 border-white"></span>
-              <div
-                className=" btn-action-table hover:bg-white hover:text-primary"
-                onClick={handleLogout}
-              >
-                <FaSignOutAlt className="w-5 h-5 " />
-              </div>
-            </>
-          )}
+          <span className="border-l-2 h-12 border-white"></span>
+          <div
+            className="hidden md:block btn-action-table hover:bg-white hover:text-primary"
+            onClick={handleLogout}
+          >
+            <FaSignOutAlt className="w-5 h-5 hidden md:block " />
+          </div>
+          <span
+            className="btn-action-table md:hidden hover:bg-white hover:text-primary"
+            onClick={handleShow}
+          >
+            {store.isShow ? <FaTimes /> : <GiHamburgerMenu />}
+          </span>
         </div>
       </div>
       {/* if print */}

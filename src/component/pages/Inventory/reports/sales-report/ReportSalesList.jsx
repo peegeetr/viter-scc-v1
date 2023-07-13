@@ -8,6 +8,7 @@ import useQueryData from "../../../../custom-hooks/useQueryData";
 import { InputSelect, InputText } from "../../../../helpers/FormInputs";
 import {
   formatDate,
+  getDateNow,
   getTime,
   numberWithCommas,
   pesoSign,
@@ -117,12 +118,12 @@ const ReportSalesList = () => {
     setItemEdit(item);
   };
   const initVal = {
-    member_id: "",
-    supplier_id: "",
-    category_id: "",
-    product_id: "",
-    start_date: "",
-    end_date: "",
+    member_id: "0",
+    supplier_id: "0",
+    category_id: "0",
+    product_id: "0",
+    start_date: getDateNow(),
+    end_date: getDateNow(),
   };
 
   const yupSchema = Yup.object({
@@ -248,7 +249,7 @@ const ReportSalesList = () => {
                 <button
                   className="btn-modal-submit relative"
                   type="submit"
-                  disabled={isFetching || !props.dirty}
+                  disabled={isFetching}
                 >
                   {isFetching && <ButtonSpinner />}
                   <MdFilterAlt className="text-lg" />
@@ -329,7 +330,7 @@ const ReportSalesList = () => {
                         onClick={() => handleView(item)}
                         data-tooltip="Details"
                       >
-                        {pesoSign} {computeFinalAmount(item)}
+                        {pesoSign} {numberWithCommas(computeFinalAmount(item))}
                       </span>
                     </td>
                     <td>

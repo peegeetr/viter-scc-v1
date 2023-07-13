@@ -12,7 +12,6 @@ import SuppliersLink from "./suppliers/SuppliersLink";
 import PointOfSalesLink from "./point-of-sales/PointOfSalesLink";
 import ProductsLink from "./products/ProductsLink";
 import InvoiceLink from "./invoice/InvoiceLink";
-import { setIsSearch, setStartIndex } from "../../../store/StoreAction";
 
 const InventoryDetails = () => {
   const { store, dispatch } = React.useContext(StoreContext);

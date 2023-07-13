@@ -973,6 +973,14 @@ function App() {
                 </ProtectedRouteOther>
               }
             />
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/settings/system-mode`}
+              element={
+                <ProtectedRouteOther>
+                  <SystemMode />
+                </ProtectedRouteOther>
+              }
+            />
 
             {/* casher user */}
             <Route

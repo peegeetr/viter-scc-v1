@@ -26,11 +26,7 @@ import { queryData } from "../../../helpers/queryData";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
 import { getRemaningQuantity } from "../products/functions-product";
 import SearchToAddProduct from "../../point-of-sales/SearchToAddProduct";
-import {
-  getProductDetails,
-  getTotaAmountOrder,
-  modalComputeAmountWithDiscount,
-} from "./functions-orders";
+import { getProductDetails, getTotaAmountOrder } from "./functions-orders";
 
 const ModalAddOrders = ({ item, arrKey }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -116,8 +112,8 @@ const ModalAddOrders = ({ item, arrKey }) => {
     sales_or: "",
     orders_is_draft: 0,
     orders_is_paid: 0,
-    sales_member_change: "",
-    sales_discount: "",
+    sales_member_change: 0,
+    sales_discount: 0,
     sales_date: getDateTimeNow(),
   };
 
@@ -296,10 +292,10 @@ const ModalAddOrders = ({ item, arrKey }) => {
                           {Number(totalPrice) === 0
                             ? "0.00"
                             : numberWithCommas(
-                                modalComputeAmountWithDiscount(
-                                  getTotaAmountOrder(props.values, totalPrice),
-                                  0
-                                )
+                                getTotaAmountOrder(
+                                  props.values,
+                                  totalPrice
+                                ).toFixed(2)
                               )}
                         </span>
                       </p>
