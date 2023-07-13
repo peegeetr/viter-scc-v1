@@ -27,9 +27,11 @@ const SettingsLink = () => {
               <OtherUserLink />
             )}
           </li>
-          <li className="py-1">
-            <SystemModeLink />
-          </li>
+          {store.credentials.data.role_is_developer === 1 && (
+            <li className="py-1">
+              <SystemModeLink />
+            </li>
+          )}
           <li className="py-1">
             <SubscribeCapitalLink />
           </li>
