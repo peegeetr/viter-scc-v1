@@ -12,9 +12,14 @@ const CapitalShareLink = () => {
   const { store, dispatch } = React.useContext(StoreContext);
   const memberid = getUrlParam().get("memberid");
   const urlLink = getUserType(store);
+  const handleShow = () => {
+    dispatch(setIsSearch(false));
+    dispatch(setStartIndex(0));
+  };
   return (
     <>
       <Link
+        onClick={handleShow}
         to={`${urlLink}/members/details/capital-share?memberid=${memberid}`}
         className="w-full py-2"
       >
@@ -31,6 +36,7 @@ const CapitalShareLink = () => {
       </Link>
 
       <Link
+        onClick={handleShow}
         to={`${urlLink}/members/details/capital-share?memberid=${memberid}`}
         className="btn-action-table group-hover:bg-primary group-hover:text-white"
       >

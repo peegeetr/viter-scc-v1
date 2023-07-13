@@ -19,7 +19,11 @@ const CategoryLink = () => {
       className="group flex items-center justify-between border-b border-solid border-gray-300"
       onClick={handleShow}
     >
-      <Link to={`${urlLink}/inventory/category`} className="w-full py-2">
+      <Link
+        onClick={handleShow}
+        to={`${urlLink}/inventory/category`}
+        className="w-full py-2"
+      >
         <div className="flex items-center">
           <span className="text-lg mr-4">
             <MdOutlineInventory />
@@ -32,6 +36,7 @@ const CategoryLink = () => {
       </Link>
 
       <Link
+        onClick={handleShow}
         to={`${urlLink}/inventory/category`}
         className="btn-action-table group-hover:bg-primary group-hover:text-white"
       >

@@ -4,7 +4,12 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 import { SlArrowRight } from "react-icons/sl";
 import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
-import { setIsAdd, setIsRestore } from "../../../../store/StoreAction";
+import {
+  setIsAdd,
+  setIsRestore,
+  setIsSearch,
+  setStartIndex,
+} from "../../../../store/StoreAction";
 import { StoreContext } from "../../../../store/StoreContext";
 import { getUserType } from "../../../helpers/functions-general";
 import { queryDataInfinite } from "../../../helpers/queryDataInfinite";
@@ -28,6 +33,10 @@ const suppliersList = ({ setItemEdit }) => {
   const search = React.useRef(null);
   let counter = 1;
   const { ref, inView } = useInView();
+  const handleShow = () => {
+    dispatch(setIsSearch(false));
+    dispatch(setStartIndex(0));
+  };
   // use if with loadmore button and search bar
   const {
     data: result,
@@ -146,6 +155,7 @@ const suppliersList = ({ setItemEdit }) => {
                       store.credentials.data.role_is_manager === 1 ? (
                         <div className="flex items-center gap-1">
                           <Link
+                            onClick={handleShow}
                             to={`${urlLink}/inventory/suppliers/products?supplierId=${item.suppliers_aid}`}
                             className="btn-action-table tooltip-action-table"
                             data-tooltip="View"

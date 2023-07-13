@@ -3,7 +3,11 @@ import React from "react";
 import { FaArchive, FaHistory, FaListUl, FaTrash } from "react-icons/fa";
 import { useInView } from "react-intersection-observer";
 import { Link } from "react-router-dom";
-import { setIsConfirm, setIsRestore } from "../../../store/StoreAction";
+import {
+  setIsConfirm,
+  setIsRestore,
+  setIsSearch,
+} from "../../../store/StoreAction";
 import { StoreContext } from "../../../store/StoreContext";
 import { getUserType } from "../../helpers/functions-general";
 import { queryDataInfinite } from "../../helpers/queryDataInfinite";
@@ -28,6 +32,11 @@ const AccountList = () => {
   const [page, setPage] = React.useState(1);
   const search = React.useRef(null);
   const { ref, inView } = useInView();
+
+  const handleShow = () => {
+    dispatch(setIsSearch(false));
+    dispatch(setStartIndex(0));
+  };
   // use if with loadmore button and search bar
   const {
     data: result,
@@ -149,6 +158,7 @@ const AccountList = () => {
                     <td>
                       <div className="flex items-center gap-1">
                         <Link
+                          onClick={handleShow}
                           to={`${urlLink}/members/details?memberid=${item.members_aid}`}
                           className="btn-action-table tooltip-action-table"
                           data-tooltip="Details"
