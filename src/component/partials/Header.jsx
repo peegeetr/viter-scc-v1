@@ -7,7 +7,7 @@ import Logo from "../svg/Logo.jsx";
 import ModalLogout from "./modals/ModalLogout.jsx";
 import { devBaseImgUrl } from "../helpers/functions-general";
 
-const Header = () => {
+const Header = ({ menu = "" }) => {
   const { store, dispatch } = React.useContext(StoreContext);
 
   const handleShow = () => {
@@ -50,18 +50,31 @@ const Header = () => {
             <span>{store.credentials.data.role_name}</span>
           </div>
           <span className="border-l-2 h-12 border-white"></span>
-          <div
-            className="hidden md:block btn-action-table hover:bg-white hover:text-primary"
-            onClick={handleLogout}
-          >
-            <FaSignOutAlt className="w-5 h-5 hidden md:block " />
-          </div>
-          <span
-            className="btn-action-table md:hidden hover:bg-white hover:text-primary"
-            onClick={handleShow}
-          >
-            {store.isShow ? <FaTimes /> : <GiHamburgerMenu />}
-          </span>
+          {menu === "cashier" ? (
+            <>
+              <div
+                className=" btn-action-table hover:bg-white hover:text-primary"
+                onClick={handleLogout}
+              >
+                <FaSignOutAlt className="w-5 h-5  " />
+              </div>
+            </>
+          ) : (
+            <>
+              <div
+                className="hidden md:block btn-action-table hover:bg-white hover:text-primary"
+                onClick={handleLogout}
+              >
+                <FaSignOutAlt className="w-5 h-5 hidden md:block " />
+              </div>
+              <span
+                className="btn-action-table md:hidden hover:bg-white hover:text-primary"
+                onClick={handleShow}
+              >
+                {store.isShow ? <FaTimes /> : <GiHamburgerMenu />}
+              </span>
+            </>
+          )}
         </div>
       </div>
       {/* if print */}
