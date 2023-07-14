@@ -1,6 +1,7 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { Form, Formik } from "formik";
 import React from "react";
+import { MdFilterAlt } from "react-icons/md";
 import * as Yup from "yup";
 import { StoreContext } from "../../../../../../store/StoreContext";
 import useQueryData from "../../../../../custom-hooks/useQueryData";
@@ -14,14 +15,14 @@ import {
 import { queryDataInfinite } from "../../../../../helpers/queryDataInfinite";
 import NoData from "../../../../../partials/NoData";
 import ServerError from "../../../../../partials/ServerError";
-import TableSpinner from "../../../../../partials/spinners/TableSpinner";
 import ButtonSpinner from "../../../../../partials/spinners/ButtonSpinner";
-import { MdFilterAlt } from "react-icons/md";
+import TableSpinner from "../../../../../partials/spinners/TableSpinner";
+import ReportDetailedcCapitalTotals from "./ReportDetailedcCapitalTotals";
 import { getYearList } from "./functions-report-sales";
-import StatusAmount from "../../../../../partials/status/StatusAmount";
 
 const ReportDetailedCapitalShareList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
+  const [isMemberId, setMemberId] = React.useState(0);
   const [isFilter, setFilter] = React.useState(false);
   const [isSubmit, setSubmit] = React.useState(false);
   const [value, setValue] = React.useState([]);
@@ -78,6 +79,7 @@ const ReportDetailedCapitalShareList = () => {
           setFilter(true);
           setSubmit(!isSubmit);
           setValue(values);
+          setMemberId(values.member_id);
         }}
       >
         {(props) => {
@@ -138,43 +140,7 @@ const ReportDetailedCapitalShareList = () => {
         }}
       </Formik>
 
-      <div className="xl:flex items-center xl:mt-4  text-primary">
-        {result?.pages[0].count > 0 ? (
-          <StatusAmount
-            text="Paid Capital Share"
-            // amount={checkReportCapitalShare(result?.pages[0], subscribe).totalCapital}
-            amount={0}
-            type="paid"
-          />
-        ) : (
-          <StatusAmount text="Subscribes Capital Share " amount={0} />
-        )}
-
-        <StatusAmount
-          text="Remaining Capital "
-          // amount={totalCapital.remainingAmount}
-          amount={0}
-          type="pending"
-        />
-        <StatusAmount
-          text="Subscribes Capital Share "
-          // amount={totalCapital.subscribeC}
-          amount={0}
-        />
-        <StatusAmount
-          text="Membership Fee "
-          // amount={totalCapital.memberFee}
-          amount={0}
-        />
-      </div>
-      {}
-      <div className="xl:flex items-center mb-2 text-primary">
-        <StatusAmount
-          text="Average Share Months (ASM) "
-          // amount={totalCapital.avg}
-          amount={0}
-        />
-      </div>
+      <ReportDetailedcCapitalTotals isMemberId={isMemberId} />
 
       <div className="text-center overflow-x-auto z-0">
         {/* use only for updating important records */}

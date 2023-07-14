@@ -194,10 +194,10 @@ const MemberOrdersList = ({ setItemEdit, memberName, isLoading, menu }) => {
                     <button
                       className="btn-modal-submit relative"
                       type="submit"
-                      disabled={isFetching || !props.dirty}
+                      disabled={isFetching}
                     >
                       {/* {isFetching && <ButtonSpinner />} */}
-                      {status === "loading" && <ButtonSpinner />}
+                      {isFetching && <ButtonSpinner />}
                       <MdFilterAlt className="text-lg" />
                       <span>Filter</span>
                     </button>
@@ -208,7 +208,10 @@ const MemberOrdersList = ({ setItemEdit, memberName, isLoading, menu }) => {
           </Formik>
 
           {/* compution of total amount */}
-          <MemberTotalAmountOrders result={result} />
+          <MemberTotalAmountOrders
+            result={result}
+            isLoading={status === "loading"}
+          />
 
           <div className="relative text-center overflow-x-auto z-0 ">
             {/* use only for updating important records */}
