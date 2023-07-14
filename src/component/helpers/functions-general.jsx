@@ -131,7 +131,7 @@ export const GetFocus = (id) => {
   React.useEffect(() => {
     const obj = document.getElementById(id);
     obj.focus();
-  }, [items]);
+  }, []);
 };
 
 // get school year
