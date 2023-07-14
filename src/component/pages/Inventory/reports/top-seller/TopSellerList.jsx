@@ -173,7 +173,7 @@ const TopSellerList = ({ width = "", menu = "" }) => {
                   key={key}
                   className="flex justify-between py-2.5 items-center border-b-2 border-solid  flex-row"
                 >
-                  <div className="grid grid-cols-[5rem_1fr]  items-center">
+                  <div className="grid grid-cols-[5rem_1fr] items-center">
                     {counter === 1 ? (
                       <div className="flex items-center">
                         <p className="m-0">{counter}.</p>
