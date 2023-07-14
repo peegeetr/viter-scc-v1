@@ -43,7 +43,7 @@ const Header = ({ menu = "" }) => {
           ) : (
             <FaUserCircle className="w-9 h-9 text-white hidden md:block" />
           )}
-          <div className="hidden md:block leading-normal text-white min-w-[6rem]">
+          <div className=" leading-normal text-white min-w-[6rem]">
             <h4>
               Hi <span>{name},</span>
             </h4>

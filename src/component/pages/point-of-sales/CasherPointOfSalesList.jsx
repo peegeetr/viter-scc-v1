@@ -154,7 +154,7 @@ const CasherPointOfSalesList = () => {
             {(props) => {
               return (
                 <Form>
-                  <div className="relative !w-[20rem] ">
+                  <div className="relative w-full xs:!w-[20rem] ">
                     <InputSelect
                       name="posMember"
                       label="Order to"

@@ -42,7 +42,9 @@ const BreadCrumbs = ({ param = "" }) => {
         >
           <Link
             to={`${urlLink}${currentLink}${param}`}
-            className="mr-2 text-base font-medium hover:text-primary capitalize"
+            className={`mr-2 text-base font-medium hover:text-primary ${
+              crumb === "pos" ? "uppercase" : "capitalize"
+            }`}
           >
             {crumb}
           </Link>
