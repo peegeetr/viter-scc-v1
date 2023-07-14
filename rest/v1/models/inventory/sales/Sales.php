@@ -231,6 +231,7 @@ class Sales
             $sql .= "and orders.orders_is_draft = '0' ";
             $sql .= "and (orders.orders_number like :orders_number ";
             $sql .= "or sales.sales_number like :sales_number ";
+            $sql .= "or concat(member.members_last_name, ', ', member.members_first_name) like :name ";
             $sql .= "or member.members_last_name like :members_last_name ";
             $sql .= "or member.members_first_name like :members_first_name ";
             $sql .= "or MONTHNAME(orders.orders_date) like :orders_month_date ";
@@ -255,6 +256,7 @@ class Sales
                 "members_last_name" => "%{$this->sales_search}%",
                 "members_first_name" => "%{$this->sales_search}%",
                 "sales_number" => "%{$this->sales_search}%",
+                "name" => "%{$this->sales_search}%",
             ]);
         } catch (PDOException $ex) {
             $query = false;

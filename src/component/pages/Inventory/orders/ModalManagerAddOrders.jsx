@@ -147,7 +147,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
               <FaTimesCircle />
             </button>
           </div>
-          <div className="bg-white p-4 rounded-b-2xl h-[35rem] overflow-auto">
+          <div className="bg-white p-4 rounded-b-2xl h-[34rem] overflow-auto">
             <Formik
               initialValues={initVal}
               validationSchema={yupSchema}
@@ -190,7 +190,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                 props.values.orders_is_paid = isPaid;
                 return (
                   <Form>
-                    <div className="relative mb-6 mt-5">
+                    <div className="relative mb-6 mt-2">
                       <InputText
                         label="Date"
                         type="datetime-local"

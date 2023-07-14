@@ -81,6 +81,7 @@ const CasherPointOfSalesList = () => {
 
   const handleEdit = (item) => {
     dispatch(setIsAdd(true));
+
     setItemEdit(item);
   };
 
