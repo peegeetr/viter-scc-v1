@@ -113,9 +113,9 @@ const ReportStocksList = () => {
     "orderGroupProd" // key
   );
   const initVal = {
-    supplier_id: "",
-    category_id: "",
-    product_id: "",
+    supplier_id: "0",
+    category_id: "0",
+    product_id: "0",
   };
 
   const yupSchema = Yup.object({
@@ -123,6 +123,7 @@ const ReportStocksList = () => {
     category_id: Yup.string().required("Required"),
     product_id: Yup.string().required("Required"),
   });
+
   return (
     <>
       <Formik
@@ -201,7 +202,7 @@ const ReportStocksList = () => {
                 <button
                   className="btn-modal-submit relative"
                   type="submit"
-                  disabled={isFetching || !props.dirty}
+                  disabled={isFetching}
                 >
                   {isFetching && <ButtonSpinner />}
                   <MdFilterAlt className="text-lg" />

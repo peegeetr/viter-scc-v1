@@ -24,7 +24,7 @@ const StatusAmount = ({ text = "", amount = 0, type = "", qty = "" }) => {
           ) : (
             <>
               {pesoSign} {numberWithCommas(amount.toFixed(2))}
-              {` ${qty}`}
+              {qty !== "" && <span className="text-gray-600">{` ${qty}`}</span>}
             </>
           )}
         </span>

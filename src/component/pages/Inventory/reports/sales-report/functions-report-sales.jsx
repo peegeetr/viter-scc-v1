@@ -13,21 +13,27 @@ export const computeSccSales = (result) => {
 
   result?.pages.map((page) =>
     page?.data.map((item) => {
+      // quantity
+      totalOty = Number(item.orders_product_quantity);
+      // supplier price
+      supplierPrice = Number(item.orders_suplier_price);
+      // supplier price * quantity
+      totalSupplierAmount = supplierPrice * totalOty;
+
+      // if is paid
       if (item.sales_is_paid === 1) {
-        totalOty = Number(item.orders_product_quantity);
-        supplierPrice = Number(item.orders_suplier_price);
-        totalSupplierAmount = totalOty * supplierPrice;
+        // amount - discount
         sccPriceAmount =
           Number(item.orders_product_amount) - Number(item.sales_discount);
+
         if (sccPriceAmount !== 0 || sccPricePendingAmount > 0) {
           finalAmount += sccPriceAmount - totalSupplierAmount;
         }
       }
 
+      // if is pending
       if (item.sales_is_paid === 0) {
-        totalOty = Number(item.orders_product_quantity);
-        supplierPrice = Number(item.orders_suplier_price);
-        totalSupplierAmount = totalOty * supplierPrice;
+        // amount - discount
         sccPricePendingAmount =
           Number(item.orders_product_amount) - Number(item.sales_discount);
         if (sccPricePendingAmount !== 0 || sccPricePendingAmount > 0) {
