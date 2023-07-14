@@ -12,6 +12,7 @@ import { computeFinalAmount } from "../orders/functions-orders";
 
 const ModalViewSales = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
+  console.log("item", Number(item.sales_discount));
 
   const handleClose = () => {
     dispatch(setIsAdd(false));
@@ -88,8 +89,8 @@ const ModalViewSales = ({ item }) => {
               </p>
               <p className="mb-0">Total Amount:</p>
               <p className="mb-0 text-black ml-2">
-                {pesoSign}{" "}
-                {item.sales_is_paid === 1 ? computeFinalAmount(item) : "0.00"}
+                {pesoSign}
+                {numberWithCommas(computeFinalAmount(item))}
               </p>
               <p className="mb-0">Recieve Amount:</p>
               <p className="mb-0 text-black ml-2">

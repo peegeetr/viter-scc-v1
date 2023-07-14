@@ -7,6 +7,7 @@ import {
   setIsConfirm,
   setIsRestore,
   setIsSearch,
+  setStartIndex,
 } from "../../../store/StoreAction";
 import { StoreContext } from "../../../store/StoreContext";
 import { getUserType } from "../../helpers/functions-general";

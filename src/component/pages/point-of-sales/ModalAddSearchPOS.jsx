@@ -198,7 +198,7 @@ const ModalAddSearchPOS = ({ item, arrKey, memberId, memberName }) => {
                     </p>
 
                     {!item && (
-                      <div className="relative mt-10 text-2xl">
+                      <div className="relative mt-10 mb-5 text-2xl">
                         <SearchToAddProduct
                           stocksGroupProd={stocksGroupProd}
                           orderGroupProd={orderGroupProd}
@@ -212,11 +212,12 @@ const ModalAddSearchPOS = ({ item, arrKey, memberId, memberName }) => {
                         />
                       </div>
                     )}
-                    <p className="mt-5 font-light text-lg text-primary capitalize">
+                    <p className="mb-0 font-light text-lg text-primary capitalize">
                       Product :
                       <span className="font-bold">
                         {" "}
-                        {items.suppliers_products_name === undefined ? (
+                        {!item &&
+                        items.suppliers_products_name === undefined ? (
                           "--"
                         ) : (
                           <>

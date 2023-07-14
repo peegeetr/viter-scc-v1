@@ -81,11 +81,8 @@ export const modalComputeAmountWithDiscount = (amount, discount) => {
 export const getTotaAmountOrder = (values, totalPrice) => {
   let result = 0;
   if (totalPrice !== "") {
-    result = numberWithCommas(
-      Number(
-        Number(removeComma(values.orders_product_quantity)) * totalPrice
-      ).toFixed(2)
-    );
+    result =
+      Number(removeComma(values.orders_product_quantity)) * Number(totalPrice);
   }
   return result;
 };

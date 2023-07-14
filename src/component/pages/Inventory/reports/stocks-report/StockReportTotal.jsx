@@ -12,7 +12,7 @@ const StockReportTotal = ({ result, orderGroupProd, stocksGroupProd }) => {
             computeStockReportTotal(result, orderGroupProd, stocksGroupProd)
               .totalRemAmount
           }
-          type="paid"
+          type="pending"
           qty={`(${
             computeStockReportTotal(result, orderGroupProd, stocksGroupProd)
               .totalQty

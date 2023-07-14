@@ -7,6 +7,7 @@ import {
   getUrlParam,
   getUserType,
 } from "../../../../helpers/functions-general";
+import { setIsSearch, setStartIndex } from "../../../../../store/StoreAction";
 
 const CapitalShareLink = () => {
   const { store, dispatch } = React.useContext(StoreContext);

@@ -18,6 +18,7 @@ import useQueryData from "../../../../custom-hooks/useQueryData";
 import { InputText } from "../../../../helpers/FormInputs";
 import {
   formatDate,
+  getDateNow,
   getTime,
   getUrlParam,
   numberWithCommas,
@@ -130,9 +131,8 @@ const MemberOrdersList = ({ setItemEdit, memberName, isLoading, menu }) => {
     setDel(false);
   };
   const initVal = {
-    member_id: "",
-    start_date: "",
-    end_date: "",
+    start_date: getDateNow(),
+    end_date: getDateNow(),
   };
 
   const yupSchema = Yup.object({
@@ -221,7 +221,7 @@ const MemberOrdersList = ({ setItemEdit, memberName, isLoading, menu }) => {
                   <th className="w-[3rem]">Status</th>
                   <th className="min-w-[6rem] w-[6rem]">Created</th>
                   <th className="min-w-[6rem] w-[6rem]">Pay Date</th>
-                  <th className="min-w-[8rem] w-[8rem]">Product</th>
+                  <th className="min-w-[8rem] w-[15rem]">Product</th>
                   <th className="min-w-[8rem] w-[8rem]">Invoice #</th>
                   <th className="min-w-[3rem] w-[3rem] text-center">Qty</th>
                   <th className="min-w-[6rem] w-[6rem] text-right">
@@ -233,7 +233,7 @@ const MemberOrdersList = ({ setItemEdit, memberName, isLoading, menu }) => {
                   <th className="min-w-[8rem] w-[8rem] text-right pr-4">
                     Total Amnt.
                   </th>
-                  <th className="min-w-[15rem] ">Remarks</th>
+                  <th className="min-w-[12rem] ">Remarks</th>
                   {memberid === null && <th className="!w-[5rem]"></th>}
                 </tr>
               </thead>
@@ -327,26 +327,32 @@ const MemberOrdersList = ({ setItemEdit, memberName, isLoading, menu }) => {
                           {memberid === null && (
                             <td>
                               <div className="flex justify-end items-center gap-1">
-                                {item.orders_is_draft === 1 && (
-                                  <>
-                                    <button
-                                      type="button"
-                                      className="btn-action-table tooltip-action-table"
-                                      data-tooltip="Edit"
-                                      onClick={() => handleEdit(item)}
-                                    >
-                                      <FaEdit />
-                                    </button>
-                                    <button
-                                      type="button"
-                                      className="btn-action-table tooltip-action-table"
-                                      data-tooltip="Submit"
-                                      onClick={() => handlePending(item)}
-                                    >
-                                      <FaCheck />
-                                    </button>
-                                  </>
-                                )}
+                                {item.orders_is_draft === 1 &&
+                                  getRemaningQuantity(
+                                    item,
+                                    stocksGroupProd,
+                                    orderGroupProd
+                                  ) > 0 && (
+                                    <>
+                                      <button
+                                        type="button"
+                                        className="btn-action-table tooltip-action-table"
+                                        data-tooltip="Edit"
+                                        onClick={() => handleEdit(item)}
+                                      >
+                                        <FaEdit />
+                                      </button>
+
+                                      <button
+                                        type="button"
+                                        className="btn-action-table tooltip-action-table"
+                                        data-tooltip="Submit"
+                                        onClick={() => handlePending(item)}
+                                      >
+                                        <FaCheck />
+                                      </button>
+                                    </>
+                                  )}
                                 {item.sales_is_paid === 0 && (
                                   <button
                                     type="button"

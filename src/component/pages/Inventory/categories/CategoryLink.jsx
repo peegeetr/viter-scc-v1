@@ -15,10 +15,7 @@ const CategoryLink = () => {
   };
 
   return (
-    <div
-      className="group flex items-center justify-between border-b border-solid border-gray-300"
-      onClick={handleShow}
-    >
+    <div className="group flex items-center justify-between border-b border-solid border-gray-300">
       <Link
         onClick={handleShow}
         to={`${urlLink}/inventory/category`}

@@ -19,7 +19,7 @@ const CasherPointOfSales = () => {
   }
   return (
     <>
-      <Header />
+      <Header menu="cashier" />
       <div className="wrapper !m-0 !px-[1.50rem] pt-[4rem] ">
         <CasherPointOfSalesList />
         <Footer />

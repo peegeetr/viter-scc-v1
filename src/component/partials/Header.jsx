@@ -7,7 +7,7 @@ import Logo from "../svg/Logo.jsx";
 import ModalLogout from "./modals/ModalLogout.jsx";
 import { devBaseImgUrl } from "../helpers/functions-general";
 
-const Header = () => {
+const Header = ({ menu = "" }) => {
   const { store, dispatch } = React.useContext(StoreContext);
 
   const handleShow = () => {
@@ -30,7 +30,7 @@ const Header = () => {
           <Logo />{" "}
           <h1 className="hidden xs:block ml-4">
             Sambahayan Consumer Cooperative
-          </h1>
+          </h1>{" "}
         </div>
         <div className="flex justify-between items-center gap-3">
           {store.credentials.data.role_is_developer !== 1 &&
@@ -49,9 +49,18 @@ const Header = () => {
             </h4>
             <span>{store.credentials.data.role_name}</span>
           </div>
-          {store.credentials.data.role_is_cashier !== 1 ? (
+          <span className="border-l-2 h-12 border-white"></span>
+          {menu === "cashier" ? (
             <>
-              <span className="border-l-2 h-12 border-white"></span>
+              <div
+                className=" btn-action-table hover:bg-white hover:text-primary"
+                onClick={handleLogout}
+              >
+                <FaSignOutAlt className="w-5 h-5  " />
+              </div>
+            </>
+          ) : (
+            <>
               <div
                 className="hidden md:block btn-action-table hover:bg-white hover:text-primary"
                 onClick={handleLogout}
@@ -64,16 +73,6 @@ const Header = () => {
               >
                 {store.isShow ? <FaTimes /> : <GiHamburgerMenu />}
               </span>
-            </>
-          ) : (
-            <>
-              <span className="border-l-2 h-12 border-white"></span>
-              <div
-                className=" btn-action-table hover:bg-white hover:text-primary"
-                onClick={handleLogout}
-              >
-                <FaSignOutAlt className="w-5 h-5 " />
-              </div>
             </>
           )}
         </div>

@@ -8,6 +8,7 @@ import useQueryData from "../../../../custom-hooks/useQueryData";
 import { InputSelect, InputText } from "../../../../helpers/FormInputs";
 import {
   formatDate,
+  getDateNow,
   getTime,
   numberWithCommas,
   pesoSign,
@@ -117,12 +118,12 @@ const ReportSalesList = () => {
     setItemEdit(item);
   };
   const initVal = {
-    member_id: "",
-    supplier_id: "",
-    category_id: "",
-    product_id: "",
-    start_date: "",
-    end_date: "",
+    member_id: "0",
+    supplier_id: "0",
+    category_id: "0",
+    product_id: "0",
+    start_date: getDateNow(),
+    end_date: getDateNow(),
   };
 
   const yupSchema = Yup.object({
@@ -248,7 +249,7 @@ const ReportSalesList = () => {
                 <button
                   className="btn-modal-submit relative"
                   type="submit"
-                  disabled={isFetching || !props.dirty}
+                  disabled={isFetching}
                 >
                   {isFetching && <ButtonSpinner />}
                   <MdFilterAlt className="text-lg" />
@@ -272,13 +273,13 @@ const ReportSalesList = () => {
               <th>#</th>
               <th className="min-w-[2rem]">Status</th>
               <th className="min-w-[8rem]">Name</th>
+              <th className="min-w-[6rem]">Pay Date</th>
               <th className="min-w-[10rem]">Supplier</th>
               <th className="min-w-[8rem]">Category</th>
               <th className="min-w-[7rem]">Product</th>
               <th className="min-w-[6rem] text-center pr-4">Qty</th>
               <th className="min-w-[6rem] text-right pr-4">Discounted</th>
               <th className="min-w-[7rem] text-right pr-4">Total Amnt.</th>
-              <th className="min-w-[6rem]">Pay Date</th>
               <th className="min-w-[6rem] text-right pr-4">Supplier Price</th>
               <th className="!w-[10rem] text-right pr-4">SCC Sales</th>
             </tr>
@@ -313,6 +314,14 @@ const ReportSalesList = () => {
                       )}
                     </td>
                     <td>{`${item.members_last_name}, ${item.members_first_name}`}</td>
+                    <td>
+                      {item.sales_date === ""
+                        ? "N/A"
+                        : `${formatDate(item.sales_date)} ${getTime(
+                            item.sales_date
+                          )}`}
+                    </td>
+
                     <td>{item.suppliers_company_name}</td>
                     <td>{item.product_category_name}</td>
                     <td>{item.suppliers_products_name}</td>
@@ -329,15 +338,8 @@ const ReportSalesList = () => {
                         onClick={() => handleView(item)}
                         data-tooltip="Details"
                       >
-                        {pesoSign} {computeFinalAmount(item)}
+                        {pesoSign} {numberWithCommas(computeFinalAmount(item))}
                       </span>
-                    </td>
-                    <td>
-                      {item.sales_date === ""
-                        ? "N/A"
-                        : `${formatDate(item.sales_date)} ${getTime(
-                            item.sales_date
-                          )}`}
                     </td>
                     <td className="text-right pr-4">
                       {pesoSign}{" "}

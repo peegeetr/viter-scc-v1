@@ -18,13 +18,13 @@ import {
   pesoSign,
   removeComma,
 } from "../../helpers/functions-general";
-import { modalComputeAmountWithDiscount } from "../Inventory/orders/functions-orders";
 
-const ModalPayNow = ({ item, result }) => {
+const ModalPayNow = ({ item, result, isPayAll }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: (values) => queryData(`/v1/pos/payment`, "put", values),
+    mutationFn: (values) =>
+      queryData(`/v1/pos/payment/${isPayAll}`, "put", values),
     onSuccess: (data) => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ["pos-order"] });
@@ -84,7 +84,10 @@ const ModalPayNow = ({ item, result }) => {
                   dispatch(setMessage("Insufficient amount"));
                   return;
                 }
-                mutation.mutate({ ...values, result });
+                mutation.mutate({
+                  ...values,
+                  result: isPayAll ? result : item,
+                });
               }}
             >
               {(props) => {
@@ -93,20 +96,38 @@ const ModalPayNow = ({ item, result }) => {
                     <div className="pl-3 text-primary">
                       <p className="mb-0 text-lg">
                         Name:
-                        <span className="text-black ml-2">{item.name} </span>
+                        <span className="text-black ml-2">
+                          {isPayAll
+                            ? item.name
+                            : `${item.members_last_name}, ${item.members_first_name}`}
+                        </span>
                       </p>
                       <p className="mb-0 text-lg">
                         Amount:
                         <span className="text-black ml-2">
                           {pesoSign}{" "}
-                          {numberWithCommas(Number(item.amount).toFixed(2))}
+                          {numberWithCommas(
+                            Number(
+                              `${
+                                isPayAll
+                                  ? item.amount
+                                  : item.orders_product_amount
+                              }`
+                            ).toFixed(2)
+                          )}
                         </span>
                       </p>
                       <p className="mb-0 text-lg">
                         Discount Amount:
                         <span className="text-black ml-2">
                           {pesoSign}{" "}
-                          {numberWithCommas(Number(item.discount).toFixed(2))}
+                          {numberWithCommas(
+                            Number(
+                              `${
+                                isPayAll ? item.discount : item.sales_discount
+                              }`
+                            ).toFixed(2)
+                          )}
                         </span>
                       </p>
 
@@ -115,7 +136,14 @@ const ModalPayNow = ({ item, result }) => {
                         <span className="text-black ml-2">
                           {pesoSign}{" "}
                           {numberWithCommas(
-                            Number(item.totalAmount).toFixed(2)
+                            Number(
+                              `${
+                                isPayAll
+                                  ? item.totalAmount
+                                  : Number(item.orders_product_amount) -
+                                    Number(item.sales_discount)
+                              }`
+                            ).toFixed(2)
                           )}
                         </span>
                       </p>
@@ -126,13 +154,17 @@ const ModalPayNow = ({ item, result }) => {
                           {Number(props.values.sales_receive_amount) === 0
                             ? "0.00"
                             : numberWithCommas(
-                                (
+                                Number(
+                                  removeComma(props.values.sales_receive_amount)
+                                ) -
                                   Number(
-                                    removeComma(
-                                      props.values.sales_receive_amount
-                                    )
-                                  ) - Number(item.totalAmount)
-                                ).toFixed(2)
+                                    `${
+                                      isPayAll
+                                        ? item.totalAmount
+                                        : Number(item.orders_product_amount) -
+                                          Number(item.sales_discount)
+                                    }`
+                                  ).toFixed(2)
                               )}
                         </span>
                       </p>

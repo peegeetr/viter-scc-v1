@@ -1,0 +1,27 @@
+
+*controllers     
+    - point-of-sales/payment.php
+    - 
+    -
+    
+*models        
+    -  
+    -  
+    - 
+
+*htaccess 
+    - #POINT OF SALES
+    - 
+
+*db tables 
+    - 
+    - 
+
+*core functions 
+    - 
+    - 
+
+*extra
+    - 
+    - 
+ 

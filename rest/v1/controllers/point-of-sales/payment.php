@@ -21,13 +21,14 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     checkPayload($data);
 
     // get should not be present
-    if (array_key_exists("orderid", $_GET)) {
+    if (empty($_GET)) {
         // return 404 error if endpoint not available
         checkEndpoint();
     }
 
     // create point of sales order
-    if (empty($_GET)) {
+    if (array_key_exists("payAll", $_GET)) {
+        $pay_all = $_GET['payAll'];
         $pos->sales_or = checkIndex($data, "sales_or");
         $pos->sales_member_change = 0;
         $pos->orders_is_paid = 1;
@@ -36,23 +37,30 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
 
         $allOrders = $data["result"];
 
-        if (count($allOrders) === 0) {
-            $error = [];
-            $response->setSuccess(false);
-            $error['error'] = "NO DATA";
-            $error["success"] = false;
-            $response->setData($error);
-            $response->send();
-            exit;
-        }
-
-        if (count($allOrders) > 0) {
-            for ($d = 0; $d < count($allOrders); $d++) {
-                $pos->orders_aid = $allOrders[$d]["orders_aid"];
-                $pos->sales_receive_amount = (int)$allOrders[$d]["orders_product_amount"] - (int)$allOrders[$d]["sales_discount"];
-                $query = checkSalesPaymentUpdate($pos);
-                checkIsPaidOrder($pos);
+        if ($pay_all === "true") {
+            if (count($allOrders) === 0) {
+                $error = [];
+                $response->setSuccess(false);
+                $error['error'] = "NO DATA";
+                $error["success"] = false;
+                $response->setData($error);
+                $response->send();
+                exit;
             }
+            if (count($allOrders) > 0) {
+                for ($d = 0; $d < count($allOrders); $d++) {
+                    $pos->orders_aid = $allOrders[$d]["orders_aid"];
+                    $pos->sales_receive_amount = (int)$allOrders[$d]["orders_product_amount"] - (int)$allOrders[$d]["sales_discount"];
+                    $query = checkSalesPaymentUpdate($pos);
+                    checkIsPaidOrder($pos);
+                }
+            }
+        }
+        if ($pay_all === "false") {
+            $pos->orders_aid = $allOrders["orders_aid"];
+            $pos->sales_receive_amount = (int)$allOrders["orders_product_amount"] - (int)$allOrders["sales_discount"];
+            $query = checkSalesPaymentUpdate($pos);
+            checkIsPaidOrder($pos);
         }
         returnSuccess($pos, "point of sales", $query);
     }

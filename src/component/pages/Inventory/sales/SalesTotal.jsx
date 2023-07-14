@@ -26,17 +26,18 @@ const SalesTotal = ({ result }) => {
           text="total"
           amount={computeSalesTotalAmount(result).finalAmount}
           type="total"
+          qty={`(${computeSalesTotalAmount(result).totalOty} Qty)`}
         />
         <StatusAmount
           text="discount"
           amount={computeSalesTotalAmount(result).finalDiscount}
           type="discount"
         />
-        <StatusAmount
+        {/* <StatusAmount
           text="qty"
           amount={computeSalesTotalAmount(result).totalOty}
           type="qty"
-        />
+        /> */}
       </div>
     </>
   );

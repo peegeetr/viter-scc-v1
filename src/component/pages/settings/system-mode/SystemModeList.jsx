@@ -76,38 +76,40 @@ const SystemModeList = () => {
             {systemMode?.data.map((item, key) => {
               counter++;
               return (
-                <tr key={key}>
-                  <td>{counter}</td>
-                  <td className="capitalize">
-                    {item.settings_system_mode_name}
-                  </td>
+                item.settings_system_mode_is_test_mode === 0 && (
+                  <tr key={key}>
+                    <td>{counter}</td>
+                    <td className="capitalize">
+                      {item.settings_system_mode_name}
+                    </td>
 
-                  <td className="pr-4 ">
-                    <div className="flex justify-end ">
-                      <div
-                        className="hover:bg-white btn-action-table tooltip-action-table relative min-w-[40px] w-[40px] h-[20px] cursor-pointer ease-linear duration-[0.4s] rounded-full"
-                        data-tooltip={
-                          item.settings_system_mode_is_on === 0
-                            ? "Turn On"
-                            : "Turn Off"
-                        }
-                        onClick={() =>
-                          item.settings_system_mode_is_on === 0
-                            ? handleTurnOff(item)
-                            : handleTurnOn(item)
-                        }
-                      >
-                        <span
-                          className={
+                    <td className="pr-4 ">
+                      <div className="flex justify-end ">
+                        <div
+                          className="hover:bg-white btn-action-table tooltip-action-table relative min-w-[40px] w-[40px] h-[20px] cursor-pointer ease-linear duration-[0.4s] rounded-full"
+                          data-tooltip={
                             item.settings_system_mode_is_on === 0
-                              ? "absolute top-0 bottom-0 right-0 left-[13.8px] cursor-pointer w-[25px] h-[19.5px] border border-solid border-primary rounded-full ease-linear duration-[0.4s] bg-primary opacity-[0.5]"
-                              : "absolute top-0 bottom-0 right-0 left-0 cursor-pointer w-[25px] h-[19.1px] border border-solid border-primary rounded-full ease-linear duration-[0.4s] bg-primary"
+                              ? "Turn On"
+                              : "Turn Off"
                           }
-                        ></span>
+                          onClick={() =>
+                            item.settings_system_mode_is_on === 0
+                              ? handleTurnOff(item)
+                              : handleTurnOn(item)
+                          }
+                        >
+                          <span
+                            className={
+                              item.settings_system_mode_is_on === 0
+                                ? "absolute top-0 bottom-0 right-0 left-[13.8px] cursor-pointer w-[25px] h-[19.5px] border border-solid border-primary rounded-full ease-linear duration-[0.4s] bg-primary opacity-[0.5]"
+                                : "absolute top-0 bottom-0 right-0 left-0 cursor-pointer w-[25px] h-[19.1px] border border-solid border-primary rounded-full ease-linear duration-[0.4s] bg-primary"
+                            }
+                          ></span>
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                </tr>
+                    </td>
+                  </tr>
+                )
               );
             })}
           </tbody>
