@@ -157,18 +157,20 @@ export const getValidationOrderAdd = (
     dispatch(setMessage("Invalid Discount Amount"));
     invalidAmount = true;
   }
+
+  const newQty =
+    getRemaningQuantity(item ? item : items, stocksGroupProd, orderGroupProd) +
+    Number(item.orders_product_quantity) -
+    Number(orders_product_quantity);
+
+  const qty =
+    getRemaningQuantity(item ? item : items, stocksGroupProd, orderGroupProd) +
+    Number(item.orders_product_quantity);
+
   if (
-    Number(orders_product_quantity) >
-      getRemaningQuantity(
-        item ? item : items,
-        stocksGroupProd,
-        orderGroupProd
-      ) ||
-    getRemaningQuantity(
-      item ? item : items,
-      stocksGroupProd,
-      orderGroupProd
-    ) === 0
+    Number(orders_product_quantity) === 0 ||
+    Number(orders_product_quantity) > qty ||
+    newQty <= -1
   ) {
     dispatch(setError(true));
     dispatch(setMessage("Insufficient quantity"));

@@ -92,7 +92,8 @@ class ReportStocks
             $sql .= "and category.product_category_aid = supplierProduct.suppliers_products_category_id ";
             $sql .= "and suppliers.suppliers_aid = supplierProduct.suppliers_products_suppliers_id ";
             $sql .= "group by supplierProduct.suppliers_products_aid ";
-            $sql .= "order by supplierProduct.suppliers_products_name asc ";
+            $sql .= "order by suppliers.suppliers_company_name, ";
+            $sql .= "supplierProduct.suppliers_products_name asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "suppliers_products_category_id" => $this->suppliers_products_category_id,
@@ -126,7 +127,8 @@ class ReportStocks
             $sql .= "and category.product_category_aid = supplierProduct.suppliers_products_category_id ";
             $sql .= "and suppliers.suppliers_aid = supplierProduct.suppliers_products_suppliers_id ";
             $sql .= "group by supplierProduct.suppliers_products_aid ";
-            $sql .= "order by supplierProduct.suppliers_products_name asc ";
+            $sql .= "order by suppliers.suppliers_company_name, ";
+            $sql .= "supplierProduct.suppliers_products_name asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "suppliers_products_suppliers_id" => $this->suppliers_products_suppliers_id,
@@ -160,7 +162,8 @@ class ReportStocks
             $sql .= "and category.product_category_aid = supplierProduct.suppliers_products_category_id ";
             $sql .= "and suppliers.suppliers_aid = supplierProduct.suppliers_products_suppliers_id ";
             $sql .= "group by supplierProduct.suppliers_products_aid ";
-            $sql .= "order by supplierProduct.suppliers_products_name asc ";
+            $sql .= "order by suppliers.suppliers_company_name, ";
+            $sql .= "supplierProduct.suppliers_products_name asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "suppliers_products_suppliers_id" => $this->suppliers_products_suppliers_id,
@@ -194,7 +197,8 @@ class ReportStocks
             $sql .= "and category.product_category_aid = supplierProduct.suppliers_products_category_id ";
             $sql .= "and suppliers.suppliers_aid = supplierProduct.suppliers_products_suppliers_id ";
             $sql .= "group by supplierProduct.suppliers_products_aid ";
-            $sql .= "order by supplierProduct.suppliers_products_name asc ";
+            $sql .= "order by suppliers.suppliers_company_name, ";
+            $sql .= "supplierProduct.suppliers_products_name asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "suppliers_products_suppliers_id" => $this->suppliers_products_suppliers_id,
@@ -229,7 +233,8 @@ class ReportStocks
             $sql .= "and category.product_category_aid = supplierProduct.suppliers_products_category_id ";
             $sql .= "and suppliers.suppliers_aid = supplierProduct.suppliers_products_suppliers_id ";
             $sql .= "group by supplierProduct.suppliers_products_aid ";
-            $sql .= "order by supplierProduct.suppliers_products_name asc ";
+            $sql .= "order by suppliers.suppliers_company_name, ";
+            $sql .= "supplierProduct.suppliers_products_name asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "suppliers_products_category_id" => $this->suppliers_products_category_id,
@@ -265,7 +270,8 @@ class ReportStocks
             $sql .= "and category.product_category_aid = supplierProduct.suppliers_products_category_id ";
             $sql .= "and suppliers.suppliers_aid = supplierProduct.suppliers_products_suppliers_id ";
             $sql .= "group by supplierProduct.suppliers_products_aid ";
-            $sql .= "order by supplierProduct.suppliers_products_name asc ";
+            $sql .= "order by suppliers.suppliers_company_name, ";
+            $sql .= "supplierProduct.suppliers_products_name asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "suppliers_products_suppliers_id" => $this->suppliers_products_suppliers_id,
@@ -300,7 +306,8 @@ class ReportStocks
             $sql .= "and category.product_category_aid = supplierProduct.suppliers_products_category_id ";
             $sql .= "and suppliers.suppliers_aid = supplierProduct.suppliers_products_suppliers_id ";
             $sql .= "group by supplierProduct.suppliers_products_aid ";
-            $sql .= "order by supplierProduct.suppliers_products_name asc ";
+            $sql .= "order by suppliers.suppliers_company_name, ";
+            $sql .= "supplierProduct.suppliers_products_name asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "suppliers_products_aid" => $this->suppliers_products_aid,
@@ -332,7 +339,8 @@ class ReportStocks
             $sql .= "where category.product_category_aid = supplierProduct.suppliers_products_category_id ";
             $sql .= "and suppliers.suppliers_aid = supplierProduct.suppliers_products_suppliers_id ";
             $sql .= "group by supplierProduct.suppliers_products_aid ";
-            $sql .= "order by supplierProduct.suppliers_products_name asc ";
+            $sql .= "order by suppliers.suppliers_company_name, ";
+            $sql .= "supplierProduct.suppliers_products_name asc ";
             $query = $this->connection->query($sql);
         } catch (PDOException $ex) {
             $query = false;

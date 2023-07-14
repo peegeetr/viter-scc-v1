@@ -137,6 +137,7 @@ const ModalAddMyOrder = ({ item, arrKey }) => {
                       ? item.suppliers_products_scc_price
                       : items.suppliers_products_scc_price
                   );
+
                 if (
                   Number(orders_product_quantity) >
                     getRemaningQuantity(
