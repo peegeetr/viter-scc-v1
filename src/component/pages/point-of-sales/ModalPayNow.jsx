@@ -18,13 +18,13 @@ import {
   pesoSign,
   removeComma,
 } from "../../helpers/functions-general";
-import { modalComputeAmountWithDiscount } from "../Inventory/orders/functions-orders";
 
-const ModalPayNow = ({ item, result, isPay }) => {
+const ModalPayNow = ({ item, result, isPayAll }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: (values) => queryData(`/v1/pos/payment`, "put", values),
+    mutationFn: (values) =>
+      queryData(`/v1/pos/payment/${isPayAll}`, "put", values),
     onSuccess: (data) => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ["pos-order"] });
@@ -84,7 +84,10 @@ const ModalPayNow = ({ item, result, isPay }) => {
                   dispatch(setMessage("Insufficient amount"));
                   return;
                 }
-                mutation.mutate({ ...values, result });
+                mutation.mutate({
+                  ...values,
+                  result: isPayAll ? result : item,
+                });
               }}
             >
               {(props) => {
@@ -94,9 +97,9 @@ const ModalPayNow = ({ item, result, isPay }) => {
                       <p className="mb-0 text-lg">
                         Name:
                         <span className="text-black ml-2">
-                          {isPay
-                            ? `${item.members_last_name}, ${item.members_first_name}`
-                            : item.name}
+                          {isPayAll
+                            ? item.name
+                            : `${item.members_last_name}, ${item.members_first_name}`}
                         </span>
                       </p>
                       <p className="mb-0 text-lg">
@@ -106,7 +109,9 @@ const ModalPayNow = ({ item, result, isPay }) => {
                           {numberWithCommas(
                             Number(
                               `${
-                                isPay ? item.orders_product_amount : item.amount
+                                isPayAll
+                                  ? item.amount
+                                  : item.orders_product_amount
                               }`
                             ).toFixed(2)
                           )}
@@ -118,7 +123,9 @@ const ModalPayNow = ({ item, result, isPay }) => {
                           {pesoSign}{" "}
                           {numberWithCommas(
                             Number(
-                              `${isPay ? item.sales_discount : item.discount}`
+                              `${
+                                isPayAll ? item.discount : item.sales_discount
+                              }`
                             ).toFixed(2)
                           )}
                         </span>
@@ -131,10 +138,10 @@ const ModalPayNow = ({ item, result, isPay }) => {
                           {numberWithCommas(
                             Number(
                               `${
-                                isPay
-                                  ? Number(item.orders_product_srp) -
+                                isPayAll
+                                  ? item.totalAmount
+                                  : Number(item.orders_product_amount) -
                                     Number(item.sales_discount)
-                                  : item.totalAmount
                               }`
                             ).toFixed(2)
                           )}
@@ -152,10 +159,10 @@ const ModalPayNow = ({ item, result, isPay }) => {
                                 ) -
                                   Number(
                                     `${
-                                      isPay
-                                        ? Number(item.orders_product_srp) -
+                                      isPayAll
+                                        ? item.totalAmount
+                                        : Number(item.orders_product_amount) -
                                           Number(item.sales_discount)
-                                        : item.totalAmount
                                     }`
                                   ).toFixed(2)
                               )}

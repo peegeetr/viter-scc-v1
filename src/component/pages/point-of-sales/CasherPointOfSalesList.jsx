@@ -38,7 +38,7 @@ const CasherPointOfSalesList = () => {
   const [isFilter, setFilter] = React.useState(false);
   const [isSubmit, setSubmit] = React.useState(false);
   const [itemEdit, setItemEdit] = React.useState(null);
-  const [isPay, setIsPay] = React.useState(false);
+  const [isPayAll, setIsPayAll] = React.useState(false);
   const [memberId, setMember] = React.useState("");
   const [memberName, setMemberName] = React.useState("");
   const [dataItem, setData] = React.useState(null);
@@ -126,13 +126,13 @@ const CasherPointOfSalesList = () => {
     }
     dispatch(setIsConfirm(true));
     setItemEdit(getDataPayNow(result, memberId));
-    setIsPay(false);
+    setIsPayAll(true);
   };
 
   const handlePay = (item) => {
     dispatch(setIsConfirm(true));
     setItemEdit(item);
-    setIsPay(true);
+    setIsPayAll(false);
   };
 
   const initVal = {
@@ -334,7 +334,7 @@ const CasherPointOfSalesList = () => {
         <ModalPayNow
           item={itemEdit}
           result={result?.pages[0].data}
-          isPay={isPay}
+          isPayAll={isPayAll}
         />
       )}
 
