@@ -6,6 +6,7 @@ require '../../core/functions.php';
 require 'functions.php';
 // use needed classes
 require '../../models/point-of-sales/PointOfSales.php';
+// get payload
 $conn = null;
 $conn = checkDbConnection();
 // make instance of classes

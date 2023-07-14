@@ -1,6 +1,9 @@
 
 *controllers     
-    - point-of-sales/payment.php
+    - point-of-sales/create.php
+    - point-of-sales/point-of-sales.php
+    - point-of-sales/update-payment.php
+    - point-of-sales/update.php
     - 
     -
     

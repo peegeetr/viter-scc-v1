@@ -24,7 +24,7 @@ const ModalPayNow = ({ item, result, isPayAll }) => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: (values) =>
-      queryData(`/v1/pos/payment/${isPayAll}`, "put", values),
+      queryData(`/v1/pos/accept-payment/${isPayAll}`, "put", values),
     onSuccess: (data) => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ["pos-order"] });
