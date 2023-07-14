@@ -39,7 +39,7 @@ const CasherPointOfSalesList = () => {
   const [isSubmit, setSubmit] = React.useState(false);
   const [itemEdit, setItemEdit] = React.useState(null);
   const [isPayAll, setIsPayAll] = React.useState(false);
-  const [memberId, setMember] = React.useState("");
+  const [memberId, setMember] = React.useState(0);
   const [memberName, setMemberName] = React.useState("");
   const [dataItem, setData] = React.useState(null);
   const [id, setId] = React.useState(null);
@@ -104,6 +104,7 @@ const CasherPointOfSalesList = () => {
     setMember(e.target.value);
     setMemberName(e.target.options[e.target.selectedIndex].id);
   };
+
   const handleAdd = () => {
     if (memberId === 0) {
       dispatch(setError(true));
@@ -113,6 +114,7 @@ const CasherPointOfSalesList = () => {
     dispatch(setIsAdd(true));
     setItemEdit(null);
   };
+
   const handlePayNow = () => {
     if (memberId === 0) {
       dispatch(setError(true));

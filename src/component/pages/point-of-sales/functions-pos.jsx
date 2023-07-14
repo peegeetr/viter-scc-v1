@@ -26,7 +26,9 @@ export const getTotaAmountPOS = (values, totalPrice) => {
   if (totalPrice !== "") {
     result = numberWithCommas(
       Number(
-        Number(removeComma(values.orders_product_quantity)) * totalPrice
+        Number(removeComma(values.orders_product_quantity)) *
+          Number(totalPrice) -
+          Number(removeComma(values.sales_discount))
       ).toFixed(2)
     );
   }
