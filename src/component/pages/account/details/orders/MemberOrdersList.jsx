@@ -18,6 +18,7 @@ import useQueryData from "../../../../custom-hooks/useQueryData";
 import { InputText } from "../../../../helpers/FormInputs";
 import {
   formatDate,
+  getDateNow,
   getTime,
   getUrlParam,
   numberWithCommas,
@@ -130,9 +131,8 @@ const MemberOrdersList = ({ setItemEdit, memberName, isLoading, menu }) => {
     setDel(false);
   };
   const initVal = {
-    member_id: "",
-    start_date: "",
-    end_date: "",
+    start_date: getDateNow(),
+    end_date: getDateNow(),
   };
 
   const yupSchema = Yup.object({

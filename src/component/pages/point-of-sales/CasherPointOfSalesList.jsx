@@ -2,7 +2,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { Form, Formik } from "formik";
 import React from "react";
 import { FaEdit, FaShoppingCart, FaTrash } from "react-icons/fa";
-import { GiPayMoney } from "react-icons/gi";
+import { GiPayMoney, GiReceiveMoney } from "react-icons/gi";
 import { useInView } from "react-intersection-observer";
 import * as Yup from "yup";
 import {
@@ -18,6 +18,7 @@ import { InputSelect } from "../../helpers/FormInputs";
 import {
   formatDate,
   getTime,
+  notMemberId,
   numberWithCommas,
   pesoSign,
 } from "../../helpers/functions-general";
@@ -37,7 +38,8 @@ const CasherPointOfSalesList = () => {
   const [isFilter, setFilter] = React.useState(false);
   const [isSubmit, setSubmit] = React.useState(false);
   const [itemEdit, setItemEdit] = React.useState(null);
-  const [memberId, setMember] = React.useState(0);
+  const [isPay, setIsPay] = React.useState(false);
+  const [memberId, setMember] = React.useState("");
   const [memberName, setMemberName] = React.useState("");
   const [dataItem, setData] = React.useState(null);
   const [id, setId] = React.useState(null);
@@ -123,6 +125,14 @@ const CasherPointOfSalesList = () => {
       return;
     }
     dispatch(setIsConfirm(true));
+    setItemEdit(getDataPayNow(result, memberId));
+    setIsPay(false);
+  };
+
+  const handlePay = (item) => {
+    dispatch(setIsConfirm(true));
+    setItemEdit(item);
+    setIsPay(true);
   };
 
   const initVal = {
@@ -265,6 +275,14 @@ const CasherPointOfSalesList = () => {
                                 <button
                                   type="button"
                                   className="btn-action-table tooltip-action-table"
+                                  data-tooltip="Accept"
+                                  onClick={() => handlePay(item)}
+                                >
+                                  <GiReceiveMoney />
+                                </button>
+                                <button
+                                  type="button"
+                                  className="btn-action-table tooltip-action-table"
                                   data-tooltip="Edit"
                                   onClick={() => handleEdit(item)}
                                 >
@@ -299,7 +317,7 @@ const CasherPointOfSalesList = () => {
             className="btn-primary mr-8"
             onClick={handlePayNow}
           >
-            <GiPayMoney />
+            <GiReceiveMoney />
             <span>Pay now</span>
           </button>
         </div>
@@ -314,8 +332,9 @@ const CasherPointOfSalesList = () => {
       )}
       {store.isConfirm && (
         <ModalPayNow
-          item={getDataPayNow(result, memberId)}
+          item={itemEdit}
           result={result?.pages[0].data}
+          isPay={isPay}
         />
       )}
 

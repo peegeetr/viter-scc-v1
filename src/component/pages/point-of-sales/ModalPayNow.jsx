@@ -20,7 +20,7 @@ import {
 } from "../../helpers/functions-general";
 import { modalComputeAmountWithDiscount } from "../Inventory/orders/functions-orders";
 
-const ModalPayNow = ({ item, result }) => {
+const ModalPayNow = ({ item, result, isPay }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const queryClient = useQueryClient();
   const mutation = useMutation({
@@ -93,20 +93,34 @@ const ModalPayNow = ({ item, result }) => {
                     <div className="pl-3 text-primary">
                       <p className="mb-0 text-lg">
                         Name:
-                        <span className="text-black ml-2">{item.name} </span>
+                        <span className="text-black ml-2">
+                          {isPay
+                            ? `${item.members_last_name}, ${item.members_first_name}`
+                            : item.name}
+                        </span>
                       </p>
                       <p className="mb-0 text-lg">
                         Amount:
                         <span className="text-black ml-2">
                           {pesoSign}{" "}
-                          {numberWithCommas(Number(item.amount).toFixed(2))}
+                          {numberWithCommas(
+                            Number(
+                              `${
+                                isPay ? item.orders_product_amount : item.amount
+                              }`
+                            ).toFixed(2)
+                          )}
                         </span>
                       </p>
                       <p className="mb-0 text-lg">
                         Discount Amount:
                         <span className="text-black ml-2">
                           {pesoSign}{" "}
-                          {numberWithCommas(Number(item.discount).toFixed(2))}
+                          {numberWithCommas(
+                            Number(
+                              `${isPay ? item.sales_discount : item.discount}`
+                            ).toFixed(2)
+                          )}
                         </span>
                       </p>
 
@@ -115,7 +129,14 @@ const ModalPayNow = ({ item, result }) => {
                         <span className="text-black ml-2">
                           {pesoSign}{" "}
                           {numberWithCommas(
-                            Number(item.totalAmount).toFixed(2)
+                            Number(
+                              `${
+                                isPay
+                                  ? Number(item.orders_product_srp) -
+                                    Number(item.sales_discount)
+                                  : item.totalAmount
+                              }`
+                            ).toFixed(2)
                           )}
                         </span>
                       </p>
@@ -126,13 +147,17 @@ const ModalPayNow = ({ item, result }) => {
                           {Number(props.values.sales_receive_amount) === 0
                             ? "0.00"
                             : numberWithCommas(
-                                (
+                                Number(
+                                  removeComma(props.values.sales_receive_amount)
+                                ) -
                                   Number(
-                                    removeComma(
-                                      props.values.sales_receive_amount
-                                    )
-                                  ) - Number(item.totalAmount)
-                                ).toFixed(2)
+                                    `${
+                                      isPay
+                                        ? Number(item.orders_product_srp) -
+                                          Number(item.sales_discount)
+                                        : item.totalAmount
+                                    }`
+                                  ).toFixed(2)
                               )}
                         </span>
                       </p>
