@@ -18,8 +18,7 @@ import SearchBar from "../../../../../partials/SearchBar";
 import ServerError from "../../../../../partials/ServerError";
 import ModalDeleteRestoreCapital from "../../../../../partials/modals/ModalDeleteRetoreCapital";
 import TableSpinner from "../../../../../partials/spinners/TableSpinner";
-import StatusAmount from "../../../../../partials/status/StatusAmount";
-import { getTotalPaidCapital } from "../functions-capital-share";
+import TransactionCapitalShareTotals from "./TransactionCapitalShareTotals";
 
 const TransactionCapitalShareList = ({
   setItemEdit,
@@ -115,37 +114,12 @@ const TransactionCapitalShareList = ({
             onSearch={onSearch}
           />
           <div className="relative overflow-x-auto z-0">
-            <div className="xl:flex items-center xl:mt-4  text-primary">
-              {result?.pages[0].count > 0 ? (
-                <StatusAmount
-                  text="Paid Capital Share"
-                  amount={totalCapital.totalCapital}
-                  type="paid"
-                />
-              ) : (
-                <StatusAmount text="Subscribes Capital Share " amount={0} />
-              )}
+            <TransactionCapitalShareTotals
+              result={result}
+              totalCapital={totalCapital}
+              isLoading={status === "loading"}
+            />
 
-              <StatusAmount
-                text="Remaining Capital "
-                amount={totalCapital.remainingAmount}
-                type="pending"
-              />
-              <StatusAmount
-                text="Subscribes Capital Share "
-                amount={totalCapital.subscribeC}
-              />
-              <StatusAmount
-                text="Membership Fee "
-                amount={totalCapital.memberFee}
-              />
-            </div>
-            <div className="xl:flex items-center mb-2 text-primary">
-              <StatusAmount
-                text="Average Monthly Balance"
-                amount={totalCapital.avg}
-              />
-            </div>
             <table>
               <thead>
                 <tr>

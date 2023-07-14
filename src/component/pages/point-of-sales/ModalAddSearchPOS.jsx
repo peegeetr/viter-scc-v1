@@ -144,21 +144,31 @@ const ModalAddSearchPOS = ({ item, arrKey, memberId, memberName }) => {
                 );
                 const sales_discount = removeComma(`${values.sales_discount}`);
 
-                const newQty =
-                  getRemaningQuantity(
-                    item ? item : items,
-                    stocksGroupProd,
-                    orderGroupProd
-                  ) +
-                  Number(item.orders_product_quantity) -
-                  Number(orders_product_quantity);
+                const newQty = item
+                  ? getRemaningQuantity(
+                      item ? item : items,
+                      stocksGroupProd,
+                      orderGroupProd
+                    ) +
+                    Number(item.orders_product_quantity) -
+                    Number(orders_product_quantity)
+                  : getRemaningQuantity(
+                      item ? item : items,
+                      stocksGroupProd,
+                      orderGroupProd
+                    );
 
-                const qty =
-                  getRemaningQuantity(
-                    item ? item : items,
-                    stocksGroupProd,
-                    orderGroupProd
-                  ) + Number(item.orders_product_quantity);
+                const qty = item
+                  ? getRemaningQuantity(
+                      item ? item : items,
+                      stocksGroupProd,
+                      orderGroupProd
+                    ) + Number(item.orders_product_quantity)
+                  : getRemaningQuantity(
+                      item ? item : items,
+                      stocksGroupProd,
+                      orderGroupProd
+                    );
 
                 const orders_product_amount =
                   Number(orders_product_quantity) *

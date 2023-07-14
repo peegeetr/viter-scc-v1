@@ -158,14 +158,23 @@ export const getValidationOrderAdd = (
     invalidAmount = true;
   }
 
-  const newQty =
-    getRemaningQuantity(item ? item : items, stocksGroupProd, orderGroupProd) +
-    Number(item.orders_product_quantity) -
-    Number(orders_product_quantity);
+  const newQty = item
+    ? getRemaningQuantity(
+        item ? item : items,
+        stocksGroupProd,
+        orderGroupProd
+      ) +
+      Number(item.orders_product_quantity) -
+      Number(orders_product_quantity)
+    : getRemaningQuantity(item ? item : items, stocksGroupProd, orderGroupProd);
 
-  const qty =
-    getRemaningQuantity(item ? item : items, stocksGroupProd, orderGroupProd) +
-    Number(item.orders_product_quantity);
+  const qty = item
+    ? getRemaningQuantity(
+        item ? item : items,
+        stocksGroupProd,
+        orderGroupProd
+      ) + Number(item.orders_product_quantity)
+    : getRemaningQuantity(item ? item : items, stocksGroupProd, orderGroupProd);
 
   if (
     Number(orders_product_quantity) === 0 ||

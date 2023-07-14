@@ -47,13 +47,8 @@ const Orders = () => {
         </div>
         <Footer />
       </div>
-      {store.credentials.data.role_is_developer === 1 ||
-      store.credentials.data.role_is_admin === 1 ||
-      store.credentials.data.role_is_manager === 1
-        ? store.isAdd && (
-            <ModalManagerAddOrders item={itemEdit} arrKey="orders" />
-          )
-        : store.isAdd && <ModalAddOrders item={itemEdit} arrKey="orders" />}
+      {store.isAdd && <ModalManagerAddOrders item={itemEdit} arrKey="orders" />}
+      {/* {store.isAdd && <ModalAddOrders item={itemEdit} arrKey="orders" />} */}
       {store.success && <ModalSuccess />}
       {store.error && <ModalError />}
     </>

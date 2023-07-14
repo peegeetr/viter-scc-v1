@@ -274,6 +274,7 @@ class Orders
             $sql .= "and (orders.orders_number like :orders_number ";
             $sql .= "or MONTHNAME(orders.orders_date) like :orders_month_date ";
             $sql .= "or orders.orders_date like :orders_date ";
+            $sql .= "or concat(member.members_last_name, ', ', member.members_first_name) like :name ";
             $sql .= "or member.members_last_name like :members_last_name ";
             $sql .= "or member.members_first_name like :members_first_name ";
             $sql .= "or suppliersProducts.suppliers_products_name like :suppliers_products_name) ";
@@ -287,6 +288,7 @@ class Orders
                 "orders_number" => "%{$this->orders_search}%",
                 "members_last_name" => "%{$this->orders_search}%",
                 "members_first_name" => "%{$this->orders_search}%",
+                "name" => "%{$this->orders_search}%",
             ]);
         } catch (PDOException $ex) {
             $query = false;

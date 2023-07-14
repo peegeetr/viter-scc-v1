@@ -8,8 +8,10 @@
     -
     
 *models        
-    -> inventory/report/ReportStocks.php
-    -  
+    - inventory/report/ReportStocks.php
+    -> inventory/order/Order.php  
+    -> inventory/sales/Sales.php  
+    -> account/Members.php  
     - 
 
 *htaccess 
