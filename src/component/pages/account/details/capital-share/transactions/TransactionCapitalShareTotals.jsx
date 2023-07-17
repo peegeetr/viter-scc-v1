@@ -39,11 +39,9 @@ const TransactionCapitalShareTotals = ({ result, totalCapital, isLoading }) => {
           type=""
           isLoading={isLoading}
         />
-      </div>
-      <div className="xl:flex items-center mb-2 text-primary">
         <StatusAmount
-          text="Average Monthly Balance"
-          amount={totalCapital.avg}
+          text="Penalty Fee "
+          amount={totalCapital.memberFee}
           type=""
           isLoading={isLoading}
         />

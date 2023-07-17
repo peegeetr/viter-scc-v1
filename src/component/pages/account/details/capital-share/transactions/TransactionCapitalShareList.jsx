@@ -1,23 +1,16 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import React from "react";
-import { FaEdit, FaTrash } from "react-icons/fa";
 import { useInView } from "react-intersection-observer";
-import { setIsAdd, setIsRestore } from "../../../../../../store/StoreAction";
 import { StoreContext } from "../../../../../../store/StoreContext";
-import {
-  formatDate,
-  getTime,
-  getUrlParam,
-  numberWithCommas,
-  pesoSign,
-} from "../../../../../helpers/functions-general";
+import { getUrlParam } from "../../../../../helpers/functions-general";
 import { queryDataInfinite } from "../../../../../helpers/queryDataInfinite";
 import Loadmore from "../../../../../partials/Loadmore";
 import NoData from "../../../../../partials/NoData";
 import SearchBar from "../../../../../partials/SearchBar";
 import ServerError from "../../../../../partials/ServerError";
-import ModalDeleteRestoreCapital from "../../../../../partials/modals/ModalDeleteRetoreCapital";
 import TableSpinner from "../../../../../partials/spinners/TableSpinner";
+import { getMonth } from "../../../../Inventory/reports/report-function";
+import TransactionCapitalShareBody from "./TransactionCapitalShareBody";
 import TransactionCapitalShareTotals from "./TransactionCapitalShareTotals";
 
 const TransactionCapitalShareList = ({
@@ -25,19 +18,13 @@ const TransactionCapitalShareList = ({
   totalCapital,
   memberName,
   isLoading,
-  setIsSubscribeCapital,
   menu,
 }) => {
   const { store, dispatch } = React.useContext(StoreContext);
-  const [dataItem, setData] = React.useState(null);
-  const [id, setId] = React.useState(null);
-  const [isDel, setDel] = React.useState(false);
   const [onSearch, setOnSearch] = React.useState(false);
   const [page, setPage] = React.useState(1);
   const memberid = getUrlParam().get("memberid");
-  let counter = 1;
   const search = React.useRef(null);
-  let total = 0;
   const { ref, inView } = useInView();
   // use if with loadmore button and search bar
   let empid =
@@ -78,18 +65,6 @@ const TransactionCapitalShareList = ({
     }
   }, [inView]);
 
-  const handleEdit = (item) => {
-    dispatch(setIsAdd(true));
-    setItemEdit(item);
-  };
-
-  const handleDelete = (item) => {
-    dispatch(setIsRestore(true));
-    setId(item.capital_share_aid);
-    setData(item);
-    setDel(true);
-  };
-
   return (
     <>
       {isLoading ? (
@@ -123,22 +98,17 @@ const TransactionCapitalShareList = ({
             <table>
               <thead>
                 <tr>
-                  <th>#</th>
-                  <th className="min-w-[6rem] w-[15rem]">Date</th>
-                  <th className="min-w-[6rem] w-[10rem] text-right pr-4">
-                    Amortization
-                  </th>
-                  <th className="min-w-[11rem] !w-[11rem] text-right pr-4">
-                    Total Paid up Capital
-                  </th>
-                  <th className="min-w-[10rem]">Official Receipt</th>
-                  {menu === "members" ? (
-                    (store.credentials.data.role_is_developer === 1 ||
-                      store.credentials.data.role_is_admin === 1) &&
-                    memberid !== null && <th className="!w-[5rem]">Actions</th>
-                  ) : (
-                    <th></th>
-                  )}
+                  <th>Year</th>
+                  {getMonth()?.map((yItem, key) => {
+                    return (
+                      <th key={key} className="text-center min-w-[10rem] ">
+                        {`${yItem.month_name}`}
+                      </th>
+                    );
+                  })}
+                  <th className="text-center min-w-[10rem]">Total</th>
+                  <th className="text-center min-w-[10rem] ">Average Share</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -162,68 +132,11 @@ const TransactionCapitalShareList = ({
                   <React.Fragment key={key}>
                     {page.data.map((item, key) => {
                       return (
-                        <tr key={key}>
-                          <td>{counter++}.</td>
-                          <td>{`${formatDate(
-                            item.capital_share_date
-                          )} ${getTime(item.capital_share_date)}`}</td>
-                          <td className=" text-right pr-4">
-                            {pesoSign}{" "}
-                            {numberWithCommas(
-                              Number(item.capital_share_paid_up).toFixed(2)
-                            )}
-                          </td>
-                          <td className=" text-right pr-4">
-                            {pesoSign}{" "}
-                            {item.capital_share_total !== ""
-                              ? numberWithCommas(
-                                  Number(item.capital_share_total).toFixed(2)
-                                )
-                              : numberWithCommas(
-                                  Number(item.capital_share_paid_up).toFixed(2)
-                                )}
-                          </td>
-                          <td>{item.capital_share_or}</td>
-                          {menu === "members" ? (
-                            (store.credentials.data.role_is_developer === 1 ||
-                              store.credentials.data.role_is_admin === 1) && (
-                              <td>
-                                <div className="flex items-center gap-1">
-                                  <button
-                                    type="button"
-                                    className="btn-action-table tooltip-action-table"
-                                    data-tooltip="Edit"
-                                    onClick={() => handleEdit(item)}
-                                  >
-                                    <FaEdit />
-                                  </button>
-                                  {result?.pages[0].count > 2 &&
-                                    item.capital_share_is_initial_pay === 0 && (
-                                      <button
-                                        type="button"
-                                        className="btn-action-table tooltip-action-table"
-                                        data-tooltip="Delete"
-                                        onClick={() => handleDelete(item)}
-                                      >
-                                        <FaTrash />
-                                      </button>
-                                    )}
-                                  {result?.pages[0].count <= 2 && (
-                                    <button
-                                      type="button"
-                                      className="btn-action-table tooltip-action-table"
-                                      data-tooltip="Delete"
-                                      onClick={() => handleDelete(item)}
-                                    >
-                                      <FaTrash />
-                                    </button>
-                                  )}
-                                </div>
-                              </td>
-                            )
-                          ) : (
-                            <td></td>
-                          )}
+                        <tr key={key} className="text-right">
+                          <TransactionCapitalShareBody
+                            item={item}
+                            setItemEdit={setItemEdit}
+                          />
                         </tr>
                       );
                     })}
@@ -246,20 +159,6 @@ const TransactionCapitalShareList = ({
         </>
       ) : (
         <NoData />
-      )}
-      {store.isRestore && (
-        <ModalDeleteRestoreCapital
-          id={id}
-          isDel={isDel}
-          mysqlApiDelete={`/v1/capital-share/${id}`}
-          msg={"Are you sure you want to delete "}
-          item={`${formatDate(dataItem.capital_share_date)} ${getTime(
-            dataItem.capital_share_date
-          )}`}
-          dataItem={dataItem}
-          setIsSubscribeCapital={setIsSubscribeCapital}
-          arrKey="capital-share"
-        />
       )}
     </>
   );

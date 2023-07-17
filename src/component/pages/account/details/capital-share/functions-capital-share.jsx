@@ -1,3 +1,8 @@
+import {
+  getMonth,
+  getMonthName,
+} from "../../../Inventory/reports/report-function";
+
 // compute capital
 export const checkCapitalShare = (capital, subscribeCapital) => {
   let totalCapital = 0;
@@ -62,4 +67,28 @@ export const getTotalPaidUp = (capital, subscribeCapital, amount) => {
     result = true;
   }
   return result;
+};
+
+// get total paid up
+export const getCapitalShareByMonth = (item, capital) => {
+  let result = "";
+  let list = [];
+  capital?.map((cItem) => {
+    if (cItem.month === item.month_aid) {
+      result = cItem.capital_share_total;
+      list = {
+        capital_share_paid_up: cItem.capital_share_paid_up,
+        capital_share_or: cItem.capital_share_or,
+        capital_share_date: cItem.capital_share_date,
+        capital_share_is_initial_pay: cItem.capital_share_is_initial_pay,
+        capital_share_total: cItem.capital_share_total,
+        capital_share_aid: cItem.capital_share_aid,
+        capital_share_member_id: cItem.capital_share_member_id,
+        month: getMonthName(cItem.month),
+        year: cItem.year,
+      };
+    }
+  });
+
+  return { result, list };
 };

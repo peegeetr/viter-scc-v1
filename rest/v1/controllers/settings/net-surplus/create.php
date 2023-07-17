@@ -14,7 +14,7 @@ checkPayload($data);
 
 $id = "";
 $year = date("Y");
-$lastNetId = $net->readAll();
+$lastNetId = $net->readLastNetId();
 if ($lastNetId->rowCount() == 0) {
     $id = "NS-$year-001";
 } else {
@@ -32,13 +32,25 @@ if ($lastNetId->rowCount() == 0) {
     }
 }
 
+
 checkKeyword($id);
 $net->net_surplus_id = $id;
-$net->net_surplus_amount = checkIndex($data, "net_surplus_amount");
-$net->net_surplus_total_capital = checkIndex($data, "net_surplus_total_capital");
-$net->net_surplus_total_profit = checkIndex($data, "net_surplus_total_profit");
+$net->net_surplus_before_amount = checkIndex($data, "net_surplus_before_amount");
+$net->net_surplus_distribution_amount = checkIndex($data, "net_surplus_distribution_amount");
+$net->net_surplus_operating_expenses = checkIndex($data, "net_surplus_operating_expenses");
+$net->net_surplus_total_income = checkIndex($data, "net_surplus_total_income");
+$net->net_surplus_general_reserve = checkIndex($data, "net_surplus_general_reserve");
+$net->net_surplus_general_reserve_rate = checkIndex($data, "net_surplus_general_reserve_rate");
+$net->net_surplus_educ_training = checkIndex($data, "net_surplus_educ_training");
+$net->net_surplus_educ_training_rate = checkIndex($data, "net_surplus_educ_training_rate");
+$net->net_surplus_community_dev = checkIndex($data, "net_surplus_community_dev");
+$net->net_surplus_community_dev_rate = checkIndex($data, "net_surplus_community_dev_rate");
+$net->net_surplus_optional_fund = checkIndex($data, "net_surplus_optional_fund");
+$net->net_surplus_optional_fund_rate = checkIndex($data, "net_surplus_optional_fund_rate");
 $net->net_surplus_dividend = checkIndex($data, "net_surplus_dividend");
+$net->net_surplus_dividend_rate = checkIndex($data, "net_surplus_dividend_rate");
 $net->net_surplus_patronage_refund = checkIndex($data, "net_surplus_patronage_refund");
+$net->net_surplus_patronage_rate = checkIndex($data, "net_surplus_patronage_rate");
 $net->net_surplus_created = date("Y-m-d H:i:s");
 $net->net_surplus_datetime = date("Y-m-d H:i:s");
 

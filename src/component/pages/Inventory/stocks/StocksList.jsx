@@ -21,7 +21,6 @@ import StatusActive from "../../../partials/status/StatusActive";
 import StatusPending from "../../../partials/status/StatusPending";
 import ModalUpdateOR from "./ModalUpdateOR";
 import StocksTotal from "./StocksTotal";
-import useQueryData from "../../../custom-hooks/useQueryData";
 
 const StocksList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -104,7 +103,7 @@ const StocksList = ({ setItemEdit }) => {
         setOnSearch={setOnSearch}
         onSearch={onSearch}
       />
-      <StocksTotal result={result} />
+      <StocksTotal result={result} isLoading={status === "loading"} />
       <div className="text-center overflow-x-auto z-0">
         {/* use only for updating important records */}
         {status !== "loading" && isFetching && <TableSpinner />}

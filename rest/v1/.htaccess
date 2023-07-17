@@ -74,6 +74,7 @@ RewriteRule ^capital-share/page/([0-9]+)/([0-9]+)$ controllers/account/details/c
 RewriteRule ^capital-share/search-by-id/([0-9]+)$ controllers/account/details/capital-share/search-by-id.php?membersid=$1 [L]
 RewriteRule ^capital-share/read-total-capital/([0-9]+)$ controllers/account/details/capital-share/read-capital-total.php?memberId=$1 [L]
 RewriteRule ^capital-share/update-capital-details/([0-9]+)$ controllers/account/details/capital-share/update-capital-details.php?membersId=$1 [L]
+RewriteRule ^capital-share/read-by-id-and-year/([0-9]+)/([0-9]+)$ controllers/account/details/capital-share/read-by-id-and-year.php?memberId=$1&year=$2 [L]
 
 #patronage
 RewriteRule ^patronage/page/by-employee-id/([0-9]+)/([0-9]+)$ controllers/account/details/patronage/page-by-employee-id.php?start=$1&membersid=$2 [L]
@@ -206,6 +207,7 @@ RewriteRule ^product-history/search-by-id/([0-9]+)$ controllers/inventory/suppli
    
 #REPORT CAPITAL
 RewriteRule ^report-capital/filter/detailed$ controllers/inventory/report/capital-report/report-filter-capital-detailed.php [L] 
+RewriteRule ^report-capital/filter/dividend$ controllers/inventory/report/capital-report/report-filter-capital-dividend.php [L] 
    
 #REPORT STOCKS
 RewriteRule ^report-stock/filter$ controllers/inventory/report/stocks-report/report-filter-stocks.php [L] 

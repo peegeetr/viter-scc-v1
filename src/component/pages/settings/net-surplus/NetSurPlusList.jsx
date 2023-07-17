@@ -1,18 +1,26 @@
-import React from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useInView } from "react-intersection-observer";
+import React from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
-import { setIsAdd, setIsRestore } from "../../../../store/StoreAction.jsx";
+import { SlArrowRight } from "react-icons/sl";
+import { useInView } from "react-intersection-observer";
+import {
+  setIsAdd,
+  setIsConfirm,
+  setIsRestore,
+} from "../../../../store/StoreAction.jsx";
 import { StoreContext } from "../../../../store/StoreContext.jsx";
-import { formatDate } from "../../../helpers/functions-general.jsx";
 import { queryDataInfinite } from "../../../helpers/queryDataInfinite.jsx";
 import Loadmore from "../../../partials/Loadmore.jsx";
-import ModalDeleteRestore from "../../../partials/modals/ModalDeleteRestore.jsx";
 import NoData from "../../../partials/NoData.jsx";
 import SearchBar from "../../../partials/SearchBar.jsx";
 import ServerError from "../../../partials/ServerError.jsx";
-import FetchingSpinner from "../../../partials/spinners/FetchingSpinner.jsx";
+import ModalDeleteRestore from "../../../partials/modals/ModalDeleteRestore.jsx";
 import TableSpinner from "../../../partials/spinners/TableSpinner.jsx";
+import {
+  numberWithCommas,
+  pesoSign,
+} from "../../../helpers/functions-general.jsx";
+import { getComputedNetAllocation } from "./functions-net-surplus.jsx";
 
 const NetSurPlusList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -59,6 +67,11 @@ const NetSurPlusList = ({ setItemEdit }) => {
     }
   }, [inView]);
 
+  const handleView = (item) => {
+    dispatch(setIsConfirm(true));
+    setItemEdit(item);
+  };
+
   const handleEdit = (item) => {
     dispatch(setIsAdd(true));
     setItemEdit(item);
@@ -87,15 +100,22 @@ const NetSurPlusList = ({ setItemEdit }) => {
           <thead>
             <tr>
               <th>#</th>
-              <th className="min-w-[15rem] w-[15rem]">Net Surplus Id</th>
-              <th className="min-w-[15rem] w-[15rem]">Net Surplus Amount</th>
-              <th className="min-w-[5rem]">Total Capital</th>
-              <th className="min-w-[5rem]">Total Profit </th>
-              <th className="min-w-[10rem] w-[10rem]">Patronage 30%</th>
-              <th className="min-w-[10rem] w-[10rem]">Dividend 70%</th>
-              <th className="min-w-[10rem] w-[10rem]">Created</th>
+              <th className="min-w-[8rem] ">Net Surplus Id</th>
+              <th className="text-right pr-4 min-w-[10rem]">Total Income</th>
+              <th className="text-right pr-4 min-w-[10rem]">
+                Less: Operating Expenses
+              </th>
+              <th className="text-right pr-4 min-w-[10rem]">
+                Before Distribution
+              </th>
+              <th className="text-right pr-4 min-w-[10rem]">
+                Allocation of Net Surplus
+              </th>
+              <th className="text-right pr-4 min-w-[10rem]">
+                Net Surplus for Distribution
+              </th>
 
-              <th className="max-w-[5rem]">Actions</th>
+              <th className="max-w-[5rem] text-center">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -121,17 +141,47 @@ const NetSurPlusList = ({ setItemEdit }) => {
                   <tr key={key}>
                     <td> {counter++}.</td>
                     <td>{item.net_surplus_id}</td>
-                    <td>{item.net_surplus_amount}</td>
-                    <td>{item.net_surplus_total_capital}</td>
-                    <td>{item.net_surplus_total_profit}</td>
-                    <td>{item.net_surplus_patronage_refund}</td>
-                    <td>{item.net_surplus_dividend}</td>
-                    <td>
-                      {formatDate(item.net_surplus_created)}{" "}
-                      {item.net_surplus_created.split(" ")[1]}
+                    <td className="text-right pr-4 ">
+                      {pesoSign}
+                      {numberWithCommas(
+                        Number(item.net_surplus_total_income).toFixed(2)
+                      )}
                     </td>
+                    <td className="text-right pr-4 ">
+                      {pesoSign}
+                      {numberWithCommas(
+                        Number(item.net_surplus_operating_expenses).toFixed(2)
+                      )}
+                    </td>
+                    <td className="text-right pr-4">
+                      {pesoSign}
+                      {numberWithCommas(
+                        Number(item.net_surplus_before_amount).toFixed(2)
+                      )}
+                    </td>
+                    <td className="text-right pr-4">
+                      {pesoSign}
+                      {numberWithCommas(
+                        Number(item.net_surplus_distribution_amount).toFixed(2)
+                      )}
+                    </td>
+                    <td className="text-right pr-4">
+                      {pesoSign}
+                      {numberWithCommas(
+                        Number(getComputedNetAllocation(item)).toFixed(2)
+                      )}
+                    </td>
+
                     <td>
                       <div className="flex items-center gap-1">
+                        <button
+                          type="button"
+                          className="btn-action-table tooltip-action-table"
+                          data-tooltip="View"
+                          onClick={() => handleView(item)}
+                        >
+                          <SlArrowRight className="inline" />
+                        </button>
                         <button
                           type="button"
                           className="btn-action-table tooltip-action-table"

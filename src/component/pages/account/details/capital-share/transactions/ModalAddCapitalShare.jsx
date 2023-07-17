@@ -11,10 +11,11 @@ import {
 } from "../../../../../../store/StoreAction";
 import { StoreContext } from "../../../../../../store/StoreContext";
 import useQueryData from "../../../../../custom-hooks/useQueryData";
-import { InputText } from "../../../../../helpers/FormInputs";
+import { InputText, MyCheckbox } from "../../../../../helpers/FormInputs";
 import {
   getDateTimeNow,
   getUrlParam,
+  removeComma,
 } from "../../../../../helpers/functions-general";
 import { queryData } from "../../../../../helpers/queryData";
 import ButtonSpinner from "../../../../../partials/spinners/ButtonSpinner";
@@ -24,7 +25,6 @@ const ModalAddCapitalShare = ({ item, amount, raminingAmount, total }) => {
   const memberid = getUrlParam().get("memberid");
 
   const queryClient = useQueryClient();
-  const [show, setShow] = React.useState("show");
 
   const mutation = useMutation({
     mutationFn: (values) =>
@@ -60,6 +60,12 @@ const ModalAddCapitalShare = ({ item, amount, raminingAmount, total }) => {
   const initVal = {
     capital_share_or: item ? item.capital_share_or : "",
     capital_share_date: item ? item.capital_share_date : getDateTimeNow(),
+    capital_share_paid_up: item ? item.capital_share_paid_up : "",
+    capital_share_is_penalty: item
+      ? item.capital_share_is_penalty === 1
+        ? true
+        : false
+      : "",
   };
 
   const yupSchema = Yup.object({
@@ -70,7 +76,7 @@ const ModalAddCapitalShare = ({ item, amount, raminingAmount, total }) => {
   return (
     <>
       <div
-        className={` fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center bg-dark z-50 bg-opacity-50 animate-fadeIn ${show}`}
+        className={` fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center bg-dark z-50 bg-opacity-50 animate-fadeIn `}
       >
         <div className="p-1 w-[350px] rounded-b-2xl animate-slideUp ">
           <div className="flex justify-between items-center bg-primary p-3 rounded-t-2xl">
@@ -91,12 +97,20 @@ const ModalAddCapitalShare = ({ item, amount, raminingAmount, total }) => {
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
                 // console.log(values);
+                const capital_share_date = values.capital_share_date.replace(
+                  "T",
+                  " "
+                );
                 const capital_share_paid_up =
-                  amount[0]?.capital_amortization_amount;
+                  values.capital_share_is_penalty === true
+                    ? removeComma(values.capital_share_paid_up)
+                    : amount[0]?.capital_amortization_amount;
                 const capital_share_member_id = item
                   ? item.capital_share_member_id
                   : memberid;
+
                 const capital_share_total =
+                  values.capital_share_is_penalty === false &&
                   Number(total) + Number(capital_share_paid_up);
 
                 if (Number(raminingAmount) < Number(capital_share_paid_up)) {
@@ -107,6 +121,7 @@ const ModalAddCapitalShare = ({ item, amount, raminingAmount, total }) => {
                 // mutate data
                 mutation.mutate({
                   ...values,
+                  capital_share_date,
                   capital_share_total,
                   capital_share_paid_up,
                   capital_share_member_id,
@@ -124,7 +139,29 @@ const ModalAddCapitalShare = ({ item, amount, raminingAmount, total }) => {
                         disabled={mutation.isLoading}
                       />
                     </div>
-
+                    <div className="relative mb-5 flex items-center">
+                      <span>
+                        <MyCheckbox
+                          type="checkbox"
+                          name="capital_share_is_penalty"
+                          disabled={mutation.isLoading}
+                        />
+                      </span>
+                      <p className="w-[80%] m-0 text-primary">
+                        Is this for penalty?
+                      </p>
+                    </div>
+                    {props.values.capital_share_is_penalty === true && (
+                      <div className="relative mb-5">
+                        <InputText
+                          label="Penalty amount"
+                          num="num"
+                          type="text"
+                          name="capital_share_paid_up"
+                          disabled={mutation.isLoading}
+                        />
+                      </div>
+                    )}
                     <div className="relative mb-5">
                       <InputText
                         label="Official Receipt"

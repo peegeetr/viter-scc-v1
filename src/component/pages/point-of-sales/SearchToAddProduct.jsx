@@ -72,7 +72,7 @@ const SearchToAddProduct = ({
                   return (
                     <button
                       key={key}
-                      className="ml-2"
+                      className="ml-2 text-left"
                       onClick={() => handleProductChange(item)}
                       type="button"
                     >

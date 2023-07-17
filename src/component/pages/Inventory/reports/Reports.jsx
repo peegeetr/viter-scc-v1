@@ -26,7 +26,7 @@ const Reports = () => {
           <TopSellerLink />
           <ReportSalesLink />
           <ReportStocksLink />
-          {/* <ReportCapitalShareLink /> */}
+          <ReportCapitalShareLink />
         </div>
         <Footer />
       </div>

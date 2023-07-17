@@ -16,6 +16,14 @@ function checkReadTotalCapitalById($object)
     return $query;
 }
 
+// Read by member id and year
+function checkReadByIdAndYear($object)
+{
+    $query = $object->readByIdAndYear();
+    checkQuery($query, "Empty records. (Read by member id and year)");
+    return $query;
+}
+
 // Update 
 function checkUpdateCapitalDetails($object)
 {

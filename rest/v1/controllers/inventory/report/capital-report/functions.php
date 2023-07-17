@@ -17,3 +17,21 @@ function checkReadReportCapitalByMemberId($object)
     checkQuery($query, "Empty records. (read report filter detailed capital share by member id)");
     return $query;
 }
+
+// REPORT FILTER SALES
+// if all member 
+function checkReadReportCapitalDividend($object)
+{
+    $query = $object->readReportCapitalDividend();
+    checkQuery($query, "Empty records. (read report filter dividend capital share)");
+    return $query;
+}
+
+// REPORT FILTER SALES
+// if member by id 
+function checkReadReportCapitalDividendByMemberId($object)
+{
+    $query = $object->readReportCapitalDividendByMemberId();
+    checkQuery($query, "Empty records. (read report filter dividend capital share by member id)");
+    return $query;
+}

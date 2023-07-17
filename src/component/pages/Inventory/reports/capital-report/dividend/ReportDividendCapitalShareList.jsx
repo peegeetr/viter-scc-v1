@@ -6,6 +6,7 @@ import { StoreContext } from "../../../../../../store/StoreContext";
 import useQueryData from "../../../../../custom-hooks/useQueryData";
 import { InputSelect } from "../../../../../helpers/FormInputs";
 import {
+  expirationYear,
   formatDate,
   getTime,
   numberWithCommas,
@@ -24,6 +25,7 @@ const ReportDividendCapitalShareList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [isFilter, setFilter] = React.useState(false);
   const [isSubmit, setSubmit] = React.useState(false);
+  const [isYear, setIsYear] = React.useState(expirationYear());
   const [value, setValue] = React.useState([]);
   let counter = 1;
   // use if with loadmore button and search bar
@@ -36,7 +38,7 @@ const ReportDividendCapitalShareList = () => {
     queryKey: ["patronage", isSubmit],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
-        `/v1/report-sales/filter-sales`, // filter endpoint // filter
+        `/v1/report-capital/filter/dividend`, // filter endpoint // filter
         `/v1/sales/page/${0}`, // list endpoint
         isFilter, // search boolean
         "post",
@@ -61,8 +63,8 @@ const ReportDividendCapitalShareList = () => {
   );
 
   const initVal = {
-    member_id: "",
-    year: "",
+    member_id: "0",
+    year: "2023",
   };
 
   const yupSchema = Yup.object({
@@ -78,12 +80,13 @@ const ReportDividendCapitalShareList = () => {
           setFilter(true);
           setSubmit(!isSubmit);
           setValue(values);
+          setIsYear(values.year);
         }}
       >
         {(props) => {
           return (
             <Form>
-              <div className="grid gap-4 xl:grid-cols-[1fr_1fr_1fr_15rem] pb-5 items-center print:hidden ">
+              <div className="grid gap-4 xl:grid-cols-[1fr_1fr_15rem] xl:w-[50rem] pb-5 items-center print:hidden ">
                 <div className="relative ">
                   <InputSelect
                     name="member_id"
@@ -105,8 +108,8 @@ const ReportDividendCapitalShareList = () => {
                 </div>
                 <div className="relative">
                   <InputSelect
-                    label="Year"
                     name="year"
+                    label="Year"
                     type="text"
                     disabled={isFetching}
                   >
@@ -126,7 +129,7 @@ const ReportDividendCapitalShareList = () => {
                 <button
                   className="btn-modal-submit relative"
                   type="submit"
-                  disabled={isFetching || !props.dirty}
+                  disabled={isFetching}
                 >
                   {isFetching && <ButtonSpinner />}
                   <MdFilterAlt className="text-lg" />
@@ -140,7 +143,7 @@ const ReportDividendCapitalShareList = () => {
 
       <div className="xl:flex items-center mb-2 text-primary">
         <StatusAmount
-          text="2023 Dividend Rate "
+          text={`${isYear} Dividend Rate `}
           // amount={totalCapital.avg}
           amount={0}
         />
@@ -154,12 +157,13 @@ const ReportDividendCapitalShareList = () => {
           <thead>
             <tr>
               <th>#</th>
-              <th className="min-w-[8rem] ">Member</th>
-              <th className="min-w-[15rem] text-right pr-4">
+              <th className="min-w-[8rem] w-[20rem] ">Member</th>
+              <th className="min-w-[15rem] w-[10rem] text-right pr-4">
                 Average Share Months (ASM)
               </th>
-              <th className="min-w-[11rem] text-right pr-4">Dividend</th>
-              <th> </th>
+              <th className="min-w-[11rem] w-[10rem] text-right pr-4">
+                Dividend 70%
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -189,7 +193,7 @@ const ReportDividendCapitalShareList = () => {
                       <td className=" text-right pr-4">
                         {pesoSign}{" "}
                         {numberWithCommas(
-                          Number(item.capital_share_paid_up).toFixed(2)
+                          (Number(item.totalcapital) / 12).toFixed(2)
                         )}
                       </td>
                       <td className=" text-right pr-4">
@@ -202,8 +206,6 @@ const ReportDividendCapitalShareList = () => {
                               Number(item.capital_share_paid_up).toFixed(2)
                             )}
                       </td>
-                      <td>{item.capital_share_or}</td>
-                      <td></td>
                     </tr>
                   );
                 })}

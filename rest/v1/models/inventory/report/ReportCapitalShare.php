@@ -32,7 +32,8 @@ class ReportCapitalShare
         $this->tblSubscribeCapital = "sccv1_settings_subscribe_capital";
     }
 
-    // read by id
+
+    // read all member Capital
     public function readReportCapitalByMemberId()
     {
         try {
@@ -56,7 +57,7 @@ class ReportCapitalShare
         return $query;
     }
 
-    // read by id
+    // read member by id Capital
     public function readReportCapital()
     {
         try {
@@ -68,6 +69,56 @@ class ReportCapitalShare
             $sql .= "where members.members_aid = capitalShare.capital_share_member_id ";
             $sql .= "order by capitalShare.capital_share_date desc ";
             $query = $this->connection->query($sql);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    // read all member Capital Dividend
+    public function readReportCapitalDividend()
+    {
+        try {
+            $sql = "select capitalShare.*, ";
+            $sql .= "sum(capitalShare.capital_share_total) as totalcapital, ";
+            $sql .= "members.members_last_name, ";
+            $sql .= "members.members_first_name ";
+            $sql .= "from {$this->tblReportCapitalShare} as capitalShare, ";
+            $sql .= "{$this->tblMembers} as members ";
+            $sql .= "where members.members_aid = capitalShare.capital_share_member_id ";
+            $sql .= "and YEAR(capitalShare.capital_share_date) = :capital_share_date ";
+            $sql .= "group by members.members_aid ";
+            $sql .= "order by capitalShare.capital_share_date desc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "capital_share_date" => $this->capital_share_date,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    // read member by id Capital Dividend
+    public function readReportCapitalDividendByMemberId()
+    {
+        try {
+            $sql = "select capitalShare.*, ";
+            $sql .= "sum(capitalShare.capital_share_total) as totalcapital, ";
+            $sql .= "members.members_last_name, ";
+            $sql .= "members.members_first_name ";
+            $sql .= "from {$this->tblReportCapitalShare} as capitalShare, ";
+            $sql .= "{$this->tblMembers} as members ";
+            $sql .= "where capitalShare.capital_share_member_id = :capital_share_member_id ";
+            $sql .= "and YEAR(capitalShare.capital_share_date) = :capital_share_date ";
+            $sql .= "and members.members_aid = capitalShare.capital_share_member_id ";
+            $sql .= "group by members.members_aid ";
+            $sql .= "order by capitalShare.capital_share_date desc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "capital_share_member_id" => $this->capital_share_member_id,
+                "capital_share_date" => $this->capital_share_date,
+            ]);
         } catch (PDOException $ex) {
             $query = false;
         }

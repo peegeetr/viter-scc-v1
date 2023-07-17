@@ -17,11 +17,12 @@ import ModalSuccess from "../../../../../partials/modals/ModalSuccess";
 import { checkCapitalShare } from "../functions-capital-share";
 import ModalAddCapitalShare from "./ModalAddCapitalShare";
 import TransactionCapitalShareList from "./TransactionCapitalShareList";
+import ModalViewCapitalShare from "./ModalViewCapitalShare";
 
 const TransactionCapitalShare = () => {
   const { store, dispatch } = React.useContext(StoreContext);
-  const [itemEdit, setItemEdit] = React.useState(null);
   const [isSubscribeCapital, setIsSubscribeCapital] = React.useState(false);
+  const [itemEdit, setItemEdit] = React.useState(null);
   const memberid = getUrlParam().get("memberid");
 
   // use if not loadmore button undertime read-capital-total
@@ -96,7 +97,6 @@ const TransactionCapitalShare = () => {
             totalCapital={checkCapitalShare(totalCapital, subscribeCapital)}
             memberName={memberName}
             isLoading={isLoading}
-            setIsSubscribeCapital={setIsSubscribeCapital}
             menu="members"
           />
         </div>
@@ -105,13 +105,15 @@ const TransactionCapitalShare = () => {
 
       {store.isAdd && (
         <ModalAddCapitalShare
-          item={itemEdit}
           amount={activeAmortization?.data}
           raminingAmount={
             checkCapitalShare(totalCapital, subscribeCapital).remainingAmount
           }
           total={checkCapitalShare(totalCapital, subscribeCapital).totalCapital}
         />
+      )}
+      {store.isConfirm && (
+        <ModalViewCapitalShare item={itemEdit} setIsSubscribeCapital />
       )}
       {store.success && <ModalSuccess />}
       {store.error && <ModalError />}
