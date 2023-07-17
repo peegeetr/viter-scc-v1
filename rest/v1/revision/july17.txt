@@ -22,8 +22,9 @@
     - 
 
 *db tables 
-    - 
-    - 
+    - sccv1_capital_share.php
+    - sccv1_settings_netsurplus.php
+
 
 *core functions 
     - 
