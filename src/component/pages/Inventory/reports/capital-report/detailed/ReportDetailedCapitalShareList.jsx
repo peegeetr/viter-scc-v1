@@ -6,24 +6,24 @@ import * as Yup from "yup";
 import { StoreContext } from "../../../../../../store/StoreContext";
 import useQueryData from "../../../../../custom-hooks/useQueryData";
 import { InputSelect } from "../../../../../helpers/FormInputs";
-import { queryDataInfinite } from "../../../../../helpers/queryDataInfinite";
-import NoData from "../../../../../partials/NoData";
-import ServerError from "../../../../../partials/ServerError";
-import ButtonSpinner from "../../../../../partials/spinners/ButtonSpinner";
-import TableSpinner from "../../../../../partials/spinners/TableSpinner";
-import { getMonth, getTotal } from "../../report-function";
-import ReportDetailedCapitalTotals from "./ReportDetailedCapitalTotals";
-import ReportDetailedCapitalShareBody from "./ReportDetailedCapitalShareBody";
 import {
   numberWithCommas,
   pesoSign,
   yearNow,
 } from "../../../../../helpers/functions-general";
-import { getYearList } from "../functions-report-capital";
+import { queryDataInfinite } from "../../../../../helpers/queryDataInfinite";
+import NoData from "../../../../../partials/NoData";
+import ServerError from "../../../../../partials/ServerError";
+import ButtonSpinner from "../../../../../partials/spinners/ButtonSpinner";
+import TableSpinner from "../../../../../partials/spinners/TableSpinner";
+import { getMonth } from "../../report-function";
+import { getAvgTotal, getYearList } from "../functions-report-capital";
+import ReportDetailedCapitalShareBody from "./ReportDetailedCapitalShareBody";
 
 const ReportDetailedCapitalShareList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [isMemberId, setMemberId] = React.useState("0");
+  const [isMemberName, setMemberName] = React.useState("");
   const [isYear, setYear] = React.useState("0");
   const [isFilter, setFilter] = React.useState(false);
   const [isSubmit, setSubmit] = React.useState(false);
@@ -63,28 +63,30 @@ const ReportDetailedCapitalShareList = () => {
     "get", // method
     "member-list" // key
   );
-  const { data: reportTotalCapital } = useQueryData(
-    `/v1/report-capital/read-by-id-and-year/${isMemberId}/${isYear}`, // endpoint
-    "get", // method
-    "reportTotalCapital", // key
-    {},
-    isMemberId,
-    isYear
-  );
-  const { data: reportMemberFee } = useQueryData(
-    `/v1/report-capital/report-read-all-member-fee`, // endpoint
-    "get", // method
-    "reportMemberFee"
-  );
-  const { data: allCapitalMemberTotal } = useQueryData(
-    `/v1/report-capital/report-read-by-year-total-capital/${isYear}`, // endpoint
-    "get", // method
-    "allCapitalMemberTotal",
-    {},
-    isYear
-  );
+  // const { data: reportTotalCapital } = useQueryData(
+  //   `/v1/report-capital/read-by-id-and-year/${isMemberId}/${isYear}`, // endpoint
+  //   "get", // method
+  //   "reportTotalCapital", // key
+  //   {},
+  //   isMemberId,
+  //   isYear
+  // );
+  // const { data: reportMemberFee } = useQueryData(
+  //   `/v1/report-capital/report-read-all-member-fee`, // endpoint
+  //   "get", // method
+  //   "reportMemberFee"
+  // );
+  // const { data: allCapitalMemberTotal } = useQueryData(
+  //   `/v1/report-capital/report-read-by-year-total-capital/${isYear}`, // endpoint
+  //   "get", // method
+  //   "allCapitalMemberTotal",
+  //   {},
+  //   isYear
+  // );
 
-  console.log("allCapitalMemberTotal", allCapitalMemberTotal);
+  // const handleMember = async (e, props) => {
+  //   setMemberName(e.target.options[e.target.selectedIndex].id);
+  // };
 
   const initVal = {
     member_id: "0",
@@ -115,6 +117,7 @@ const ReportDetailedCapitalShareList = () => {
                   <InputSelect
                     name="member_id"
                     label="Member"
+                    // onChange={handleMember}
                     disabled={status === "loading" || memberListLoading}
                   >
                     <option value="" hidden>
@@ -171,6 +174,18 @@ const ReportDetailedCapitalShareList = () => {
         isLoading={status === "loading"}
         isFilter={isFilter}
       /> */}
+      <div className="text-center mb-5">
+        {/* <p className="mb-0">Total Average Shares Months :</p> */}
+        <p className="mb-0">
+          Total Average Shares Months {isYear !== "0" && isYear} :
+        </p>
+        <p className="mb-0">
+          {pesoSign}
+          {numberWithCommas(
+            Number(getAvgTotal(result?.pages[0].data)).toFixed(2)
+          )}
+        </p>
+      </div>
 
       <div className="text-center overflow-x-auto z-0">
         {/* use only for updating important records */}

@@ -38,3 +38,13 @@ export const checkReportCapitalShare = (capital, reportMemberFee) => {
     memberFee,
   };
 };
+
+export const getAvgTotal = (result) => {
+  let finalAmount = 0;
+  //
+  result?.map((item) => {
+    finalAmount += Number(item.total) / 12;
+  });
+  //
+  return finalAmount;
+};

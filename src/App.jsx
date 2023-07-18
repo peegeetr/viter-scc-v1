@@ -471,7 +471,7 @@ function App() {
               }
             />
             <Route
-              path={`${devNavUrl}/${UrlSystem}/settings/net-surplus`}
+              path={`${devNavUrl}/${UrlSystem}/settings/financial-statement`}
               element={
                 <ProtectedRouteSystem>
                   <SystemNetSurPlus />
@@ -950,7 +950,7 @@ function App() {
               }
             />
             <Route
-              path={`${devNavUrl}/${UrlAdmin}/settings/net-surplus`}
+              path={`${devNavUrl}/${UrlAdmin}/settings/financial-statement`}
               element={
                 <ProtectedRouteOther>
                   <AdminNetSurPlus />
