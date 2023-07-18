@@ -9,7 +9,6 @@ export const computeNetSurplus = (values) => {
   let optionalRate = 0;
   let dividendRate = 0;
   let patronageRate = 0;
-  let totalNetAllocation = 0;
 
   // values that need to remove comma
   const net_surplus_total_income = removeComma(
@@ -62,7 +61,7 @@ export const computeNetSurplus = (values) => {
   const net_surplus_optional_fund = net_surplus_before_amount * optionalRate;
 
   // Total Amount of all Allocation of Net Surplus
-  totalNetAllocation =
+  const totalNetAllocation =
     net_surplus_general_reserve +
     net_surplus_educ_training +
     net_surplus_community_dev +
@@ -80,6 +79,8 @@ export const computeNetSurplus = (values) => {
 
   // New List
   list = {
+    net_surplus_year: values.net_surplus_year,
+    net_surplus_allocation: totalNetAllocation,
     net_surplus_before_amount: net_surplus_before_amount,
     net_surplus_distribution_amount: net_surplus_distribution_amount,
     net_surplus_operating_expenses: net_surplus_operating_expenses,
@@ -99,16 +100,4 @@ export const computeNetSurplus = (values) => {
   };
 
   return list;
-};
-
-export const getComputedNetAllocation = (item) => {
-  let result = 0;
-
-  result =
-    Number(item.net_surplus_general_reserve) +
-    Number(item.net_surplus_educ_training) +
-    Number(item.net_surplus_community_dev) +
-    Number(item.net_surplus_optional_fund);
-
-  return result;
 };

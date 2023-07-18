@@ -13,6 +13,8 @@ if (array_key_exists("netId", $_GET)) {
     checkPayload($data);
     // get netId from query string
     $net->net_surplus_aid = $_GET['netId'];
+    $net->net_surplus_year = checkIndex($data, "net_surplus_year");
+    $net->net_surplus_allocation = checkIndex($data, "net_surplus_allocation");
     $net->net_surplus_before_amount = checkIndex($data, "net_surplus_before_amount");
     $net->net_surplus_distribution_amount = checkIndex($data, "net_surplus_distribution_amount");
     $net->net_surplus_operating_expenses = checkIndex($data, "net_surplus_operating_expenses");

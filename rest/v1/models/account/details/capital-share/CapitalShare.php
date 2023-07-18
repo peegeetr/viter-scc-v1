@@ -94,7 +94,7 @@ class CapitalShare
     public function searchById()
     {
         try {
-            $sql = "select capital_share_aid, ";
+            $sql = "select ";
             $sql .= "capital_share_member_id, ";
             $sql .= "capital_share_paid_up, ";
             $sql .= "capital_share_total, ";
@@ -122,6 +122,30 @@ class CapitalShare
         return $query;
     }
 
+
+    // read Group By Year
+    public function readGroupByYear()
+    {
+        try {
+            $sql = "select ";
+            $sql .= "SUM(capital_share_total) as total, ";
+            $sql .= "YEAR(capital_share_date) as year ";
+            $sql .= "from ";
+            $sql .= "{$this->tblCapitalShare} ";
+            $sql .= "where capital_share_member_id = :capital_share_member_id ";
+            $sql .= "and YEAR(capital_share_date) = :year ";
+            $sql .= "group by YEAR(capital_share_date) ";
+            $sql .= "order by YEAR(capital_share_date) desc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "capital_share_member_id" => $this->capital_share_member_id,
+                "year" => $this->capital_share_date,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
 
     // read by id
     public function readById()
@@ -283,6 +307,7 @@ class CapitalShare
             $sql .= "capital_share_or, ";
             $sql .= "capital_share_date, ";
             $sql .= "capital_share_is_initial_pay, ";
+            $sql .= "capital_share_is_penalty, ";
             $sql .= "capital_share_created, ";
             $sql .= "capital_share_datetime ) values ( ";
             $sql .= ":capital_share_member_id, ";
@@ -290,6 +315,7 @@ class CapitalShare
             $sql .= ":capital_share_or, ";
             $sql .= ":capital_share_date, ";
             $sql .= ":capital_share_is_initial_pay, ";
+            $sql .= ":capital_share_is_penalty, ";
             $sql .= ":capital_share_created, ";
             $sql .= ":capital_share_datetime ) ";
             $query = $this->connection->prepare($sql);
@@ -299,6 +325,7 @@ class CapitalShare
                 "capital_share_or" => $this->capital_share_or,
                 "capital_share_date" => $this->capital_share_date,
                 "capital_share_is_initial_pay" => $this->capital_share_is_initial_pay,
+                "capital_share_is_penalty" => $this->capital_share_is_penalty,
                 "capital_share_created" => $this->capital_share_created,
                 "capital_share_datetime" => $this->capital_share_datetime,
             ]);
@@ -350,6 +377,26 @@ class CapitalShare
         return $query;
     }
 
+    // check date
+    public function checkDateExist()
+    {
+        try {
+            $sql = "select capital_share_date ";
+            $sql .= "from ";
+            $sql .= "{$this->tblCapitalShare} ";
+            $sql .= "where MONTH(capital_share_date) = MONTH(:capital_share_date) ";
+            $sql .= "and capital_share_member_id = :capital_share_member_id ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "capital_share_date" => $this->capital_share_date,
+                "capital_share_member_id" => $this->capital_share_member_id,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
     // Read by member id and year
     public function readByIdAndYear()
     {
@@ -358,7 +405,7 @@ class CapitalShare
             $sql .= "capital_share_paid_up, ";
             $sql .= "capital_share_or, ";
             $sql .= "capital_share_date, ";
-            $sql .= "capital_share_is_initial_pay, ";
+            $sql .= "capital_share_is_penalty, ";
             $sql .= "capital_share_total, ";
             $sql .= "capital_share_aid, ";
             $sql .= "YEAR(capital_share_date) as year, ";
@@ -368,13 +415,80 @@ class CapitalShare
             $sql .= "{$this->tblCapitalShare} ";
             $sql .= "where capital_share_member_id = :capital_share_member_id ";
             $sql .= "and YEAR(capital_share_date) = :capital_share_year ";
-            $sql .= "and capital_share_is_initial_pay = 0 ";
-            $sql .= "and capital_share_is_penalty = 0 ";
             $sql .= "order by DATE(capital_share_date) asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "capital_share_member_id" => $this->capital_share_member_id,
                 "capital_share_year" => $this->capital_share_year,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+
+    // Read Total Capital Penalty 
+    public function readTotalCapitalPenalty()
+    {
+        try {
+            $sql = "select ";
+            $sql .= "SUM(capital_share_paid_up) as totalPenalty ";
+            $sql .= "from ";
+            $sql .= "{$this->tblCapitalShare} ";
+            $sql .= "where capital_share_is_initial_pay = 0 ";
+            $sql .= "and capital_share_is_penalty = 1 ";
+            $sql .= "group by capital_share_member_id ";
+            $sql .= "order by DATE(capital_share_date) asc ";
+            $query = $this->connection->query($sql);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    // Read Total Capital Penalty By Id
+    public function readTotalCapitalPenaltyById()
+    {
+        try {
+            $sql = "select ";
+            $sql .= "SUM(capital_share_paid_up) as totalPenalty ";
+            $sql .= "from ";
+            $sql .= "{$this->tblCapitalShare} ";
+            $sql .= "where capital_share_member_id = :capital_share_member_id ";
+            $sql .= "and capital_share_is_initial_pay = 0 ";
+            $sql .= "and capital_share_is_penalty = 1 ";
+            $sql .= "group by capital_share_member_id ";
+            $sql .= "order by DATE(capital_share_date) asc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "capital_share_member_id" => $this->capital_share_member_id,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    // Read Total Capital Penalty By id and year
+    public function readTotalCapitalPenaltyByIdAndYear()
+    {
+        try {
+            $sql = "select ";
+            $sql .= "SUM(capital_share_paid_up) as totalPenalty, ";
+            $sql .= "YEAR(capital_share_date) as year ";
+            $sql .= "from ";
+            $sql .= "{$this->tblCapitalShare} ";
+            $sql .= "where capital_share_member_id = :capital_share_member_id ";
+            $sql .= "and YEAR(capital_share_date) = :year ";
+            $sql .= "and capital_share_is_initial_pay = 0 ";
+            $sql .= "and capital_share_is_penalty = 1 ";
+            $sql .= "group by capital_share_member_id ";
+            $sql .= "order by DATE(capital_share_date) asc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "capital_share_member_id" => $this->capital_share_member_id,
+                "year" => $this->capital_share_date,
             ]);
         } catch (PDOException $ex) {
             $query = false;

@@ -6,27 +6,30 @@ import * as Yup from "yup";
 import { StoreContext } from "../../../../../../store/StoreContext";
 import useQueryData from "../../../../../custom-hooks/useQueryData";
 import { InputSelect } from "../../../../../helpers/FormInputs";
-import {
-  formatDate,
-  getTime,
-  numberWithCommas,
-  pesoSign,
-} from "../../../../../helpers/functions-general";
 import { queryDataInfinite } from "../../../../../helpers/queryDataInfinite";
 import NoData from "../../../../../partials/NoData";
 import ServerError from "../../../../../partials/ServerError";
 import ButtonSpinner from "../../../../../partials/spinners/ButtonSpinner";
 import TableSpinner from "../../../../../partials/spinners/TableSpinner";
-import ReportDetailedcCapitalTotals from "./ReportDetailedcCapitalTotals";
-import { getYearList } from "./functions-report-sales";
+import { getMonth, getTotal } from "../../report-function";
+import ReportDetailedCapitalTotals from "./ReportDetailedCapitalTotals";
+import ReportDetailedCapitalShareBody from "./ReportDetailedCapitalShareBody";
+import {
+  numberWithCommas,
+  pesoSign,
+  yearNow,
+} from "../../../../../helpers/functions-general";
+import { getYearList } from "../functions-report-capital";
 
 const ReportDetailedCapitalShareList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
-  const [isMemberId, setMemberId] = React.useState(0);
+  const [isMemberId, setMemberId] = React.useState("0");
+  const [isYear, setYear] = React.useState("0");
   const [isFilter, setFilter] = React.useState(false);
   const [isSubmit, setSubmit] = React.useState(false);
   const [value, setValue] = React.useState([]);
   let counter = 1;
+  let totalCapital = 0;
   // use if with loadmore button and search bar
   const {
     data: result,
@@ -34,11 +37,11 @@ const ReportDetailedCapitalShareList = () => {
     isFetching,
     status,
   } = useInfiniteQuery({
-    queryKey: ["patronage", isSubmit],
+    queryKey: ["report-capital-filter", isSubmit],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
-        `/v1/report-capital/filter/detailed`, // filter endpoint // filter
-        `/v1/sales/page/${0}`, // list endpoint
+        `/v1/report-capital/filter/detailed`, // search endpoint
+        `/v1/capital-share/page/${pageParam}/${0}`, // list endpoint
         isFilter, // search boolean
         "post",
         { value }
@@ -60,12 +63,33 @@ const ReportDetailedCapitalShareList = () => {
     "get", // method
     "member-list" // key
   );
+  const { data: reportTotalCapital } = useQueryData(
+    `/v1/report-capital/read-by-id-and-year/${isMemberId}/${isYear}`, // endpoint
+    "get", // method
+    "reportTotalCapital", // key
+    {},
+    isMemberId,
+    isYear
+  );
+  const { data: reportMemberFee } = useQueryData(
+    `/v1/report-capital/report-read-all-member-fee`, // endpoint
+    "get", // method
+    "reportMemberFee"
+  );
+  const { data: allCapitalMemberTotal } = useQueryData(
+    `/v1/report-capital/report-read-by-year-total-capital/${isYear}`, // endpoint
+    "get", // method
+    "allCapitalMemberTotal",
+    {},
+    isYear
+  );
+
+  console.log("allCapitalMemberTotal", allCapitalMemberTotal);
 
   const initVal = {
-    member_id: "",
-    year: "",
+    member_id: "0",
+    year: yearNow(),
   };
-
   const yupSchema = Yup.object({
     member_id: Yup.string().required("Required"),
     year: Yup.string().required("Required"),
@@ -80,12 +104,13 @@ const ReportDetailedCapitalShareList = () => {
           setSubmit(!isSubmit);
           setValue(values);
           setMemberId(values.member_id);
+          setYear(values.year);
         }}
       >
         {(props) => {
           return (
             <Form>
-              <div className="grid gap-4 xl:grid-cols-[1fr_1fr_1fr_15rem] pb-5 items-center print:hidden ">
+              <div className="grid gap-4 xl:grid-cols-[1fr_1fr_15rem] pb-5 items-center print:hidden ">
                 <div className="relative ">
                   <InputSelect
                     name="member_id"
@@ -95,7 +120,7 @@ const ReportDetailedCapitalShareList = () => {
                     <option value="" hidden>
                       {memberListLoading ? "Loading..." : "--"}
                     </option>
-                    {/* <option value="0">All Member</option> */}
+                    <option value="0">All Member</option>
                     {memberList?.data.map((mItem, key) => {
                       return (
                         <option key={key} value={mItem.members_aid}>
@@ -128,7 +153,7 @@ const ReportDetailedCapitalShareList = () => {
                 <button
                   className="btn-modal-submit relative"
                   type="submit"
-                  disabled={isFetching || !props.dirty}
+                  disabled={isFetching}
                 >
                   {isFetching && <ButtonSpinner />}
                   <MdFilterAlt className="text-lg" />
@@ -140,7 +165,12 @@ const ReportDetailedCapitalShareList = () => {
         }}
       </Formik>
 
-      <ReportDetailedcCapitalTotals isMemberId={isMemberId} />
+      {/* <ReportDetailedCapitalTotals
+        result={reportTotalCapital}
+        reportMemberFee={reportMemberFee}
+        isLoading={status === "loading"}
+        isFilter={isFilter}
+      /> */}
 
       <div className="text-center overflow-x-auto z-0">
         {/* use only for updating important records */}
@@ -149,25 +179,26 @@ const ReportDetailedCapitalShareList = () => {
         <table>
           <thead>
             <tr>
-              <th>#</th>
-              <th className="min-w-[6rem] w-[15rem]">Name</th>
-              <th className="min-w-[6rem] w-[15rem]">Date</th>
-              <th className="min-w-[6rem] w-[10rem] text-right pr-4">
-                Amortization
-              </th>
-              <th className="min-w-[11rem] !w-[11rem] text-right pr-4">
-                Total Paid up Capital
-              </th>
-              <th className="min-w-[10rem]">Official Receipt</th>
-              <th> </th>
+              <th>Year</th>
+              <th className="min-w-[10rem]">Name</th>
+              {getMonth()?.map((yItem, key) => {
+                return (
+                  <th key={key} className="text-center pl-4 min-w-[8rem] ">
+                    {`${yItem.month_name.slice(0, 3)}`}
+                  </th>
+                );
+              })}
+              <th className="text-center min-w-[8rem]  pl-4">Total</th>
+              <th className="text-center min-w-[8rem] pl-4 ">Avg Share</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
             {(status === "loading" || result?.pages[0].data.length === 0) && (
-              <tr className="text-center relative">
+              <tr className="text-center ">
                 <td colSpan="100%" className="p-10">
                   {status === "loading" && <TableSpinner />}
-                  <NoData text="Filter data using above controls." />
+                  <NoData />
                 </td>
               </tr>
             )}
@@ -178,40 +209,28 @@ const ReportDetailedCapitalShareList = () => {
                 </td>
               </tr>
             )}
-
             {result?.pages.map((page, key) => (
               <React.Fragment key={key}>
                 {page.data.map((item, key) => {
+                  totalCapital += Number(item.total) / 12;
                   return (
-                    <tr key={key}>
-                      <td>{counter++}.</td>
-                      <td>{`${item.members_last_name}, ${item.members_first_name}`}</td>
-                      <td>{`${formatDate(item.capital_share_date)} ${getTime(
-                        item.capital_share_date
-                      )}`}</td>
-                      <td className=" text-right pr-4">
-                        {pesoSign}{" "}
-                        {numberWithCommas(
-                          Number(item.capital_share_paid_up).toFixed(2)
-                        )}
-                      </td>
-                      <td className=" text-right pr-4">
-                        {pesoSign}{" "}
-                        {item.capital_share_total !== ""
-                          ? numberWithCommas(
-                              Number(item.capital_share_total).toFixed(2)
-                            )
-                          : numberWithCommas(
-                              Number(item.capital_share_paid_up).toFixed(2)
-                            )}
-                      </td>
-                      <td>{item.capital_share_or}</td>
-                      <td></td>
+                    <tr key={key} className={` text-right `}>
+                      <ReportDetailedCapitalShareBody item={item} />
                     </tr>
                   );
                 })}
               </React.Fragment>
             ))}
+
+            <tr>
+              <td colSpan="15" className="text-right">
+                Total
+              </td>
+              <td className="text-right">
+                {pesoSign}
+                {numberWithCommas(Number(totalCapital).toFixed(2))}
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>

@@ -3,6 +3,7 @@ import { FaPlusCircle } from "react-icons/fa";
 import {
   setError,
   setIsAdd,
+  setIsEditProfile,
   setMessage,
 } from "../../../../../../store/StoreAction";
 import { StoreContext } from "../../../../../../store/StoreContext";
@@ -18,10 +19,10 @@ import { checkCapitalShare } from "../functions-capital-share";
 import ModalAddCapitalShare from "./ModalAddCapitalShare";
 import TransactionCapitalShareList from "./TransactionCapitalShareList";
 import ModalViewCapitalShare from "./ModalViewCapitalShare";
+import ModalAddSubscribeCapital from "./ModalAddSubscribeCapital";
 
 const TransactionCapitalShare = () => {
   const { store, dispatch } = React.useContext(StoreContext);
-  const [isSubscribeCapital, setIsSubscribeCapital] = React.useState(false);
   const [itemEdit, setItemEdit] = React.useState(null);
   const memberid = getUrlParam().get("memberid");
 
@@ -43,16 +44,33 @@ const TransactionCapitalShare = () => {
   const { data: subscribeCapital } = useQueryData(
     `/v1/subscribe-capital/active-by-id/${memberid}`, // endpoint
     "get", // method
-    "subscribeCapital", // key
-    {},
-    isSubscribeCapital
+    "subscribeCapital", //key
+    {}, // fd
+    totalCapital // if capital-share key reload
+  );
+
+  // use if not loadmore button undertime
+  const { data: penaltyById } = useQueryData(
+    `/v1/capital-share/read-capital-penalty/${memberid}`, // endpoint
+    "get", // method
+    "penaltyById", //key
+    {}, // fd
+    totalCapital // if capital-share key reload
   );
 
   // use if not loadmore button undertime
   const { data: activeAmortization } = useQueryData(
     `/v1/capital-amortization/read-all-active-by-id/${memberid}`, // endpoint
     "get", // method
-    "activeAmortization" // key
+    "activeAmortization", // key
+    {}, // fd
+    totalCapital // if capital-share key reload
+  );
+
+  const capitalShareTotal = checkCapitalShare(
+    totalCapital,
+    subscribeCapital,
+    penaltyById
   );
 
   const handleAdd = () => {
@@ -62,6 +80,10 @@ const TransactionCapitalShare = () => {
     ) {
       dispatch(setError(true));
       dispatch(setMessage(`You don't have active amortization.`));
+      return;
+    }
+    if (capitalShareTotal.isComplete === true) {
+      dispatch(setIsEditProfile(true));
       return;
     }
     dispatch(setIsAdd(true));
@@ -75,7 +97,8 @@ const TransactionCapitalShare = () => {
       <div className="wrapper ">
         <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2">
           <BreadCrumbs param={`${location.search}`} />
-          {checkCapitalShare(totalCapital, subscribeCapital).result === true &&
+          {(capitalShareTotal.result === true ||
+            capitalShareTotal.isComplete === true) &&
             subscribeCapital?.count > 0 && (
               <div className="flex items-center gap-1">
                 <button
@@ -94,7 +117,7 @@ const TransactionCapitalShare = () => {
         <div className="w-full pb-20 mt-3 ">
           <TransactionCapitalShareList
             setItemEdit={setItemEdit}
-            totalCapital={checkCapitalShare(totalCapital, subscribeCapital)}
+            totalCapital={capitalShareTotal}
             memberName={memberName}
             isLoading={isLoading}
             menu="members"
@@ -106,15 +129,16 @@ const TransactionCapitalShare = () => {
       {store.isAdd && (
         <ModalAddCapitalShare
           amount={activeAmortization?.data}
-          raminingAmount={
-            checkCapitalShare(totalCapital, subscribeCapital).remainingAmount
-          }
-          total={checkCapitalShare(totalCapital, subscribeCapital).totalCapital}
+          raminingAmount={capitalShareTotal.remainingAmount}
+          total={capitalShareTotal.totalCapital}
         />
       )}
-      {store.isConfirm && (
-        <ModalViewCapitalShare item={itemEdit} setIsSubscribeCapital />
+      {store.isEditProfile && (
+        <ModalAddSubscribeCapital
+          subscribeCapital={capitalShareTotal.subscribeC}
+        />
       )}
+      {store.isConfirm && <ModalViewCapitalShare item={itemEdit} />}
       {store.success && <ModalSuccess />}
       {store.error && <ModalError />}
     </>

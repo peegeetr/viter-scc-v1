@@ -120,11 +120,13 @@ const ModalAddStocks = ({ item }) => {
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
                 // console.log(values);
+                const stocks_date = values.stocks_date.replace("T", " ");
                 const stocks_quantity = removeComma(
                   `${values.stocks_quantity}`
                 );
                 mutation.mutate({
                   ...values,
+                  stocks_date,
                   stocks_quantity,
                 });
               }}

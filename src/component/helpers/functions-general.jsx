@@ -135,7 +135,7 @@ export const GetFocus = (id) => {
 };
 
 // get school year
-export const expirationYear = () => {
+export const yearNow = () => {
   const d = new Date();
   const year = d.getFullYear();
 

@@ -22,6 +22,11 @@ $share->capital_share_is_initial_pay = 0;
 $share->capital_share_created = date("Y-m-d H:i:s");
 $share->capital_share_datetime = date("Y-m-d H:i:s");
 
+// formated date
+$date = checkIndex($data, "date");
+
+// check date
+isDateExist($share, $date);
 // create
 $query = checkCreate($share);
 

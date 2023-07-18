@@ -158,6 +158,8 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                   dispatch(setMessage("Please check if you have product."));
                   return;
                 }
+                const orders_date = values.orders_date.replace("T", " ");
+                const sales_date = values.sales_date.replace("T", " ");
                 // for validation
                 const validation = getValidationOrderAdd(
                   values,
@@ -177,6 +179,8 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
 
                 mutation.mutate({
                   ...values,
+                  orders_date,
+                  sales_date,
                   orders_product_quantity: list[0].orders_product_quantity,
                   sales_receive_amount: list[0].sales_receive_amount,
                   sales_discount: list[0].sales_discount,

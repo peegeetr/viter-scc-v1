@@ -25,17 +25,8 @@ import ButtonSpinner from "../../../../../partials/spinners/ButtonSpinner";
 
 const ModalEditSetupCapitalShare = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
-  const memberid = getUrlParam().get("memberid");
 
   const queryClient = useQueryClient();
-  const [show, setShow] = React.useState("show");
-
-  // use if not loadmore button undertime
-  const { data: capitalShare } = useQueryData(
-    `/v1/capital-share`, // endpoint
-    "get", // method
-    "payslip" // key
-  );
 
   // use if not loadmore button undertime
   const { isLoading, data: subscribeCapitalActive } = useQueryData(
@@ -99,7 +90,7 @@ const ModalEditSetupCapitalShare = ({ item }) => {
   return (
     <>
       <div
-        className={` fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center bg-dark z-50 bg-opacity-50 animate-fadeIn ${show}`}
+        className={` fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center bg-dark z-50 bg-opacity-50 animate-fadeIn show`}
       >
         <div className="p-1 w-[350px] rounded-b-2xl animate-slideUp ">
           <div className="flex justify-between items-center bg-primary p-3 rounded-t-2xl">
@@ -120,6 +111,12 @@ const ModalEditSetupCapitalShare = ({ item }) => {
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
                 // console.log(values);
+                const date = getMonthYear(values.capital_share_date);
+                const capital_share_date = values.capital_share_date.replace(
+                  "T",
+                  " "
+                );
+
                 const members_initial_payment = removeComma(
                   `${values.members_initial_payment}`
                 );
@@ -129,6 +126,8 @@ const ModalEditSetupCapitalShare = ({ item }) => {
                 // mutate data
                 mutation.mutate({
                   ...values,
+                  date,
+                  capital_share_date,
                   members_initial_payment,
                   members_member_fee,
                 });

@@ -12,33 +12,17 @@ $conn = checkDbConnection();
 // make instance of classes
 $capital = new ReportCapitalShare($conn);
 $response = new Response();
-// get data
-$body = file_get_contents("php://input");
-$data = json_decode($body, true);
 // validate api key
 if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     checkApiKey();
-    // check data
-    checkPayload($data);
+    if (array_key_exists("year", $_GET)) {
 
-    // get value
-    $allValues = $data['value'];
-
-    // get task id from query string 
-    $capital->capital_share_member_id = checkIndex($allValues, "member_id");
-    $capital->capital_share_date = checkIndex($allValues, "year");
-
-    if (
-        $capital->capital_share_member_id !== "0"
-    ) {
-        $query = checkReadReportCapitalByMemberId($capital);
+        $capital->capital_share_date = $_GET['year'];
+        // if specific member by year 
+        $query = checkReadAllTotalCapitalByYear($capital);
         http_response_code(200);
         getQueriedData($query);
     }
-
-    $query = checkReadReportCapital($capital);
-    http_response_code(200);
-    getQueriedData($query);
 }
 
 http_response_code(200);

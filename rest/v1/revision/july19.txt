@@ -1,0 +1,38 @@
+
+*controllers     
+    - account/details/capital-share/create.php
+    - account/details/capital-share/functions.php
+    - account/details/capital-share/read-by-id-and-year.php
+    - account/details/capital-share/read-capital-penalty.php
+    - account/details/capital-share/read-group-by-year.php
+    - account/details/capital-share/update-capital-details.php
+
+    - inventory/report/capital-report/All FILES 
+    - settings/net-surplus/create.php
+    - settings/net-surplus/update.php
+    -
+    -
+    
+*models        
+    - account/details/capital-share/CapitalShare.php
+    - inventory/report/ReportCapitalShare.php 
+    - settings/net-surplus/NetSurplus.php
+    - inventory/sales/Sales.php
+    - 
+
+*htaccess 
+    - htaccess
+    - 
+
+*db tables 
+    -  
+
+
+*core functions 
+    - 
+    - 
+
+*extra
+    - 
+    - 
+ 

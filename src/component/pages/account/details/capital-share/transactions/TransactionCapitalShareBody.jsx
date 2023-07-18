@@ -9,7 +9,6 @@ import {
 } from "../../../../../helpers/functions-general";
 import { getMonth } from "../../../../Inventory/reports/report-function";
 import { getCapitalShareByMonth } from "../functions-capital-share";
-import ModalViewCapitalShare from "./ModalViewCapitalShare";
 
 const TransactionCapitalShareBody = ({ item, setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -23,46 +22,54 @@ const TransactionCapitalShareBody = ({ item, setItemEdit }) => {
     {}, // fb
     `${item.year}` // id
   );
+
   const handleView = (item) => {
     dispatch(setIsConfirm(true));
     setItemEdit(item);
   };
 
+  let capitalShareByMonth = 0;
+
   return (
     <>
       <td>{item.year}</td>
       {getMonth()?.map((item, key) => {
+        capitalShareByMonth = getCapitalShareByMonth(
+          item,
+          capitalByIdAndYear?.data
+        );
         return (
           <td
             key={key}
             className={`${
-              getCapitalShareByMonth(item, capitalByIdAndYear?.data).result ===
-                "" && "bg-gray-200"
-            } pr-4 `}
+              capitalShareByMonth.result === "" && "bg-red-100 "
+            } pr-2 `}
           >
-            {getCapitalShareByMonth(item, capitalByIdAndYear?.data).result ===
-            "" ? (
-              // is penalty
-              ""
-            ) : (
-              <span
-                className="tooltip-action-table cursor-pointer underline"
-                data-tooltip="View"
-                onClick={() =>
-                  handleView(
-                    getCapitalShareByMonth(item, capitalByIdAndYear?.data).list
-                  )
-                }
-              >
-                {pesoSign}{" "}
-                {numberWithCommas(
-                  Number(
-                    getCapitalShareByMonth(item, capitalByIdAndYear?.data)
-                      .result
-                  ).toFixed(2)
-                )}
-              </span>
-            )}
+            {
+              // capitalShareByMonth.penalty !== 0 ? (
+              //   <p className=" mb-0 text-red-800">
+              //     <small>(penalty)</small>
+              //     {pesoSign}
+              //     {numberWithCommas(
+              //       Number(capitalShareByMonth.penalty).toFixed(2)
+              //     )}
+              //   </p>
+              // ) :
+              capitalShareByMonth.result === "" ? (
+                ""
+              ) : (
+                <span
+                  className="tooltip-action-table cursor-pointer underline"
+                  data-tooltip="View"
+                  onClick={() => handleView(capitalShareByMonth.list)}
+                >
+                  {pesoSign}
+                  {numberWithCommas(
+                    Number(capitalShareByMonth.result).toFixed(2)
+                  )}
+                </span>
+              )
+            }
           </td>
         );
       })}

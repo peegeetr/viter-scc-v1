@@ -10,31 +10,11 @@ if (array_key_exists("netId", $_GET)) {
 }
 // check data
 checkPayload($data);
-// get data
-
-$id = "";
-$year = date("Y");
-$lastNetId = $net->readLastNetId();
-if ($lastNetId->rowCount() == 0) {
-    $id = "NS-$year-001";
-} else {
-    $row = $lastNetId->fetch(PDO::FETCH_ASSOC);
-    extract($row);
-    $existingMeberId = explode("-", $net_surplus_id);
-    $lastId =  intval($existingNetId[1]) + 1;
-
-    if ($lastId < 10) {
-        $id = "NS-$year-00" . $lastId;
-    } elseif ($lastId < 100) {
-        $id = "NS-$year-0" . $lastId;
-    } else {
-        $id = "NS-$year-$lastId";
-    }
-}
+// get data 
 
 
-checkKeyword($id);
-$net->net_surplus_id = $id;
+$net->net_surplus_year = checkIndex($data, "net_surplus_year");
+$net->net_surplus_allocation = checkIndex($data, "net_surplus_allocation");
 $net->net_surplus_before_amount = checkIndex($data, "net_surplus_before_amount");
 $net->net_surplus_distribution_amount = checkIndex($data, "net_surplus_distribution_amount");
 $net->net_surplus_operating_expenses = checkIndex($data, "net_surplus_operating_expenses");

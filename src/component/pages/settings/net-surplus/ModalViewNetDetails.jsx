@@ -1,9 +1,8 @@
 import React from "react";
 import { FaTimesCircle } from "react-icons/fa";
-import { StoreContext } from "../../../../store/StoreContext";
 import { setIsConfirm } from "../../../../store/StoreAction";
+import { StoreContext } from "../../../../store/StoreContext";
 import { numberWithCommas, pesoSign } from "../../../helpers/functions-general";
-import { getComputedNetAllocation } from "./functions-net-surplus";
 const ModalViewNetDetails = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
 
@@ -111,9 +110,7 @@ const ModalViewNetDetails = ({ item }) => {
             {/* Optional Fund */}
             <p className="pt-1 border-t-2 font-bold text-right">
               {pesoSign}
-              {numberWithCommas(
-                Number(getComputedNetAllocation(item)).toFixed(2)
-              )}
+              {numberWithCommas(Number(item.net_surplus_allocation).toFixed(2))}
             </p>
 
             {/* Net Surplus for Distribution */}

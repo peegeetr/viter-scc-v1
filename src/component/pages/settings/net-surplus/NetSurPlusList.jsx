@@ -19,8 +19,8 @@ import TableSpinner from "../../../partials/spinners/TableSpinner.jsx";
 import {
   numberWithCommas,
   pesoSign,
+  yearNow,
 } from "../../../helpers/functions-general.jsx";
-import { getComputedNetAllocation } from "./functions-net-surplus.jsx";
 
 const NetSurPlusList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -100,7 +100,7 @@ const NetSurPlusList = ({ setItemEdit }) => {
           <thead>
             <tr>
               <th>#</th>
-              <th className="min-w-[8rem] ">Net Surplus Id</th>
+              <th className="!w-[2rem]">Year</th>
               <th className="text-right pr-4 min-w-[10rem]">Total Income</th>
               <th className="text-right pr-4 min-w-[10rem]">
                 Less: Operating Expenses
@@ -108,11 +108,9 @@ const NetSurPlusList = ({ setItemEdit }) => {
               <th className="text-right pr-4 min-w-[10rem]">
                 Before Distribution
               </th>
+              <th className="text-right pr-4 min-w-[10rem]">Allocation</th>
               <th className="text-right pr-4 min-w-[10rem]">
-                Allocation of Net Surplus
-              </th>
-              <th className="text-right pr-4 min-w-[10rem]">
-                Net Surplus for Distribution
+                For Distribution
               </th>
 
               <th className="max-w-[5rem] text-center">Actions</th>
@@ -140,7 +138,7 @@ const NetSurPlusList = ({ setItemEdit }) => {
                 {page.data.map((item, key) => (
                   <tr key={key}>
                     <td> {counter++}.</td>
-                    <td>{item.net_surplus_id}</td>
+                    <td>{item.net_surplus_year}</td>
                     <td className="text-right pr-4 ">
                       {pesoSign}
                       {numberWithCommas(
@@ -162,13 +160,13 @@ const NetSurPlusList = ({ setItemEdit }) => {
                     <td className="text-right pr-4">
                       {pesoSign}
                       {numberWithCommas(
-                        Number(item.net_surplus_distribution_amount).toFixed(2)
+                        Number(item.net_surplus_allocation).toFixed(2)
                       )}
                     </td>
                     <td className="text-right pr-4">
                       {pesoSign}
                       {numberWithCommas(
-                        Number(getComputedNetAllocation(item)).toFixed(2)
+                        Number(item.net_surplus_distribution_amount).toFixed(2)
                       )}
                     </td>
 
@@ -182,22 +180,26 @@ const NetSurPlusList = ({ setItemEdit }) => {
                         >
                           <SlArrowRight className="inline" />
                         </button>
-                        <button
-                          type="button"
-                          className="btn-action-table tooltip-action-table"
-                          data-tooltip="Edit"
-                          onClick={() => handleEdit(item)}
-                        >
-                          <FaEdit />
-                        </button>
-                        <button
-                          type="button"
-                          className="btn-action-table tooltip-action-table"
-                          data-tooltip="Delete"
-                          onClick={() => handleDelete(item)}
-                        >
-                          <FaTrash />
-                        </button>
+                        {yearNow() === item.net_surplus_year && (
+                          <>
+                            <button
+                              type="button"
+                              className="btn-action-table tooltip-action-table"
+                              data-tooltip="Edit"
+                              onClick={() => handleEdit(item)}
+                            >
+                              <FaEdit />
+                            </button>
+                            <button
+                              type="button"
+                              className="btn-action-table tooltip-action-table"
+                              data-tooltip="Delete"
+                              onClick={() => handleDelete(item)}
+                            >
+                              <FaTrash />
+                            </button>
+                          </>
+                        )}
                       </div>
                     </td>
                   </tr>
@@ -225,7 +227,7 @@ const NetSurPlusList = ({ setItemEdit }) => {
           isDel={isDel}
           mysqlApiDelete={`/v1/net-surplus/${id}`}
           msg={"Are you sure you want to delete "}
-          item={`${dataItem.net_surplus_id}`}
+          item={`${dataItem.net_surplus_year}`}
           arrKey="net-surplus"
         />
       )}

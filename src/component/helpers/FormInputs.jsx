@@ -141,6 +141,7 @@ export const InputSelect = ({ label, onChange, ...props }) => {
     props.name === "orders_product_id" ||
     props.name === "orders_is_paid" ||
     props.name === "month" ||
+    props.name === "capital_year" ||
     props.name === "posMember" ||
     props.name === "stocks_product_id" ||
     props.name === "product_supplier_id"

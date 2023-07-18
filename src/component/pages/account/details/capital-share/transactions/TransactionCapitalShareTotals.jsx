@@ -1,7 +1,13 @@
 import React from "react";
 import StatusAmount from "../../../../../partials/status/StatusAmount";
 
-const TransactionCapitalShareTotals = ({ result, totalCapital, isLoading }) => {
+const TransactionCapitalShareTotals = ({
+  result,
+  totalCapital,
+  isLoading,
+  isFilter,
+  penalty,
+}) => {
   return (
     <>
       <div className="xl:flex items-center xl:mt-4  text-primary">
@@ -14,9 +20,9 @@ const TransactionCapitalShareTotals = ({ result, totalCapital, isLoading }) => {
           />
         ) : (
           <StatusAmount
-            text="Subscribes Capital Share "
+            text="Paid Capital Share"
             amount={0}
-            type=""
+            type="paid"
             isLoading={isLoading}
           />
         )}
@@ -41,8 +47,8 @@ const TransactionCapitalShareTotals = ({ result, totalCapital, isLoading }) => {
         />
         <StatusAmount
           text="Penalty Fee "
-          amount={totalCapital.memberFee}
-          type=""
+          amount={isFilter ? penalty?.totalPenalty : totalCapital.penalty}
+          type="penalty"
           isLoading={isLoading}
         />
       </div>

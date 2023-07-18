@@ -139,6 +139,7 @@ const ModalAddSearchPOS = ({ item, arrKey, memberId, memberName }) => {
                   dispatch(setMessage("Please check if you have product."));
                   return;
                 }
+                const orders_date = values.orders_date.replace("T", " ");
                 const orders_product_quantity = removeComma(
                   `${values.orders_product_quantity}`
                 );
@@ -197,6 +198,7 @@ const ModalAddSearchPOS = ({ item, arrKey, memberId, memberName }) => {
                   ...values,
                   items,
                   sales_discount,
+                  orders_date,
                   orders_product_amount,
                   orders_product_quantity,
                 });

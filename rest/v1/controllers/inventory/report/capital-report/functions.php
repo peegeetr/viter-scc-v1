@@ -35,3 +35,35 @@ function checkReadReportCapitalDividendByMemberId($object)
     checkQuery($query, "Empty records. (read report filter dividend capital share by member id)");
     return $query;
 }
+
+// read By Member Id And Year
+function checkReadByMemberIdAndYear($object)
+{
+    $query = $object->readByMemberIdAndYear();
+    checkQuery($query, "Empty records. (read By Member Id And Year)");
+    return $query;
+}
+
+// read All Total Capital By Year
+function checkReadAllTotalCapitalByYear($object)
+{
+    $query = $object->readAllTotalCapitalByYear();
+    checkQuery($query, "Empty records. (read All Total Capital By Year)");
+    return $query;
+}
+
+// read All By Year
+function checkReadAllByYear($object)
+{
+    $query = $object->readAllByYear();
+    checkQuery($query, "Empty records. (read All By Year)");
+    return $query;
+}
+
+// read All By Year
+function checkReadAllMemberFee($object)
+{
+    $query = $object->readAllMemberFee();
+    checkQuery($query, "Empty records. (read All Member Fee)");
+    return $query;
+}

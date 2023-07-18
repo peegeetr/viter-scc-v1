@@ -5,35 +5,42 @@ import { FaTimesCircle } from "react-icons/fa";
 import * as Yup from "yup";
 import {
   setError,
-  setIsAdd,
+  setIsEditProfile,
   setMessage,
   setSuccess,
 } from "../../../../../../store/StoreAction";
 import { StoreContext } from "../../../../../../store/StoreContext";
 import { InputText } from "../../../../../helpers/FormInputs";
 import {
+  formatDate,
   getDateTimeNow,
   getUrlParam,
-  removeComma,
+  numberWithCommas,
+  pesoSign,
 } from "../../../../../helpers/functions-general";
 import { queryData } from "../../../../../helpers/queryData";
 import ButtonSpinner from "../../../../../partials/spinners/ButtonSpinner";
+import { getMonthYear } from "../functions-capital-share";
 
-const ModalAddSuppliersProductsHistory = () => {
+const ModalAddSubscribeCapital = ({ subscribeCapital }) => {
   const { store, dispatch } = React.useContext(StoreContext);
-  const supplierProductId = getUrlParam().get("supplierProductId");
+  const memberid = getUrlParam().get("memberid");
+
   const queryClient = useQueryClient();
+
   const mutation = useMutation({
-    mutationFn: (values) => queryData(`/v1/product-history`, "post", values),
+    mutationFn: (values) => queryData(`/v1/capital-share`, "post", values),
     onSuccess: (data) => {
       // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ["product-history"] });
+      queryClient.invalidateQueries({ queryKey: ["capital-share"] });
+
       // show success box
       if (data.success) {
-        dispatch(setIsAdd(false));
+        dispatch(setIsEditProfile(false));
         dispatch(setSuccess(true));
-        dispatch(setMessage(`Successfuly added. `));
+        dispatch(setMessage(`Successfuly added.`));
       }
+
       // show error box
       if (!data.success) {
         dispatch(setError(true));
@@ -42,28 +49,30 @@ const ModalAddSuppliersProductsHistory = () => {
     },
   });
   const handleClose = () => {
-    dispatch(setIsAdd(false));
+    dispatch(setIsEditProfile(false));
   };
-
   const initVal = {
-    product_history_product_id: supplierProductId,
-    product_history_date: getDateTimeNow(),
-    product_history_price: "",
-    product_history_scc_price: "",
+    capital_share_member_id: memberid,
+    capital_share_paid_up: 0,
+    capital_share_or: "none",
+    capital_share_is_penalty: 0,
+    capital_share_member_id: memberid,
+    capital_share_date: getDateTimeNow(),
+    capital_share_total: "",
   };
 
   const yupSchema = Yup.object({
-    product_history_date: Yup.string().required("Required"),
-    product_history_price: Yup.string().required("Required"),
-    product_history_scc_price: Yup.string().required("Required"),
+    capital_share_date: Yup.string().required("Required"),
   });
 
   return (
     <>
-      <div className="fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center bg-dark bg-opacity-50 z-50">
-        <div className="p-1 w-[350px] rounded-b-2xl">
+      <div
+        className={` fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center bg-dark z-50 bg-opacity-50 animate-fadeIn `}
+      >
+        <div className="p-1 w-[350px] rounded-b-2xl animate-slideUp ">
           <div className="flex justify-between items-center bg-primary p-3 rounded-t-2xl">
-            <h3 className="text-white text-sm">Add Product Price</h3>
+            <h3 className="text-white text-sm">Add Capital Share</h3>
             <button
               type="button"
               className="text-gray-200 text-base"
@@ -78,59 +87,49 @@ const ModalAddSuppliersProductsHistory = () => {
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
                 // console.log(values);
-                const product_history_date =
-                  values.product_history_date.replace("T", " ");
-                const product_history_price = removeComma(
-                  `${values.product_history_price}`
+                const date = getMonthYear(values.capital_share_date);
+                const capital_share_date = values.capital_share_date.replace(
+                  "T",
+                  " "
                 );
-                const product_history_scc_price = removeComma(
-                  `${values.product_history_scc_price}`
-                );
+                const capital_share_total = subscribeCapital;
+
+                // mutate data
                 mutation.mutate({
                   ...values,
-                  product_history_date,
-                  product_history_price,
-                  product_history_scc_price,
+                  date,
+                  capital_share_date,
+                  capital_share_total,
                 });
               }}
             >
               {(props) => {
                 return (
-                  <Form>
+                  <Form className="">
                     <div className="relative my-5">
                       <InputText
                         label="Date"
                         type="datetime-local"
-                        name="product_history_date"
-                        disabled={mutation.isLoading}
-                      />
-                    </div>
-                    <div className="relative my-5">
-                      <InputText
-                        label="Product Supplier Price"
-                        type="text"
-                        num="num"
-                        name="product_history_price"
-                        disabled={mutation.isLoading}
-                      />
-                    </div>
-                    <div className="relative my-5">
-                      <InputText
-                        label="Product SCC Price"
-                        type="text"
-                        num="num"
-                        name="product_history_scc_price"
+                        name="capital_share_date"
                         disabled={mutation.isLoading}
                       />
                     </div>
 
-                    <div className="flex items-center gap-1 pt-5">
+                    <p className="text-primary pl-3">
+                      Capital Share :
+                      <span className="text-black">
+                        {pesoSign}{" "}
+                        {numberWithCommas(Number(subscribeCapital).toFixed(2))}
+                      </span>
+                    </p>
+
+                    <div className="flex items-center gap-1 pt-3">
                       <button
                         type="submit"
-                        disabled={mutation.isLoading || !props.dirty}
+                        disabled={mutation.isLoading}
                         className="btn-modal-submit relative"
                       >
-                        {mutation.isLoading && <ButtonSpinner />} Add
+                        {mutation.isLoading ? <ButtonSpinner /> : "Add"}
                       </button>
                       <button
                         type="reset"
@@ -152,4 +151,4 @@ const ModalAddSuppliersProductsHistory = () => {
   );
 };
 
-export default ModalAddSuppliersProductsHistory;
+export default ModalAddSubscribeCapital;

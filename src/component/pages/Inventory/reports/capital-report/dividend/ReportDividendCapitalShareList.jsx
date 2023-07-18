@@ -1,31 +1,29 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { Form, Formik } from "formik";
 import React from "react";
+import { MdFilterAlt } from "react-icons/md";
 import * as Yup from "yup";
 import { StoreContext } from "../../../../../../store/StoreContext";
 import useQueryData from "../../../../../custom-hooks/useQueryData";
 import { InputSelect } from "../../../../../helpers/FormInputs";
 import {
-  expirationYear,
-  formatDate,
-  getTime,
   numberWithCommas,
   pesoSign,
+  yearNow,
 } from "../../../../../helpers/functions-general";
 import { queryDataInfinite } from "../../../../../helpers/queryDataInfinite";
 import NoData from "../../../../../partials/NoData";
 import ServerError from "../../../../../partials/ServerError";
-import TableSpinner from "../../../../../partials/spinners/TableSpinner";
 import ButtonSpinner from "../../../../../partials/spinners/ButtonSpinner";
-import { MdFilterAlt } from "react-icons/md";
-import { getYearList } from "./functions-report-sales";
+import TableSpinner from "../../../../../partials/spinners/TableSpinner";
 import StatusAmount from "../../../../../partials/status/StatusAmount";
+import { getYearList } from "../functions-report-capital";
 
 const ReportDividendCapitalShareList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [isFilter, setFilter] = React.useState(false);
   const [isSubmit, setSubmit] = React.useState(false);
-  const [isYear, setIsYear] = React.useState(expirationYear());
+  const [isYear, setIsYear] = React.useState(yearNow());
   const [value, setValue] = React.useState([]);
   let counter = 1;
   // use if with loadmore button and search bar

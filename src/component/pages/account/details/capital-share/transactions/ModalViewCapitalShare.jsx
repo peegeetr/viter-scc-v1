@@ -61,7 +61,8 @@ const ModalViewCapitalShare = ({ item }) => {
               <p>Official Receipt : </p>
               <p>{item.capital_share_or}</p>
             </div>
-            {store.credentials.data.role_is_developer === 1 && (
+            {(store.credentials.data.role_is_developer === 1 ||
+              store.credentials.data.role_is_admin === 1) && (
               <div className="flex justify-end items-center gap-1 pt-3">
                 <button
                   type="button"

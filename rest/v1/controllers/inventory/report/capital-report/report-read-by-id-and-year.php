@@ -1,17 +1,16 @@
 <?php
-
 // set http header
 require '../../../../core/header.php';
 // use needed functions
 require '../../../../core/functions.php';
 require 'functions.php';
 // use needed classes
-require '../../../../models/account/details/capital-share/CapitalShare.php';
+require '../../../../models/inventory/report/ReportCapitalShare.php';
 // check database connection
 $conn = null;
 $conn = checkDbConnection();
 // make instance of classes
-$share = new CapitalShare($conn);
+$capital = new ReportCapitalShare($conn);
 $response = new Response();
 // validate api key
 if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
@@ -19,13 +18,19 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
 
     if (array_key_exists("memberId", $_GET) && array_key_exists("year", $_GET)) {
         // get data
-        $share->capital_share_member_id = $_GET['memberId'];
-        $share->capital_share_year = $_GET['year'];
+        $capital->capital_share_member_id = $_GET['memberId'];
+        $capital->capital_share_date = $_GET['year'];
 
-        checkId($share->capital_share_member_id);
-        checkId($share->capital_share_year);
-
-        $query = checkReadByIdAndYear($share);
+        checkId($capital->capital_share_member_id);
+        checkId($capital->capital_share_date);
+        // if all member by year 
+        if ($capital->capital_share_member_id === "0") {
+            $query = checkReadAllByYear($capital);
+            http_response_code(200);
+            getQueriedData($query);
+        }
+        // if specific member by year 
+        $query = checkReadByMemberIdAndYear($capital);
         http_response_code(200);
         getQueriedData($query);
     }

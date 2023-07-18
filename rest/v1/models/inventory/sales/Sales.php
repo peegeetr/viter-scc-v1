@@ -653,6 +653,7 @@ class Sales
             $sql .= "and orders.orders_member_id = member.members_aid ";
             $sql .= "and orders.orders_aid = sales.sales_order_id ";
             $sql .= "and sales.sales_member_id = member.members_aid ";
+            $sql .= "and orders.orders_is_draft = 0 ";
             $sql .= "and DATE(orders.orders_date) between ";
             $sql .= ":start_date and :end_date ";
             $sql .= "order by sales.sales_is_paid asc, ";
@@ -712,6 +713,7 @@ class Sales
             $sql .= "and orders.orders_member_id = member.members_aid ";
             $sql .= "and orders.orders_aid = sales.sales_order_id ";
             $sql .= "and sales.sales_member_id = member.members_aid ";
+            $sql .= "and orders.orders_is_draft = 0 ";
             $sql .= "and DATE(orders.orders_date) between ";
             $sql .= ":start_date and :end_date ";
             $sql .= "order by sales.sales_is_paid asc, ";
@@ -771,6 +773,7 @@ class Sales
             $sql .= "and orders.orders_member_id = member.members_aid ";
             $sql .= "and orders.orders_aid = sales.sales_order_id ";
             $sql .= "and sales.sales_member_id = member.members_aid ";
+            $sql .= "and orders.orders_is_draft = 0 ";
             $sql .= "and DATE(orders.orders_date) between ";
             $sql .= ":start_date and :end_date ";
             $sql .= "order by sales.sales_is_paid asc, ";
@@ -830,6 +833,7 @@ class Sales
             $sql .= "and orders.orders_member_id = member.members_aid ";
             $sql .= "and orders.orders_aid = sales.sales_order_id ";
             $sql .= "and sales.sales_member_id = member.members_aid ";
+            $sql .= "and orders.orders_is_draft = 0 ";
             $sql .= "and DATE(orders.orders_date) between ";
             $sql .= ":start_date and :end_date ";
             $sql .= "order by sales.sales_is_paid asc, ";
@@ -890,6 +894,7 @@ class Sales
             $sql .= "and orders.orders_member_id = member.members_aid ";
             $sql .= "and orders.orders_aid = sales.sales_order_id ";
             $sql .= "and sales.sales_member_id = member.members_aid ";
+            $sql .= "and orders.orders_is_draft = 0 ";
             $sql .= "and DATE(orders.orders_date) between ";
             $sql .= ":start_date and :end_date ";
             $sql .= "order by sales.sales_is_paid asc, ";
@@ -951,6 +956,7 @@ class Sales
             $sql .= "and orders.orders_member_id = member.members_aid ";
             $sql .= "and orders.orders_aid = sales.sales_order_id ";
             $sql .= "and sales.sales_member_id = member.members_aid ";
+            $sql .= "and orders.orders_is_draft = 0 ";
             $sql .= "and DATE(orders.orders_date) between ";
             $sql .= ":start_date and :end_date ";
             $sql .= "order by sales.sales_is_paid asc, ";
@@ -1011,6 +1017,7 @@ class Sales
             $sql .= "and orders.orders_member_id = member.members_aid ";
             $sql .= "and orders.orders_aid = sales.sales_order_id ";
             $sql .= "and sales.sales_member_id = member.members_aid ";
+            $sql .= "and orders.orders_is_draft = 0 ";
             $sql .= "and DATE(orders.orders_date) between ";
             $sql .= ":start_date and :end_date ";
             $sql .= "order by sales.sales_is_paid asc, ";
@@ -1070,6 +1077,7 @@ class Sales
             $sql .= "and sales.sales_member_id = member.members_aid ";
             $sql .= "and orders.orders_member_id = member.members_aid ";
             $sql .= "and orders.orders_aid = sales.sales_order_id ";
+            $sql .= "and orders.orders_is_draft = 0 ";
             $sql .= "and DATE(orders.orders_date) between ";
             $sql .= ":start_date and :end_date ";
             $sql .= "order by sales.sales_is_paid asc, ";
@@ -1129,6 +1137,7 @@ class Sales
             $sql .= "and sales.sales_member_id = member.members_aid ";
             $sql .= "and orders.orders_member_id = member.members_aid ";
             $sql .= "and orders.orders_aid = sales.sales_order_id ";
+            $sql .= "and orders.orders_is_draft = 0 ";
             $sql .= "and DATE(orders.orders_date) between ";
             $sql .= ":start_date and :end_date ";
             $sql .= "order by sales.sales_is_paid asc, ";
@@ -1190,6 +1199,7 @@ class Sales
             $sql .= "and sales.sales_member_id = member.members_aid ";
             $sql .= "and orders.orders_member_id = member.members_aid ";
             $sql .= "and orders.orders_aid = sales.sales_order_id ";
+            $sql .= "and orders.orders_is_draft = 0 ";
             $sql .= "and DATE(orders.orders_date) between ";
             $sql .= ":start_date and :end_date ";
             $sql .= "order by sales.sales_is_paid asc, ";
@@ -1253,6 +1263,7 @@ class Sales
             $sql .= "and sales.sales_member_id = member.members_aid ";
             $sql .= "and orders.orders_member_id = member.members_aid ";
             $sql .= "and orders.orders_aid = sales.sales_order_id ";
+            $sql .= "and orders.orders_is_draft = 0 ";
             $sql .= "and DATE(orders.orders_date) between ";
             $sql .= ":start_date and :end_date ";
             $sql .= "order by sales.sales_is_paid asc, ";
@@ -1316,6 +1327,7 @@ class Sales
             $sql .= "and sales.sales_member_id = member.members_aid ";
             $sql .= "and orders.orders_member_id = member.members_aid ";
             $sql .= "and orders.orders_aid = sales.sales_order_id ";
+            $sql .= "and orders.orders_is_draft = 0 ";
             $sql .= "and DATE(orders.orders_date) between ";
             $sql .= ":start_date and :end_date ";
             $sql .= "order by sales.sales_is_paid asc, ";
@@ -1378,6 +1390,7 @@ class Sales
             $sql .= "and sales.sales_member_id = member.members_aid ";
             $sql .= "and orders.orders_member_id = member.members_aid ";
             $sql .= "and orders.orders_aid = sales.sales_order_id ";
+            $sql .= "and orders.orders_is_draft = 0 ";
             $sql .= "and DATE(orders.orders_date) between ";
             $sql .= ":start_date and :end_date ";
             $sql .= "order by sales.sales_is_paid asc, ";
@@ -1439,6 +1452,7 @@ class Sales
             $sql .= "and sales.sales_member_id = member.members_aid ";
             $sql .= "and orders.orders_member_id = member.members_aid ";
             $sql .= "and orders.orders_aid = sales.sales_order_id ";
+            $sql .= "and orders.orders_is_draft = 0 ";
             $sql .= "and DATE(orders.orders_date) between ";
             $sql .= ":start_date and :end_date ";
             $sql .= "order by sales.sales_is_paid asc, ";
@@ -1499,6 +1513,7 @@ class Sales
             $sql .= "and sales.sales_member_id = member.members_aid ";
             $sql .= "and orders.orders_member_id = member.members_aid ";
             $sql .= "and orders.orders_aid = sales.sales_order_id ";
+            $sql .= "and orders.orders_is_draft = 0 ";
             $sql .= "and DATE(orders.orders_date) between ";
             $sql .= ":start_date and :end_date ";
             $sql .= "order by sales.sales_is_paid asc, ";
@@ -1557,6 +1572,7 @@ class Sales
             $sql .= "and orders.orders_member_id = member.members_aid ";
             $sql .= "and orders.orders_aid = sales.sales_order_id ";
             $sql .= "and sales.sales_member_id = member.members_aid ";
+            $sql .= "and orders.orders_is_draft = 0 ";
             $sql .= "and DATE(orders.orders_date) between ";
             $sql .= ":start_date and :end_date ";
             $sql .= "order by sales.sales_is_paid asc, ";

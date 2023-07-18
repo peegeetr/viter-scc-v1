@@ -2,7 +2,8 @@
 class NetSurplus
 {
     public $net_surplus_aid;
-    public $net_surplus_id;
+    public $net_surplus_year;
+    public $net_surplus_allocation;
     public $net_surplus_before_amount;
     public $net_surplus_distribution_amount;
     public $net_surplus_operating_expenses;
@@ -42,7 +43,8 @@ class NetSurplus
         try {
             $sql = "insert into {$this->tblNetSurplus} ";
             $sql .= "( net_surplus_total_income, ";
-            $sql .= "net_surplus_id, ";
+            $sql .= "net_surplus_year, ";
+            $sql .= "net_surplus_allocation, ";
             $sql .= "net_surplus_before_amount, ";
             $sql .= "net_surplus_distribution_amount, ";
             $sql .= "net_surplus_operating_expenses, ";
@@ -61,7 +63,8 @@ class NetSurplus
             $sql .= "net_surplus_created, ";
             $sql .= "net_surplus_datetime ) values ( ";
             $sql .= ":net_surplus_total_income, ";
-            $sql .= ":net_surplus_id, ";
+            $sql .= ":net_surplus_year, ";
+            $sql .= ":net_surplus_allocation, ";
             $sql .= ":net_surplus_before_amount, ";
             $sql .= ":net_surplus_distribution_amount, ";
             $sql .= ":net_surplus_operating_expenses, ";
@@ -82,7 +85,8 @@ class NetSurplus
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "net_surplus_total_income" => $this->net_surplus_total_income,
-                "net_surplus_id" => $this->net_surplus_id,
+                "net_surplus_year" => $this->net_surplus_year,
+                "net_surplus_allocation" => $this->net_surplus_allocation,
                 "net_surplus_before_amount" => $this->net_surplus_before_amount,
                 "net_surplus_distribution_amount" => $this->net_surplus_distribution_amount,
                 "net_surplus_operating_expenses" => $this->net_surplus_operating_expenses,
@@ -108,19 +112,6 @@ class NetSurplus
         return $query;
     }
 
-    // read last Id
-    public function readLastNetId()
-    {
-        try {
-            $sql = "select net_surplus_id from ";
-            $sql .= "{$this->tblNetSurplus} ";
-            $sql .= "order by net_surplus_id desc ";
-            $query = $this->connection->query($sql);
-        } catch (PDOException $ex) {
-            $query = false;
-        }
-        return $query;
-    }
 
     // read all 
     public function readAll()
@@ -128,7 +119,7 @@ class NetSurplus
         try {
             $sql = "select * from ";
             $sql .= "{$this->tblNetSurplus} ";
-            $sql .= "order by net_surplus_id desc ";
+            $sql .= "order by net_surplus_year desc ";
             $query = $this->connection->query($sql);
         } catch (PDOException $ex) {
             $query = false;
@@ -141,7 +132,7 @@ class NetSurplus
         try {
             $sql = "select * from ";
             $sql .= "{$this->tblNetSurplus} ";
-            $sql .= "order by net_surplus_id desc ";
+            $sql .= "order by net_surplus_year desc ";
             $sql .= "limit :start, ";
             $sql .= ":total ";
             $query = $this->connection->prepare($sql);
@@ -162,12 +153,12 @@ class NetSurplus
             $sql = "select * from ";
             $sql .= "{$this->tblNetSurplus} ";
             $sql .= "where net_surplus_distribution_amount like :net_surplus_distribution_amount ";
-            $sql .= "or net_surplus_id like :net_surplus_id ";
-            $sql .= "order by net_surplus_id desc ";
+            $sql .= "or net_surplus_year like :net_surplus_year ";
+            $sql .= "order by net_surplus_year desc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "net_surplus_distribution_amount" => "%{$this->net_surplus_search}%",
-                "net_surplus_id" => "%{$this->net_surplus_search}%",
+                "net_surplus_year" => "%{$this->net_surplus_search}%",
             ]);
         } catch (PDOException $ex) {
             $query = false;
@@ -181,7 +172,7 @@ class NetSurplus
             $sql = "select * from ";
             $sql .= "{$this->tblNetSurplus} ";
             $sql .= "where net_surplus_aid = :net_surplus_aid  ";
-            $sql .= "order by net_surplus_id desc ";
+            $sql .= "order by net_surplus_year desc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "net_surplus_aid " => $this->net_surplus_aid,
@@ -197,6 +188,8 @@ class NetSurplus
     {
         try {
             $sql = "update {$this->tblNetSurplus} set ";
+            $sql .= "net_surplus_year = :net_surplus_year, ";
+            $sql .= "net_surplus_allocation = :net_surplus_allocation, ";
             $sql .= "net_surplus_before_amount = :net_surplus_before_amount, ";
             $sql .= "net_surplus_distribution_amount = :net_surplus_distribution_amount, ";
             $sql .= "net_surplus_operating_expenses = :net_surplus_operating_expenses, ";
@@ -217,6 +210,8 @@ class NetSurplus
             $sql .= "where net_surplus_aid = :net_surplus_aid ";
             $query = $this->connection->prepare($sql);
             $query->execute([
+                "net_surplus_year" => $this->net_surplus_year,
+                "net_surplus_allocation" => $this->net_surplus_allocation,
                 "net_surplus_before_amount" => $this->net_surplus_before_amount,
                 "net_surplus_distribution_amount" => $this->net_surplus_distribution_amount,
                 "net_surplus_operating_expenses" => $this->net_surplus_operating_expenses,

@@ -65,7 +65,7 @@ const ModalAddCapitalShare = ({ item, amount, raminingAmount, total }) => {
       ? item.capital_share_is_penalty === 1
         ? true
         : false
-      : "",
+      : false,
   };
 
   const yupSchema = Yup.object({
@@ -97,6 +97,7 @@ const ModalAddCapitalShare = ({ item, amount, raminingAmount, total }) => {
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
                 // console.log(values);
+                const date = getMonthYear(values.capital_share_date);
                 const capital_share_date = values.capital_share_date.replace(
                   "T",
                   " "
@@ -121,6 +122,7 @@ const ModalAddCapitalShare = ({ item, amount, raminingAmount, total }) => {
                 // mutate data
                 mutation.mutate({
                   ...values,
+                  date,
                   capital_share_date,
                   capital_share_total,
                   capital_share_paid_up,

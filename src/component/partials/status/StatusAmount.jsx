@@ -18,6 +18,8 @@ const StatusAmount = ({
               ? "bg-gray-100 text-gray-800  "
               : type === "discount"
               ? "bg-gray-100 text-gray-800  "
+              : type === "penalty"
+              ? "bg-red-100 text-red-800 "
               : type === "pending"
               ? "bg-orange-100 text-orange-800 "
               : type === "paid"
