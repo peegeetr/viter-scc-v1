@@ -17,7 +17,7 @@
     - account/details/capital-share/CapitalShare.php
     - inventory/report/ReportCapitalShare.php 
     - settings/net-surplus/NetSurplus.php
-    - inventory/sales/Sales.php
+    - inventory/sales/Sales.php - done
     - 
 
 *htaccess 
