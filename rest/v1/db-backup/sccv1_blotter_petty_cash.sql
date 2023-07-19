@@ -31,7 +31,7 @@ CREATE TABLE `sccv1_blotter_petty_cash` (
   `petty_cash_aid` int(11) NOT NULL,
   `petty_cash_date` varchar(20) NOT NULL,
   `petty_cash_voucher_no` varchar(50) NOT NULL,
-  `petty_cash_payee` varchar(20) NOT NULL,
+  `petty_cash_payee_id` varchar(20) NOT NULL,
   `petty_cash_in` varchar(20) NOT NULL,
   `petty_cash_out` varchar(20) NOT NULL,
   `petty_cash_balance` varchar(20) NOT NULL,

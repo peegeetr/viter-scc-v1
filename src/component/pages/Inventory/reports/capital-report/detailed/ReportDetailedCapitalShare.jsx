@@ -19,8 +19,8 @@ const ReportDetailedCapitalShare = () => {
         <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2 ">
           <BreadCrumbs />
         </div>
-        <hr />
-        <div className="w-full pt-5 pb-20">
+        <hr className="print:hidden" />
+        <div className="w-full pt-5 pb-20 print:pt-0">
           <ReportDetailedCapitalShareList />
         </div>
         <Footer />

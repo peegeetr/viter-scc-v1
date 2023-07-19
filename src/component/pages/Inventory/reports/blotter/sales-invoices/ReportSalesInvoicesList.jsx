@@ -169,7 +169,7 @@ const ReportSalesInvoicesList = ({ setItemEdit }) => {
               <th className="min-w-[8rem] w-[15rem] print:min-w-0 print:w-[5rem]">
                 OR no.
               </th>
-              <th className="min-w-[8rem] w-[15rem] text-right print:min-w-0 print:w-[9rem]">
+              <th className="min-w-[8rem] w-[15rem] print:min-w-0 print:w-[9rem]">
                 payee
               </th>
               <th className="min-w-[8rem] w-[15rem] text-right print:min-w-0 print:w-[9rem]">
@@ -205,11 +205,8 @@ const ReportSalesInvoicesList = ({ setItemEdit }) => {
                       <td>{formatDate(item.or_invoice_date)}</td>
 
                       <td>{item.or_invoice_or_no}</td>
-                      <td className="text-right">
-                        {pesoSign}{" "}
-                        {numberWithCommas(
-                          Number(item.or_invoice_payee).toFixed(2)
-                        )}
+                      <td>
+                        {`${item.members_last_name}, ${item.members_first_name}`}
                       </td>
                       <td className="text-right">
                         {pesoSign}{" "}
@@ -244,7 +241,7 @@ const ReportSalesInvoicesList = ({ setItemEdit }) => {
                 })}
               </React.Fragment>
             ))}
-            {isFilter && result?.pages[0].data.length > 0 && (
+            {result?.pages[0].data.length > 0 && (
               <tr className="capitalize">
                 <td colSpan={5} className="text-right font-semibold">
                   <span className="pr-5">Total recipts</span>
@@ -255,7 +252,7 @@ const ReportSalesInvoicesList = ({ setItemEdit }) => {
             )}
           </tbody>
         </table>
-        <div className="text-center">
+        <div className="text-center print:hidden">
           <Loadmore
             fetchNextPage={fetchNextPage}
             isFetchingNextPage={isFetchingNextPage}

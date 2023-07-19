@@ -165,7 +165,7 @@ const ReportPettyCashList = ({ setItemEdit }) => {
               <th>#</th>
               <th className="min-w-[10rem] print:min-w-0">Date</th>
               <th className="min-w-[8rem] print:min-w-0">Voucher no.</th>
-              <th className="min-w-[8rem] text-right print:min-w-0">payee</th>
+              <th className="min-w-[8rem] print:min-w-0">payee</th>
               <th className="min-w-[8rem] text-right print:min-w-0">in</th>
               <th className="min-w-[8rem] text-right print:min-w-0">out</th>
               <th className="min-w-[10rem] text-right print:min-w-0">
@@ -200,11 +200,8 @@ const ReportPettyCashList = ({ setItemEdit }) => {
                       <td>{formatDate(item.petty_cash_date)}</td>
 
                       <td>{item.petty_cash_voucher_no}</td>
-                      <td className="text-right">
-                        {pesoSign}{" "}
-                        {numberWithCommas(
-                          Number(item.petty_cash_payee).toFixed(2)
-                        )}
+                      <td>
+                        {`${item.members_last_name}, ${item.members_first_name}`}
                       </td>
                       <td className="text-right">
                         {pesoSign}{" "}
@@ -250,7 +247,7 @@ const ReportPettyCashList = ({ setItemEdit }) => {
                 })}
               </React.Fragment>
             ))}
-            {isFilter && result?.pages[0].data.length > 0 && (
+            {result?.pages[0].data.length > 0 && (
               <tr className="capitalize">
                 <td colSpan={7} className="text-right font-semibold">
                   <span className="pr-5">Total recipts</span>
@@ -261,7 +258,7 @@ const ReportPettyCashList = ({ setItemEdit }) => {
             )}
           </tbody>
         </table>
-        <div className="text-center">
+        <div className="text-center print:hidden">
           <Loadmore
             fetchNextPage={fetchNextPage}
             isFetchingNextPage={isFetchingNextPage}

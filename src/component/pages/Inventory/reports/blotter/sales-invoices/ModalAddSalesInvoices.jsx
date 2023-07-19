@@ -10,10 +10,18 @@ import {
   setSuccess,
 } from "../../../../../../store/StoreAction";
 import { StoreContext } from "../../../../../../store/StoreContext";
-import { InputText, InputTextArea } from "../../../../../helpers/FormInputs";
+import {
+  InputSelect,
+  InputText,
+  InputTextArea,
+} from "../../../../../helpers/FormInputs";
 import { queryData } from "../../../../../helpers/queryData";
 import ButtonSpinner from "../../../../../partials/spinners/ButtonSpinner";
-import { removeComma } from "../../../../../helpers/functions-general";
+import {
+  getDateNow,
+  removeComma,
+} from "../../../../../helpers/functions-general";
+import useQueryData from "../../../../../custom-hooks/useQueryData";
 
 const ModalAddSalesInvoices = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -48,10 +56,16 @@ const ModalAddSalesInvoices = ({ item }) => {
     dispatch(setIsAdd(false));
   };
 
+  // use if not loadmore button undertime
+  const { data: readAllMemberSI, isLoading } = useQueryData(
+    `/v1/report-sales-invoices/read-all-member`, // endpoint
+    "get", // method
+    "readAllMemberSI" // key
+  );
   const initVal = {
-    or_invoice_date: item ? item.or_invoice_date : "",
+    or_invoice_date: item ? item.or_invoice_date : getDateNow(),
     or_invoice_or_no: item ? item.or_invoice_or_no : "",
-    or_invoice_payee: item ? item.or_invoice_payee : "",
+    or_invoice_payee_id: item ? item.or_invoice_payee_id : "",
     or_invoice_amount: item ? item.or_invoice_amount : "",
     or_invoice_remarks: item ? item.or_invoice_remarks : "",
   };
@@ -59,7 +73,7 @@ const ModalAddSalesInvoices = ({ item }) => {
   const yupSchema = Yup.object({
     or_invoice_date: Yup.string().required("Required"),
     or_invoice_or_no: Yup.string().required("Required"),
-    or_invoice_payee: Yup.string().required("Required"),
+    or_invoice_payee_id: Yup.string().required("Required"),
     or_invoice_amount: Yup.string().required("Required"),
     or_invoice_remarks: Yup.string().required("Required"),
   });
@@ -86,11 +100,9 @@ const ModalAddSalesInvoices = ({ item }) => {
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
                 // console.log(values);
-                const or_invoice_payee = removeComma(values.or_invoice_payee);
                 const or_invoice_amount = removeComma(values.or_invoice_amount);
                 mutation.mutate({
                   ...values,
-                  or_invoice_payee,
                   or_invoice_amount,
                 });
               }}
@@ -102,7 +114,7 @@ const ModalAddSalesInvoices = ({ item }) => {
                       <InputText
                         label="Date"
                         name="or_invoice_date"
-                        type="datetime-local"
+                        type="date"
                         disabled={mutation.isLoading}
                       />
                     </div>
@@ -114,14 +126,25 @@ const ModalAddSalesInvoices = ({ item }) => {
                         disabled={mutation.isLoading}
                       />
                     </div>
-                    <div className="relative mb-6 mt-5">
-                      <InputText
+
+                    <div className="relative ">
+                      <InputSelect
+                        name="or_invoice_payee_id"
                         label="Payee"
-                        num="num"
-                        type="text"
-                        name="or_invoice_payee"
                         disabled={mutation.isLoading}
-                      />
+                      >
+                        <option value="" hidden>
+                          {isLoading ? "Loading..." : "--"}
+                        </option>
+                        <option value="0">All Member</option>
+                        {readAllMemberSI?.data.map((mItem, key) => {
+                          return (
+                            <option key={key} value={mItem.members_aid}>
+                              {`${mItem.members_last_name}, ${mItem.members_first_name}`}
+                            </option>
+                          );
+                        })}
+                      </InputSelect>
                     </div>
                     <div className="relative mb-6 mt-5">
                       <InputText

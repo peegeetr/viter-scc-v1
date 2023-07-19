@@ -3,7 +3,7 @@
 $conn = null;
 $conn = checkDbConnection();
 // make instance of classes
-$official_receipt = new OfficialRecipt($conn);
+$official_receipt = new OfficialReceipt($conn);
 // get $_GET data
 // check if fileid is in the url e.g. /file_upload/1
 $error = [];

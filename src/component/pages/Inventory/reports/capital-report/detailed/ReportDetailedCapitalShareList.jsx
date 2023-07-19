@@ -63,30 +63,6 @@ const ReportDetailedCapitalShareList = () => {
     "get", // method
     "member-list" // key
   );
-  // const { data: reportTotalCapital } = useQueryData(
-  //   `/v1/report-capital/read-by-id-and-year/${isMemberId}/${isYear}`, // endpoint
-  //   "get", // method
-  //   "reportTotalCapital", // key
-  //   {},
-  //   isMemberId,
-  //   isYear
-  // );
-  // const { data: reportMemberFee } = useQueryData(
-  //   `/v1/report-capital/report-read-all-member-fee`, // endpoint
-  //   "get", // method
-  //   "reportMemberFee"
-  // );
-  // const { data: allCapitalMemberTotal } = useQueryData(
-  //   `/v1/report-capital/report-read-by-year-total-capital/${isYear}`, // endpoint
-  //   "get", // method
-  //   "allCapitalMemberTotal",
-  //   {},
-  //   isYear
-  // );
-
-  // const handleMember = async (e, props) => {
-  //   setMemberName(e.target.options[e.target.selectedIndex].id);
-  // };
 
   const initVal = {
     member_id: "0",
@@ -168,18 +144,11 @@ const ReportDetailedCapitalShareList = () => {
         }}
       </Formik>
 
-      {/* <ReportDetailedCapitalTotals
-        result={reportTotalCapital}
-        reportMemberFee={reportMemberFee}
-        isLoading={status === "loading"}
-        isFilter={isFilter}
-      /> */}
       <div className="text-center mb-5">
-        {/* <p className="mb-0">Total Average Shares Months :</p> */}
-        <p className="mb-0">
-          Total Average Shares Months {isYear !== "0" && isYear} :
+        <p className="mb-0 print:mb-0 text-lg print:text-sm">
+          Total Average Shares Months {isYear !== "0" && isYear}
         </p>
-        <p className="mb-0">
+        <p className="mb-0 print:mb-0 text-lg print:text-sm">
           {pesoSign}
           {numberWithCommas(
             Number(getAvgTotal(result?.pages[0].data)).toFixed(2)
@@ -187,7 +156,7 @@ const ReportDetailedCapitalShareList = () => {
         </p>
       </div>
 
-      <div className="text-center overflow-x-auto z-0">
+      <div className="text-center overflow-x-auto print:overflow-x-hidden z-0">
         {/* use only for updating important records */}
         {status !== "loading" && isFetching && <TableSpinner />}
         {/* use only for updating important records */}
@@ -195,17 +164,19 @@ const ReportDetailedCapitalShareList = () => {
           <thead>
             <tr>
               <th>Year</th>
-              <th className="min-w-[10rem]">Name</th>
+              <th className="min-w-[10rem] print:min-w-0">Name</th>
               {getMonth()?.map((yItem, key) => {
                 return (
-                  <th key={key} className="text-center pl-4 min-w-[8rem] ">
+                  <th
+                    key={key}
+                    className="text-center pl-4 min-w-[8rem] print:min-w-0"
+                  >
                     {`${yItem.month_name.slice(0, 3)}`}
                   </th>
                 );
               })}
-              <th className="text-center min-w-[8rem]  pl-4">Total</th>
+              <th className="text-center min-w-[8rem] pl-4">Total</th>
               <th className="text-center min-w-[8rem] pl-4 ">Avg Share</th>
-              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -236,16 +207,17 @@ const ReportDetailedCapitalShareList = () => {
                 })}
               </React.Fragment>
             ))}
-
-            <tr>
-              <td colSpan="15" className="text-right">
-                Total
-              </td>
-              <td className="text-right">
-                {pesoSign}
-                {numberWithCommas(Number(totalCapital).toFixed(2))}
-              </td>
-            </tr>
+            {isFilter && result?.pages[0].data.length > 0 && (
+              <tr>
+                <td colSpan={16} className="text-right font-semibold">
+                  <span className="pr-5">
+                    Total Average Shares Months {isYear}
+                  </span>{" "}
+                  {pesoSign}
+                  {numberWithCommas(Number(totalCapital).toFixed(2))}
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

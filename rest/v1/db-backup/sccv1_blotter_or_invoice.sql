@@ -33,7 +33,7 @@ CREATE TABLE `sccv1_blotter_or_invoice` (
   `or_invoice_is_sales_invoice` tinyint(1) NOT NULL,
   `or_invoice_date` varchar(20) NOT NULL,
   `or_invoice_or_no` varchar(20) NOT NULL,
-  `or_invoice_payee` varchar(20) NOT NULL,
+  `or_invoice_payee_id` varchar(20) NOT NULL,
   `or_invoice_amount` varchar(20) NOT NULL,
   `or_invoice_remarks` varchar(200) NOT NULL,
   `or_invoice_created` datetime NOT NULL,

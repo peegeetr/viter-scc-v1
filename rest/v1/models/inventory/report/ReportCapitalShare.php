@@ -47,10 +47,11 @@ class ReportCapitalShare
             $sql .= "{$this->tblMembers} as members ";
             $sql .= "where capitalShare.capital_share_member_id = :capital_share_member_id ";
             $sql .= "and YEAR(capitalShare.capital_share_date) = :year ";
+            $sql .= "and members.members_aid = capitalShare.capital_share_member_id ";
             $sql .= "group by ";
             $sql .= "capitalShare.capital_share_member_id, ";
             $sql .= "YEAR(capital_share_date) ";
-            $sql .= "order by YEAR(capital_share_date) desc ";
+            $sql .= "order by members.members_last_name asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "capital_share_member_id" => $this->capital_share_member_id,
@@ -79,7 +80,7 @@ class ReportCapitalShare
             $sql .= "group by ";
             $sql .= "capitalShare.capital_share_member_id, ";
             $sql .= "YEAR(capital_share_date) ";
-            $sql .= "order by members_last_name asc ";
+            $sql .= "order by members.members_last_name asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "year" => $this->capital_share_date,

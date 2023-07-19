@@ -10,10 +10,18 @@ import {
   setSuccess,
 } from "../../../../../../store/StoreAction";
 import { StoreContext } from "../../../../../../store/StoreContext";
-import { InputText, InputTextArea } from "../../../../../helpers/FormInputs";
+import {
+  InputSelect,
+  InputText,
+  InputTextArea,
+} from "../../../../../helpers/FormInputs";
 import { queryData } from "../../../../../helpers/queryData";
 import ButtonSpinner from "../../../../../partials/spinners/ButtonSpinner";
-import { removeComma } from "../../../../../helpers/functions-general";
+import {
+  getDateNow,
+  removeComma,
+} from "../../../../../helpers/functions-general";
+import useQueryData from "../../../../../custom-hooks/useQueryData";
 
 const ModalAddPettyCash = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -47,11 +55,18 @@ const ModalAddPettyCash = ({ item }) => {
   const handleClose = () => {
     dispatch(setIsAdd(false));
   };
+  // read-all-member
 
+  // use if not loadmore button undertime
+  const { data: readAllMemberPTCash, isLoading } = useQueryData(
+    `/v1/report-petty-cash/read-all-member`, // endpoint
+    "get", // method
+    "readAllMemberPTCash" // key
+  );
   const initVal = {
-    petty_cash_date: item ? item.petty_cash_date : "",
+    petty_cash_date: item ? item.petty_cash_date : getDateNow(),
     petty_cash_voucher_no: item ? item.petty_cash_voucher_no : "",
-    petty_cash_payee: item ? item.petty_cash_payee : "",
+    petty_cash_payee_id: item ? item.petty_cash_payee_id : "",
     petty_cash_in: item ? item.petty_cash_in : "",
     petty_cash_out: item ? item.petty_cash_out : "",
     petty_cash_balance: item ? item.petty_cash_balance : "",
@@ -60,7 +75,7 @@ const ModalAddPettyCash = ({ item }) => {
   const yupSchema = Yup.object({
     petty_cash_date: Yup.string().required("Required"),
     petty_cash_voucher_no: Yup.string().required("Required"),
-    petty_cash_payee: Yup.string().required("Required"),
+    petty_cash_payee_id: Yup.string().required("Required"),
     petty_cash_in: Yup.string().required("Required"),
     petty_cash_out: Yup.string().required("Required"),
     petty_cash_balance: Yup.string().required("Required"),
@@ -88,7 +103,6 @@ const ModalAddPettyCash = ({ item }) => {
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
                 // console.log(values);
-                const petty_cash_payee = removeComma(values.petty_cash_payee);
                 const petty_cash_in = removeComma(values.petty_cash_in);
                 const petty_cash_out = removeComma(values.petty_cash_out);
                 const petty_cash_balance = removeComma(
@@ -96,7 +110,6 @@ const ModalAddPettyCash = ({ item }) => {
                 );
                 mutation.mutate({
                   ...values,
-                  petty_cash_payee,
                   petty_cash_in,
                   petty_cash_out,
                   petty_cash_balance,
@@ -110,7 +123,7 @@ const ModalAddPettyCash = ({ item }) => {
                       <InputText
                         label="Date"
                         name="petty_cash_date"
-                        type="datetime-local"
+                        type="date"
                         disabled={mutation.isLoading}
                       />
                     </div>
@@ -118,19 +131,28 @@ const ModalAddPettyCash = ({ item }) => {
                       <InputText
                         label="Voucher No."
                         type="text"
-                        num="num"
                         name="petty_cash_voucher_no"
                         disabled={mutation.isLoading}
                       />
                     </div>
-                    <div className="relative mb-6 mt-5">
-                      <InputText
+                    <div className="relative ">
+                      <InputSelect
+                        name="petty_cash_payee_id"
                         label="Payee"
-                        type="text"
-                        num="num"
-                        name="petty_cash_payee"
                         disabled={mutation.isLoading}
-                      />
+                      >
+                        <option value="" hidden>
+                          {isLoading ? "Loading..." : "--"}
+                        </option>
+                        <option value="0">All Member</option>
+                        {readAllMemberPTCash?.data.map((mItem, key) => {
+                          return (
+                            <option key={key} value={mItem.members_aid}>
+                              {`${mItem.members_last_name}, ${mItem.members_first_name}`}
+                            </option>
+                          );
+                        })}
+                      </InputSelect>
                     </div>
                     <div className="relative mb-6 mt-5">
                       <InputText
