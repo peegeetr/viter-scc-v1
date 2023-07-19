@@ -6,3 +6,9 @@ function checkFilterDateRange($object)
     checkQuery($query, "Empty records. (read filter report petty cash)");
     return $query;
 }
+function checkReadAllMember($object)
+{
+    $query = $object->readAllMember();
+    checkQuery($query, "Empty records. (read all member)");
+    return $query;
+}

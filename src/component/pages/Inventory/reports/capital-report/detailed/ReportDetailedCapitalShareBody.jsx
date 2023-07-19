@@ -60,7 +60,6 @@ const ReportDetailedCapitalShareBody = ({ item }) => {
       <td>
         {pesoSign} {numberWithCommas((Number(item.total) / 12).toFixed(2))}
       </td>
-      <td></td>
     </>
   );
 };

@@ -8,7 +8,7 @@ import Header from "../../../../../partials/Header.jsx";
 import Navigation from "../../../../../partials/Navigation.jsx";
 import ModalError from "../../../../../partials/modals/ModalError.jsx";
 import ModalSuccess from "../../../../../partials/modals/ModalSuccess.jsx";
-import ModalAddOfficialRecipt from "./ModalAddOfficialReceipt.jsx";
+import ModalAddOfficialReceipt from "./ModalAddOfficialReceipt.jsx";
 import ReportPettyCashList from "./ReportOfficialReceiptList.jsx";
 
 const ReportOfficialReceipt = () => {
@@ -48,7 +48,7 @@ const ReportOfficialReceipt = () => {
         </div>
         <Footer />
       </div>
-      {store.isAdd && <ModalAddOfficialRecipt item={itemEdit} />}
+      {store.isAdd && <ModalAddOfficialReceipt item={itemEdit} />}
       {store.success && <ModalSuccess />}
       {store.error && <ModalError />}
     </>

@@ -11,7 +11,7 @@ require '../../../../../models/inventory/report/blotter/OfficialReceipt.php';
 $conn = null;
 $conn = checkDbConnection();
 // make instance of classes
-$official_receipt = new OfficialRecipt($conn);
+$official_receipt = new OfficialReceipt($conn);
 $response = new Response();
 // get data
 $body = file_get_contents("php://input");

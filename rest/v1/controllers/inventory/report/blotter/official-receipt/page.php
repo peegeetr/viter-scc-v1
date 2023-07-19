@@ -9,7 +9,7 @@ require '../../../../../models/inventory/report/blotter/OfficialReceipt.php';
 $conn = null;
 $conn = checkDbConnection();
 // make instance of classes
-$official_receipt = new OfficialRecipt($conn);
+$official_receipt = new OfficialReceipt($conn);
 $response = new Response();
 // validate api key
 if (isset($_SERVER['HTTP_AUTHORIZATION'])) {

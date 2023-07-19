@@ -4,7 +4,7 @@ class PettyCash
     public $petty_cash_aid;
     public $petty_cash_date;
     public $petty_cash_voucher_no;
-    public $petty_cash_payee;
+    public $petty_cash_payee_id;
     public $petty_cash_in;
     public $petty_cash_out;
     public $petty_cash_balance;
@@ -20,11 +20,13 @@ class PettyCash
     public $petty_cash_search;
     public $currentYear;
     public $tblPettyCash;
+    public $tblMembers;
 
     public function __construct($db)
     {
         $this->connection = $db;
         $this->tblPettyCash = "sccv1_blotter_petty_cash";
+        $this->tblMembers = "sccv1_members";
     }
 
     // create
@@ -33,7 +35,7 @@ class PettyCash
         try {
             $sql = "insert into {$this->tblPettyCash} ";
             $sql .= "( petty_cash_voucher_no, ";
-            $sql .= "petty_cash_payee, ";
+            $sql .= "petty_cash_payee_id, ";
             $sql .= "petty_cash_in, ";
             $sql .= "petty_cash_out, ";
             $sql .= "petty_cash_balance, ";
@@ -41,7 +43,7 @@ class PettyCash
             $sql .= "petty_cash_created, ";
             $sql .= "petty_cash_datetime ) values ( ";
             $sql .= ":petty_cash_voucher_no, ";
-            $sql .= ":petty_cash_payee, ";
+            $sql .= ":petty_cash_payee_id, ";
             $sql .= ":petty_cash_in, ";
             $sql .= ":petty_cash_out, ";
             $sql .= ":petty_cash_balance, ";
@@ -51,7 +53,7 @@ class PettyCash
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "petty_cash_voucher_no" => $this->petty_cash_voucher_no,
-                "petty_cash_payee" => $this->petty_cash_payee,
+                "petty_cash_payee_id" => $this->petty_cash_payee_id,
                 "petty_cash_in" => $this->petty_cash_in,
                 "petty_cash_out" => $this->petty_cash_out,
                 "petty_cash_balance" => $this->petty_cash_balance,
@@ -71,16 +73,22 @@ class PettyCash
     {
         try {
             $sql = "select ";
-            $sql .= "petty_cash_aid, ";
-            $sql .= "petty_cash_date, ";
-            $sql .= "petty_cash_voucher_no, ";
-            $sql .= "petty_cash_payee, ";
-            $sql .= "petty_cash_in, ";
-            $sql .= "petty_cash_out, ";
-            $sql .= "petty_cash_balance ";
+            $sql .= "member.members_aid, ";
+            $sql .= "member.members_last_name, ";
+            $sql .= "member.members_first_name, ";
+            $sql .= "ptCash.petty_cash_aid, ";
+            $sql .= "ptCash.petty_cash_date, ";
+            $sql .= "ptCash.petty_cash_voucher_no, ";
+            $sql .= "ptCash.petty_cash_payee_id, ";
+            $sql .= "ptCash.petty_cash_in, ";
+            $sql .= "ptCash.petty_cash_out, ";
+            $sql .= "ptCash.petty_cash_balance ";
             $sql .= "from ";
-            $sql .= "{$this->tblPettyCash} ";
-            $sql .= "order by petty_cash_date desc ";
+            $sql .= "{$this->tblPettyCash} as ptCash, ";
+            $sql .= "{$this->tblMembers} as member ";
+            $sql .= "where ptCash.petty_cash_payee_id = member.members_aid ";
+            $sql .= "order by ptCash.petty_cash_date desc, ";
+            $sql .= "member.members_last_name, member.members_first_name asc ";
             $query = $this->connection->query($sql);
         } catch (PDOException $ex) {
             $query = false;
@@ -92,16 +100,22 @@ class PettyCash
     {
         try {
             $sql = "select ";
-            $sql .= "petty_cash_aid, ";
-            $sql .= "petty_cash_date, ";
-            $sql .= "petty_cash_voucher_no, ";
-            $sql .= "petty_cash_payee, ";
-            $sql .= "petty_cash_in, ";
-            $sql .= "petty_cash_out, ";
-            $sql .= "petty_cash_balance ";
+            $sql .= "member.members_aid, ";
+            $sql .= "member.members_last_name, ";
+            $sql .= "member.members_first_name, ";
+            $sql .= "ptCash.petty_cash_aid, ";
+            $sql .= "ptCash.petty_cash_date, ";
+            $sql .= "ptCash.petty_cash_voucher_no, ";
+            $sql .= "ptCash.petty_cash_payee_id, ";
+            $sql .= "ptCash.petty_cash_in, ";
+            $sql .= "ptCash.petty_cash_out, ";
+            $sql .= "ptCash.petty_cash_balance ";
             $sql .= "from ";
-            $sql .= "{$this->tblPettyCash} ";
-            $sql .= "order by petty_cash_date desc ";
+            $sql .= "{$this->tblPettyCash} as ptCash, ";
+            $sql .= "{$this->tblMembers} as member ";
+            $sql .= "where ptCash.petty_cash_payee_id = member.members_aid ";
+            $sql .= "order by ptCash.petty_cash_date desc, ";
+            $sql .= "member.members_last_name, member.members_first_name asc ";
             $sql .= "limit :start, ";
             $sql .= ":total ";
             $query = $this->connection->prepare($sql);
@@ -115,15 +129,49 @@ class PettyCash
         return $query;
     }
 
+    // read All Member
+    public function readAllMember()
+    {
+        try {
+            $sql = "select ";
+            $sql .= "members_aid, ";
+            $sql .= "members_last_name, ";
+            $sql .= "members_first_name ";
+            $sql .= "from ";
+            $sql .= "{$this->tblMembers} ";
+            $sql .= "where members_is_approved = 1 ";
+            $sql .= "and members_is_active = 1 ";
+            $sql .= "order by members_last_name desc ";
+            $query = $this->connection->query($sql);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
     // filter date base on range
     public function filterDateRange()
     {
         try {
-            $sql = "select * from ";
-            $sql .= "{$this->tblPettyCash} ";
-            $sql .= "where DATE(petty_cash_date) between ";
+            $sql = "select ";
+            $sql .= "member.members_aid, ";
+            $sql .= "member.members_last_name, ";
+            $sql .= "member.members_first_name, ";
+            $sql .= "ptCash.petty_cash_aid, ";
+            $sql .= "ptCash.petty_cash_date, ";
+            $sql .= "ptCash.petty_cash_voucher_no, ";
+            $sql .= "ptCash.petty_cash_payee_id, ";
+            $sql .= "ptCash.petty_cash_in, ";
+            $sql .= "ptCash.petty_cash_out, ";
+            $sql .= "ptCash.petty_cash_balance ";
+            $sql .= "from ";
+            $sql .= "{$this->tblPettyCash} as ptCash, ";
+            $sql .= "{$this->tblMembers} as member ";
+            $sql .= "where ptCash.petty_cash_payee_id = member.members_aid ";
+            $sql .= "and DATE(ptCash.petty_cash_date) between ";
             $sql .= ":start_date and :end_date ";
-            $sql .= "order by petty_cash_date desc ";
+            $sql .= "order by ptCash.petty_cash_date desc, ";
+            $sql .= "member.members_last_name, member.members_first_name asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "start_date" => $this->startDate,
@@ -165,7 +213,7 @@ class PettyCash
         try {
             $sql = "update {$this->tblPettyCash} set ";
             $sql .= "petty_cash_voucher_no = :petty_cash_voucher_no, ";
-            $sql .= "petty_cash_payee = :petty_cash_payee, ";
+            $sql .= "petty_cash_payee_id = :petty_cash_payee_id, ";
             $sql .= "petty_cash_date = :petty_cash_date, ";
             $sql .= "petty_cash_in = :petty_cash_in, ";
             $sql .= "petty_cash_out = :petty_cash_out, ";
@@ -175,7 +223,7 @@ class PettyCash
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "petty_cash_voucher_no" => $this->petty_cash_voucher_no,
-                "petty_cash_payee" => $this->petty_cash_payee,
+                "petty_cash_payee_id" => $this->petty_cash_payee_id,
                 "petty_cash_date" => $this->petty_cash_date,
                 "petty_cash_in" => $this->petty_cash_in,
                 "petty_cash_out" => $this->petty_cash_out,

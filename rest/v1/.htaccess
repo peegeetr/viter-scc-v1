@@ -219,27 +219,27 @@ RewriteRule ^report-capital/report-read-by-year-total-capital/([0-9]+)$$ control
 #REPORT STOCKS
 RewriteRule ^report-stock/filter$ controllers/inventory/report/stocks-report/report-filter-stocks.php [L] 
 RewriteRule ^report-stock/all-order$ controllers/inventory/report/stocks-report/order-group-by-product.php [L] 
-
-
+ 
 #REPORT BLOTTER PETTY CASH
 RewriteRule ^report-petty-cash$ controllers/inventory/report/blotter/petty-cash/petty-cash.php [L]
 RewriteRule ^report-petty-cash/([0-9]+)$ controllers/inventory/report/blotter/petty-cash/petty-cash.php?pettyCashId=$1 [L] 
 RewriteRule ^report-petty-cash/page/([0-9]+)$ controllers/inventory/report/blotter/petty-cash/page.php?start=$1 [L]
 RewriteRule ^report-petty-cash/filter-date$ controllers/inventory/report/blotter/petty-cash/filter-date.php [L]
 RewriteRule ^report-petty-cash/search$ controllers/inventory/report/blotter/petty-cash/search.php [L]
-
-
+RewriteRule ^report-petty-cash/read-all-member$ controllers/inventory/report/blotter/petty-cash/read-all-member.php [L]
+ 
 #REPORT BLOTTER OFFICIAL RECEIPT
 RewriteRule ^report-official-receipt$ controllers/inventory/report/blotter/official-receipt/official-receipt.php [L]
 RewriteRule ^report-official-receipt/([0-9]+)$ controllers/inventory/report/blotter/official-receipt/official-receipt.php?officaialReceiptId=$1 [L] 
 RewriteRule ^report-official-receipt/page/([0-9]+)$ controllers/inventory/report/blotter/official-receipt/page.php?start=$1 [L]
 RewriteRule ^report-official-receipt/filter-date$ controllers/inventory/report/blotter/official-receipt/filter-date.php [L]
 RewriteRule ^report-official-receipt/search$ controllers/inventory/report/blotter/official-receipt/search.php [L]
-
-
+RewriteRule ^report-official-receipt/read-all-member$ controllers/inventory/report/blotter/official-receipt/read-all-member.php [L]
+ 
 #REPORT BLOTTER SALES INVOICE
 RewriteRule ^report-sales-invoices$ controllers/inventory/report/blotter/sales-invoices/sales-invoices.php [L]
 RewriteRule ^report-sales-invoices/([0-9]+)$ controllers/inventory/report/blotter/sales-invoices/sales-invoices.php?salesInvoicesId=$1 [L] 
 RewriteRule ^report-sales-invoices/page/([0-9]+)$ controllers/inventory/report/blotter/sales-invoices/page.php?start=$1 [L]
 RewriteRule ^report-sales-invoices/filter-date$ controllers/inventory/report/blotter/sales-invoices/filter-date.php [L]
 RewriteRule ^report-sales-invoices/search$ controllers/inventory/report/blotter/sales-invoices/search.php [L]
+RewriteRule ^report-sales-invoices/read-all-member$ controllers/inventory/report/blotter/sales-invoices/read-all-member.php [L]

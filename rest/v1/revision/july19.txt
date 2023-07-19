@@ -47,8 +47,8 @@
     -
     
 *models        
-    - inventory/blotter/ ALL FILES 
-    - 
+    - inventory/report/blotter/ ALL FILES 
+    - inventory/report/ReportCapitalShare.php
     - 
 
 *htaccess 

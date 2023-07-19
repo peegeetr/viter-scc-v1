@@ -169,7 +169,7 @@ const ReportSalesInvoicesList = ({ setItemEdit }) => {
               <th className="min-w-[8rem] w-[15rem] print:min-w-0 print:w-[5rem]">
                 OR no.
               </th>
-              <th className="min-w-[8rem] w-[15rem] text-right print:min-w-0 print:w-[9rem]">
+              <th className="min-w-[8rem] w-[15rem] print:min-w-0 print:w-[9rem]">
                 payee
               </th>
               <th className="min-w-[8rem] w-[15rem] text-right print:min-w-0 print:w-[9rem]">
@@ -205,11 +205,8 @@ const ReportSalesInvoicesList = ({ setItemEdit }) => {
                       <td>{formatDate(item.or_invoice_date)}</td>
 
                       <td>{item.or_invoice_or_no}</td>
-                      <td className="text-right">
-                        {pesoSign}{" "}
-                        {numberWithCommas(
-                          Number(item.or_invoice_payee).toFixed(2)
-                        )}
+                      <td>
+                        {`${item.members_last_name}, ${item.members_first_name}`}
                       </td>
                       <td className="text-right">
                         {pesoSign}{" "}

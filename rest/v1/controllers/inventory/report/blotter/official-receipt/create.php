@@ -3,7 +3,7 @@
 $conn = null;
 $conn = checkDbConnection();
 // make instance of classes
-$official_receipt = new OfficialRecipt($conn);
+$official_receipt = new OfficialReceipt($conn);
 // get should not be present
 if (array_key_exists("officaialReceiptId", $_GET)) {
     checkEndpoint();
@@ -14,7 +14,7 @@ checkPayload($data);
 
 $official_receipt->or_invoice_date = checkIndex($data, "or_invoice_date");
 $official_receipt->or_invoice_or_no = checkIndex($data, "or_invoice_or_no");
-$official_receipt->or_invoice_payee = checkIndex($data, "or_invoice_payee");
+$official_receipt->or_invoice_payee_id = checkIndex($data, "or_invoice_payee_id");
 $official_receipt->or_invoice_amount = checkIndex($data, "or_invoice_amount");
 $official_receipt->or_invoice_remarks = checkIndex($data, "or_invoice_remarks");
 $official_receipt->or_invoice_is_official_receipt = 1;
