@@ -190,9 +190,7 @@ const ReportDividendCapitalShareList = () => {
                       <td>{`${item.members_last_name}, ${item.members_first_name}`}</td>
                       <td className=" text-right pr-4">
                         {pesoSign}{" "}
-                        {numberWithCommas(
-                          (Number(item.totalcapital) / 12).toFixed(2)
-                        )}
+                        {numberWithCommas((Number(item.total) / 12).toFixed(2))}
                       </td>
                       <td className=" text-right pr-4">
                         {pesoSign}{" "}

@@ -30,9 +30,9 @@ const ReportOfficialReceiptLink = () => {
           <span className="text-lg mr-4">
             <TbReportSearch />
           </span>
-          <span className="text-md font-bold">Official Recipt</span>
+          <span className="text-md font-bold">Official Receipt</span>
         </div>
-        <p className="ml-[35px] my-0">Official Recipt reports.</p>
+        <p className="ml-[35px] my-0">Official Receipt reports.</p>
       </Link>
 
       <Link

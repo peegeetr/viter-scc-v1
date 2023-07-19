@@ -26,7 +26,7 @@ const ReportOfficialReceipt = () => {
       <Navigation menu="inventory" />{" "}
       <div className="wrapper ">
         <p className="uppercase text-center pt-5 mb-0 text-black text-lg hidden print:block">
-          Official Recipt blotter
+          Official Receipt blotter
         </p>
         <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2 print:hidden">
           <BreadCrumbs />

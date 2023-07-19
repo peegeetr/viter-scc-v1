@@ -2,8 +2,7 @@
 class SalesInvoices
 {
     public $or_invoice_aid;
-    public $or_invoice_is_official_receipt;
-    public $or_invoice_is_sales_invoice;
+    public $or_invoice_type;
     public $or_invoice_date;
     public $or_invoice_or_no;
     public $or_invoice_payee_id;
@@ -36,8 +35,7 @@ class SalesInvoices
         try {
             $sql = "insert into {$this->tblSalesInvoices} ";
             $sql .= "( or_invoice_payee_id, ";
-            $sql .= "or_invoice_is_official_receipt, ";
-            $sql .= "or_invoice_is_sales_invoice, ";
+            $sql .= "or_invoice_type, ";
             $sql .= "or_invoice_or_no, ";
             $sql .= "or_invoice_date, ";
             $sql .= "or_invoice_amount, ";
@@ -45,8 +43,7 @@ class SalesInvoices
             $sql .= "or_invoice_created, ";
             $sql .= "or_invoice_datetime ) values ( ";
             $sql .= ":or_invoice_payee_id, ";
-            $sql .= ":or_invoice_is_official_receipt, ";
-            $sql .= ":or_invoice_is_sales_invoice, ";
+            $sql .= ":or_invoice_type, ";
             $sql .= ":or_invoice_or_no, ";
             $sql .= ":or_invoice_date, ";
             $sql .= ":or_invoice_amount, ";
@@ -56,8 +53,7 @@ class SalesInvoices
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "or_invoice_payee_id" => $this->or_invoice_payee_id,
-                "or_invoice_is_official_receipt" => $this->or_invoice_is_official_receipt,
-                "or_invoice_is_sales_invoice" => $this->or_invoice_is_sales_invoice,
+                "or_invoice_type" => $this->or_invoice_type,
                 "or_invoice_or_no" => $this->or_invoice_or_no,
                 "or_invoice_date" => $this->or_invoice_date,
                 "or_invoice_amount" => $this->or_invoice_amount,
@@ -89,7 +85,7 @@ class SalesInvoices
             $sql .= "from ";
             $sql .= "{$this->tblSalesInvoices} as salesInvoice, ";
             $sql .= "{$this->tblMembers} as member ";
-            $sql .= "where salesInvoice.or_invoice_is_official_receipt = '1' ";
+            $sql .= "where salesInvoice.or_invoice_type = 'si' ";
             $sql .= "and salesInvoice.or_invoice_payee_id = member.members_aid ";
             $sql .= "order by salesInvoice.or_invoice_date desc, ";
             $sql .= "member.members_last_name, member.members_first_name asc ";
@@ -116,7 +112,7 @@ class SalesInvoices
             $sql .= "from ";
             $sql .= "{$this->tblSalesInvoices} as salesInvoice, ";
             $sql .= "{$this->tblMembers} as member ";
-            $sql .= "where salesInvoice.or_invoice_is_official_receipt = '1' ";
+            $sql .= "where salesInvoice.or_invoice_type = 'si' ";
             $sql .= "and salesInvoice.or_invoice_payee_id = member.members_aid ";
             $sql .= "order by salesInvoice.or_invoice_date desc, ";
             $sql .= "member.members_last_name, member.members_first_name asc ";
@@ -150,7 +146,7 @@ class SalesInvoices
             $sql .= "from ";
             $sql .= "{$this->tblSalesInvoices} as salesInvoice, ";
             $sql .= "{$this->tblMembers} as member ";
-            $sql .= "where salesInvoice.or_invoice_is_official_receipt = '1' ";
+            $sql .= "where salesInvoice.or_invoice_type = 'si' ";
             $sql .= "and salesInvoice.or_invoice_payee_id = member.members_aid ";
             $sql .= "and DATE(or_invoice_date) between ";
             $sql .= ":start_date and :end_date ";
@@ -173,7 +169,7 @@ class SalesInvoices
         try {
             $sql = "select * from ";
             $sql .= "{$this->tblSalesInvoices} ";
-            $sql .= "where or_invoice_is_sales_invoice = '1' ";
+            $sql .= "where salesInvoice.or_invoice_type = 'si' ";
             $sql .= "and (or_invoice_payee_id like :or_invoice_payee_id ";
             $sql .= "or MONTHNAME(or_invoice_date) like :files_month_date ";
             $sql .= "or or_invoice_date like :or_invoice_date) ";

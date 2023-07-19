@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 19, 2023 at 07:51 AM
+-- Generation Time: Jul 19, 2023 at 09:41 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -29,8 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `sccv1_blotter_or_invoice` (
   `or_invoice_aid` int(11) NOT NULL,
-  `or_invoice_is_official_receipt` tinyint(1) NOT NULL,
-  `or_invoice_is_sales_invoice` tinyint(1) NOT NULL,
+  `or_invoice_type` varchar(2) NOT NULL,
   `or_invoice_date` varchar(20) NOT NULL,
   `or_invoice_or_no` varchar(20) NOT NULL,
   `or_invoice_payee_id` varchar(20) NOT NULL,
