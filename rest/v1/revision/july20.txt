@@ -1,0 +1,26 @@
+ 
+*controllers     
+    - inventory/report/capital-report/report-filter-capital-dividend.php
+    -
+    -
+    
+*models        
+    - 
+    - 
+
+*htaccess 
+    - htaccess
+    - 
+
+*db tables 
+    - 
+    - 
+
+
+*core functions 
+    - 
+    - 
+
+*extra
+    - 
+    - 

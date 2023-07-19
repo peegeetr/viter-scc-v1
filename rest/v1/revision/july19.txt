@@ -42,13 +42,17 @@
 //AFTERNOON AFTERNOON //AFTERNOON //AFTERNOON //AFTERNOON //AFTERNOON //AFTERNOON //AFTERNOON //AFTERNOON //AFTERNOON
  
 *controllers     
-    - inventory/blotter/ ALL FILES - done
+    - inventory/blotter/ ALL FILES
+    -> inventory/blotter/official-receipt/create.php
+    -> inventory/blotter/sales-invoices/create.php
     -
     -
     
 *models        
-    - inventory/report/blotter/ ALL FILES  - done
-    - inventory/report/ReportCapitalShare.php
+    - inventory/report/blotter/ ALL FILES 
+    -> inventory/report/ReportCapitalShare.php
+    -> inventory/blotter/official-receipt/OfficialReceipt.php
+    -> inventory/blotter/sales-invoices/SalesInvoices.php
     - 
 
 *htaccess 
@@ -56,8 +60,8 @@
     - 
 
 *db tables 
-    -  sccv1_blotter_or_invoice.sql
-    -  sccv1_blotter_petty_cash.sql
+    -> sccv1_blotter_or_invoice.sql
+    - sccv1_blotter_petty_cash.sql
 
 
 *core functions 

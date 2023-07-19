@@ -23,6 +23,7 @@ const ReportDividendCapitalShareList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [isFilter, setFilter] = React.useState(false);
   const [isSubmit, setSubmit] = React.useState(false);
+  const [isMember, setIsMember] = React.useState("0");
   const [isYear, setIsYear] = React.useState(yearNow());
   const [value, setValue] = React.useState([]);
   let counter = 1;
@@ -60,6 +61,18 @@ const ReportDividendCapitalShareList = () => {
     "member-list" // key
   );
 
+  // use if not loadmore button undertime
+  const { data: avgShareMonth } = useQueryData(
+    `/v1/report-capital/filter/detailed/${isMember}/${isYear}`, // endpoint
+    "get", // method
+    "avgShareMonth", // key
+    {},
+    isMember,
+    isYear
+  );
+
+  console.log("123", avgShareMonth);
+
   const initVal = {
     member_id: "0",
     year: "2023",
@@ -79,6 +92,7 @@ const ReportDividendCapitalShareList = () => {
           setSubmit(!isSubmit);
           setValue(values);
           setIsYear(values.year);
+          setIsMember(values.member_id);
         }}
       >
         {(props) => {
@@ -190,9 +204,7 @@ const ReportDividendCapitalShareList = () => {
                       <td>{`${item.members_last_name}, ${item.members_first_name}`}</td>
                       <td className=" text-right pr-4">
                         {pesoSign}{" "}
-                        {numberWithCommas(
-                          (Number(item.totalcapital) / 12).toFixed(2)
-                        )}
+                        {numberWithCommas((Number(item.total) / 12).toFixed(2))}
                       </td>
                       <td className=" text-right pr-4">
                         {pesoSign}{" "}

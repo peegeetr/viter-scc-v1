@@ -18,27 +18,45 @@ $data = json_decode($body, true);
 // validate api key
 if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     checkApiKey();
-    // check data
-    checkPayload($data);
 
-    // get value
-    $allValues = $data['value'];
+    if (array_key_exists("memberId", $_GET) && array_key_exists("year", $_GET)) {
+        $capital->capital_share_member_id = $_GET['memberId'];
+        $capital->capital_share_date = $_GET['year'];
 
-    // get task id from query string 
-    $capital->capital_share_member_id = checkIndex($allValues, "member_id");
-    $capital->capital_share_date = checkIndex($allValues, "year");
+        if (
+            $capital->capital_share_member_id !== "0"
+        ) {
+            $query = checkReadReportCapitalDividendByMemberId($capital);
+            http_response_code(200);
+            getQueriedData($query);
+        }
 
-    if (
-        $capital->capital_share_member_id !== "0"
-    ) {
-        $query = checkReadReportCapitalDividendByMemberId($capital);
+        $query = checkReadReportCapitalDividend($capital);
         http_response_code(200);
         getQueriedData($query);
     }
+    // if request is a GET e.g. /savings
+    if (empty($_GET)) {
+        // check data
+        checkPayload($data);
+        // get value
+        $allValues = $data['value'];
+        // get task id from query string 
+        $capital->capital_share_member_id = checkIndex($allValues, "member_id");
+        $capital->capital_share_date = checkIndex($allValues, "year");
 
-    $query = checkReadReportCapitalDividend($capital);
-    http_response_code(200);
-    getQueriedData($query);
+        if (
+            $capital->capital_share_member_id !== "0"
+        ) {
+            $query = checkReadReportCapitalDividendByMemberId($capital);
+            http_response_code(200);
+            getQueriedData($query);
+        }
+
+        $query = checkReadReportCapitalDividend($capital);
+        http_response_code(200);
+        getQueriedData($query);
+    }
 }
 
 http_response_code(200);

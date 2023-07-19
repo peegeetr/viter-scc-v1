@@ -96,19 +96,23 @@ class ReportCapitalShare
     public function readReportCapitalDividend()
     {
         try {
-            $sql = "select capitalShare.*, ";
-            $sql .= "sum(capitalShare.capital_share_total) as totalcapital, ";
+            $sql = "select ";
             $sql .= "members.members_last_name, ";
-            $sql .= "members.members_first_name ";
+            $sql .= "members.members_first_name, ";
+            $sql .= "members.members_aid, ";
+            $sql .= "SUM(capital_share_total) as total, ";
+            $sql .= "YEAR(capital_share_date) as year ";
             $sql .= "from {$this->tblReportCapitalShare} as capitalShare, ";
             $sql .= "{$this->tblMembers} as members ";
             $sql .= "where members.members_aid = capitalShare.capital_share_member_id ";
-            $sql .= "and YEAR(capitalShare.capital_share_date) = :capital_share_date ";
-            $sql .= "group by members.members_aid ";
-            $sql .= "order by capitalShare.capital_share_date desc ";
+            $sql .= "and YEAR(capitalShare.capital_share_date) = :year ";
+            $sql .= "group by ";
+            $sql .= "capitalShare.capital_share_member_id, ";
+            $sql .= "YEAR(capital_share_date) ";
+            $sql .= "order by members.members_last_name asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "capital_share_date" => $this->capital_share_date,
+                "year" => $this->capital_share_date,
             ]);
         } catch (PDOException $ex) {
             $query = false;
