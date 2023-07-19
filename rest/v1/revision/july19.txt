@@ -35,4 +35,35 @@
 *extra
     - 
     - 
+
+
+
+
+//AFTERNOON AFTERNOON //AFTERNOON //AFTERNOON //AFTERNOON //AFTERNOON //AFTERNOON //AFTERNOON //AFTERNOON //AFTERNOON
  
+*controllers     
+    - inventory/blotter/ ALL FILES
+    -
+    -
+    
+*models        
+    - inventory/blotter/ ALL FILES 
+    - 
+    - 
+
+*htaccess 
+    - htaccess
+    - 
+
+*db tables 
+    -  sccv1_blotter_or_invoice.sql
+    -  sccv1_blotter_petty_cash.sql
+
+
+*core functions 
+    - 
+    - 
+
+*extra
+    - 
+    - 

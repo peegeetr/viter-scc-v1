@@ -4,10 +4,11 @@ import Footer from "../../../../partials/Footer";
 import Header from "../../../../partials/Header";
 import Navigation from "../../../../partials/Navigation";
 import { StoreContext } from "../../../../../store/StoreContext";
-import ReportDividendCapitalShareLink from "./dividend/ReportDividendCapitalShareLink";
-import ReportDetailedCapitalShareLink from "./detailed/ReportDetailedCapitalShareLink";
+import ReportPettyCashLink from "./petty-cash/ReportPettyCashLink";
+import ReportOfficialReceiptLink from "./official-recipt/ReportOfficialReceiptLink";
+import ReportSalesInvoicesLink from "./sales-invoices/ReportSalesInvoicesLink";
 
-const ReportsCapitalShare = () => {
+const ReportBlotter = () => {
   const { store, dispatch } = React.useContext(StoreContext);
 
   return (
@@ -21,8 +22,9 @@ const ReportsCapitalShare = () => {
 
         <hr />
         <div className="w-full pt-5 pb-20">
-          <ReportDividendCapitalShareLink />
-          <ReportDetailedCapitalShareLink />
+          <ReportPettyCashLink />
+          <ReportOfficialReceiptLink />
+          <ReportSalesInvoicesLink />
         </div>
         <Footer />
       </div>
@@ -32,4 +34,4 @@ const ReportsCapitalShare = () => {
   );
 };
 
-export default ReportsCapitalShare;
+export default ReportBlotter;

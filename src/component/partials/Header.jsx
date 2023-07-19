@@ -78,7 +78,7 @@ const Header = ({ menu = "" }) => {
         </div>
       </div>
       {/* if print */}
-      <div className="pt-4 bg-white h-22 border-solid border-b-2 border-primary hidden print:block">
+      <div className="pt-4 bg-white h-22 border-solid border-b-[1px] border-secondary hidden print:block">
         <span className="flex justify-center pb-2">
           <Logo />
         </span>
