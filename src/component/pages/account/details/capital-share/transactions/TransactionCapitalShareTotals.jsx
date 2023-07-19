@@ -28,25 +28,25 @@ const TransactionCapitalShareTotals = ({
         )}
 
         <StatusAmount
-          text="Remaining Capital "
+          text="Balance"
           amount={totalCapital.remainingAmount}
           type="pending"
           isLoading={isLoading}
         />
         <StatusAmount
-          text="Subscribes Capital Share "
+          text="Subscribe Capital Share "
           amount={totalCapital.subscribeC}
           type=""
           isLoading={isLoading}
         />
         <StatusAmount
-          text="Membership Fee "
+          text="Membership"
           amount={totalCapital.memberFee}
           type=""
           isLoading={isLoading}
         />
         <StatusAmount
-          text="Penalty Fee "
+          text="Penalty"
           amount={isFilter ? penalty?.totalPenalty : totalCapital.penalty}
           type="penalty"
           isLoading={isLoading}
