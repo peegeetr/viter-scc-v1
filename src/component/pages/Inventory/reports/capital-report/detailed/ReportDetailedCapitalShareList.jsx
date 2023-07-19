@@ -156,7 +156,7 @@ const ReportDetailedCapitalShareList = () => {
         </p>
       </div>
 
-      <div className="text-center overflow-x-auto print:overflow-x-none z-0">
+      <div className="text-center overflow-x-auto print:overflow-x-hidden z-0">
         {/* use only for updating important records */}
         {status !== "loading" && isFetching && <TableSpinner />}
         {/* use only for updating important records */}
@@ -207,16 +207,17 @@ const ReportDetailedCapitalShareList = () => {
                 })}
               </React.Fragment>
             ))}
-
-            <tr>
-              <td colSpan={14} className="text-right">
-                Total
-              </td>
-              <td className="text-right">
-                {pesoSign}
-                {numberWithCommas(Number(totalCapital).toFixed(2))}
-              </td>
-            </tr>
+            {isFilter && result?.pages[0].data.length > 0 && (
+              <tr>
+                <td colSpan={16} className="text-right font-semibold">
+                  <span className="pr-5">
+                    Total Average Shares Months {isYear}
+                  </span>{" "}
+                  {pesoSign}
+                  {numberWithCommas(Number(totalCapital).toFixed(2))}
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

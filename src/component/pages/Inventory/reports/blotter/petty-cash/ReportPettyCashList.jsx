@@ -247,7 +247,7 @@ const ReportPettyCashList = ({ setItemEdit }) => {
                 })}
               </React.Fragment>
             ))}
-            {isFilter && result?.pages[0].data.length > 0 && (
+            {result?.pages[0].data.length > 0 && (
               <tr className="capitalize">
                 <td colSpan={7} className="text-right font-semibold">
                   <span className="pr-5">Total recipts</span>
@@ -258,7 +258,7 @@ const ReportPettyCashList = ({ setItemEdit }) => {
             )}
           </tbody>
         </table>
-        <div className="text-center">
+        <div className="text-center print:hidden">
           <Loadmore
             fetchNextPage={fetchNextPage}
             isFetchingNextPage={isFetchingNextPage}
