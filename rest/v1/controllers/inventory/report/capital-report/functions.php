@@ -19,6 +19,15 @@ function checkReadReportCapitalByMemberId($object)
 }
 
 // REPORT FILTER SALES
+// if all member, all supplier, all category, product by id 
+function checkReadReportNetSurplusByYear($object)
+{
+    $query = $object->readReportNetSurplusByYear();
+    checkQuery($query, "Empty records. (read report net surplus by year)");
+    return $query;
+}
+
+// REPORT FILTER SALES
 // if all member 
 function checkReadReportCapitalDividend($object)
 {

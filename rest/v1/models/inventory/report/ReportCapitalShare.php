@@ -23,6 +23,7 @@ class ReportCapitalShare
     public $tblReportCapitalShare;
     public $tblMembers;
     public $tblSubscribeCapital;
+    public $tblNetSurplus;
 
     public function __construct($db)
     {
@@ -30,6 +31,7 @@ class ReportCapitalShare
         $this->tblReportCapitalShare = "sccv1_capital_share";
         $this->tblMembers = "sccv1_members";
         $this->tblSubscribeCapital = "sccv1_settings_subscribe_capital";
+        $this->tblNetSurplus = "sccv1_settings_netsurplus";
     }
 
 
@@ -215,6 +217,29 @@ class ReportCapitalShare
         }
         return $query;
     }
+
+    // read report net surplus by year
+    public function readReportNetSurplusByYear()
+    {
+        try {
+            $sql = "select ";
+            $sql .= "net_surplus_aid, ";
+            $sql .= "net_surplus_year, ";
+            $sql .= "net_surplus_dividend_rate, ";
+            $sql .= "net_surplus_dividend ";
+            $sql .= "from {$this->tblNetSurplus} ";
+            $sql .= "where net_surplus_year = :year ";
+            $sql .= "net_surplus_year desc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "year" => $this->capital_share_date,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
     // read all Member Fee
     public function readAllMemberFee()
     {

@@ -166,8 +166,7 @@ const ReportDividendCapitalShareList = () => {
       <div className="xl:flex items-center mb-2 text-primary">
         <StatusAmount
           text={`${isYear} Dividend Rate `}
-          // amount={totalCapital.avg}
-          amount={0}
+          amount={getAvgTotal(avgShareMonth?.data)}
         />
       </div>
 
