@@ -1,6 +1,7 @@
  
 *controllers     
     - inventory/report/capital-report/report-filter-capital-dividend.php
+    - inventory/report/capital-report/report-read-all-avg-by-year.php
     -
     -
     

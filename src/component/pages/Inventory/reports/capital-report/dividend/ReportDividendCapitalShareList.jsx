@@ -17,7 +17,7 @@ import ServerError from "../../../../../partials/ServerError";
 import ButtonSpinner from "../../../../../partials/spinners/ButtonSpinner";
 import TableSpinner from "../../../../../partials/spinners/TableSpinner";
 import StatusAmount from "../../../../../partials/status/StatusAmount";
-import { getYearList } from "../functions-report-capital";
+import { getAvgTotal, getYearList } from "../functions-report-capital";
 
 const ReportDividendCapitalShareList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -63,7 +63,7 @@ const ReportDividendCapitalShareList = () => {
 
   // use if not loadmore button undertime
   const { data: avgShareMonth } = useQueryData(
-    `/v1/report-capital/filter/detailed/${isMember}/${isYear}`, // endpoint
+    `/v1/report-capital/read-all-avg-by-year/${isMember}/${isYear}`, // endpoint
     "get", // method
     "avgShareMonth", // key
     {},
@@ -71,7 +71,17 @@ const ReportDividendCapitalShareList = () => {
     isYear
   );
 
-  console.log("123", avgShareMonth);
+  // // use if not loadmore button undertime
+  // const { data: netsurplusForDis } = useQueryData(
+  //   `/v1/report-capital/net-surplus/${isYear}`, // endpoint
+  //   "get", // method
+  //   "netsurplusForDis", // key
+  //   {},
+  //   isMember,
+  //   isYear
+  // );
+
+  console.log("123", getAvgTotal(avgShareMonth?.data));
 
   const initVal = {
     member_id: "0",
@@ -174,7 +184,7 @@ const ReportDividendCapitalShareList = () => {
                 Average Share Months (ASM)
               </th>
               <th className="min-w-[11rem] w-[10rem] text-right pr-4">
-                Dividend 70%
+                Dividend 70% {getAvgTotal(avgShareMonth?.data)}
               </th>
             </tr>
           </thead>

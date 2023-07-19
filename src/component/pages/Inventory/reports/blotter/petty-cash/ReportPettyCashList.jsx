@@ -141,27 +141,23 @@ const ReportPettyCashList = ({ setItemEdit }) => {
           );
         }}
       </Formik>
-      <div className="text-lg print:text-center">
-        <p className="uppercase ">
+      <div className="print:text-center">
+        <p className="text-center font-semibold print:text-sm">
           {isFilter && (
             <span>
-              date period from
-              <span className="font-semibold print:text-sm">{` ${formatDate(
-                isStartDate
-              )} `}</span>
-              to
-              <span className="font-semibold print:text-sm">{` ${formatDate(
-                isEndDate
-              )}`}</span>
+              {" "}
+              {` ${formatDate(isStartDate)}   
+              -
+               ${formatDate(isEndDate)}`}
             </span>
           )}
         </p>
       </div>
 
-      <div className="relative text-center overflow-x-auto print:overflow-x-none z-0">
+      <div className="relative text-center overflow-x-auto print:overflow-x-none z-0 print:mt-5">
         <table>
           <thead>
-            <tr className="uppercase">
+            <tr className=" capitalize">
               <th>#</th>
               <th className="min-w-[10rem] print:min-w-0">Date</th>
               <th className="min-w-[8rem] print:min-w-0">Voucher no.</th>
@@ -248,8 +244,9 @@ const ReportPettyCashList = ({ setItemEdit }) => {
               </React.Fragment>
             ))}
             {result?.pages[0].data.length > 0 && (
-              <tr className="capitalize">
-                <td colSpan={7} className="text-right font-semibold">
+              <tr className="capitalize border-0">
+                <td colSpan={6} className=" "></td>
+                <td className="text-right font-semibold">
                   <span className="pr-5">Total recipts</span>
                   {pesoSign} {numberWithCommas(Number(total).toFixed(2))}
                 </td>
