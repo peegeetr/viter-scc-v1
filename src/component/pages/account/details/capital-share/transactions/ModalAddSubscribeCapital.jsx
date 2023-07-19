@@ -56,7 +56,6 @@ const ModalAddSubscribeCapital = ({ subscribeCapital }) => {
     capital_share_paid_up: 0,
     capital_share_or: "none",
     capital_share_is_penalty: 0,
-    capital_share_member_id: memberid,
     capital_share_date: getDateTimeNow(),
     capital_share_total: "",
   };

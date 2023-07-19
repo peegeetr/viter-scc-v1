@@ -81,7 +81,7 @@ const ReportDividendCapitalShareList = () => {
   //   isYear
   // );
 
-  console.log("123", getAvgTotal(avgShareMonth?.data));
+  // console.log("123", getAvgTotal(avgShareMonth?.data));
 
   const initVal = {
     member_id: "0",
