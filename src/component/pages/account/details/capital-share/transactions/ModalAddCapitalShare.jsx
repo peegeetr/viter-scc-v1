@@ -13,12 +13,14 @@ import { StoreContext } from "../../../../../../store/StoreContext";
 import useQueryData from "../../../../../custom-hooks/useQueryData";
 import { InputText, MyCheckbox } from "../../../../../helpers/FormInputs";
 import {
+  getDateNow,
   getDateTimeNow,
   getUrlParam,
   removeComma,
 } from "../../../../../helpers/functions-general";
 import { queryData } from "../../../../../helpers/queryData";
 import ButtonSpinner from "../../../../../partials/spinners/ButtonSpinner";
+import { getMonthYear } from "../functions-capital-share";
 
 const ModalAddCapitalShare = ({ item, amount, raminingAmount, total }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -59,7 +61,7 @@ const ModalAddCapitalShare = ({ item, amount, raminingAmount, total }) => {
 
   const initVal = {
     capital_share_or: item ? item.capital_share_or : "",
-    capital_share_date: item ? item.capital_share_date : getDateTimeNow(),
+    capital_share_date: item ? item.capital_share_date : getDateNow(),
     capital_share_paid_up: item ? item.capital_share_paid_up : "",
     capital_share_is_penalty: item
       ? item.capital_share_is_penalty === 1
@@ -136,7 +138,7 @@ const ModalAddCapitalShare = ({ item, amount, raminingAmount, total }) => {
                     <div className="relative my-5">
                       <InputText
                         label="Date"
-                        type="datetime-local"
+                        type="date"
                         name="capital_share_date"
                         disabled={mutation.isLoading}
                       />
