@@ -36,6 +36,13 @@ const ModalAddAmortization = ({ item, subscribeCapital }) => {
     "capital-share" // key
   );
 
+  // use if not loadmore button undertime
+  const { data: penaltyById } = useQueryData(
+    `/v1/capital-share/read-capital-penalty/${memberid}`, // endpoint
+    "get", // method
+    "penaltyById"
+  );
+
   const mutation = useMutation({
     mutationFn: (values) =>
       queryData(
@@ -50,10 +57,10 @@ const ModalAddAmortization = ({ item, subscribeCapital }) => {
       queryClient.invalidateQueries({
         queryKey: ["capital-amortization-by-id"],
       });
-      dispatch(setIsAdd(false));
 
       // show success box
       if (data.success) {
+        dispatch(setIsAdd(false));
         dispatch(setSuccess(true));
         dispatch(setMessage(`Successfuly ${item ? "updated." : "added."}`));
       }
@@ -108,6 +115,9 @@ const ModalAddAmortization = ({ item, subscribeCapital }) => {
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
                 // console.log(values);
+                const capital_amortization_date =
+                  values.capital_amortization_date.replace("T", " ");
+
                 const capital_amortization_amount = removeComma(
                   `${values.capital_amortization_amount}`
                 );
@@ -115,7 +125,8 @@ const ModalAddAmortization = ({ item, subscribeCapital }) => {
                   getTotalPaidUp(
                     totalCapital,
                     subscribeCapital,
-                    capital_amortization_amount
+                    capital_amortization_amount,
+                    penaltyById
                   )
                 ) {
                   dispatch(setError(true));
@@ -124,7 +135,11 @@ const ModalAddAmortization = ({ item, subscribeCapital }) => {
                 }
 
                 // mutate data
-                mutation.mutate({ ...values, capital_amortization_amount });
+                mutation.mutate({
+                  ...values,
+                  capital_amortization_date,
+                  capital_amortization_amount,
+                });
               }}
             >
               {(props) => {

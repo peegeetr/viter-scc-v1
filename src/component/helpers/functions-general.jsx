@@ -135,7 +135,7 @@ export const GetFocus = (id) => {
 };
 
 // get school year
-export const expirationYear = () => {
+export const yearNow = () => {
   const d = new Date();
   const year = d.getFullYear();
 
@@ -148,6 +148,7 @@ export const capitalFirstLetter = (val) => {
   const str2 = str.charAt(0).toUpperCase() + str.slice(1);
   return str2;
 };
+
 export const closeModal = (setShow, dispatch) => {
   setShow("");
   setTimeout(() => {

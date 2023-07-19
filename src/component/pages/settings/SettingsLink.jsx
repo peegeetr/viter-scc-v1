@@ -35,6 +35,9 @@ const SettingsLink = () => {
           <li className="py-1">
             <SubscribeCapitalLink />
           </li>
+          <li className="py-1">
+            <NetSurplusLink />
+          </li>
         </ul>
         <Footer />
       </div>

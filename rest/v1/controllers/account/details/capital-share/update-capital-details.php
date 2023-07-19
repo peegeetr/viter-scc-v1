@@ -45,6 +45,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
             $share->capital_share_date = checkIndex($data, "capital_share_date");
             $share->capital_share_or = checkIndex($data, "capital_share_or");
             $share->capital_share_is_initial_pay = 1;
+            $share->capital_share_is_penalty = 0;
             // create initails
             checkCreateMemberFee($share);
             checkCreate($share);

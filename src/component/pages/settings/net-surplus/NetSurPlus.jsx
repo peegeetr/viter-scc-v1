@@ -10,6 +10,7 @@ import { setIsAdd } from "../../../../store/StoreAction.jsx";
 import ModalAddNetSurplus from "./ModalAddNetSurplus.jsx";
 import ModalError from "../../../partials/modals/ModalError.jsx";
 import ModalSuccess from "../../../partials/modals/ModalSuccess.jsx";
+import ModalViewNetDetails from "./ModalViewNetDetails.jsx";
 
 const NetSurPlus = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -39,6 +40,7 @@ const NetSurPlus = () => {
         <Footer />
       </div>
       {store.isAdd && <ModalAddNetSurplus item={itemEdit} />}
+      {store.isConfirm && <ModalViewNetDetails item={itemEdit} />}
       {store.success && <ModalSuccess />}
       {store.error && <ModalError />}
     </>

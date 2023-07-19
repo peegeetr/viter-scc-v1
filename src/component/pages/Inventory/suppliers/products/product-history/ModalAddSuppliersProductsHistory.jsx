@@ -78,6 +78,8 @@ const ModalAddSuppliersProductsHistory = () => {
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
                 // console.log(values);
+                const product_history_date =
+                  values.product_history_date.replace("T", " ");
                 const product_history_price = removeComma(
                   `${values.product_history_price}`
                 );
@@ -86,6 +88,7 @@ const ModalAddSuppliersProductsHistory = () => {
                 );
                 mutation.mutate({
                   ...values,
+                  product_history_date,
                   product_history_price,
                   product_history_scc_price,
                 });

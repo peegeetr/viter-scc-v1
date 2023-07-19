@@ -150,7 +150,8 @@ const ModalAddOrders = ({ item, arrKey }) => {
                   dispatch(setMessage("Please check if you have product."));
                   return;
                 }
-
+                const orders_date = values.orders_date.replace("T", " ");
+                const sales_date = values.sales_date.replace("T", " ");
                 const orders_product_quantity = removeComma(
                   `${values.orders_product_quantity}`
                 );
@@ -190,6 +191,8 @@ const ModalAddOrders = ({ item, arrKey }) => {
                 }
                 mutation.mutate({
                   ...values,
+                  orders_date,
+                  sales_date,
                   orders_product_quantity,
                   orders_product_amount,
                   items,

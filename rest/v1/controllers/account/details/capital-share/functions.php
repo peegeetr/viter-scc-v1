@@ -16,6 +16,54 @@ function checkReadTotalCapitalById($object)
     return $query;
 }
 
+// Read Total Capital Penalty By Id
+function checkReadTotalCapitalPenaltyById($object)
+{
+    $query = $object->readTotalCapitalPenaltyById();
+    checkQuery($query, "Empty records. (Read Total Capital Penalty By Id)");
+    return $query;
+}
+
+// Read Total Capital Penalty 
+function checkReadTotalCapitalPenalty($object)
+{
+    $query = $object->readTotalCapitalPenalty();
+    checkQuery($query, "Empty records. (Read Total Capital Penalty)");
+    return $query;
+}
+
+// Read Total Capital Penalty By Id and year
+function checkReadTotalCapitalPenaltyByIdAndYear($object)
+{
+    $query = $object->readTotalCapitalPenaltyByIdAndYear();
+    checkQuery($query, "Empty records. (Read Total Capital Penalty By Id and year)");
+    return $query;
+}
+
+// Read by member id and year
+function checkReadByIdAndYear($object)
+{
+    $query = $object->readByIdAndYear();
+    checkQuery($query, "Empty records. (Read by member id and year)");
+    return $query;
+}
+
+// Read by member id and year
+function checkReadByYear($object)
+{
+    $query = $object->readByYear();
+    checkQuery($query, "Empty records. (Read by year)");
+    return $query;
+}
+
+// Read by member id and year
+function checkReadGroupByYear($object)
+{
+    $query = $object->readGroupByYear();
+    checkQuery($query, "Empty records. (Read Group By Year)");
+    return $query;
+}
+
 // Update 
 function checkUpdateCapitalDetails($object)
 {
@@ -23,7 +71,6 @@ function checkUpdateCapitalDetails($object)
     checkQuery($query, "There's a problem processing your request. (update capital details)");
     return $query;
 }
-
 
 // Update 
 function checkUpdateMemberFee($object)
@@ -54,4 +101,12 @@ function checkDeleteInitialPayById($object)
     $query = $object->deleteInitialPayById();
     checkQuery($query, "There's a problem processing your request. (delete Initial Pay By Id)");
     return $query;
+}
+
+// check DATE
+function isDateExist($object, $date)
+{
+    $query = $object->checkDateExist();
+    $count = $query->rowCount();
+    checkExistence($count, "{$date} already exist.");
 }

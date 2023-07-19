@@ -3,6 +3,7 @@ import React from "react";
 import { FaQuestionCircle, FaTimesCircle } from "react-icons/fa";
 import {
   setError,
+  setIsConfirm,
   setIsRestore,
   setMessage,
   setSuccess,
@@ -18,7 +19,6 @@ const ModalDeleteRestoreCapital = ({
   msg,
   item,
   dataItem = null,
-  setIsSubscribeCapital,
   orderId = "0",
   isApproved = "active",
   arrKey,
@@ -37,7 +37,7 @@ const ModalDeleteRestoreCapital = ({
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: [arrKey] });
       if (data.success) {
-        setIsSubscribeCapital(true);
+        dispatch(setIsConfirm(false));
         dispatch(setIsRestore(false));
         dispatch(setSuccess(true));
         dispatch(

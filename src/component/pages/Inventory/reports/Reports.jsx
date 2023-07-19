@@ -8,6 +8,8 @@ import ReportCapitalShareLink from "./capital-report/ReportCapitalShareLink";
 import ReportSalesLink from "./sales-report/ReportSalesLink";
 import TopSellerLink from "./top-seller/ReportsLink";
 import ReportStocksLink from "./stocks-report/ReportStocksLink";
+import ReportPettyCashLink from "./blotter/petty-cash/ReportPettyCashLink";
+import ReportBlotterLink from "./blotter/ReportSalesLink";
 
 const Reports = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -26,7 +28,8 @@ const Reports = () => {
           <TopSellerLink />
           <ReportSalesLink />
           <ReportStocksLink />
-          {/* <ReportCapitalShareLink /> */}
+          <ReportCapitalShareLink />
+          <ReportBlotterLink />
         </div>
         <Footer />
       </div>

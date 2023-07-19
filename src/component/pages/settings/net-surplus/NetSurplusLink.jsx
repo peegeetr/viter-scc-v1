@@ -15,12 +15,15 @@ const NetSurplusLink = () => {
       className="group flex items-center justify-between border-b border-solid border-gray-300"
       onClick={() => dispatch(setStartIndex(0))}
     >
-      <Link to={`${urlLink}/settings/net-surplus`} className="w-full py-2">
+      <Link
+        to={`${urlLink}/settings/financial-statement`}
+        className="w-full py-2"
+      >
         <div className="flex items-center">
           <span className="text-lg mr-4">
             <RiUserSharedFill />
           </span>
-          <span className="text-md font-bold">Net Surplus</span>
+          <span className="text-md font-bold">Financial Statement</span>
         </div>
         <p className="ml-[35px] my-0">
           Manage what actions and capabilities every account are can perform in
@@ -29,7 +32,7 @@ const NetSurplusLink = () => {
       </Link>
 
       <Link
-        to={`${urlLink}/settings/net-surplus`}
+        to={`${urlLink}/settings/financial-statement`}
         className="btn-action-table group-hover:bg-primary group-hover:text-white"
       >
         <SlArrowRight className="inline" />

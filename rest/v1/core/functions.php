@@ -167,7 +167,7 @@ function returnSuccess($object, $name, $query, $newCount = 0)
 function checkCreate($object)
 {
     $query = $object->create();
-    checkQuery($query, "There's a problem processing your request. (create)");
+    checkQuery($query, "There's a problem processing your request. (create capital)");
     return $query;
 }
 

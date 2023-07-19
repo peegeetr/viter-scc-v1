@@ -4,8 +4,8 @@ import Footer from "../../../../partials/Footer";
 import Header from "../../../../partials/Header";
 import Navigation from "../../../../partials/Navigation";
 import { StoreContext } from "../../../../../store/StoreContext";
-import ReportDividendCapitalShareLink from "../capital-report/dividend/ReportDividendCapitalShareLink";
-import ReportDetailedCapitalShareLink from "../capital-report/detailed/ReportDetailedCapitalShareLink";
+import ReportDividendCapitalShareLink from "./dividend/ReportDividendCapitalShareLink";
+import ReportDetailedCapitalShareLink from "./detailed/ReportDetailedCapitalShareLink";
 
 const ReportsCapitalShare = () => {
   const { store, dispatch } = React.useContext(StoreContext);

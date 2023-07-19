@@ -11,9 +11,10 @@ import {
   setMessage,
   setSuccess,
 } from "../../../../store/StoreAction";
-import { getDateNow } from "../../../helpers/functions-general";
+import { getDateNow, yearNow } from "../../../helpers/functions-general";
 import { InputText } from "../../../helpers/FormInputs";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
+import { computeNetSurplus } from "./functions-net-surplus";
 const ModalAddNetSurplus = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
 
@@ -21,7 +22,7 @@ const ModalAddNetSurplus = ({ item }) => {
   const mutation = useMutation({
     mutationFn: (values) =>
       queryData(
-        item ? `/v1/net-surplus/${item.net_surplus_aid}` : `/v1/net-surplus `,
+        item ? `/v1/net-surplus/${item.net_surplus_aid}` : `/v1/net-surplus`,
         item ? "put" : "post",
         values
       ),
@@ -30,6 +31,7 @@ const ModalAddNetSurplus = ({ item }) => {
       queryClient.invalidateQueries({ queryKey: ["net-surplus"] });
       // show success box
       if (data.success) {
+        dispatch(setIsAdd(false));
         dispatch(setSuccess(true));
         dispatch(setMessage(`Successfuly ${item ? "updated." : "added."}`));
       }
@@ -45,15 +47,47 @@ const ModalAddNetSurplus = ({ item }) => {
   };
 
   const initVal = {
-    net_surplus_amount: item ? item.net_surplus_amount : "",
-    net_surplus_total_capital: "0",
-    net_surplus_total_profit: "0",
-    net_surplus_dividend: "0",
-    net_surplus_patronage_refund: "0",
+    net_surplus_year: item ? item.net_surplus_year : yearNow(),
+    net_surplus_before_amount: item ? item.net_surplus_before_amount : "",
+    net_surplus_distribution_amount: item
+      ? item.net_surplus_distribution_amount
+      : "",
+    net_surplus_operating_expenses: item
+      ? item.net_surplus_operating_expenses
+      : "",
+    net_surplus_total_income: item ? item.net_surplus_total_income : "",
+    net_surplus_general_reserve: item ? item.net_surplus_general_reserve : "",
+    net_surplus_general_reserve_rate: item
+      ? item.net_surplus_general_reserve_rate
+      : "",
+    net_surplus_educ_training: item ? item.net_surplus_educ_training : "",
+    net_surplus_educ_training_rate: item
+      ? item.net_surplus_educ_training_rate
+      : "",
+    net_surplus_community_dev: item ? item.net_surplus_community_dev : "",
+    net_surplus_community_dev_rate: item
+      ? item.net_surplus_community_dev_rate
+      : "",
+    net_surplus_optional_fund: item ? item.net_surplus_optional_fund : "",
+    net_surplus_optional_fund_rate: item
+      ? item.net_surplus_optional_fund_rate
+      : "",
+    net_surplus_dividend: item ? item.net_surplus_dividend : "",
+    net_surplus_dividend_rate: item ? item.net_surplus_dividend_rate : "",
+    net_surplus_patronage_refund: item ? item.net_surplus_patronage_refund : "",
+    net_surplus_patronage_rate: item ? item.net_surplus_patronage_rate : "",
   };
 
   const yupSchema = Yup.object({
-    net_surplus_amount: Yup.string().required("Required"),
+    net_surplus_year: Yup.string().required("Required"),
+    net_surplus_total_income: Yup.string().required("Required"),
+    net_surplus_operating_expenses: Yup.string().required("Required"),
+    net_surplus_general_reserve_rate: Yup.string().required("Required"),
+    net_surplus_educ_training_rate: Yup.string().required("Required"),
+    net_surplus_community_dev_rate: Yup.string().required("Required"),
+    net_surplus_optional_fund_rate: Yup.string().required("Required"),
+    net_surplus_dividend_rate: Yup.string().required("Required"),
+    net_surplus_patronage_rate: Yup.string().required("Required"),
   });
 
   return (
@@ -77,25 +111,92 @@ const ModalAddNetSurplus = ({ item }) => {
               initialValues={initVal}
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
-                // console.log(values);
-                mutation.mutate(values);
+                // console.log(values, computeNetSurplus(values));
+                mutation.mutate(computeNetSurplus(values));
               }}
             >
               {(props) => {
-                // props.values.product_profit =
-                //   Number(props.values.product_scc_price) -
-                //   Number(props.values.product_price);
                 return (
                   <Form>
                     <div className="relative my-5">
-                      <div className="relative my-5">
-                        <InputText
-                          label="Net Surplus Amount"
-                          type="text"
-                          name="net_surplus_amount"
-                          disabled={mutation.isLoading}
-                        />
-                      </div>
+                      <InputText
+                        label="Year"
+                        type="text"
+                        name="net_surplus_year"
+                        disabled={mutation.isLoading}
+                      />
+                    </div>
+                    <div className="relative my-5">
+                      <InputText
+                        label="Total Income"
+                        type="text"
+                        num="num"
+                        name="net_surplus_total_income"
+                        disabled={mutation.isLoading}
+                      />
+                    </div>
+                    <div className="relative my-5">
+                      <InputText
+                        label="Less: Operating Expenses"
+                        type="text"
+                        num="num"
+                        name="net_surplus_operating_expenses"
+                        disabled={mutation.isLoading}
+                      />
+                    </div>
+                    <div className="relative my-5">
+                      <InputText
+                        label="General Reserve Fund Rate %"
+                        type="text"
+                        num="num"
+                        name="net_surplus_general_reserve_rate"
+                        disabled={mutation.isLoading}
+                      />
+                    </div>
+                    <div className="relative my-5">
+                      <InputText
+                        label="Educ & Training Fund Rate %"
+                        type="text"
+                        num="num"
+                        name="net_surplus_educ_training_rate"
+                        disabled={mutation.isLoading}
+                      />
+                    </div>
+                    <div className="relative my-5">
+                      <InputText
+                        label="Community Development Fund Rate %"
+                        type="text"
+                        num="num"
+                        name="net_surplus_community_dev_rate"
+                        disabled={mutation.isLoading}
+                      />
+                    </div>
+                    <div className="relative my-5">
+                      <InputText
+                        label="Optional Fund Rate %"
+                        type="text"
+                        num="num"
+                        name="net_surplus_optional_fund_rate"
+                        disabled={mutation.isLoading}
+                      />
+                    </div>
+                    <div className="relative my-5">
+                      <InputText
+                        label="Dividend Rate %"
+                        type="text"
+                        num="num"
+                        name="net_surplus_dividend_rate"
+                        disabled={mutation.isLoading}
+                      />
+                    </div>
+                    <div className="relative my-5">
+                      <InputText
+                        label="Patronage Refund Rate %"
+                        type="text"
+                        num="num"
+                        name="net_surplus_patronage_rate"
+                        disabled={mutation.isLoading}
+                      />
                     </div>
 
                     <div className="flex items-center gap-1 pt-5">

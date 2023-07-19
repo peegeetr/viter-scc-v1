@@ -219,6 +219,7 @@ const ReportStocksList = () => {
         result={result}
         orderGroupProd={orderGroupProd}
         stocksGroupProd={stocksGroupProd}
+        isLoading={status === "loading"}
       />
 
       <div className="text-center overflow-x-auto z-0">

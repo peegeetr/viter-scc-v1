@@ -2,7 +2,12 @@ import React from "react";
 import StatusAmount from "../../../../partials/status/StatusAmount";
 import { computeStockReportTotal } from "./functions-report-sales";
 
-const StockReportTotal = ({ result, orderGroupProd, stocksGroupProd }) => {
+const StockReportTotal = ({
+  result,
+  orderGroupProd,
+  stocksGroupProd,
+  isLoading,
+}) => {
   return (
     <>
       <div className=" grid xl:flex xs:grid-cols-2 items-center ">
@@ -13,6 +18,7 @@ const StockReportTotal = ({ result, orderGroupProd, stocksGroupProd }) => {
               .totalRemAmount
           }
           type="pending"
+          isLoading={isLoading}
           qty={`(${
             computeStockReportTotal(result, orderGroupProd, stocksGroupProd)
               .totalQty

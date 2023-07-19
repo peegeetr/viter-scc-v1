@@ -152,6 +152,18 @@ import AdminReportDividendCapitalShare from "./component/pages/Inventory/reports
 import AdminReportStocks from "./component/pages/Inventory/reports/stocks-report/links/AdminReportStocks";
 import ManagerReportStocks from "./component/pages/Inventory/reports/stocks-report/links/ManagerReportStocks";
 import SystemReportStocks from "./component/pages/Inventory/reports/stocks-report/links/SystemReportStocks";
+import AdminReportBlotter from "./component/pages/Inventory/reports/blotter/links/AdminReportBlotter";
+import AdminReportPettyCash from "./component/pages/Inventory/reports/blotter/petty-cash/link/AdminReportPettyCash";
+import AdminReportOfficialReceipt from "./component/pages/Inventory/reports/blotter/official-recipt/link/AdminReportOfficialReceipt";
+import SystemReportBlotter from "./component/pages/Inventory/reports/blotter/links/SystemReportBlotter";
+import SystemReportOfficialReceipt from "./component/pages/Inventory/reports/blotter/official-recipt/link/SystemReportOfficialReceipt";
+import SystemReportPettyCash from "./component/pages/Inventory/reports/blotter/petty-cash/link/SystemReportBlotter";
+import ManagerReportOfficialReceipt from "./component/pages/Inventory/reports/blotter/official-recipt/link/ManagerReportOfficialReceipt";
+import ManagerReportPettyCash from "./component/pages/Inventory/reports/blotter/petty-cash/link/ManagerReportPettyCash";
+import ManagerReportBlotter from "./component/pages/Inventory/reports/blotter/links/ManagerReportBlotter";
+import ManagerReportSalesInvoices from "./component/pages/Inventory/reports/blotter/sales-invoices/link/ManagerReportSalesInvoices";
+import SystemReportSalesInvoices from "./component/pages/Inventory/reports/blotter/sales-invoices/link/SystemReportSalesInvoices";
+import AdminReportSalesInvoices from "./component/pages/Inventory/reports/blotter/sales-invoices/link/AdminReportSalesInvoices";
 
 function App() {
   // Create a client
@@ -431,6 +443,38 @@ function App() {
               }
             />
             <Route
+              path={`${devNavUrl}/${UrlSystem}/inventory/reports/blotter`}
+              element={
+                <ProtectedRouteSystem>
+                  <SystemReportBlotter />
+                </ProtectedRouteSystem>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlSystem}/inventory/reports/blotter/petty-cash`}
+              element={
+                <ProtectedRouteSystem>
+                  <SystemReportPettyCash />
+                </ProtectedRouteSystem>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlSystem}/inventory/reports/blotter/official-receipt`}
+              element={
+                <ProtectedRouteSystem>
+                  <SystemReportOfficialReceipt />
+                </ProtectedRouteSystem>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlSystem}/inventory/reports/blotter/sales-invoices`}
+              element={
+                <ProtectedRouteSystem>
+                  <SystemReportSalesInvoices />
+                </ProtectedRouteSystem>
+              }
+            />
+            <Route
               path={`${devNavUrl}/${UrlSystem}/inventory/sales`}
               element={
                 <ProtectedRouteSystem>
@@ -471,7 +515,7 @@ function App() {
               }
             />
             <Route
-              path={`${devNavUrl}/${UrlSystem}/settings/net-surplus`}
+              path={`${devNavUrl}/${UrlSystem}/settings/financial-statement`}
               element={
                 <ProtectedRouteSystem>
                   <SystemNetSurPlus />
@@ -909,6 +953,38 @@ function App() {
               }
             />
             <Route
+              path={`${devNavUrl}/${UrlAdmin}/inventory/reports/blotter`}
+              element={
+                <ProtectedRouteOther>
+                  <AdminReportBlotter />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/inventory/reports/blotter/petty-cash`}
+              element={
+                <ProtectedRouteOther>
+                  <AdminReportPettyCash />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/inventory/reports/blotter/official-receipt`}
+              element={
+                <ProtectedRouteOther>
+                  <AdminReportOfficialReceipt />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/inventory/reports/blotter/sales-invoices`}
+              element={
+                <ProtectedRouteOther>
+                  <AdminReportSalesInvoices />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
               path={`${devNavUrl}/${UrlAdmin}/inventory/sales`}
               element={
                 <ProtectedRouteOther>
@@ -950,7 +1026,7 @@ function App() {
               }
             />
             <Route
-              path={`${devNavUrl}/${UrlAdmin}/settings/net-surplus`}
+              path={`${devNavUrl}/${UrlAdmin}/settings/financial-statement`}
               element={
                 <ProtectedRouteOther>
                   <AdminNetSurPlus />
@@ -1276,6 +1352,38 @@ function App() {
               element={
                 <ProtectedRouteOther>
                   <ManagerReportDividendCapitalShare />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlManager}/inventory/reports/blotter`}
+              element={
+                <ProtectedRouteOther>
+                  <ManagerReportBlotter />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlManager}/inventory/reports/blotter/petty-cash`}
+              element={
+                <ProtectedRouteOther>
+                  <ManagerReportPettyCash />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlManager}/inventory/reports/blotter/official-receipt`}
+              element={
+                <ProtectedRouteOther>
+                  <ManagerReportOfficialReceipt />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlManager}/inventory/reports/blotter/sales-invoices`}
+              element={
+                <ProtectedRouteOther>
+                  <ManagerReportSalesInvoices />
                 </ProtectedRouteOther>
               }
             />

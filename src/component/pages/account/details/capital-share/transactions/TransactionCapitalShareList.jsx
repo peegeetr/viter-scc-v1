@@ -1,43 +1,35 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { Form, Formik } from "formik";
 import React from "react";
-import { FaEdit, FaTrash } from "react-icons/fa";
 import { useInView } from "react-intersection-observer";
-import { setIsAdd, setIsRestore } from "../../../../../../store/StoreAction";
+import * as Yup from "yup";
 import { StoreContext } from "../../../../../../store/StoreContext";
-import {
-  formatDate,
-  getTime,
-  getUrlParam,
-  numberWithCommas,
-  pesoSign,
-} from "../../../../../helpers/functions-general";
+import useQueryData from "../../../../../custom-hooks/useQueryData";
+import { InputSelect } from "../../../../../helpers/FormInputs";
 import { queryDataInfinite } from "../../../../../helpers/queryDataInfinite";
 import Loadmore from "../../../../../partials/Loadmore";
 import NoData from "../../../../../partials/NoData";
-import SearchBar from "../../../../../partials/SearchBar";
 import ServerError from "../../../../../partials/ServerError";
-import ModalDeleteRestoreCapital from "../../../../../partials/modals/ModalDeleteRetoreCapital";
 import TableSpinner from "../../../../../partials/spinners/TableSpinner";
+import { getMonth } from "../../../../Inventory/reports/report-function";
+import TransactionCapitalShareBody from "./TransactionCapitalShareBody";
 import TransactionCapitalShareTotals from "./TransactionCapitalShareTotals";
+import { getYearList } from "../../../../Inventory/reports/capital-report/functions-report-capital";
 
 const TransactionCapitalShareList = ({
   setItemEdit,
   totalCapital,
   memberName,
   isLoading,
-  setIsSubscribeCapital,
   menu,
 }) => {
   const { store, dispatch } = React.useContext(StoreContext);
-  const [dataItem, setData] = React.useState(null);
-  const [id, setId] = React.useState(null);
-  const [isDel, setDel] = React.useState(false);
-  const [onSearch, setOnSearch] = React.useState(false);
+  const [isFilter, setFilter] = React.useState(false);
+  const [isSubmit, setSubmit] = React.useState(false);
+  const [year, setYear] = React.useState(yearNow());
   const [page, setPage] = React.useState(1);
   const memberid = getUrlParam().get("memberid");
-  let counter = 1;
   const search = React.useRef(null);
-  let total = 0;
   const { ref, inView } = useInView();
   // use if with loadmore button and search bar
   let empid =
@@ -51,14 +43,14 @@ const TransactionCapitalShareList = ({
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ["capital-share", onSearch, store.isSearch],
+    queryKey: ["capital-share", isSubmit],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
-        `/v1/capital-share/search-by-id/${empid}`, // search endpoint
+        `/v1/capital-share/read-group-by-year/${empid}`, // search endpoint
         `/v1/capital-share/page/${pageParam}/${empid}`, // list endpoint
-        store.isSearch, // search boolean
+        isFilter, // search boolean
         "post",
-        { search: search.current.value }
+        { year }
       ),
     getNextPageParam: (lastPage) => {
       if (lastPage.page < lastPage.total) {
@@ -78,18 +70,29 @@ const TransactionCapitalShareList = ({
     }
   }, [inView]);
 
-  const handleEdit = (item) => {
-    dispatch(setIsAdd(true));
-    setItemEdit(item);
+  // use if not loadmore button undertime
+  const { data: penaltyById } = useQueryData(
+    `/v1/capital-share/read-capital-penalty/${memberid}/${year}`, // endpoint
+    "get", // method
+    "penaltyById", //key
+    {}, // fd
+    year
+  );
+
+  const handleYear = async (e) => {
+    let year = e.target.value;
+    setYear(year);
+    setFilter(true);
+    setSubmit(!isSubmit);
   };
 
-  const handleDelete = (item) => {
-    dispatch(setIsRestore(true));
-    setId(item.capital_share_aid);
-    setData(item);
-    setDel(true);
+  const initVal = {
+    capital_year: "",
   };
 
+  const yupSchema = Yup.object({
+    capital_year: Yup.string().required("Required"),
+  });
   return (
     <>
       {isLoading ? (
@@ -104,41 +107,65 @@ const TransactionCapitalShareList = ({
                 : `${memberName?.data[0].members_last_name}, ${memberName?.data[0].members_first_name}`}
             </p>
           )}
-          <SearchBar
-            search={search}
-            dispatch={dispatch}
-            store={store}
-            result={result?.pages}
-            isFetching={isFetching}
-            setOnSearch={setOnSearch}
-            onSearch={onSearch}
-          />
-          <div className="relative overflow-x-auto z-0">
+
+          <div className="sm:w-[10rem] items-center print:hidden mt-4 ">
+            <Formik
+              initialValues={initVal}
+              validationSchema={yupSchema}
+              onSubmit={async (values, { setSubmitting, resetForm }) => {}}
+            >
+              {(props) => {
+                return (
+                  <Form>
+                    <div className="relative">
+                      <InputSelect
+                        label="Year"
+                        name="capital_year"
+                        type="text"
+                        onChange={handleYear}
+                        disabled={status === "loading"}
+                      >
+                        <option value="" hidden>
+                          {status === "loading" ? "Loading..." : "All"}
+                        </option>
+                        {getYearList()?.map((yItem, key) => {
+                          return (
+                            <option key={key} value={yItem.year}>
+                              {`${yItem.year}`}
+                            </option>
+                          );
+                        })}
+                      </InputSelect>
+                    </div>
+                  </Form>
+                );
+              }}
+            </Formik>
+          </div>
+
+          <div className="relative overflow-x-auto z-0 mt-8 xl:mt-4">
             <TransactionCapitalShareTotals
               result={result}
               totalCapital={totalCapital}
               isLoading={status === "loading"}
+              isFilter={isFilter}
+              penalty={penaltyById?.data[0]}
             />
 
             <table>
               <thead>
                 <tr>
-                  <th>#</th>
-                  <th className="min-w-[6rem] w-[15rem]">Date</th>
-                  <th className="min-w-[6rem] w-[10rem] text-right pr-4">
-                    Amortization
-                  </th>
-                  <th className="min-w-[11rem] !w-[11rem] text-right pr-4">
-                    Total Paid up Capital
-                  </th>
-                  <th className="min-w-[10rem]">Official Receipt</th>
-                  {menu === "members" ? (
-                    (store.credentials.data.role_is_developer === 1 ||
-                      store.credentials.data.role_is_admin === 1) &&
-                    memberid !== null && <th className="!w-[5rem]">Actions</th>
-                  ) : (
-                    <th></th>
-                  )}
+                  <th>Year</th>
+                  {getMonth()?.map((yItem, key) => {
+                    return (
+                      <th key={key} className="text-center pl-4 min-w-[8rem] ">
+                        {`${yItem.month_name.slice(0, 3)}`}
+                      </th>
+                    );
+                  })}
+                  <th className="text-center min-w-[8rem]  pl-4">Total</th>
+                  <th className="text-center min-w-[8rem] pl-4 ">Avg Share</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -162,68 +189,16 @@ const TransactionCapitalShareList = ({
                   <React.Fragment key={key}>
                     {page.data.map((item, key) => {
                       return (
-                        <tr key={key}>
-                          <td>{counter++}.</td>
-                          <td>{`${formatDate(
-                            item.capital_share_date
-                          )} ${getTime(item.capital_share_date)}`}</td>
-                          <td className=" text-right pr-4">
-                            {pesoSign}{" "}
-                            {numberWithCommas(
-                              Number(item.capital_share_paid_up).toFixed(2)
-                            )}
-                          </td>
-                          <td className=" text-right pr-4">
-                            {pesoSign}{" "}
-                            {item.capital_share_total !== ""
-                              ? numberWithCommas(
-                                  Number(item.capital_share_total).toFixed(2)
-                                )
-                              : numberWithCommas(
-                                  Number(item.capital_share_paid_up).toFixed(2)
-                                )}
-                          </td>
-                          <td>{item.capital_share_or}</td>
-                          {menu === "members" ? (
-                            (store.credentials.data.role_is_developer === 1 ||
-                              store.credentials.data.role_is_admin === 1) && (
-                              <td>
-                                <div className="flex items-center gap-1">
-                                  <button
-                                    type="button"
-                                    className="btn-action-table tooltip-action-table"
-                                    data-tooltip="Edit"
-                                    onClick={() => handleEdit(item)}
-                                  >
-                                    <FaEdit />
-                                  </button>
-                                  {result?.pages[0].count > 2 &&
-                                    item.capital_share_is_initial_pay === 0 && (
-                                      <button
-                                        type="button"
-                                        className="btn-action-table tooltip-action-table"
-                                        data-tooltip="Delete"
-                                        onClick={() => handleDelete(item)}
-                                      >
-                                        <FaTrash />
-                                      </button>
-                                    )}
-                                  {result?.pages[0].count <= 2 && (
-                                    <button
-                                      type="button"
-                                      className="btn-action-table tooltip-action-table"
-                                      data-tooltip="Delete"
-                                      onClick={() => handleDelete(item)}
-                                    >
-                                      <FaTrash />
-                                    </button>
-                                  )}
-                                </div>
-                              </td>
-                            )
-                          ) : (
-                            <td></td>
-                          )}
+                        <tr
+                          key={key}
+                          className={`${
+                            yearNow() === `${item.year}` && "!bg-gray-100 "
+                          } text-right `}
+                        >
+                          <TransactionCapitalShareBody
+                            item={item}
+                            setItemEdit={setItemEdit}
+                          />
                         </tr>
                       );
                     })}
@@ -246,20 +221,6 @@ const TransactionCapitalShareList = ({
         </>
       ) : (
         <NoData />
-      )}
-      {store.isRestore && (
-        <ModalDeleteRestoreCapital
-          id={id}
-          isDel={isDel}
-          mysqlApiDelete={`/v1/capital-share/${id}`}
-          msg={"Are you sure you want to delete "}
-          item={`${formatDate(dataItem.capital_share_date)} ${getTime(
-            dataItem.capital_share_date
-          )}`}
-          dataItem={dataItem}
-          setIsSubscribeCapital={setIsSubscribeCapital}
-          arrKey="capital-share"
-        />
       )}
     </>
   );

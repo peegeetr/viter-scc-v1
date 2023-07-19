@@ -261,8 +261,8 @@ const ReportSalesList = () => {
         }}
       </Formik>
 
-      <SalesTotal result={result} />
-      <SccSalesTotal result={result} />
+      <SalesTotal result={result} isLoading={status === "loading"} />
+      <SccSalesTotal result={result} isLoading={status === "loading"} />
       <div className="text-center overflow-x-auto z-0">
         {/* use only for updating important records */}
         {status !== "loading" && isFetching && <TableSpinner />}

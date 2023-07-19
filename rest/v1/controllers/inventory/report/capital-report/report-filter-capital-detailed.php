@@ -1,5 +1,4 @@
 <?php
-
 // set http header
 require '../../../../core/header.php';
 // use needed functions
