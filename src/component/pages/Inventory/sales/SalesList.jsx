@@ -11,7 +11,6 @@ import {
 import { StoreContext } from "../../../../store/StoreContext";
 import {
   formatDate,
-  getTime,
   numberWithCommas,
   pesoSign,
 } from "../../../helpers/functions-general";
@@ -189,9 +188,7 @@ const SalesList = ({ setItemEdit }) => {
                       <td>
                         {item.sales_date === ""
                           ? "N/A"
-                          : `${formatDate(item.sales_date)} ${getTime(
-                              item.sales_date
-                            )}`}
+                          : `${formatDate(item.sales_date)}`}
                       </td>
 
                       {store.credentials.data.role_is_member === 0 && (

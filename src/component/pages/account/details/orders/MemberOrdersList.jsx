@@ -19,7 +19,6 @@ import { InputText } from "../../../../helpers/FormInputs";
 import {
   formatDate,
   getDateNow,
-  getTime,
   getUrlParam,
   numberWithCommas,
   pesoSign,
@@ -276,16 +275,12 @@ const MemberOrdersList = ({ setItemEdit, memberName, isLoading, menu }) => {
                           <td>
                             {item.orders_date === ""
                               ? "N/A"
-                              : `${formatDate(item.orders_date)} ${getTime(
-                                  item.orders_date
-                                )}`}
+                              : `${formatDate(item.orders_date)}`}
                           </td>
                           <td>
                             {item.sales_date === ""
                               ? "N/A"
-                              : `${formatDate(item.sales_date)} ${getTime(
-                                  item.sales_date
-                                )}`}
+                              : `${formatDate(item.sales_date)}`}
                           </td>
                           <td>
                             {item.suppliers_products_name}

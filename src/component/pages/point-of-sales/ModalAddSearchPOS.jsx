@@ -14,11 +14,9 @@ import { StoreContext } from "../../../store/StoreContext";
 import useQueryData from "../../custom-hooks/useQueryData";
 import { InputText, InputTextArea } from "../../helpers/FormInputs";
 import {
-  GetFocus,
   formatDate,
   getDateNow,
   getDateTimeNow,
-  getTimeNow,
   numberWithCommas,
   pesoSign,
   removeComma,
@@ -101,7 +99,7 @@ const ModalAddSearchPOS = ({ item, arrKey, memberId, memberName }) => {
     orders_is_paid: 0,
     orders_is_draft: 0,
     orders_remarks: item ? item.orders_remarks : "",
-    orders_date: item ? item.orders_date : getDateTimeNow(),
+    orders_date: item ? item.orders_date : getDateNow(),
     sales_discount: item ? item.sales_discount : "0",
 
     // old quantity
@@ -139,7 +137,6 @@ const ModalAddSearchPOS = ({ item, arrKey, memberId, memberName }) => {
                   dispatch(setMessage("Please check if you have product."));
                   return;
                 }
-                const orders_date = values.orders_date.replace("T", " ");
                 const orders_product_quantity = removeComma(
                   `${values.orders_product_quantity}`
                 );
@@ -211,7 +208,7 @@ const ModalAddSearchPOS = ({ item, arrKey, memberId, memberName }) => {
                       Date :
                       <span className="font-bold">
                         {" "}
-                        {`${formatDate(getDateNow())} ${getTimeNow()}`}
+                        {`${formatDate(getDateNow())}`}
                       </span>
                     </p>
                     <p className="m-0 font-light text-lg text-primary">

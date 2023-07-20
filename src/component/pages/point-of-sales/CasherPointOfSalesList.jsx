@@ -2,7 +2,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { Form, Formik } from "formik";
 import React from "react";
 import { FaEdit, FaShoppingCart, FaTrash } from "react-icons/fa";
-import { GiPayMoney, GiReceiveMoney } from "react-icons/gi";
+import { GiReceiveMoney } from "react-icons/gi";
 import { useInView } from "react-intersection-observer";
 import * as Yup from "yup";
 import {
@@ -17,8 +17,6 @@ import useQueryData from "../../custom-hooks/useQueryData";
 import { InputSelect } from "../../helpers/FormInputs";
 import {
   formatDate,
-  getTime,
-  notMemberId,
   numberWithCommas,
   pesoSign,
 } from "../../helpers/functions-general";
@@ -246,9 +244,7 @@ const CasherPointOfSalesList = () => {
                         </td>
                         <td className="uppercase">{item.orders_number}</td>
                         <td>{`${item.members_last_name}, ${item.members_first_name}`}</td>
-                        <td>{`${formatDate(item.orders_date)} ${getTime(
-                          item.orders_date
-                        )}`}</td>
+                        <td>{`${formatDate(item.orders_date)}`}</td>
                         <td>{item.suppliers_products_name}</td>
                         <td className="text-center">
                           {item.orders_product_quantity}

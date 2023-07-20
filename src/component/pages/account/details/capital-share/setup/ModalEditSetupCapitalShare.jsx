@@ -5,7 +5,6 @@ import { FaTimesCircle } from "react-icons/fa";
 import * as Yup from "yup";
 import {
   setError,
-  setIsAdd,
   setIsEditProfile,
   setMessage,
   setSuccess,
@@ -15,13 +14,12 @@ import useQueryData from "../../../../../custom-hooks/useQueryData";
 import { InputSelect, InputText } from "../../../../../helpers/FormInputs";
 import {
   getDateNow,
-  getDateTimeNow,
-  getUrlParam,
   numberWithCommas,
   removeComma,
 } from "../../../../../helpers/functions-general";
 import { queryData } from "../../../../../helpers/queryData";
 import ButtonSpinner from "../../../../../partials/spinners/ButtonSpinner";
+import { getMonthYear } from "../functions-capital-share";
 
 const ModalEditSetupCapitalShare = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -68,7 +66,7 @@ const ModalEditSetupCapitalShare = ({ item }) => {
     members_initial_payment: "",
     members_member_fee: item.members_member_fee,
     capital_share_or: "",
-    capital_share_date: getDateTimeNow(),
+    capital_share_date: getDateNow(),
   };
 
   const yupSchema = Yup.object({
@@ -140,7 +138,7 @@ const ModalEditSetupCapitalShare = ({ item }) => {
                       <div className="relative my-5">
                         <InputText
                           label="Date"
-                          type="datetime-local"
+                          type="date"
                           name="capital_share_date"
                           disabled={mutation.isLoading}
                         />

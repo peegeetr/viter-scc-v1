@@ -6,7 +6,6 @@ import { setIsAdd, setIsRestore } from "../../../../store/StoreAction";
 import { StoreContext } from "../../../../store/StoreContext";
 import {
   formatDate,
-  getTime,
   numberWithCommas,
   pesoSign,
 } from "../../../helpers/functions-general";
@@ -149,9 +148,7 @@ const OrdersList = ({ setItemEdit }) => {
                       </td>
                       <td className="uppercase">{item.orders_number}</td>
                       <td>{`${item.members_last_name}, ${item.members_first_name}`}</td>
-                      <td>{`${formatDate(item.orders_date)} ${getTime(
-                        item.orders_date
-                      )}`}</td>
+                      <td>{`${formatDate(item.orders_date)}`}</td>
                       <td>{item.suppliers_products_name}</td>
                       <td className="text-center">
                         {item.orders_product_quantity}

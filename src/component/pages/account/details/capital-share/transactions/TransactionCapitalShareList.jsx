@@ -30,7 +30,6 @@ const TransactionCapitalShareList = ({
   const [year, setYear] = React.useState(yearNow());
   const [page, setPage] = React.useState(1);
   const memberid = getUrlParam().get("memberid");
-  const search = React.useRef(null);
   const { ref, inView } = useInView();
   // use if with loadmore button and search bar
   let empid =

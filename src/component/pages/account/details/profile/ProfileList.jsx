@@ -1,8 +1,5 @@
-import { Form, Formik } from "formik";
 import React from "react";
-import { AiFillCamera } from "react-icons/ai";
 import { FaEdit, FaPlusCircle, FaTrash, FaUserCircle } from "react-icons/fa";
-import * as Yup from "yup";
 import {
   setIsAdd,
   setIsBeneficiaries,
@@ -12,18 +9,16 @@ import {
 } from "../../../../../store/StoreAction";
 import { StoreContext } from "../../../../../store/StoreContext";
 import useQueryData from "../../../../custom-hooks/useQueryData";
-import { InputFileUpload } from "../../../../helpers/FormInputs";
 import {
   devBaseImgUrl,
   formatDate,
-  getTime,
   getUrlParam,
   numberWithCommas,
   pesoSign,
 } from "../../../../helpers/functions-general";
-import ModalDeleteRestore from "../../../../partials/modals/ModalDeleteRestore";
 import NoData from "../../../../partials/NoData";
 import ServerError from "../../../../partials/ServerError";
+import ModalDeleteRestore from "../../../../partials/modals/ModalDeleteRestore";
 import TableSpinner from "../../../../partials/spinners/TableSpinner";
 import ModalAddBeneficiaries from "./ModalAddBeneficiaries";
 import ModalUpdateAdditionalInfo from "./ModalUpdateAdditionalInfo";

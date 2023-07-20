@@ -12,7 +12,7 @@ import {
 import { StoreContext } from "../../../../../../store/StoreContext";
 import { InputText } from "../../../../../helpers/FormInputs";
 import {
-  getDateTimeNow,
+  getDateNow,
   getUrlParam,
   removeComma,
 } from "../../../../../helpers/functions-general";
@@ -47,7 +47,7 @@ const ModalAddSuppliersProductsHistory = () => {
 
   const initVal = {
     product_history_product_id: supplierProductId,
-    product_history_date: getDateTimeNow(),
+    product_history_date: getDateNow(),
     product_history_price: "",
     product_history_scc_price: "",
   };
@@ -78,8 +78,6 @@ const ModalAddSuppliersProductsHistory = () => {
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
                 // console.log(values);
-                const product_history_date =
-                  values.product_history_date.replace("T", " ");
                 const product_history_price = removeComma(
                   `${values.product_history_price}`
                 );
@@ -88,7 +86,6 @@ const ModalAddSuppliersProductsHistory = () => {
                 );
                 mutation.mutate({
                   ...values,
-                  product_history_date,
                   product_history_price,
                   product_history_scc_price,
                 });
@@ -100,7 +97,7 @@ const ModalAddSuppliersProductsHistory = () => {
                     <div className="relative my-5">
                       <InputText
                         label="Date"
-                        type="datetime-local"
+                        type="date"
                         name="product_history_date"
                         disabled={mutation.isLoading}
                       />

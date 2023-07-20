@@ -6,7 +6,6 @@ import {
   FaPlusCircle,
   FaTrash,
 } from "react-icons/fa";
-import { useInView } from "react-intersection-observer";
 import {
   setIsAdd,
   setIsConfirm,
@@ -17,20 +16,19 @@ import { StoreContext } from "../../../../../../store/StoreContext";
 import useQueryData from "../../../../../custom-hooks/useQueryData";
 import {
   formatDate,
-  getTime,
   getUrlParam,
   numberWithCommas,
   pesoSign,
 } from "../../../../../helpers/functions-general";
 import NoData from "../../../../../partials/NoData";
 import ServerError from "../../../../../partials/ServerError";
+import ModalConfirm from "../../../../../partials/modals/ModalConfirm";
 import ModalDeleteRestore from "../../../../../partials/modals/ModalDeleteRestore";
 import TableSpinner from "../../../../../partials/spinners/TableSpinner";
-import ModalAddAmortization from "./ModalAddAmortization";
-import ModalEditSetupCapitalShare from "./ModalEditSetupCapitalShare";
 import StatusActive from "../../../../../partials/status/StatusActive";
 import StatusInactive from "../../../../../partials/status/StatusInactive";
-import ModalConfirm from "../../../../../partials/modals/ModalConfirm";
+import ModalAddAmortization from "./ModalAddAmortization";
+import ModalEditSetupCapitalShare from "./ModalEditSetupCapitalShare";
 
 const SetupCapitalShareList = ({
   members,
@@ -199,10 +197,7 @@ const SetupCapitalShareList = ({
                     return (
                       <tr key={key}>
                         <td>{counter++}.</td>
-                        <td>
-                          {formatDate(aItem.capital_amortization_date)}{" "}
-                          {getTime(aItem.capital_amortization_date)}
-                        </td>
+                        <td>{formatDate(aItem.capital_amortization_date)}</td>
                         <td className=" text-right pr-4">
                           {pesoSign}
                           {numberWithCommas(
@@ -290,9 +285,7 @@ const SetupCapitalShareList = ({
           isDel={isDel}
           mysqlApiArchive={`/v1/capital-amortization/active/${id}`}
           msg={"Are you sure you want to archive "}
-          item={`${formatDate(dataItem.capital_amortization_date)} ${getTime(
-            dataItem.capital_amortization_date
-          )}`}
+          item={`${formatDate(dataItem.capital_amortization_date)}`}
           dataItem={dataItem}
           arrKey="capital-amortization-by-id"
         />
@@ -309,9 +302,7 @@ const SetupCapitalShareList = ({
               ? "Are you sure you want to delete "
               : "Are you sure you want to restore "
           }
-          item={`${formatDate(dataItem.capital_amortization_date)} ${getTime(
-            dataItem.capital_amortization_date
-          )}`}
+          item={`${formatDate(dataItem.capital_amortization_date)}`}
           dataItem={dataItem}
           arrKey="capital-amortization-by-id"
         />

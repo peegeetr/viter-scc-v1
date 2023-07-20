@@ -18,7 +18,6 @@ import useQueryData from "../../../../custom-hooks/useQueryData";
 import { InputText } from "../../../../helpers/FormInputs";
 import {
   formatDate,
-  getTime,
   getUrlParam,
   numberWithCommas,
   pesoSign,
@@ -26,7 +25,6 @@ import {
 import { queryDataInfinite } from "../../../../helpers/queryDataInfinite";
 import Loadmore from "../../../../partials/Loadmore";
 import NoData from "../../../../partials/NoData";
-import SearchBar from "../../../../partials/SearchBar";
 import ServerError from "../../../../partials/ServerError";
 import ModalConfirm from "../../../../partials/modals/ModalConfirm";
 import ModalDeleteRestore from "../../../../partials/modals/ModalDeleteRestore";
@@ -271,9 +269,7 @@ const PatronageList = ({ setItemEdit }) => {
                       <td>
                         {item.sales_date === ""
                           ? "N/A"
-                          : `${formatDate(item.sales_date)} ${getTime(
-                              item.sales_date
-                            )}`}
+                          : `${formatDate(item.sales_date)}`}
                       </td>
                       <td>
                         {item.suppliers_products_name}

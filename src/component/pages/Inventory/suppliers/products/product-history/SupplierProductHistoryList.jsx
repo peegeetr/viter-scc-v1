@@ -9,7 +9,6 @@ import {
 import { StoreContext } from "../../../../../../store/StoreContext";
 import {
   formatDate,
-  getTime,
   getUrlParam,
   numberWithCommas,
   pesoSign,
@@ -159,10 +158,7 @@ const SupplierProductHistoryList = ({ productName }) => {
                         Number(item.product_history_scc_price).toFixed(2)
                       )}
                     </td>
-                    <td>
-                      {formatDate(item.product_history_date)}{" "}
-                      {getTime(item.product_history_date)}
-                    </td>
+                    <td>{formatDate(item.product_history_date)}</td>
                     <td>
                       {item.product_history_is_active === 1 ? (
                         <StatusActive />

@@ -12,8 +12,7 @@ import {
 import { StoreContext } from "../../../../../../store/StoreContext";
 import { InputText } from "../../../../../helpers/FormInputs";
 import {
-  formatDate,
-  getDateTimeNow,
+  getDateNow,
   getUrlParam,
   numberWithCommas,
   pesoSign,
@@ -56,7 +55,7 @@ const ModalAddSubscribeCapital = ({ subscribeCapital }) => {
     capital_share_paid_up: 0,
     capital_share_or: "none",
     capital_share_is_penalty: 0,
-    capital_share_date: getDateTimeNow(),
+    capital_share_date: getDateNow(),
     capital_share_total: "",
   };
 
@@ -108,7 +107,7 @@ const ModalAddSubscribeCapital = ({ subscribeCapital }) => {
                     <div className="relative my-5">
                       <InputText
                         label="Date"
-                        type="datetime-local"
+                        type="date"
                         name="capital_share_date"
                         disabled={mutation.isLoading}
                       />

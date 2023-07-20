@@ -3,13 +3,13 @@ import { Form, Formik } from "formik";
 import React from "react";
 import { MdFilterAlt } from "react-icons/md";
 import * as Yup from "yup";
+import { setIsAdd } from "../../../../../store/StoreAction";
 import { StoreContext } from "../../../../../store/StoreContext";
 import useQueryData from "../../../../custom-hooks/useQueryData";
 import { InputSelect, InputText } from "../../../../helpers/FormInputs";
 import {
   formatDate,
   getDateNow,
-  getTime,
   numberWithCommas,
   pesoSign,
 } from "../../../../helpers/functions-general";
@@ -18,14 +18,13 @@ import NoData from "../../../../partials/NoData";
 import ServerError from "../../../../partials/ServerError";
 import ButtonSpinner from "../../../../partials/spinners/ButtonSpinner";
 import TableSpinner from "../../../../partials/spinners/TableSpinner";
-import { computeFinalAmount } from "../../orders/functions-orders";
-import SalesTotal from "../../sales/SalesTotal";
 import StatusActive from "../../../../partials/status/StatusActive";
 import StatusPending from "../../../../partials/status/StatusPending";
-import { setIsAdd } from "../../../../../store/StoreAction";
+import { computeFinalAmount } from "../../orders/functions-orders";
 import ModalViewSales from "../../sales/ModalViewSales";
-import { computeSccSalesByItem } from "./functions-report-sales";
+import SalesTotal from "../../sales/SalesTotal";
 import SccSalesTotal from "./SccSalesTotal";
+import { computeSccSalesByItem } from "./functions-report-sales";
 
 const ReportSalesList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -317,9 +316,7 @@ const ReportSalesList = () => {
                     <td>
                       {item.sales_date === ""
                         ? "N/A"
-                        : `${formatDate(item.sales_date)} ${getTime(
-                            item.sales_date
-                          )}`}
+                        : `${formatDate(item.sales_date)}`}
                     </td>
 
                     <td>{item.suppliers_company_name}</td>

@@ -17,7 +17,7 @@ import {
   InputTextArea,
 } from "../../../helpers/FormInputs";
 import {
-  getDateTimeNow,
+  getDateNow,
   numberWithCommas,
   pesoSign,
   removeComma,
@@ -131,7 +131,7 @@ const ModalManagerAddOrdersOld = ({ item, arrKey }) => {
     orders_product_srp: "",
     orders_suplier_price: "",
     orders_product_amount: item ? item.orders_product_amount : "",
-    orders_date: item ? item.orders_date : getDateTimeNow(),
+    orders_date: item ? item.orders_date : getDateNow(),
     category_id: item ? item.suppliers_products_category_id : "",
     // old quantity
     old_quantity: item ? item.orders_product_quantity : "",
@@ -142,7 +142,7 @@ const ModalManagerAddOrdersOld = ({ item, arrKey }) => {
     orders_is_paid: "",
     sales_member_change: "",
     sales_discount: "",
-    sales_date: getDateTimeNow(),
+    sales_date: getDateNow(),
   };
 
   const yupSchema = Yup.object({
@@ -253,7 +253,7 @@ const ModalManagerAddOrdersOld = ({ item, arrKey }) => {
                     <div className="relative mb-6 mt-5">
                       <InputText
                         label="Date"
-                        type="datetime-local"
+                        type="date"
                         name="orders_date"
                         disabled={mutation.isLoading}
                       />
@@ -385,7 +385,7 @@ const ModalManagerAddOrdersOld = ({ item, arrKey }) => {
                             <div className="relative mt-6 mb-8">
                               <InputText
                                 label="Recieve Date"
-                                type="datetime-local"
+                                type="date"
                                 name="sales_date"
                                 disabled={mutation.isLoading}
                               />

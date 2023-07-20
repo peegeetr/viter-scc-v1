@@ -384,11 +384,13 @@ class CapitalShare
             $sql = "select capital_share_date ";
             $sql .= "from ";
             $sql .= "{$this->tblCapitalShare} ";
-            $sql .= "where MONTH(capital_share_date) = MONTH(:capital_share_date) ";
+            $sql .= "where MONTH(capital_share_date) = MONTH(:month) ";
+            $sql .= "and YEAR(capital_share_date) = YEAR(:year) ";
             $sql .= "and capital_share_member_id = :capital_share_member_id ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "capital_share_date" => $this->capital_share_date,
+                "month" => $this->capital_share_date,
+                "year" => $this->capital_share_date,
                 "capital_share_member_id" => $this->capital_share_member_id,
             ]);
         } catch (PDOException $ex) {

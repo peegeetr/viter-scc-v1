@@ -17,15 +17,15 @@ import {
   InputTextArea,
 } from "../../../helpers/FormInputs";
 import {
-  getDateTimeNow,
+  getDateNow,
   numberWithCommas,
   pesoSign,
   removeComma,
 } from "../../../helpers/functions-general";
 import { queryData } from "../../../helpers/queryData";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
-import { getRemaningQuantity } from "../products/functions-product";
 import SearchToAddProduct from "../../point-of-sales/SearchToAddProduct";
+import { getRemaningQuantity } from "../products/functions-product";
 import { getProductDetails, getTotaAmountOrder } from "./functions-orders";
 
 const ModalAddOrders = ({ item, arrKey }) => {
@@ -106,7 +106,7 @@ const ModalAddOrders = ({ item, arrKey }) => {
     orders_member_id: item ? item.orders_member_id : "",
     orders_product_quantity: item ? item.orders_product_quantity : "",
     orders_remarks: item ? item.orders_remarks : "",
-    orders_date: item ? item.orders_date : getDateTimeNow(),
+    orders_date: item ? item.orders_date : getDateNow(),
     // sales
     sales_receive_amount: "",
     sales_or: "",
@@ -114,7 +114,7 @@ const ModalAddOrders = ({ item, arrKey }) => {
     orders_is_paid: 0,
     sales_member_change: 0,
     sales_discount: 0,
-    sales_date: getDateTimeNow(),
+    sales_date: getDateNow(),
   };
 
   const yupSchema = Yup.object({
@@ -150,8 +150,6 @@ const ModalAddOrders = ({ item, arrKey }) => {
                   dispatch(setMessage("Please check if you have product."));
                   return;
                 }
-                const orders_date = values.orders_date.replace("T", " ");
-                const sales_date = values.sales_date.replace("T", " ");
                 const orders_product_quantity = removeComma(
                   `${values.orders_product_quantity}`
                 );
@@ -191,8 +189,6 @@ const ModalAddOrders = ({ item, arrKey }) => {
                 }
                 mutation.mutate({
                   ...values,
-                  orders_date,
-                  sales_date,
                   orders_product_quantity,
                   orders_product_amount,
                   items,
@@ -205,9 +201,7 @@ const ModalAddOrders = ({ item, arrKey }) => {
                     <div className="relative mb-6 mt-5">
                       <InputText
                         label="Date"
-                        type="text"
-                        onFocus={(e) => (e.target.type = "datetime-local")}
-                        onBlur={(e) => (e.target.type = "text")}
+                        type="date"
                         name="orders_date"
                         disabled={mutation.isLoading}
                       />

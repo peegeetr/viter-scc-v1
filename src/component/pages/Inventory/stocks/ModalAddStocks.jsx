@@ -1,27 +1,24 @@
-import React from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Form, Formik } from "formik";
+import React from "react";
 import { FaTimesCircle } from "react-icons/fa";
 import * as Yup from "yup";
-import { StoreContext } from "../../../../store/StoreContext";
-import { queryData } from "../../../helpers/queryData";
 import {
   setError,
   setIsAdd,
   setMessage,
   setSuccess,
 } from "../../../../store/StoreAction";
+import { StoreContext } from "../../../../store/StoreContext";
+import useQueryData from "../../../custom-hooks/useQueryData";
 import {
   InputSelect,
   InputText,
   InputTextArea,
 } from "../../../helpers/FormInputs";
+import { getDateNow, removeComma } from "../../../helpers/functions-general";
+import { queryData } from "../../../helpers/queryData";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
-import useQueryData from "../../../custom-hooks/useQueryData";
-import {
-  getDateTimeNow,
-  removeComma,
-} from "../../../helpers/functions-general";
 
 const ModalAddStocks = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -88,7 +85,7 @@ const ModalAddStocks = ({ item }) => {
       : "",
     stocks_remarks: item ? item.stocks_remarks : "",
     stocks_quantity: item ? item.stocks_quantity : "",
-    stocks_date: item ? item.stocks_date : getDateTimeNow(),
+    stocks_date: item ? item.stocks_date : getDateNow(),
   };
 
   const yupSchema = Yup.object({
@@ -120,13 +117,11 @@ const ModalAddStocks = ({ item }) => {
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
                 // console.log(values);
-                const stocks_date = values.stocks_date.replace("T", " ");
                 const stocks_quantity = removeComma(
                   `${values.stocks_quantity}`
                 );
                 mutation.mutate({
                   ...values,
-                  stocks_date,
                   stocks_quantity,
                 });
               }}
@@ -139,9 +134,7 @@ const ModalAddStocks = ({ item }) => {
                     <div className="relative my-5 ">
                       <InputText
                         label="Date"
-                        type="text"
-                        onFocus={(e) => (e.target.type = "datetime-local")}
-                        onBlur={(e) => (e.target.type = "text")}
+                        type="date"
                         name="stocks_date"
                         disabled={mutation.isLoading}
                       />

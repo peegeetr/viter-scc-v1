@@ -11,10 +11,9 @@ import {
 } from "../../../../../../store/StoreAction";
 import { StoreContext } from "../../../../../../store/StoreContext";
 import useQueryData from "../../../../../custom-hooks/useQueryData";
-import { InputText, MyCheckbox } from "../../../../../helpers/FormInputs";
+import { InputText } from "../../../../../helpers/FormInputs";
 import {
   getDateNow,
-  getDateTimeNow,
   getUrlParam,
   removeComma,
 } from "../../../../../helpers/functions-general";
@@ -80,7 +79,7 @@ const ModalAddAmortization = ({ item, subscribeCapital }) => {
     capital_amortization_amount: item ? item.capital_amortization_amount : "",
     capital_amortization_date: item
       ? item.capital_amortization_date
-      : getDateTimeNow(),
+      : getDateNow(),
     capital_amortization_member_id: item
       ? item.capital_amortization_member_id
       : memberid,
@@ -115,8 +114,6 @@ const ModalAddAmortization = ({ item, subscribeCapital }) => {
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
                 // console.log(values);
-                const capital_amortization_date =
-                  values.capital_amortization_date.replace("T", " ");
 
                 const capital_amortization_amount = removeComma(
                   `${values.capital_amortization_amount}`
@@ -137,7 +134,6 @@ const ModalAddAmortization = ({ item, subscribeCapital }) => {
                 // mutate data
                 mutation.mutate({
                   ...values,
-                  capital_amortization_date,
                   capital_amortization_amount,
                 });
               }}
@@ -148,7 +144,7 @@ const ModalAddAmortization = ({ item, subscribeCapital }) => {
                     <div className="relative my-5">
                       <InputText
                         label="Date"
-                        type="datetime-local"
+                        type="date"
                         name="capital_amortization_date"
                         disabled={mutation.isLoading}
                       />

@@ -23,53 +23,52 @@ const TransactionCapitalShareBody = ({ item, setItemEdit }) => {
     `${item.year}` // id
   );
 
-  const handleView = (item) => {
+  const handleView = (newItem) => {
     dispatch(setIsConfirm(true));
-    setItemEdit(item);
+    setItemEdit(newItem);
   };
-
-  let capitalShareByMonth = 0;
 
   return (
     <>
       <td>{item.year}</td>
-      {getMonth()?.map((item, key) => {
-        capitalShareByMonth = getCapitalShareByMonth(
-          item,
-          capitalByIdAndYear?.data
-        );
+      {getMonth()?.map((mItem, key) => {
         return (
           <td
             key={key}
             className={`${
-              capitalShareByMonth.result === "" && "bg-red-100 "
+              getCapitalShareByMonth(mItem, item, capitalByIdAndYear?.data)
+                .result === "" && "bg-red-100 "
             } pr-2 `}
           >
-            {
-              // capitalShareByMonth.penalty !== 0 ? (
-              //   <p className=" mb-0 text-red-800">
-              //     <small>(penalty)</small>
-              //     {pesoSign}
-              //     {numberWithCommas(
-              //       Number(capitalShareByMonth.penalty).toFixed(2)
-              //     )}
-              //   </p>
-              // ) :
-              capitalShareByMonth.result === "" ? (
-                ""
-              ) : (
-                <span
-                  className="tooltip-action-table cursor-pointer underline"
-                  data-tooltip="View"
-                  onClick={() => handleView(capitalShareByMonth.list)}
-                >
-                  {pesoSign}
-                  {numberWithCommas(
-                    Number(capitalShareByMonth.result).toFixed(2)
-                  )}
-                </span>
-              )
-            }
+            {getCapitalShareByMonth(mItem, item, capitalByIdAndYear?.data)
+              .result === "" ? (
+              ""
+            ) : (
+              <span
+                className="tooltip-action-table cursor-pointer underline"
+                data-tooltip="View"
+                onClick={() =>
+                  handleView(
+                    getCapitalShareByMonth(
+                      mItem,
+                      item,
+                      capitalByIdAndYear?.data
+                    ).list
+                  )
+                }
+              >
+                {pesoSign}
+                {numberWithCommas(
+                  Number(
+                    getCapitalShareByMonth(
+                      mItem,
+                      item,
+                      capitalByIdAndYear?.data
+                    ).result
+                  ).toFixed(2)
+                )}
+              </span>
+            )}
           </td>
         );
       })}

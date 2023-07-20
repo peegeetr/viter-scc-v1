@@ -6,7 +6,6 @@ import { setIsConfirm, setIsRestore } from "../../../../store/StoreAction";
 import { StoreContext } from "../../../../store/StoreContext";
 import {
   formatDate,
-  getTime,
   numberWithCommas,
   pesoSign,
 } from "../../../helpers/functions-general";
@@ -183,12 +182,7 @@ const StocksList = ({ setItemEdit }) => {
                       </td>
                       <td className=" break-words">{item.stocks_or}</td>
                       <td>{item.stocks_remarks}</td>
-                      <td>
-                        {`${formatDate(item.stocks_created)} ${getTime(
-                          item.stocks_created
-                        )} 
-                       `}
-                      </td>
+                      <td>{`${formatDate(item.stocks_created)}`}</td>
                       {(store.credentials.data.role_is_admin === 1 ||
                         store.credentials.data.role_is_developer === 1 ||
                         store.credentials.data.role_is_manager === 1) && (

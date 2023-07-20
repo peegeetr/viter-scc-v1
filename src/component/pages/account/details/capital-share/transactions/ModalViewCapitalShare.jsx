@@ -1,18 +1,16 @@
 import React from "react";
-import { FaEdit, FaTimesCircle, FaTrash } from "react-icons/fa";
+import { FaTimesCircle, FaTrash } from "react-icons/fa";
 import {
-  setIsAdd,
   setIsConfirm,
   setIsRestore,
 } from "../../../../../../store/StoreAction";
 import { StoreContext } from "../../../../../../store/StoreContext";
-import ModalDeleteRestoreCapital from "../../../../../partials/modals/ModalDeleteRetoreCapital";
 import {
   formatDate,
-  getTime,
   numberWithCommas,
   pesoSign,
 } from "../../../../../helpers/functions-general";
+import ModalDeleteRestoreCapital from "../../../../../partials/modals/ModalDeleteRetoreCapital";
 
 const ModalViewCapitalShare = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -26,6 +24,8 @@ const ModalViewCapitalShare = ({ item }) => {
     dispatch(setIsRestore(true));
     setDel(true);
   };
+
+  console.log(item);
 
   return (
     <>
@@ -49,13 +49,15 @@ const ModalViewCapitalShare = ({ item }) => {
             <div className="grid grid-cols-2 items-center">
               <p>Date : </p>
               <p>{formatDate(item.capital_share_date)}</p>
-              <p>Time : </p>
-              <p>{getTime(item.capital_share_date)}</p>
               <p>Paid Capital : </p>
               <p>
                 {pesoSign}{" "}
                 {numberWithCommas(
-                  Number(item.capital_share_paid_up).toFixed(2)
+                  Number(
+                    Number(item.capital_share_paid_up) === 0
+                      ? item.capital_share_total
+                      : item.capital_share_paid_up
+                  ).toFixed(2)
                 )}
               </p>
               <p>Official Receipt : </p>
@@ -84,9 +86,7 @@ const ModalViewCapitalShare = ({ item }) => {
           isDel={isDel}
           mysqlApiDelete={`/v1/capital-share/${item.capital_share_aid}`}
           msg={"Are you sure you want to delete "}
-          item={`${formatDate(item.capital_share_date)} ${getTime(
-            item.capital_share_date
-          )}`}
+          item={`${formatDate(item.capital_share_date)}`}
           dataItem={item}
           arrKey="capital-share"
         />

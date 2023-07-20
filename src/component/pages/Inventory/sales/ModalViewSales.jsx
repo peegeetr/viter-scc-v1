@@ -4,7 +4,6 @@ import { setIsAdd } from "../../../../store/StoreAction";
 import { StoreContext } from "../../../../store/StoreContext";
 import {
   formatDate,
-  getTime,
   numberWithCommas,
   pesoSign,
 } from "../../../helpers/functions-general";
@@ -43,20 +42,10 @@ const ModalViewSales = ({ item }) => {
               <p className="mb-0 text-black ml-2">
                 {formatDate(item.orders_date)}
               </p>
-              <p className="mb-0"> </p>
-              <p className="mb-0 text-black ml-2">
-                {getTime(item.orders_date)}
-              </p>
               <p className="mb-0">Recieve Date:</p>
               <p className="mb-0 text-black ml-2">
                 {item.sales_is_paid === 1
                   ? `${formatDate(item.sales_date)}`
-                  : "N/A"}
-              </p>
-              <p className="mb-0"> </p>
-              <p className="mb-0 text-black ml-2">
-                {item.sales_is_paid === 1
-                  ? `${getTime(item.sales_date)}`
                   : "N/A"}
               </p>
               <p className="mb-0">Sales invoice #:</p>

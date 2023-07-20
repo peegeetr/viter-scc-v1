@@ -13,7 +13,7 @@ import { StoreContext } from "../../../../store/StoreContext";
 import useQueryData from "../../../custom-hooks/useQueryData";
 import { InputText, InputTextArea } from "../../../helpers/FormInputs";
 import {
-  getDateTimeNow,
+  getDateNow,
   numberWithCommas,
   pesoSign,
   removeComma,
@@ -92,7 +92,7 @@ const ModalAddMyOrder = ({ item, arrKey }) => {
     orders_is_paid: item ? item.orders_is_paid : 0,
     orders_is_draft: item ? item.orders_is_draft : 1,
     orders_remarks: item ? item.orders_remarks : "",
-    orders_date: item ? item.orders_date : getDateTimeNow(),
+    orders_date: item ? item.orders_date : getDateNow(),
   };
 
   const yupSchema = Yup.object({
@@ -126,7 +126,6 @@ const ModalAddMyOrder = ({ item, arrKey }) => {
                   dispatch(setMessage("Please check if you have product."));
                   return;
                 }
-                const orders_date = values.orders_date.replace("T", " ");
                 const orders_product_quantity = removeComma(
                   `${values.orders_product_quantity}`
                 );
@@ -159,7 +158,6 @@ const ModalAddMyOrder = ({ item, arrKey }) => {
 
                 mutation.mutate({
                   ...values,
-                  orders_date,
                   orders_product_quantity,
                   orders_product_amount,
                   items,
@@ -172,9 +170,7 @@ const ModalAddMyOrder = ({ item, arrKey }) => {
                     <div className="relative my-5">
                       <InputText
                         label="Date"
-                        type="text"
-                        onFocus={(e) => (e.target.type = "datetime-local")}
-                        onBlur={(e) => (e.target.type = "text")}
+                        type="date"
                         name="orders_date"
                         disabled={mutation.isLoading}
                       />
