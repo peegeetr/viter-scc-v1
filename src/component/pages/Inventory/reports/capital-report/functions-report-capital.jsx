@@ -39,12 +39,19 @@ export const checkReportCapitalShare = (capital, reportMemberFee) => {
   };
 };
 
-export const getAvgTotal = (result) => {
+export const getAvgTotal = (result, netsurplusForDis) => {
+  let totalAmount = 0;
+  let netCapital = 0;
   let finalAmount = 0;
   //
+  if (netsurplusForDis?.length > 0) {
+    netCapital = Number(netsurplusForDis[0].net_surplus_dividend);
+  }
   result?.map((item) => {
-    finalAmount += Number(item.total) / 12;
+    totalAmount += Number(item.total) / 12;
   });
+  finalAmount = netCapital / totalAmount;
+
   //
   return finalAmount;
 };

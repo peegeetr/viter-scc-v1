@@ -16,9 +16,16 @@ $response = new Response();
 if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     checkApiKey();
 
-    $query = checkReadReportNetSurplusByYear($capital);
-    http_response_code(200);
-    getQueriedData($query);
+
+    if (array_key_exists("year", $_GET)) {
+        // get data 
+        $capital->capital_share_date = $_GET['year'];
+        $query = checkReadReportNetSurplusByYear($capital);
+        http_response_code(200);
+        getQueriedData($query);
+    }
+    // return 404 error if endpoint not available
+    checkEndpoint();
 }
 
 http_response_code(200);

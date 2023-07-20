@@ -229,7 +229,7 @@ class ReportCapitalShare
             $sql .= "net_surplus_dividend ";
             $sql .= "from {$this->tblNetSurplus} ";
             $sql .= "where net_surplus_year = :year ";
-            $sql .= "net_surplus_year desc ";
+            $sql .= "order by net_surplus_year desc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "year" => $this->capital_share_date,

@@ -117,7 +117,7 @@ export const getCapitalShareByMonth = (mItem, item, capital) => {
         capital_share_paid_up: cItem.capital_share_paid_up,
         capital_share_or: cItem.capital_share_or,
         capital_share_date: cItem.capital_share_date,
-        // capital_share_is_initial_pay: cItem.capital_share_is_initial_pay,
+        capital_share_is_initial_pay: cItem.capital_share_is_initial_pay,
         capital_share_total: cItem.capital_share_total,
         capital_share_aid: cItem.capital_share_aid,
         capital_share_member_id: cItem.capital_share_member_id,

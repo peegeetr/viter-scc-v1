@@ -71,17 +71,20 @@ const ReportDividendCapitalShareList = () => {
     isYear
   );
 
-  // // use if not loadmore button undertime
-  // const { data: netsurplusForDis } = useQueryData(
-  //   `/v1/report-capital/net-surplus/${isYear}`, // endpoint
-  //   "get", // method
-  //   "netsurplusForDis", // key
-  //   {},
-  //   isMember,
-  //   isYear
-  // );
+  // use if not loadmore button undertime
+  const { data: netsurplusForDis } = useQueryData(
+    `/v1/report-capital/read-netsurplus-by-year/${isYear}`, // endpoint
+    "get", // method
+    "netsurplusForDis", // key
+    {},
+    isYear
+  );
 
-  // console.log("123", getAvgTotal(avgShareMonth?.data));
+  console.log(
+    "123",
+    netsurplusForDis?.data,
+    getAvgTotal(avgShareMonth?.data, netsurplusForDis?.data)
+  );
 
   const initVal = {
     member_id: "0",
@@ -166,7 +169,7 @@ const ReportDividendCapitalShareList = () => {
       <div className="xl:flex items-center mb-2 text-primary">
         <StatusAmount
           text={`${isYear} Dividend Rate `}
-          amount={getAvgTotal(avgShareMonth?.data)}
+          amount={getAvgTotal(avgShareMonth?.data, netsurplusForDis?.data)}
         />
       </div>
 
@@ -183,7 +186,14 @@ const ReportDividendCapitalShareList = () => {
                 Average Share Months (ASM)
               </th>
               <th className="min-w-[11rem] w-[10rem] text-right pr-4">
-                Dividend 70% {getAvgTotal(avgShareMonth?.data)}
+                Dividend 70% ({" "}
+                {numberWithCommas(
+                  getAvgTotal(
+                    avgShareMonth?.data,
+                    netsurplusForDis?.data
+                  ).toFixed(2)
+                )}
+                )
               </th>
             </tr>
           </thead>

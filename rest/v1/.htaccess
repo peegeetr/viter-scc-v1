@@ -215,7 +215,8 @@ RewriteRule ^report-capital/filter/dividend$ controllers/inventory/report/capita
 RewriteRule ^report-capital/read-all-avg-by-year/([0-9]+)/([0-9]+)$ controllers/inventory/report/capital-report/report-read-all-avg-by-year.php?memberId=$1&year=$2 [L] 
 RewriteRule ^report-capital/read-by-id-and-year/([0-9]+)/([0-9]+)$ controllers/inventory/report/capital-report/report-read-by-id-and-year.php?memberId=$1&year=$2 [L] 
 RewriteRule ^report-capital/report-read-all-member-fee$ controllers/inventory/report/capital-report/report-read-all-member-fee.php [L] 
-RewriteRule ^report-capital/report-read-by-year-total-capital/([0-9]+)$$ controllers/inventory/report/capital-report/report-read-by-year-total-capital.php?year=$1 [L] 
+RewriteRule ^report-capital/report-read-by-year-total-capital/([0-9]+)$ controllers/inventory/report/capital-report/report-read-by-year-total-capital.php?year=$1 [L] 
+RewriteRule ^report-capital/read-netsurplus-by-year/([0-9]+)$ controllers/inventory/report/capital-report/report-read-netsurplus-by-year.php?year=$1 [L] 
    
 #REPORT STOCKS
 RewriteRule ^report-stock/filter$ controllers/inventory/report/stocks-report/report-filter-stocks.php [L] 

@@ -408,6 +408,7 @@ class CapitalShare
             $sql .= "capital_share_or, ";
             $sql .= "capital_share_date, ";
             $sql .= "capital_share_is_penalty, ";
+            $sql .= "capital_share_is_initial_pay, ";
             $sql .= "capital_share_total, ";
             $sql .= "capital_share_aid, ";
             $sql .= "YEAR(capital_share_date) as year, ";
