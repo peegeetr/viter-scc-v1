@@ -25,7 +25,7 @@ const MembersDashboard = () => {
           <h4 className="text-xl mb-3">Hello {name}!</h4>
         </div>
 
-        <hr />
+        <hr className="print:hidden" />
         <div className=" w-full pt-5 pb-20">
           <MembersDashboardList />
         </div>

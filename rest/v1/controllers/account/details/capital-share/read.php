@@ -10,9 +10,9 @@ $error = [];
 $returnData = [];
 if (array_key_exists("shareid", $_GET)) {
     // get task id from query string
-    $share->capital_share_aid = $_GET['shareid'];
+    $share->capital_share_member_id = $_GET['shareid'];
     //check to see if task id in query string is not empty and is number, if not return json error
-    checkId($share->capital_share_aid);
+    checkId($share->capital_share_member_id);
     $query = checkReadById($share);
     http_response_code(200);
     getQueriedData($query);

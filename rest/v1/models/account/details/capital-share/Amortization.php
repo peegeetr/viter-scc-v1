@@ -108,7 +108,8 @@ class Amortization
             $sql .= "{$this->tblAmortization} ";
             $sql .= "where capital_amortization_member_id = :capital_amortization_member_id ";
             $sql .= "order by capital_amortization_is_active desc, ";
-            $sql .= "capital_amortization_date desc ";
+            $sql .= "capital_amortization_date desc, ";
+            $sql .= "capital_amortization_aid desc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "capital_amortization_member_id" => $this->capital_amortization_member_id,

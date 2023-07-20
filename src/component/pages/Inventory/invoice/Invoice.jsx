@@ -19,7 +19,7 @@ const Invoice = () => {
           <BreadCrumbs />
         </div>
 
-        <hr />
+        <hr className="print:hidden" />
         <div className="w-full pt-5 pb-20">
           {" "}
           <p className="text-primary">

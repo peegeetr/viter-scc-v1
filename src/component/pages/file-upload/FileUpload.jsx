@@ -28,7 +28,7 @@ const FileUpload = () => {
           <h4 className="text-xl mb-3">Files</h4>
           {(store.credentials.data.role_is_developer === 1 ||
             store.credentials.data.role_is_admin === 1) && (
-            <div className="flex items-center gap-1 self-baseline">
+            <div className="flex items-center gap-1 self-baseline print:hidden">
               <button type="button" className="btn-primary" onClick={handleAdd}>
                 <FaPlusCircle />
                 <span>Add</span>
@@ -37,7 +37,7 @@ const FileUpload = () => {
           )}
         </div>
 
-        <hr />
+        <hr className="print:hidden" />
         <div className="w-full pt-5 pb-20">
           <FileUploadList setItemEdit={setItemEdit} />
         </div>

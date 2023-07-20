@@ -15,7 +15,7 @@ const Deatils = () => {
       <div className="wrapper">
         <BreadCrumbs />
 
-        <hr />
+        <hr className="print:hidden" />
         <div className="w-full pt-5 pb-20">
           <DetailsLink />
         </div>

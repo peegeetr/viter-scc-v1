@@ -2,19 +2,24 @@ import React from "react";
 import {
   FaArchive,
   FaEdit,
+  FaEraser,
   FaHistory,
   FaPlusCircle,
   FaTrash,
 } from "react-icons/fa";
 import {
+  setError,
   setIsAdd,
   setIsConfirm,
   setIsEditProfile,
+  setIsReset,
   setIsRestore,
+  setMessage,
 } from "../../../../../../store/StoreAction";
 import { StoreContext } from "../../../../../../store/StoreContext";
 import useQueryData from "../../../../../custom-hooks/useQueryData";
 import {
+  consoleLog,
   formatDate,
   getUrlParam,
   numberWithCommas,
@@ -27,8 +32,9 @@ import ModalDeleteRestore from "../../../../../partials/modals/ModalDeleteRestor
 import TableSpinner from "../../../../../partials/spinners/TableSpinner";
 import StatusActive from "../../../../../partials/status/StatusActive";
 import StatusInactive from "../../../../../partials/status/StatusInactive";
-import ModalAddAmortization from "./ModalAddAmortization";
-import ModalEditSetupCapitalShare from "./ModalEditSetupCapitalShare";
+import ModalAddAmortization from "./modals/ModalAddAmortization";
+import ModalEditSetupCapitalShare from "./modals/ModalEditSetupCapitalShare";
+import ModalReset from "./modals/ModalReset";
 
 const SetupCapitalShareList = ({
   members,
@@ -44,6 +50,7 @@ const SetupCapitalShareList = ({
   const [isDel, setDel] = React.useState(false);
   const memberid = getUrlParam().get("memberid");
   let counter = 1;
+  let countHistory = 0;
   // use if with loadmore button and search bar
   let empid =
     menu === "members" ? memberid : store.credentials.data.members_aid;
@@ -59,6 +66,13 @@ const SetupCapitalShareList = ({
     "capital-amortization-by-id" // key
   );
 
+  // use if not loadmore button undertime
+  const { data: paidUp } = useQueryData(
+    `/v1/capital-share/${empid}`,
+    "get", // method
+    "paidUp" // key
+  );
+
   const handleAdd = () => {
     dispatch(setIsAdd(true));
     setItemEdit(null);
@@ -72,6 +86,16 @@ const SetupCapitalShareList = ({
   const handleCapitalDetailsEdit = (item) => {
     dispatch(setIsEditProfile(true));
     setItemEdit(item);
+  };
+
+  const handleCapitalReset = (item) => {
+    if (paidUp?.data.length > 0) {
+      dispatch(setError(true));
+      dispatch(setMessage("You already have Paid Capital"));
+      return;
+    }
+    dispatch(setIsReset(true));
+    setData(item);
   };
 
   const handleArchive = (item) => {
@@ -127,23 +151,34 @@ const SetupCapitalShareList = ({
                           ).toFixed(2)
                         )} `}
                   </h4>
-                  {store.credentials.data.role_is_member === 0 &&
-                    memberid !== null && (
-                      <button
-                        type="button"
-                        className="tooltip-action-table"
-                        data-tooltip="Edit"
-                        onClick={() =>
-                          handleCapitalDetailsEdit(
-                            subscribeCapital?.count === 0
-                              ? aItem
-                              : subscribeCapital?.data[0]
-                          )
-                        }
-                      >
-                        <FaEdit />
-                      </button>
-                    )}
+                  <div className="flex items-center">
+                    {store.credentials.data.role_is_member === 0 &&
+                      memberid !== null && (
+                        <button
+                          type="button"
+                          className="tooltip-action-table"
+                          data-tooltip="Edit"
+                          onClick={() => handleCapitalDetailsEdit(aItem)}
+                        >
+                          <FaEdit />
+                        </button>
+                      )}
+                    {paidUp?.data.length === 0 &&
+                      subscribeCapital?.count > 0 &&
+                      store.credentials.data.role_is_member === 0 &&
+                      memberid !== null && (
+                        <button
+                          type="button"
+                          className="tooltip-action-table ml-2"
+                          data-tooltip="Reset"
+                          onClick={() =>
+                            handleCapitalReset(subscribeCapital?.data[0])
+                          }
+                        >
+                          <FaEraser />
+                        </button>
+                      )}
+                  </div>
                 </div>
               );
             })}
@@ -155,7 +190,7 @@ const SetupCapitalShareList = ({
                 subscribeCapital?.count > 0 && (
                   <button
                     type="button"
-                    className=" btn-primary !py-[3px] "
+                    className=" btn-primary !py-[3px] print:hidden "
                     onClick={handleAdd}
                   >
                     <FaPlusCircle />
@@ -194,6 +229,7 @@ const SetupCapitalShareList = ({
                     </tr>
                   )}
                   {amortization?.data.map((aItem, key) => {
+                    countHistory += 1;
                     return (
                       <tr key={key}>
                         <td>{counter++}.</td>
@@ -233,31 +269,32 @@ const SetupCapitalShareList = ({
                                       onClick={() => handleArchive(aItem)}
                                     >
                                       <FaArchive />
-                                    </button>{" "}
+                                    </button>
                                   </>
                                 )}
-                                {aItem.capital_amortization_is_active === 0 &&
-                                  store.credentials.data.role_is_developer ===
-                                    1 && (
-                                    <>
-                                      <button
-                                        type="button"
-                                        className="btn-action-table tooltip-action-table"
-                                        data-tooltip="Restore"
-                                        onClick={() => handleRestore(aItem)}
-                                      >
-                                        <FaHistory />
-                                      </button>
-                                      <button
-                                        type="button"
-                                        className="btn-action-table tooltip-action-table"
-                                        data-tooltip="Delete"
-                                        onClick={() => handleDelete(aItem)}
-                                      >
-                                        <FaTrash />
-                                      </button>
-                                    </>
-                                  )}
+                                {(store.credentials.data.role_is_developer ===
+                                  1 ||
+                                  (aItem.capital_amortization_is_active === 0 &&
+                                    countHistory === 1)) && (
+                                  <>
+                                    <button
+                                      type="button"
+                                      className="btn-action-table tooltip-action-table"
+                                      data-tooltip="Restore"
+                                      onClick={() => handleRestore(aItem)}
+                                    >
+                                      <FaHistory />
+                                    </button>
+                                    <button
+                                      type="button"
+                                      className="btn-action-table tooltip-action-table"
+                                      data-tooltip="Delete"
+                                      onClick={() => handleDelete(aItem)}
+                                    >
+                                      <FaTrash />
+                                    </button>
+                                  </>
+                                )}
                               </div>
                             </td>
                           )}
@@ -279,6 +316,7 @@ const SetupCapitalShareList = ({
           subscribeCapital={subscribeCapital?.data[0].subscribe_capital_amount}
         />
       )}
+      {store.isReset && <ModalReset dataItem={dataItem} />}
       {store.isConfirm && (
         <ModalConfirm
           id={id}

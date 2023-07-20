@@ -23,7 +23,7 @@ const InventoryDetails = () => {
       <div className="wrapper">
         <h4 className="text-xl mb-3">Inventory</h4>
         {/* <BreadCrumbs /> */}
-        <hr />
+        <hr className="print:hidden" />
         <ul className="pt-2 pb-20 relative">
           <li className="py-1">
             <CategoryLink />{" "}

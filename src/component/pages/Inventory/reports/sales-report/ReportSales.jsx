@@ -20,7 +20,7 @@ const ReportSales = () => {
         <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2 ">
           <BreadCrumbs />
         </div>
-        <hr />
+        <hr className="print:hidden" />
         <div className="w-full pt-5 pb-20">
           <ReportSalesList />
         </div>

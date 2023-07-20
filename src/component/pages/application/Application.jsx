@@ -12,29 +12,29 @@ import ApplicationList from "./ApplicationList.jsx";
 import ModalAddApplication from "./ModalAddApplication.jsx";
 
 const Application = () => {
-  const { store, dispatch } = React.useContext(StoreContext); 
+  const { store, dispatch } = React.useContext(StoreContext);
 
   const handleAdd = () => {
-    dispatch(setIsAdd(true)); 
+    dispatch(setIsAdd(true));
   };
   return (
     <>
-     <Header />
+      <Header />
       <Navigation menu="application" />
-      
+
       <div className="wrapper">
         <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2 ">
-          <h4 className="text-xl mb-3">Application</h4>  
+          <h4 className="text-xl mb-3">Application</h4>
 
           <BreadCrumbs />
-          <div className="flex items-center gap-1 self-baseline">
+          <div className="flex items-center gap-1 self-baseline  print:hidden">
             <button type="button" className="btn-primary" onClick={handleAdd}>
               <FaPlusCircle />
               <span>Add</span>
             </button>
           </div>
         </div>
-        <hr />
+        <hr className="print:hidden" />
 
         <div className="w-full pt-5 pb-20">
           <ApplicationList />

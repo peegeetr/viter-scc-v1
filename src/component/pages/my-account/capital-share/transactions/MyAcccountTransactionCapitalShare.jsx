@@ -41,7 +41,7 @@ const MyAcccountTransactionCapitalShare = () => {
         <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2">
           <BreadCrumbs param={`${location.search}`} />{" "}
         </div>
-        <hr />
+        <hr className="print:hidden" />
 
         <div className="w-full pb-20 mt-3 ">
           <TransactionCapitalShareList

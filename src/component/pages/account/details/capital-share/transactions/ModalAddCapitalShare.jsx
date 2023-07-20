@@ -100,10 +100,6 @@ const ModalAddCapitalShare = ({ item, amount, raminingAmount, total }) => {
               onSubmit={async (values, { setSubmitting, resetForm }) => {
                 // console.log(values);
                 const date = getMonthYear(values.capital_share_date);
-                const capital_share_date = values.capital_share_date.replace(
-                  "T",
-                  " "
-                );
                 const capital_share_paid_up =
                   values.capital_share_is_penalty === true
                     ? removeComma(values.capital_share_paid_up)
@@ -125,7 +121,6 @@ const ModalAddCapitalShare = ({ item, amount, raminingAmount, total }) => {
                 mutation.mutate({
                   ...values,
                   date,
-                  capital_share_date,
                   capital_share_total,
                   capital_share_paid_up,
                   capital_share_member_id,

@@ -18,7 +18,8 @@ const SettingsLink = () => {
       <Navigation menu="settings" />
       <div className="wrapper">
         <h4 className="text-xl mb-3">Settings</h4>
-        <hr />
+
+        <hr className="print:hidden" />
         <ul className="pt-2 pb-20 relative">
           <li className="py-1">
             {store.credentials.data.role_is_developer === 1 ? (

@@ -79,6 +79,7 @@ RewriteRule ^capital-share/read-capital-penalty/([0-9]+)/([0-9]+)$ controllers/a
 RewriteRule ^capital-share/read-capital-penalty/([0-9]+)$ controllers/account/details/capital-share/read-capital-penalty.php?memberId=$1 [L]
 RewriteRule ^capital-share/read-capital-penalty$ controllers/account/details/capital-share/read-capital-penalty.php [L]
 RewriteRule ^capital-share/read-group-by-year/([0-9]+)$ controllers/account/details/capital-share/read-group-by-year.php?memberId=$1 [L] 
+RewriteRule ^capital-share/reset-setup-details/([0-9]+)$ controllers/account/details/capital-share/reset.php?memberId=$1 [L] 
 
 #patronage
 RewriteRule ^patronage/page/by-employee-id/([0-9]+)/([0-9]+)$ controllers/account/details/patronage/page-by-employee-id.php?start=$1&membersid=$2 [L]

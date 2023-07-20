@@ -17,7 +17,7 @@ const MyAccount = () => {
         <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2 ">
           <h4 className="text-xl mb-3">My Account</h4>
         </div>
-        <hr />
+        <hr className="print:hidden" />
 
         <div className="w-full pt-5 pb-20">
           <MyAccountDetailsLink />

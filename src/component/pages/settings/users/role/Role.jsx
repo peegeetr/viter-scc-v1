@@ -27,14 +27,14 @@ const Role = () => {
       <div className="wrapper">
         <div className="flex items-center justify-between mb-3 whitespace-nowrap overflow-auto gap-2">
           <BreadCrumbs />
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1 print:hidden">
             <button type="button" className="btn-primary" onClick={handleAdd}>
               <FaPlusCircle />
               <span>Add</span>
             </button>
           </div>
         </div>
-        <hr />
+        <hr className="print:hidden" />
 
         <div className="w-full pt-5 pb-20">
           <RoleList setItemEdit={setItemEdit} />

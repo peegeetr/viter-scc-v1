@@ -25,7 +25,7 @@ export const checkCapitalShare = (capital, subscribeCapital, penaltyById) => {
     // member fee
     memberFee = Number(cItem.members_member_fee);
     // total capital share
-    totalCapital = Number(cItem.totalPaidUp) - memberFee - penalty;
+    totalCapital = Number(cItem.totalPaidUp);
     // total capital initial pay not include
     paid = Number(cItem.total);
   });
@@ -102,14 +102,20 @@ export const getTotalPaidUp = (
 };
 
 // get total paid up
-export const getCapitalShareByMonth = (mItem, item, capital) => {
-  let result = "";
+export const getCapitalShareByMonth = (item, capital, count) => {
+  let isLastAid = false;
+  let result = 0;
   let penalty = 0;
   let list = [];
   capital?.map((cItem) => {
-    // console.log("cItem", cItem, mItem, item);
-    if (mItem.month_aid === cItem.month && item.year === cItem.year) {
-      result = cItem.capital_share_total;
+    if (count === 1) {
+      isLastAid = true;
+    }
+    if (cItem.month === item.month_aid) {
+      if (cItem.capital_share_is_penalty === 0) {
+        result = cItem.capital_share_total;
+      }
+
       if (cItem.capital_share_is_penalty === 1) {
         penalty = Number(cItem.capital_share_paid_up);
       }
@@ -123,11 +129,11 @@ export const getCapitalShareByMonth = (mItem, item, capital) => {
         capital_share_member_id: cItem.capital_share_member_id,
         month: getMonthName(cItem.month),
         year: cItem.year,
+        isLastAid: isLastAid,
       };
     }
   });
 
-  // console.log("123", list);
   return { result, list, penalty };
 };
 

@@ -8,22 +8,21 @@ import {
   setIsEditProfile,
   setMessage,
   setSuccess,
-} from "../../../../../../store/StoreAction";
-import { StoreContext } from "../../../../../../store/StoreContext";
-import useQueryData from "../../../../../custom-hooks/useQueryData";
-import { InputSelect, InputText } from "../../../../../helpers/FormInputs";
+} from "../../../../../../../store/StoreAction";
+import { StoreContext } from "../../../../../../../store/StoreContext";
+import useQueryData from "../../../../../../custom-hooks/useQueryData";
+import { InputSelect, InputText } from "../../../../../../helpers/FormInputs";
 import {
   getDateNow,
   numberWithCommas,
   removeComma,
-} from "../../../../../helpers/functions-general";
-import { queryData } from "../../../../../helpers/queryData";
-import ButtonSpinner from "../../../../../partials/spinners/ButtonSpinner";
-import { getMonthYear } from "../functions-capital-share";
+} from "../../../../../../helpers/functions-general";
+import { queryData } from "../../../../../../helpers/queryData";
+import ButtonSpinner from "../../../../../../partials/spinners/ButtonSpinner";
+import { getMonthYear } from "../../functions-capital-share";
 
 const ModalEditSetupCapitalShare = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
-
   const queryClient = useQueryClient();
 
   // use if not loadmore button undertime
@@ -110,10 +109,6 @@ const ModalEditSetupCapitalShare = ({ item }) => {
               onSubmit={async (values, { setSubmitting, resetForm }) => {
                 // console.log(values);
                 const date = getMonthYear(values.capital_share_date);
-                const capital_share_date = values.capital_share_date.replace(
-                  "T",
-                  " "
-                );
 
                 const members_initial_payment = removeComma(
                   `${values.members_initial_payment}`
@@ -125,7 +120,6 @@ const ModalEditSetupCapitalShare = ({ item }) => {
                 mutation.mutate({
                   ...values,
                   date,
-                  capital_share_date,
                   members_initial_payment,
                   members_member_fee,
                 });

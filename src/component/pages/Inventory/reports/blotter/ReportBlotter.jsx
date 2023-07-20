@@ -20,7 +20,7 @@ const ReportBlotter = () => {
           <BreadCrumbs />
         </div>
 
-        <hr />
+        <hr className="print:hidden" />
         <div className="w-full pt-5 pb-20">
           <ReportPettyCashLink />
           <ReportOfficialReceiptLink />

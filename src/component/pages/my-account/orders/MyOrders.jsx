@@ -33,14 +33,14 @@ const MyOrders = () => {
       <div className="wrapper">
         <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2">
           <BreadCrumbs />
-          <div className="flex items-center gap-1 self-baseline">
+          <div className="flex items-center gap-1 self-baseline print:hidden">
             <button type="button" className="btn-primary" onClick={handleAdd}>
               <FaShoppingCart />
               <span className="hidden xs:block">Order now</span>
             </button>
           </div>
         </div>
-        <hr />
+        <hr className="print:hidden" />
 
         <div className="w-full pb-20 mt-3">
           <MemberOrdersList

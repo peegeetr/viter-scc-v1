@@ -116,7 +116,7 @@ const AnnouncementCard = () => {
             </p>
             {(store.credentials.data.role_is_developer === 1 ||
               store.credentials.data.role_is_admin === 1) && (
-              <div className="flex items-center m-2">
+              <div className="flex items-center m-2 print:hidden">
                 <button
                   type="button"
                   className="btn-primary"
