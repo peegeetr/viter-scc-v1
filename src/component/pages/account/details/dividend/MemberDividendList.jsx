@@ -86,70 +86,14 @@ const MemberDividendList = ({ memberName, isLoading, menu }) => {
                 : `${memberName?.data[0].members_last_name}, ${memberName?.data[0].members_first_name}`}
             </p>
           )}
-
-          <div className="relative text-center overflow-x-auto z-0 mt-3 w-full max-w-[300px]">
-            {/* use only for updating important records */}
-            {status !== "loading" && isFetching && <TableSpinner />}
-            {/* use only for updating important records */}
-            <table>
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th className="w-[5rem]">Year</th>
-                  <th className="min-w-[8rem] text-right">Dividend</th>
-                </tr>
-              </thead>
-              <tbody>
-                {(status === "loading" ||
-                  result?.pages[0].data.length === 0) && (
-                  <tr className="text-center relative">
-                    <td colSpan="100%" className="p-10">
-                      {status === "loading" && <TableSpinner />}
-                      <NoData />
-                    </td>
-                  </tr>
-                )}
-                {error && (
-                  <tr className="text-center ">
-                    <td colSpan="100%" className="p-10">
-                      <ServerError />
-                    </td>
-                  </tr>
-                )}
-
-                {result?.pages.map((page, key) => (
-                  <React.Fragment key={key}>
-                    {page.data.map((item, key) => {
-                      return (
-                        <tr key={key}>
-                          <td> {counter++}.</td>
-                          <td>2023</td>
-                          <td className=" text-right">
-                            {pesoSign}{" "}
-                            {numberWithCommas(Number(10083).toFixed(2))}
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </React.Fragment>
-                ))}
-              </tbody>
-            </table>
-            <Loadmore
-              fetchNextPage={fetchNextPage}
-              isFetchingNextPage={isFetchingNextPage}
-              hasNextPage={hasNextPage}
-              result={result?.pages[0]}
-              setPage={setPage}
-              page={page}
-              refView={ref}
-            />
-          </div>
-
-          <div className="relative text-center overflow-x-auto z-0 mt-3 max-w-[780px]">
-            <th className="!w-0">Total Average Shares Months</th>
-            <th className="w-[5rem]">0</th>
-            <th className="!w-0 text-right">0</th>
+          <div className="w-[780rem]">
+            <div className="mt-3 grid grid-cols-3 gap-1 items-center ">
+              <p className="mb-0 bg-gray-100 p-2">
+                Total Average Shares Months
+              </p>
+              <p className="mb-0 bg-gray-100 pl-2 py-2 pr-4 text-right">0</p>
+              <p className="mb-0 bg-gray-100 pl-2 py-2 pr-4 text-right">0</p>
+            </div>
           </div>
         </>
       ) : (

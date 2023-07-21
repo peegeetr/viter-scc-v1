@@ -87,7 +87,6 @@ const ModalAddAmortization = ({ item, subscribeCapital }) => {
 
   const handleShow = () => {
     setShow(!show);
-    console.log(show);
   };
   const initVal = {
     capital_amortization_amount: item ? item.capital_amortization_amount : "",
@@ -169,7 +168,9 @@ const ModalAddAmortization = ({ item, subscribeCapital }) => {
                   )
                 ) {
                   dispatch(setError(true));
-                  dispatch(setMessage("invalid amount"));
+                  dispatch(
+                    setMessage(`Input amount is morethan subscribe capital`)
+                  );
                   return;
                 }
 

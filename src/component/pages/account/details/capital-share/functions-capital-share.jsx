@@ -87,7 +87,7 @@ export const getTotalPaidUp = (
   });
 
   capital?.data.map((cItem) => {
-    totalCapital = Number(cItem.totalPaidUp) - penalty;
+    totalCapital = Number(cItem.totalPaidUp);
   });
   // total paid capital + amortization amount
   totalAmount = totalCapital + Number(amount);
@@ -100,7 +100,7 @@ export const getTotalPaidUp = (
 };
 
 // get total paid up
-export const getCapitalShareByMonth = (item, capital, count, lastCount) => {
+export const getCapitalShareByMonth = (item, capital, count) => {
   let isLastAid = 0;
   let result = 0;
   let penalty = 0;

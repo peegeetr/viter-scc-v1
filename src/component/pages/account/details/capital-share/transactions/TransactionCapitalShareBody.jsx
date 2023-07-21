@@ -40,12 +40,10 @@ const TransactionCapitalShareBody = ({
       {/* not print */}
       <td>{item.year}</td>
       {getMonth()?.map((mItem, key) => {
-        lastCount += 1;
         const getCapitalByMonth = getCapitalShareByMonth(
           mItem,
           capitalByIdAndYear?.data,
-          count,
-          lastCount
+          count
         );
         return (
           <td
