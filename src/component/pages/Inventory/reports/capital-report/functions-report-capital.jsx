@@ -50,6 +50,7 @@ export const getAvgTotal = (result, netsurplusForDis) => {
   result?.map((item) => {
     totalAmount += Number(item.total) / 12;
   });
+
   finalAmount = netCapital / totalAmount;
 
   //

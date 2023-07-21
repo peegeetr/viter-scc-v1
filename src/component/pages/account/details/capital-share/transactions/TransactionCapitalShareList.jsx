@@ -16,6 +16,7 @@ import TransactionCapitalShareBody from "./TransactionCapitalShareBody";
 import TransactionCapitalShareTotals from "./TransactionCapitalShareTotals";
 import { getYearList } from "../../../../Inventory/reports/capital-report/functions-report-capital";
 import { getUrlParam, yearNow } from "../../../../../helpers/functions-general";
+import TransactionCapitalShareListPrintView from "./printView/TransactionCapitalShareListPrintView";
 
 const TransactionCapitalShareList = ({
   setItemEdit,
@@ -101,8 +102,8 @@ const TransactionCapitalShareList = ({
       ) : memberName?.data.length > 0 ? (
         <>
           {menu === "members" && (
-            <p className="text-primary">
-              <span className="pr-4 font-bold">Member Name :</span>
+            <p className="text-primary print:text-black print:text-center print:text-sm print:mb-5 ">
+              <span className="pr-4 font-bold print:hidden">Member Name :</span>
               {isLoading === "loading"
                 ? "Loading..."
                 : `${memberName?.data[0].members_last_name}, ${memberName?.data[0].members_first_name}`}
@@ -144,7 +145,7 @@ const TransactionCapitalShareList = ({
             </Formik>
           </div>
 
-          <div className="relative overflow-x-auto z-0 mt-8 xl:mt-4">
+          <div className="relative overflow-x-auto z-0 mt-8 xl:mt-4 print:mt-0 print:overflow-x-hidden ">
             <TransactionCapitalShareTotals
               result={result}
               totalCapital={totalCapital}
@@ -153,7 +154,7 @@ const TransactionCapitalShareList = ({
               penalty={penaltyById?.data[0]}
             />
 
-            <table>
+            <table className="print:hidden">
               <thead>
                 <tr>
                   <th>Year</th>
@@ -164,7 +165,7 @@ const TransactionCapitalShareList = ({
                       </th>
                     );
                   })}
-                  <th className="text-center min-w-[8rem]  pl-4">Total</th>
+                  <th className="text-center min-w-[8rem] pl-4">Total</th>
                   <th className="text-center min-w-[8rem] pl-4 ">Avg Share</th>
                   <th></th>
                 </tr>
@@ -209,6 +210,7 @@ const TransactionCapitalShareList = ({
                 ))}
               </tbody>
             </table>
+
             <div className="text-center">
               <Loadmore
                 fetchNextPage={fetchNextPage}
@@ -221,6 +223,9 @@ const TransactionCapitalShareList = ({
               />
             </div>
           </div>
+          {/* start print version */}
+          <TransactionCapitalShareListPrintView result={result} />
+          {/* end print version */}
         </>
       ) : (
         <NoData />

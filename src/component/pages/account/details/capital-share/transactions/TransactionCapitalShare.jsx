@@ -17,9 +17,9 @@ import ModalError from "../../../../../partials/modals/ModalError";
 import ModalSuccess from "../../../../../partials/modals/ModalSuccess";
 import { checkCapitalShare } from "../functions-capital-share";
 import ModalAddCapitalShare from "./ModalAddCapitalShare";
-import TransactionCapitalShareList from "./TransactionCapitalShareList";
-import ModalViewCapitalShare from "./ModalViewCapitalShare";
 import ModalAddSubscribeCapital from "./ModalAddSubscribeCapital";
+import ModalViewCapitalShare from "./ModalViewCapitalShare";
+import TransactionCapitalShareList from "./TransactionCapitalShareList";
 
 const TransactionCapitalShare = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -94,8 +94,11 @@ const TransactionCapitalShare = () => {
     <>
       <Header />
       <Navigation menu="members" />
-      <div className="wrapper ">
-        <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2">
+      <div className="wrapper print:pb-0 print:mb-0">
+        <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2 print:justify-center print:mt-5">
+          <p className="hidden print:block text-sm text-black mb-0">
+            Capital Share Details
+          </p>
           <BreadCrumbs param={`${location.search}`} />
           {(capitalShareTotal.result === true ||
             capitalShareTotal.isComplete === true) &&
@@ -114,7 +117,7 @@ const TransactionCapitalShare = () => {
         </div>
         <hr className="print:hidden" />
 
-        <div className="w-full pb-20 mt-3 ">
+        <div className="w-full pb-20 mt-3 print:mt-0">
           <TransactionCapitalShareList
             setItemEdit={setItemEdit}
             totalCapital={capitalShareTotal}

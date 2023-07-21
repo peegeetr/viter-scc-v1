@@ -88,7 +88,7 @@ const ReportDetailedCapitalShareList = () => {
         {(props) => {
           return (
             <Form>
-              <div className="grid gap-4 xl:grid-cols-[1fr_1fr_15rem] pb-5 items-center print:hidden ">
+              <div className="grid gap-4 xl:grid-cols-[1fr_1fr_15rem] pb-5 items-center print:p-0">
                 <div className="relative ">
                   <InputSelect
                     name="member_id"
@@ -109,7 +109,7 @@ const ReportDetailedCapitalShareList = () => {
                     })}
                   </InputSelect>
                 </div>
-                <div className="relative">
+                <div className="relative print:hidden">
                   <InputSelect
                     label="Year"
                     name="year"
@@ -130,7 +130,7 @@ const ReportDetailedCapitalShareList = () => {
                 </div>
 
                 <button
-                  className="btn-modal-submit relative"
+                  className="btn-modal-submit relative print:hidden"
                   type="submit"
                   disabled={isFetching}
                 >
@@ -149,10 +149,12 @@ const ReportDetailedCapitalShareList = () => {
           Total Average Shares Months {isYear !== "0" && isYear}
         </p>
         <p className="mb-0 print:mb-0 text-lg print:text-sm">
-          {pesoSign}
-          {numberWithCommas(
-            Number(getAvgTotal(result?.pages[0].data)).toFixed(2)
-          )}
+          {pesoSign}{" "}
+          {isYear !== "0"
+            ? numberWithCommas(
+                Number(getAvgTotal(result?.pages[0].data)).toFixed(2)
+              )
+            : "0.00"}
         </p>
       </div>
 

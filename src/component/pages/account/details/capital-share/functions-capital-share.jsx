@@ -102,13 +102,13 @@ export const getTotalPaidUp = (
 };
 
 // get total paid up
-export const getCapitalShareByMonth = (item, capital, count) => {
+export const getCapitalShareByMonth = (item, capital, count, lastCount) => {
   let isLastAid = false;
   let result = 0;
   let penalty = 0;
   let list = [];
   capital?.map((cItem) => {
-    if (count === 1) {
+    if (count === 1 && capital.length === lastCount) {
       isLastAid = true;
     }
     if (cItem.month === item.month_aid) {
@@ -119,6 +119,7 @@ export const getCapitalShareByMonth = (item, capital, count) => {
       if (cItem.capital_share_is_penalty === 1) {
         penalty = Number(cItem.capital_share_paid_up);
       }
+
       list = {
         capital_share_paid_up: cItem.capital_share_paid_up,
         capital_share_or: cItem.capital_share_or,

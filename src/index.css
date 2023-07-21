@@ -49,11 +49,11 @@ input[type="text"]:not(:placeholder-shown) ~ label {
   }
   input,
   select {
-    @apply block border border-solid border-gray-300 p-2 rounded-lg w-full bg-white;
+    @apply block border border-solid border-gray-300 p-2 rounded-lg w-full bg-white print:!border-0 print:text-center print:!p-0;
   }
 
   label {
-    @apply text-xs text-primary transform -translate-y-6 -translate-x-1 absolute left-3 top-4 px-1  z-10 isolate;
+    @apply text-xs text-primary transform -translate-y-6 -translate-x-1 absolute left-3 top-4 px-1  z-10 isolate print:hidden;
   }
 
   label:after {
