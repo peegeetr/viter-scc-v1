@@ -10,7 +10,7 @@ const StatusAmount = ({
 }) => {
   return (
     <>
-      <p className="m-0 capitalize font-bold mr-8 mb-2 xl:mb-4">
+      <p className="m-0 capitalize font-bold mr-8 mb-2 xl:mb-4 print:font-normal">
         {text}:
         <span
           className={`${
@@ -25,7 +25,7 @@ const StatusAmount = ({
               : type === "paid"
               ? "bg-green-100 text-green-800 "
               : "bg-blue-100 text-primary "
-          } text-[14px] font-medium ml-2 px-2.5 py-0.5 rounded-full`}
+          } text-[14px] font-medium ml-2 px-2.5 py-0.5 rounded-full print:text-[10px]`}
         >
           {isLoading ? (
             "Loading..."

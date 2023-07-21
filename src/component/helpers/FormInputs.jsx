@@ -153,7 +153,7 @@ export const InputSelect = ({ label, onChange, ...props }) => {
         <select
           {...field}
           {...props}
-          className={meta.touched && meta.error ? "error-show" : null}
+          className={meta.touched && meta.error ? "error-show " : null}
           onChange={(e) => {
             onChange(e);
             field.onChange(e);
@@ -173,7 +173,7 @@ export const InputSelect = ({ label, onChange, ...props }) => {
       <select
         {...field}
         {...props}
-        className={meta.touched && meta.error ? "error-show" : null}
+        className={meta.touched && meta.error ? "error-show " : null}
         onChange={(e) => {
           // handleChangeLeave(e);
           field.onChange(e);

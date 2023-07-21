@@ -6,13 +6,16 @@ import {
   getUrlParam,
   numberWithCommas,
   pesoSign,
+  yearNow,
 } from "../../../../../helpers/functions-general";
 import { getMonth } from "../../../../Inventory/reports/report-function";
 import { getCapitalShareByMonth } from "../functions-capital-share";
+import TransactionCapitalShareBodyPrintView from "./printView/TransactionCapitalShareBodyPrintView";
 
 const TransactionCapitalShareBody = ({ item, count, setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const memberid = getUrlParam().get("memberid");
+  let lastCount = 0;
 
   // use if not loadmore button undertime
   const { data: capitalByIdAndYear } = useQueryData(
@@ -30,12 +33,15 @@ const TransactionCapitalShareBody = ({ item, count, setItemEdit }) => {
 
   return (
     <>
+      {/* not print */}
       <td>{item.year}</td>
       {getMonth()?.map((mItem, key) => {
+        lastCount += 1;
         const getCapitalByMonth = getCapitalShareByMonth(
           mItem,
           capitalByIdAndYear?.data,
-          count
+          count,
+          lastCount
         );
         return (
           <td
@@ -61,7 +67,7 @@ const TransactionCapitalShareBody = ({ item, count, setItemEdit }) => {
               )
             ) : (
               <span
-                className="tooltip-action-table cursor-pointer underline"
+                className="tooltip-action-table cursor-pointer underline "
                 data-tooltip="View"
                 onClick={() => handleView(getCapitalByMonth.list)}
               >
@@ -72,13 +78,13 @@ const TransactionCapitalShareBody = ({ item, count, setItemEdit }) => {
           </td>
         );
       })}
-      <td>
+      <td className="">
         {pesoSign} {numberWithCommas(Number(item.total).toFixed(2))}
       </td>
-      <td>
+      <td className="">
         {pesoSign} {numberWithCommas((Number(item.total) / 12).toFixed(2))}
       </td>
-      <td></td>
+      <td className=""></td>
     </>
   );
 };

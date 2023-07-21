@@ -38,10 +38,10 @@ const ReportDetailedCapitalShareBody = ({ item }) => {
           <td
             key={key}
             className={`${
-              capitalShareByMonth.result === "" && "bg-red-100 "
+              capitalShareByMonth.result === 0 && "bg-red-100 "
             } pr-2 `}
           >
-            {capitalShareByMonth.result === "" ? (
+            {capitalShareByMonth.result === 0 ? (
               ""
             ) : (
               <span>

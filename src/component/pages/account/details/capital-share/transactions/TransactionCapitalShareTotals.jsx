@@ -10,7 +10,7 @@ const TransactionCapitalShareTotals = ({
 }) => {
   return (
     <>
-      <div className="xl:flex items-center xl:mt-4  text-primary">
+      <div className="xl:flex items-center xl:mt-4 print:text-black text-primary print:grid print:grid-cols-3">
         <StatusAmount
           text="Paid Capital Share"
           amount={totalCapital.totalCapital}
