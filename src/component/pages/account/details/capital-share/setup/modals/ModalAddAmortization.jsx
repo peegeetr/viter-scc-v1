@@ -169,7 +169,7 @@ const ModalAddAmortization = ({ item, subscribeCapital }) => {
                 ) {
                   dispatch(setError(true));
                   dispatch(
-                    setMessage(`Input amount is morethan subscribe capital`)
+                    setMessage(`Input amount is more than remining balance`)
                   );
                   return;
                 }

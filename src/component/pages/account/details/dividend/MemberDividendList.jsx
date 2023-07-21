@@ -86,13 +86,16 @@ const MemberDividendList = ({ memberName, isLoading, menu }) => {
                 : `${memberName?.data[0].members_last_name}, ${memberName?.data[0].members_first_name}`}
             </p>
           )}
-          <div className="w-[780rem]">
-            <div className="mt-3 grid grid-cols-3 gap-1 items-center ">
-              <p className="mb-0 bg-gray-100 p-2">
-                Total Average Shares Months
-              </p>
-              <p className="mb-0 bg-gray-100 pl-2 py-2 pr-4 text-right">0</p>
-              <p className="mb-0 bg-gray-100 pl-2 py-2 pr-4 text-right">0</p>
+          <div>
+            <div className="grid grid-cols-2">
+              <div className="mt-3 grid grid-cols-3 gap-1 items-center ">
+                <p className="mb-0 bg-gray-100 p-2">
+                  Total Average Shares Months
+                </p>
+                <p className="mb-0 bg-gray-100 pl-2 py-2 pr-4 text-right">0</p>
+                <p className="mb-0 bg-gray-100 pl-2 py-2 pr-4 text-right">0</p>
+              </div>
+              <div></div>
             </div>
           </div>
         </>
