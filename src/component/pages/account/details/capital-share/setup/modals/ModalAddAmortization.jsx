@@ -8,18 +8,18 @@ import {
   setIsAdd,
   setMessage,
   setSuccess,
-} from "../../../../../../store/StoreAction";
-import { StoreContext } from "../../../../../../store/StoreContext";
-import useQueryData from "../../../../../custom-hooks/useQueryData";
-import { InputText } from "../../../../../helpers/FormInputs";
+} from "../../../../../../../store/StoreAction";
+import { StoreContext } from "../../../../../../../store/StoreContext";
+import useQueryData from "../../../../../../custom-hooks/useQueryData";
+import { InputText } from "../../../../../../helpers/FormInputs";
 import {
   getDateNow,
   getUrlParam,
   removeComma,
-} from "../../../../../helpers/functions-general";
-import { queryData } from "../../../../../helpers/queryData";
-import ButtonSpinner from "../../../../../partials/spinners/ButtonSpinner";
-import { getTotalPaidUp } from "../functions-capital-share";
+} from "../../../../../../helpers/functions-general";
+import { queryData } from "../../../../../../helpers/queryData";
+import ButtonSpinner from "../../../../../../partials/spinners/ButtonSpinner";
+import { getTotalPaidUp } from "../../functions-capital-share";
 
 const ModalAddAmortization = ({ item, subscribeCapital }) => {
   const { store, dispatch } = React.useContext(StoreContext);

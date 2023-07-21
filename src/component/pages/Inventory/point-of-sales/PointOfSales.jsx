@@ -18,7 +18,7 @@ const PointOfSales = () => {
       <Navigation menu="inventory" />
       <div className="wrapper">
         <BreadCrumbs />
-        <hr /> <CasherPointOfSalesList />
+        <hr className="print:hidden" /> <CasherPointOfSalesList />
         <Footer />
       </div>
       {store.success && <ModalSuccess />}

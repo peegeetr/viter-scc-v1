@@ -27,7 +27,7 @@ const MyProfile = () => {
       <Navigation menu="myaccount" />
       <div className="wrapper">
         <BreadCrumbs />
-        <hr />
+        <hr className="print:hidden" />
 
         <div className="w-full pb-20">
           <ProfileList members={members} isLoading={isLoading} error={error} />

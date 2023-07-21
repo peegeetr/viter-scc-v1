@@ -32,6 +32,7 @@ const TransactionCapitalShareList = ({
   const memberid = getUrlParam().get("memberid");
   const { ref, inView } = useInView();
   // use if with loadmore button and search bar
+  let count = 0;
   let empid =
     menu === "members" ? memberid : store.credentials.data.members_aid;
   const {
@@ -188,6 +189,7 @@ const TransactionCapitalShareList = ({
                 {result?.pages.map((page, key) => (
                   <React.Fragment key={key}>
                     {page.data.map((item, key) => {
+                      count += 1;
                       return (
                         <tr
                           key={key}
@@ -197,6 +199,7 @@ const TransactionCapitalShareList = ({
                         >
                           <TransactionCapitalShareBody
                             item={item}
+                            count={count}
                             setItemEdit={setItemEdit}
                           />
                         </tr>

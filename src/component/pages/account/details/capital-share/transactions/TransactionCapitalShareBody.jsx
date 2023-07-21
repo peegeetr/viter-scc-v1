@@ -10,7 +10,7 @@ import {
 import { getMonth } from "../../../../Inventory/reports/report-function";
 import { getCapitalShareByMonth } from "../functions-capital-share";
 
-const TransactionCapitalShareBody = ({ item, setItemEdit }) => {
+const TransactionCapitalShareBody = ({ item, count, setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const memberid = getUrlParam().get("memberid");
 
@@ -32,41 +32,41 @@ const TransactionCapitalShareBody = ({ item, setItemEdit }) => {
     <>
       <td>{item.year}</td>
       {getMonth()?.map((mItem, key) => {
+        const getCapitalByMonth = getCapitalShareByMonth(
+          mItem,
+          capitalByIdAndYear?.data,
+          count
+        );
         return (
           <td
             key={key}
             className={`${
-              getCapitalShareByMonth(mItem, item, capitalByIdAndYear?.data)
-                .result === "" && "bg-red-100 "
+              getCapitalByMonth.result === 0 && " bg-red-100"
             } pr-2 `}
           >
-            {getCapitalShareByMonth(mItem, item, capitalByIdAndYear?.data)
-              .result === "" ? (
-              ""
+            {getCapitalByMonth.result === 0 ? (
+              getCapitalByMonth.penalty !== 0 ? (
+                <span
+                  className="tooltip-action-table cursor-pointer text-red-800 underline !p-0 "
+                  data-tooltip="View"
+                  onClick={() => handleView(getCapitalByMonth.list)}
+                >
+                  <span>
+                    {pesoSign}{" "}
+                    {numberWithCommas(getCapitalByMonth.penalty.toFixed(2))}
+                  </span>
+                </span>
+              ) : (
+                ""
+              )
             ) : (
               <span
                 className="tooltip-action-table cursor-pointer underline"
                 data-tooltip="View"
-                onClick={() =>
-                  handleView(
-                    getCapitalShareByMonth(
-                      mItem,
-                      item,
-                      capitalByIdAndYear?.data
-                    ).list
-                  )
-                }
+                onClick={() => handleView(getCapitalByMonth.list)}
               >
                 {pesoSign}
-                {numberWithCommas(
-                  Number(
-                    getCapitalShareByMonth(
-                      mItem,
-                      item,
-                      capitalByIdAndYear?.data
-                    ).result
-                  ).toFixed(2)
-                )}
+                {numberWithCommas(Number(getCapitalByMonth.result).toFixed(2))}
               </span>
             )}
           </td>

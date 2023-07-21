@@ -227,13 +227,9 @@ const ReportDividendCapitalShareList = () => {
                       </td>
                       <td className=" text-right pr-4">
                         {pesoSign}{" "}
-                        {item.capital_share_total !== ""
-                          ? numberWithCommas(
-                              Number(item.capital_share_total).toFixed(2)
-                            )
-                          : numberWithCommas(
-                              Number(item.capital_share_paid_up).toFixed(2)
-                            )}
+                        {numberWithCommas(
+                          Number(item.capital_share_paid_up).toFixed(2)
+                        )}
                       </td>
                     </tr>
                   );

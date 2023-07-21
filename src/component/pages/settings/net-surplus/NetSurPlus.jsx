@@ -27,13 +27,17 @@ const NetSurPlus = () => {
       <div className="wrapper">
         <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2">
           <BreadCrumbs />
-          <button type="button" className="btn-primary" onClick={handleAdd}>
+          <button
+            type="button"
+            className="btn-primary print:hidden"
+            onClick={handleAdd}
+          >
             <FaPlusCircle />
             <span>Add</span>
           </button>
         </div>
 
-        <hr />
+        <hr className="print:hidden" />
         <div className="w-full pt-5 pb-20">
           <NetSurPlusList setItemEdit={setItemEdit} />
         </div>

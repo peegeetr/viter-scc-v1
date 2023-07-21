@@ -11,21 +11,12 @@ const TransactionCapitalShareTotals = ({
   return (
     <>
       <div className="xl:flex items-center xl:mt-4  text-primary">
-        {result?.pages[0].count > 0 ? (
-          <StatusAmount
-            text="Paid Capital Share"
-            amount={totalCapital.totalCapital}
-            type="paid"
-            isLoading={isLoading}
-          />
-        ) : (
-          <StatusAmount
-            text="Paid Capital Share"
-            amount={0}
-            type="paid"
-            isLoading={isLoading}
-          />
-        )}
+        <StatusAmount
+          text="Paid Capital Share"
+          amount={totalCapital.totalCapital}
+          type="paid"
+          isLoading={isLoading}
+        />
 
         <StatusAmount
           text="Balance"

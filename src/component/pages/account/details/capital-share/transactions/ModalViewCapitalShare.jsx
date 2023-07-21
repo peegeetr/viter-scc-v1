@@ -16,6 +16,8 @@ const ModalViewCapitalShare = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [isDel, setDel] = React.useState(false);
 
+  console.log("item", item);
+
   const handleClose = () => {
     dispatch(setIsConfirm(false));
   };
@@ -24,8 +26,6 @@ const ModalViewCapitalShare = ({ item }) => {
     dispatch(setIsRestore(true));
     setDel(true);
   };
-
-  console.log(item);
 
   return (
     <>
@@ -49,7 +49,12 @@ const ModalViewCapitalShare = ({ item }) => {
             <div className="grid grid-cols-2 items-center">
               <p>Date : </p>
               <p>{formatDate(item.capital_share_date)}</p>
-              <p>Paid Capital : </p>
+              <p>
+                {item.capital_share_is_penalty === 1
+                  ? "Paid Capital "
+                  : "Penalty Fee "}
+                :{" "}
+              </p>
               <p>
                 {pesoSign}{" "}
                 {numberWithCommas(
@@ -64,7 +69,8 @@ const ModalViewCapitalShare = ({ item }) => {
               <p>{item.capital_share_or}</p>
             </div>
             {(store.credentials.data.role_is_developer === 1 ||
-              store.credentials.data.role_is_admin === 1) && (
+              (item.isLastAid === true &&
+                store.credentials.data.role_is_admin === 1)) && (
               <div className="flex justify-end items-center gap-1 pt-3">
                 <button
                   type="button"

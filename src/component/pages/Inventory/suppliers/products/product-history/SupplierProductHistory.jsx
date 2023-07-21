@@ -48,7 +48,7 @@ const SupplierProductHistory = () => {
               <div className="flex items-center gap-1 self-baseline">
                 <button
                   type="button"
-                  className="btn-primary"
+                  className="btn-primary print:hidden"
                   onClick={handleAdd}
                 >
                   <FaPlusCircle />
@@ -57,7 +57,7 @@ const SupplierProductHistory = () => {
               </div>
             )}
         </div>
-        <hr />
+        <hr className="print:hidden" />
 
         <div className="w-full pb-20 mt-3 ">
           {isLoading ? (

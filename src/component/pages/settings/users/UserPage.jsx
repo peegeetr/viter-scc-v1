@@ -23,7 +23,7 @@ const UserPage = () => {
       <div className="wrapper">
         <BreadCrumbs />
 
-        <hr />
+        <hr className="print:hidden" />
         <ul className="pt-2 pb-20 relative">
           <li className="py-1" onClick={handleShow}>
             <SystemUserLink />

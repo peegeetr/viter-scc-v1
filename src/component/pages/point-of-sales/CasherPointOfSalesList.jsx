@@ -183,7 +183,11 @@ const CasherPointOfSalesList = () => {
             }}
           </Formik>
         </div>
-        <button type="button" className="btn-primary" onClick={handleAdd}>
+        <button
+          type="button"
+          className="btn-primary print:hidden"
+          onClick={handleAdd}
+        >
           <FaShoppingCart />
           <span>Add</span>
         </button>

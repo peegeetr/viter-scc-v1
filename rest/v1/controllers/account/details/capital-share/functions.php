@@ -79,13 +79,6 @@ function checkUpdateMemberFee($object)
     checkQuery($query, "There's a problem processing your request. (update capital details)");
     return $query;
 }
-// Create 
-function checkCreateMemberFee($object)
-{
-    $query = $object->createMemberFee();
-    checkQuery($query, "There's a problem processing your request. (create paid up)");
-    return $query;
-}
 
 // Read search by id
 function checkSearchById($object)

@@ -22,13 +22,15 @@ const SetupCapitalShare = () => {
   } = useQueryData(
     `/v1/members/${memberid}`,
     "get", // method
-    "members" // key
+    "membersSubscribeCapital"
   );
   // use if not loadmore button undertime
   const { data: membersSubscribeCapital } = useQueryData(
     `/v1/members/read-subscribe-capital-by-id/${memberid}`,
     "get", // method
-    "membersSubscribeCapital" // key
+    "membersSubscribeCapital", // key
+    {},
+    members
   );
 
   return (
@@ -39,7 +41,7 @@ const SetupCapitalShare = () => {
         <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2">
           <BreadCrumbs param={`${location.search}`} />{" "}
         </div>
-        <hr />
+        <hr className="print:hidden" />
 
         <div className="w-full pb-20 mt-3 ">
           <SetupCapitalShareList

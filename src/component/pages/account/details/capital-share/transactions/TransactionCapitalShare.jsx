@@ -100,10 +100,10 @@ const TransactionCapitalShare = () => {
           {(capitalShareTotal.result === true ||
             capitalShareTotal.isComplete === true) &&
             subscribeCapital?.count > 0 && (
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-1 print:hidden">
                 <button
                   type="button"
-                  className="btn-primary"
+                  className="btn-primary "
                   onClick={handleAdd}
                 >
                   <FaPlusCircle />
@@ -112,7 +112,7 @@ const TransactionCapitalShare = () => {
               </div>
             )}
         </div>
-        <hr />
+        <hr className="print:hidden" />
 
         <div className="w-full pb-20 mt-3 ">
           <TransactionCapitalShareList

@@ -32,7 +32,7 @@ const Orders = () => {
           <BreadCrumbs />
 
           {store.credentials.data.role_is_member === 0 && (
-            <div className="flex items-center gap-1 self-baseline">
+            <div className="flex items-center gap-1 self-baseline print:hidden">
               <button type="button" className="btn-primary" onClick={handleAdd}>
                 <FaPlusCircle />
                 <span>Add</span>
@@ -41,7 +41,7 @@ const Orders = () => {
           )}
         </div>
 
-        <hr />
+        <hr className="print:hidden" />
         <div className="w-full pt-5 pb-20">
           <OrdersList setItemEdit={setItemEdit} />
         </div>

@@ -31,7 +31,7 @@ const SupplierProduct = () => {
           {(store.credentials.data.role_is_admin === 1 ||
             store.credentials.data.role_is_developer === 1 ||
             store.credentials.data.role_is_manager === 1) && (
-            <div className="flex items-center gap-1 self-baseline">
+            <div className="flex items-center gap-1 self-baseline print:hidden">
               <button type="button" className="btn-primary" onClick={handleAdd}>
                 <FaPlusCircle />
                 <span>Add</span>
@@ -39,7 +39,7 @@ const SupplierProduct = () => {
             </div>
           )}
         </div>
-        <hr />
+        <hr className="print:hidden" />
 
         <div className="w-full pb-20 mt-3 ">
           <SupplierProductList setItemEdit={setItemEdit} />

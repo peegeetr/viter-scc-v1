@@ -157,6 +157,7 @@ class CapitalShare
             $sql .= "from ";
             $sql .= "{$this->tblCapitalShare} ";
             $sql .= "where capital_share_member_id = :capital_share_member_id ";
+            $sql .= "and capital_share_is_initial_pay = 0 ";
             $sql .= "group by YEAR(capital_share_date) ";
             $sql .= "order by YEAR(capital_share_date) desc ";
             $query = $this->connection->prepare($sql);
@@ -178,6 +179,7 @@ class CapitalShare
             $sql .= "from ";
             $sql .= "{$this->tblCapitalShare} ";
             $sql .= "where capital_share_member_id = :capital_share_member_id ";
+            $sql .= "and capital_share_is_initial_pay = 0 ";
             $sql .= "group by YEAR(capital_share_date) ";
             $sql .= "order by YEAR(capital_share_date) desc ";
             $sql .= "limit :start, ";
@@ -254,7 +256,6 @@ class CapitalShare
         try {
             $sql = "select sum(capitalShare.capital_share_paid_up) as totalPaidUp, ";
             $sql .= "sum(capitalShare.capital_share_total) as total, ";
-            $sql .= "capitalShare.capital_share_is_penalty, ";
             $sql .= "members.members_last_name, ";
             $sql .= "members.members_member_fee, ";
             $sql .= "members.members_first_name ";
@@ -262,6 +263,7 @@ class CapitalShare
             $sql .= "{$this->tblMembers} as members ";
             $sql .= "where capitalShare.capital_share_member_id = :capital_share_member_id ";
             $sql .= "and members.members_aid = capitalShare.capital_share_member_id ";
+            $sql .= "and capitalShare.capital_share_is_penalty = 0 ";
             $sql .= "group by capitalShare.capital_share_member_id ";
             $sql .= "order by capitalShare.capital_share_date desc ";
             $query = $this->connection->prepare($sql);
@@ -297,44 +299,6 @@ class CapitalShare
     }
 
 
-    // create
-    public function createMemberFee()
-    {
-        try {
-            $sql = "insert into {$this->tblCapitalShare} ";
-            $sql .= "( capital_share_member_id, ";
-            $sql .= "capital_share_paid_up, ";
-            $sql .= "capital_share_or, ";
-            $sql .= "capital_share_date, ";
-            $sql .= "capital_share_is_initial_pay, ";
-            $sql .= "capital_share_is_penalty, ";
-            $sql .= "capital_share_created, ";
-            $sql .= "capital_share_datetime ) values ( ";
-            $sql .= ":capital_share_member_id, ";
-            $sql .= ":capital_share_paid_up, ";
-            $sql .= ":capital_share_or, ";
-            $sql .= ":capital_share_date, ";
-            $sql .= ":capital_share_is_initial_pay, ";
-            $sql .= ":capital_share_is_penalty, ";
-            $sql .= ":capital_share_created, ";
-            $sql .= ":capital_share_datetime ) ";
-            $query = $this->connection->prepare($sql);
-            $query->execute([
-                "capital_share_member_id" => $this->capital_share_member_id,
-                "capital_share_paid_up" => $this->members_member_fee,
-                "capital_share_or" => $this->capital_share_or,
-                "capital_share_date" => $this->capital_share_date,
-                "capital_share_is_initial_pay" => $this->capital_share_is_initial_pay,
-                "capital_share_is_penalty" => $this->capital_share_is_penalty,
-                "capital_share_created" => $this->capital_share_created,
-                "capital_share_datetime" => $this->capital_share_datetime,
-            ]);
-            $this->lastInsertedId = $this->connection->lastInsertId();
-        } catch (PDOException $ex) {
-            $query = false;
-        }
-        return $query;
-    }
     // update member fee
     public function updateMemberFee()
     {
@@ -386,6 +350,7 @@ class CapitalShare
             $sql .= "{$this->tblCapitalShare} ";
             $sql .= "where MONTH(capital_share_date) = MONTH(:month) ";
             $sql .= "and YEAR(capital_share_date) = YEAR(:year) ";
+            $sql .= "and capital_share_is_initial_pay = 0 ";
             $sql .= "and capital_share_member_id = :capital_share_member_id ";
             $query = $this->connection->prepare($sql);
             $query->execute([
@@ -418,6 +383,7 @@ class CapitalShare
             $sql .= "{$this->tblCapitalShare} ";
             $sql .= "where capital_share_member_id = :capital_share_member_id ";
             $sql .= "and YEAR(capital_share_date) = :capital_share_year ";
+            $sql .= "and capital_share_is_initial_pay = '0' ";
             $sql .= "order by DATE(capital_share_date) asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([

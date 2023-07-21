@@ -61,6 +61,13 @@ export const setIsAdd = (val) => {
   };
 };
 
+export const setIsReset = (val) => {
+  return {
+    type: "IS_RESET",
+    payload: val,
+  };
+};
+
 export const setIsBeneficiaries = (val) => {
   return {
     type: "IS_BENEFICIARIES",

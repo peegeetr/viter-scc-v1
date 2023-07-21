@@ -23,7 +23,7 @@ const MyCapitalShare = () => {
       <div className="wrapper">
         <BreadCrumbs param={`${location.search}`} />
 
-        <hr />
+        <hr className="print:hidden" />
         <p></p>
         <div className="w-full pt-5 pb-20">
           <div
