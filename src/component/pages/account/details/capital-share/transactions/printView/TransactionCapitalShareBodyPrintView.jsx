@@ -31,8 +31,7 @@ const TransactionCapitalShareBodyPrintView = ({ item, count }) => {
           const getCapitalByMonth = getCapitalShareByMonth(
             mItem,
             capitalByIdAndYear?.data,
-            count,
-            lastCount
+            count
           );
           return (
             <div
