@@ -39,6 +39,7 @@ import ModalReset from "./modals/ModalReset";
 const SetupCapitalShareList = ({
   members,
   isLoading,
+  loadingMSC,
   error,
   subscribeCapital,
   menu,
@@ -143,13 +144,15 @@ const SetupCapitalShareList = ({
                 >
                   <h4>
                     Subscribe Capital :{pesoSign}
-                    {subscribeCapital?.count === 0
-                      ? "0.00"
-                      : ` ${numberWithCommas(
+                    {loadingAmortization || loadingMSC
+                      ? "Loading..."
+                      : subscribeCapital?.count > 0
+                      ? ` ${numberWithCommas(
                           Number(
                             subscribeCapital?.data[0].subscribe_capital_amount
                           ).toFixed(2)
-                        )} `}
+                        )} `
+                      : "0.00"}
                   </h4>
                   <div className="flex items-center">
                     {store.credentials.data.role_is_member === 0 &&
@@ -274,27 +277,28 @@ const SetupCapitalShareList = ({
                                 )}
                                 {(store.credentials.data.role_is_developer ===
                                   1 ||
-                                  (aItem.capital_amortization_is_active === 0 &&
-                                    countHistory === 1)) && (
-                                  <>
-                                    <button
-                                      type="button"
-                                      className="btn-action-table tooltip-action-table"
-                                      data-tooltip="Restore"
-                                      onClick={() => handleRestore(aItem)}
-                                    >
-                                      <FaHistory />
-                                    </button>
-                                    <button
-                                      type="button"
-                                      className="btn-action-table tooltip-action-table"
-                                      data-tooltip="Delete"
-                                      onClick={() => handleDelete(aItem)}
-                                    >
-                                      <FaTrash />
-                                    </button>
-                                  </>
-                                )}
+                                  countHistory === 1) &&
+                                  aItem.capital_amortization_is_active ===
+                                    0 && (
+                                    <>
+                                      <button
+                                        type="button"
+                                        className="btn-action-table tooltip-action-table"
+                                        data-tooltip="Restore"
+                                        onClick={() => handleRestore(aItem)}
+                                      >
+                                        <FaHistory />
+                                      </button>
+                                      <button
+                                        type="button"
+                                        className="btn-action-table tooltip-action-table"
+                                        data-tooltip="Delete"
+                                        onClick={() => handleDelete(aItem)}
+                                      >
+                                        <FaTrash />
+                                      </button>
+                                    </>
+                                  )}
                               </div>
                             </td>
                           )}

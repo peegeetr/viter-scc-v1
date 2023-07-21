@@ -25,7 +25,7 @@ const SetupCapitalShare = () => {
     "membersSubscribeCapital"
   );
   // use if not loadmore button undertime
-  const { data: membersSubscribeCapital } = useQueryData(
+  const { data: membersSubscribeCapital, isLoading: loadingMSC } = useQueryData(
     `/v1/members/read-subscribe-capital-by-id/${memberid}`,
     "get", // method
     "membersSubscribeCapital", // key
@@ -47,6 +47,7 @@ const SetupCapitalShare = () => {
           <SetupCapitalShareList
             members={members}
             isLoading={isLoading}
+            loadingMSC={loadingMSC}
             error={error}
             subscribeCapital={membersSubscribeCapital}
             menu="members"

@@ -22,13 +22,10 @@ import ReportDetailedCapitalShareBody from "./ReportDetailedCapitalShareBody";
 
 const ReportDetailedCapitalShareList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
-  const [isMemberId, setMemberId] = React.useState("0");
-  const [isMemberName, setMemberName] = React.useState("");
   const [isYear, setYear] = React.useState("0");
   const [isFilter, setFilter] = React.useState(false);
   const [isSubmit, setSubmit] = React.useState(false);
   const [value, setValue] = React.useState([]);
-  let counter = 1;
   let totalCapital = 0;
   // use if with loadmore button and search bar
   const {
@@ -81,7 +78,6 @@ const ReportDetailedCapitalShareList = () => {
           setFilter(true);
           setSubmit(!isSubmit);
           setValue(values);
-          setMemberId(values.member_id);
           setYear(values.year);
         }}
       >
@@ -152,7 +148,9 @@ const ReportDetailedCapitalShareList = () => {
           {pesoSign}{" "}
           {isYear !== "0"
             ? numberWithCommas(
-                Number(getAvgTotal(result?.pages[0].data)).toFixed(2)
+                Number(getAvgTotal(result?.pages[0].data).totalAmount).toFixed(
+                  2
+                )
               )
             : "0.00"}
         </p>

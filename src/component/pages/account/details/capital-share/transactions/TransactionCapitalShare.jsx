@@ -25,6 +25,7 @@ const TransactionCapitalShare = () => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [itemEdit, setItemEdit] = React.useState(null);
   const memberid = getUrlParam().get("memberid");
+  const [isLastId, setIsLastId] = React.useState(0);
 
   // use if not loadmore button undertime read-capital-total
   const { data: memberName, isLoading } = useQueryData(
@@ -124,6 +125,7 @@ const TransactionCapitalShare = () => {
             memberName={memberName}
             isLoading={isLoading}
             menu="members"
+            setIsLastId={setIsLastId}
           />
         </div>
         <Footer />
@@ -141,7 +143,9 @@ const TransactionCapitalShare = () => {
           subscribeCapital={capitalShareTotal.subscribeC}
         />
       )}
-      {store.isConfirm && <ModalViewCapitalShare item={itemEdit} />}
+      {store.isConfirm && (
+        <ModalViewCapitalShare item={itemEdit} isLastId={isLastId} />
+      )}
       {store.success && <ModalSuccess />}
       {store.error && <ModalError />}
     </>

@@ -12,11 +12,9 @@ import {
 } from "../../../../../helpers/functions-general";
 import ModalDeleteRestoreCapital from "../../../../../partials/modals/ModalDeleteRetoreCapital";
 
-const ModalViewCapitalShare = ({ item }) => {
+const ModalViewCapitalShare = ({ item, isLastId }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [isDel, setDel] = React.useState(false);
-
-  console.log("item", item);
 
   const handleClose = () => {
     dispatch(setIsConfirm(false));
@@ -69,7 +67,7 @@ const ModalViewCapitalShare = ({ item }) => {
               <p>{item.capital_share_or}</p>
             </div>
             {(store.credentials.data.role_is_developer === 1 ||
-              (item.isLastAid === true &&
+              (isLastId === item.capital_share_aid &&
                 store.credentials.data.role_is_admin === 1)) && (
               <div className="flex justify-end items-center gap-1 pt-3">
                 <button
