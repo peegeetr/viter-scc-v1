@@ -87,10 +87,8 @@ export const getTotalPaidUp = (
   });
 
   capital?.data.map((cItem) => {
-    totalCapital =
-      Number(cItem.totalPaidUp) - Number(cItem.members_member_fee) - penalty;
+    totalCapital = Number(cItem.totalPaidUp) - penalty;
   });
-
   // total paid capital + amortization amount
   totalAmount = totalCapital + Number(amount);
 
@@ -145,6 +143,18 @@ export const getMonthYear = (date) => {
   let newDate = formatDate(date);
 
   let result = `${newDate.split(" ")[0]} ${newDate.split(" ")[2]}`;
+
+  return result;
+};
+
+// get total paid up
+export const getTotalAmortization = (item) => {
+  let result = 0;
+
+  result =
+    Number(item.capital_amortization_amount) +
+    Number(item.capital_amortization_amount_dividend) +
+    Number(item.capital_amortization_amount_patronage);
 
   return result;
 };

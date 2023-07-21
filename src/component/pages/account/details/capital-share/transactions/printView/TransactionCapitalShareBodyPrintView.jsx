@@ -35,12 +35,15 @@ const TransactionCapitalShareBodyPrintView = ({ item, count }) => {
             lastCount
           );
           return (
-            <div className="grid grid-cols-[8rem_1fr] items-center" key={key}>
+            <div
+              className="grid grid-cols-[8rem_1fr] items-center border-b-[1px]"
+              key={key}
+            >
               <p className="mb-0 ">{`${mItem.month_name}`}</p>
               <p
                 className={`${
                   yearNow() === `${item.year}` && "!bg-gray-100 "
-                } text-right mb-0 font-semibold pr-5`}
+                } text-right mb-0 `}
               >
                 {getCapitalByMonth.result === 0 ? (
                   getCapitalByMonth.penalty !== 0 ? (
@@ -65,12 +68,12 @@ const TransactionCapitalShareBodyPrintView = ({ item, count }) => {
         })}
       </div>
 
-      <div className="pt-2 border-t-2">
-        <p className="mb-0 font-semibold pr-5 text-right">
+      <div className="pt-2 ">
+        <p className="mb-0 font-semibold text-right">
           <span className="mr-5">Total :</span>
           {pesoSign} {numberWithCommas(Number(item.total).toFixed(2))}
         </p>
-        <p className="mb-0 font-semibold pr-5 text-right">
+        <p className="mb-0 font-semibold text-right">
           <span className="mr-5">Avg Share :</span>
           {pesoSign} {numberWithCommas((Number(item.total) / 12).toFixed(2))}
         </p>

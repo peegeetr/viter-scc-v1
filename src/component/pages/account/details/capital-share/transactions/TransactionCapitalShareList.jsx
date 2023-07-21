@@ -42,7 +42,6 @@ const TransactionCapitalShareList = ({
     error,
     fetchNextPage,
     hasNextPage,
-    isFetching,
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
@@ -77,7 +76,7 @@ const TransactionCapitalShareList = ({
   const { data: penaltyById } = useQueryData(
     `/v1/capital-share/read-capital-penalty/${memberid}/${year}`, // endpoint
     "get", // method
-    "penaltyById", //key
+    "read-capital-penalty", //key
     {}, // fd
     year
   );

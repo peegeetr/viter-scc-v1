@@ -191,6 +191,7 @@ RewriteRule ^capital-amortization$ controllers/account/details/capital-share/amo
 RewriteRule ^capital-amortization/([0-9]+)$ controllers/account/details/capital-share/amortization/amortization.php?amortizationId=$1 [L]  
 RewriteRule ^capital-amortization/active/([0-9]+)$ controllers/account/details/capital-share/amortization/active.php?amortizationId=$1 [L] 
 RewriteRule ^capital-amortization/read-all-active-by-id/([0-9]+)$ controllers/account/details/capital-share/amortization/read-all-active-by-id.php?amortizationId=$1 [L]  
+RewriteRule ^capital-amortization/page/([0-9]+)/([0-9]+)$ controllers/account/details/capital-share/amortization/page.php?start=$1&membersid=$2 [L]  
 
 #REPORT TOP SELLER
 RewriteRule ^top-seller-report/page/([0-9]+)$ controllers/inventory/report/top-seller/report-top-seller.php?start=$1 [L] 

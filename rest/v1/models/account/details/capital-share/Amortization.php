@@ -4,6 +4,9 @@ class Amortization
     public $capital_amortization_aid;
     public $capital_amortization_member_id;
     public $capital_amortization_amount;
+    public $capital_amortization_amount_dividend;
+    public $capital_amortization_amount_patronage;
+    public $capital_amortization_remarks;
     public $capital_amortization_is_active;
     public $capital_amortization_date;
     public $capital_amortization_created;
@@ -34,12 +37,18 @@ class Amortization
             $sql = "insert into {$this->tblAmortization} ";
             $sql .= "( capital_amortization_member_id, ";
             $sql .= "capital_amortization_amount, ";
+            $sql .= "capital_amortization_amount_dividend, ";
+            $sql .= "capital_amortization_amount_patronage, ";
+            $sql .= "capital_amortization_remarks, ";
             $sql .= "capital_amortization_is_active, ";
             $sql .= "capital_amortization_date, ";
             $sql .= "capital_amortization_created, ";
             $sql .= "capital_amortization_datetime ) values ( ";
             $sql .= ":capital_amortization_member_id, ";
             $sql .= ":capital_amortization_amount, ";
+            $sql .= ":capital_amortization_amount_dividend, ";
+            $sql .= ":capital_amortization_amount_patronage, ";
+            $sql .= ":capital_amortization_remarks, ";
             $sql .= ":capital_amortization_is_active, ";
             $sql .= ":capital_amortization_date, ";
             $sql .= ":capital_amortization_created, ";
@@ -48,6 +57,9 @@ class Amortization
             $query->execute([
                 "capital_amortization_member_id" => $this->capital_amortization_member_id,
                 "capital_amortization_amount" => $this->capital_amortization_amount,
+                "capital_amortization_amount_dividend" => $this->capital_amortization_amount_dividend,
+                "capital_amortization_amount_patronage" => $this->capital_amortization_amount_patronage,
+                "capital_amortization_remarks" => $this->capital_amortization_remarks,
                 "capital_amortization_is_active" => $this->capital_amortization_is_active,
                 "capital_amortization_date" => $this->capital_amortization_date,
                 "capital_amortization_created" => $this->capital_amortization_created,
@@ -108,7 +120,6 @@ class Amortization
             $sql .= "{$this->tblAmortization} ";
             $sql .= "where capital_amortization_member_id = :capital_amortization_member_id ";
             $sql .= "order by capital_amortization_is_active desc, ";
-            $sql .= "capital_amortization_date desc, ";
             $sql .= "capital_amortization_aid desc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
@@ -127,7 +138,7 @@ class Amortization
             $sql .= "{$this->tblAmortization} ";
             $sql .= "where capital_amortization_member_id = :capital_amortization_member_id ";
             $sql .= "order by capital_amortization_is_active desc, ";
-            $sql .= "capital_amortization_date desc ";
+            $sql .= "capital_amortization_aid desc ";
             $sql .= "limit :start, ";
             $sql .= ":total ";
             $query = $this->connection->prepare($sql);
@@ -148,12 +159,18 @@ class Amortization
             $sql = "update {$this->tblAmortization} set ";
             $sql .= "capital_amortization_amount = :capital_amortization_amount, ";
             $sql .= "capital_amortization_date = :capital_amortization_date, ";
+            $sql .= "capital_amortization_amount_dividend = :capital_amortization_amount_dividend, ";
+            $sql .= "capital_amortization_amount_patronage = :capital_amortization_amount_patronage, ";
+            $sql .= "capital_amortization_remarks = :capital_amortization_remarks, ";
             $sql .= "capital_amortization_datetime = :capital_amortization_datetime ";
             $sql .= "where capital_amortization_aid  = :capital_amortization_aid ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "capital_amortization_amount" => $this->capital_amortization_amount,
                 "capital_amortization_date" => $this->capital_amortization_date,
+                "capital_amortization_amount_dividend" => $this->capital_amortization_amount_dividend,
+                "capital_amortization_amount_patronage" => $this->capital_amortization_amount_patronage,
+                "capital_amortization_remarks" => $this->capital_amortization_remarks,
                 "capital_amortization_datetime" => $this->capital_amortization_datetime,
                 "capital_amortization_aid" => $this->capital_amortization_aid,
             ]);
@@ -202,6 +219,8 @@ class Amortization
     {
         try {
             $sql = "select capital_amortization_amount, ";
+            $sql .= "capital_amortization_amount_dividend, ";
+            $sql .= "capital_amortization_amount_patronage, ";
             $sql .= "capital_amortization_is_active, ";
             $sql .= "capital_amortization_aid ";
             $sql .= "from ";

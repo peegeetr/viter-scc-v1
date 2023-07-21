@@ -15,6 +15,9 @@ if (array_key_exists("amortizationId", $_GET)) {
     $amortization->capital_amortization_aid = $_GET['amortizationId'];
     $amortization->capital_amortization_amount = checkIndex($data, "capital_amortization_amount");
     $amortization->capital_amortization_date = checkIndex($data, "capital_amortization_date");
+    $amortization->capital_amortization_amount_dividend = checkIndex($data, "capital_amortization_amount_dividend");
+    $amortization->capital_amortization_amount_patronage = checkIndex($data, "capital_amortization_amount_patronage");
+    $amortization->capital_amortization_remarks = $data["capital_amortization_remarks"];
     $amortization->capital_amortization_datetime = date("Y-m-d H:i:s");
 
     //check to see if task id in query string is not empty and is number, if not return json error

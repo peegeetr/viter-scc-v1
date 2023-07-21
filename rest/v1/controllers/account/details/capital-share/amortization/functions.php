@@ -16,6 +16,14 @@ function haveActiveNotById($object)
     checkExistence($count, "You can't edit this amortization because you already have active status.");
 }
 
+// Read limit
+function checkReadLimitById($object)
+{
+    $query = $object->readLimitById();
+    checkQuery($query, "Empty records. (limit by id)");
+    return $query;
+}
+
 
 // compare email 
 function compareCurrentCapitalIsActive($object, $active_old, $active)

@@ -54,7 +54,7 @@ const TransactionCapitalShare = () => {
   const { data: penaltyById } = useQueryData(
     `/v1/capital-share/read-capital-penalty/${memberid}`, // endpoint
     "get", // method
-    "penaltyById", //key
+    "capital-share", //key
     {}, // fd
     totalCapital // if capital-share key reload
   );

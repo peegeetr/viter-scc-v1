@@ -134,6 +134,7 @@ class CapitalShare
             $sql .= "{$this->tblCapitalShare} ";
             $sql .= "where capital_share_member_id = :capital_share_member_id ";
             $sql .= "and YEAR(capital_share_date) = :year ";
+            $sql .= "and capital_share_is_initial_pay = 0 ";
             $sql .= "group by YEAR(capital_share_date) ";
             $sql .= "order by YEAR(capital_share_date) desc ";
             $query = $this->connection->prepare($sql);
