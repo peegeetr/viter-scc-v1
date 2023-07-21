@@ -80,11 +80,11 @@ const ReportDividendCapitalShareList = () => {
     isYear
   );
 
-  console.log(
-    "123",
-    netsurplusForDis?.data,
-    getAvgTotal(avgShareMonth?.data, netsurplusForDis?.data)
-  );
+  // console.log(
+  //   "123",
+  //   netsurplusForDis?.data,
+  //   getAvgTotal(avgShareMonth?.data, netsurplusForDis?.data)
+  // );
 
   const initVal = {
     member_id: "0",
@@ -169,7 +169,7 @@ const ReportDividendCapitalShareList = () => {
       <div className="xl:flex items-center mb-2 text-primary">
         <StatusAmount
           text={`${isYear} Dividend Rate `}
-          amount={getAvgTotal(avgShareMonth?.data, netsurplusForDis?.data)}
+          amount={Number(getAvgTotal(result?.pages[0].data).totalAmount)}
         />
       </div>
 
@@ -188,9 +188,8 @@ const ReportDividendCapitalShareList = () => {
               <th className="min-w-[11rem] w-[10rem] text-right pr-4">
                 Dividend 70% ({" "}
                 {numberWithCommas(
-                  getAvgTotal(
-                    avgShareMonth?.data,
-                    netsurplusForDis?.data
+                  Number(
+                    getAvgTotal(result?.pages[0].data).totalAmount
                   ).toFixed(2)
                 )}
                 )

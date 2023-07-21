@@ -24,6 +24,7 @@ const TransactionCapitalShareList = ({
   memberName,
   isLoading,
   menu,
+  setIsLastId,
 }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [isFilter, setFilter] = React.useState(false);
@@ -202,6 +203,7 @@ const TransactionCapitalShareList = ({
                             item={item}
                             count={count}
                             setItemEdit={setItemEdit}
+                            setIsLastId={setIsLastId}
                           />
                         </tr>
                       );

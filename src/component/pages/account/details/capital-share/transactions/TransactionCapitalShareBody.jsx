@@ -6,19 +6,22 @@ import {
   getUrlParam,
   numberWithCommas,
   pesoSign,
-  yearNow,
 } from "../../../../../helpers/functions-general";
 import { getMonth } from "../../../../Inventory/reports/report-function";
 import { getCapitalShareByMonth } from "../functions-capital-share";
-import TransactionCapitalShareBodyPrintView from "./printView/TransactionCapitalShareBodyPrintView";
 
-const TransactionCapitalShareBody = ({ item, count, setItemEdit }) => {
+const TransactionCapitalShareBody = ({
+  item,
+  count,
+  setItemEdit,
+  setIsLastId,
+}) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const memberid = getUrlParam().get("memberid");
   let lastCount = 0;
 
   // use if not loadmore button undertime
-  const { data: capitalByIdAndYear } = useQueryData(
+  const { data: capitalByIdAndYear, isLoading } = useQueryData(
     `/v1/capital-share/read-by-id-and-year/${memberid}/${item.year}`, // endpoint
     "get", // method
     "capital-share", // key
@@ -26,9 +29,10 @@ const TransactionCapitalShareBody = ({ item, count, setItemEdit }) => {
     `${item.year}` // id
   );
 
-  const handleView = (newItem) => {
+  const handleView = (newItem, lastId) => {
     dispatch(setIsConfirm(true));
     setItemEdit(newItem);
+    setIsLastId(lastId);
   };
 
   return (
@@ -50,12 +54,19 @@ const TransactionCapitalShareBody = ({ item, count, setItemEdit }) => {
               getCapitalByMonth.result === 0 && " bg-red-100"
             } pr-2 `}
           >
-            {getCapitalByMonth.result === 0 ? (
+            {isLoading ? (
+              "Loading..."
+            ) : getCapitalByMonth.result === 0 ? (
               getCapitalByMonth.penalty !== 0 ? (
                 <span
                   className="tooltip-action-table cursor-pointer text-red-800 underline !p-0 "
                   data-tooltip="View"
-                  onClick={() => handleView(getCapitalByMonth.list)}
+                  onClick={() =>
+                    handleView(
+                      getCapitalByMonth.list,
+                      getCapitalByMonth.isLastAid
+                    )
+                  }
                 >
                   <span>
                     {pesoSign}{" "}
@@ -69,7 +80,12 @@ const TransactionCapitalShareBody = ({ item, count, setItemEdit }) => {
               <span
                 className="tooltip-action-table cursor-pointer underline "
                 data-tooltip="View"
-                onClick={() => handleView(getCapitalByMonth.list)}
+                onClick={() =>
+                  handleView(
+                    getCapitalByMonth.list,
+                    getCapitalByMonth.isLastAid
+                  )
+                }
               >
                 {pesoSign}
                 {numberWithCommas(Number(getCapitalByMonth.result).toFixed(2))}

@@ -54,5 +54,5 @@ export const getAvgTotal = (result, netsurplusForDis) => {
   finalAmount = netCapital / totalAmount;
 
   //
-  return finalAmount;
+  return { finalAmount, totalAmount };
 };
