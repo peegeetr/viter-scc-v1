@@ -25,7 +25,7 @@ const TransactionCapitalShareBodyPrintView = ({ item, count }) => {
   return (
     <>
       {/* print */}
-      <div className=" pb-2">
+      <div className=" px-4 pb-2">
         {getMonth()?.map((mItem, key) => {
           lastCount += 1;
           const getCapitalByMonth = getCapitalShareByMonth(
@@ -40,11 +40,7 @@ const TransactionCapitalShareBodyPrintView = ({ item, count }) => {
               key={key}
             >
               <p className="mb-0 ">{`${mItem.month_name}`}</p>
-              <p
-                className={`${
-                  yearNow() === `${item.year}` && "!bg-gray-100 "
-                } text-right mb-0 `}
-              >
+              <p className={` text-right mb-0 `}>
                 {getCapitalByMonth.result === 0 ? (
                   getCapitalByMonth.penalty !== 0 ? (
                     <span className="text-red-800">
@@ -68,7 +64,7 @@ const TransactionCapitalShareBodyPrintView = ({ item, count }) => {
         })}
       </div>
 
-      <div className="pt-2 ">
+      <div className="pt-2 p-4 ">
         <p className="mb-0 font-semibold text-right">
           <span className="mr-5">Total :</span>
           {pesoSign} {numberWithCommas(Number(item.total).toFixed(2))}

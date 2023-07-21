@@ -12,8 +12,10 @@ const TransactionCapitalShareListPrintView = ({ result }) => {
             {page.data.map((item, key) => {
               count += 1;
               return (
-                <div className="bg-gray-100 p-4" key={key}>
-                  <p className="font-semibold">Year {item.year}</p>
+                <div className="border-gray-100 border-2" key={key}>
+                  <p className="font-semibold bg-primary text-white p-2">
+                    Year {item.year}
+                  </p>
 
                   <TransactionCapitalShareBodyPrintView
                     item={item}
