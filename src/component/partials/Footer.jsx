@@ -1,5 +1,6 @@
 import React from "react";
 import Logo from "../svg/Logo";
+import { copyrightYear } from "../helpers/functions-general";
 
 const Footer = () => {
   const getCurrentYear = () => {
@@ -16,13 +17,15 @@ const Footer = () => {
         </div>
 
         <small className=" text-gray-500">
-          {" "}
+          {/* {" "}
           Sitio Subac, Santo Nino San Pablo CIty, Laguna Region IV-A
           (CALABARZON)
           <br />
           CDA REG. NO. 9520-100400033760
           <br />
-          TIN NO. 620-402-542-00000
+          TIN NO. 620-402-542-00000 */}
+          &copy; {copyrightYear()} Sambahayan Consumers Cooperative all rights
+          reserved.
         </small>
       </footer>
     </>
