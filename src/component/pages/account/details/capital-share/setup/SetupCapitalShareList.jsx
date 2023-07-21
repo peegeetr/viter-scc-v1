@@ -73,8 +73,7 @@ const SetupCapitalShareList = ({
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    // queryKey: ["patronage", onSearch, store.isSearch],
-    queryKey: ["patronage", onSearch],
+    queryKey: ["capital-amortization-by-id", onSearch],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
         `/v1/capital-amortization/page/${pageParam}/${empid}`, // filter endpoint // filter

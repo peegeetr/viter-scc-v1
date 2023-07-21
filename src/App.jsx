@@ -164,6 +164,8 @@ import ManagerReportBlotter from "./component/pages/Inventory/reports/blotter/li
 import ManagerReportSalesInvoices from "./component/pages/Inventory/reports/blotter/sales-invoices/link/ManagerReportSalesInvoices";
 import SystemReportSalesInvoices from "./component/pages/Inventory/reports/blotter/sales-invoices/link/SystemReportSalesInvoices";
 import AdminReportSalesInvoices from "./component/pages/Inventory/reports/blotter/sales-invoices/link/AdminReportSalesInvoices";
+import SystemMemberDividend from "./component/pages/account/details/dividend/links/SystemMemberDividend";
+import AdminMemberDividend from "./component/pages/account/details/dividend/links/AdminMemberDividend";
 
 function App() {
   // Create a client
@@ -316,6 +318,14 @@ function App() {
               element={
                 <ProtectedRouteSystem>
                   <SystemMemberOrders />
+                </ProtectedRouteSystem>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlSystem}/members/details/dividend`}
+              element={
+                <ProtectedRouteSystem>
+                  <SystemMemberDividend />
                 </ProtectedRouteSystem>
               }
             />
@@ -750,6 +760,14 @@ function App() {
               element={
                 <ProtectedRouteOther>
                   <AdminMemberOrders />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/members/details/dividend`}
+              element={
+                <ProtectedRouteOther>
+                  <AdminMemberDividend />
                 </ProtectedRouteOther>
               }
             />

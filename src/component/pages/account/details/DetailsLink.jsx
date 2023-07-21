@@ -10,6 +10,7 @@ import useQueryData from "../../../custom-hooks/useQueryData";
 import MyOrderLink from "./orders/MyOrderLink";
 import NoData from "../../../partials/NoData";
 import TableSpinner from "../../../partials/spinners/TableSpinner";
+import MemberDividendLink from "./dividend/MemberDividendLink";
 
 const DetailsLink = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -47,6 +48,12 @@ const DetailsLink = () => {
             onClick={handleShow}
           >
             <CapitalShareLink />
+          </div>
+          <div
+            className="group flex items-center justify-between border-b border-solid border-gray-300"
+            onClick={handleShow}
+          >
+            <MemberDividendLink />
           </div>
           <div
             className="group flex items-center justify-between border-b border-solid border-gray-300"

@@ -157,7 +157,8 @@ const TransactionCapitalShareList = ({
             <table className="print:hidden">
               <thead>
                 <tr>
-                  <th>Year</th>
+                  <th>#</th>
+                  <th className="w-[5rem]">Year</th>
                   {getMonth()?.map((yItem, key) => {
                     return (
                       <th key={key} className="text-center pl-4 min-w-[8rem] ">
@@ -198,6 +199,7 @@ const TransactionCapitalShareList = ({
                             yearNow() === `${item.year}` && "!bg-gray-100 "
                           } text-right `}
                         >
+                          <td>{count}.</td>
                           <TransactionCapitalShareBody
                             item={item}
                             count={count}
