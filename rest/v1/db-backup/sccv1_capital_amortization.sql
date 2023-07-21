@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 30, 2023 at 08:30 AM
+-- Generation Time: Jul 21, 2023 at 08:11 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -32,6 +32,9 @@ CREATE TABLE `sccv1_capital_amortization` (
   `capital_amortization_member_id` varchar(20) NOT NULL,
   `capital_amortization_date` varchar(20) NOT NULL,
   `capital_amortization_amount` varchar(20) NOT NULL,
+  `capital_amortization_amount_dividend` varchar(20) NOT NULL,
+  `capital_amortization_amount_patronage` varchar(20) NOT NULL,
+  `capital_amortization_remarks` varchar(200) NOT NULL,
   `capital_amortization_is_active` tinyint(1) NOT NULL,
   `capital_amortization_created` datetime NOT NULL,
   `capital_amortization_datetime` datetime NOT NULL

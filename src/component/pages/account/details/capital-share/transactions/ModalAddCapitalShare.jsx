@@ -20,7 +20,7 @@ import {
 } from "../../../../../helpers/functions-general";
 import { queryData } from "../../../../../helpers/queryData";
 import ButtonSpinner from "../../../../../partials/spinners/ButtonSpinner";
-import { getMonthYear } from "../functions-capital-share";
+import { getMonthYear, getTotalAmortization } from "../functions-capital-share";
 
 const ModalAddCapitalShare = ({ item, amount, raminingAmount, total }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -103,7 +103,7 @@ const ModalAddCapitalShare = ({ item, amount, raminingAmount, total }) => {
                 const capital_share_paid_up =
                   values.capital_share_is_penalty === true
                     ? removeComma(values.capital_share_paid_up)
-                    : amount[0]?.capital_amortization_amount;
+                    : getTotalAmortization(amount[0]);
                 const capital_share_member_id = item
                   ? item.capital_share_member_id
                   : memberid;
