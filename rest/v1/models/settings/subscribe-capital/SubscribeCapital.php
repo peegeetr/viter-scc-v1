@@ -210,6 +210,29 @@ class SubscribeCapital
     }
 
     // read all active create validation
+    public function readMemberByCapitalId()
+    {
+        try {
+            $sql = "select member.members_first_name, ";
+            $sql .= "member.members_last_name, ";
+            $sql .= "member.members_aid ";
+            $sql .= "from ";
+            $sql .= "{$this->tblSubscribeCapital} as subscribeC, ";
+            $sql .= "{$this->tblMembers} as member ";
+            $sql .= "where subscribeC.subscribe_capital_aid = :subscribe_capital_aid ";
+            $sql .= "and member.members_subscribe_capital_id = subscribeC.subscribe_capital_aid ";
+            $sql .= "order by subscribeC.subscribe_capital_is_active desc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "subscribe_capital_aid" => $this->subscribe_capital_aid,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    // read all active create validation
     public function checkAssociation()
     {
         try {

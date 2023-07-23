@@ -195,7 +195,6 @@ const ModalAddSearchPOS = ({ item, arrKey, memberId, memberName }) => {
                   ...values,
                   items,
                   sales_discount,
-                  orders_date,
                   orders_product_amount,
                   orders_product_quantity,
                 });

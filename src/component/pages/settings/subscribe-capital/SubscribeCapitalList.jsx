@@ -1,12 +1,18 @@
 import React from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
-import { setIsAdd, setIsRestore } from "../../../../store/StoreAction";
+import {
+  setError,
+  setIsAdd,
+  setIsRestore,
+  setMessage,
+} from "../../../../store/StoreAction";
 import { StoreContext } from "../../../../store/StoreContext";
 import useQueryData from "../../../custom-hooks/useQueryData";
 import {
   formatDate,
   numberWithCommas,
   pesoSign,
+  yearNow,
 } from "../../../helpers/functions-general";
 import NoData from "../../../partials/NoData";
 import ServerError from "../../../partials/ServerError";
@@ -23,7 +29,7 @@ import Loadmore from "../../../partials/Loadmore";
 const SubscribeCapitalList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [dataItem, setData] = React.useState(null);
-  const [id, setId] = React.useState(null);
+  const [id, setId] = React.useState(0);
   const [isDel, setDel] = React.useState(false);
   let counter = 1;
   const [onSearch, setOnSearch] = React.useState(false);
@@ -65,7 +71,19 @@ const SubscribeCapitalList = ({ setItemEdit }) => {
     }
   }, [inView]);
 
+  // const { data: memberCapityalId } = useQueryData(
+  //   `/v1/subscribe-capital/read-member-by-capityal-id`, // endpoint
+  //   "get", // method
+  //   "read-member-by-capityal-id" // key
+  // );
+
   const handleEdit = (item) => {
+    setId(item.subscribe_capital_aid);
+    // if (memberCapityalId?.count > 0) {
+    //   dispatch(setError(true));
+    //   dispatch(setMessage(`This Subscribe capital is already used`));
+    //   return;
+    // }
     dispatch(setIsAdd(true));
     setItemEdit(item);
   };
@@ -137,25 +155,28 @@ const SubscribeCapitalList = ({ setItemEdit }) => {
                       )}
                     </td>
                     <td>
-                      <div className="flex items-center gap-2">
-                        <button
-                          type="button"
-                          className="btn-action-table tooltip-action-table"
-                          data-tooltip="Edit"
-                          onClick={() => handleEdit(item)}
-                        >
-                          <FaEdit />
-                        </button>
+                      {formatDate(item.subscribe_capital_date).split(" ")[2] ===
+                        yearNow() && (
+                        <div className="flex items-center gap-2">
+                          <button
+                            type="button"
+                            className="btn-action-table tooltip-action-table"
+                            data-tooltip="Edit"
+                            onClick={() => handleEdit(item)}
+                          >
+                            <FaEdit />
+                          </button>
 
-                        <button
-                          type="button"
-                          className="btn-action-table tooltip-action-table"
-                          data-tooltip="Delete"
-                          onClick={() => handleDelete(item)}
-                        >
-                          <FaTrash />
-                        </button>
-                      </div>
+                          <button
+                            type="button"
+                            className="btn-action-table tooltip-action-table"
+                            data-tooltip="Delete"
+                            onClick={() => handleDelete(item)}
+                          >
+                            <FaTrash />
+                          </button>
+                        </div>
+                      )}
                     </td>
                   </tr>
                 ))}

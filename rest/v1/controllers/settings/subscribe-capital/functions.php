@@ -31,3 +31,11 @@ function checkReadActiveById($object)
     checkQuery($query, "Empty records (read active by id).");
     return $query;
 }
+
+// Read active
+function checkReadMemberByCapitalId($object)
+{
+    $query = $object->readMemberByCapitalId();
+    checkQuery($query, "Empty records (read member by capital id).");
+    return $query;
+}

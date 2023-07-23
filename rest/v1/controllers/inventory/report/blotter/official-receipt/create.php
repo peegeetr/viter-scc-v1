@@ -22,6 +22,7 @@ $official_receipt->or_invoice_created = date("Y-m-d H:i:s");
 $official_receipt->or_invoice_datetime = date("Y-m-d H:i:s");
 
 // create
+isNameExist($official_receipt, $official_receipt->or_invoice_or_no);
 $query = checkCreate($official_receipt);
 
 returnSuccess($official_receipt, "official receipt", $query);

@@ -17,6 +17,8 @@ import TableSpinner from "../../../../partials/spinners/TableSpinner";
 import StatusActive from "../../../../partials/status/StatusActive";
 import StatusInactive from "../../../../partials/status/StatusInactive";
 import StatusPending from "../../../../partials/status/StatusPending";
+import SearchBar from "../../../../partials/SearchBar";
+import { SlArrowRight } from "react-icons/sl";
 
 const MemberDividendList = ({ memberName, isLoading, menu }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -86,7 +88,7 @@ const MemberDividendList = ({ memberName, isLoading, menu }) => {
                 : `${memberName?.data[0].members_last_name}, ${memberName?.data[0].members_first_name}`}
             </p>
           )}
-          <div>
+          {/* <div>
             <div className="grid grid-cols-2">
               <div className="mt-3 grid grid-cols-3 gap-1 items-center ">
                 <p className="mb-0 bg-gray-100 p-2">
@@ -97,6 +99,83 @@ const MemberDividendList = ({ memberName, isLoading, menu }) => {
               </div>
               <div></div>
             </div>
+          </div> */}
+          <div className="relative mt-3 text-center overflow-x-auto z-0 w-full max-w-[500px]">
+            <SearchBar
+              search={search}
+              dispatch={dispatch}
+              store={store}
+              result={result?.pages}
+              isFetching={isFetching}
+              setOnSearch={setOnSearch}
+              onSearch={onSearch}
+            />
+
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th className="min-w-[5rem] w-[5rem]">Year</th>
+                  <th className="min-w-[10rem] w-[15rem]">Dividend</th>
+                  <th className=" "></th>
+                </tr>
+              </thead>
+              <tbody>
+                {(status === "loading" ||
+                  result?.pages[0].data.length === 0) && (
+                  <tr className="text-center ">
+                    <td colSpan="100%" className="p-10">
+                      {status === "loading" && <TableSpinner />}
+                      <NoData />
+                    </td>
+                  </tr>
+                )}
+                {error && (
+                  <tr className="text-center ">
+                    <td colSpan="100%" className="p-10">
+                      <ServerError />
+                    </td>
+                  </tr>
+                )}
+
+                {result?.pages.map((page, key) => (
+                  <React.Fragment key={key}>
+                    {page.data.map((item, key) => (
+                      <tr key={key}>
+                        <td> {counter++}.</td>
+                        <td>2023</td>
+                        <td>100,000.00</td>
+                        <td>
+                          {" "}
+                          <div className="flex items-center justify-end pr-2">
+                            <button
+                              type="button"
+                              className="btn-action-table tooltip-action-table"
+                              data-tooltip="View Details"
+                              onClick={() => handleView(item)}
+                            >
+                              <SlArrowRight />
+                            </button>
+                          </div>
+                        </td>
+                        {/* <td>{item.files_name}</td>
+                        <td>{item.files_date}</td> */}
+                      </tr>
+                    ))}
+                  </React.Fragment>
+                ))}
+              </tbody>
+            </table>
+
+            <Loadmore
+              fetchNextPage={fetchNextPage}
+              isFetchingNextPage={isFetchingNextPage}
+              hasNextPage={hasNextPage}
+              result={result?.pages[0]}
+              setPage={setPage}
+              page={page}
+              refView={ref}
+            />
           </div>
         </>
       ) : (

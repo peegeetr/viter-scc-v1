@@ -253,4 +253,21 @@ class OfficialReceipt
         }
         return $query;
     }
+
+    // check name
+    public function checkName()
+    {
+        try {
+            $sql = "select ";
+            $sql .= "or_invoice_aid, ";
+            $sql .= "or_invoice_or_no ";
+            $sql .= "from ";
+            $sql .= "{$this->tblOfficialReceipt} ";
+            $sql .= "order by or_invoice_date desc ";
+            $query = $this->connection->query($sql);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
 }
