@@ -22,6 +22,7 @@ $salesInvoices->or_invoice_created = date("Y-m-d H:i:s");
 $salesInvoices->or_invoice_datetime = date("Y-m-d H:i:s");
 
 // create
+isNameExist($salesInvoices, $salesInvoices->or_invoice_or_no);
 $query = checkCreate($salesInvoices);
 
 returnSuccess($salesInvoices, "sales invoices", $query);

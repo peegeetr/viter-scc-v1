@@ -1,0 +1,32 @@
+ 
+*controllers      
+    - account/details/dividend {note: all files}
+    -
+    
+*models         
+    - inventory/blotter/official-receipt/create.php
+    - inventory/blotter/petty-cash/create.php
+    - inventory/blotter/sales-invoices/create.php
+    - settings/subscribe-capital/functions.php
+    - settings/subscribe-capital/read-member-by-capityal-id.php
+    - 
+    - 
+    - 
+    - 
+
+*htaccess 
+    - htaccess
+    - 
+
+*db tables 
+    - 
+    - 
+
+
+*core functions 
+    - 
+    - 
+
+*extra
+    - 
+    - 

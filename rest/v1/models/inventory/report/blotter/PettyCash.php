@@ -68,6 +68,7 @@ class PettyCash
         return $query;
     }
 
+
     // read all pending
     public function readAll()
     {
@@ -248,6 +249,23 @@ class PettyCash
             $query->execute([
                 "petty_cash_aid" => $this->petty_cash_aid,
             ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    // check name
+    public function checkName()
+    {
+        try {
+            $sql = "select ";
+            $sql .= "petty_cash_aid, ";
+            $sql .= "petty_cash_voucher_no ";
+            $sql .= "from ";
+            $sql .= "{$this->tblPettyCash} ";
+            $sql .= "order by petty_cash_date desc ";
+            $query = $this->connection->query($sql);
         } catch (PDOException $ex) {
             $query = false;
         }
