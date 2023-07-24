@@ -198,38 +198,28 @@ const StocksList = ({ setItemEdit }) => {
                                 >
                                   <FaCheck />
                                 </button>
+                              </>
+                            )}
+                            {item.stocks_is_pending === 0 && (
+                              <>
                                 <button
                                   type="button"
                                   className="btn-action-table tooltip-action-table"
-                                  data-tooltip="Delete"
-                                  onClick={() => handleDelete(item)}
+                                  data-tooltip="Pending"
+                                  onClick={() => handleComplete(item)}
                                 >
-                                  <FaTrash />
+                                  <FaHistory />
                                 </button>
                               </>
                             )}
-                            {item.stocks_is_pending === 0 &&
-                              store.credentials.data.role_is_developer ===
-                                1 && (
-                                <>
-                                  <button
-                                    type="button"
-                                    className="btn-action-table tooltip-action-table"
-                                    data-tooltip="Pending"
-                                    onClick={() => handleComplete(item)}
-                                  >
-                                    <FaHistory />
-                                  </button>
-                                  <button
-                                    type="button"
-                                    className="btn-action-table tooltip-action-table"
-                                    data-tooltip="Delete"
-                                    onClick={() => handleDelete(item)}
-                                  >
-                                    <FaTrash />
-                                  </button>
-                                </>
-                              )}
+                            <button
+                              type="button"
+                              className="btn-action-table tooltip-action-table"
+                              data-tooltip="Delete"
+                              onClick={() => handleDelete(item)}
+                            >
+                              <FaTrash />
+                            </button>
                           </div>
                         </td>
                       )}

@@ -19,12 +19,12 @@ import StatusInactive from "../../../../partials/status/StatusInactive";
 import StatusPending from "../../../../partials/status/StatusPending";
 import SearchBar from "../../../../partials/SearchBar";
 import { SlArrowRight } from "react-icons/sl";
+import { setIsAdd } from "../../../../../store/StoreAction";
+import ModalViewDividend from "./modal/ModalViewDividend";
 
 const MemberDividendList = ({ memberName, isLoading, menu }) => {
   const { store, dispatch } = React.useContext(StoreContext);
-  const [dataItem, setData] = React.useState(null);
-  const [id, setId] = React.useState(null);
-  const [isDel, setDel] = React.useState(false);
+  const [itemEdit, setItemEdit] = React.useState(null);
   const [onSearch, setOnSearch] = React.useState(false);
   const [filter, setFilter] = React.useState(false);
   const [value, setValue] = React.useState([]);
@@ -32,11 +32,12 @@ const MemberDividendList = ({ memberName, isLoading, menu }) => {
   let counter = 1;
   const search = React.useRef(null);
   const memberid = getUrlParam().get("memberid");
-  const { ref, inView } = useInView();
   // use if with loadmore button and search bar
   let empid =
     menu === "members" ? memberid : store.credentials.data.members_aid;
 
+  const { ref, inView } = useInView();
+  // use if with loadmore button and search bar
   const {
     data: result,
     error,
@@ -46,15 +47,14 @@ const MemberDividendList = ({ memberName, isLoading, menu }) => {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    // queryKey: ["my-order", onSearch, store.isSearch],
-    queryKey: ["my-order", onSearch],
+    queryKey: ["file", onSearch, store.isSearch],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
-        `/v1/my-order/filter/by-member-id/${empid}`, // filter endpoint // filter
-        `/v1/my-order/page/by-member-id/${pageParam}/${empid}`, // list endpoint
-        filter, // search boolean
+        `/v1/file/search`, // search endpoint
+        `/v1/file/page/${pageParam}`, // list endpoint
+        store.isSearch, // search boolean
         "post",
-        { value }
+        { search: search.current.value }
       ),
     getNextPageParam: (lastPage) => {
       if (lastPage.page < lastPage.total) {
@@ -62,7 +62,7 @@ const MemberDividendList = ({ memberName, isLoading, menu }) => {
       }
       return;
     },
-    // refetchOnWindowFocus: false,
+    refetchOnWindowFocus: false,
     networkMode: "always",
     cacheTime: 200,
   });
@@ -73,6 +73,11 @@ const MemberDividendList = ({ memberName, isLoading, menu }) => {
       fetchNextPage();
     }
   }, [inView]);
+
+  const handleView = (item) => {
+    dispatch(setIsAdd(true));
+    setItemEdit(item);
+  };
 
   return (
     <>
@@ -88,18 +93,6 @@ const MemberDividendList = ({ memberName, isLoading, menu }) => {
                 : `${memberName?.data[0].members_last_name}, ${memberName?.data[0].members_first_name}`}
             </p>
           )}
-          {/* <div>
-            <div className="grid grid-cols-2">
-              <div className="mt-3 grid grid-cols-3 gap-1 items-center ">
-                <p className="mb-0 bg-gray-100 p-2">
-                  Total Average Shares Months
-                </p>
-                <p className="mb-0 bg-gray-100 pl-2 py-2 pr-4 text-right">0</p>
-                <p className="mb-0 bg-gray-100 pl-2 py-2 pr-4 text-right">0</p>
-              </div>
-              <div></div>
-            </div>
-          </div> */}
           <div className="relative mt-3 text-center overflow-x-auto z-0 w-full max-w-[500px]">
             <SearchBar
               search={search}
@@ -179,8 +172,10 @@ const MemberDividendList = ({ memberName, isLoading, menu }) => {
           </div>
         </>
       ) : (
+        // ModalViewDividend
         <NoData />
       )}
+      {store.isAdd && <ModalViewDividend item={itemEdit} />}
     </>
   );
 };
