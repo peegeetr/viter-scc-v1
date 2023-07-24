@@ -154,9 +154,7 @@ const MemberDividendList = ({ memberName, isLoading, menu }) => {
                 <tr>
                   <th>#</th>
                   <th className="min-w-[5rem] w-[5rem]">Year</th>
-                  <th className="min-w-[10rem] w-[15rem] text-right pr-4 ">
-                    Avg Share Months
-                  </th>
+
                   <th className="min-w-[10rem] w-[15rem] text-right pr-4">
                     Dividend
                   </th>
@@ -187,10 +185,6 @@ const MemberDividendList = ({ memberName, isLoading, menu }) => {
                       <tr key={key}>
                         <td> {counter++}.</td>
                         <td>{item.year}</td>
-                        <td className="text-right pr-4">
-                          {pesoSign}
-                          {numberWithCommas(Number(item.total / 12).toFixed(2))}
-                        </td>
                         <td className="text-right pr-4">
                           {pesoSign}
                           {numberWithCommas(
