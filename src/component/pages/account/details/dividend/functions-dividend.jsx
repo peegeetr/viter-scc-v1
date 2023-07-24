@@ -20,7 +20,7 @@ export const getComputeDividend = (item, dividend) => {
   dividend?.data.map((dItem) => {
     if (item.year === dItem.year) {
       // All Member Total Average Shares Months
-      totalASM = Number(dItem.allMemTotal);
+      totalASM += Number(dItem.allMemTotal) / 12;
     }
   });
   // Rate of Interest on Share Capital

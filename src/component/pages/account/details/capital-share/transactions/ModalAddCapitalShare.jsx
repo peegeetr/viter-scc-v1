@@ -43,7 +43,7 @@ const ModalAddCapitalShare = ({ item, amount, raminingAmount, total }) => {
 
       // show success box
       if (data.success) {
-        dispatch(setIsAdd(false));
+        // dispatch(setIsAdd(false));
         dispatch(setSuccess(true));
         dispatch(setMessage(`Successfuly ${item ? "updated." : "added."}`));
       }

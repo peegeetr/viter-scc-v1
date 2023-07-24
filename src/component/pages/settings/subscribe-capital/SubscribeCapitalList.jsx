@@ -71,19 +71,21 @@ const SubscribeCapitalList = ({ setItemEdit }) => {
     }
   }, [inView]);
 
-  // const { data: memberCapityalId } = useQueryData(
-  //   `/v1/subscribe-capital/read-member-by-capital-id`, // endpoint
-  //   "get", // method
-  //   "read-member-by-capital-id" // key
-  // );
+  const { data: memberCapityalId } = useQueryData(
+    `/v1/subscribe-capital/read-member-by-capital-id`, // endpoint
+    "get", // method
+    "read-member-by-capital-id" // key
+  );
+
+  // console.log(memberCapityalId);
 
   const handleEdit = (item) => {
     setId(item.subscribe_capital_aid);
-    // if (memberCapityalId?.count > 0) {
-    //   dispatch(setError(true));
-    //   dispatch(setMessage(`This Subscribe capital is already used`));
-    //   return;
-    // }
+    if (memberCapityalId?.count > 0) {
+      dispatch(setError(true));
+      dispatch(setMessage(`This Subscribe capital is already used`));
+      return;
+    }
     dispatch(setIsAdd(true));
     setItemEdit(item);
   };

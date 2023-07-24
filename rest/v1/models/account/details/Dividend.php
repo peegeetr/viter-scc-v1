@@ -138,12 +138,14 @@ class Dividend
     {
         try {
             $sql = "select ";
+            $sql .= "capital_share_member_id, ";
             $sql .= "SUM(capital_share_total) as allMemTotal, ";
             $sql .= "YEAR(capital_share_date) as year ";
             $sql .= "from ";
             $sql .= "{$this->tblDividend} ";
             $sql .= "where capital_share_is_initial_pay = 0 ";
-            $sql .= "group by YEAR(capital_share_date) ";
+            $sql .= "group by capital_share_member_id, ";
+            $sql .= "YEAR(capital_share_date) ";
             $sql .= "order by YEAR(capital_share_date) desc ";
             $query = $this->connection->query($sql);
         } catch (PDOException $ex) {
