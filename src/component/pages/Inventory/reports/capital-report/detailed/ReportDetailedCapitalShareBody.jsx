@@ -14,7 +14,7 @@ const ReportDetailedCapitalShareBody = ({ item }) => {
   const memberid = getUrlParam().get("memberid");
 
   // use if not loadmore button undertime
-  const { data: capitalByIdAndYear } = useQueryData(
+  const { data: capitalByIdAndYear, isLoading } = useQueryData(
     `/v1/capital-share/read-by-id-and-year/${item.members_aid}/${item.year}`, // endpoint
     "get", // method
     "capital-share", // key
@@ -38,10 +38,14 @@ const ReportDetailedCapitalShareBody = ({ item }) => {
           <td
             key={key}
             className={`${
-              capitalShareByMonth.result === 0 && "bg-red-100 "
+              isLoading
+                ? "bg-white"
+                : capitalShareByMonth.result === 0 && "bg-red-100 "
             } pr-2 `}
           >
-            {capitalShareByMonth.result === 0 ? (
+            {isLoading ? (
+              "Loading..."
+            ) : capitalShareByMonth.result === 0 ? (
               ""
             ) : (
               <span>

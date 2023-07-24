@@ -49,7 +49,9 @@ const TransactionCapitalShareBody = ({
           <td
             key={key}
             className={`${
-              getCapitalByMonth.result === 0 && " bg-red-100"
+              isLoading
+                ? "bg-white"
+                : getCapitalByMonth.result === 0 && " bg-red-100"
             } pr-2 `}
           >
             {isLoading ? (
