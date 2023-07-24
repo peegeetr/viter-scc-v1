@@ -25,6 +25,7 @@ import StatusInactive from "../../../partials/status/StatusInactive";
 import { queryDataInfinite } from "../../../helpers/queryDataInfinite";
 import SearchBar from "../../../partials/SearchBar";
 import Loadmore from "../../../partials/Loadmore";
+import { getIfSubscribeCapitalIsExist } from "./functions-subscribe";
 
 const SubscribeCapitalList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -71,26 +72,36 @@ const SubscribeCapitalList = ({ setItemEdit }) => {
     }
   }, [inView]);
 
-  // const { data: memberCapityalId } = useQueryData(
-  //   `/v1/subscribe-capital/read-member-by-capital-id`, // endpoint
-  //   "get", // method
-  //   "read-member-by-capital-id" // key
-  // );
-
-  // console.log(memberCapityalId);
+  const { data: memberCapityalId, isLoading } = useQueryData(
+    `/v1/subscribe-capital/read-member-by-capital-id`, // endpoint
+    "get", // method
+    "read-member-by-capital-id" // key
+  );
 
   const handleEdit = (item) => {
-    setId(item.subscribe_capital_aid);
-    // if (memberCapityalId?.count > 0) {
-    //   dispatch(setError(true));
-    //   dispatch(setMessage(`This Subscribe capital is already used`));
-    //   return;
-    // }
+    const checkExist = getIfSubscribeCapitalIsExist(
+      item,
+      memberCapityalId?.data
+    );
+    if (memberCapityalId?.count > 0 && checkExist === true) {
+      dispatch(setError(true));
+      dispatch(setMessage(`This Subscribe capital is already used`));
+      return;
+    }
     dispatch(setIsAdd(true));
     setItemEdit(item);
   };
 
   const handleDelete = (item) => {
+    const checkExist = getIfSubscribeCapitalIsExist(
+      item,
+      memberCapityalId?.data
+    );
+    if (memberCapityalId?.count > 0 && checkExist === true) {
+      dispatch(setError(true));
+      dispatch(setMessage(`This Subscribe capital is already used`));
+      return;
+    }
     dispatch(setIsRestore(true));
     setId(item.subscribe_capital_aid);
     setData(item);
@@ -120,7 +131,9 @@ const SubscribeCapitalList = ({ setItemEdit }) => {
             </tr>
           </thead>
           <tbody>
-            {(status === "loading" || result?.pages[0].data.length === 0) && (
+            {(status === "loading" ||
+              isLoading ||
+              result?.pages[0].data.length === 0) && (
               <tr className="text-center ">
                 <td colSpan="100%" className="p-10">
                   {status === "loading" && <TableSpinner />}

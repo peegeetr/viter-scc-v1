@@ -36,6 +36,6 @@ function checkReadActiveById($object)
 function checkReadMemberByCapitalId($object)
 {
     $query = $object->readMemberByCapitalId();
-    checkQuery($query, "Empty records (read member by capital id).");
+    checkQuery($query, "Empty records (check read if capital is exist in member).");
     return $query;
 }
