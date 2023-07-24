@@ -253,7 +253,7 @@ class SalesInvoices
     }
 
     // check name
-    public function checkName()
+    public function checkOrExist()
     {
         try {
             $sql = "select ";
@@ -261,8 +261,13 @@ class SalesInvoices
             $sql .= "or_invoice_or_no ";
             $sql .= "from ";
             $sql .= "{$this->tblSalesInvoices} ";
+            $sql .= "where or_invoice_or_no = :or_invoice_or_no ";
+            $sql .= "and or_invoice_type = 'si' ";
             $sql .= "order by or_invoice_date desc ";
-            $query = $this->connection->query($sql);
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "or_invoice_or_no" => $this->or_invoice_or_no,
+            ]);
         } catch (PDOException $ex) {
             $query = false;
         }

@@ -32,8 +32,11 @@ if (array_key_exists("netId", $_GET)) {
     $net->net_surplus_patronage_rate = checkIndex($data, "net_surplus_patronage_rate");
     $net->net_surplus_datetime = date("Y-m-d H:i:s");
 
+    $year_old = $data["net_surplus_year_old"];
+
     //check to see if task id in query string is not empty and is number, if not return json error
     checkId($net->net_surplus_aid);
+    compareYear($net, $year_old, $net->net_surplus_year);
     // update
     $query = checkUpdate($net);
     returnSuccess($net, "net surplus", $query);

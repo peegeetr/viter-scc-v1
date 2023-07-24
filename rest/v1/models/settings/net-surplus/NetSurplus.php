@@ -253,4 +253,22 @@ class NetSurplus
         }
         return $query;
     }
+
+    // check if year already exist 
+    public function checkYearExist()
+    {
+        try {
+            $sql = "select * from ";
+            $sql .= "{$this->tblNetSurplus} ";
+            $sql .= "where net_surplus_year = :net_surplus_year ";
+            $sql .= "order by net_surplus_year desc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "net_surplus_year" => $this->net_surplus_year,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
 }

@@ -1,18 +1,37 @@
  
 *controllers      
     - account/details/dividend {note: all files}
+    - account/details/capital-share/create.php     
+    - inventory/report/blotter/official-receipt/create.php
+    - inventory/report/blotter/official-receipt/functions.php
+    - inventory/report/blotter/official-receipt/official-receipt.php
+    - inventory/report/blotter/official-receipt/update.php
+    - inventory/report/blotter/petty-cash/create.php
+    - inventory/report/blotter/petty-cash/functions.php
+    - inventory/report/blotter/petty-cash/petty-cash.php
+    - inventory/report/blotter/petty-cash/update.php
+    - inventory/report/blotter/sales-invoices/create.php
+    - inventory/report/blotter/sales-invoices/functions.php
+    - inventory/report/blotter/sales-invoices/sales-invoices.php
+    - inventory/report/blotter/sales-invoices/update.php
+    - settings/net-surplus/create.php
+    - settings/net-surplus/functions.php
+    - settings/net-surplus/net-surplus.php
+    - settings/net-surplus/update.php
+    - settings/subscribe-capital/functions.php
+    - settings/subscribe-capital/read-member-by-capital-id.php
+    - 
     -
     
-*models         
-    - inventory/blotter/official-receipt/create.php
-    - inventory/blotter/petty-cash/create.php
-    - inventory/blotter/sales-invoices/create.php
-    - settings/subscribe-capital/functions.php
-    - settings/subscribe-capital/read-member-by-capityal-id.php
+*models    
+    - account/details/Dividend.php
+    - inventory/report/blotter/OfficialReceipt.php 
+    - inventory/report/blotter/PettyCash.php 
+    - inventory/report/blotter/SalesInvoices.php 
+    - settings/net-surplusNetSurplus.php 
+    - settings/subscribe-capital/SubscribeCapital.php 
     - 
-    - 
-    - 
-    - 
+    -  
 
 *htaccess 
     - htaccess

@@ -12,3 +12,19 @@ function checkReadAllMember($object)
     checkQuery($query, "Empty records. (read all member)");
     return $query;
 }
+
+// check voucher
+function isVoucherExist($object, $voucher)
+{
+    $query = $object->checkVoucherExist();
+    $count = $query->rowCount();
+    checkExistence($count, "{$voucher} already exist.");
+}
+
+// compare voucher
+function compareVoucher($object, $or_old, $voucher)
+{
+    if (strtolower($or_old) !=  strtolower($voucher)) {
+        isVoucherExist($object, $voucher);
+    }
+}

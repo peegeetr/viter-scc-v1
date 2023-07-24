@@ -65,6 +65,7 @@ const ModalAddOfficialReceipt = ({ item }) => {
   const initVal = {
     or_invoice_date: item ? item.or_invoice_date : getDateNow(),
     or_invoice_or_no: item ? item.or_invoice_or_no : "",
+    or_invoice_or_no_old: item ? item.or_invoice_or_no : "",
     or_invoice_payee_id: item ? item.or_invoice_payee_id : "",
     or_invoice_amount: item ? item.or_invoice_amount : "",
     or_invoice_remarks: item ? item.or_invoice_remarks : "",

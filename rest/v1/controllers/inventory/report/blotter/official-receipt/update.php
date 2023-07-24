@@ -22,6 +22,8 @@ if (array_key_exists("officaialReceiptId", $_GET)) {
 
     //check to see if task id in query string is not empty and is number, if not return json error
     checkId($official_receipt->or_invoice_aid);
+    compareOr($official_receipt, $data["or_invoice_or_no_old"], $official_receipt->or_invoice_or_no);
+
     // update
     $query = checkUpdate($official_receipt);
     returnSuccess($official_receipt, "official receipt", $query);

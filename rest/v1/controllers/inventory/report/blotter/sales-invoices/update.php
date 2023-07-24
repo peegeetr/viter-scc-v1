@@ -22,6 +22,7 @@ if (array_key_exists("salesInvoicesId", $_GET)) {
 
     //check to see if task id in query string is not empty and is number, if not return json error
     checkId($salesInvoices->or_invoice_aid);
+    compareOr($salesInvoices, $data["or_invoice_or_no_old"], $salesInvoices->or_invoice_or_no);
     // update
     $query = checkUpdate($salesInvoices);
     returnSuccess($salesInvoices, "sales invoices", $query);

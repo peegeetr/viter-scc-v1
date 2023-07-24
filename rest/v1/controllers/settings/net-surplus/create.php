@@ -35,6 +35,7 @@ $net->net_surplus_created = date("Y-m-d H:i:s");
 $net->net_surplus_datetime = date("Y-m-d H:i:s");
 
 // create
+isYearExist($net, $net->net_surplus_year);
 $query = checkCreate($net);
 
 returnSuccess($net, "net surplus", $query);

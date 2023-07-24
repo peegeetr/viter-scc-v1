@@ -17,8 +17,7 @@ $response = new Response();
 if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     checkApiKey();
 
-    if (array_key_exists("subscribeCapitalId", $_GET)) {
-        $subscribe_capital->subscribe_capital_aid = $_GET['subscribeCapitalId'];
+    if (empty($_GET)) {
         $query = checkReadMemberByCapitalId($subscribe_capital);
         http_response_code(200);
         getQueriedData($query);
