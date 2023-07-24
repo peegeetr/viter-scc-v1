@@ -256,7 +256,7 @@ class PettyCash
     }
 
     // check name
-    public function checkName()
+    public function checkVoucherExist()
     {
         try {
             $sql = "select ";
@@ -264,8 +264,12 @@ class PettyCash
             $sql .= "petty_cash_voucher_no ";
             $sql .= "from ";
             $sql .= "{$this->tblPettyCash} ";
+            $sql .= "where petty_cash_voucher_no = :petty_cash_voucher_no ";
             $sql .= "order by petty_cash_date desc ";
-            $query = $this->connection->query($sql);
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "petty_cash_voucher_no" => $this->petty_cash_voucher_no,
+            ]);
         } catch (PDOException $ex) {
             $query = false;
         }

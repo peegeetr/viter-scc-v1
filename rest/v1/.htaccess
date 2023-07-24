@@ -185,7 +185,7 @@ RewriteRule ^subscribe-capital/([0-9]+)$ controllers/settings/subscribe-capital/
 RewriteRule ^subscribe-capital/page/([0-9]+)$ controllers/settings/subscribe-capital/page.php?start=$1 [L]
 RewriteRule ^subscribe-capital/search/([A-Za-z0-9-]+)$ controllers/settings/subscribe-capital/search.php?search=$1 [L]
 RewriteRule ^subscribe-capital/active-by-id/([0-9]+)$ controllers/settings/subscribe-capital/read-active-by-id.php?membersId=$1 [L]
-RewriteRule ^subscribe-capital/read-member-by-capityal-id/([0-9]+)$ controllers/settings/subscribe-capital/read-member-by-capityal-id.php?subscribeCapitalId=$1 [L]
+RewriteRule ^subscribe-capital/read-member-by-capital-id/([0-9]+)$ controllers/settings/subscribe-capital/read-member-by-capital-id.php?subscribeCapitalId=$1 [L]
  
 #CAPITAL AMORTIZATION
 RewriteRule ^capital-amortization$ controllers/account/details/capital-share/amortization/amortization.php [L]
@@ -248,3 +248,10 @@ RewriteRule ^report-sales-invoices/page/([0-9]+)$ controllers/inventory/report/b
 RewriteRule ^report-sales-invoices/filter-date$ controllers/inventory/report/blotter/sales-invoices/filter-date.php [L]
 RewriteRule ^report-sales-invoices/search$ controllers/inventory/report/blotter/sales-invoices/search.php [L]
 RewriteRule ^report-sales-invoices/read-all-member$ controllers/inventory/report/blotter/sales-invoices/read-all-member.php [L]
+
+#MEMBER DIVIDEND
+RewriteRule ^dividend$ controllers/account/details/dividend/dividend.php [L]
+RewriteRule ^dividend/([0-9]+)$ controllers/account/details/dividend/files.php?dividendId=$1 [L] 
+RewriteRule ^dividend/page/([0-9]+)/([0-9]+)$ controllers/account/details/dividend/page.php?start=$1&membersId=$2 [L]
+RewriteRule ^dividend/filter-by-id/([0-9]+)$ controllers/account/details/dividend/filter-by-id.php?membersId=$1 [L]
+RewriteRule ^dividend/read-all-member-total$ controllers/account/details/dividend/read-all-member-total.php [L]

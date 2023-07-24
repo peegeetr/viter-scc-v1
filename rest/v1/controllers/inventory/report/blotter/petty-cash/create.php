@@ -22,7 +22,7 @@ $pettyCash->petty_cash_created = date("Y-m-d H:i:s");
 $pettyCash->petty_cash_datetime = date("Y-m-d H:i:s");
 
 // create
-isNameExist($pettyCash, $pettyCash->petty_cash_voucher_no);
+isVoucherExist($pettyCash, $pettyCash->petty_cash_voucher_no);
 $query = checkCreate($pettyCash);
 
 returnSuccess($pettyCash, "petty cash", $query);

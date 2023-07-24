@@ -23,6 +23,7 @@ if (array_key_exists("pettyCashId", $_GET)) {
 
     //check to see if task id in query string is not empty and is number, if not return json error
     checkId($pettyCash->petty_cash_aid);
+    compareVoucher($pettyCash, $data["petty_cash_voucher_no_old"], $pettyCash->petty_cash_voucher_no);
     // update
     $query = checkUpdate($pettyCash);
     returnSuccess($pettyCash, "petty cash", $query);

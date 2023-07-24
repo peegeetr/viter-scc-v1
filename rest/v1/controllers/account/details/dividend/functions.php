@@ -8,10 +8,18 @@ function checkReadLimitById($object)
     return $query;
 }
 
-// Search by id
-function checkSearchById($object)
+// filter by id
+function checkFilterById($object)
 {
-    $query = $object->searchById();
-    checkQuery($query, "Empty records. (Search dividend by id)");
+    $query = $object->filterById();
+    checkQuery($query, "Empty records. (Search filter by id)");
+    return $query;
+}
+
+// Read Member All Total
+function checkReadMemberAllTotal($object)
+{
+    $query = $object->readMemberAllTotal();
+    checkQuery($query, "Empty records. (Read member all total by id)");
     return $query;
 }

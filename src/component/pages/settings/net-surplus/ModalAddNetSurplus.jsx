@@ -48,6 +48,7 @@ const ModalAddNetSurplus = ({ item }) => {
 
   const initVal = {
     net_surplus_year: item ? item.net_surplus_year : yearNow(),
+    net_surplus_year_old: item ? item.net_surplus_year : yearNow(),
     net_surplus_before_amount: item ? item.net_surplus_before_amount : "",
     net_surplus_distribution_amount: item
       ? item.net_surplus_distribution_amount

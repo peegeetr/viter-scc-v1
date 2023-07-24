@@ -80,6 +80,7 @@ export const computeNetSurplus = (values) => {
   // New List
   list = {
     net_surplus_year: values.net_surplus_year,
+    net_surplus_year_old: values.net_surplus_year_old,
     net_surplus_allocation: totalNetAllocation,
     net_surplus_before_amount: net_surplus_before_amount,
     net_surplus_distribution_amount: net_surplus_distribution_amount,

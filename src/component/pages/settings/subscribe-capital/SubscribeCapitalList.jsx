@@ -72,9 +72,9 @@ const SubscribeCapitalList = ({ setItemEdit }) => {
   }, [inView]);
 
   // const { data: memberCapityalId } = useQueryData(
-  //   `/v1/subscribe-capital/read-member-by-capityal-id`, // endpoint
+  //   `/v1/subscribe-capital/read-member-by-capital-id`, // endpoint
   //   "get", // method
-  //   "read-member-by-capityal-id" // key
+  //   "read-member-by-capital-id" // key
   // );
 
   const handleEdit = (item) => {

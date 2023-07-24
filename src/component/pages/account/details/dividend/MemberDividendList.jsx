@@ -1,43 +1,41 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { Form, Formik } from "formik";
 import React from "react";
+import { SlArrowRight } from "react-icons/sl";
 import { useInView } from "react-intersection-observer";
+import * as Yup from "yup";
+import { setIsAdd } from "../../../../../store/StoreAction";
 import { StoreContext } from "../../../../../store/StoreContext";
 import useQueryData from "../../../../custom-hooks/useQueryData";
+import { InputSelect } from "../../../../helpers/FormInputs";
 import {
-  formatDate,
   getUrlParam,
   numberWithCommas,
   pesoSign,
+  yearNow,
 } from "../../../../helpers/functions-general";
 import { queryDataInfinite } from "../../../../helpers/queryDataInfinite";
 import Loadmore from "../../../../partials/Loadmore";
 import NoData from "../../../../partials/NoData";
 import ServerError from "../../../../partials/ServerError";
 import TableSpinner from "../../../../partials/spinners/TableSpinner";
-import StatusActive from "../../../../partials/status/StatusActive";
-import StatusInactive from "../../../../partials/status/StatusInactive";
-import StatusPending from "../../../../partials/status/StatusPending";
-import SearchBar from "../../../../partials/SearchBar";
-import { SlArrowRight } from "react-icons/sl";
-import { setIsAdd } from "../../../../../store/StoreAction";
+import { getComputeDividend, getYearListDividend } from "./functions-dividend";
 import ModalViewDividend from "./modal/ModalViewDividend";
 
 const MemberDividendList = ({ memberName, isLoading, menu }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [itemEdit, setItemEdit] = React.useState(null);
-  const [onSearch, setOnSearch] = React.useState(false);
-  const [filter, setFilter] = React.useState(false);
-  const [value, setValue] = React.useState([]);
+  const [isFilter, setFilter] = React.useState(false);
+  const [isSubmit, setSubmit] = React.useState(false);
+  const [year, setYear] = React.useState(yearNow());
   const [page, setPage] = React.useState(1);
   let counter = 1;
-  const search = React.useRef(null);
   const memberid = getUrlParam().get("memberid");
   // use if with loadmore button and search bar
   let empid =
     menu === "members" ? memberid : store.credentials.data.members_aid;
 
   const { ref, inView } = useInView();
-  // use if with loadmore button and search bar
   const {
     data: result,
     error,
@@ -47,14 +45,14 @@ const MemberDividendList = ({ memberName, isLoading, menu }) => {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ["file", onSearch, store.isSearch],
+    queryKey: ["patronage", isSubmit],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
-        `/v1/file/search`, // search endpoint
-        `/v1/file/page/${pageParam}`, // list endpoint
-        store.isSearch, // search boolean
+        `/v1/dividend/filter-by-id/${empid}`, // filter endpoint // filter
+        `/v1/dividend/page/${pageParam}/${empid}`, // list endpoint
+        isFilter, // search boolean
         "post",
-        { search: search.current.value }
+        { year }
       ),
     getNextPageParam: (lastPage) => {
       if (lastPage.page < lastPage.total) {
@@ -62,10 +60,11 @@ const MemberDividendList = ({ memberName, isLoading, menu }) => {
       }
       return;
     },
-    refetchOnWindowFocus: false,
+    // refetchOnWindowFocus: false,
     networkMode: "always",
     cacheTime: 200,
   });
+  // use if with loadmore button and search bar
 
   React.useEffect(() => {
     if (inView) {
@@ -79,6 +78,25 @@ const MemberDividendList = ({ memberName, isLoading, menu }) => {
     setItemEdit(item);
   };
 
+  // use if not loadmore button undertime
+  const { data: totalASMallMember } = useQueryData(
+    `/v1/dividend/read-all-member-total`, // endpoint
+    "get", // method
+    "netsurplusForDis" // key
+  );
+
+  const handleMonth = async (e) => {
+    setYear(e.target.value);
+    setFilter(true);
+    setSubmit(!isSubmit);
+  };
+  const initVal = {
+    year_div: "",
+  };
+
+  const yupSchema = Yup.object({
+    year_div: Yup.string().required("Required"),
+  });
   return (
     <>
       {isLoading ? (
@@ -93,23 +111,55 @@ const MemberDividendList = ({ memberName, isLoading, menu }) => {
                 : `${memberName?.data[0].members_last_name}, ${memberName?.data[0].members_first_name}`}
             </p>
           )}
-          <div className="relative mt-3 text-center overflow-x-auto z-0 w-full max-w-[500px]">
-            <SearchBar
-              search={search}
-              dispatch={dispatch}
-              store={store}
-              result={result?.pages}
-              isFetching={isFetching}
-              setOnSearch={setOnSearch}
-              onSearch={onSearch}
-            />
+          <div className="relative text-center overflow-x-auto z-0 w-full max-w-[500px]">
+            <div>
+              <Formik
+                initialValues={initVal}
+                validationSchema={yupSchema}
+                onSubmit={async (values, { setSubmitting, resetForm }) => {}}
+              >
+                {(props) => {
+                  return (
+                    <Form>
+                      <div className="sm:w-[10rem] items-center print:hidden py-3">
+                        <div className="relative">
+                          <InputSelect
+                            label="year"
+                            name="year_div"
+                            type="text"
+                            onChange={handleMonth}
+                            disabled={status === "loading"}
+                          >
+                            <option value="" hidden>
+                              {status === "loading" ? "Loading..." : "All year"}
+                            </option>
+                            {getYearListDividend()?.map((ydItem, key) => {
+                              return (
+                                <option key={key} value={ydItem.year}>
+                                  {`${ydItem.year}`}
+                                </option>
+                              );
+                            })}
+                          </InputSelect>
+                        </div>
+                      </div>
+                    </Form>
+                  );
+                }}
+              </Formik>
+            </div>
 
             <table>
               <thead>
                 <tr>
                   <th>#</th>
                   <th className="min-w-[5rem] w-[5rem]">Year</th>
-                  <th className="min-w-[10rem] w-[15rem]">Dividend</th>
+                  <th className="min-w-[10rem] w-[15rem] text-right pr-4 ">
+                    Avg Share Months
+                  </th>
+                  <th className="min-w-[10rem] w-[15rem] text-right pr-4">
+                    Dividend
+                  </th>
                   <th className=" "></th>
                 </tr>
               </thead>
@@ -136,10 +186,21 @@ const MemberDividendList = ({ memberName, isLoading, menu }) => {
                     {page.data.map((item, key) => (
                       <tr key={key}>
                         <td> {counter++}.</td>
-                        <td>2023</td>
-                        <td>100,000.00</td>
+                        <td>{item.year}</td>
+                        <td className="text-right pr-4">
+                          {pesoSign}
+                          {numberWithCommas(Number(item.total / 12).toFixed(2))}
+                        </td>
+                        <td className="text-right pr-4">
+                          {pesoSign}
+                          {numberWithCommas(
+                            Number(
+                              getComputeDividend(item, totalASMallMember).result
+                            ).toFixed(2)
+                          )}
+                        </td>
+
                         <td>
-                          {" "}
                           <div className="flex items-center justify-end pr-2">
                             <button
                               type="button"
@@ -151,8 +212,6 @@ const MemberDividendList = ({ memberName, isLoading, menu }) => {
                             </button>
                           </div>
                         </td>
-                        {/* <td>{item.files_name}</td>
-                        <td>{item.files_date}</td> */}
                       </tr>
                     ))}
                   </React.Fragment>
@@ -175,7 +234,9 @@ const MemberDividendList = ({ memberName, isLoading, menu }) => {
         // ModalViewDividend
         <NoData />
       )}
-      {store.isAdd && <ModalViewDividend item={itemEdit} />}
+      {store.isAdd && (
+        <ModalViewDividend item={itemEdit} avgShareMonths={totalASMallMember} />
+      )}
     </>
   );
 };

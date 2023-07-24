@@ -66,6 +66,7 @@ const ModalAddPettyCash = ({ item }) => {
   const initVal = {
     petty_cash_date: item ? item.petty_cash_date : getDateNow(),
     petty_cash_voucher_no: item ? item.petty_cash_voucher_no : "",
+    petty_cash_voucher_no_old: item ? item.petty_cash_voucher_no : "",
     petty_cash_payee_id: item ? item.petty_cash_payee_id : "",
     petty_cash_in: item ? item.petty_cash_in : "",
     petty_cash_out: item ? item.petty_cash_out : "",
