@@ -15,8 +15,13 @@ const ReportDividendCapitalShare = () => {
     <>
       <Header />
       <Navigation menu="inventory" />
-      <div className="wrapper">
-        <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2 ">
+      <div className="wrapper print:pb-0 print:mb-0">
+        <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2 print:justify-center print:mt-5">
+          <p className="hidden print:block text-sm text-black mb-0">
+            Dividend Details
+          </p>
+        </div>
+        <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2 print:hidden ">
           <BreadCrumbs />
         </div>
         <hr className="print:hidden" />

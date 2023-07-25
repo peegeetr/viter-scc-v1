@@ -1,3 +1,5 @@
+import { getMonthName } from "../report-function";
+
 export const getYearList = () => {
   const d = new Date();
   let currentYear = d.getFullYear();
@@ -52,13 +54,13 @@ export const getDetailedAvgTotal = (result) => {
 export const getDividendAvgTotal = (avg) => {
   let dividend70 = 0;
   let paidUp = 0;
-  let totalAmount = 1;
+  let totalAmount = 0;
   let rate = 0;
 
   avg?.map((aItem) => {
     paidUp = Number(aItem.total) / 12;
     totalAmount += paidUp;
-    dividend70 = aItem.net_surplus_dividend;
+    dividend70 = Number(aItem.net_surplus_dividend);
   });
 
   rate = dividend70 / totalAmount;
@@ -88,4 +90,43 @@ export const getTotalDividend = (avg) => {
   });
 
   return result;
+};
+
+// get total paid up
+export const getReportCapitalShareByMonth = (item, capital, count) => {
+  let isLastAid = 0;
+  let result = 0;
+  let penalty = 0;
+  let list = [];
+  capital?.map((cItem) => {
+    if (count === 1) {
+      isLastAid = cItem.capital_share_aid;
+    }
+
+    if (cItem.month === item.month_aid) {
+      if (cItem.capital_share_is_penalty === 0) {
+        result = cItem.capital_share_total;
+      }
+
+      if (cItem.capital_share_is_penalty === 1) {
+        penalty = Number(cItem.capital_share_paid_up);
+      }
+
+      list = {
+        capital_share_paid_up: cItem.capital_share_paid_up,
+        capital_share_or: cItem.capital_share_or,
+        capital_share_date: cItem.capital_share_date,
+        capital_share_is_initial_pay: cItem.capital_share_is_initial_pay,
+        capital_share_total: cItem.capital_share_total,
+        capital_share_aid: cItem.capital_share_aid,
+        capital_share_member_id: cItem.capital_share_member_id,
+        month: getMonthName(cItem.month),
+        year: cItem.year,
+      };
+    }
+  });
+
+  isLastAid = isLastAid;
+
+  return { result, list, penalty, isLastAid };
 };

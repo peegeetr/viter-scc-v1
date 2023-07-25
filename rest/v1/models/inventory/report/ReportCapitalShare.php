@@ -50,6 +50,7 @@ class ReportCapitalShare
             $sql .= "where capitalShare.capital_share_member_id = :capital_share_member_id ";
             $sql .= "and YEAR(capitalShare.capital_share_date) = :year ";
             $sql .= "and members.members_aid = capitalShare.capital_share_member_id ";
+            $sql .= "and capitalShare.capital_share_is_initial_pay = 0 ";
             $sql .= "group by ";
             $sql .= "capitalShare.capital_share_member_id, ";
             $sql .= "YEAR(capital_share_date) ";
@@ -79,6 +80,7 @@ class ReportCapitalShare
             $sql .= "{$this->tblMembers} as members ";
             $sql .= "where members.members_aid = capitalShare.capital_share_member_id ";
             $sql .= "and YEAR(capitalShare.capital_share_date) = :year ";
+            $sql .= "and capitalShare.capital_share_is_initial_pay = 0 ";
             $sql .= "group by ";
             $sql .= "capitalShare.capital_share_member_id, ";
             $sql .= "YEAR(capital_share_date) ";

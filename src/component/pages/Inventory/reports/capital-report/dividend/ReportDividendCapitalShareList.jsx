@@ -234,25 +234,23 @@ const ReportDividendCapitalShareList = () => {
                 })}
               </React.Fragment>
             ))}
-            {isFilter && (
-              <tr className="border-b-0">
-                <td colSpan={2}> </td>
-                <td className=" text-right pr-4">
-                  Total ASM :
-                  <span className="ml-2 font-semibold">
-                    {pesoSign}
-                    {numberWithCommas(Number(totalAvg).toFixed(2))}
-                  </span>
-                </td>
-                <td className=" text-right pr-4">
-                  Dividend :
-                  <span className="ml-2 font-semibold">
-                    {pesoSign}
-                    {numberWithCommas(Number(totalDividend).toFixed(2))}
-                  </span>
-                </td>
-              </tr>
-            )}
+            <tr className="border-b-0">
+              <td colSpan={2}> </td>
+              <td className=" text-right pr-4">
+                Total ASM :
+                <span className="ml-2 font-semibold">
+                  {pesoSign}
+                  {numberWithCommas(Number(totalAvg).toFixed(2))}
+                </span>
+              </td>
+              <td className=" text-right pr-4">
+                Dividend :
+                <span className="ml-2 font-semibold">
+                  {pesoSign}
+                  {numberWithCommas(Number(totalDividend).toFixed(2))}
+                </span>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>

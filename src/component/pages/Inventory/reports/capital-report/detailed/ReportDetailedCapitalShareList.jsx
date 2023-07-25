@@ -19,10 +19,11 @@ import TableSpinner from "../../../../../partials/spinners/TableSpinner";
 import { getMonth } from "../../report-function";
 import { getDetailedAvgTotal, getYearList } from "../functions-report-capital";
 import ReportDetailedCapitalShareBody from "./ReportDetailedCapitalShareBody";
+import ReportCapitalShareListPrintView from "./printView/ReportCapitalShareListPrintView";
 
 const ReportDetailedCapitalShareList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
-  const [isYear, setYear] = React.useState("0");
+  const [isYear, setYear] = React.useState(yearNow());
   const [isFilter, setFilter] = React.useState(false);
   const [isSubmit, setSubmit] = React.useState(false);
   const [value, setValue] = React.useState([]);
@@ -38,7 +39,7 @@ const ReportDetailedCapitalShareList = () => {
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
         `/v1/report-capital/filter/detailed`, // search endpoint
-        `/v1/capital-share/page/${pageParam}/${0}`, // list endpoint
+        `/v1/report-capital/filter/detailed/${isYear}`, // list endpoint
         isFilter, // search boolean
         "post",
         { value }
@@ -84,7 +85,7 @@ const ReportDetailedCapitalShareList = () => {
         {(props) => {
           return (
             <Form>
-              <div className="grid gap-4 xl:grid-cols-[1fr_1fr_15rem] pb-5 items-center print:p-0">
+              <div className="grid gap-4 xl:grid-cols-[1fr_1fr_15rem] pb-5 items-center print:hidden">
                 <div className="relative ">
                   <InputSelect
                     name="member_id"
@@ -105,7 +106,7 @@ const ReportDetailedCapitalShareList = () => {
                     })}
                   </InputSelect>
                 </div>
-                <div className="relative print:hidden">
+                <div className="relative ">
                   <InputSelect
                     label="Year"
                     name="year"
@@ -126,7 +127,7 @@ const ReportDetailedCapitalShareList = () => {
                 </div>
 
                 <button
-                  className="btn-modal-submit relative print:hidden"
+                  className="btn-modal-submit relative "
                   type="submit"
                   disabled={isFetching}
                 >
@@ -154,7 +155,7 @@ const ReportDetailedCapitalShareList = () => {
         </p>
       </div>
 
-      <div className="text-center overflow-x-auto print:overflow-x-hidden z-0">
+      <div className="text-center overflow-x-auto print:overflow-x-hidden z-0 print:hidden">
         {/* use only for updating important records */}
         {status !== "loading" && isFetching && <TableSpinner />}
         {/* use only for updating important records */}
@@ -205,20 +206,21 @@ const ReportDetailedCapitalShareList = () => {
                 })}
               </React.Fragment>
             ))}
-            {isFilter && result?.pages[0].data.length > 0 && (
-              <tr>
-                <td colSpan={16} className="text-right font-semibold">
-                  <span className="pr-5">
-                    Total Average Shares Months {isYear}
-                  </span>{" "}
-                  {pesoSign}
-                  {numberWithCommas(Number(totalCapital).toFixed(2))}
-                </td>
-              </tr>
-            )}
+            <tr>
+              <td colSpan={16} className="text-right font-semibold">
+                <span className="pr-5">
+                  Total Average Shares Months {isYear}
+                </span>{" "}
+                {pesoSign}
+                {numberWithCommas(Number(totalCapital).toFixed(2))}
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
+      {/* start print view */}
+      <ReportCapitalShareListPrintView result={result} />
+      {/* end print view */}
     </>
   );
 };

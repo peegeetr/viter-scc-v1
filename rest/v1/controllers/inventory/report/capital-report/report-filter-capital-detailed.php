@@ -24,21 +24,34 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     // get value
     $allValues = $data['value'];
 
-    // get task id from query string 
-    $capital->capital_share_member_id = checkIndex($allValues, "member_id");
-    $capital->capital_share_date = checkIndex($allValues, "year");
-
-    if (
-        $capital->capital_share_member_id !== "0"
-    ) {
-        $query = checkReadReportCapitalByMemberId($capital);
+    if (array_key_exists("year", $_GET)) {
+        $capital->capital_share_date = $_GET['year'];
+        //check to see if task id in query string is not empty and is number, if not return json error
+        checkId($capital->capital_share_date);
+        $query = checkReadReportCapital($capital);
         http_response_code(200);
         getQueriedData($query);
     }
 
-    $query = checkReadReportCapital($capital);
-    http_response_code(200);
-    getQueriedData($query);
+    if (empty($_GET)) {
+        // get task id from query string 
+        $capital->capital_share_member_id = checkIndex($allValues, "member_id");
+        $capital->capital_share_date = checkIndex($allValues, "year");
+
+        if (
+            $capital->capital_share_member_id !== "0"
+        ) {
+            $query = checkReadReportCapitalByMemberId($capital);
+            http_response_code(200);
+            getQueriedData($query);
+        }
+
+        $query = checkReadReportCapital($capital);
+        http_response_code(200);
+        getQueriedData($query);
+    }
+    // return 404 error if endpoint not available
+    checkEndpoint();
 }
 
 http_response_code(200);

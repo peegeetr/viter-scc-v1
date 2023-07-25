@@ -29,9 +29,9 @@ const ReportDetailedCapitalShareBody = ({ item }) => {
     <>
       <td>{item.year}</td>
       <td className="text-left">{`${item.members_last_name} ${item.members_first_name}`}</td>
-      {getMonth()?.map((item, key) => {
+      {getMonth()?.map((mItem, key) => {
         capitalShareByMonth = getCapitalShareByMonth(
-          item,
+          mItem,
           capitalByIdAndYear?.data
         );
         return (

@@ -3,6 +3,8 @@
     - inventory/report/capital-report/functions.php    
     - inventory/report/capital-report/report-filter-capital-dividend.php    
     - inventory/report/capital-report/report-read-all-member-total.php     
+    - inventory/report/capital-report/report-filter-capital-detailed.php     
+    - inventory/report/capital-report/report-filter-capital-dividend.php     
     - 
     -
     

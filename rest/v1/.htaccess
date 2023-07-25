@@ -222,6 +222,7 @@ RewriteRule ^report-capital/report-read-by-year-total-capital/([0-9]+)$ controll
 RewriteRule ^report-capital/read-netsurplus-by-year/([0-9]+)$ controllers/inventory/report/capital-report/report-read-netsurplus-by-year.php?year=$1 [L] 
 RewriteRule ^report-capital/read-all-member-total/([0-9]+)$ controllers/inventory/report/capital-report/report-read-all-member-total.php?year=$1 [L]  
 RewriteRule ^report-capital/filter/dividend/([0-9]+)$ controllers/inventory/report/capital-report/report-filter-capital-dividend.php?year=$1 [L] 
+RewriteRule ^report-capital/filter/detailed/([0-9]+)$ controllers/inventory/report/capital-report/report-filter-capital-detailed.php?year=$1  [L] 
    
 #REPORT STOCKS
 RewriteRule ^report-stock/filter$ controllers/inventory/report/stocks-report/report-filter-stocks.php [L] 

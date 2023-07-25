@@ -50,6 +50,8 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         http_response_code(200);
         getQueriedData($query);
     }
+    // return 404 error if endpoint not available
+    checkEndpoint();
 }
 
 http_response_code(200);
