@@ -1,5 +1,5 @@
 import React from "react";
-import Patronage from "../Patronage";
+import MemberPatronage from "../MemberPatronage";
 import { StoreContext } from "../../../../../../store/StoreContext";
 import PageNotFound from "../../../../../partials/PageNotFound";
 
@@ -14,7 +14,7 @@ const SystemPatronage = () => {
   }
   return (
     <>
-      <Patronage />
+      <MemberPatronage />
     </>
   );
 };
