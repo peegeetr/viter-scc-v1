@@ -177,7 +177,7 @@ const ReportDividendCapitalShareList = () => {
                 Average Share Months (ASM)
               </th>
               <th className="min-w-[11rem] w-[10rem] text-right pr-4">
-                Dividend 70% ({" "}
+                Dividend 70% (
                 {Number(getDividendAvgTotal(avgAllMemberTotal?.data)).toFixed(
                   5
                 )}
