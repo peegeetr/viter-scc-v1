@@ -77,6 +77,8 @@ const ReportDividendCapitalShareList = () => {
     isYear
   );
 
+  console.log("123", avgAllMemberTotal?.count);
+
   const initVal = {
     member_id: "0",
     year: "2023",
@@ -178,9 +180,11 @@ const ReportDividendCapitalShareList = () => {
               </th>
               <th className="min-w-[11rem] w-[10rem] text-right pr-4">
                 Dividend 70% (
-                {Number(getDividendAvgTotal(avgAllMemberTotal?.data)).toFixed(
-                  5
-                )}
+                {avgAllMemberTotal?.count > 0
+                  ? Number(
+                      getDividendAvgTotal(avgAllMemberTotal?.data)
+                    ).toFixed(5)
+                  : "0.00"}
                 )
               </th>
             </tr>
