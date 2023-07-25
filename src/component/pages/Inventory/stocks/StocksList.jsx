@@ -1,8 +1,12 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import React from "react";
-import { FaCheck, FaHistory, FaTrash } from "react-icons/fa";
+import { FaCheck, FaEdit, FaHistory, FaTrash } from "react-icons/fa";
 import { useInView } from "react-intersection-observer";
-import { setIsConfirm, setIsRestore } from "../../../../store/StoreAction";
+import {
+  setIsAdd,
+  setIsConfirm,
+  setIsRestore,
+} from "../../../../store/StoreAction";
 import { StoreContext } from "../../../../store/StoreContext";
 import {
   formatDate,
@@ -70,6 +74,10 @@ const StocksList = ({ setItemEdit }) => {
     }
   }, [inView]);
 
+  const handleEdit = (item) => {
+    dispatch(setIsAdd(true));
+    setItemEdit(item);
+  };
   const handlePending = (item) => {
     dispatch(setIsConfirm(true));
     setId(item.stocks_aid);
@@ -211,7 +219,15 @@ const StocksList = ({ setItemEdit }) => {
                                   <FaHistory />
                                 </button>
                               </>
-                            )}
+                            )}{" "}
+                            <button
+                              type="button"
+                              className="btn-action-table tooltip-action-table"
+                              data-tooltip="Edit"
+                              onClick={() => handleEdit(item)}
+                            >
+                              <FaEdit />
+                            </button>
                             <button
                               type="button"
                               className="btn-action-table tooltip-action-table"

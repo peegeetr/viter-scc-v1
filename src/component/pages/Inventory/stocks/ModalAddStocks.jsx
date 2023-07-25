@@ -24,7 +24,7 @@ const ModalAddStocks = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [supplierProductId, setSupplierProductId] = React.useState([]);
   const [supplierProductHistoryId, setSupplierProductHistoryId] =
-    React.useState("");
+    React.useState(item ? item.product_history_aid : "");
   const [loading, setSelLoading] = React.useState(false);
 
   const queryClient = useQueryClient();
@@ -79,20 +79,22 @@ const ModalAddStocks = ({ item }) => {
 
   const initVal = {
     supplier_id: item ? item.suppliers_aid : "",
+    stocks_barcode: item ? item.stocks_barcode : "",
     stocks_product_id: item ? item.stocks_product_id : "",
-    stocks_suplier_price_history_id: item
-      ? item.stocks_suplier_price_history_id
-      : "",
+    stocks_suplier_price_history_id: "",
     stocks_remarks: item ? item.stocks_remarks : "",
     stocks_quantity: item ? item.stocks_quantity : "",
     stocks_date: item ? item.stocks_date : getDateNow(),
+
+    stocks_barcode_old: item ? item.stocks_barcode : "",
   };
 
   const yupSchema = Yup.object({
-    supplier_id: Yup.string().required("Required"),
-    stocks_product_id: Yup.string().required("Required"),
-    stocks_quantity: Yup.string().required("Required"),
-    stocks_date: Yup.string().required("Required"),
+    stocks_barcode: Yup.string().required("Required"),
+    supplier_id: !item && Yup.string().required("Required"),
+    stocks_product_id: !item && Yup.string().required("Required"),
+    stocks_quantity: !item && Yup.string().required("Required"),
+    stocks_date: !item && Yup.string().required("Required"),
   });
 
   return (
@@ -131,76 +133,94 @@ const ModalAddStocks = ({ item }) => {
                   supplierProductHistoryId;
                 return (
                   <Form>
-                    <div className="relative my-5 ">
-                      <InputText
-                        label="Date"
-                        type="date"
-                        name="stocks_date"
-                        disabled={mutation.isLoading}
-                      />
-                    </div>
-                    <div className="relative my-5">
-                      <InputSelect
-                        name="supplier_id"
-                        label="Supplier"
-                        onChange={handleSupplierProduct}
-                        disabled={mutation.isLoading}
-                      >
-                        <option value="" hidden>
-                          {loading ? "Loading..." : "--"}
-                        </option>
-                        {supplierData?.data.map((sItem, key) => {
-                          return (
-                            <option key={key} value={sItem.suppliers_aid}>
-                              {`${sItem.suppliers_company_name} `}
+                    {!item && (
+                      <>
+                        <div className="relative my-5 ">
+                          <InputText
+                            label="Date"
+                            type="date"
+                            name="stocks_date"
+                            disabled={mutation.isLoading}
+                          />
+                        </div>
+                        <div className="relative my-5">
+                          <InputSelect
+                            name="supplier_id"
+                            label="Supplier"
+                            onChange={handleSupplierProduct}
+                            disabled={mutation.isLoading}
+                          >
+                            <option value="" hidden>
+                              {loading ? "Loading..." : "--"}
                             </option>
-                          );
-                        })}
-                      </InputSelect>
-                    </div>
-                    <div className="relative my-5">
-                      <InputSelect
-                        name="stocks_product_id"
-                        label="Supplier Product"
-                        onChange={handleSupplierPrice}
-                        disabled={mutation.isLoading}
-                      >
-                        <option value="" hidden>
-                          {loading ? "Loading..." : "--"}
-                        </option>
-                        {supplierProductId?.map((sItem, key) => {
-                          return (
-                            sItem.suppliers_products_price !== "" && (
-                              <option
-                                key={key}
-                                value={sItem.suppliers_products_aid}
-                                id={sItem.product_history_aid}
-                              >
-                                {`${sItem.suppliers_products_name} `}
-                              </option>
-                            )
-                          );
-                        })}
-                      </InputSelect>
-                    </div>
+                            {supplierData?.data.map((sItem, key) => {
+                              return (
+                                <option key={key} value={sItem.suppliers_aid}>
+                                  {`${sItem.suppliers_company_name} `}
+                                </option>
+                              );
+                            })}
+                          </InputSelect>
+                        </div>
+                        <div className="relative my-5">
+                          <InputSelect
+                            name="stocks_product_id"
+                            label="Supplier Product"
+                            onChange={handleSupplierPrice}
+                            disabled={mutation.isLoading}
+                          >
+                            <option value="" hidden>
+                              {loading ? "Loading..." : "--"}
+                            </option>
+                            {supplierProductId?.map((sItem, key) => {
+                              return (
+                                sItem.suppliers_products_price !== "" && (
+                                  <option
+                                    key={key}
+                                    value={sItem.suppliers_products_aid}
+                                    id={sItem.product_history_aid}
+                                  >
+                                    {`${sItem.suppliers_products_name} `}
+                                  </option>
+                                )
+                              );
+                            })}
+                          </InputSelect>
+                        </div>
+                      </>
+                    )}
+
                     <div className="relative my-5">
                       <InputText
-                        label="Quantity"
+                        label="Barcode"
                         type="text"
-                        num="num"
-                        name="stocks_quantity"
+                        number="number"
+                        name="stocks_barcode"
                         disabled={mutation.isLoading}
                       />
                     </div>
-                    <div className="relative my-5">
-                      <InputTextArea
-                        label="Remarks"
-                        type="text"
-                        num="num"
-                        name="stocks_remarks"
-                        disabled={mutation.isLoading}
-                      />
-                    </div>
+                    {!item && (
+                      <>
+                        <div className="relative my-5">
+                          <InputText
+                            label="Quantity"
+                            type="text"
+                            num="num"
+                            name="stocks_quantity"
+                            disabled={mutation.isLoading}
+                          />
+                        </div>
+                        <div className="relative my-5">
+                          <InputTextArea
+                            label="Remarks"
+                            type="text"
+                            num="num"
+                            name="stocks_remarks"
+                            disabled={mutation.isLoading}
+                          />
+                        </div>
+                      </>
+                    )}
 
                     <div className="flex items-center gap-1 pt-5">
                       <button

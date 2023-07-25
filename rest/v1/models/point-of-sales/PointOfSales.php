@@ -110,10 +110,6 @@ class PointOfSales
             $sql .= "sales_order_id, ";
             $sql .= "sales_is_paid, ";
             $sql .= "sales_number, ";
-            $sql .= "sales_receive_amount, ";
-            $sql .= "sales_member_change, ";
-            $sql .= "sales_or, ";
-            $sql .= "sales_date, ";
             $sql .= "sales_discount, ";
             $sql .= "sales_created, ";
             $sql .= "sales_datetime ) values ( ";
@@ -121,10 +117,6 @@ class PointOfSales
             $sql .= ":sales_order_id, ";
             $sql .= ":sales_is_paid, ";
             $sql .= ":sales_number, ";
-            $sql .= ":sales_receive_amount, ";
-            $sql .= ":sales_member_change, ";
-            $sql .= ":sales_or, ";
-            $sql .= ":sales_date, ";
             $sql .= ":sales_discount, ";
             $sql .= ":sales_created, ";
             $sql .= ":sales_datetime ) ";
@@ -134,10 +126,6 @@ class PointOfSales
                 "sales_order_id" => $this->lastInsertedId,
                 "sales_is_paid" => $this->orders_is_paid,
                 "sales_number" => $this->sales_number,
-                "sales_receive_amount" => $this->sales_receive_amount,
-                "sales_member_change" => $this->sales_member_change,
-                "sales_or" => $this->sales_or,
-                "sales_date" => $this->sales_date,
                 "sales_discount" => $this->sales_discount,
                 "sales_created" => $this->orders_created,
                 "sales_datetime" => $this->orders_datetime,

@@ -17,6 +17,7 @@ $stocks->stocks_quantity = checkIndex($data, "stocks_quantity");
 $stocks->stocks_date = checkIndex($data, "stocks_date");
 $stocks->stocks_suplier_price_history_id = checkIndex($data, "stocks_suplier_price_history_id");
 $stocks->stocks_remarks = checkIndex($data, "stocks_remarks");
+$stocks->stocks_barcode = checkIndex($data, "stocks_barcode");
 $stocks->stocks_is_pending = 1;
 $stocks->stocks_created = date("Y-m-d H:i:s");
 $stocks->stocks_datetime = date("Y-m-d H:i:s");
@@ -57,5 +58,6 @@ $stocks->stocks_number = $formattedStockId;
 
 // create
 $query = checkCreate($stocks);
+checkCreateBarcode($stocks);
 
 returnSuccess($stocks, "Stocks", $query);

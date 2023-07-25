@@ -1,7 +1,7 @@
 import React from "react";
 import { StoreContext } from "../../../../../store/StoreContext";
 import PageNotFound from "../../../../partials/PageNotFound";
-import PointOfSales from "../PointOfSales";
+import PointOfSalesV2 from "../PointOfSalesV2";
 
 const AdminPointOfSales = () => {
   const { store } = React.useContext(StoreContext);
@@ -15,7 +15,8 @@ const AdminPointOfSales = () => {
   }
   return (
     <>
-      <PointOfSales />
+      <PointOfSalesV2 />
+      {/* <PointOfSales /> */}
     </>
   );
 };

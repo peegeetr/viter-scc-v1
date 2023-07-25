@@ -1,0 +1,32 @@
+ 
+*controllers  
+    - inventory/stocks/create.php       
+    - inventory/stocks/functions.php       
+    - inventory/stocks/stocks.php       
+    - inventory/stocks/update.php       
+    - point-of-sales/create.php       
+    - 
+    -
+    
+*models    
+    - inventory/stocks/Stocks.php   
+    - point-of-sales/PointOfSales.php
+    - 
+    -  
+
+*htaccess 
+    -
+    - 
+
+*db tables 
+    - 
+    - 
+
+
+*core functions 
+    - 
+    - 
+
+*extra
+    - 
+    - 

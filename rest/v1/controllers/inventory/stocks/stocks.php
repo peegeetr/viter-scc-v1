@@ -1,9 +1,9 @@
 <?php
-
 // set http header
 require '../../../core/header.php';
 // use needed functions
 require '../../../core/functions.php';
+require 'functions.php';
 // use needed classes
 require '../../../models/inventory/stocks/Stocks.php';
 // get payload

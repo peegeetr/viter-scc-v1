@@ -28,6 +28,26 @@ export const InputTextArea = ({ label, ...props }) => {
 export const InputText = ({ label, ...props }) => {
   const [field, meta] = useField(props);
 
+  if (props.number === "number") {
+    return (
+      <>
+        <NumericFormat
+          {...field}
+          {...props}
+          allowLeadingZeros
+          autoComplete="off"
+          // prefix={"P "}
+          className={meta.touched && meta.error ? "error-show" : null}
+        />
+
+        <label htmlFor={props.id || props.name}>{label}</label>
+        {meta.touched && meta.error ? (
+          <span className="error-show">{meta.error}</span>
+        ) : null}
+      </>
+    );
+  }
+
   if (props.num === "num") {
     return (
       <>
