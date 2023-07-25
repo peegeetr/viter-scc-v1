@@ -39,20 +39,53 @@ export const checkReportCapitalShare = (capital, reportMemberFee) => {
   };
 };
 
-export const getAvgTotal = (result, netsurplusForDis) => {
+export const getDetailedAvgTotal = (result) => {
   let totalAmount = 0;
-  let netCapital = 0;
-  let finalAmount = 0;
-  //
-  if (netsurplusForDis?.length > 0) {
-    netCapital = Number(netsurplusForDis[0].net_surplus_dividend);
-  }
+
   result?.map((item) => {
     totalAmount += Number(item.total) / 12;
   });
 
-  finalAmount = netCapital / totalAmount;
+  return totalAmount;
+};
 
-  //
-  return { finalAmount, totalAmount };
+export const getDividendAvgTotal = (avg) => {
+  let dividend70 = 0;
+  let paidUp = 0;
+  let totalAmount = 1;
+  let rate = 0;
+
+  avg?.map((aItem) => {
+    paidUp = Number(aItem.total) / 12;
+    totalAmount += paidUp;
+    dividend70 = aItem.net_surplus_dividend;
+  });
+
+  rate = dividend70 / totalAmount;
+
+  return rate;
+};
+
+export const getDividendAvgAllTotal = (avg, item) => {
+  let myDividendASM = item.total / 12;
+  let rate = getDividendAvgTotal(avg);
+  let result = 0;
+  result = myDividendASM * rate;
+
+  return result;
+};
+
+export const getTotalDividend = (avg) => {
+  let rate = getDividendAvgTotal(avg);
+  let dividendByMem = 0;
+  let myDividendASM = 0;
+  let result = 0;
+
+  avg?.map((aItem) => {
+    myDividendASM = aItem.total / 12;
+    dividendByMem = myDividendASM * rate;
+    result += dividendByMem;
+  });
+
+  return result;
 };

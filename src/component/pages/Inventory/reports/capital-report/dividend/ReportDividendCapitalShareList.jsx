@@ -17,7 +17,12 @@ import ServerError from "../../../../../partials/ServerError";
 import ButtonSpinner from "../../../../../partials/spinners/ButtonSpinner";
 import TableSpinner from "../../../../../partials/spinners/TableSpinner";
 import StatusAmount from "../../../../../partials/status/StatusAmount";
-import { getAvgTotal, getYearList } from "../functions-report-capital";
+import {
+  getDividendAvgAllTotal,
+  getDividendAvgTotal,
+  getTotalDividend,
+  getYearList,
+} from "../functions-report-capital";
 
 const ReportDividendCapitalShareList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -27,6 +32,8 @@ const ReportDividendCapitalShareList = () => {
   const [isYear, setIsYear] = React.useState(yearNow());
   const [value, setValue] = React.useState([]);
   let counter = 1;
+  let totalAvg = 0;
+  let totalDividend = 0;
   // use if with loadmore button and search bar
   const {
     data: result,
@@ -38,7 +45,7 @@ const ReportDividendCapitalShareList = () => {
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
         `/v1/report-capital/filter/dividend`, // filter endpoint // filter
-        `/v1/sales/page/${0}`, // list endpoint
+        `/v1/report-capital/filter/dividend/${isYear}`, // list endpoint
         isFilter, // search boolean
         "post",
         { value }
@@ -62,29 +69,13 @@ const ReportDividendCapitalShareList = () => {
   );
 
   // use if not loadmore button undertime
-  const { data: avgShareMonth } = useQueryData(
-    `/v1/report-capital/read-all-avg-by-year/${isMember}/${isYear}`, // endpoint
+  const { data: avgAllMemberTotal } = useQueryData(
+    `/v1/report-capital/read-all-member-total/${isYear}`, // endpoint
     "get", // method
-    "avgShareMonth", // key
-    {},
-    isMember,
-    isYear
-  );
-
-  // use if not loadmore button undertime
-  const { data: netsurplusForDis } = useQueryData(
-    `/v1/report-capital/read-netsurplus-by-year/${isYear}`, // endpoint
-    "get", // method
-    "netsurplusForDis", // key
+    "avgAllMemberTotal", // key
     {},
     isYear
   );
-
-  // console.log(
-  //   "123",
-  //   netsurplusForDis?.data,
-  //   getAvgTotal(avgShareMonth?.data, netsurplusForDis?.data)
-  // );
 
   const initVal = {
     member_id: "0",
@@ -168,8 +159,8 @@ const ReportDividendCapitalShareList = () => {
 
       <div className="xl:flex items-center mb-2 text-primary">
         <StatusAmount
-          text={`${isYear} Dividend Rate `}
-          amount={Number(getAvgTotal(result?.pages[0].data).totalAmount)}
+          text={`${isYear} Total Dividend `}
+          amount={Number(getTotalDividend(avgAllMemberTotal?.data, 0))}
         />
       </div>
 
@@ -187,10 +178,8 @@ const ReportDividendCapitalShareList = () => {
               </th>
               <th className="min-w-[11rem] w-[10rem] text-right pr-4">
                 Dividend 70% ({" "}
-                {numberWithCommas(
-                  Number(
-                    getAvgTotal(result?.pages[0].data).totalAmount
-                  ).toFixed(2)
+                {Number(getDividendAvgTotal(avgAllMemberTotal?.data)).toFixed(
+                  5
                 )}
                 )
               </th>
@@ -201,7 +190,7 @@ const ReportDividendCapitalShareList = () => {
               <tr className="text-center relative">
                 <td colSpan="100%" className="p-10">
                   {status === "loading" && <TableSpinner />}
-                  <NoData text="Filter data using above controls." />
+                  <NoData text="No Data" />
                 </td>
               </tr>
             )}
@@ -216,6 +205,11 @@ const ReportDividendCapitalShareList = () => {
             {result?.pages.map((page, key) => (
               <React.Fragment key={key}>
                 {page.data.map((item, key) => {
+                  totalAvg += Number(item.total) / 12;
+                  totalDividend += getDividendAvgAllTotal(
+                    avgAllMemberTotal?.data,
+                    item
+                  );
                   return (
                     <tr key={key}>
                       <td>{counter++}.</td>
@@ -227,7 +221,12 @@ const ReportDividendCapitalShareList = () => {
                       <td className=" text-right pr-4">
                         {pesoSign}{" "}
                         {numberWithCommas(
-                          Number(item.capital_share_paid_up).toFixed(2)
+                          Number(
+                            getDividendAvgAllTotal(
+                              avgAllMemberTotal?.data,
+                              item
+                            )
+                          ).toFixed(2)
                         )}
                       </td>
                     </tr>
@@ -235,6 +234,25 @@ const ReportDividendCapitalShareList = () => {
                 })}
               </React.Fragment>
             ))}
+            {isFilter && (
+              <tr className="border-b-0">
+                <td colSpan={2}> </td>
+                <td className=" text-right pr-4">
+                  Total ASM :
+                  <span className="ml-2 font-semibold">
+                    {pesoSign}
+                    {numberWithCommas(Number(totalAvg).toFixed(2))}
+                  </span>
+                </td>
+                <td className=" text-right pr-4">
+                  Dividend :
+                  <span className="ml-2 font-semibold">
+                    {pesoSign}
+                    {numberWithCommas(Number(totalDividend).toFixed(2))}
+                  </span>
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

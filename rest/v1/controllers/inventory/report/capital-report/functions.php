@@ -76,3 +76,11 @@ function checkReadAllMemberFee($object)
     checkQuery($query, "Empty records. (read All Member Fee)");
     return $query;
 }
+
+// Read Member All Total
+function checkReadMemberAllTotal($object)
+{
+    $query = $object->readMemberAllTotal();
+    checkQuery($query, "Empty records. (Read all member all total)");
+    return $query;
+}

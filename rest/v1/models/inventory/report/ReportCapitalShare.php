@@ -99,11 +99,11 @@ class ReportCapitalShare
     {
         try {
             $sql = "select ";
-            $sql .= "members.members_last_name, ";
-            $sql .= "members.members_first_name, ";
+            $sql .= "sum(capitalShare.capital_share_total) as total, ";
+            $sql .= "YEAR(capitalShare.capital_share_date) as year, ";
             $sql .= "members.members_aid, ";
-            $sql .= "SUM(capital_share_total) as total, ";
-            $sql .= "YEAR(capital_share_date) as year ";
+            $sql .= "members.members_last_name, ";
+            $sql .= "members.members_first_name ";
             $sql .= "from {$this->tblReportCapitalShare} as capitalShare, ";
             $sql .= "{$this->tblMembers} as members ";
             $sql .= "where members.members_aid = capitalShare.capital_share_member_id ";
@@ -126,8 +126,10 @@ class ReportCapitalShare
     public function readReportCapitalDividendByMemberId()
     {
         try {
-            $sql = "select capitalShare.*, ";
-            $sql .= "sum(capitalShare.capital_share_total) as totalcapital, ";
+            $sql = "select ";
+            $sql .= "sum(capitalShare.capital_share_total) as total, ";
+            $sql .= "YEAR(capitalShare.capital_share_date) as year, ";
+            $sql .= "members.members_aid, ";
             $sql .= "members.members_last_name, ";
             $sql .= "members.members_first_name ";
             $sql .= "from {$this->tblReportCapitalShare} as capitalShare, ";
@@ -251,6 +253,41 @@ class ReportCapitalShare
             $sql .= "where (members_member_fee != '' ";
             $sql .= "or members_member_fee != 0) ";
             $query = $this->connection->query($sql);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    // read all pending
+    public function readMemberAllTotal()
+    {
+        try {
+            $sql = "select ";
+            $sql .= "netSuplus.net_surplus_year, ";
+            $sql .= "netSuplus.net_surplus_dividend_rate, ";
+            $sql .= "netSuplus.net_surplus_dividend, ";
+            $sql .= "netSuplus.net_surplus_patronage_rate, ";
+            $sql .= "netSuplus.net_surplus_patronage_refund, ";
+            $sql .= "netSuplus.net_surplus_distribution_amount, ";
+            $sql .= "sum(capitalShare.capital_share_total) as total, ";
+            $sql .= "YEAR(capitalShare.capital_share_date) as year, ";
+            $sql .= "capital_share_member_id, ";
+            $sql .= "SUM(capital_share_total) as allMemTotal, ";
+            $sql .= "YEAR(capital_share_date) as year ";
+            $sql .= "from ";
+            $sql .= "{$this->tblReportCapitalShare} as capitalShare, ";
+            $sql .= "{$this->tblNetSurplus} as netSuplus ";
+            $sql .= "where capitalShare.capital_share_is_initial_pay = 0 ";
+            $sql .= "and YEAR(capitalShare.capital_share_date) = :year ";
+            $sql .= "and YEAR(capitalShare.capital_share_date) = netSuplus.net_surplus_year ";
+            $sql .= "group by capitalShare.capital_share_member_id, ";
+            $sql .= "YEAR(capitalShare.capital_share_date) ";
+            $sql .= "order by YEAR(capitalShare.capital_share_date) desc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "year" => $this->capital_share_date,
+            ]);
         } catch (PDOException $ex) {
             $query = false;
         }

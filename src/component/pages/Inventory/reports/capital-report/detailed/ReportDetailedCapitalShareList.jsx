@@ -17,7 +17,7 @@ import ServerError from "../../../../../partials/ServerError";
 import ButtonSpinner from "../../../../../partials/spinners/ButtonSpinner";
 import TableSpinner from "../../../../../partials/spinners/TableSpinner";
 import { getMonth } from "../../report-function";
-import { getAvgTotal, getYearList } from "../functions-report-capital";
+import { getDetailedAvgTotal, getYearList } from "../functions-report-capital";
 import ReportDetailedCapitalShareBody from "./ReportDetailedCapitalShareBody";
 
 const ReportDetailedCapitalShareList = () => {
@@ -148,9 +148,7 @@ const ReportDetailedCapitalShareList = () => {
           {pesoSign}{" "}
           {isYear !== "0"
             ? numberWithCommas(
-                Number(getAvgTotal(result?.pages[0].data).totalAmount).toFixed(
-                  2
-                )
+                Number(getDetailedAvgTotal(result?.pages[0].data)).toFixed(2)
               )
             : "0.00"}
         </p>
