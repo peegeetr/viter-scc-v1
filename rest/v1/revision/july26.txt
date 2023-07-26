@@ -2,9 +2,15 @@
 *controllers  
     - inventory/stocks/create.php       
     - inventory/stocks/functions.php       
-    - inventory/stocks/stocks.php       
+    - inventory/stocks/stocks.php      
+    - inventory/stocks/read-barcode-by-stock.php   
     - inventory/stocks/update.php       
-    - point-of-sales/create.php       
+    - point-of-sales/create.php            
+    - point-of-sales/delete.php            
+    - point-of-sales/functions.php            
+    - point-of-sales/point-of-sales.php            
+    - point-of-sales/search-to-add-product.php            
+    - point-of-sales/read-member-approved.php            
     - 
     -
     
@@ -15,11 +21,11 @@
     -  
 
 *htaccess 
-    -
+    - htaccess
     - 
 
 *db tables 
-    - 
+    - sccv1_product_barcode.sql
     - 
 
 

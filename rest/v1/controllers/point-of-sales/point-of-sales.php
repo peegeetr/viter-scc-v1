@@ -25,6 +25,12 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         sendResponse($result);
         exit;
     }
+    // DELETE
+    if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+        $result = require 'delete.php';
+        sendResponse($result);
+        exit;
+    }
 }
 
 http_response_code(200);

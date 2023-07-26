@@ -105,6 +105,7 @@ RewriteRule ^stocks/active/([0-9]+)$ controllers/inventory/stocks/active.php?sto
 RewriteRule ^stocks/page/([0-9]+)$ controllers/inventory/stocks/page.php?start=$1 [L]
 RewriteRule ^stocks/search$ controllers/inventory/stocks/search.php [L]
 RewriteRule ^stocks/group-by-prod$ controllers/inventory/stocks/group-by-product-number.php [L]
+RewriteRule ^stocks/read-barcode-by-stock/([0-9]+)$ controllers/inventory/stocks/read-barcode-by-stock.php?stockid=$1 [L]
 
 #Net Surplus
 RewriteRule ^net-surplus$ controllers/settings/net-surplus/net-surplus.php [L]
@@ -175,9 +176,12 @@ RewriteRule ^system-maintenance/maintenance$ controllers/settings/system-mainten
 #POINT OF SALES
 RewriteRule ^pos/orders/([0-9]+)$ controllers/point-of-sales/pages.php?membersid=$1 [L] 
 RewriteRule ^pos/orders/filter/([0-9]+)$ controllers/point-of-sales/pages.php?membersid=$1 [L]
+RewriteRule ^pos/delete/orders$ controllers/point-of-sales/point-of-sales.php [L] 
 RewriteRule ^pos/create/orders$ controllers/point-of-sales/point-of-sales.php [L] 
 RewriteRule ^pos/update/orders/([0-9]+)$ controllers/point-of-sales/point-of-sales.php?orderid=$1 [L] 
 RewriteRule ^pos/accept-payment/([A-Za-z0-9-]+)$ controllers/point-of-sales/update-payment.php?payAll=$1 [L] 
+RewriteRule ^pos/search-to-add-product$ controllers/point-of-sales/search-to-add-product.php [L]  
+RewriteRule ^pos/read-member-approved$ controllers/point-of-sales/read-member-approved.php [L]  
  
 #SUBSCRIBE CAPITAL
 RewriteRule ^subscribe-capital$ controllers/settings/subscribe-capital/subscribe-capital.php [L]

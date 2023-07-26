@@ -6,11 +6,10 @@ import Header from "../../../partials/Header";
 import Navigation from "../../../partials/Navigation";
 import ModalError from "../../../partials/modals/ModalError";
 import ModalSuccess from "../../../partials/modals/ModalSuccess";
-import CasherPointOfSalesListV2 from "../../point-of-sales/CasherPointOfSalesListV2";
+import CasherPointOfSalesListOld from "../../point-of-sales-old/CasherPointOfSalesListOld";
 
-const PointOfSalesV2 = () => {
+const PointOfSaleOld = () => {
   const { store, dispatch } = React.useContext(StoreContext);
-  const [itemEdit, setItemEdit] = React.useState(null);
 
   return (
     <>
@@ -18,7 +17,7 @@ const PointOfSalesV2 = () => {
       <Navigation menu="inventory" />
       <div className="wrapper">
         <BreadCrumbs />
-        <hr className="print:hidden" /> <CasherPointOfSalesListV2 />
+        <hr className="print:hidden" /> <CasherPointOfSalesListOld />
         <Footer />
       </div>
       {store.success && <ModalSuccess />}
@@ -27,4 +26,4 @@ const PointOfSalesV2 = () => {
   );
 };
 
-export default PointOfSalesV2;
+export default PointOfSaleOld;

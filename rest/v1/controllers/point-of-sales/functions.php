@@ -38,3 +38,18 @@ function checkIsPaidOrder($object)
     checkQuery($query, "There's a problem processing your request. (sales is pending)");
     return $query;
 }
+// search to add product 
+function checksearchToAddProduct($object)
+{
+    $query = $object->searchToAddProduct();
+    checkQuery($query, "There's a problem processing your request. (search to add product)");
+    return $query;
+}
+
+// Read all
+function checkReadAllMemberApproved($object)
+{
+    $query = $object->readAllMemberApproved();
+    checkQuery($query, "Empty records.");
+    return $query;
+}

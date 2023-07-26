@@ -20,7 +20,7 @@ import { getDateNow, removeComma } from "../../../helpers/functions-general";
 import { queryData } from "../../../helpers/queryData";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
 
-const ModalAddStocks = ({ item }) => {
+const ModalAddStocks = ({ item, isBarcode }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [supplierProductId, setSupplierProductId] = React.useState([]);
   const [supplierProductHistoryId, setSupplierProductHistoryId] =
@@ -51,15 +51,18 @@ const ModalAddStocks = ({ item }) => {
       }
     },
   });
+
   const handleClose = () => {
     dispatch(setIsAdd(false));
   };
+
   // use if not loadmore button undertime
-  const { isLoading: loadingSupplier, data: supplierData } = useQueryData(
+  const { data: supplierData } = useQueryData(
     `/v1/suppliers`, // endpoint
     "get", // method
     "supplierData" // key
   );
+
   // get employee id
   const handleSupplierProduct = async (e, props) => {
     let supplierId = e.target.value;
@@ -67,6 +70,7 @@ const ModalAddStocks = ({ item }) => {
     const results = await queryData(
       `/v1/suppliers-product/read-supplier-id/${supplierId}`
     );
+
     if (results.data) {
       setSelLoading(false);
       setSupplierProductId(results.data);
@@ -79,18 +83,18 @@ const ModalAddStocks = ({ item }) => {
 
   const initVal = {
     supplier_id: item ? item.suppliers_aid : "",
-    stocks_barcode: item ? item.stocks_barcode : "",
     stocks_product_id: item ? item.stocks_product_id : "",
     stocks_suplier_price_history_id: "",
     stocks_remarks: item ? item.stocks_remarks : "",
     stocks_quantity: item ? item.stocks_quantity : "",
     stocks_date: item ? item.stocks_date : getDateNow(),
 
-    stocks_barcode_old: item ? item.stocks_barcode : "",
+    product_barcode_id: item ? isBarcode : "",
+    product_barcode_id_old: item ? isBarcode : "",
   };
 
   const yupSchema = Yup.object({
-    stocks_barcode: Yup.string().required("Required"),
+    product_barcode_id: Yup.string().required("Required"),
     supplier_id: !item && Yup.string().required("Required"),
     stocks_product_id: !item && Yup.string().required("Required"),
     stocks_quantity: !item && Yup.string().required("Required"),
@@ -118,7 +122,7 @@ const ModalAddStocks = ({ item }) => {
               initialValues={initVal}
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
-                // console.log(values);
+                console.log(values);
                 const stocks_quantity = removeComma(
                   `${values.stocks_quantity}`
                 );
@@ -195,7 +199,7 @@ const ModalAddStocks = ({ item }) => {
                         label="Barcode"
                         type="text"
                         number="number"
-                        name="stocks_barcode"
+                        name="product_barcode_id"
                         disabled={mutation.isLoading}
                       />
                     </div>

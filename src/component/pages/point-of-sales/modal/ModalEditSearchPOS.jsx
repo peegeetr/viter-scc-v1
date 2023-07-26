@@ -9,30 +9,25 @@ import {
   setIsModalSearch,
   setMessage,
   setSuccess,
-} from "../../../store/StoreAction";
-import { StoreContext } from "../../../store/StoreContext";
-import useQueryData from "../../custom-hooks/useQueryData";
-import { InputText, InputTextArea } from "../../helpers/FormInputs";
+} from "../../../../store/StoreAction";
+import { StoreContext } from "../../../../store/StoreContext";
+import useQueryData from "../../../custom-hooks/useQueryData";
+import { InputText, InputTextArea } from "../../../helpers/FormInputs";
 import {
   formatDate,
   getDateNow,
   numberWithCommas,
   pesoSign,
   removeComma,
-} from "../../helpers/functions-general";
-import { queryData } from "../../helpers/queryData";
-import ButtonSpinner from "../../partials/spinners/ButtonSpinner";
-import { getRemaningQuantity } from "../Inventory/products/functions-product";
-import SearchToAddProduct from "./SearchToAddProduct";
-import { getTotaAmountPOS } from "./functions-pos";
+} from "../../../helpers/functions-general";
+import { queryData } from "../../../helpers/queryData";
+import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
+import { getRemaningQuantity } from "../../Inventory/products/functions-product";
+import { getTotaAmountPOS } from "../functions-pos";
 
-const ModalEditSearchPOS = ({ item, arrKey, memberId, memberName }) => {
+const ModalEditSearchPOS = ({ item, arrKey, memberName }) => {
   const { store, dispatch } = React.useContext(StoreContext);
-  const [items, setItems] = React.useState([]);
-
-  const [totalPrice, setTotalPrice] = React.useState(item.orders_product_srp);
-  const [search, setSearch] = React.useState(item.suppliers_products_name);
-  const onSearch = React.useRef("0");
+  const [totalPrice] = React.useState(item.orders_product_srp);
 
   const queryClient = useQueryClient();
   const mutation = useMutation({
@@ -73,15 +68,6 @@ const ModalEditSearchPOS = ({ item, arrKey, memberId, memberName }) => {
     "orderGroupProd" // key
   );
 
-  // use if not loadmore button undertime
-  const { data: ProductList, isLoading } = useQueryData(
-    `/v1/product/search/product`, // filter endpoint
-    "post", // method
-    "ProductList", // key
-    { search },
-    search
-  );
-
   const initVal = {
     orders_member_id: item.orders_member_id,
     orders_product_quantity: item.orders_product_quantity,
@@ -119,11 +105,7 @@ const ModalEditSearchPOS = ({ item, arrKey, memberId, memberName }) => {
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
                 // console.log(values);
-                if (!item && items?.suppliers_products_aid === undefined) {
-                  dispatch(setError(true));
-                  dispatch(setMessage("Please check if you have product."));
-                  return;
-                }
+
                 const orders_product_quantity = removeComma(
                   `${values.orders_product_quantity}`
                 );
@@ -159,7 +141,6 @@ const ModalEditSearchPOS = ({ item, arrKey, memberId, memberName }) => {
                 }
                 mutation.mutate({
                   ...values,
-                  items,
                   sales_discount,
                   orders_product_amount,
                   orders_product_quantity,
@@ -184,11 +165,7 @@ const ModalEditSearchPOS = ({ item, arrKey, memberId, memberName }) => {
                       <span className="font-bold">
                         {" "}
                         {item.suppliers_products_name}
-                        {` (${getRemaningQuantity(
-                          item,
-                          stocksGroupProd,
-                          orderGroupProd
-                        )} pcs) `}
+                        {` (${item.orders_product_quantity} pcs) `}
                         {pesoSign}{" "}
                         {`${numberWithCommas(Number(totalPrice).toFixed(2))}`}
                       </span>
@@ -209,7 +186,7 @@ const ModalEditSearchPOS = ({ item, arrKey, memberId, memberName }) => {
                       <InputText
                         label="Quantity"
                         type="text"
-                        num="num"
+                        number="number"
                         name="orders_product_quantity"
                         disabled={mutation.isLoading}
                       />

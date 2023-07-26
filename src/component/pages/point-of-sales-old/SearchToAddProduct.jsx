@@ -1,11 +1,10 @@
 import React from "react";
 import { FaFolderOpen } from "react-icons/fa";
-import { setIsModalSearch, setIsSearch } from "../../../store/StoreAction";
+import { setIsModalSearch } from "../../../store/StoreAction";
 import { StoreContext } from "../../../store/StoreContext";
 import { numberWithCommas } from "../../helpers/functions-general";
 import TableSpinner from "../../partials/spinners/TableSpinner";
 import { getRemaningQuantity } from "../Inventory/products/functions-product";
-import { InputSelect } from "../../helpers/FormInputs";
 
 const SearchToAddProduct = ({
   stocksGroupProd,

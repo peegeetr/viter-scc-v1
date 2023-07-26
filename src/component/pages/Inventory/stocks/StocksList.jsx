@@ -24,8 +24,9 @@ import StatusActive from "../../../partials/status/StatusActive";
 import StatusPending from "../../../partials/status/StatusPending";
 import ModalUpdateOR from "./ModalUpdateOR";
 import StocksTotal from "./StocksTotal";
+import { queryData } from "../../../helpers/queryData";
 
-const StocksList = ({ setItemEdit }) => {
+const StocksList = ({ setItemEdit, setIsBarcode }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [dataItem, setData] = React.useState(null);
   const [id, setId] = React.useState(null);
@@ -74,9 +75,16 @@ const StocksList = ({ setItemEdit }) => {
     }
   }, [inView]);
 
-  const handleEdit = (item) => {
+  const handleEdit = async (item) => {
+    const results = await queryData(
+      `/v1/stocks/read-barcode-by-stock/${item.stocks_aid}`,
+      "get",
+      {}
+    );
+
     dispatch(setIsAdd(true));
     setItemEdit(item);
+    setIsBarcode(results?.count > 0 ? results?.data[0].product_barcode_id : "");
   };
   const handlePending = (item) => {
     dispatch(setIsConfirm(true));

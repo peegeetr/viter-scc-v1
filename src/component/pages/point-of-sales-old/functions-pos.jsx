@@ -46,12 +46,3 @@ export const getTotaAmountProduct = (values, totalPrice) => {
   }
   return result;
 };
-
-export const getTotalAmountPending = (result) => {
-  let finalResult = 0;
-  result?.data.map((item) => {
-    finalResult +=
-      Number(item.orders_product_amount) - Number(item.sales_discount);
-  });
-  return finalResult;
-};

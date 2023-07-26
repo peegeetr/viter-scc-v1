@@ -24,7 +24,7 @@ import {
 } from "../../../helpers/functions-general";
 import { queryData } from "../../../helpers/queryData";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
-import SearchToAddProduct from "../../point-of-sales/SearchToAddProduct";
+import SearchToAddProduct from "../../point-of-sales-old/SearchToAddProduct";
 import { getRemaningQuantity } from "../products/functions-product";
 import { getProductDetails, getTotaAmountOrder } from "./functions-orders";
 

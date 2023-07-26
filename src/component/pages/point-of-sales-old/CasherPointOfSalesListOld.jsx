@@ -1,11 +1,7 @@
-import {
-  useInfiniteQuery,
-  useMutation,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { Form, Formik } from "formik";
 import React from "react";
-import { FaEdit, FaSearch, FaTrash } from "react-icons/fa";
+import { FaEdit, FaShoppingCart, FaTrash } from "react-icons/fa";
 import { GiReceiveMoney } from "react-icons/gi";
 import { useInView } from "react-intersection-observer";
 import * as Yup from "yup";
@@ -13,22 +9,17 @@ import {
   setError,
   setIsAdd,
   setIsConfirm,
-  setIsModalSearch,
   setIsRestore,
   setMessage,
-  setSuccess,
 } from "../../../store/StoreAction";
 import { StoreContext } from "../../../store/StoreContext";
 import useQueryData from "../../custom-hooks/useQueryData";
 import { InputSelect } from "../../helpers/FormInputs";
 import {
   formatDate,
-  getDateNow,
   numberWithCommas,
   pesoSign,
-  removeComma,
 } from "../../helpers/functions-general";
-import { queryData } from "../../helpers/queryData";
 import { queryDataInfinite } from "../../helpers/queryDataInfinite";
 import NoData from "../../partials/NoData";
 import ServerError from "../../partials/ServerError";
@@ -37,11 +28,11 @@ import TableSpinner from "../../partials/spinners/TableSpinner";
 import StatusActive from "../../partials/status/StatusActive";
 import StatusPending from "../../partials/status/StatusPending";
 import { computeFinalAmount } from "../Inventory/orders/functions-orders";
+import ModalAddSearchPOS from "./ModalAddSearchPOS";
 import ModalPayNow from "./ModalPayNow";
 import { getDataPayNow } from "./functions-pos";
-import { getRemaningQuantity } from "../Inventory/products/functions-product";
-import ModalEditSearchPOS from "./ModalEditSearchPOS";
-const CasherPointOfSalesListV2 = () => {
+
+const CasherPointOfSalesListOld = () => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [isFilter, setFilter] = React.useState(false);
   const [isSubmit, setSubmit] = React.useState(false);
@@ -49,16 +40,12 @@ const CasherPointOfSalesListV2 = () => {
   const [isPayAll, setIsPayAll] = React.useState(false);
   const [memberId, setMember] = React.useState(0);
   const [memberName, setMemberName] = React.useState("");
-  const [items, setItems] = React.useState([]);
-  const [totalPrice, setTotalPrice] = React.useState("");
-  const [search, setSearch] = React.useState("0");
   const [dataItem, setData] = React.useState(null);
   const [id, setId] = React.useState(null);
   const [isDel, setDel] = React.useState(false);
   let counter = 1;
   let totalAmount = 0;
   const { ref, inView } = useInView();
-  const onSearch = React.useRef("0");
   // use if with loadmore button and search bar
   const {
     data: result,
@@ -111,47 +98,6 @@ const CasherPointOfSalesListV2 = () => {
       "memberApproved" // key
     );
 
-  // use if not loadmore button undertime
-  const { data: stocksGroupProd } = useQueryData(
-    `/v1/stocks/group-by-prod`, // endpoint
-    "get", // method
-    "stocksGroupProd" // key
-  );
-  // use if not loadmore button undertime
-  const { data: orderGroupProd } = useQueryData(
-    `/v1/orders/group-by-prod`, // endpoint
-    "get", // method
-    "orderGroupProd" // key
-  );
-
-  // use if not loadmore button undertime
-  const { data: ProductList } = useQueryData(
-    `/v1/product/search/product`, // filter endpoint
-    "post", // method
-    "pos-order", // key
-    { search },
-    search
-  );
-
-  const queryClient = useQueryClient();
-  const mutation = useMutation({
-    mutationFn: (values) => queryData(`/v1/pos/create/orders`, "post", values),
-    onSuccess: (data) => {
-      // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ["pos-order"] });
-      // show success box
-      if (data.success) {
-        dispatch(setSuccess(true));
-        dispatch(setMessage(`Successfuly added.`));
-      }
-      // show error box
-      if (!data.success) {
-        dispatch(setError(true));
-        dispatch(setMessage(data.error));
-      }
-    },
-  });
-
   const handlePosOrder = async (e, props) => {
     setFilter(true);
     setSubmit(!isSubmit);
@@ -159,16 +105,14 @@ const CasherPointOfSalesListV2 = () => {
     setMemberName(e.target.options[e.target.selectedIndex].id);
   };
 
-  const handleChange = (e) => {
-    if (onSearch.current.value === "") {
-      setSearch("0");
-      dispatch(setIsModalSearch(false));
+  const handleAdd = () => {
+    if (memberId === 0) {
+      dispatch(setError(true));
+      dispatch(setMessage(`Please choose member first.`));
       return;
     }
-
-    setSearch(onSearch.current.value);
-    setItems(ProductList?.data[0]);
-    dispatch(setIsModalSearch(true));
+    dispatch(setIsAdd(true));
+    setItemEdit(null);
   };
 
   const handlePayNow = () => {
@@ -192,6 +136,7 @@ const CasherPointOfSalesListV2 = () => {
     setItemEdit(item);
     setIsPayAll(false);
   };
+
   const initVal = {
     posMember: "",
   };
@@ -201,46 +146,17 @@ const CasherPointOfSalesListV2 = () => {
   });
   return (
     <>
-      <div className="whitespace-nowrap overflow-auto gap-2 pt-8 pb-5">
-        <Formik
-          initialValues={initVal}
-          validationSchema={yupSchema}
-          onSubmit={async (values, { setSubmitting, resetForm }) => {
-            // console.log(items);
-
-            if (
-              ProductList?.count === 0 &&
-              items?.suppliers_products_aid === undefined
-            ) {
-              dispatch(setError(true));
-              dispatch(setMessage("Please check if you have product."));
-              return;
-            }
-            const orders_member_id = memberId;
-
-            const newQty = getRemaningQuantity(
-              items,
-              stocksGroupProd,
-              orderGroupProd
-            );
-
-            if (newQty <= 0) {
-              dispatch(setError(true));
-              dispatch(setMessage("Insufficient Quantity"));
-              return;
-            }
-            mutation.mutate({
-              ...values,
-              items,
-              orders_member_id,
-            });
-          }}
-        >
-          {(props) => {
-            return (
-              <Form>
-                <div className="grid md:grid-cols-2 items-center ">
-                  <div className="relative md:w-[20rem]">
+      <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2 pt-8 pb-5">
+        <div className="!w-[50rem] ">
+          <Formik
+            initialValues={initVal}
+            validationSchema={yupSchema}
+            onSubmit={async (values, { setSubmitting, resetForm }) => {}}
+          >
+            {(props) => {
+              return (
+                <Form>
+                  <div className="relative w-full xs:!w-[20rem] ">
                     <InputSelect
                       name="posMember"
                       label="Order to"
@@ -263,33 +179,20 @@ const CasherPointOfSalesListV2 = () => {
                       })}
                     </InputSelect>
                   </div>
-                  <div className="relative md:mt-0 mt-5">
-                    <div className="pb-2 flex">
-                      <input
-                        type="search"
-                        name="search"
-                        ref={onSearch}
-                        onChange={handleChange}
-                        autoComplete="off"
-                        className="rounded-br-none rounded-tr-none"
-                      />
-                      <label className="capitalize">
-                        search to add product
-                      </label>
-                      <button
-                        type="submit"
-                        className="btn-action-table rounded-tl-none rounded-bl-none border-l-0 bg-primary text-white border-primary"
-                      >
-                        <FaSearch />
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </Form>
-            );
-          }}
-        </Formik>
-      </div>{" "}
+                </Form>
+              );
+            }}
+          </Formik>
+        </div>
+        <button
+          type="button"
+          className="btn-primary print:hidden"
+          onClick={handleAdd}
+        >
+          <FaShoppingCart />
+          <span>Add</span>
+        </button>
+      </div>
       <div className="w-full pt-3 pb-20">
         <div className="relative text-center overflow-x-auto z-0">
           {status !== "loading" && isFetching && <TableSpinner />}
@@ -424,7 +327,7 @@ const CasherPointOfSalesListV2 = () => {
         </div>
       </div>
       {store.isAdd && (
-        <ModalEditSearchPOS
+        <ModalAddSearchPOS
           item={itemEdit}
           arrKey="pos-order"
           memberId={memberId}
@@ -438,6 +341,7 @@ const CasherPointOfSalesListV2 = () => {
           isPayAll={isPayAll}
         />
       )}
+
       {store.isRestore && (
         <ModalDeleteRestore
           id={id}
@@ -452,4 +356,4 @@ const CasherPointOfSalesListV2 = () => {
   );
 };
 
-export default CasherPointOfSalesListV2;
+export default CasherPointOfSalesListOld;

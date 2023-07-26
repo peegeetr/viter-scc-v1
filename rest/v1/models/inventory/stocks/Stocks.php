@@ -5,7 +5,6 @@ class Stocks
     public $stocks_number;
     public $stocks_is_pending;
     public $stocks_product_id;
-    public $stocks_barcode;
     public $stocks_or;
     public $stocks_suplier_price_history_id;
     public $stocks_remarks;
@@ -14,12 +13,15 @@ class Stocks
     public $stocks_created;
     public $stocks_datetime;
 
+    public $product_barcode_id;
+
     public $connection;
     public $lastInsertedId;
     public $stocks_start;
     public $stocks_total;
     public $stocks_search;
     public $currentYear;
+
     public $tblStocks;
     public $tblOrders;
     public $tblSuppliersProducts;
@@ -46,7 +48,6 @@ class Stocks
             $sql .= "( stocks_number, ";
             $sql .= "stocks_is_pending, ";
             $sql .= "stocks_product_id, ";
-            $sql .= "stocks_barcode, ";
             $sql .= "stocks_date, ";
             $sql .= "stocks_suplier_price_history_id, ";
             $sql .= "stocks_quantity, ";
@@ -56,7 +57,6 @@ class Stocks
             $sql .= ":stocks_number, ";
             $sql .= ":stocks_is_pending, ";
             $sql .= ":stocks_product_id, ";
-            $sql .= ":stocks_barcode, ";
             $sql .= ":stocks_date, ";
             $sql .= ":stocks_suplier_price_history_id, ";
             $sql .= ":stocks_quantity, ";
@@ -68,7 +68,6 @@ class Stocks
                 "stocks_number" => $this->stocks_number,
                 "stocks_is_pending" => $this->stocks_is_pending,
                 "stocks_product_id" => $this->stocks_product_id,
-                "stocks_barcode" => $this->stocks_barcode,
                 "stocks_date" => $this->stocks_date,
                 "stocks_suplier_price_history_id" => $this->stocks_suplier_price_history_id,
                 "stocks_quantity" => $this->stocks_quantity,
@@ -100,7 +99,7 @@ class Stocks
             $sql .= ":product_barcode_datetime ) ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "product_barcode_id" => $this->stocks_barcode,
+                "product_barcode_id" => $this->product_barcode_id,
                 "product_barcode_product_id" => $this->stocks_product_id,
                 "product_barcode_stocks_id" => $this->lastInsertedId,
                 "product_barcode_created" => $this->stocks_created,
@@ -120,12 +119,12 @@ class Stocks
             $sql = "select stocks.stocks_number, ";
             $sql .= "stocks.stocks_quantity, ";
             $sql .= "stocks.stocks_or, ";
+            $sql .= "stocks.stocks_date, ";
             $sql .= "stocks.stocks_aid, ";
             $sql .= "stocks.stocks_remarks, ";
             $sql .= "stocks.stocks_created, ";
             $sql .= "stocks.stocks_is_pending, ";
             $sql .= "stocks.stocks_product_id, ";
-            $sql .= "stocks.stocks_barcode, ";
             $sql .= "productHistory.product_history_aid, ";
             $sql .= "productHistory.product_history_price, ";
             $sql .= "productHistory.product_history_scc_price, ";
@@ -158,12 +157,12 @@ class Stocks
             $sql = "select stocks.stocks_number, ";
             $sql .= "stocks.stocks_quantity, ";
             $sql .= "stocks.stocks_or, ";
+            $sql .= "stocks.stocks_date, ";
             $sql .= "stocks.stocks_aid, ";
             $sql .= "stocks.stocks_remarks, ";
             $sql .= "stocks.stocks_created, ";
             $sql .= "stocks.stocks_is_pending, ";
             $sql .= "stocks.stocks_product_id, ";
-            $sql .= "stocks.stocks_barcode, ";
             $sql .= "productHistory.product_history_aid, ";
             $sql .= "productHistory.product_history_price, ";
             $sql .= "productHistory.product_history_scc_price, ";
@@ -203,12 +202,12 @@ class Stocks
             $sql = "select stocks.stocks_number, ";
             $sql .= "stocks.stocks_quantity, ";
             $sql .= "stocks.stocks_or, ";
+            $sql .= "stocks.stocks_date, ";
             $sql .= "stocks.stocks_aid, ";
             $sql .= "stocks.stocks_remarks, ";
             $sql .= "stocks.stocks_created, ";
             $sql .= "stocks.stocks_is_pending, ";
             $sql .= "stocks.stocks_product_id, ";
-            $sql .= "stocks.stocks_barcode, ";
             $sql .= "productHistory.product_history_aid, ";
             $sql .= "productHistory.product_history_price, ";
             $sql .= "productHistory.product_history_scc_price, ";
@@ -270,7 +269,6 @@ class Stocks
         try {
             $sql = "update {$this->tblStocks} set ";
             $sql .= "stocks_product_id = :stocks_product_id, ";
-            $sql .= "stocks_or = :stocks_or, ";
             $sql .= "stocks_date = :stocks_date, ";
             $sql .= "stocks_remarks = :stocks_remarks, ";
             $sql .= "stocks_quantity = :stocks_quantity, ";
@@ -279,12 +277,32 @@ class Stocks
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "stocks_product_id" => $this->stocks_product_id,
-                "stocks_or" => $this->stocks_or,
                 "stocks_date" => $this->stocks_date,
                 "stocks_remarks" => $this->stocks_remarks,
                 "stocks_quantity" => $this->stocks_quantity,
                 "stocks_datetime" => $this->stocks_datetime,
                 "stocks_aid" => $this->stocks_aid,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+
+    // update Barcode
+    public function updateBarcode()
+    {
+        try {
+            $sql = "update {$this->tblBarcode} set ";
+            $sql .= "product_barcode_id = :product_barcode_id, ";
+            $sql .= "product_barcode_datetime = :product_barcode_datetime ";
+            $sql .= "where product_barcode_stocks_id = :product_barcode_stocks_id ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "product_barcode_id" => $this->product_barcode_id,
+                "product_barcode_datetime" => $this->stocks_datetime,
+                "product_barcode_stocks_id" => $this->stocks_aid,
             ]);
         } catch (PDOException $ex) {
             $query = false;
@@ -325,6 +343,46 @@ class Stocks
     }
 
 
+    // check barcode in barcode table
+    public function checkBarcode()
+    {
+        try {
+            $sql = "select product_barcode_id from ";
+            $sql .= "{$this->tblBarcode} ";
+            $sql .= "where product_barcode_id = :product_barcode_id ";
+            $sql .= "order by product_barcode_id desc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "product_barcode_id" => $this->product_barcode_id,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+
+    // check barcode in barcode table
+    public function readAllBarcode()
+    {
+        try {
+            $sql = "select product_barcode_stocks_id, ";
+            $sql .= "product_barcode_id, ";
+            $sql .= "product_barcode_aid ";
+            $sql .= "from ";
+            $sql .= "{$this->tblBarcode} ";
+            $sql .= "where product_barcode_stocks_id = :product_barcode_stocks_id ";
+            $sql .= "order by product_barcode_stocks_id desc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "product_barcode_stocks_id" => $this->stocks_aid,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
     // active
     public function active()
     {
@@ -355,7 +413,6 @@ class Stocks
             $sql .= "stocks_quantity, ";
             $sql .= "stocks_aid, ";
             $sql .= "stocks_product_id, ";
-            $sql .= "stocks_barcode, ";
             $sql .= "sum(stocks_quantity) as stockQuantity, ";
             $sql .= "count(stocks_product_id) as count ";
             $sql .= "from ";

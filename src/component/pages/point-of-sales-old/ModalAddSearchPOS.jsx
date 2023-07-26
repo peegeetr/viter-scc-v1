@@ -42,9 +42,7 @@ const ModalAddSearchPOS = ({ item, arrKey, memberId, memberName }) => {
   const mutation = useMutation({
     mutationFn: (values) =>
       queryData(
-        item
-          ? `/v1/pos/update/orders/${item.orders_aid}`
-          : `/v1/pos/create/orders`,
+        item ? `/v1/pos/update/orders/${item.orders_aid}` : `/v1/orders`,
         item ? "put" : "post",
         values
       ),
@@ -95,12 +93,16 @@ const ModalAddSearchPOS = ({ item, arrKey, memberId, memberName }) => {
   const initVal = {
     orders_member_id: item ? item.orders_member_id : memberId,
     orders_product_quantity: item ? item.orders_product_quantity : "1",
-    orders_is_paid: 0,
-    orders_is_draft: 0,
     orders_remarks: item ? item.orders_remarks : "",
     orders_date: item ? item.orders_date : getDateNow(),
     sales_discount: item ? item.sales_discount : "0",
-
+    // sales
+    sales_receive_amount: "",
+    sales_or: "",
+    orders_is_draft: 0,
+    orders_is_paid: 0,
+    sales_member_change: 0,
+    sales_date: getDateNow(),
     // old quantity
     old_quantity: item ? item.orders_product_quantity : "",
   };
@@ -271,7 +273,7 @@ const ModalAddSearchPOS = ({ item, arrKey, memberId, memberName }) => {
                           <InputText
                             label="Quantity"
                             type="text"
-                            num="num"
+                            number="number"
                             name="orders_product_quantity"
                             disabled={mutation.isLoading}
                           />

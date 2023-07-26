@@ -1,7 +1,11 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { Form, Formik } from "formik";
 import React from "react";
-import { FaEdit, FaShoppingCart, FaTrash } from "react-icons/fa";
+import { FaEdit, FaSearch, FaTrash } from "react-icons/fa";
 import { GiReceiveMoney } from "react-icons/gi";
 import { useInView } from "react-intersection-observer";
 import * as Yup from "yup";
@@ -9,39 +13,39 @@ import {
   setError,
   setIsAdd,
   setIsConfirm,
-  setIsRestore,
   setMessage,
 } from "../../../store/StoreAction";
 import { StoreContext } from "../../../store/StoreContext";
 import useQueryData from "../../custom-hooks/useQueryData";
-import { InputSelect } from "../../helpers/FormInputs";
+import { InputSelect, InputText } from "../../helpers/FormInputs";
 import {
+  AssociateMemberId,
+  GetFocus,
   formatDate,
   numberWithCommas,
   pesoSign,
 } from "../../helpers/functions-general";
+import { queryData } from "../../helpers/queryData";
 import { queryDataInfinite } from "../../helpers/queryDataInfinite";
 import NoData from "../../partials/NoData";
 import ServerError from "../../partials/ServerError";
-import ModalDeleteRestore from "../../partials/modals/ModalDeleteRestore";
 import TableSpinner from "../../partials/spinners/TableSpinner";
-import StatusActive from "../../partials/status/StatusActive";
-import StatusPending from "../../partials/status/StatusPending";
 import { computeFinalAmount } from "../Inventory/orders/functions-orders";
-import ModalAddSearchPOS from "./ModalAddSearchPOS";
-import ModalPayNow from "./ModalPayNow";
-import { getDataPayNow } from "./functions-pos";
+import { getRemaningQuantity } from "../Inventory/products/functions-product";
+import { getDataPayNow, getTotalAmountPending } from "./functions-pos";
+import ModalEditSearchPOS from "./modal/ModalEditSearchPOS";
+import ModalPayNow from "./modal/ModalPayNow";
+
 const CasherPointOfSalesList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [isFilter, setFilter] = React.useState(false);
   const [isSubmit, setSubmit] = React.useState(false);
   const [itemEdit, setItemEdit] = React.useState(null);
   const [isPayAll, setIsPayAll] = React.useState(false);
-  const [memberId, setMember] = React.useState(0);
+  const [memberId, setMember] = React.useState(AssociateMemberId);
   const [memberName, setMemberName] = React.useState("");
-  const [dataItem, setData] = React.useState(null);
-  const [id, setId] = React.useState(null);
-  const [isDel, setDel] = React.useState(false);
+  const [id, setId] = React.useState(0);
+  GetFocus("searchProduct");
   let counter = 1;
   let totalAmount = 0;
   const { ref, inView } = useInView();
@@ -53,11 +57,11 @@ const CasherPointOfSalesList = () => {
     fetchNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ["pos-order", isSubmit],
+    queryKey: ["pos-order", isSubmit, id],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
         `/v1/pos/orders/filter/${memberId}`, // filter endpoint
-        `/v1/pos/orders/${0}`, // list endpoint
+        `/v1/pos/orders/filter/${memberId}`, // list endpoint
         isFilter // search boolean
       ),
     getNextPageParam: (lastPage) => {
@@ -77,41 +81,53 @@ const CasherPointOfSalesList = () => {
     }
   }, [inView]);
 
-  const handleEdit = (item) => {
-    dispatch(setIsAdd(true));
-
-    setItemEdit(item);
-  };
-
-  const handleDelete = (item) => {
-    dispatch(setIsRestore(true));
-    setId(item.orders_aid);
-    setData(item);
-    setDel(true);
-  };
   // use if not loadmore button undertime
   const { data: memberApproved, isLoading: memberApprovedLoading } =
     useQueryData(
-      `/v1/members/approved`, // endpoint
+      `/v1/pos/read-member-approved`, // endpoint
       "get", // method
-      "memberApproved" // key
+      "memberApproved"
     );
+
+  // use if not loadmore button undertime
+  const { data: stocksGroupProd } = useQueryData(
+    `/v1/stocks/group-by-prod`, // endpoint
+    "get", // method
+    "stocksGroupProd", // key
+    {},
+    result
+  );
+  // use if not loadmore button undertime
+  const { data: orderGroupProd } = useQueryData(
+    `/v1/orders/group-by-prod`, // endpoint
+    "get", // method
+    "orderGroupProd", // key
+    {},
+    result
+  );
+
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: (values) => queryData(`/v1/pos/create/orders`, "post", values),
+    onSuccess: (data) => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ["pos-order"] });
+      // show success box
+      if (data.success) {
+      }
+      // show error box
+      if (!data.success) {
+        dispatch(setError(true));
+        dispatch(setMessage(data.error));
+      }
+    },
+  });
 
   const handlePosOrder = async (e, props) => {
     setFilter(true);
     setSubmit(!isSubmit);
     setMember(e.target.value);
     setMemberName(e.target.options[e.target.selectedIndex].id);
-  };
-
-  const handleAdd = () => {
-    if (memberId === 0) {
-      dispatch(setError(true));
-      dispatch(setMessage(`Please choose member first.`));
-      return;
-    }
-    dispatch(setIsAdd(true));
-    setItemEdit(null);
   };
 
   const handlePayNow = () => {
@@ -135,27 +151,82 @@ const CasherPointOfSalesList = () => {
     setItemEdit(item);
     setIsPayAll(false);
   };
+  const handleEdit = (item) => {
+    dispatch(setIsAdd(true));
+    setItemEdit(item);
+  };
+
+  const handleDelete = async (item) => {
+    let orderId = item.orders_aid;
+    await queryData(`/v1/pos/delete/orders`, "delete", {
+      orderId,
+    });
+    setId(item.orders_aid);
+  };
 
   const initVal = {
     posMember: "",
+    search: "",
   };
 
   const yupSchema = Yup.object({
     posMember: Yup.string().required("Required"),
+    search: Yup.string().required("Required"),
   });
+
   return (
     <>
-      <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2 pt-8 pb-5">
-        <div className="!w-[50rem] ">
-          <Formik
-            initialValues={initVal}
-            validationSchema={yupSchema}
-            onSubmit={async (values, { setSubmitting, resetForm }) => {}}
-          >
-            {(props) => {
-              return (
-                <Form>
-                  <div className="relative w-full xs:!w-[20rem] ">
+      <div className="whitespace-nowrap overflow-auto gap-2 pt-8 pb-5">
+        <Formik
+          initialValues={initVal}
+          validationSchema={yupSchema}
+          onSubmit={async (values, { setSubmitting, resetForm }) => {
+            const ProductList = await queryData(
+              `/v1/pos/search-to-add-product`,
+              "post",
+              {
+                search: values.search,
+              }
+            );
+
+            if (
+              ProductList?.count === 0 ||
+              ProductList?.data[0] === undefined
+            ) {
+              dispatch(setError(true));
+              dispatch(setMessage("Please check if product is exist."));
+              resetForm();
+              return;
+            }
+            const orders_member_id = memberId;
+
+            const newQty = getRemaningQuantity(
+              ProductList?.data[0],
+              stocksGroupProd,
+              orderGroupProd
+            );
+
+            if (newQty <= 0) {
+              dispatch(setError(true));
+              dispatch(setMessage("Insufficient Quantity"));
+              resetForm();
+              return;
+            }
+
+            mutation.mutate({
+              ...values,
+              items: ProductList?.data[0],
+              orders_member_id,
+            });
+            resetForm();
+          }}
+        >
+          {(props) => {
+            props.values.posMember = memberId;
+            return (
+              <Form>
+                <div className="grid md:grid-cols-2 items-center ">
+                  <div className="relative md:w-[20rem]">
                     <InputSelect
                       name="posMember"
                       label="Order to"
@@ -178,20 +249,35 @@ const CasherPointOfSalesList = () => {
                       })}
                     </InputSelect>
                   </div>
-                </Form>
-              );
-            }}
-          </Formik>
-        </div>
-        <button
-          type="button"
-          className="btn-primary print:hidden"
-          onClick={handleAdd}
-        >
-          <FaShoppingCart />
-          <span>Add</span>
-        </button>
-      </div>
+
+                  <div className="relative md:mt-0 mt-5">
+                    <div className="flex justify-end">
+                      <InputText
+                        label="Search to add product"
+                        type="search"
+                        name="search"
+                        search="search"
+                        id="searchProduct"
+                        autoComplete="off"
+                      />
+                      <button
+                        type="submit"
+                        className="btn-action-table rounded-tl-none rounded-bl-none border-l-0 bg-primary text-white border-primary"
+                      >
+                        <FaSearch />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </Form>
+            );
+          }}
+        </Formik>
+      </div>{" "}
+      <p className="text-lg mb-0 pr-8 font-bold">
+        Total : {pesoSign}{" "}
+        {numberWithCommas(getTotalAmountPending(result?.pages[0]).toFixed(2))}
+      </p>
       <div className="w-full pt-3 pb-20">
         <div className="relative text-center overflow-x-auto z-0">
           {status !== "loading" && isFetching && <TableSpinner />}
@@ -199,7 +285,6 @@ const CasherPointOfSalesList = () => {
             <thead>
               <tr>
                 <th>#</th>
-                <th>Status</th>
                 <th className="min-w-[6rem]">Order #</th>
                 <th className="min-w-[10rem]">Name</th>
                 <th className="min-w-[6rem]">Date</th>
@@ -239,13 +324,6 @@ const CasherPointOfSalesList = () => {
                     return (
                       <tr key={key}>
                         <td> {counter++}.</td>
-                        <td>
-                          {item.orders_is_paid === 1 ? (
-                            <StatusActive text="Paid" />
-                          ) : (
-                            <StatusPending />
-                          )}
-                        </td>
                         <td className="uppercase">{item.orders_number}</td>
                         <td>{`${item.members_last_name}, ${item.members_first_name}`}</td>
                         <td>{`${formatDate(item.orders_date)}`}</td>
@@ -326,10 +404,9 @@ const CasherPointOfSalesList = () => {
         </div>
       </div>
       {store.isAdd && (
-        <ModalAddSearchPOS
+        <ModalEditSearchPOS
           item={itemEdit}
           arrKey="pos-order"
-          memberId={memberId}
           memberName={memberName}
         />
       )}
@@ -338,17 +415,6 @@ const CasherPointOfSalesList = () => {
           item={itemEdit}
           result={result?.pages[0].data}
           isPayAll={isPayAll}
-        />
-      )}
-
-      {store.isRestore && (
-        <ModalDeleteRestore
-          id={id}
-          isDel={isDel}
-          mysqlApiDelete={`/v1/orders/${id}`}
-          msg={"Are you sure you want to delete this "}
-          item={`${dataItem.orders_number}`}
-          arrKey="pos-order"
         />
       )}
     </>

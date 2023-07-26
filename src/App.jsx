@@ -166,6 +166,9 @@ import SystemReportSalesInvoices from "./component/pages/Inventory/reports/blott
 import AdminReportSalesInvoices from "./component/pages/Inventory/reports/blotter/sales-invoices/link/AdminReportSalesInvoices";
 import SystemMemberDividend from "./component/pages/account/details/dividend/links/SystemMemberDividend";
 import AdminMemberDividend from "./component/pages/account/details/dividend/links/AdminMemberDividend";
+import CasherPointOfSalesOld from "./component/pages/point-of-sales-old/CasherPointOfSalesOld";
+import PointOfSalesLinkOld from "./component/pages/Inventory/point-of-sales/PointOfSalesLinkOld";
+import PointOfSaleOld from "./component/pages/Inventory/point-of-sales/PointOfSalesOld";
 
 function App() {
   // Create a client
@@ -345,6 +348,14 @@ function App() {
               element={
                 <ProtectedRouteSystem>
                   <SystemPointOfSales />
+                </ProtectedRouteSystem>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlSystem}/inventory/pos-old-version`}
+              element={
+                <ProtectedRouteSystem>
+                  <PointOfSaleOld />
                 </ProtectedRouteSystem>
               }
             />
@@ -867,6 +878,14 @@ function App() {
               }
             />
             <Route
+              path={`${devNavUrl}/${UrlAdmin}/inventory/pos-old-version`}
+              element={
+                <ProtectedRouteOther>
+                  <PointOfSaleOld />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
               path={`${devNavUrl}/${UrlAdmin}/inventory`}
               element={
                 <ProtectedRouteOther>
@@ -1085,6 +1104,14 @@ function App() {
                 </ProtectedRouteOther>
               }
             />
+            <Route
+              path={`${devNavUrl}/${UrlCasher}/point-of-sales-old`}
+              element={
+                <ProtectedRouteOther>
+                  <CasherPointOfSalesOld />
+                </ProtectedRouteOther>
+              }
+            />
 
             <Route
               path={`${devNavUrl}/${UrlCasher}/dashboard`}
@@ -1266,6 +1293,15 @@ function App() {
               element={
                 <ProtectedRouteOther>
                   <ManagerPointOfSales />
+                </ProtectedRouteOther>
+              }
+            />
+
+            <Route
+              path={`${devNavUrl}/${UrlManager}/inventory/pos-old-version`}
+              element={
+                <ProtectedRouteOther>
+                  <PointOfSaleOld />
                 </ProtectedRouteOther>
               }
             />

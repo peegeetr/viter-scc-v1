@@ -14,6 +14,7 @@ import ModalError from "../../../partials/modals/ModalError";
 const Stocks = () => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [itemEdit, setItemEdit] = React.useState(null);
+  const [isBarcode, setIsBarcode] = React.useState(null);
 
   const handleAdd = () => {
     dispatch(setIsAdd(true));
@@ -41,11 +42,11 @@ const Stocks = () => {
 
         <hr className="print:hidden" />
         <div className="w-full pt-5 pb-20">
-          <StocksList setItemEdit={setItemEdit} />
+          <StocksList setItemEdit={setItemEdit} setIsBarcode={setIsBarcode} />
         </div>
         <Footer />
       </div>
-      {store.isAdd && <ModalAddStocks item={itemEdit} />}
+      {store.isAdd && <ModalAddStocks item={itemEdit} isBarcode={isBarcode} />}
       {store.success && <ModalSuccess />}
       {store.error && <ModalError />}
     </>

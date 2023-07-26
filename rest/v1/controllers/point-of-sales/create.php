@@ -77,7 +77,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         $pos->orders_date = date("Y-m-d");
         $pos->orders_is_paid = 0;
         $pos->orders_is_draft = 0;
-        $pos->sales_discount = 0;
+        $pos->sales_discount = "0";
         $pos->orders_product_quantity = 1;
         $pos->orders_remarks = "";
         $pos->orders_created = date("Y-m-d H:i:s");

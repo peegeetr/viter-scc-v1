@@ -1,11 +1,8 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import React from "react";
-import { FaEdit } from "react-icons/fa";
 import { useInView } from "react-intersection-observer";
-import { setIsAdd } from "../../../../store/StoreAction";
 import { StoreContext } from "../../../../store/StoreContext";
 import useQueryData from "../../../custom-hooks/useQueryData";
-import { numberWithCommas, pesoSign } from "../../../helpers/functions-general";
 import { queryDataInfinite } from "../../../helpers/queryDataInfinite";
 import Loadmore from "../../../partials/Loadmore";
 import NoData from "../../../partials/NoData";
@@ -14,7 +11,7 @@ import ServerError from "../../../partials/ServerError";
 import TableSpinner from "../../../partials/spinners/TableSpinner";
 import StatusQuantity from "../../../partials/status/StatusQuantity";
 import ModalUpdateProducts from "./ModalUpdateProducts";
-import { getPendingOrders, getRemaningQuantity } from "./functions-product";
+import { getRemaningQuantity } from "./functions-product";
 
 const ProductsList = () => {
   const { store, dispatch } = React.useContext(StoreContext);

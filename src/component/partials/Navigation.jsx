@@ -12,6 +12,7 @@ import { MdDashboard, MdOutlineInventory } from "react-icons/md";
 import { Link } from "react-router-dom";
 import {
   setIsLogout,
+  setIsModalSearch,
   setIsSearch,
   setIsShow,
   setStartIndex,
@@ -26,6 +27,7 @@ const Navigation = ({ menu }) => {
     dispatch(setIsShow(!store.isShow));
     dispatch(setIsSearch(false));
     dispatch(setStartIndex(0));
+    dispatch(setIsModalSearch(false));
   };
   const handleLogout = () => {
     dispatch(setIsLogout(true));

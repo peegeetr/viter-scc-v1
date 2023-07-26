@@ -33,10 +33,15 @@ class PointOfSales
     public $orders_total;
     public $orders_search;
     public $currentYear;
+
     public $tblOrders;
     public $tblSuppliersProducts;
     public $tblMembers;
     public $tblSales;
+    public $tblSuppliers;
+    public $tblCategory;
+    public $tblBarcode;
+    public $tblStocks;
 
     public function __construct($db)
     {
@@ -45,6 +50,10 @@ class PointOfSales
         $this->tblSales = "sccv1_sales";
         $this->tblMembers = "sccv1_members";
         $this->tblSuppliersProducts = "sccv1_suppliers_products";
+        $this->tblSuppliers = "sccv1_suppliers";
+        $this->tblCategory = "sccv1_product_category";
+        $this->tblBarcode = "sccv1_product_barcode";
+        $this->tblStocks = "sccv1_stocks";
     }
 
     // create
@@ -364,6 +373,83 @@ class PointOfSales
             $sql = "select * from ";
             $sql .= "{$this->tblSales} ";
             $sql .= "order by sales_aid desc ";
+            $query = $this->connection->query($sql);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    // check Search Product 
+    public function searchToAddProduct()
+    {
+        try {
+            $sql = "select ";
+            $sql .= "suppliersProducts.suppliers_products_aid, ";
+            $sql .= "suppliersProducts.suppliers_products_number, ";
+            $sql .= "suppliersProducts.suppliers_products_name, ";
+            $sql .= "suppliersProducts.suppliers_products_price, ";
+            $sql .= "suppliersProducts.suppliers_products_scc_price, ";
+            $sql .= "suppliersProducts.suppliers_products_market_price, ";
+            $sql .= "suppliersProducts.suppliers_products_category_id, ";
+            $sql .= "supplier.suppliers_aid, ";
+            $sql .= "supplier.suppliers_company_name, ";
+            $sql .= "barcode.product_barcode_id, ";
+            $sql .= "category.product_category_name ";
+            $sql .= "from ";
+            $sql .= "{$this->tblSuppliersProducts} as suppliersProducts, ";
+            $sql .= "{$this->tblSuppliers} as supplier, ";
+            $sql .= "{$this->tblBarcode} as barcode, ";
+            $sql .= "{$this->tblStocks} as stock, ";
+            $sql .= "{$this->tblCategory} as category ";
+            $sql .= "where category.product_category_aid = suppliersProducts.suppliers_products_category_id ";
+            $sql .= "and suppliersProducts.suppliers_products_suppliers_id = supplier.suppliers_aid ";
+            $sql .= "and barcode.product_barcode_product_id = suppliersProducts.suppliers_products_aid ";
+            $sql .= "and barcode.product_barcode_stocks_id = stock.stocks_aid ";
+            $sql .= "and (suppliersProducts.suppliers_products_name like :suppliers_products_name ";
+            $sql .= "or barcode.product_barcode_id like :product_barcode_id ";
+            $sql .= "or category.product_category_name like :product_category_name) ";
+            $sql .= "order by category.product_category_name, ";
+            $sql .= "suppliersProducts.suppliers_products_name asc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "suppliers_products_name" => "{$this->orders_search}%",
+                "product_category_name" => "{$this->orders_search}%",
+                "product_barcode_id" => $this->orders_search,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    // delete
+    public function delete()
+    {
+        try {
+            $sql = "delete from {$this->tblOrders} ";
+            $sql .= "where orders_aid = :orders_aid ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "orders_aid" => $this->orders_aid,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    // read all active and approved members
+    public function readAllMemberApproved()
+    {
+        try {
+            $sql = "select * from ";
+            $sql .= "{$this->tblMembers} ";
+            $sql .= "where members_is_approved = 1 ";
+            $sql .= "and members_is_active = 1 ";
+            $sql .= "order by members_is_active desc, ";
+            $sql .= "members_last_name, ";
+            $sql .= "members_first_name asc ";
             $query = $this->connection->query($sql);
         } catch (PDOException $ex) {
             $query = false;

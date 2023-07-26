@@ -1,11 +1,11 @@
 import React from "react";
 import { StoreContext } from "../../../../store/StoreContext";
+import BreadCrumbs from "../../../partials/BreadCrumbs";
 import Footer from "../../../partials/Footer";
 import Header from "../../../partials/Header";
 import Navigation from "../../../partials/Navigation";
 import ModalError from "../../../partials/modals/ModalError";
 import ModalSuccess from "../../../partials/modals/ModalSuccess";
-import BreadCrumbs from "../../../partials/BreadCrumbs";
 import CasherPointOfSalesList from "../../point-of-sales/CasherPointOfSalesList";
 
 const PointOfSales = () => {
