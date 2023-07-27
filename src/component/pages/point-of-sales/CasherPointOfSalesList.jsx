@@ -192,7 +192,11 @@ const CasherPointOfSalesList = () => {
                       name="posMember"
                       label="Order to"
                       onChange={handlePosOrder}
-                      disabled={status === "loading" || memberApprovedLoading}
+                      disabled={
+                        status === "loading" ||
+                        memberApprovedLoading ||
+                        mutation.isLoading
+                      }
                     >
                       <option value="" hidden>
                         {memberApprovedLoading ? "Loading..." : "--"}
@@ -224,6 +228,7 @@ const CasherPointOfSalesList = () => {
                       />
                       <button
                         type="submit"
+                        disabled={mutation.isLoading}
                         className="btn-action-table rounded-tl-none rounded-bl-none border-l-0 bg-primary text-white border-primary"
                       >
                         <FaSearch />
