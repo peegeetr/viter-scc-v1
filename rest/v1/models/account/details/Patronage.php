@@ -60,10 +60,10 @@ class Patronage
     public function readById()
     {
         try {
-            $sql = "select YEAR(orders.orders_date) as year, ";
+            $sql = "select YEAR(orders.orders_date) as orderYear, ";
             $sql .= "netSuplus.net_surplus_year, ";
-            $sql .= "SUM(sales.sales_discount) as discount, ";
-            $sql .= "SUM(orders.orders_product_amount) as total ";
+            $sql .= "SUM(sales.sales_discount) as salesDiscount, ";
+            $sql .= "SUM(orders.orders_product_amount) as totalAmount ";
             $sql .= "from {$this->tblOrders} as orders, ";
             $sql .= "{$this->tblSales} as sales, ";
             $sql .= "{$this->tblNetSurplus} as netSuplus ";
@@ -72,6 +72,7 @@ class Patronage
             $sql .= "and orders.orders_aid = sales.sales_order_id ";
             $sql .= "and orders.orders_is_paid = '1' ";
             $sql .= "and orders.orders_is_draft = '0' ";
+            $sql .= "group by YEAR(orders.orders_date) ";
             $sql .= "order by YEAR(orders.orders_date) desc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
@@ -86,10 +87,10 @@ class Patronage
     public function readLimitById()
     {
         try {
-            $sql = "select YEAR(orders.orders_date) as year, ";
+            $sql = "select YEAR(orders.orders_date) as orderYear, ";
             $sql .= "netSuplus.net_surplus_year, ";
-            $sql .= "SUM(sales.sales_discount) as discount, ";
-            $sql .= "SUM(orders.orders_product_amount) as total ";
+            $sql .= "SUM(sales.sales_discount) as salesDiscount, ";
+            $sql .= "SUM(orders.orders_product_amount) as totalAmount ";
             $sql .= "from {$this->tblOrders} as orders, ";
             $sql .= "{$this->tblSales} as sales, ";
             $sql .= "{$this->tblNetSurplus} as netSuplus ";
@@ -98,14 +99,15 @@ class Patronage
             $sql .= "and orders.orders_aid = sales.sales_order_id ";
             $sql .= "and orders.orders_is_paid = '1' ";
             $sql .= "and orders.orders_is_draft = '0' ";
+            $sql .= "group by YEAR(orders.orders_date) ";
             $sql .= "order by YEAR(orders.orders_date) desc ";
             $sql .= "limit :start, ";
             $sql .= ":total ";
             $query = $this->connection->prepare($sql);
             $query->execute([
+                "orders_member_id" => $this->orders_member_id,
                 "start" => $this->orders_start - 1,
                 "total" => $this->orders_total,
-                "orders_member_id" => $this->orders_member_id,
             ]);
         } catch (PDOException $ex) {
             $query = false;
@@ -130,6 +132,7 @@ class Patronage
             $sql .= "and orders.orders_aid = sales.sales_order_id ";
             $sql .= "and orders.orders_is_paid = '1' ";
             $sql .= "and orders.orders_is_draft = '0' ";
+            $sql .= "group by YEAR(orders.orders_date) ";
             $sql .= "order by YEAR(orders.orders_date) desc ";
             $query = $this->connection->prepare($sql);
             $query->execute([

@@ -1,5 +1,4 @@
 <?php
-
 // set http header
 require '../../../../core/header.php';
 // use needed functions
@@ -18,6 +17,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     checkApiKey();
 
     if (array_key_exists("start", $_GET) && array_key_exists("membersId", $_GET)) {
+        // get data
         // get task id from query string
         $patronage->orders_member_id = $_GET['membersId'];
         $patronage->orders_start = $_GET['start'];

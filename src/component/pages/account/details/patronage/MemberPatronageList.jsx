@@ -48,7 +48,7 @@ const MemberPatronageList = ({ memberName, isLoading, menu }) => {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ["patronage", isSubmit],
+    queryKey: ["patronageByMember", isSubmit],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
         `/v1/dividend/filter-by-id/${empid}`, // filter endpoint // filter
@@ -100,6 +100,7 @@ const MemberPatronageList = ({ memberName, isLoading, menu }) => {
   const yupSchema = Yup.object({
     year_div: Yup.string().required("Required"),
   });
+  console.log("123", result, totalPotronageAllMember);
   return (
     <>
       {isLoading ? (
