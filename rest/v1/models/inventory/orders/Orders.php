@@ -7,6 +7,7 @@ class Orders
     public $orders_is_draft;
     public $orders_member_id;
     public $orders_product_id;
+    public $orders_stocks_id;
     public $orders_product_quantity;
     public $orders_product_amount;
     public $orders_product_srp;
@@ -63,6 +64,7 @@ class Orders
             $sql .= "orders_product_amount, ";
             $sql .= "orders_product_srp, ";
             $sql .= "orders_date, ";
+            $sql .= "orders_stocks_id, ";
             $sql .= "orders_suplier_price, ";
             $sql .= "orders_remarks, ";
             $sql .= "orders_created, ";
@@ -76,6 +78,7 @@ class Orders
             $sql .= ":orders_product_amount, ";
             $sql .= ":orders_product_srp, ";
             $sql .= ":orders_date, ";
+            $sql .= ":orders_stocks_id, ";
             $sql .= ":orders_suplier_price, ";
             $sql .= ":orders_remarks, ";
             $sql .= ":orders_created, ";
@@ -92,6 +95,7 @@ class Orders
                 "orders_product_srp" => $this->orders_product_srp,
                 "orders_suplier_price" => $this->orders_suplier_price,
                 "orders_date" => $this->orders_date,
+                "orders_stocks_id" => $this->orders_stocks_id,
                 "orders_remarks" => $this->orders_remarks,
                 "orders_created" => $this->orders_created,
                 "orders_datetime" => $this->orders_datetime,

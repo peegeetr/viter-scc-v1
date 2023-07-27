@@ -1,0 +1,44 @@
+ 
+*controllers  
+    - inventory/orders/create.php
+    - inventory/stocks/create.php
+    - inventory/stocks/delete.php
+    - inventory/stocks/functions.php
+    - inventory/stocks/update.php
+    - point-of-sales/create.php
+    -        
+    - 
+    -
+    
+*models    
+    - inventory/orders/Orders.php
+    - inventory/stocks/Stocks.php
+    - inventory/suppliers/product/SuppliersProducts.php 
+    - point-of-sales/PointOfSales.php
+    -  
+    - 
+    -  
+
+*htaccess 
+    - htaccess
+    - 
+    - 
+    -  
+
+*db tables  
+    - sccv1_stocks.sql stocks_barcode_id (varchar100)
+    - sccv1_orders.sql orders_stocks_id (varchar20)
+    -  
+
+
+*core functions 
+    - 
+    - 
+    - 
+    -  
+
+*extra
+    - 
+    - 
+    - 
+    -  

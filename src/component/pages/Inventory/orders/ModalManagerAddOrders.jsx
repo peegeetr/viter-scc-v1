@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import {
   setError,
   setIsAdd,
+  setIsModalSearch,
   setMessage,
   setSuccess,
 } from "../../../../store/StoreAction";
@@ -70,6 +71,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
     },
   });
   const handleClose = () => {
+    dispatch(setIsModalSearch(false));
     dispatch(setIsAdd(false));
   };
 
@@ -147,7 +149,11 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
               <FaTimesCircle />
             </button>
           </div>
-          <div className="bg-white p-4 rounded-b-2xl h-[34rem] overflow-auto">
+          <div
+            className={`${
+              item ? "h-[31rem] " : "h-[34rem] "
+            }bg-white p-4 rounded-b-2xl overflow-auto`}
+          >
             <Formik
               initialValues={initVal}
               validationSchema={yupSchema}

@@ -12,6 +12,7 @@ class PointOfSales
     public $orders_product_srp;
     public $orders_suplier_price;
     public $orders_date;
+    public $orders_stocks_id;
     public $orders_remarks;
     public $orders_created;
     public $orders_datetime;
@@ -71,6 +72,7 @@ class PointOfSales
             $sql .= "orders_product_srp, ";
             $sql .= "orders_suplier_price, ";
             $sql .= "orders_date, ";
+            $sql .= "orders_stocks_id, ";
             $sql .= "orders_remarks, ";
             $sql .= "orders_created, ";
             $sql .= "orders_datetime ) values ( ";
@@ -84,6 +86,7 @@ class PointOfSales
             $sql .= ":orders_product_srp, ";
             $sql .= ":orders_suplier_price, ";
             $sql .= ":orders_date, ";
+            $sql .= ":orders_stocks_id, ";
             $sql .= ":orders_remarks, ";
             $sql .= ":orders_created, ";
             $sql .= ":orders_datetime ) ";
@@ -99,6 +102,7 @@ class PointOfSales
                 "orders_product_srp" => $this->orders_product_srp,
                 "orders_suplier_price" => $this->orders_suplier_price,
                 "orders_date" => $this->orders_date,
+                "orders_stocks_id" => $this->orders_stocks_id,
                 "orders_remarks" => $this->orders_remarks,
                 "orders_created" => $this->orders_created,
                 "orders_datetime" => $this->orders_datetime,
@@ -394,28 +398,27 @@ class PointOfSales
             $sql .= "suppliersProducts.suppliers_products_category_id, ";
             $sql .= "supplier.suppliers_aid, ";
             $sql .= "supplier.suppliers_company_name, ";
-            $sql .= "barcode.product_barcode_id, ";
+            $sql .= "stock.stocks_aid, ";
+            $sql .= "stock.stocks_barcode_id, ";
             $sql .= "category.product_category_name ";
             $sql .= "from ";
             $sql .= "{$this->tblSuppliersProducts} as suppliersProducts, ";
             $sql .= "{$this->tblSuppliers} as supplier, ";
-            $sql .= "{$this->tblBarcode} as barcode, ";
             $sql .= "{$this->tblStocks} as stock, ";
             $sql .= "{$this->tblCategory} as category ";
             $sql .= "where category.product_category_aid = suppliersProducts.suppliers_products_category_id ";
             $sql .= "and suppliersProducts.suppliers_products_suppliers_id = supplier.suppliers_aid ";
-            $sql .= "and barcode.product_barcode_product_id = suppliersProducts.suppliers_products_aid ";
-            $sql .= "and barcode.product_barcode_stocks_id = stock.stocks_aid ";
+            $sql .= "and stock.stocks_product_id = suppliersProducts.suppliers_products_aid ";
             $sql .= "and (suppliersProducts.suppliers_products_name like :suppliers_products_name ";
-            $sql .= "or barcode.product_barcode_id like :product_barcode_id ";
+            $sql .= "or stock.stocks_barcode_id like :stocks_barcode_id ";
             $sql .= "or category.product_category_name like :product_category_name) ";
-            $sql .= "order by category.product_category_name, ";
-            $sql .= "suppliersProducts.suppliers_products_name asc ";
+            $sql .= "group by suppliersProducts.suppliers_products_aid ";
+            $sql .= "order by stock.stocks_aid desc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "suppliers_products_name" => "{$this->orders_search}%",
                 "product_category_name" => "{$this->orders_search}%",
-                "product_barcode_id" => $this->orders_search,
+                "stocks_barcode_id" => $this->orders_search,
             ]);
         } catch (PDOException $ex) {
             $query = false;

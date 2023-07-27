@@ -16,6 +16,8 @@ if (array_key_exists("stockid", $_GET)) {
     //check to see if task id in query string is not empty and is number, if not return json error
     checkId($stocks->stocks_aid);
     // delete
+    isAssociated($stocks);
+    checkDeleteBarcode($stocks);
     $query = checkDelete($stocks);
 
     returnSuccess($stocks, "Stocks", $query);

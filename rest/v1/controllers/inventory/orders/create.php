@@ -95,6 +95,7 @@ if (count($allItem) > 0) {
     $order->orders_product_id = checkIndex($allItem, "suppliers_products_aid");
     $order->orders_product_srp = checkIndex($allItem, "suppliers_products_scc_price");
     $order->orders_suplier_price = checkIndex($allItem, "suppliers_products_price");
+    $order->orders_stocks_id = checkIndex($allItem, "stocks_aid");
 }
 // sales 
 if ($order->orders_is_paid === "1") {

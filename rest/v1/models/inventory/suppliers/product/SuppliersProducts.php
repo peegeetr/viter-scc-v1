@@ -664,21 +664,27 @@ class SuppliersProducts
             $sql .= "suppliersProducts.suppliers_products_category_id, ";
             $sql .= "supplier.suppliers_aid, ";
             $sql .= "supplier.suppliers_company_name, ";
+            $sql .= "stock.stocks_aid, ";
+            $sql .= "stock.stocks_barcode_id, ";
             $sql .= "category.product_category_name ";
             $sql .= "from ";
             $sql .= "{$this->tblSuppliersProducts} as suppliersProducts, ";
             $sql .= "{$this->tblSuppliers} as supplier, ";
+            $sql .= "{$this->tblStocks} as stock, ";
             $sql .= "{$this->tblCategory} as category ";
             $sql .= "where category.product_category_aid = suppliersProducts.suppliers_products_category_id ";
             $sql .= "and suppliersProducts.suppliers_products_suppliers_id = supplier.suppliers_aid ";
+            $sql .= "and stock.stocks_product_id = suppliersProducts.suppliers_products_aid ";
             $sql .= "and (suppliersProducts.suppliers_products_name like :suppliers_products_name ";
+            $sql .= "or stock.stocks_barcode_id like :stocks_barcode_id ";
             $sql .= "or category.product_category_name like :product_category_name) ";
-            $sql .= "order by category.product_category_name, ";
-            $sql .= "suppliersProducts.suppliers_products_name asc ";
+            $sql .= "group by suppliersProducts.suppliers_products_aid ";
+            $sql .= "order by stock.stocks_aid desc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "suppliers_products_name" => "%{$this->suppliers_products_search}%",
-                "product_category_name" => "%{$this->suppliers_products_search}%",
+                "suppliers_products_name" => "{$this->suppliers_products_search}%",
+                "product_category_name" => "{$this->suppliers_products_search}%",
+                "stocks_barcode_id" => $this->suppliers_products_search,
             ]);
         } catch (PDOException $ex) {
             $query = false;

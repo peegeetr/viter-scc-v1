@@ -10,10 +10,10 @@ class Stocks
     public $stocks_remarks;
     public $stocks_date;
     public $stocks_quantity;
+    public $stocks_barcode_id;
     public $stocks_created;
     public $stocks_datetime;
 
-    public $product_barcode_id;
 
     public $connection;
     public $lastInsertedId;
@@ -48,6 +48,7 @@ class Stocks
             $sql .= "( stocks_number, ";
             $sql .= "stocks_is_pending, ";
             $sql .= "stocks_product_id, ";
+            $sql .= "stocks_barcode_id, ";
             $sql .= "stocks_date, ";
             $sql .= "stocks_suplier_price_history_id, ";
             $sql .= "stocks_quantity, ";
@@ -57,6 +58,7 @@ class Stocks
             $sql .= ":stocks_number, ";
             $sql .= ":stocks_is_pending, ";
             $sql .= ":stocks_product_id, ";
+            $sql .= ":stocks_barcode_id, ";
             $sql .= ":stocks_date, ";
             $sql .= ":stocks_suplier_price_history_id, ";
             $sql .= ":stocks_quantity, ";
@@ -68,6 +70,7 @@ class Stocks
                 "stocks_number" => $this->stocks_number,
                 "stocks_is_pending" => $this->stocks_is_pending,
                 "stocks_product_id" => $this->stocks_product_id,
+                "stocks_barcode_id" => $this->stocks_barcode_id,
                 "stocks_date" => $this->stocks_date,
                 "stocks_suplier_price_history_id" => $this->stocks_suplier_price_history_id,
                 "stocks_quantity" => $this->stocks_quantity,
@@ -99,7 +102,7 @@ class Stocks
             $sql .= ":product_barcode_datetime ) ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "product_barcode_id" => $this->product_barcode_id,
+                "product_barcode_id" => $this->stocks_barcode_id,
                 "product_barcode_product_id" => $this->stocks_product_id,
                 "product_barcode_stocks_id" => $this->lastInsertedId,
                 "product_barcode_created" => $this->stocks_created,
@@ -125,6 +128,7 @@ class Stocks
             $sql .= "stocks.stocks_created, ";
             $sql .= "stocks.stocks_is_pending, ";
             $sql .= "stocks.stocks_product_id, ";
+            $sql .= "stocks.stocks_barcode_id, ";
             $sql .= "productHistory.product_history_aid, ";
             $sql .= "productHistory.product_history_price, ";
             $sql .= "productHistory.product_history_scc_price, ";
@@ -163,6 +167,7 @@ class Stocks
             $sql .= "stocks.stocks_created, ";
             $sql .= "stocks.stocks_is_pending, ";
             $sql .= "stocks.stocks_product_id, ";
+            $sql .= "stocks.stocks_barcode_id, ";
             $sql .= "productHistory.product_history_aid, ";
             $sql .= "productHistory.product_history_price, ";
             $sql .= "productHistory.product_history_scc_price, ";
@@ -208,6 +213,7 @@ class Stocks
             $sql .= "stocks.stocks_created, ";
             $sql .= "stocks.stocks_is_pending, ";
             $sql .= "stocks.stocks_product_id, ";
+            $sql .= "stocks.stocks_barcode_id, ";
             $sql .= "productHistory.product_history_aid, ";
             $sql .= "productHistory.product_history_price, ";
             $sql .= "productHistory.product_history_scc_price, ";
@@ -245,6 +251,7 @@ class Stocks
         }
         return $query;
     }
+
     // read by id
     public function readById()
     {
@@ -268,18 +275,12 @@ class Stocks
     {
         try {
             $sql = "update {$this->tblStocks} set ";
-            $sql .= "stocks_product_id = :stocks_product_id, ";
-            $sql .= "stocks_date = :stocks_date, ";
-            $sql .= "stocks_remarks = :stocks_remarks, ";
-            $sql .= "stocks_quantity = :stocks_quantity, ";
+            $sql .= "stocks_barcode_id = :stocks_barcode_id, ";
             $sql .= "stocks_datetime = :stocks_datetime ";
             $sql .= "where stocks_aid = :stocks_aid ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "stocks_product_id" => $this->stocks_product_id,
-                "stocks_date" => $this->stocks_date,
-                "stocks_remarks" => $this->stocks_remarks,
-                "stocks_quantity" => $this->stocks_quantity,
+                "stocks_barcode_id" => $this->stocks_barcode_id,
                 "stocks_datetime" => $this->stocks_datetime,
                 "stocks_aid" => $this->stocks_aid,
             ]);
@@ -300,7 +301,7 @@ class Stocks
             $sql .= "where product_barcode_stocks_id = :product_barcode_stocks_id ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "product_barcode_id" => $this->product_barcode_id,
+                "product_barcode_id" => $this->stocks_barcode_id,
                 "product_barcode_datetime" => $this->stocks_datetime,
                 "product_barcode_stocks_id" => $this->stocks_aid,
             ]);
@@ -327,6 +328,22 @@ class Stocks
         return $query;
     }
 
+    // delete
+    public function deleteBarcode()
+    {
+        try {
+            $sql = "delete from {$this->tblBarcode} ";
+            $sql .= "where product_barcode_stocks_id = :product_barcode_stocks_id ";
+            $sql .= "order by product_barcode_stocks_id desc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "product_barcode_stocks_id" => $this->stocks_aid,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
 
     // read all 
     public function readLastStockId()
@@ -353,7 +370,7 @@ class Stocks
             $sql .= "order by product_barcode_id desc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "product_barcode_id" => $this->product_barcode_id,
+                "product_barcode_id" => $this->stocks_barcode_id,
             ]);
         } catch (PDOException $ex) {
             $query = false;
@@ -421,6 +438,24 @@ class Stocks
             $sql .= "group by stocks_product_id ";
             $sql .= "order by stocks_number asc ";
             $query = $this->connection->query($sql);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    // read by id
+    public function checkAssociation()
+    {
+        try {
+            $sql = "select * from ";
+            $sql .= "{$this->tblOrders} ";
+            $sql .= "where orders_stocks_id = :orders_stocks_id ";
+            $sql .= "order by orders_aid desc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "orders_stocks_id" => $this->stocks_aid,
+            ]);
         } catch (PDOException $ex) {
             $query = false;
         }

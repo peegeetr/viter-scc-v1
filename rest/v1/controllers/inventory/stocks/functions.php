@@ -32,6 +32,14 @@ function checkReadAllBarcode($object)
     return $query;
 }
 
+// check barcode In Stocks 
+function checkDeleteBarcode($object)
+{
+    $query = $object->deleteBarcode();
+    checkQuery($query, "There's a problem processing your request. (read barcode)");
+    return $query;
+}
+
 // compare barcode
 function compareBarcode($object, $barcode_old, $barcode)
 {

@@ -26,7 +26,7 @@ import ModalUpdateOR from "./ModalUpdateOR";
 import StocksTotal from "./StocksTotal";
 import { queryData } from "../../../helpers/queryData";
 
-const StocksList = ({ setItemEdit, setIsBarcode }) => {
+const StocksList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [dataItem, setData] = React.useState(null);
   const [id, setId] = React.useState(null);
@@ -76,15 +76,8 @@ const StocksList = ({ setItemEdit, setIsBarcode }) => {
   }, [inView]);
 
   const handleEdit = async (item) => {
-    const results = await queryData(
-      `/v1/stocks/read-barcode-by-stock/${item.stocks_aid}`,
-      "get",
-      {}
-    );
-
     dispatch(setIsAdd(true));
     setItemEdit(item);
-    setIsBarcode(results?.count > 0 ? results?.data[0].product_barcode_id : "");
   };
   const handlePending = (item) => {
     dispatch(setIsConfirm(true));
@@ -137,6 +130,7 @@ const StocksList = ({ setItemEdit, setIsBarcode }) => {
               <th className="min-w-[5rem]">Invoice #</th>
               <th className="min-w-[5rem]">Remarks</th>
               <th className="min-w-[8rem]">Created date</th>
+              <th className="min-w-[8rem]">Barcode</th>
 
               {(store.credentials.data.role_is_admin === 1 ||
                 store.credentials.data.role_is_developer === 1 ||
@@ -199,6 +193,7 @@ const StocksList = ({ setItemEdit, setIsBarcode }) => {
                       <td className=" break-words">{item.stocks_or}</td>
                       <td>{item.stocks_remarks}</td>
                       <td>{`${formatDate(item.stocks_created)}`}</td>
+                      <td>{item.stocks_barcode_id}</td>
                       {(store.credentials.data.role_is_admin === 1 ||
                         store.credentials.data.role_is_developer === 1 ||
                         store.credentials.data.role_is_manager === 1) && (

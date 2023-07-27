@@ -93,6 +93,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
             $pos->orders_product_srp = checkIndex($allItem, "suppliers_products_scc_price");
             $pos->orders_suplier_price = checkIndex($allItem, "suppliers_products_price");
             $pos->orders_product_amount = checkIndex($allItem, "suppliers_products_scc_price");
+            $pos->orders_stocks_id = checkIndex($allItem, "stocks_aid");
         }
         // create
         $query = checkCreate($pos);

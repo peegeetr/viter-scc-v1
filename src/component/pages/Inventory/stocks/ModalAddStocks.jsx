@@ -16,16 +16,21 @@ import {
   InputText,
   InputTextArea,
 } from "../../../helpers/FormInputs";
-import { getDateNow, removeComma } from "../../../helpers/functions-general";
+import {
+  GetFocus,
+  getDateNow,
+  removeComma,
+} from "../../../helpers/functions-general";
 import { queryData } from "../../../helpers/queryData";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
 
-const ModalAddStocks = ({ item, isBarcode }) => {
+const ModalAddStocks = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [supplierProductId, setSupplierProductId] = React.useState([]);
   const [supplierProductHistoryId, setSupplierProductHistoryId] =
     React.useState(item ? item.product_history_aid : "");
   const [loading, setSelLoading] = React.useState(false);
+  GetFocus("getInput");
 
   const queryClient = useQueryClient();
   const mutation = useMutation({
@@ -89,12 +94,12 @@ const ModalAddStocks = ({ item, isBarcode }) => {
     stocks_quantity: item ? item.stocks_quantity : "",
     stocks_date: item ? item.stocks_date : getDateNow(),
 
-    product_barcode_id: item ? isBarcode : "",
-    product_barcode_id_old: item ? isBarcode : "",
+    stocks_barcode_id: item ? item.stocks_barcode_id : "",
+    stocks_barcode_id_old: item ? item.stocks_barcode_id : "",
   };
 
   const yupSchema = Yup.object({
-    product_barcode_id: Yup.string().required("Required"),
+    stocks_barcode_id: Yup.string().required("Required"),
     supplier_id: !item && Yup.string().required("Required"),
     stocks_product_id: !item && Yup.string().required("Required"),
     stocks_quantity: !item && Yup.string().required("Required"),
@@ -199,7 +204,8 @@ const ModalAddStocks = ({ item, isBarcode }) => {
                         label="Barcode"
                         type="text"
                         number="number"
-                        name="product_barcode_id"
+                        id="getInput"
+                        name="stocks_barcode_id"
                         disabled={mutation.isLoading}
                       />
                     </div>

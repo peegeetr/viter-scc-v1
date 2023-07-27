@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 04, 2023 at 07:37 AM
+-- Generation Time: Jul 27, 2023 at 04:18 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -33,6 +33,7 @@ CREATE TABLE `sccv1_orders` (
   `orders_is_paid` tinyint(1) NOT NULL,
   `orders_is_draft` tinyint(1) NOT NULL,
   `orders_product_id` varchar(20) NOT NULL,
+  `orders_stocks_id` varchar(20) NOT NULL,
   `orders_member_id` varchar(20) NOT NULL,
   `orders_product_quantity` varchar(20) NOT NULL,
   `orders_product_amount` varchar(20) NOT NULL,
