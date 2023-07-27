@@ -392,10 +392,10 @@ const CasherPointOfSalesList = () => {
             </tbody>
           </table>
         </div>
-        <p className="text-right text-lg pr-8 mt-3 mb-5 font-bold">
+        {/* <p className="text-right text-lg pr-8 mt-3 mb-5 font-bold">
           Total : {pesoSign} {numberWithCommas(totalAmount.toFixed(2))}
-        </p>
-        <div className="flex justify-end">
+        </p> */}
+        <div className="flex justify-end mt-5 ">
           <button
             type="button"
             className="btn-primary mr-8"
