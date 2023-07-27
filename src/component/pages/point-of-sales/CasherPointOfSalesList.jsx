@@ -13,6 +13,7 @@ import {
   setError,
   setIsAdd,
   setIsConfirm,
+  setIsGetFocus,
   setMessage,
 } from "../../../store/StoreAction";
 import { StoreContext } from "../../../store/StoreContext";
@@ -45,7 +46,9 @@ const CasherPointOfSalesList = () => {
   const [memberId, setMember] = React.useState(AssociateMemberId);
   const [memberName, setMemberName] = React.useState("");
   const [id, setId] = React.useState(0);
+
   GetFocus("searchProduct");
+
   let counter = 1;
   let totalAmount = 0;
   const { ref, inView } = useInView();

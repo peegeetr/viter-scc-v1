@@ -10,7 +10,6 @@ import CasherPointOfSalesList from "../../point-of-sales/CasherPointOfSalesList"
 
 const PointOfSales = () => {
   const { store, dispatch } = React.useContext(StoreContext);
-  const [itemEdit, setItemEdit] = React.useState(null);
 
   return (
     <>

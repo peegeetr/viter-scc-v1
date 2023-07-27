@@ -33,6 +33,13 @@ export const setSave = (val) => {
   };
 };
 
+export const setIsGetFocus = (val) => {
+  return {
+    type: "IS_GET_FOCUS",
+    payload: val,
+  };
+};
+
 export const setIsShow = (val) => {
   return {
     type: "SHOW",

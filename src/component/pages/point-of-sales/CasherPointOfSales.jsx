@@ -3,9 +3,9 @@ import { StoreContext } from "../../../store/StoreContext.jsx";
 import Footer from "../../partials/Footer.jsx";
 import Header from "../../partials/Header.jsx";
 import PageNotFound from "../../partials/PageNotFound.jsx";
-import ModalError from "../../partials/modals/ModalError.jsx";
 import ModalSuccess from "../../partials/modals/ModalSuccess.jsx";
 import CasherPointOfSalesList from "./CasherPointOfSalesList.jsx";
+import ModalError from "../../partials/modals/ModalError.jsx";
 
 const CasherPointOfSales = () => {
   const { store, dispatch } = React.useContext(StoreContext);

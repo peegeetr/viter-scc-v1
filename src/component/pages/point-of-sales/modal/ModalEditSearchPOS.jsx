@@ -158,16 +158,18 @@ const ModalEditSearchPOS = ({ item, arrKey, memberName }) => {
                       </span>
                     </p>
                     <p className="m-0 font-light text-lg text-primary">
-                      Name :<span className="font-bold"> {memberName}</span>
+                      Name :
+                      <span className="font-bold capitalize">
+                        {" "}
+                        {`${item.members_last_name}, ${item.members_first_name}`}
+                      </span>
                     </p>
                     <p className="mb-0 font-light text-lg text-primary capitalize">
                       Product :
                       <span className="font-bold">
                         {" "}
-                        {item.suppliers_products_name}
-                        {` (${item.orders_product_quantity} pcs) `}
-                        {pesoSign}{" "}
-                        {`${numberWithCommas(Number(totalPrice).toFixed(2))}`}
+                        {item.suppliers_products_name} ({pesoSign}
+                        {`${numberWithCommas(Number(totalPrice).toFixed(2))}`} )
                       </span>
                     </p>
                     <div className=" text-primary">

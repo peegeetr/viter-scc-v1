@@ -10,6 +10,7 @@ const initVal = {
   isConfirm: false,
   isRestore: false,
   isAdd: false,
+  isGetFocus: false,
   isReset: false,
   isEditProfile: false,
   isBeneficiaries: false,
