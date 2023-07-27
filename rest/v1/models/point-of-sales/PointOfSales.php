@@ -426,6 +426,57 @@ class PointOfSales
         return $query;
     }
 
+    // Read by product id
+    public function readAllGroupByProductNumberStocks()
+    {
+        try {
+            $sql = "select ";
+            $sql .= "stocks_aid, ";
+            $sql .= "stocks_product_id, ";
+            $sql .= "sum(stocks_quantity) as stockQuantity, ";
+            $sql .= "count(stocks_product_id) as count ";
+            $sql .= "from ";
+            $sql .= "{$this->tblStocks} ";
+            $sql .= "where stocks_product_id = :stocks_product_id ";
+            $sql .= "and stocks_is_pending = 0 ";
+            $sql .= "group by stocks_product_id ";
+            $sql .= "order by stocks_aid desc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "stocks_product_id" => $this->orders_product_id,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    // read all pending
+    public function readAllGroupByProductNumberOrders()
+    {
+        try {
+            $sql = "select ";
+            $sql .= "orders_aid, ";
+            $sql .= "orders_product_id, ";
+            $sql .= "orders_is_draft, ";
+            $sql .= "count(orders_product_id) as count, ";
+            $sql .= "sum(orders_product_quantity) as orderQuantity ";
+            $sql .= "from {$this->tblOrders} ";
+            $sql .= "where orders_product_id = :orders_product_id ";
+            $sql .= "and orders_is_draft = 0 ";
+            $sql .= "group by orders_product_id ";
+            $sql .= "order by orders_aid desc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "orders_product_id" => $this->orders_product_id,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+
     // delete
     public function delete()
     {

@@ -6,7 +6,11 @@
     - inventory/stocks/functions.php
     - inventory/stocks/update.php
     - point-of-sales/create.php
-    -        
+    -> account/details/patronage/functions.php        
+    -> account/details/patronage/page-by-member-id.php        
+    -> account/details/patronage/read-all-member-total.php        
+    -> point-of-sales/create.php       
+    -> point-of-sales/delete.php       
     - 
     -
     
@@ -14,13 +18,14 @@
     - inventory/orders/Orders.php
     - inventory/stocks/Stocks.php
     - inventory/suppliers/product/SuppliersProducts.php 
-    - point-of-sales/PointOfSales.php
+    -> account/details/patronage/Patronage.php  
+    -> point-of-sales/PointOfSales.php
     -  
     - 
     -  
 
 *htaccess 
-    - htaccess
+    -> htaccess
     - 
     - 
     -  

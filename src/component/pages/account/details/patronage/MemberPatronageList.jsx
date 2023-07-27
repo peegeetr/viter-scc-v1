@@ -21,9 +21,9 @@ import ServerError from "../../../../partials/ServerError";
 import TableSpinner from "../../../../partials/spinners/TableSpinner";
 import ModalViewPatronage from "./modal/ModalViewPatronage";
 import {
-  getComputeDividend,
-  getYearListDividend,
-} from "../dividend/functions-dividend";
+  getComputePatronage,
+  getYearListPatronage,
+} from "./functions-patronage";
 
 const MemberPatronageList = ({ memberName, isLoading, menu }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -52,7 +52,7 @@ const MemberPatronageList = ({ memberName, isLoading, menu }) => {
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
         `/v1/dividend/filter-by-id/${empid}`, // filter endpoint // filter
-        `/v1/dividend/page/${pageParam}/${empid}`, // list endpoint
+        `/v1/patronage/page/by-employee-id/${pageParam}/${empid}`, // list endpoint
         isFilter, // search boolean
         "post",
         { year }
@@ -82,10 +82,10 @@ const MemberPatronageList = ({ memberName, isLoading, menu }) => {
   };
 
   // use if not loadmore button undertime
-  const { data: totalASMallMember } = useQueryData(
-    `/v1/dividend/read-all-member-total`, // endpoint
+  const { data: totalPotronageAllMember } = useQueryData(
+    `/v1/patronage/page/read-all-member-total`, // endpoint
     "get", // method
-    "netsurplusForDis" // key
+    "totalPotronageAllMember" // key
   );
 
   const handleMonth = async (e) => {
@@ -124,7 +124,7 @@ const MemberPatronageList = ({ memberName, isLoading, menu }) => {
                 {(props) => {
                   return (
                     <Form>
-                      <div className="sm:w-[10rem] items-center print:hidden py-3">
+                      <div className="sm:w-[10rem] items-center print:hidden pt-3 pb-5">
                         <div className="relative">
                           <InputSelect
                             label="year"
@@ -136,7 +136,7 @@ const MemberPatronageList = ({ memberName, isLoading, menu }) => {
                             <option value="" hidden>
                               {status === "loading" ? "Loading..." : "All year"}
                             </option>
-                            {getYearListDividend()?.map((ydItem, key) => {
+                            {getYearListPatronage()?.map((ydItem, key) => {
                               return (
                                 <option key={key} value={ydItem.year}>
                                   {`${ydItem.year}`}
@@ -192,7 +192,8 @@ const MemberPatronageList = ({ memberName, isLoading, menu }) => {
                           {pesoSign}
                           {numberWithCommas(
                             Number(
-                              getComputeDividend(item, totalASMallMember).result
+                              getComputePatronage(item, totalPotronageAllMember)
+                                .result
                             ).toFixed(2)
                           )}
                         </td>
@@ -233,7 +234,7 @@ const MemberPatronageList = ({ memberName, isLoading, menu }) => {
       {store.isAdd && (
         <ModalViewPatronage
           item={itemEdit}
-          avgShareMonths={totalASMallMember}
+          avgShareMonths={totalPotronageAllMember}
         />
       )}
     </>

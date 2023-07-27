@@ -39,3 +39,38 @@ export const computeRemainingQuantity = (item, values, product) => {
   });
   return finalAmount;
 };
+export const getYearListPatronage = () => {
+  const d = new Date();
+  let currentYear = d.getFullYear();
+  let yearCount = 10;
+  let list = [];
+
+  for (let i = 0; i < yearCount; i++) {
+    currentYear--;
+    list.push({ year: `${Number(currentYear) + 1}` });
+  }
+  return list;
+};
+
+export const getComputePatronage = (item, patronage) => {
+  let totalPtaronage = 0;
+  let rate = 0;
+  let myDividend = 0;
+  let result = 0;
+  // read all patronage by group year
+  patronage?.data.map((pItem) => {
+    if (item.year === pItem.year) {
+      // All Member Total Average Shares Months
+      totalPtaronage +=
+        Number(pItem.totalPatronage) - Number(pItem.totalDiscount);
+    }
+  });
+  // Rate of Interest on Share Capital
+  rate = Number(item.net_surplus_dividend) / totalPtaronage;
+  // my Total Average Shares Months
+  myDividend = Number(item.total) / 12;
+
+  result = myDividend * rate;
+
+  return { result, rate, myDividend, totalPtaronage };
+};

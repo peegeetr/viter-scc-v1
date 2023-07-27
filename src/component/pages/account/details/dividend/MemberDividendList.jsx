@@ -82,7 +82,7 @@ const MemberDividendList = ({ memberName, isLoading, menu }) => {
   const { data: totalASMallMember } = useQueryData(
     `/v1/dividend/read-all-member-total`, // endpoint
     "get", // method
-    "netsurplusForDis" // key
+    "totalASMallMember" // key
   );
 
   const handleMonth = async (e) => {

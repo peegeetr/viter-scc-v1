@@ -22,6 +22,7 @@ import {
 const ModalPayNow = ({ item, result, isPayAll }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const queryClient = useQueryClient();
+  console.log("item", item);
   const mutation = useMutation({
     mutationFn: (values) =>
       queryData(`/v1/pos/accept-payment/${isPayAll}`, "put", values),
@@ -79,7 +80,11 @@ const ModalPayNow = ({ item, result, isPayAll }) => {
                 const sales_receive_amount = removeComma(
                   `${values.sales_receive_amount}`
                 );
-                if (Number(sales_receive_amount) < Number(item.totalAmount)) {
+                if (
+                  Number(sales_receive_amount) <
+                  (Number(item.totalAmount) ||
+                    Number(item.orders_product_amount))
+                ) {
                   dispatch(setError(true));
                   dispatch(setMessage("Insufficient amount"));
                   return;

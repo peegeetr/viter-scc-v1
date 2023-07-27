@@ -45,7 +45,7 @@ const CasherPointOfSalesList = () => {
   const [isPayAll, setIsPayAll] = React.useState(false);
   const [memberId, setMember] = React.useState(AssociateMemberId);
   const [memberName, setMemberName] = React.useState("");
-  const [id, setId] = React.useState(0);
+  let delId = 0;
 
   GetFocus("searchProduct");
 
@@ -60,7 +60,7 @@ const CasherPointOfSalesList = () => {
     fetchNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ["pos-order", isSubmit, id],
+    queryKey: ["pos-order", isSubmit],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
         `/v1/pos/orders/filter/${memberId}`, // filter endpoint
@@ -92,31 +92,22 @@ const CasherPointOfSalesList = () => {
       "memberApproved"
     );
 
-  // use if not loadmore button undertime
-  const { data: stocksGroupProd } = useQueryData(
-    `/v1/stocks/group-by-prod`, // endpoint
-    "get", // method
-    "stocksGroupProd", // key
-    {},
-    result
-  );
-  // use if not loadmore button undertime
-  const { data: orderGroupProd } = useQueryData(
-    `/v1/orders/group-by-prod`, // endpoint
-    "get", // method
-    "orderGroupProd", // key
-    {},
-    result
-  );
-
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: (values) => queryData(`/v1/pos/create/orders`, "post", values),
+    mutationFn: (values) =>
+      queryData(
+        delId !== 0
+          ? `/v1/pos/delete/orders/${delId}`
+          : `/v1/pos/create/orders`,
+        delId !== 0 ? "delete" : "post",
+        values
+      ),
     onSuccess: (data) => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ["pos-order"] });
       // show success box
       if (data.success) {
+        delId = 0;
       }
       // show error box
       if (!data.success) {
@@ -154,17 +145,16 @@ const CasherPointOfSalesList = () => {
     setItemEdit(item);
     setIsPayAll(false);
   };
+
   const handleEdit = (item) => {
     dispatch(setIsAdd(true));
     setItemEdit(item);
   };
 
-  const handleDelete = async (item) => {
-    let orderId = item.orders_aid;
-    await queryData(`/v1/pos/delete/orders`, "delete", {
-      orderId,
-    });
-    setId(item.orders_aid);
+  const handleDelete = (item) => {
+    delId = item.orders_aid;
+    // // // mutate data
+    mutation.mutate({});
   };
 
   const initVal = {
@@ -184,41 +174,9 @@ const CasherPointOfSalesList = () => {
           initialValues={initVal}
           validationSchema={yupSchema}
           onSubmit={async (values, { setSubmitting, resetForm }) => {
-            const ProductList = await queryData(
-              `/v1/pos/search-to-add-product`,
-              "post",
-              {
-                search: values.search,
-              }
-            );
-
-            if (
-              ProductList?.count === 0 ||
-              ProductList?.data[0] === undefined
-            ) {
-              dispatch(setError(true));
-              dispatch(setMessage("Please check if product is exist."));
-              resetForm();
-              return;
-            }
             const orders_member_id = memberId;
-
-            const newQty = getRemaningQuantity(
-              ProductList?.data[0],
-              stocksGroupProd,
-              orderGroupProd
-            );
-
-            if (newQty <= 0) {
-              dispatch(setError(true));
-              dispatch(setMessage("Insufficient Quantity"));
-              resetForm();
-              return;
-            }
-
             mutation.mutate({
               ...values,
-              items: ProductList?.data[0],
               orders_member_id,
             });
             resetForm();

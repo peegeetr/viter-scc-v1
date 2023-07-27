@@ -83,22 +83,54 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         $pos->orders_created = date("Y-m-d H:i:s");
         $pos->orders_datetime = date("Y-m-d H:i:s");
 
-        $allItem = $data["items"];
-
-        if (count($allItem) === 0) {
+        // Seach to add product
+        $pos->orders_search = checkIndex($data, "search");
+        $searchToAdd = $pos->searchToAddProduct();
+        if ($searchToAdd->rowCount() == 0) {
             resultError("Please check if you have product.");
         }
-        if (count($allItem) > 0) {
-            $pos->orders_product_id = checkIndex($allItem, "suppliers_products_aid");
-            $pos->orders_product_srp = checkIndex($allItem, "suppliers_products_scc_price");
-            $pos->orders_suplier_price = checkIndex($allItem, "suppliers_products_price");
-            $pos->orders_product_amount = checkIndex($allItem, "suppliers_products_scc_price");
-            $pos->orders_stocks_id = checkIndex($allItem, "stocks_aid");
+        if ($searchToAdd->rowCount() > 0) {
+            $searchRow = $searchToAdd->fetch(PDO::FETCH_ASSOC);
+            extract($searchRow);
+            $pos->orders_product_id = $suppliers_products_aid;
+            $pos->orders_product_srp = $suppliers_products_scc_price;
+            $pos->orders_suplier_price = $suppliers_products_price;
+            $pos->orders_product_amount = $suppliers_products_scc_price;
+            $pos->orders_stocks_id = $stocks_aid;
         }
+
+        // Stock Quantity 
+        $readStockQuantity = $pos->readAllGroupByProductNumberStocks();
+        if ($readStockQuantity->rowCount() == 0) {
+            $sQuantity = 0;
+        }
+        if ($readStockQuantity->rowCount() > 0) {
+            $stockRow = $readStockQuantity->fetch(PDO::FETCH_ASSOC);
+            extract($stockRow);
+            $sQuantity = $stockQuantity;
+        }
+
+        // Product Quantity 
+        $readOrderQuantity = $pos->readAllGroupByProductNumberOrders();
+
+        if ($readOrderQuantity->rowCount() == 0) {
+            $pQuantity = 0;
+        }
+        if ($readOrderQuantity->rowCount() > 0) {
+            $orderRow = $readOrderQuantity->fetch(PDO::FETCH_ASSOC);
+            extract($orderRow);
+            $pQuantity = $orderQuantity;
+        }
+
+        // get remainig quantity of product 
+        $remaingQunatity = $sQuantity - $pQuantity;
+        if ($remaingQunatity <= 0) {
+            resultError("Insufficient Quantity ($remaingQunatity).");
+        }
+
         // create
         $query = checkCreate($pos);
         checkCreateSales($pos);
-
         returnSuccess($pos, "point of sales", $query);
     }
 }

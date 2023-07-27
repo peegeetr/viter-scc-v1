@@ -5,15 +5,14 @@ $conn = checkDbConnection();
 // make instance of classes
 $pos = new PointOfSales($conn);
 $response = new Response();
-// get payload
-$body = file_get_contents("php://input");
-$data = json_decode($body, true);
 $error = [];
 $returnData = [];
-if (empty($_GET)) {
-    checkPayload($data);
-    // get task id from query string
-    $pos->orders_aid = checkIndex($data, "orderId");
+if (array_key_exists("orderId", $_GET)) {
+    $pos->orders_aid = $_GET['orderId'];
+
+    //check to see if task id in query string is not empty and is number, if not return json error
+    checkId($pos->orders_aid);
+
     // delete
     $query = checkDelete($pos);
     returnSuccess($pos, "pos", $query);

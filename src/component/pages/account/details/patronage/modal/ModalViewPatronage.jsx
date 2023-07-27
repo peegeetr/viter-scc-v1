@@ -7,6 +7,7 @@ import {
   pesoSign,
 } from "../../../../../helpers/functions-general";
 import { getComputeDividend } from "../../dividend/functions-dividend";
+import { getComputePatronage } from "../functions-patronage";
 
 const ModalViewPatronage = ({ item, avgShareMonths }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -35,17 +36,17 @@ const ModalViewPatronage = ({ item, avgShareMonths }) => {
           </div>
           <div className="bg-white p-4 rounded-b-2xl max-h-[450px] overflow-auto">
             <div className="xs:grid block xs:grid-cols-[1fr_3rem_9rem] gap-1 gap-white items-center mb-4 xs:bg-blue-100">
-              <p className="mb-0 py-1 px-2 xs:text-left text-right bg-blue-100 ">
-                Total Average Shares {item.year}
+              <p className="mb-0 py-1 px-2 xs:text-left text-right bg-blue-100 mt-2">
+                Total Income (Total Volume of Business)
               </p>
-              <p className="mb-0 hidden xs:block xs:text-center py-1 pl-2">
+              <p className="mb-0 hidden xs:block xs:text-center py-1 pl-2 mt-2">
                 &nbsp;
               </p>
-              <p className="xs:mb-0 mb-2 text-right py-1 pr-2 bg-blue-100">
+              <p className="xs:mb-0 mb-2 text-right py-1 pr-2 bg-blue-100 mt-2">
                 {pesoSign}
                 {numberWithCommas(
                   Number(
-                    getComputeDividend(item, avgShareMonths).totalASM
+                    getComputePatronage(item, avgShareMonths).totalASM
                   ).toFixed(2)
                 )}
               </p>
