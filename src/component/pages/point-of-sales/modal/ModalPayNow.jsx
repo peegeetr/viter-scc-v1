@@ -22,7 +22,6 @@ import {
 const ModalPayNow = ({ item, result, isPayAll }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const queryClient = useQueryClient();
-  console.log("item", item);
   const mutation = useMutation({
     mutationFn: (values) =>
       queryData(`/v1/pos/accept-payment/${isPayAll}`, "put", values),

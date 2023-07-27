@@ -25,7 +25,7 @@ import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
 import { getRemaningQuantity } from "../../Inventory/products/functions-product";
 import { getTotaAmountPOS } from "../functions-pos";
 
-const ModalEditSearchPOS = ({ item, arrKey, memberName }) => {
+const ModalEditSearchPOS = ({ item, arrKey }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [totalPrice] = React.useState(item.orders_product_srp);
 
