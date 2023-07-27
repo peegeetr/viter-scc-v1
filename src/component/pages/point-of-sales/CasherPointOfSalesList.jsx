@@ -220,6 +220,7 @@ const CasherPointOfSalesList = () => {
                         search="search"
                         id="searchProduct"
                         autoComplete="off"
+                        disabled={mutation.isLoading}
                       />
                       <button
                         type="submit"
