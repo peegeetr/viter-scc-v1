@@ -24,7 +24,7 @@ const PointOfSalesLink = () => {
           <span className="text-lg mr-4">
             <MdOutlineInventory />
           </span>
-          <span className="text-md font-bold">Point Of Sale</span>
+          <span className="text-md font-bold">New Point-Of-Sale</span>
         </div>
         <p className="ml-[35px] my-0">
           Facility in accepting orders for cashier role.
