@@ -1,26 +1,16 @@
-export const getYearListDividend = () => {
-  const d = new Date();
-  let currentYear = d.getFullYear();
-  let yearCount = 10;
-  let list = [];
-
-  for (let i = 0; i < yearCount; i++) {
-    currentYear--;
-    list.push({ year: `${Number(currentYear) + 1}` });
-  }
-  return list;
-};
-
 export const getComputeDividend = (item, dividend) => {
+  let total = 0;
   let totalASM = 0;
   let rate = 0;
   let myDividend = 0;
   let result = 0;
+  console.log(dividend);
   // read all dividend by group year
   dividend?.data.map((dItem) => {
     if (item.year === dItem.year) {
+      total = Number(dItem.allMemTotal) / 12;
       // All Member Total Average Shares Months
-      totalASM += Number(dItem.allMemTotal) / 12;
+      totalASM += total;
     }
   });
   // Rate of Interest on Share Capital

@@ -119,14 +119,14 @@ const MemberPatronageList = ({ memberName, isLoading, menu }) => {
                       <div className="sm:w-[10rem] items-center print:hidden pt-3 pb-5">
                         <div className="relative">
                           <InputSelect
-                            label="year"
+                            label="Year"
                             name="year_div"
                             type="text"
                             onChange={handleMonth}
                             disabled={status === "loading"}
                           >
                             <option value="" hidden>
-                              {status === "loading" ? "Loading..." : "All year"}
+                              {status === "loading" ? "Loading..." : "All"}
                             </option>
                             {getYearListPatronage()?.map((ydItem, key) => {
                               return (

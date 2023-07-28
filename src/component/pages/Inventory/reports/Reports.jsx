@@ -4,12 +4,11 @@ import BreadCrumbs from "../../../partials/BreadCrumbs";
 import Footer from "../../../partials/Footer";
 import Header from "../../../partials/Header";
 import Navigation from "../../../partials/Navigation";
-import ReportCapitalShareLink from "./capital-report/ReportCapitalShareLink";
 import ReportSalesLink from "./sales-report/ReportSalesLink";
 import TopSellerLink from "./top-seller/ReportsLink";
 import ReportStocksLink from "./stocks-report/ReportStocksLink";
-import ReportPettyCashLink from "./blotter/petty-cash/ReportPettyCashLink";
 import ReportBlotterLink from "./blotter/ReportSalesLink";
+import ReportNetSurplusDistributionLink from "./net-surplus-distribution/ReportNetSurplusDistributionLink";
 
 const Reports = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -28,7 +27,7 @@ const Reports = () => {
           <TopSellerLink />
           <ReportSalesLink />
           <ReportStocksLink />
-          <ReportCapitalShareLink />
+          <ReportNetSurplusDistributionLink />
           <ReportBlotterLink />
         </div>
         <Footer />

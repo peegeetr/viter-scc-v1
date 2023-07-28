@@ -46,7 +46,7 @@ const BreadCrumbs = ({ param = "" }) => {
               crumb === "pos" ? "uppercase" : "capitalize"
             }`}
           >
-            {crumb}
+            {crumb.replace("-", " ")}
           </Link>
         </li>
       );

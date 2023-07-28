@@ -35,18 +35,41 @@ import SystemInventoryDetails from "./component/pages/Inventory/links/SystemInve
 import AdminOrders from "./component/pages/Inventory/orders/links/AdminOrders";
 import ManagerOrders from "./component/pages/Inventory/orders/links/ManagerOrders";
 import SystemOrders from "./component/pages/Inventory/orders/links/SystemOrders";
+import PointOfSaleOld from "./component/pages/Inventory/point-of-sales/PointOfSalesOld";
 import AdminPointOfSales from "./component/pages/Inventory/point-of-sales/links/AdminPointOfSales";
 import ManagerPointOfSales from "./component/pages/Inventory/point-of-sales/links/ManagerPointOfSales";
 import SystemPointOfSales from "./component/pages/Inventory/point-of-sales/links/SystemPointOfSales";
 import AdminProducts from "./component/pages/Inventory/products/links/AdminProducts";
 import ManagerProducts from "./component/pages/Inventory/products/links/ManagerProducts";
 import SystemProducts from "./component/pages/Inventory/products/links/SystemProducts";
+import AdminReportBlotter from "./component/pages/Inventory/reports/blotter/links/AdminReportBlotter";
+import ManagerReportBlotter from "./component/pages/Inventory/reports/blotter/links/ManagerReportBlotter";
+import SystemReportBlotter from "./component/pages/Inventory/reports/blotter/links/SystemReportBlotter";
+import AdminReportOfficialReceipt from "./component/pages/Inventory/reports/blotter/official-recipt/link/AdminReportOfficialReceipt";
+import ManagerReportOfficialReceipt from "./component/pages/Inventory/reports/blotter/official-recipt/link/ManagerReportOfficialReceipt";
+import SystemReportOfficialReceipt from "./component/pages/Inventory/reports/blotter/official-recipt/link/SystemReportOfficialReceipt";
+import AdminReportPettyCash from "./component/pages/Inventory/reports/blotter/petty-cash/link/AdminReportPettyCash";
+import ManagerReportPettyCash from "./component/pages/Inventory/reports/blotter/petty-cash/link/ManagerReportPettyCash";
+import SystemReportPettyCash from "./component/pages/Inventory/reports/blotter/petty-cash/link/SystemReportBlotter";
+import AdminReportSalesInvoices from "./component/pages/Inventory/reports/blotter/sales-invoices/link/AdminReportSalesInvoices";
+import ManagerReportSalesInvoices from "./component/pages/Inventory/reports/blotter/sales-invoices/link/ManagerReportSalesInvoices";
+import SystemReportSalesInvoices from "./component/pages/Inventory/reports/blotter/sales-invoices/link/SystemReportSalesInvoices";
 import AdminReports from "./component/pages/Inventory/reports/links/AdminReports";
 import ManagerReports from "./component/pages/Inventory/reports/links/ManagerReports";
 import SystemReports from "./component/pages/Inventory/reports/links/SystemReports";
+import ReportsNetSurplusDistribution from "./component/pages/Inventory/reports/net-surplus-distribution/ReportsNetSurplusDistribution";
+import AdminReportDetailedCapitalShare from "./component/pages/Inventory/reports/net-surplus-distribution/capital-share-detailed/links/AdminReportDetailedCapitalShare";
+import ManagerReportDetailedCapitalShare from "./component/pages/Inventory/reports/net-surplus-distribution/capital-share-detailed/links/ManagerReportDetailedCapitalShare";
+import SystemReportDetailedCapitalShare from "./component/pages/Inventory/reports/net-surplus-distribution/capital-share-detailed/links/SystemReportDetailedCapitalShare";
+import AdminReportDividendCapitalShare from "./component/pages/Inventory/reports/net-surplus-distribution/dividend/links/AdminReportDividendCapitalShare";
+import ManagerReportDividendCapitalShare from "./component/pages/Inventory/reports/net-surplus-distribution/dividend/links/ManagerReportDividendCapitalShare";
+import SystemReportDividendCapitalShare from "./component/pages/Inventory/reports/net-surplus-distribution/dividend/links/SystemReportDividendCapitalShare";
 import AdminReportSales from "./component/pages/Inventory/reports/sales-report/links/AdminReportSales";
 import ManagerReportSales from "./component/pages/Inventory/reports/sales-report/links/ManagerReportSales";
 import SystemReportSales from "./component/pages/Inventory/reports/sales-report/links/SystemReportSales";
+import AdminReportStocks from "./component/pages/Inventory/reports/stocks-report/links/AdminReportStocks";
+import ManagerReportStocks from "./component/pages/Inventory/reports/stocks-report/links/ManagerReportStocks";
+import SystemReportStocks from "./component/pages/Inventory/reports/stocks-report/links/SystemReportStocks";
 import AdminTopSeller from "./component/pages/Inventory/reports/top-seller/links/AdminTopSeller";
 import ManagerTopSeller from "./component/pages/Inventory/reports/top-seller/links/ManagerTopSeller";
 import SystemTopSeller from "./component/pages/Inventory/reports/top-seller/links/SystemTopSeller";
@@ -62,6 +85,9 @@ import SystemSuppliers from "./component/pages/Inventory/suppliers/links/SystemS
 import AdminSupplierProduct from "./component/pages/Inventory/suppliers/products/links/AdminSupplierProduct";
 import ManagerSupplierProduct from "./component/pages/Inventory/suppliers/products/links/ManagerSupplierProduct";
 import SystemSupplierProduct from "./component/pages/Inventory/suppliers/products/links/SystemSupplierProduct";
+import AdminSupplierProductHistory from "./component/pages/Inventory/suppliers/products/product-history/links/AdminSupplierProductHistory";
+import ManagerSupplierProductHistory from "./component/pages/Inventory/suppliers/products/product-history/links/ManagerSupplierProductHistory";
+import SystemSupplierProductHistory from "./component/pages/Inventory/suppliers/products/product-history/links/SystemSupplierProductHistory";
 import CreateAccount from "./component/pages/access/create-account/CreateAccount";
 import CreateVerification from "./component/pages/access/create-account/CreateVerification";
 import AdminCapitalShare from "./component/pages/account/details/capital-share/links/AdminCapitalShare";
@@ -70,6 +96,8 @@ import AdminSetupCapitalShare from "./component/pages/account/details/capital-sh
 import SystemSetupCapitalShare from "./component/pages/account/details/capital-share/setup/links/SystemSetupCapitalShare";
 import AdminTransactionCapitalShare from "./component/pages/account/details/capital-share/transactions/links/AdminTransactionCapitalShare";
 import SystemTransactionCapitalShare from "./component/pages/account/details/capital-share/transactions/links/SystemTransactionCapitalShare";
+import AdminMemberDividend from "./component/pages/account/details/dividend/links/AdminMemberDividend";
+import SystemMemberDividend from "./component/pages/account/details/dividend/links/SystemMemberDividend";
 import AdminDeatils from "./component/pages/account/details/links/AdminDeatils";
 import SystemDeatils from "./component/pages/account/details/links/SystemDeatils";
 import AdminMemberOrders from "./component/pages/account/details/orders/links/AdminMemberOrders";
@@ -100,6 +128,14 @@ import AdminMyCapitalShare from "./component/pages/my-account/capital-share/link
 import CashierMyCapitalShare from "./component/pages/my-account/capital-share/links/CashierMyCapitalShare";
 import ManagerMyCapitalShare from "./component/pages/my-account/capital-share/links/ManagerMyCapitalShare";
 import MemberMyCapitalShare from "./component/pages/my-account/capital-share/links/MemberMyCapitalShare";
+import AdminMyAccountSetupCapitalShare from "./component/pages/my-account/capital-share/setup/links/AdminSetupCapitalShare";
+import CashierMyAccountSetupCapitalShare from "./component/pages/my-account/capital-share/setup/links/CashierSetupCapitalShare";
+import ManagerMyAccountSetupCapitalShare from "./component/pages/my-account/capital-share/setup/links/ManagerSetupCapitalShare";
+import MemberMyAccountSetupCapitalShare from "./component/pages/my-account/capital-share/setup/links/MemberSetupCapitalShare";
+import AdminMyAcccountTransactionCapitalShare from "./component/pages/my-account/capital-share/transactions/links/AdminMyAcccountTransactionCapitalShare";
+import CashierMyAcccountTransactionCapitalShare from "./component/pages/my-account/capital-share/transactions/links/CashierMyAcccountTransactionCapitalShare";
+import ManagerMyAcccountTransactionCapitalShare from "./component/pages/my-account/capital-share/transactions/links/ManagerMyAcccountTransactionCapitalShare";
+import MemberMyAcccountTransactionCapitalShare from "./component/pages/my-account/capital-share/transactions/links/MemberMyAcccountTransactionCapitalShare";
 import AdminMyAccount from "./component/pages/my-account/links/AdminMyAccount";
 import CashierMyAccount from "./component/pages/my-account/links/CashierMyAccount";
 import ManagerMyAccount from "./component/pages/my-account/links/ManagerMyAccount";
@@ -120,6 +156,7 @@ import AdminMySavings from "./component/pages/my-account/savings/links/AdminMySa
 import CashierMySavings from "./component/pages/my-account/savings/links/CashierMySavings";
 import ManagerMySavings from "./component/pages/my-account/savings/links/ManagerMySavings";
 import MemberMySavings from "./component/pages/my-account/savings/links/MemberMySavings";
+import CasherPointOfSalesOld from "./component/pages/point-of-sales-old/CasherPointOfSalesOld";
 import CasherPointOfSales from "./component/pages/point-of-sales/CasherPointOfSales";
 import AdminSettingsLink from "./component/pages/settings/links/AdminSettingsLink";
 import SystemSettingsLink from "./component/pages/settings/links/SystemSettingsLink";
@@ -131,44 +168,9 @@ import SystemMode from "./component/pages/settings/system-mode/SystemMode";
 import AdminOtherUser from "./component/pages/settings/users/other/links/AdminOtherUser";
 import SystemOtherUser from "./component/pages/settings/users/other/links/SystemOtherUser";
 import { StoreProvider } from "./store/StoreContext";
-import MemberMyAccountSetupCapitalShare from "./component/pages/my-account/capital-share/setup/links/MemberSetupCapitalShare";
-import MemberMyAcccountTransactionCapitalShare from "./component/pages/my-account/capital-share/transactions/links/MemberMyAcccountTransactionCapitalShare";
-import ManagerMyAccountSetupCapitalShare from "./component/pages/my-account/capital-share/setup/links/ManagerSetupCapitalShare";
-import ManagerMyAcccountTransactionCapitalShare from "./component/pages/my-account/capital-share/transactions/links/ManagerMyAcccountTransactionCapitalShare";
-import CashierMyAccountSetupCapitalShare from "./component/pages/my-account/capital-share/setup/links/CashierSetupCapitalShare";
-import CashierMyAcccountTransactionCapitalShare from "./component/pages/my-account/capital-share/transactions/links/CashierMyAcccountTransactionCapitalShare";
-import AdminMyAccountSetupCapitalShare from "./component/pages/my-account/capital-share/setup/links/AdminSetupCapitalShare";
-import AdminMyAcccountTransactionCapitalShare from "./component/pages/my-account/capital-share/transactions/links/AdminMyAcccountTransactionCapitalShare";
-import AdminSupplierProductHistory from "./component/pages/Inventory/suppliers/products/product-history/links/AdminSupplierProductHistory";
-import ManagerSupplierProductHistory from "./component/pages/Inventory/suppliers/products/product-history/links/ManagerSupplierProductHistory";
-import SystemSupplierProductHistory from "./component/pages/Inventory/suppliers/products/product-history/links/SystemSupplierProductHistory";
-import ManagerReportDetailedCapitalShare from "./component/pages/Inventory/reports/capital-report/detailed/links/ManagerReportDetailedCapitalShare";
-import SystemReportDetailedCapitalShare from "./component/pages/Inventory/reports/capital-report/detailed/links/SystemReportDetailedCapitalShare";
-import AdminReportDetailedCapitalShare from "./component/pages/Inventory/reports/capital-report/detailed/links/AdminReportDetailedCapitalShare";
-import ReportsCapitalShare from "./component/pages/Inventory/reports/capital-report/ReportsCapitalShare";
-import ManagerReportDividendCapitalShare from "./component/pages/Inventory/reports/capital-report/dividend/links/ManagerReportDividendCapitalShare";
-import SystemReportDividendCapitalShare from "./component/pages/Inventory/reports/capital-report/dividend/links/SystemReportDividendCapitalShare";
-import AdminReportDividendCapitalShare from "./component/pages/Inventory/reports/capital-report/dividend/links/AdminReportDividendCapitalShare";
-import AdminReportStocks from "./component/pages/Inventory/reports/stocks-report/links/AdminReportStocks";
-import ManagerReportStocks from "./component/pages/Inventory/reports/stocks-report/links/ManagerReportStocks";
-import SystemReportStocks from "./component/pages/Inventory/reports/stocks-report/links/SystemReportStocks";
-import AdminReportBlotter from "./component/pages/Inventory/reports/blotter/links/AdminReportBlotter";
-import AdminReportPettyCash from "./component/pages/Inventory/reports/blotter/petty-cash/link/AdminReportPettyCash";
-import AdminReportOfficialReceipt from "./component/pages/Inventory/reports/blotter/official-recipt/link/AdminReportOfficialReceipt";
-import SystemReportBlotter from "./component/pages/Inventory/reports/blotter/links/SystemReportBlotter";
-import SystemReportOfficialReceipt from "./component/pages/Inventory/reports/blotter/official-recipt/link/SystemReportOfficialReceipt";
-import SystemReportPettyCash from "./component/pages/Inventory/reports/blotter/petty-cash/link/SystemReportBlotter";
-import ManagerReportOfficialReceipt from "./component/pages/Inventory/reports/blotter/official-recipt/link/ManagerReportOfficialReceipt";
-import ManagerReportPettyCash from "./component/pages/Inventory/reports/blotter/petty-cash/link/ManagerReportPettyCash";
-import ManagerReportBlotter from "./component/pages/Inventory/reports/blotter/links/ManagerReportBlotter";
-import ManagerReportSalesInvoices from "./component/pages/Inventory/reports/blotter/sales-invoices/link/ManagerReportSalesInvoices";
-import SystemReportSalesInvoices from "./component/pages/Inventory/reports/blotter/sales-invoices/link/SystemReportSalesInvoices";
-import AdminReportSalesInvoices from "./component/pages/Inventory/reports/blotter/sales-invoices/link/AdminReportSalesInvoices";
-import SystemMemberDividend from "./component/pages/account/details/dividend/links/SystemMemberDividend";
-import AdminMemberDividend from "./component/pages/account/details/dividend/links/AdminMemberDividend";
-import CasherPointOfSalesOld from "./component/pages/point-of-sales-old/CasherPointOfSalesOld";
-import PointOfSalesLinkOld from "./component/pages/Inventory/point-of-sales/PointOfSalesLinkOld";
-import PointOfSaleOld from "./component/pages/Inventory/point-of-sales/PointOfSalesOld";
+import ManagerReportPatronage from "./component/pages/Inventory/reports/net-surplus-distribution/patronage/links/ManagerReportDividendCapitalShare";
+import SystemReportPatronage from "./component/pages/Inventory/reports/net-surplus-distribution/patronage/links/SystemReportDividendCapitalShare";
+import AdminReportPatronage from "./component/pages/Inventory/reports/net-surplus-distribution/patronage/links/AdminReportDividendCapitalShare";
 
 function App() {
   // Create a client
@@ -440,15 +442,23 @@ function App() {
               }
             />
             <Route
-              path={`${devNavUrl}/${UrlSystem}/inventory/reports/capital-share`}
+              path={`${devNavUrl}/${UrlSystem}/inventory/reports/net-surplus-distribution`}
               element={
                 <ProtectedRouteSystem>
-                  <ReportsCapitalShare />
+                  <ReportsNetSurplusDistribution />
                 </ProtectedRouteSystem>
               }
             />
             <Route
-              path={`${devNavUrl}/${UrlSystem}/inventory/reports/capital-share/detailed`}
+              path={`${devNavUrl}/${UrlSystem}/inventory/reports/net-surplus-distribution/patronage`}
+              element={
+                <ProtectedRouteSystem>
+                  <SystemReportPatronage />
+                </ProtectedRouteSystem>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlSystem}/inventory/reports/net-surplus-distribution/capital-detailed`}
               element={
                 <ProtectedRouteSystem>
                   <SystemReportDetailedCapitalShare />
@@ -456,7 +466,7 @@ function App() {
               }
             />
             <Route
-              path={`${devNavUrl}/${UrlSystem}/inventory/reports/capital-share/dividend`}
+              path={`${devNavUrl}/${UrlSystem}/inventory/reports/net-surplus-distribution/dividend`}
               element={
                 <ProtectedRouteSystem>
                   <SystemReportDividendCapitalShare />
@@ -966,15 +976,23 @@ function App() {
               }
             />
             <Route
-              path={`${devNavUrl}/${UrlAdmin}/inventory/reports/capital-share`}
+              path={`${devNavUrl}/${UrlAdmin}/inventory/reports/net-surplus-distribution`}
               element={
                 <ProtectedRouteOther>
-                  <ReportsCapitalShare />
+                  <ReportsNetSurplusDistribution />
                 </ProtectedRouteOther>
               }
             />
             <Route
-              path={`${devNavUrl}/${UrlAdmin}/inventory/reports/capital-share/detailed`}
+              path={`${devNavUrl}/${UrlAdmin}/inventory/reports/net-surplus-distribution/patronage`}
+              element={
+                <ProtectedRouteOther>
+                  <AdminReportPatronage />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/inventory/reports/net-surplus-distribution/capital-detailed`}
               element={
                 <ProtectedRouteOther>
                   <AdminReportDetailedCapitalShare />
@@ -982,7 +1000,7 @@ function App() {
               }
             />
             <Route
-              path={`${devNavUrl}/${UrlAdmin}/inventory/reports/capital-share/dividend`}
+              path={`${devNavUrl}/${UrlAdmin}/inventory/reports/net-surplus-distribution/dividend`}
               element={
                 <ProtectedRouteOther>
                   <AdminReportDividendCapitalShare />
@@ -1386,15 +1404,23 @@ function App() {
               }
             />
             <Route
-              path={`${devNavUrl}/${UrlManager}/inventory/reports/capital-share`}
+              path={`${devNavUrl}/${UrlManager}/inventory/reports/net-surplus-distribution`}
               element={
                 <ProtectedRouteOther>
-                  <ReportsCapitalShare />
+                  <ReportsNetSurplusDistribution />
                 </ProtectedRouteOther>
               }
             />
             <Route
-              path={`${devNavUrl}/${UrlManager}/inventory/reports/capital-share/detailed`}
+              path={`${devNavUrl}/${UrlManager}/inventory/reports/net-surplus-distribution/patronage`}
+              element={
+                <ProtectedRouteOther>
+                  <ManagerReportPatronage />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlManager}/inventory/reports/net-surplus-distribution/capital-detailed`}
               element={
                 <ProtectedRouteOther>
                   <ManagerReportDetailedCapitalShare />
@@ -1402,7 +1428,7 @@ function App() {
               }
             />
             <Route
-              path={`${devNavUrl}/${UrlManager}/inventory/reports/capital-share/dividend`}
+              path={`${devNavUrl}/${UrlManager}/inventory/reports/net-surplus-distribution/dividend`}
               element={
                 <ProtectedRouteOther>
                   <ManagerReportDividendCapitalShare />

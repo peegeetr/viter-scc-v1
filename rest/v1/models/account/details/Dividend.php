@@ -139,14 +139,19 @@ class Dividend
         try {
             $sql = "select ";
             $sql .= "capital_share_member_id, ";
-            $sql .= "SUM(capital_share_total) as allMemTotal, ";
-            $sql .= "YEAR(capital_share_date) as year ";
+            $sql .= "SUM(capitalShare.capital_share_total) as allMemTotal, ";
+            $sql .= "YEAR(capitalShare.capital_share_date) as year, ";
+            $sql .= "members.members_aid, ";
+            $sql .= "members.members_last_name, ";
+            $sql .= "members.members_first_name ";
             $sql .= "from ";
-            $sql .= "{$this->tblDividend} ";
-            $sql .= "where capital_share_is_initial_pay = 0 ";
-            $sql .= "group by capital_share_member_id, ";
-            $sql .= "YEAR(capital_share_date) ";
-            $sql .= "order by YEAR(capital_share_date) desc ";
+            $sql .= "{$this->tblDividend} as capitalShare, ";
+            $sql .= "{$this->tblMembers} as members ";
+            $sql .= "where members.members_aid = capitalShare.capital_share_member_id ";
+            $sql .= "and capitalShare.capital_share_is_initial_pay = 0 ";
+            $sql .= "group by capitalShare.capital_share_member_id, ";
+            $sql .= "YEAR(capitalShare.capital_share_date) ";
+            $sql .= "order by YEAR(capitalShare.capital_share_date) desc ";
             $query = $this->connection->query($sql);
         } catch (PDOException $ex) {
             $query = false;

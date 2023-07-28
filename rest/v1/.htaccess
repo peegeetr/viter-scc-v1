@@ -211,16 +211,16 @@ RewriteRule ^product-history/page-by-id/([0-9]+)/([0-9]+)$ controllers/inventory
 RewriteRule ^product-history/search-by-id/([0-9]+)$ controllers/inventory/suppliers/product/products-history/search.php?productHistoryId=$1 [L]
    
 #REPORT CAPITAL
-RewriteRule ^report-capital/filter/detailed$ controllers/inventory/report/capital-report/report-filter-capital-detailed.php [L] 
-RewriteRule ^report-capital/filter/dividend$ controllers/inventory/report/capital-report/report-filter-capital-dividend.php [L] 
-RewriteRule ^report-capital/read-all-avg-by-year/([0-9]+)/([0-9]+)$ controllers/inventory/report/capital-report/report-read-all-avg-by-year.php?memberId=$1&year=$2 [L] 
-RewriteRule ^report-capital/read-by-id-and-year/([0-9]+)/([0-9]+)$ controllers/inventory/report/capital-report/report-read-by-id-and-year.php?memberId=$1&year=$2 [L] 
-RewriteRule ^report-capital/report-read-all-member-fee$ controllers/inventory/report/capital-report/report-read-all-member-fee.php [L] 
-RewriteRule ^report-capital/report-read-by-year-total-capital/([0-9]+)$ controllers/inventory/report/capital-report/report-read-by-year-total-capital.php?year=$1 [L] 
-RewriteRule ^report-capital/read-netsurplus-by-year/([0-9]+)$ controllers/inventory/report/capital-report/report-read-netsurplus-by-year.php?year=$1 [L] 
-RewriteRule ^report-capital/read-all-member-total/([0-9]+)$ controllers/inventory/report/capital-report/report-read-all-member-total.php?year=$1 [L]  
-RewriteRule ^report-capital/filter/dividend/([0-9]+)$ controllers/inventory/report/capital-report/report-filter-capital-dividend.php?year=$1 [L] 
-RewriteRule ^report-capital/filter/detailed/([0-9]+)$ controllers/inventory/report/capital-report/report-filter-capital-detailed.php?year=$1  [L] 
+RewriteRule ^report-capital/filter/detailed$ controllers/inventory/report/net-surplus-distribution/capital-report/report-filter-capital-detailed.php [L] 
+RewriteRule ^report-capital/filter/dividend$ controllers/inventory/report/net-surplus-distribution/capital-report/report-filter-capital-dividend.php [L] 
+RewriteRule ^report-capital/read-all-avg-by-year/([0-9]+)/([0-9]+)$ controllers/inventory/report/net-surplus-distribution/capital-report/report-read-all-avg-by-year.php?memberId=$1&year=$2 [L] 
+RewriteRule ^report-capital/read-by-id-and-year/([0-9]+)/([0-9]+)$ controllers/inventory/report/net-surplus-distribution/capital-report/report-read-by-id-and-year.php?memberId=$1&year=$2 [L] 
+RewriteRule ^report-capital/report-read-all-member-fee$ controllers/inventory/report/net-surplus-distribution/capital-report/report-read-all-member-fee.php [L] 
+RewriteRule ^report-capital/report-read-by-year-total-capital/([0-9]+)$ controllers/inventory/report/net-surplus-distribution/capital-report/report-read-by-year-total-capital.php?year=$1 [L] 
+RewriteRule ^report-capital/read-netsurplus-by-year/([0-9]+)$ controllers/inventory/report/net-surplus-distribution/capital-report/report-read-netsurplus-by-year.php?year=$1 [L] 
+RewriteRule ^report-capital/read-all-member-total/([0-9]+)$ controllers/inventory/report/net-surplus-distribution/capital-report/report-read-all-member-total.php?year=$1 [L]  
+RewriteRule ^report-capital/filter/dividend/([0-9]+)$ controllers/inventory/report/net-surplus-distribution/capital-report/report-filter-capital-dividend.php?year=$1 [L] 
+RewriteRule ^report-capital/filter/detailed/([0-9]+)$ controllers/inventory/report/net-surplus-distribution/capital-report/report-filter-capital-detailed.php?year=$1  [L] 
    
 #REPORT STOCKS
 RewriteRule ^report-stock/filter$ controllers/inventory/report/stocks-report/report-filter-stocks.php [L] 
@@ -260,3 +260,7 @@ RewriteRule ^dividend/read-all-member-total$ controllers/account/details/dividen
 #patronage
 RewriteRule ^patronage/page/by-employee-id/([0-9]+)/([0-9]+)$ controllers/account/details/patronage/page-by-member-id.php?start=$1&membersId=$2 [L] 
 RewriteRule ^patronage/filter-patronage-by-year/([0-9]+)$ controllers/account/details/patronage/filter-patronage-by-year.php?membersId=$1 [L] 
+
+#patronage 
+RewriteRule ^report-patronage/report-filter-patronage$ controllers/inventory/report/net-surplus-distribution/patronage/report-filter-patronage.php [L] 
+RewriteRule ^report-patronage/report-filter-patronage/([0-9]+)$ controllers/inventory/report/net-surplus-distribution/patronage/report-filter-patronage.php?year=$1 [L] 

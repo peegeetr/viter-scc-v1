@@ -245,3 +245,16 @@ export const getDateTimeNow = () => {
 };
 
 export const pesoSign = <span> &#8369; </span>;
+
+export const getYearList = () => {
+  const d = new Date();
+  let currentYear = d.getFullYear();
+  let yearCount = 10;
+  let list = [];
+
+  for (let i = 0; i < yearCount; i++) {
+    currentYear--;
+    list.push({ year: `${Number(currentYear) + 1}` });
+  }
+  return list;
+};

@@ -193,8 +193,7 @@ class PointOfSales
             $sql .= "and orders.orders_member_id = member.members_aid ";
             $sql .= "and orders.orders_is_paid = '0' ";
             $sql .= "and orders.orders_is_draft = '0' ";
-            $sql .= "order by orders.orders_is_draft desc, ";
-            $sql .= "orders.orders_is_paid asc, ";
+            $sql .= "order by orders.orders_aid desc, ";
             $sql .= "orders.orders_date desc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
@@ -247,8 +246,7 @@ class PointOfSales
             $sql .= "and orders.orders_member_id = member.members_aid ";
             $sql .= "and orders.orders_is_paid = '0' ";
             $sql .= "and orders.orders_is_draft = '0' ";
-            $sql .= "order by orders.orders_is_draft desc, ";
-            $sql .= "orders.orders_is_paid asc, ";
+            $sql .= "order by orders.orders_aid desc, ";
             $sql .= "orders.orders_date desc ";
             $sql .= "limit :start, ";
             $sql .= ":total ";

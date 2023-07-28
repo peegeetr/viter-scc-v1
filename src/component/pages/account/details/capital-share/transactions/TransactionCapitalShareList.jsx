@@ -14,8 +14,11 @@ import TableSpinner from "../../../../../partials/spinners/TableSpinner";
 import { getMonth } from "../../../../Inventory/reports/report-function";
 import TransactionCapitalShareBody from "./TransactionCapitalShareBody";
 import TransactionCapitalShareTotals from "./TransactionCapitalShareTotals";
-import { getYearList } from "../../../../Inventory/reports/capital-report/functions-report-capital";
-import { getUrlParam, yearNow } from "../../../../../helpers/functions-general";
+import {
+  getUrlParam,
+  getYearList,
+  yearNow,
+} from "../../../../../helpers/functions-general";
 import TransactionCapitalShareListPrintView from "./printView/TransactionCapitalShareListPrintView";
 
 const TransactionCapitalShareList = ({

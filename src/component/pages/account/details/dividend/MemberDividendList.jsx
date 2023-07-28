@@ -10,6 +10,7 @@ import useQueryData from "../../../../custom-hooks/useQueryData";
 import { InputSelect } from "../../../../helpers/FormInputs";
 import {
   getUrlParam,
+  getYearList,
   numberWithCommas,
   pesoSign,
   yearNow,
@@ -19,7 +20,7 @@ import Loadmore from "../../../../partials/Loadmore";
 import NoData from "../../../../partials/NoData";
 import ServerError from "../../../../partials/ServerError";
 import TableSpinner from "../../../../partials/spinners/TableSpinner";
-import { getComputeDividend, getYearListDividend } from "./functions-dividend";
+import { getComputeDividend } from "./functions-dividend";
 import ModalViewDividend from "./modal/ModalViewDividend";
 
 const MemberDividendList = ({ memberName, isLoading, menu }) => {
@@ -124,16 +125,16 @@ const MemberDividendList = ({ memberName, isLoading, menu }) => {
                       <div className="sm:w-[10rem] items-center print:hidden py-3">
                         <div className="relative">
                           <InputSelect
-                            label="year"
+                            label="Year"
                             name="year_div"
                             type="text"
                             onChange={handleMonth}
                             disabled={status === "loading"}
                           >
                             <option value="" hidden>
-                              {status === "loading" ? "Loading..." : "All year"}
+                              {status === "loading" ? "Loading..." : "All"}
                             </option>
-                            {getYearListDividend()?.map((ydItem, key) => {
+                            {getYearList()?.map((ydItem, key) => {
                               return (
                                 <option key={key} value={ydItem.year}>
                                   {`${ydItem.year}`}
