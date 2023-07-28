@@ -36,12 +36,15 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         if (count($allItem) > 0) {
             $product_history->product_history_product_id = $allItem["product_history_product_id"];
             $product_history->product_history_price = $allItem["product_history_price"];
+            $product_history->product_history_scc_price = $allItem["product_history_scc_price"];
         }
         checkKeyword($product_history->product_history_price);
+        checkKeyword($product_history->product_history_scc_price);
 
         // if archive
         if ($product_history->product_history_is_active === "0") {
             $product_history->product_history_price = "";
+            $product_history->product_history_scc_price = "";
         }
         //check to see if task id in query string is not empty and is number, if not return json error
         checkId($product_history->product_history_product_id);

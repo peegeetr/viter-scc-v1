@@ -52,25 +52,17 @@ export const getYearListPatronage = () => {
   return list;
 };
 
-export const getComputePatronage = (item, patronage) => {
-  let totalPtaronage = 0;
+export const getComputePatronage = (item) => {
+  let myPatronage = 0;
   let rate = 0;
-  let myDividend = 0;
   let result = 0;
-  // read all patronage by group year
-  patronage?.data.map((pItem) => {
-    if (item.year === pItem.year) {
-      // All Member Total Average Shares Months
-      totalPtaronage +=
-        Number(pItem.totalPatronage) - Number(pItem.totalDiscount);
-    }
-  });
+  myPatronage = Number(item.totalAmount) - Number(item.salesDiscount);
   // Rate of Interest on Share Capital
-  rate = Number(item.net_surplus_dividend) / totalPtaronage;
-  // my Total Average Shares Months
-  myDividend = Number(item.total) / 12;
+  rate =
+    Number(item.net_surplus_patronage_refund) /
+    Number(item.net_surplus_total_income);
 
-  result = myDividend * rate;
+  result = myPatronage * rate;
 
-  return { result, rate, myDividend, totalPtaronage };
+  return { result, rate };
 };

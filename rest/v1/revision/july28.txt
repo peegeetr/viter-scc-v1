@@ -1,0 +1,29 @@
+ 
+*controllers  
+    - inventory/suppliers/product/products-history/active.php
+    - acccount/details/patronage/filter-patronage-by-year.php
+    - acccount/details/patronage/functions.php
+    -
+    
+*models    
+    - account/details/Patronage.php
+    - inventory/suppliers/product/ProductsHistory.php
+    -  
+    -  
+
+*htaccess 
+    - htaccess 
+
+*db tables  
+    - 
+    - 
+    -  
+
+
+*core functions 
+    - 
+    -  
+
+*extra
+    - 
+    -  

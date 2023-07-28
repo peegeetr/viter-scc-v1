@@ -9,9 +9,9 @@ function checkReadLimitById($object)
 }
 
 // Search by id
-function checkReadMemberAllTotalPatronage($object)
+function checkReadFilterPatronageByMemberAndYear($object)
 {
-    $query = $object->readMemberAllTotalPatronage();
+    $query = $object->readFilterPatronageByMemberAndYear();
     checkQuery($query, "Empty records. (Search by id)");
     return $query;
 }

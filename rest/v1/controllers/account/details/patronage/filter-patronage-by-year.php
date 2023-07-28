@@ -12,14 +12,21 @@ $conn = checkDbConnection();
 // make instance of classes
 $patronage = new Patronage($conn);
 $response = new Response();
+// get data
+$body = file_get_contents("php://input");
+$data = json_decode($body, true);
 // validate api key
 if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     checkApiKey();
+    // check data
+    checkPayload($data);
 
     // if request is a GET e.g. /dividend
-    if (empty($_GET)) {
+    if (array_key_exists("membersId", $_GET)) {
+        $patronage->orders_member_id = $_GET['membersId'];
+        $patronage->orders_date = checkIndex($data, "year");
         // get task id from query string 
-        $query = checkReadMemberAllTotalPatronage($patronage);
+        $query = checkReadFilterPatronageByMemberAndYear($patronage);
         http_response_code(200);
         getQueriedData($query);
     }

@@ -6,10 +6,9 @@ import {
   numberWithCommas,
   pesoSign,
 } from "../../../../../helpers/functions-general";
-import { getComputeDividend } from "../../dividend/functions-dividend";
 import { getComputePatronage } from "../functions-patronage";
 
-const ModalViewPatronage = ({ item, avgShareMonths }) => {
+const ModalViewPatronage = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
 
   const handleClose = () => {
@@ -45,9 +44,7 @@ const ModalViewPatronage = ({ item, avgShareMonths }) => {
               <p className="xs:mb-0 mb-2 text-right py-1 pr-2 bg-blue-100 mt-2">
                 {pesoSign}
                 {numberWithCommas(
-                  Number(
-                    getComputePatronage(item, avgShareMonths).totalASM
-                  ).toFixed(2)
+                  Number(item.net_surplus_total_income).toFixed(2)
                 )}
               </p>
               <p className="mb-0 py-1 px-2 text-right xs:text-left bg-blue-100">
@@ -87,14 +84,18 @@ const ModalViewPatronage = ({ item, avgShareMonths }) => {
                 )}
               </p>
               <p className="mb-0 py-1 px-2 text-right xs:text-left bg-blue-100">
-                My Average Shares {item.year}
+                My patronage {item.year}
               </p>
               <p className="mb-0 text-center py-1 pl-2 hidden xs:block">
                 &nbsp;
               </p>
               <p className="mb-2 xs:mb-0 text-right py-1 pr-2 bg-blue-100 ">
                 {pesoSign}
-                {numberWithCommas(Number(item.total / 12).toFixed(2))}
+                {numberWithCommas(
+                  (
+                    Number(item.totalAmount) - Number(item.salesDiscount)
+                  ).toFixed(2)
+                )}
               </p>
             </div>
             <p className="text-primary mb-0 ml-3 font-semibold">
@@ -107,14 +108,12 @@ const ModalViewPatronage = ({ item, avgShareMonths }) => {
                   <div>
                     <p className="mb-0 border-b-2 border-gray-500 ">
                       {numberWithCommas(
-                        Number(item.net_surplus_dividend).toFixed(2)
+                        Number(item.net_surplus_patronage_refund).toFixed(2)
                       )}
                     </p>
                     <p className="mb-0 ">
                       {numberWithCommas(
-                        Number(
-                          getComputeDividend(item, avgShareMonths).totalASM
-                        ).toFixed(2)
+                        Number(item.net_surplus_total_income).toFixed(2)
                       )}
                     </p>
                   </div>
@@ -122,7 +121,7 @@ const ModalViewPatronage = ({ item, avgShareMonths }) => {
 
                 <p className="mb-0 ">
                   <span className=" mr-4"> = </span>
-                  {getComputeDividend(item, avgShareMonths).rate.toFixed(4)}
+                  {getComputePatronage(item).rate.toFixed(5)}
                 </p>
               </div>
 
@@ -130,21 +129,19 @@ const ModalViewPatronage = ({ item, avgShareMonths }) => {
                 <p className="mb-0 ">
                   <span className=" mr-4"> = </span>
                   {numberWithCommas(
-                    getComputeDividend(item, avgShareMonths).myDividend.toFixed(
-                      2
-                    )
+                    (
+                      Number(item.totalAmount) - Number(item.salesDiscount)
+                    ).toFixed(2)
                   )}
                   {" * "}
-                  {Number(
-                    getComputeDividend(item, avgShareMonths).rate
-                  ).toFixed(5)}
+                  {Number(getComputePatronage(item).rate).toFixed(5)}
                 </p>
 
                 <p className="mb-0 mt-2">
                   <span className=" mr-4"> = </span>
                   {pesoSign}
                   {numberWithCommas(
-                    getComputeDividend(item, avgShareMonths).result.toFixed(2)
+                    getComputePatronage(item).result.toFixed(2)
                   )}
                 </p>
               </div>

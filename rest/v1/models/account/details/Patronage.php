@@ -36,34 +36,20 @@ class Patronage
         $this->tblSales = "sccv1_sales";
         $this->tblNetSurplus = "sccv1_settings_netsurplus";
     }
-    // read Member All Total Patronage
-    public function readMemberAllTotalPatronage()
-    {
-        try {
-            $sql = "select YEAR(orders.orders_date) as year, ";
-            $sql .= "SUM(sales.sales_discount) as totalDiscount, ";
-            $sql .= "SUM(orders.orders_product_amount) as totalPatronage ";
-            $sql .= "from {$this->tblOrders} as orders, ";
-            $sql .= "{$this->tblSales} as sales ";
-            $sql .= "where orders.orders_aid = sales.sales_order_id ";
-            $sql .= "and orders.orders_is_paid = '1' ";
-            $sql .= "and orders.orders_is_draft = '0' ";
-            $sql .= "order by YEAR(orders.orders_date) desc ";
-            $query = $this->connection->query($sql);
-        } catch (PDOException $ex) {
-            $query = false;
-        }
-        return $query;
-    }
-
     // read all not draft
     public function readById()
     {
         try {
-            $sql = "select YEAR(orders.orders_date) as orderYear, ";
-            $sql .= "netSuplus.net_surplus_year, ";
+            $sql = "select YEAR(orders.orders_date) as year, ";
+            $sql .= "SUM(orders.orders_product_amount) as totalAmount, ";
             $sql .= "SUM(sales.sales_discount) as salesDiscount, ";
-            $sql .= "SUM(orders.orders_product_amount) as totalAmount ";
+            $sql .= "netSuplus.net_surplus_year, ";
+            $sql .= "netSuplus.net_surplus_total_income, ";
+            $sql .= "netSuplus.net_surplus_dividend_rate, ";
+            $sql .= "netSuplus.net_surplus_dividend, ";
+            $sql .= "netSuplus.net_surplus_patronage_rate, ";
+            $sql .= "netSuplus.net_surplus_patronage_refund, ";
+            $sql .= "netSuplus.net_surplus_distribution_amount ";
             $sql .= "from {$this->tblOrders} as orders, ";
             $sql .= "{$this->tblSales} as sales, ";
             $sql .= "{$this->tblNetSurplus} as netSuplus ";
@@ -87,10 +73,16 @@ class Patronage
     public function readLimitById()
     {
         try {
-            $sql = "select YEAR(orders.orders_date) as orderYear, ";
-            $sql .= "netSuplus.net_surplus_year, ";
+            $sql = "select YEAR(orders.orders_date) as year, ";
+            $sql .= "SUM(orders.orders_product_amount) as totalAmount, ";
             $sql .= "SUM(sales.sales_discount) as salesDiscount, ";
-            $sql .= "SUM(orders.orders_product_amount) as totalAmount ";
+            $sql .= "netSuplus.net_surplus_year, ";
+            $sql .= "netSuplus.net_surplus_total_income, ";
+            $sql .= "netSuplus.net_surplus_dividend_rate, ";
+            $sql .= "netSuplus.net_surplus_dividend, ";
+            $sql .= "netSuplus.net_surplus_patronage_rate, ";
+            $sql .= "netSuplus.net_surplus_patronage_refund, ";
+            $sql .= "netSuplus.net_surplus_distribution_amount ";
             $sql .= "from {$this->tblOrders} as orders, ";
             $sql .= "{$this->tblSales} as sales, ";
             $sql .= "{$this->tblNetSurplus} as netSuplus ";
@@ -116,13 +108,19 @@ class Patronage
     }
 
     // search 
-    public function filter()
+    public function readFilterPatronageByMemberAndYear()
     {
         try {
             $sql = "select YEAR(orders.orders_date) as year, ";
+            $sql .= "SUM(orders.orders_product_amount) as totalAmount, ";
+            $sql .= "SUM(sales.sales_discount) as salesDiscount, ";
             $sql .= "netSuplus.net_surplus_year, ";
-            $sql .= "SUM(sales.sales_discount) as discount, ";
-            $sql .= "SUM(orders.orders_product_amount) as total ";
+            $sql .= "netSuplus.net_surplus_total_income, ";
+            $sql .= "netSuplus.net_surplus_dividend_rate, ";
+            $sql .= "netSuplus.net_surplus_dividend, ";
+            $sql .= "netSuplus.net_surplus_patronage_rate, ";
+            $sql .= "netSuplus.net_surplus_patronage_refund, ";
+            $sql .= "netSuplus.net_surplus_distribution_amount ";
             $sql .= "from {$this->tblOrders} as orders, ";
             $sql .= "{$this->tblSales} as sales, ";
             $sql .= "{$this->tblNetSurplus} as netSuplus ";

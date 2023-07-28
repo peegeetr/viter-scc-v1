@@ -6,7 +6,6 @@ import { useInView } from "react-intersection-observer";
 import * as Yup from "yup";
 import { setIsAdd } from "../../../../../store/StoreAction";
 import { StoreContext } from "../../../../../store/StoreContext";
-import useQueryData from "../../../../custom-hooks/useQueryData";
 import { InputSelect } from "../../../../helpers/FormInputs";
 import {
   getUrlParam,
@@ -19,11 +18,11 @@ import Loadmore from "../../../../partials/Loadmore";
 import NoData from "../../../../partials/NoData";
 import ServerError from "../../../../partials/ServerError";
 import TableSpinner from "../../../../partials/spinners/TableSpinner";
-import ModalViewPatronage from "./modal/ModalViewPatronage";
 import {
   getComputePatronage,
   getYearListPatronage,
 } from "./functions-patronage";
+import ModalViewPatronage from "./modal/ModalViewPatronage";
 
 const MemberPatronageList = ({ memberName, isLoading, menu }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -51,7 +50,7 @@ const MemberPatronageList = ({ memberName, isLoading, menu }) => {
     queryKey: ["patronageByMember", isSubmit],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
-        `/v1/dividend/filter-by-id/${empid}`, // filter endpoint // filter
+        `/v1/patronage/filter-patronage-by-year/${empid}`, // filter endpoint // filter
         `/v1/patronage/page/by-employee-id/${pageParam}/${empid}`, // list endpoint
         isFilter, // search boolean
         "post",
@@ -81,13 +80,6 @@ const MemberPatronageList = ({ memberName, isLoading, menu }) => {
     setItemEdit(item);
   };
 
-  // use if not loadmore button undertime
-  const { data: totalPotronageAllMember } = useQueryData(
-    `/v1/patronage/page/read-all-member-total`, // endpoint
-    "get", // method
-    "totalPotronageAllMember" // key
-  );
-
   const handleMonth = async (e) => {
     setYear(e.target.value);
     setFilter(true);
@@ -100,7 +92,6 @@ const MemberPatronageList = ({ memberName, isLoading, menu }) => {
   const yupSchema = Yup.object({
     year_div: Yup.string().required("Required"),
   });
-  console.log("123", result, totalPotronageAllMember);
   return (
     <>
       {isLoading ? (
@@ -192,10 +183,7 @@ const MemberPatronageList = ({ memberName, isLoading, menu }) => {
                         <td className="text-right pr-4">
                           {pesoSign}
                           {numberWithCommas(
-                            Number(
-                              getComputePatronage(item, totalPotronageAllMember)
-                                .result
-                            ).toFixed(2)
+                            Number(getComputePatronage(item).result).toFixed(2)
                           )}
                         </td>
 
@@ -232,12 +220,7 @@ const MemberPatronageList = ({ memberName, isLoading, menu }) => {
       ) : (
         <NoData />
       )}
-      {store.isAdd && (
-        <ModalViewPatronage
-          item={itemEdit}
-          avgShareMonths={totalPotronageAllMember}
-        />
-      )}
+      {store.isAdd && <ModalViewPatronage item={itemEdit} />}
     </>
   );
 };

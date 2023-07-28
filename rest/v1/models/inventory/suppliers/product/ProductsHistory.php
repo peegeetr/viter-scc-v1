@@ -443,12 +443,14 @@ class ProductsHistory
             $sql .= "where DATE(product_history_date) = DATE(:product_history_date) ";
             $sql .= "and product_history_price = :product_history_price ";
             $sql .= "and product_history_scc_price = :product_history_scc_price ";
+            $sql .= "and product_history_product_id = :product_history_product_id ";
             $sql .= "order by product_history_is_active desc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "product_history_date" => $this->product_history_date,
                 "product_history_price" => $this->product_history_price,
                 "product_history_scc_price" => $this->product_history_scc_price,
+                "product_history_product_id" => $this->product_history_product_id,
             ]);
         } catch (PDOException $ex) {
             $query = false;

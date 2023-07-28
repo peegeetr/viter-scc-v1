@@ -121,7 +121,7 @@ const ModalViewDividend = ({ item, avgShareMonths }) => {
 
                 <p className="mb-0 ">
                   <span className=" mr-4"> = </span>
-                  {getComputeDividend(item, avgShareMonths).rate.toFixed(4)}
+                  {getComputeDividend(item, avgShareMonths).rate.toFixed(5)}
                 </p>
               </div>
 
