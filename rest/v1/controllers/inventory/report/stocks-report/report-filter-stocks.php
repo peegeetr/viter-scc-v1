@@ -28,6 +28,8 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     $stocks->suppliers_products_suppliers_id = checkIndex($allValues, "supplier_id");
     $stocks->suppliers_products_category_id = checkIndex($allValues, "category_id");
     $stocks->suppliers_products_aid = checkIndex($allValues, "product_id");
+    $stocks->start_date = checkIndex($allValues, "date_from");
+    $stocks->end_date = checkIndex($allValues, "date_to");
 
     // if all supplier , category by id, all product 
     // 0 = all, 1 = by item id

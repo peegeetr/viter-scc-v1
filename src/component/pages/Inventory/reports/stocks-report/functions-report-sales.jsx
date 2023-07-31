@@ -1,35 +1,23 @@
 // get beenifits leave
 // get beenifits leave
-export const getProductRemaningQty = (
-  item,
-  stocksGroupProd,
-  orderGroupProd
-) => {
+export const getProductRemaningQty = (item, ordersGroupProd) => {
   let remaingQunatity = 0;
   let stockQuantity = 0;
   let orderQuantity = 0;
-  stocksGroupProd?.data.map((sqItem) => {
+
+  ordersGroupProd?.data.map((ordItem) => {
     // check if leave type aid is equal
-    if (item.suppliers_products_aid === Number(sqItem.stocks_product_id)) {
-      stockQuantity = sqItem.stockQuantity;
+    if (item.suppliers_products_aid === Number(ordItem.orders_product_id)) {
+      orderQuantity = ordItem.orderQuantity;
     }
   });
-  orderGroupProd?.data.map((oqItem) => {
-    // check if leave type aid is equal
-    if (item.suppliers_products_aid === Number(oqItem.orders_product_id)) {
-      orderQuantity = oqItem.orderQuantity;
-    }
-  });
+  stockQuantity = item.stockQuantity;
   remaingQunatity = Number(stockQuantity) - Number(orderQuantity);
   return { remaingQunatity, stockQuantity };
 };
 
 // compute Remaining Quantity
-export const computeStockReportTotal = (
-  result,
-  orderGroupProd,
-  stocksGroupProd
-) => {
+export const computeStockReportTotal = (result, ordersGroupProd) => {
   let totalQty = 0;
   let pendingQty = 0;
   let sccPrice = 0;
@@ -37,11 +25,7 @@ export const computeStockReportTotal = (
   result?.pages.map((page) =>
     page?.data.map((item) => {
       // remainig quantity
-      pendingQty = getProductRemaningQty(
-        item,
-        stocksGroupProd,
-        orderGroupProd
-      ).remaingQunatity;
+      pendingQty = getProductRemaningQty(item, ordersGroupProd).remaingQunatity;
 
       totalQty += pendingQty;
 

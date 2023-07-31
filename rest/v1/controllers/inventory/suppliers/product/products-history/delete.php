@@ -24,8 +24,8 @@ if (array_key_exists("productHistoryId", $_GET)) {
     checkId($product_history->product_history_aid);
     // check if exist in stocks
     isAssociated($product_history);
-    // check if exist in order
-    checkAssociationInOrder($product_history);
+    // // check if exist in order
+    // checkAssociationInOrder($product_history);
 
     // delete
     $query = checkDelete($product_history);

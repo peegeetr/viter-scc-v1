@@ -7,6 +7,7 @@ import { StoreContext } from "../../../../../store/StoreContext";
 import useQueryData from "../../../../custom-hooks/useQueryData";
 import { InputSelect, InputText } from "../../../../helpers/FormInputs";
 import {
+  getDateNow,
   numberWithCommas,
   pesoSign,
 } from "../../../../helpers/functions-general";
@@ -18,7 +19,6 @@ import TableSpinner from "../../../../partials/spinners/TableSpinner";
 import ModalViewSales from "../../sales/ModalViewSales";
 import StockReportTotal from "./StockReportTotal";
 import { getProductRemaningQty } from "./functions-report-sales";
-import { getRemaningQuantity } from "../../products/functions-product";
 
 const ReportStocksList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -36,15 +36,16 @@ const ReportStocksList = () => {
     isFetching,
     status,
   } = useInfiniteQuery({
-    queryKey: ["patronage", isSubmit],
+    queryKey: ["report-stocks", isSubmit],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
         `/v1/report-stock/filter`, // filter endpoint // filter
-        `/v1/sales/page/${0}`, // list endpoint
+        `/v1/report-stock`, // list endpoint default value of filter no data
         isFilter, // search boolean
         "post",
         { value }
       ),
+
     getNextPageParam: (lastPage) => {
       if (lastPage.page < lastPage.total) {
         return lastPage.page + lastPage.count;
@@ -101,27 +102,28 @@ const ReportStocksList = () => {
   };
 
   // use if not loadmore button undertime
-  const { data: stocksGroupProd } = useQueryData(
-    `/v1/stocks/group-by-prod`, // endpoint
-    "get", // method
-    "stocksGroupProd" // key
+  const { data: ordersGroupProd } = useQueryData(
+    `/v1/report-stock/order-qty/${isFilter}`, // endpoint
+    "put", // method
+    "ordersGroupProd", // key
+    { value },
+    result
   );
-  // use if not loadmore button undertime
-  const { data: orderGroupProd } = useQueryData(
-    `/v1/orders/group-by-prod`, // endpoint
-    "get", // method
-    "orderGroupProd" // key
-  );
+
   const initVal = {
     supplier_id: "0",
     category_id: "0",
     product_id: "0",
+    date_from: getDateNow(),
+    date_to: getDateNow(),
   };
 
   const yupSchema = Yup.object({
     supplier_id: Yup.string().required("Required"),
     category_id: Yup.string().required("Required"),
     product_id: Yup.string().required("Required"),
+    date_from: Yup.string().required("Required"),
+    date_to: Yup.string().required("Required"),
   });
 
   return (
@@ -138,7 +140,7 @@ const ReportStocksList = () => {
         {(props) => {
           return (
             <Form>
-              <div className="grid gap-4 xl:grid-cols-[1fr_1fr_1fr_15rem] pb-5 items-center print:hidden ">
+              <div className="grid gap-4 xl:grid-cols-[1fr_1fr_1fr_1fr_1fr_15rem] pb-5 items-center print:hidden ">
                 <div className="relative ">
                   <InputSelect
                     name="supplier_id"
@@ -198,6 +200,22 @@ const ReportStocksList = () => {
                     })}
                   </InputSelect>
                 </div>
+                <div className="relative">
+                  <InputText
+                    label="Date from"
+                    type="date"
+                    name="date_from"
+                    disabled={status === "loading" || categoryLoading}
+                  />
+                </div>
+                <div className="relative">
+                  <InputText
+                    label="Date to"
+                    type="date"
+                    name="date_to"
+                    disabled={status === "loading" || categoryLoading}
+                  />
+                </div>
 
                 <button
                   className="btn-modal-submit relative"
@@ -217,8 +235,7 @@ const ReportStocksList = () => {
       {/* total */}
       <StockReportTotal
         result={result}
-        orderGroupProd={orderGroupProd}
-        stocksGroupProd={stocksGroupProd}
+        ordersGroupProd={ordersGroupProd}
         isLoading={status === "loading"}
       />
 
@@ -260,26 +277,18 @@ const ReportStocksList = () => {
                 {page.data.map((item, key) => (
                   <tr key={key}>
                     <td> {counter++}.</td>
-
                     <td>{item.suppliers_company_name}</td>
                     <td>{item.suppliers_products_name}</td>
                     <td className="text-center">
                       {
-                        getProductRemaningQty(
-                          item,
-                          stocksGroupProd,
-                          orderGroupProd
-                        ).stockQuantity
+                        getProductRemaningQty(item, ordersGroupProd)
+                          .stockQuantity
                       }
                     </td>
-
                     <td className="text-center bg-orange-100">
                       {
-                        getProductRemaningQty(
-                          item,
-                          stocksGroupProd,
-                          orderGroupProd
-                        ).remaingQunatity
+                        getProductRemaningQty(item, ordersGroupProd)
+                          .remaingQunatity
                       }
                     </td>
                     <td className="text-right pr-4 bg-orange-100">
@@ -295,11 +304,8 @@ const ReportStocksList = () => {
                         (
                           Number(item.suppliers_products_scc_price) *
                           Number(
-                            getProductRemaningQty(
-                              item,
-                              stocksGroupProd,
-                              orderGroupProd
-                            ).remaingQunatity
+                            getProductRemaningQty(item, ordersGroupProd)
+                              .remaingQunatity
                           )
                         ).toFixed(2)
                       )}

@@ -225,6 +225,9 @@ RewriteRule ^report-capital/filter/detailed/([0-9]+)$ controllers/inventory/repo
 #REPORT STOCKS
 RewriteRule ^report-stock/filter$ controllers/inventory/report/stocks-report/report-filter-stocks.php [L] 
 RewriteRule ^report-stock/all-order$ controllers/inventory/report/stocks-report/order-group-by-product.php [L] 
+RewriteRule ^report-stock$ controllers/inventory/report/stocks-report/report-stocks-page.php [L] 
+RewriteRule ^report-stock/order-qty/([A-Za-z0-9-]+)$ controllers/inventory/report/stocks-report/report-order-qty-by-date.php?isFilter=$1 [L] 
+
  
 #REPORT BLOTTER PETTY CASH
 RewriteRule ^report-petty-cash$ controllers/inventory/report/blotter/petty-cash/petty-cash.php [L]

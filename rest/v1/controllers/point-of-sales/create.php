@@ -93,9 +93,9 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
             $searchRow = $searchToAdd->fetch(PDO::FETCH_ASSOC);
             extract($searchRow);
             $pos->orders_product_id = $suppliers_products_aid;
-            $pos->orders_product_srp = $suppliers_products_scc_price;
-            $pos->orders_suplier_price = $suppliers_products_price;
-            $pos->orders_product_amount = $suppliers_products_scc_price;
+            $pos->orders_product_srp = $product_history_scc_price;
+            $pos->orders_suplier_price = $product_history_price;
+            $pos->orders_product_amount = $product_history_scc_price;
             $pos->orders_stocks_id = $stocks_aid;
         }
 

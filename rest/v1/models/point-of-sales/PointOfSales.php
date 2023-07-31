@@ -43,6 +43,7 @@ class PointOfSales
     public $tblCategory;
     public $tblBarcode;
     public $tblStocks;
+    public $tblProductsHistory;
 
     public function __construct($db)
     {
@@ -55,6 +56,7 @@ class PointOfSales
         $this->tblCategory = "sccv1_product_category";
         $this->tblBarcode = "sccv1_product_barcode";
         $this->tblStocks = "sccv1_stocks";
+        $this->tblProductsHistory = "sccv1_product_history";
     }
 
     // create
@@ -390,12 +392,12 @@ class PointOfSales
             $sql .= "suppliersProducts.suppliers_products_aid, ";
             $sql .= "suppliersProducts.suppliers_products_number, ";
             $sql .= "suppliersProducts.suppliers_products_name, ";
-            $sql .= "suppliersProducts.suppliers_products_price, ";
-            $sql .= "suppliersProducts.suppliers_products_scc_price, ";
             $sql .= "suppliersProducts.suppliers_products_market_price, ";
             $sql .= "suppliersProducts.suppliers_products_category_id, ";
             $sql .= "supplier.suppliers_aid, ";
             $sql .= "supplier.suppliers_company_name, ";
+            $sql .= "productHistory.product_history_price, ";
+            $sql .= "productHistory.product_history_scc_price, ";
             $sql .= "stock.stocks_aid, ";
             $sql .= "stock.stocks_barcode_id, ";
             $sql .= "category.product_category_name ";
@@ -403,15 +405,17 @@ class PointOfSales
             $sql .= "{$this->tblSuppliersProducts} as suppliersProducts, ";
             $sql .= "{$this->tblSuppliers} as supplier, ";
             $sql .= "{$this->tblStocks} as stock, ";
+            $sql .= "{$this->tblProductsHistory} as productHistory, ";
             $sql .= "{$this->tblCategory} as category ";
             $sql .= "where category.product_category_aid = suppliersProducts.suppliers_products_category_id ";
             $sql .= "and suppliersProducts.suppliers_products_suppliers_id = supplier.suppliers_aid ";
             $sql .= "and stock.stocks_product_id = suppliersProducts.suppliers_products_aid ";
+            $sql .= "and stock.stocks_suplier_price_history_id = productHistory.product_history_aid ";
             $sql .= "and (suppliersProducts.suppliers_products_name like :suppliers_products_name ";
             $sql .= "or stock.stocks_barcode_id like :stocks_barcode_id ";
             $sql .= "or category.product_category_name like :product_category_name) ";
-            $sql .= "group by suppliersProducts.suppliers_products_aid ";
             $sql .= "order by stock.stocks_aid desc ";
+            $sql .= "limit 1 ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "suppliers_products_name" => "{$this->orders_search}%",

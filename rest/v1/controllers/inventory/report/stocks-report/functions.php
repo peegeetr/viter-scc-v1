@@ -7,7 +7,7 @@ function checkReadOrderGroupByProductId($object)
     return $query;
 }
 
-// REPORT FILTER SALES
+// REPORT FILTER STOCK
 // if all supplier , category by id, all product 
 function checkReadReportStocksFilterByCategory($object)
 {
@@ -16,7 +16,7 @@ function checkReadReportStocksFilterByCategory($object)
     return $query;
 }
 
-// REPORT FILTER SALES
+// REPORT FILTER STOCK
 // if supplier by id, category by id , all product 
 function checkReadReportStocksFilterBySupplierCategory($object)
 {
@@ -25,7 +25,7 @@ function checkReadReportStocksFilterBySupplierCategory($object)
     return $query;
 }
 
-// REPORT FILTER SALES
+// REPORT FILTER STOCK
 // if supplier by id,  all category, all product 
 function checkReadReportStocksFilterBySupplier($object)
 {
@@ -34,7 +34,7 @@ function checkReadReportStocksFilterBySupplier($object)
     return $query;
 }
 
-// REPORT FILTER SALES
+// REPORT FILTER STOCK
 // if supplier by id, all category, product by id  
 function checkReadReportStocksFilterBySupplierProduct($object)
 {
@@ -43,7 +43,7 @@ function checkReadReportStocksFilterBySupplierProduct($object)
     return $query;
 }
 
-// REPORT FILTER SALES
+// REPORT FILTER STOCK
 // if all supplier, category by id, product by id  
 function checkReadReportStocksFilterByCategoryProduct($object)
 {
@@ -52,7 +52,7 @@ function checkReadReportStocksFilterByCategoryProduct($object)
     return $query;
 }
 
-// REPORT FILTER SALES
+// REPORT FILTER STOCK
 // if supplier by id, category by id, product by id
 function checkReadReportFilterStocksBySupplierCategoryProduct($object)
 {
@@ -61,7 +61,7 @@ function checkReadReportFilterStocksBySupplierCategoryProduct($object)
     return $query;
 }
 
-// REPORT FILTER SALES
+// REPORT FILTER STOCK
 // if all supplier, all category, product by id 
 function checkReadReportStocksFilterByProduct($object)
 {
@@ -70,11 +70,19 @@ function checkReadReportStocksFilterByProduct($object)
     return $query;
 }
 
-// REPORT FILTER SALES
+// REPORT FILTER STOCK
 // if all supplier, all category, product by id 
 function checkReadReportStocksFilterAll($object)
 {
     $query = $object->readReportStocksFilterAll();
     checkQuery($query, "Empty records. (read report stocks)");
+    return $query;
+}
+
+// REPORT READ ALL STOCK QTY 
+function checkReadAllStockGroupByProductNumber($object)
+{
+    $query = $object->readAllStockGroupByProductNumber();
+    checkQuery($query, "Empty records. (read all stocks qty by date)");
     return $query;
 }

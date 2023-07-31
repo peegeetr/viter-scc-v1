@@ -32,7 +32,7 @@ const SearchToAddProduct = ({
 
   const handleProductChange = (item) => {
     setItems(item);
-    setTotalPrice(item.suppliers_products_scc_price);
+    setTotalPrice(item.product_history_scc_price);
     dispatch(setIsModalSearch(false));
   };
 
@@ -82,7 +82,7 @@ const SearchToAddProduct = ({
                       )} pcs) - ${item.suppliers_company_name.slice(0, 10)} `}
                       &#8369;{" "}
                       {numberWithCommas(
-                        Number(item.suppliers_products_scc_price).toFixed(2)
+                        Number(item.product_history_scc_price).toFixed(2)
                       )}
                     </button>
                   );
