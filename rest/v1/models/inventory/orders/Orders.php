@@ -39,6 +39,8 @@ class Orders
     public $tblSuppliers;
     public $tblMembers;
     public $tblSales;
+    public $tblStocks;
+    public $tblProductsHistory;
 
     public function __construct($db)
     {
@@ -48,6 +50,8 @@ class Orders
         $this->tblMembers = "sccv1_members";
         $this->tblSuppliers = "sccv1_suppliers";
         $this->tblSuppliersProducts = "sccv1_suppliers_products";
+        $this->tblStocks = "sccv1_stocks";
+        $this->tblProductsHistory = "sccv1_product_history";
     }
 
     // create
@@ -178,16 +182,26 @@ class Orders
             $sql .= "orders.orders_remarks, ";
             $sql .= "orders.orders_member_id, ";
             $sql .= "orders.orders_created, ";
+            $sql .= "productHistory.product_history_price, ";
+            $sql .= "productHistory.product_history_scc_price, ";
+            $sql .= "stock.stocks_aid, ";
+            $sql .= "stock.stocks_barcode_id, ";
             $sql .= "sales.sales_aid, ";
             $sql .= "sales.sales_discount ";
             $sql .= "from {$this->tblOrders} as orders, ";
             $sql .= "{$this->tblSales} as sales, ";
             $sql .= "{$this->tblMembers} as member, ";
+            $sql .= "{$this->tblStocks} as stock, ";
+            $sql .= "{$this->tblProductsHistory} as productHistory, ";
             $sql .= "{$this->tblSuppliersProducts} as suppliersProducts ";
             $sql .= "where orders.orders_product_id = suppliersProducts.suppliers_products_aid ";
             $sql .= "and orders.orders_aid = sales.sales_order_id ";
             $sql .= "and orders.orders_member_id = member.members_aid ";
             $sql .= "and orders.orders_is_draft = 0 ";
+            $sql .= "and stock.stocks_product_id = suppliersProducts.suppliers_products_aid ";
+            $sql .= "and productHistory.product_history_product_id = suppliersProducts.suppliers_products_aid ";
+            $sql .= "and productHistory.product_history_scc_price = suppliersProducts.suppliers_products_scc_price ";
+            $sql .= "and stock.stocks_suplier_price_history_id = productHistory.product_history_aid ";
             $sql .= "order by orders.orders_is_paid, ";
             $sql .= "orders.orders_date desc ";
             $query = $this->connection->query($sql);
@@ -218,16 +232,26 @@ class Orders
             $sql .= "orders.orders_remarks, ";
             $sql .= "orders.orders_member_id, ";
             $sql .= "orders.orders_created, ";
+            $sql .= "productHistory.product_history_price, ";
+            $sql .= "productHistory.product_history_scc_price, ";
+            $sql .= "stock.stocks_aid, ";
+            $sql .= "stock.stocks_barcode_id, ";
             $sql .= "sales.sales_aid, ";
             $sql .= "sales.sales_discount ";
             $sql .= "from {$this->tblOrders} as orders, ";
             $sql .= "{$this->tblSales} as sales, ";
             $sql .= "{$this->tblMembers} as member, ";
+            $sql .= "{$this->tblStocks} as stock, ";
+            $sql .= "{$this->tblProductsHistory} as productHistory, ";
             $sql .= "{$this->tblSuppliersProducts} as suppliersProducts ";
             $sql .= "where orders.orders_product_id = suppliersProducts.suppliers_products_aid ";
             $sql .= "and orders.orders_aid = sales.sales_order_id ";
             $sql .= "and orders.orders_member_id = member.members_aid ";
             $sql .= "and orders.orders_is_draft = 0 ";
+            $sql .= "and stock.stocks_product_id = suppliersProducts.suppliers_products_aid ";
+            $sql .= "and productHistory.product_history_product_id = suppliersProducts.suppliers_products_aid ";
+            $sql .= "and productHistory.product_history_scc_price = suppliersProducts.suppliers_products_scc_price ";
+            $sql .= "and stock.stocks_suplier_price_history_id = productHistory.product_history_aid ";
             $sql .= "order by orders.orders_is_paid, ";
             $sql .= "orders.orders_date desc ";
             $sql .= "limit :start, ";

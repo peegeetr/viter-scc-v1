@@ -1,6 +1,7 @@
  
 *controllers  
     - inventory/orders/create.php
+    - inventory/orders/update.php
     - inventory/report/net-surplus-distribution/capital-report/functions.php
     - inventory/report/net-surplus-distribution/capital-report/read-all-member-approved.php 
     - inventory/report/net-surplus-distribution/patronage/functions.php 
@@ -13,6 +14,7 @@
     - inventory/report/net-surplus-distribution/ReportCapitalShare.php
     - inventory/report/net-surplus-distribution/ReportPatronage.php 
     - inventory/report/ReportSales.php
+    - inventory/orders/Orders.php
     - inventory/sales/Sales.php
     - inventory/suppliers/product/SuppliersProducts.php 
     -  

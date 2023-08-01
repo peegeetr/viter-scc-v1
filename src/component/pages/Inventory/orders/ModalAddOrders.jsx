@@ -20,12 +20,11 @@ import {
   getDateNow,
   numberWithCommas,
   pesoSign,
-  removeComma,
 } from "../../../helpers/functions-general";
 import { queryData } from "../../../helpers/queryData";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
+import { getValidationMyOrder } from "../../my-account/orders/functions-my-orders";
 import SearchToAddProduct from "../../point-of-sales-old/SearchToAddProduct";
-import { getRemaningQuantity } from "../products/functions-product";
 import { getProductDetails, getTotaAmountOrder } from "./functions-orders";
 
 const ModalAddOrders = ({ item, arrKey }) => {
@@ -38,9 +37,6 @@ const ModalAddOrders = ({ item, arrKey }) => {
     item ? item.suppliers_products_name : "0"
   );
   const onSearch = React.useRef("0");
-
-  const [isPaid, setIsPaid] = React.useState(item ? item.orders_is_paid : "0");
-
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: (values) =>
@@ -88,11 +84,6 @@ const ModalAddOrders = ({ item, arrKey }) => {
       "get", // method
       "memberApproved" // key
     );
-
-  // get employee id
-  const handleIsPaid = async (e, props) => {
-    setIsPaid(e.target.value);
-  };
 
   // use if not loadmore button undertime
   const { data: ProductList, isLoading } = useQueryData(
@@ -150,47 +141,24 @@ const ModalAddOrders = ({ item, arrKey }) => {
                   dispatch(setMessage("Please check if you have product."));
                   return;
                 }
-                const orders_product_quantity = removeComma(
-                  `${values.orders_product_quantity}`
+                // for validation
+                const validation = getValidationMyOrder(
+                  values,
+                  item,
+                  items,
+                  dispatch,
+                  stocksGroupProd,
+                  orderGroupProd
                 );
-
-                const orders_product_amount =
-                  Number(orders_product_quantity) *
-                  Number(
-                    item
-                      ? item.suppliers_products_scc_price
-                      : items.suppliers_products_scc_price
-                  );
-
-                const newQty =
-                  getRemaningQuantity(
-                    item ? item : items,
-                    stocksGroupProd,
-                    orderGroupProd
-                  ) +
-                  Number(item.orders_product_quantity) -
-                  Number(orders_product_quantity);
-
-                const qty =
-                  getRemaningQuantity(
-                    item ? item : items,
-                    stocksGroupProd,
-                    orderGroupProd
-                  ) + Number(item.orders_product_quantity);
-
-                if (
-                  Number(orders_product_quantity) === 0 ||
-                  Number(orders_product_quantity) > qty ||
-                  newQty <= -1
-                ) {
-                  dispatch(setError(true));
-                  dispatch(setMessage("Insufficient Quantity"));
+                // new list
+                const list = validation.list;
+                // for validation if invalid amount
+                if (validation.invalidAmount === true || list.length === 0) {
                   return;
                 }
                 mutation.mutate({
                   ...values,
-                  orders_product_quantity,
-                  orders_product_amount,
+                  list: list[0],
                   items,
                 });
               }}

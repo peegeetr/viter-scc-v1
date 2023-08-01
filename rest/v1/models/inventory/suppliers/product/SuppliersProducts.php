@@ -679,7 +679,7 @@ class SuppliersProducts
             $sql .= "and suppliersProducts.suppliers_products_suppliers_id = supplier.suppliers_aid ";
             $sql .= "and stock.stocks_product_id = suppliersProducts.suppliers_products_aid ";
             $sql .= "and productHistory.product_history_product_id = suppliersProducts.suppliers_products_aid ";
-            $sql .= "and productHistory.product_history_scc_price = suppliersProducts.suppliers_products_scc_price "; //current price
+            $sql .= "and productHistory.product_history_scc_price = suppliersProducts.suppliers_products_scc_price "; //current
             $sql .= "and stock.stocks_suplier_price_history_id = productHistory.product_history_aid ";
             $sql .= "and (suppliersProducts.suppliers_products_name like :suppliers_products_name ";
             $sql .= "or stock.stocks_barcode_id like :stocks_barcode_id ";
