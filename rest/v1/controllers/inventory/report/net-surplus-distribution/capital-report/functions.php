@@ -84,3 +84,11 @@ function checkReadMemberAllTotal($object)
     checkQuery($query, "Empty records. (Read all member all total)");
     return $query;
 }
+
+// Read all member approved
+function checkReadAllApproved($object)
+{
+    $query = $object->readAllApproved();
+    checkQuery($query, "Empty records.");
+    return $query;
+}

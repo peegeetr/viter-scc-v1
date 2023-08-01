@@ -6,12 +6,12 @@ require '../../../../core/header.php';
 require '../../../../core/functions.php';
 require 'functions.php';
 // use needed classes
-require '../../../../models/inventory/sales/Sales.php';
+require '../../../../models/inventory/report/ReportSales.php';
 // check database connection
 $conn = null;
 $conn = checkDbConnection();
 // make instance of classes
-$sales = new Sales($conn);
+$reportSales = new ReportSales($conn);
 $response = new Response();
 // get data
 $body = file_get_contents("php://input");
@@ -26,22 +26,22 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     $allValues = $data['value'];
 
     // get task id from query string 
-    $sales->sales_member_id = checkIndex($allValues, "member_id");
-    $sales->suppliers_products_suppliers_id = checkIndex($allValues, "supplier_id");
-    $sales->suppliers_products_category_id = checkIndex($allValues, "category_id");
-    $sales->orders_product_id = checkIndex($allValues, "product_id");
-    $sales->start_date = checkIndex($allValues, "start_date");
-    $sales->end_date = checkIndex($allValues, "end_date");
+    $reportSales->sales_member_id = checkIndex($allValues, "member_id");
+    $reportSales->suppliers_products_suppliers_id = checkIndex($allValues, "supplier_id");
+    $reportSales->suppliers_products_category_id = checkIndex($allValues, "category_id");
+    $reportSales->orders_product_id = checkIndex($allValues, "product_id");
+    $reportSales->start_date = checkIndex($allValues, "start_date");
+    $reportSales->end_date = checkIndex($allValues, "end_date");
 
     // if all member, all supplier , category by id, all product 
     // 0 = all, 1 = by item id
     // 0,0,1,0
     if (
-        $sales->sales_member_id === "0" && $sales->suppliers_products_suppliers_id === "0"
-        && $sales->suppliers_products_category_id !== "0" && $sales->orders_product_id === "0"
+        $reportSales->sales_member_id === "0" && $reportSales->suppliers_products_suppliers_id === "0"
+        && $reportSales->suppliers_products_category_id !== "0" && $reportSales->orders_product_id === "0"
     ) {
 
-        $query = checkReadReportSalesFilterByCategory($sales);
+        $query = checkReadReportSalesFilterByCategory($reportSales);
         http_response_code(200);
         getQueriedData($query);
     }
@@ -50,11 +50,11 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     // 0 = all, 1 = by item id
     // 0,1,1,0
     if (
-        $sales->sales_member_id === "0" && $sales->suppliers_products_suppliers_id !== "0"
-        && $sales->suppliers_products_category_id !== "0" && $sales->orders_product_id === "0"
+        $reportSales->sales_member_id === "0" && $reportSales->suppliers_products_suppliers_id !== "0"
+        && $reportSales->suppliers_products_category_id !== "0" && $reportSales->orders_product_id === "0"
     ) {
 
-        $query = checkReadReportSalesFilterBySupplierCategory($sales);
+        $query = checkReadReportSalesFilterBySupplierCategory($reportSales);
         http_response_code(200);
         getQueriedData($query);
     }
@@ -63,11 +63,11 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     // 0 = all, 1 = by item id
     // 0,1,0,0
     if (
-        $sales->sales_member_id === "0" && $sales->suppliers_products_suppliers_id !== "0"
-        && $sales->suppliers_products_category_id === "0" && $sales->orders_product_id === "0"
+        $reportSales->sales_member_id === "0" && $reportSales->suppliers_products_suppliers_id !== "0"
+        && $reportSales->suppliers_products_category_id === "0" && $reportSales->orders_product_id === "0"
     ) {
 
-        $query = checkReadReportSalesFilterBySupplier($sales);
+        $query = checkReadReportSalesFilterBySupplier($reportSales);
         http_response_code(200);
         getQueriedData($query);
     }
@@ -76,11 +76,11 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     // 0 = all, 1 = by item id
     // 0,1,0,1
     if (
-        $sales->sales_member_id === "0" && $sales->suppliers_products_suppliers_id !== "0"
-        && $sales->suppliers_products_category_id === "0" && $sales->orders_product_id !== "0"
+        $reportSales->sales_member_id === "0" && $reportSales->suppliers_products_suppliers_id !== "0"
+        && $reportSales->suppliers_products_category_id === "0" && $reportSales->orders_product_id !== "0"
     ) {
 
-        $query = checkReadReportSalesFilterBySupplierProduct($sales);
+        $query = checkReadReportSalesFilterBySupplierProduct($reportSales);
         http_response_code(200);
         getQueriedData($query);
     }
@@ -89,11 +89,11 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     // 0 = all, 1 = by item id
     // 0,0,1,1
     if (
-        $sales->sales_member_id === "0" && $sales->suppliers_products_suppliers_id === "0"
-        && $sales->suppliers_products_category_id !== "0" && $sales->orders_product_id !== "0"
+        $reportSales->sales_member_id === "0" && $reportSales->suppliers_products_suppliers_id === "0"
+        && $reportSales->suppliers_products_category_id !== "0" && $reportSales->orders_product_id !== "0"
     ) {
 
-        $query = checkReadReportSalesFilterByCategoryProduct($sales);
+        $query = checkReadReportSalesFilterByCategoryProduct($reportSales);
         http_response_code(200);
         getQueriedData($query);
     }
@@ -102,10 +102,10 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     // 0 = all, 1 = by item id
     // 0,1,1,1 
     if (
-        $sales->sales_member_id === "0" && $sales->suppliers_products_suppliers_id !== "0"
-        && $sales->suppliers_products_category_id !== "0" && $sales->orders_product_id !== "0"
+        $reportSales->sales_member_id === "0" && $reportSales->suppliers_products_suppliers_id !== "0"
+        && $reportSales->suppliers_products_category_id !== "0" && $reportSales->orders_product_id !== "0"
     ) {
-        $query = checkReadReportFilterSalesBySupplierCategoryProduct($sales);
+        $query = checkReadReportFilterSalesBySupplierCategoryProduct($reportSales);
         http_response_code(200);
         getQueriedData($query);
     }
@@ -114,10 +114,10 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     // 0 = all, 1 = by item id
     //  0,0,0,1
     if (
-        $sales->sales_member_id === "0" && $sales->suppliers_products_suppliers_id === "0"
-        && $sales->suppliers_products_category_id === "0" && $sales->orders_product_id !== "0"
+        $reportSales->sales_member_id === "0" && $reportSales->suppliers_products_suppliers_id === "0"
+        && $reportSales->suppliers_products_category_id === "0" && $reportSales->orders_product_id !== "0"
     ) {
-        $query = checkReadReportSalesFilterByProduct($sales);
+        $query = checkReadReportSalesFilterByProduct($reportSales);
         http_response_code(200);
         getQueriedData($query);
     }
@@ -126,11 +126,11 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     // 0 = all, 1 = by item id
     // 1,0,0,0
     if (
-        $sales->sales_member_id !== "0" && $sales->suppliers_products_suppliers_id === "0"
-        && $sales->suppliers_products_category_id === "0" && $sales->orders_product_id === "0"
+        $reportSales->sales_member_id !== "0" && $reportSales->suppliers_products_suppliers_id === "0"
+        && $reportSales->suppliers_products_category_id === "0" && $reportSales->orders_product_id === "0"
     ) {
 
-        $query = checkReadReportSalesFilterByMember($sales);
+        $query = checkReadReportSalesFilterByMember($reportSales);
         http_response_code(200);
         getQueriedData($query);
     }
@@ -139,11 +139,11 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     // 0 = all, 1 = by item id
     // 1,1,0,0
     if (
-        $sales->sales_member_id !== "0" && $sales->suppliers_products_suppliers_id !== "0"
-        && $sales->suppliers_products_category_id === "0" && $sales->orders_product_id === "0"
+        $reportSales->sales_member_id !== "0" && $reportSales->suppliers_products_suppliers_id !== "0"
+        && $reportSales->suppliers_products_category_id === "0" && $reportSales->orders_product_id === "0"
     ) {
 
-        $query = checkReadReportSalesFilterByMemberSupplier($sales);
+        $query = checkReadReportSalesFilterByMemberSupplier($reportSales);
         http_response_code(200);
         getQueriedData($query);
     }
@@ -153,11 +153,11 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     // 0 = all, 1 = by item id
     // 1,1,1,0
     if (
-        $sales->sales_member_id !== "0" && $sales->suppliers_products_suppliers_id !== "0"
-        && $sales->suppliers_products_category_id !== "0" && $sales->orders_product_id === "0"
+        $reportSales->sales_member_id !== "0" && $reportSales->suppliers_products_suppliers_id !== "0"
+        && $reportSales->suppliers_products_category_id !== "0" && $reportSales->orders_product_id === "0"
     ) {
 
-        $query = checkReadReportSalesFilterByMemberSupplierCategory($sales);
+        $query = checkReadReportSalesFilterByMemberSupplierCategory($reportSales);
         http_response_code(200);
         getQueriedData($query);
     }
@@ -166,11 +166,11 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     // 0 = all, 1 = by item id
     // 1,1,1,1
     if (
-        $sales->sales_member_id !== "0" && $sales->suppliers_products_suppliers_id !== "0"
-        && $sales->suppliers_products_category_id !== "0" && $sales->orders_product_id !== "0"
+        $reportSales->sales_member_id !== "0" && $reportSales->suppliers_products_suppliers_id !== "0"
+        && $reportSales->suppliers_products_category_id !== "0" && $reportSales->orders_product_id !== "0"
     ) {
 
-        $query = checkReadReportSalesFilterByMemberSupplierCategoryProduct($sales);
+        $query = checkReadReportSalesFilterByMemberSupplierCategoryProduct($reportSales);
         http_response_code(200);
         getQueriedData($query);
     }
@@ -179,11 +179,11 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     // 0 = all, 1 = by item id
     // 1,1,0,1
     if (
-        $sales->sales_member_id !== "0" && $sales->suppliers_products_suppliers_id !== "0"
-        && $sales->suppliers_products_category_id === "0" && $sales->orders_product_id !== "0"
+        $reportSales->sales_member_id !== "0" && $reportSales->suppliers_products_suppliers_id !== "0"
+        && $reportSales->suppliers_products_category_id === "0" && $reportSales->orders_product_id !== "0"
     ) {
 
-        $query = checkReadReportSalesFilterByMemberSupplierProduct($sales);
+        $query = checkReadReportSalesFilterByMemberSupplierProduct($reportSales);
         http_response_code(200);
         getQueriedData($query);
     }
@@ -192,11 +192,11 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     // 0 = all, 1 = by item id
     // 1,0,1,1
     if (
-        $sales->sales_member_id !== "0" && $sales->suppliers_products_suppliers_id === "0"
-        && $sales->suppliers_products_category_id !== "0" && $sales->orders_product_id !== "0"
+        $reportSales->sales_member_id !== "0" && $reportSales->suppliers_products_suppliers_id === "0"
+        && $reportSales->suppliers_products_category_id !== "0" && $reportSales->orders_product_id !== "0"
     ) {
 
-        $query = checkReadReportSalesFilterByMemberCategoryProduct($sales);
+        $query = checkReadReportSalesFilterByMemberCategoryProduct($reportSales);
         http_response_code(200);
         getQueriedData($query);
     }
@@ -205,11 +205,11 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     // 0 = all, 1 = by item id
     // 1,0,0,1
     if (
-        $sales->sales_member_id !== "0" && $sales->suppliers_products_suppliers_id === "0"
-        && $sales->suppliers_products_category_id === "0" && $sales->orders_product_id !== "0"
+        $reportSales->sales_member_id !== "0" && $reportSales->suppliers_products_suppliers_id === "0"
+        && $reportSales->suppliers_products_category_id === "0" && $reportSales->orders_product_id !== "0"
     ) {
 
-        $query = checkReadReportSalesFilterByMemberProduct($sales);
+        $query = checkReadReportSalesFilterByMemberProduct($reportSales);
         http_response_code(200);
         getQueriedData($query);
     }
@@ -218,11 +218,11 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     // 0 = all, 1 = by item id
     // 1,0,1,0
     if (
-        $sales->sales_member_id !== "0" && $sales->suppliers_products_suppliers_id === "0"
-        && $sales->suppliers_products_category_id !== "0" && $sales->orders_product_id === "0"
+        $reportSales->sales_member_id !== "0" && $reportSales->suppliers_products_suppliers_id === "0"
+        && $reportSales->suppliers_products_category_id !== "0" && $reportSales->orders_product_id === "0"
     ) {
 
-        $query = checkReadReportSalesFilterByMemberCategory($sales);
+        $query = checkReadReportSalesFilterByMemberCategory($reportSales);
         http_response_code(200);
         getQueriedData($query);
     }
@@ -230,7 +230,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     // if all member,  all supplier, all category, all product 
     // 0 = all, 1 = by item id
     //  0,0,0,0 
-    $query = checkReadReportSalesFilterAll($sales);
+    $query = checkReadReportSalesFilterAll($reportSales);
     http_response_code(200);
     getQueriedData($query);
 }

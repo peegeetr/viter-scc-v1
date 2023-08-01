@@ -16,15 +16,13 @@ $response = new Response();
 if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     checkApiKey();
 
-    if (array_key_exists("supplierProductsid", $_GET)) {
-        // get task id from query string
-        $reportSales->suppliers_products_suppliers_id = $_GET['supplierProductsid'];
-        //check to see if task id in query string is not empty and is number, if not return json error
-        checkId($reportSales->suppliers_products_suppliers_id);
-        $query = checkReadCategoryBySupplierId($reportSales);
+    // if request is a GET e.g. /members
+    if (empty($_GET)) {
+        $query = checkReadAllApproved($reportSales);
         http_response_code(200);
         getQueriedData($query);
     }
+
     // return 404 error if endpoint not available
     checkEndpoint();
 }

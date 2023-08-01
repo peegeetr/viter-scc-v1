@@ -86,8 +86,8 @@ const ReportOfficialReceiptList = ({ setItemEdit }) => {
   };
 
   const initVal = {
-    start_date: "",
-    end_date: "",
+    start_date: getDateNow(),
+    end_date: getDateNow(),
   };
   const yupSchema = Yup.object({
     start_date: Yup.string().required("Required"),
@@ -131,7 +131,8 @@ const ReportOfficialReceiptList = ({ setItemEdit }) => {
                 <button
                   className="btn-modal-submit relative"
                   type="submit"
-                  disabled={isFetching || !props.dirty}
+                  // disabled={isFetching || !props.dirty}
+                  disabled={isFetching}
                 >
                   {isFetching && <ButtonSpinner />}
                   <MdFilterAlt className="text-lg" />

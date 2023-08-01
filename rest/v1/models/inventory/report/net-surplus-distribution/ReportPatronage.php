@@ -118,4 +118,26 @@ class ReportPatronage
         }
         return $query;
     }
+
+    // read all active and approved members
+    public function readAllApproved()
+    {
+        try {
+            $sql = "select ";
+            $sql .= "members_aid, ";
+            $sql .= "members_last_name, ";
+            $sql .= "members_first_name ";
+            $sql .= "from ";
+            $sql .= "{$this->tblMembers} ";
+            $sql .= "where members_is_approved = 1 ";
+            $sql .= "and members_is_active = 1 ";
+            $sql .= "order by members_is_active desc, ";
+            $sql .= "members_last_name, ";
+            $sql .= "members_first_name asc ";
+            $query = $this->connection->query($sql);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
 }

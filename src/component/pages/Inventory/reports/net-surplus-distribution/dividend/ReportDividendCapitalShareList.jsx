@@ -63,9 +63,9 @@ const ReportDividendCapitalShareList = () => {
 
   // use if not loadmore button undertime
   const { data: memberList, isLoading: memberListLoading } = useQueryData(
-    `/v1/members/approved`, // endpoint
+    `/v1/report-capital/all-member-approved`, // endpoint
     "get", // method
-    "member-list" // key
+    "dividend-member-list" // key
   );
 
   // use if not loadmore button undertime

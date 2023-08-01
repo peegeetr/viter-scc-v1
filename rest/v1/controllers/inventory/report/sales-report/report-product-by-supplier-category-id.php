@@ -6,12 +6,12 @@ require '../../../../core/header.php';
 require '../../../../core/functions.php';
 require 'functions.php';
 // use needed classes
-require '../../../../models/inventory/suppliers/product/SuppliersProducts.php';
+require '../../../../models/inventory/report/ReportSales.php';
 // check database connection
 $conn = null;
 $conn = checkDbConnection();
 // make instance of classes
-$suppliersProducts = new SuppliersProducts($conn);
+$reportSales = new ReportSales($conn);
 $response = new Response();
 // validate api key
 if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
@@ -19,12 +19,12 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
 
     if (array_key_exists("supplierId", $_GET) && array_key_exists("categoryId", $_GET)) {
         // get task id from query string
-        $suppliersProducts->suppliers_products_suppliers_id = $_GET['supplierId'];
-        $suppliersProducts->suppliers_products_category_id = $_GET['categoryId'];
+        $reportSales->suppliers_products_suppliers_id = $_GET['supplierId'];
+        $reportSales->suppliers_products_category_id = $_GET['categoryId'];
         //check to see if task id in query string is not empty and is number, if not return json error
-        checkId($suppliersProducts->suppliers_products_suppliers_id);
-        checkId($suppliersProducts->suppliers_products_category_id);
-        $query = checkReadSupplierCategoryBySupplierId($suppliersProducts);
+        checkId($reportSales->suppliers_products_suppliers_id);
+        checkId($reportSales->suppliers_products_category_id);
+        $query = checkReadSupplierCategoryBySupplierId($reportSales);
         http_response_code(200);
         getQueriedData($query);
     }

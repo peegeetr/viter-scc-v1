@@ -168,3 +168,11 @@ function checkReadSupplierCategoryBySupplierId($object)
     checkQuery($query, "Empty records.(Read by supplier id)");
     return $query;
 }
+
+// Read all member approved
+function checkReadAllApproved($object)
+{
+    $query = $object->readAllApproved();
+    checkQuery($query, "Empty records.");
+    return $query;
+}

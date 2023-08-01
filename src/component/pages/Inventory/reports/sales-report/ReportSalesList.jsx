@@ -64,9 +64,9 @@ const ReportSalesList = () => {
 
   // use if not loadmore button undertime
   const { data: memberList, isLoading: memberListLoading } = useQueryData(
-    `/v1/members/approved`, // endpoint
+    `/v1/report-sales/all-member-approved`, // endpoint
     "get", // method
-    "member-list" // key
+    "sales-member-list" // key
   );
   // use if not loadmore button undertime
   const { data: suppliersList, isLoading: suppliersListLoading } = useQueryData(

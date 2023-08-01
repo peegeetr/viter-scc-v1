@@ -17,10 +17,7 @@ import NoData from "../../../../../partials/NoData";
 import ServerError from "../../../../../partials/ServerError";
 import ButtonSpinner from "../../../../../partials/spinners/ButtonSpinner";
 import TableSpinner from "../../../../../partials/spinners/TableSpinner";
-import {
-  getComputeReportPatronage,
-  getPatronageRate,
-} from "../functions-report-netsurplus";
+import { getComputeReportPatronage } from "../functions-report-netsurplus";
 
 const ReportPatronageList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -60,18 +57,10 @@ const ReportPatronageList = () => {
 
   // use if not loadmore button undertime
   const { data: memberList, isLoading: memberListLoading } = useQueryData(
-    `/v1/members/approved`, // endpoint
+    `/v1/report-patronage/all-member-approved`, // endpoint
     "get", // method
-    "member-list" // key
+    "patronage-member-list" // key
   );
-
-  // use if not loadmore button undertime
-  const { data: patronageRate } = useQueryData(
-    `/v1/members/approved`, // endpoint
-    "get", // method
-    "member-list" // key
-  );
-  console.log("item", result?.pages[0].data[0]);
 
   const initVal = {
     member_id: "0",

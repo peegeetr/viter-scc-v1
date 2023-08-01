@@ -183,11 +183,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
 
                 mutation.mutate({
                   ...values,
-                  orders_product_quantity: list[0].orders_product_quantity,
-                  sales_receive_amount: list[0].sales_receive_amount,
-                  sales_discount: list[0].sales_discount,
-                  orders_product_amount: list[0].orders_product_amount,
-                  sales_member_change: list[0].sales_member_change,
+                  list: list[0],
                   items,
                 });
               }}

@@ -24,6 +24,7 @@ import { getProductDetails } from "../../Inventory/orders/functions-orders";
 import { getRemaningQuantity } from "../../Inventory/products/functions-product";
 import SearchToAddProduct from "../../point-of-sales-old/SearchToAddProduct";
 import { getTotaAmountProduct } from "../../point-of-sales/functions-pos";
+import { getValidationMyOrder } from "./functions-my-orders";
 
 const ModalAddMyOrder = ({ item, arrKey }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -126,40 +127,24 @@ const ModalAddMyOrder = ({ item, arrKey }) => {
                   dispatch(setMessage("Please check if you have product."));
                   return;
                 }
-                const orders_product_quantity = removeComma(
-                  `${values.orders_product_quantity}`
+                // for validation
+                const validation = getValidationMyOrder(
+                  values,
+                  item,
+                  items,
+                  dispatch,
+                  stocksGroupProd,
+                  orderGroupProd
                 );
-
-                const orders_product_amount =
-                  Number(orders_product_quantity) *
-                  Number(
-                    item
-                      ? item.suppliers_products_scc_price
-                      : items.suppliers_products_scc_price
-                  );
-
-                if (
-                  Number(orders_product_quantity) >
-                    getRemaningQuantity(
-                      item ? item : items,
-                      stocksGroupProd,
-                      orderGroupProd
-                    ) ||
-                  getRemaningQuantity(
-                    item ? item : items,
-                    stocksGroupProd,
-                    orderGroupProd
-                  ) === 0
-                ) {
-                  dispatch(setError(true));
-                  dispatch(setMessage("Insufficient Quantity"));
+                // new list
+                const list = validation.list;
+                // for validation if invalid amount
+                if (validation.invalidAmount === true || list.length === 0) {
                   return;
                 }
-
                 mutation.mutate({
                   ...values,
-                  orders_product_quantity,
-                  orders_product_amount,
+                  list: list[0],
                   items,
                 });
               }}

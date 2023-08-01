@@ -16,3 +16,11 @@ function checkReadReportPatronageByYearAndMemberId($object)
     checkQuery($query, "Empty records. (read all member report filter patronage by year)");
     return $query;
 }
+
+// Read all member approved
+function checkReadAllApproved($object)
+{
+    $query = $object->readAllApproved();
+    checkQuery($query, "Empty records.");
+    return $query;
+}

@@ -1,5 +1,5 @@
  
-*controllers  
+*controllers   
     - inventory/report/stocks-report/functions.php
     - inventory/report/stocks-report/report-filter-stocks.php
     - inventory/report/stocks-report/report-order-qty-by-date.php

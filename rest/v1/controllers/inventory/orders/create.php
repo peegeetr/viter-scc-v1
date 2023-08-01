@@ -70,12 +70,13 @@ checkKeyword($formattedOrderId);
 checkKeyword($formattedSalesId);
 
 $allItem = $data["items"];
+$allList = $data["list"];
 
 $order->orders_number = $formattedOrderId;
 $order->sales_number = $formattedSalesId;
 $order->orders_member_id = checkIndex($data, "orders_member_id");
-$order->orders_product_quantity = checkIndex($data, "orders_product_quantity");
-$order->orders_product_amount = checkIndex($data, "orders_product_amount");
+$order->orders_product_quantity = checkIndex($allList, "orders_product_quantity");
+$order->orders_product_amount = checkIndex($allList, "orders_product_amount");
 $order->orders_date = checkIndex($data, "orders_date");
 $order->orders_is_paid = checkIndex($data, "orders_is_paid");
 $order->orders_is_draft = checkIndex($data, "orders_is_draft");
@@ -93,17 +94,17 @@ if (count($allItem) === 0) {
 }
 if (count($allItem) > 0) {
     $order->orders_product_id = checkIndex($allItem, "suppliers_products_aid");
-    $order->orders_product_srp = checkIndex($allItem, "suppliers_products_scc_price");
-    $order->orders_suplier_price = checkIndex($allItem, "suppliers_products_price");
+    $order->orders_product_srp = checkIndex($allItem, "product_history_scc_price");
+    $order->orders_suplier_price = checkIndex($allItem, "product_history_price");
     $order->orders_stocks_id = checkIndex($allItem, "stocks_aid");
 }
 // sales 
 if ($order->orders_is_paid === "1") {
-    $order->sales_receive_amount = checkIndex($data, "sales_receive_amount");
+    $order->sales_receive_amount = checkIndex($allList, "sales_receive_amount");
     $order->sales_or = checkIndex($data, "sales_or");
-    $order->sales_member_change = checkIndex($data, "sales_member_change");
+    $order->sales_member_change = checkIndex($allList, "sales_member_change");
     $order->sales_date = checkIndex($data, "sales_date");
-    $order->sales_discount = checkIndex($data, "sales_discount");
+    $order->sales_discount = checkIndex($allList, "sales_discount");
 }
 // create
 $query = checkCreate($order);
