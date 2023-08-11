@@ -138,6 +138,8 @@ const ProfileList = ({ members, isLoading, error }) => {
                       ? ""
                       : `${formatDate(item.members_pre_membership_date)}`}
                   </p>
+                  <p className="font-semibold ">Account No. :</p>
+                  <p className="uppercase mb-0">{item.members_barcode}</p>
                 </div>
                 <div className="hidden sm:block m-auto justify-center">
                   {item.members_picture ? (

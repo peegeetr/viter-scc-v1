@@ -42,7 +42,7 @@ export const InputText = ({ label, ...props }) => {
 
         <label htmlFor={props.id || props.name}>{label}</label>
         {meta.touched && meta.error ? (
-          <span className="error-show">{meta.error}</span>
+          <span className="error-show mr-[5px]">{meta.error}</span>
         ) : null}
       </>
     );

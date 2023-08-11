@@ -44,6 +44,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         // create orders id format ex. (order-001) 
         $formattedSalesId = "";
         $salesId = "";
+
         $salesLastId = $pos->readLastSalesId();
         if ($salesLastId->rowCount() == 0) {
             // create new id
@@ -82,13 +83,16 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         $pos->orders_remarks = "";
         $pos->orders_created = date("Y-m-d H:i:s");
         $pos->orders_datetime = date("Y-m-d H:i:s");
-
+        if ($pos->orders_member_id == 0) {
+            resultError("Please check if you have member.");
+        }
         // Seach to add product
         $pos->orders_search = checkIndex($data, "search");
         $searchToAdd = $pos->searchToAddProduct();
         if ($searchToAdd->rowCount() == 0) {
             resultError("Please check if you have product.");
         }
+
         if ($searchToAdd->rowCount() > 0) {
             $searchRow = $searchToAdd->fetch(PDO::FETCH_ASSOC);
             extract($searchRow);

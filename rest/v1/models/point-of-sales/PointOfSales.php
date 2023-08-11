@@ -512,4 +512,37 @@ class PointOfSales
         }
         return $query;
     }
+
+    // read all active and approved members
+    public function searchMemberApproved()
+    {
+        try {
+            $sql = "select members_aid, ";
+            $sql .= "members_last_name, ";
+            $sql .= "members_first_name ";
+            $sql .= "from ";
+            $sql .= "{$this->tblMembers} ";
+            $sql .= "where members_is_approved = 1 ";
+            $sql .= "and members_is_active = 1 ";
+            $sql .= "and members_is_cancel = 0 ";
+            $sql .= "and (concat(members_last_name, ', ', members_first_name) like :name ";
+            $sql .= "or members_last_name like :members_last_name ";
+            $sql .= "or members_first_name like :members_first_name ";
+            $sql .= "or members_barcode like :members_barcode) ";
+            $sql .= "order by members_is_active desc, ";
+            $sql .= "members_last_name, ";
+            $sql .= "members_first_name asc ";
+            $sql .= "limit 1 ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "members_barcode" => "{$this->orders_search}%",
+                "members_first_name" => "{$this->orders_search}%",
+                "members_last_name" => "{$this->orders_search}%",
+                "name" => "{$this->orders_search}%",
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
 }

@@ -3,6 +3,7 @@ class Members
 {
     public $members_aid;
     public $members_id;
+    public $members_barcode;
     public $members_is_approved;
     public $members_is_cancel;
     public $members_is_active;
@@ -67,6 +68,7 @@ class Members
         try {
             $sql = "insert into {$this->tblMembers} ";
             $sql .= "( members_id, ";
+            $sql .= "members_barcode, ";
             $sql .= "members_pre_membership_date, ";
             $sql .= "members_is_active, ";
             $sql .= "members_first_name, ";
@@ -78,6 +80,7 @@ class Members
             $sql .= "members_created, ";
             $sql .= "members_datetime ) values ( ";
             $sql .= ":members_id, ";
+            $sql .= ":members_barcode, ";
             $sql .= ":members_pre_membership_date, ";
             $sql .= ":members_is_active, ";
             $sql .= ":members_first_name, ";
@@ -91,6 +94,7 @@ class Members
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "members_id" => $this->members_id,
+                "members_barcode" => $this->members_barcode,
                 "members_pre_membership_date" => $this->members_pre_membership_date,
                 "members_is_active" => $this->members_is_active,
                 "members_first_name" => $this->members_first_name,
@@ -161,7 +165,7 @@ class Members
             $sql .= "where members_is_approved = 1 ";
             $sql .= "and members_is_cancel = 0 ";
             $sql .= "and (members_last_name like :members_last_name ";
-            $sql .= "or members_id like :members_id ";
+            $sql .= "or members_barcode like :members_barcode ";
             $sql .= "or concat(members_last_name, ', ', members_first_name) like :name ";
             $sql .= "or members_first_name like :members_first_name) ";
             $sql .= "order by members_is_active desc, ";
@@ -171,7 +175,7 @@ class Members
             $query->execute([
                 "members_last_name" => "%{$this->members_search}%",
                 "members_first_name" => "%{$this->members_search}%",
-                "members_id" => "%{$this->members_search}%",
+                "members_barcode" => "%{$this->members_search}%",
                 "name" => "%{$this->members_search}%",
             ]);
         } catch (PDOException $ex) {
@@ -241,7 +245,7 @@ class Members
             $sql .= "{$this->tblMembers} ";
             $sql .= "where members_is_approved = 0 ";
             $sql .= "and (members_last_name like :members_last_name ";
-            $sql .= "or members_id like :members_id ";
+            $sql .= "or members_barcode like :members_barcode ";
             $sql .= "or concat(members_last_name, ', ', members_first_name) like :name ";
             $sql .= "or members_first_name like :members_first_name) ";
             $sql .= "order by members_last_name, ";
@@ -250,7 +254,7 @@ class Members
             $query->execute([
                 "members_last_name" => "%{$this->members_search}%",
                 "members_first_name" => "%{$this->members_search}%",
-                "members_id" => "%{$this->members_search}%",
+                "members_barcode" => "%{$this->members_search}%",
                 "name" => "%{$this->members_search}%",
             ]);
         } catch (PDOException $ex) {
@@ -285,6 +289,7 @@ class Members
     {
         try {
             $sql = "select ";
+            $sql .= "members_barcode, ";
             $sql .= "members_last_name, ";
             $sql .= "members_first_name ";
             $sql .= "from ";
@@ -309,6 +314,7 @@ class Members
         try {
             $sql = "update {$this->tblMembers} set ";
             $sql .= "members_id = :members_id, ";
+            $sql .= "members_barcode = :members_barcode, ";
             $sql .= "members_pre_membership_date = :members_pre_membership_date, ";
             $sql .= "members_first_name = :members_first_name, ";
             $sql .= "members_last_name = :members_last_name, ";
@@ -321,6 +327,7 @@ class Members
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "members_id" => $this->members_id,
+                "members_barcode" => $this->members_barcode,
                 "members_pre_membership_date" => $this->members_pre_membership_date,
                 "members_first_name" => $this->members_first_name,
                 "members_last_name" => $this->members_last_name,

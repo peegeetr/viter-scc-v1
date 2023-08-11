@@ -26,11 +26,13 @@ $members->members_datetime = date("Y-m-d H:i:s");
 // create member id format ex. (yy-mm-001)
 $rawNewMemberId  = explode("-", $data["members_pre_membership_date"]);
 $formattedMemberId = "";
+$memberBarcode = "";
 $id = "";
 $memberLastId = $members->readLastMemberId();
 if ($memberLastId->rowCount() == 0) {
     // create new id
     $formattedMemberId = substr($rawNewMemberId[0], 2) . "-" . $rawNewMemberId[1] . "-" . "001";
+    $memberBarcode = "scc" . "-" . "001" . "-" . $rawNewMemberId[0];
 } else {
 
     $row = $memberLastId->fetch(PDO::FETCH_ASSOC);
@@ -48,15 +50,18 @@ if ($memberLastId->rowCount() == 0) {
     }
 
     $formattedMemberId = $existingMeberId[0] . "-" . $existingMeberId[1] . "-" . $id;
+    $memberBarcode = "scc" . "-" . $id . "-" . $rawNewMemberId[0];
 }
 
 
 
 //check to see if search keyword in query string is not empty and less than 50 chars
 checkKeyword($formattedMemberId);
+checkKeyword($memberBarcode);
 
 
 $members->members_id = $formattedMemberId;
+$members->members_barcode = $memberBarcode;
 
 $name = "$members->members_last_name, $members->members_first_name";
 

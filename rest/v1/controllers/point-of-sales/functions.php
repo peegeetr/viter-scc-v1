@@ -53,3 +53,11 @@ function checkReadAllMemberApproved($object)
     checkQuery($query, "Empty records.");
     return $query;
 }
+
+// Read all
+function checkSearchMemberApproved($object)
+{
+    $query = $object->searchMemberApproved();
+    checkQuery($query, "Empty records.");
+    return $query;
+}

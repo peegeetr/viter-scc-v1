@@ -63,6 +63,7 @@ const ModalUpdateBasicInfo = ({ item }) => {
     members_first_name: item.members_first_name,
     members_middle_name: item.members_middle_name,
     members_last_name: item.members_last_name,
+    members_barcode: item.members_barcode,
 
     members_first_name_old: item.members_first_name,
     members_middle_name_old: item.members_middle_name,
@@ -76,6 +77,7 @@ const ModalUpdateBasicInfo = ({ item }) => {
     members_middle_name: Yup.string().required("Required"),
     members_gender: Yup.string().required("Required"),
     members_birth_date: Yup.string().required("Required"),
+    members_barcode: Yup.string().required("Required"),
   });
 
   return (
@@ -151,6 +153,14 @@ const ModalUpdateBasicInfo = ({ item }) => {
                         onFocus={(e) => (e.target.type = "date")}
                         onBlur={(e) => (e.target.type = "text")}
                         name="members_pre_membership_date"
+                        disabled={mutation.isLoading}
+                      />
+                    </div>
+                    <div className="relative mb-5">
+                      <InputText
+                        label="Account No."
+                        type="text"
+                        name="members_barcode"
                         disabled={mutation.isLoading}
                       />
                     </div>

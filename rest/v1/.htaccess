@@ -176,6 +176,7 @@ RewriteRule ^pos/update/orders/([0-9]+)$ controllers/point-of-sales/point-of-sal
 RewriteRule ^pos/accept-payment/([A-Za-z0-9-]+)$ controllers/point-of-sales/update-payment.php?payAll=$1 [L] 
 RewriteRule ^pos/search-to-add-product$ controllers/point-of-sales/search-to-add-product.php [L]  
 RewriteRule ^pos/read-member-approved$ controllers/point-of-sales/read-member-approved.php [L]  
+RewriteRule ^pos/search-member-approved$ controllers/point-of-sales/search-member-approved.php [L]  
  
 #SUBSCRIBE CAPITAL
 RewriteRule ^subscribe-capital$ controllers/settings/subscribe-capital/subscribe-capital.php [L]

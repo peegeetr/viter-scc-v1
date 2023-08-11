@@ -14,6 +14,7 @@ import {
   setIsAdd,
   setIsConfirm,
   setIsGetFocus,
+  setIsModalSearch,
   setMessage,
 } from "../../../store/StoreAction";
 import { StoreContext } from "../../../store/StoreContext";
@@ -32,26 +33,42 @@ import NoData from "../../partials/NoData";
 import ServerError from "../../partials/ServerError";
 import TableSpinner from "../../partials/spinners/TableSpinner";
 import { computeFinalAmount } from "../Inventory/orders/functions-orders";
-import { getRemaningQuantity } from "../Inventory/products/functions-product";
 import { getDataPayNow, getTotalAmountPending } from "./functions-pos";
 import ModalEditSearchPOS from "./modal/ModalEditSearchPOS";
 import ModalPayNow from "./modal/ModalPayNow";
+import SearchMember from "./SearchMember";
 
 const CasherPointOfSalesList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
-  const [isFilter, setFilter] = React.useState(false);
-  const [isSubmit, setSubmit] = React.useState(false);
   const [itemEdit, setItemEdit] = React.useState(null);
   const [isPayAll, setIsPayAll] = React.useState(false);
-  const [memberId, setMember] = React.useState(AssociateMemberId);
-  const [memberName, setMemberName] = React.useState("");
+  const [search, setSearch] = React.useState("scc-000-2023");
+  const { ref, inView } = useInView();
   let delId = 0;
-
-  GetFocus("searchProduct");
-
   let counter = 1;
   let totalAmount = 0;
-  const { ref, inView } = useInView();
+  GetFocus("searchProduct");
+
+  // use if not loadmore button undertime
+  const {
+    data: memberSearch,
+    isLoading,
+    error: errorSearch,
+  } = useQueryData(
+    `/v1/pos/search-member-approved`, // endpoint
+    "post", // method
+    "search-member-approved",
+    { search },
+    search
+  );
+
+  let memberName =
+    memberSearch?.count > 0
+      ? `${memberSearch?.data[0].members_last_name} ${memberSearch?.data[0].members_first_name}`
+      : "Not Found";
+  let memberId =
+    memberName === "Not Found" ? 0 : memberSearch?.data[0].members_aid;
+
   // use if with loadmore button and search bar
   const {
     data: result,
@@ -60,12 +77,12 @@ const CasherPointOfSalesList = () => {
     fetchNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ["pos-order", isSubmit],
+    queryKey: ["pos-order", memberId],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(
         `/v1/pos/orders/filter/${memberId}`, // filter endpoint
         `/v1/pos/orders/filter/${memberId}`, // list endpoint
-        isFilter // search boolean
+        search // search boolean
       ),
     getNextPageParam: (lastPage) => {
       if (lastPage.page < lastPage.total) {
@@ -83,14 +100,6 @@ const CasherPointOfSalesList = () => {
       fetchNextPage();
     }
   }, [inView]);
-
-  // use if not loadmore button undertime
-  const { data: memberApproved, isLoading: memberApprovedLoading } =
-    useQueryData(
-      `/v1/pos/read-member-approved`, // endpoint
-      "get", // method
-      "memberApproved"
-    );
 
   const queryClient = useQueryClient();
   const mutation = useMutation({
@@ -116,13 +125,6 @@ const CasherPointOfSalesList = () => {
       }
     },
   });
-
-  const handlePosOrder = async (e, props) => {
-    setFilter(true);
-    setSubmit(!isSubmit);
-    setMember(e.target.value);
-    setMemberName(e.target.options[e.target.selectedIndex].id);
-  };
 
   const handlePayNow = () => {
     if (memberId === 0) {
@@ -163,59 +165,33 @@ const CasherPointOfSalesList = () => {
   };
 
   const yupSchema = Yup.object({
-    posMember: Yup.string().required("Required"),
     search: Yup.string().required("Required"),
   });
 
   return (
     <>
       <div className="whitespace-nowrap overflow-auto gap-2 pt-8 pb-5">
-        <Formik
-          initialValues={initVal}
-          validationSchema={yupSchema}
-          onSubmit={async (values, { setSubmitting, resetForm }) => {
-            const orders_member_id = memberId;
-            mutation.mutate({
-              ...values,
-              orders_member_id,
-            });
-            resetForm();
-          }}
-        >
-          {(props) => {
-            props.values.posMember = memberId;
-            return (
-              <Form>
-                <div className="grid md:grid-cols-2 items-center ">
-                  <div className="relative md:w-[20rem]">
-                    <InputSelect
-                      name="posMember"
-                      label="Order to"
-                      onChange={handlePosOrder}
-                      disabled={
-                        status === "loading" ||
-                        memberApprovedLoading ||
-                        mutation.isLoading
-                      }
-                    >
-                      <option value="" hidden>
-                        {memberApprovedLoading ? "Loading..." : "--"}
-                      </option>
-                      {memberApproved?.data.map((cItem, key) => {
-                        return (
-                          <option
-                            key={key}
-                            value={cItem.members_aid}
-                            id={`${cItem.members_last_name}, ${cItem.members_first_name} `}
-                          >
-                            {`${cItem.members_last_name}, ${cItem.members_first_name}`}
-                          </option>
-                        );
-                      })}
-                    </InputSelect>
-                  </div>
-
-                  <div className="relative md:mt-0 mt-5">
+        <div className="grid md:grid-cols-2 items-center ">
+          <div className="relative md:w-[20rem]">
+            <SearchMember setSearch={setSearch} />
+          </div>
+          <Formik
+            initialValues={initVal}
+            validationSchema={yupSchema}
+            onSubmit={async (values, { setSubmitting, resetForm }) => {
+              const orders_member_id = memberId;
+              mutation.mutate({
+                ...values,
+                orders_member_id,
+              });
+              resetForm();
+            }}
+          >
+            {(props) => {
+              props.values.posMember = memberId;
+              return (
+                <Form>
+                  <div className="relative md:mt-0 mt-5 ">
                     <div className="flex justify-end">
                       <InputText
                         label="Search to add product"
@@ -234,19 +210,26 @@ const CasherPointOfSalesList = () => {
                       </button>
                     </div>
                   </div>
-                </div>
-              </Form>
-            );
-          }}
-        </Formik>
+                </Form>
+              );
+            }}
+          </Formik>
+        </div>
       </div>{" "}
       <p className="text-lg mb-0 pr-8 font-bold">
+        Name : {status === "loading" || isLoading ? "Loading..." : memberName}
+      </p>
+      <p className="text-lg mb-0 pr-8 font-bold">
         Total : {pesoSign}{" "}
-        {numberWithCommas(getTotalAmountPending(result?.pages[0]).toFixed(2))}
+        {status === "loading" || isLoading
+          ? "Loading..."
+          : numberWithCommas(
+              getTotalAmountPending(result?.pages[0]).toFixed(2)
+            )}
       </p>
       <div className="w-full pt-3 pb-20">
         <div className="relative text-center overflow-x-auto z-0">
-          {status !== "loading" && isFetching && <TableSpinner />}
+          {(status === "loading" || isLoading) && <TableSpinner />}
           <table>
             <thead>
               <tr>
@@ -265,10 +248,12 @@ const CasherPointOfSalesList = () => {
               </tr>
             </thead>
             <tbody>
-              {(status === "loading" || result?.pages[0].data.length === 0) && (
+              {(status === "loading" ||
+                isLoading ||
+                result?.pages[0].data.length === 0) && (
                 <tr className="text-center relative">
                   <td colSpan="100%" className="p-10">
-                    {status === "loading" && <TableSpinner />}
+                    {(status === "loading" || isLoading) && <TableSpinner />}
                     <NoData />
                   </td>
                 </tr>
