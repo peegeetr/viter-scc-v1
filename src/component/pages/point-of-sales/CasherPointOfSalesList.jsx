@@ -253,7 +253,6 @@ const CasherPointOfSalesList = () => {
                 result?.pages[0].data.length === 0) && (
                 <tr className="text-center relative">
                   <td colSpan="100%" className="p-10">
-                    {(status === "loading" || isLoading) && <TableSpinner />}
                     <NoData />
                   </td>
                 </tr>
