@@ -688,7 +688,7 @@ class SuppliersProducts
             $sql .= "order by suppliersProducts.suppliers_products_name desc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "suppliers_products_name" => "{$this->suppliers_products_search}%",
+                "suppliers_products_name" => "%{$this->suppliers_products_search}%",
                 "product_category_name" => "{$this->suppliers_products_search}%",
                 "stocks_barcode_id" => $this->suppliers_products_search,
             ]);

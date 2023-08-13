@@ -7,6 +7,7 @@ import Navigation from "../../../partials/Navigation";
 import ModalError from "../../../partials/modals/ModalError";
 import ModalSuccess from "../../../partials/modals/ModalSuccess";
 import ProductsList from "./ProductsList";
+import { AiFillPrinter } from "react-icons/ai";
 
 const Products = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -18,7 +19,16 @@ const Products = () => {
       <div className="wrapper">
         <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2 ">
           <BreadCrumbs />
+          <button
+            type="button"
+            className="btn-primary print:hidden"
+            onClick={() => window.print()}
+          >
+            <AiFillPrinter />
+            <span>Print</span>
+          </button>
         </div>
+        {/* <p className="text-center mb-0 text-lg font-bold">Price List</p> */}
 
         <hr className="print:hidden" />
         <div className="w-full pt-5 pb-20">

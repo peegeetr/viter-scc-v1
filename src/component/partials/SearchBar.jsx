@@ -28,7 +28,7 @@ const SearchBar = ({
         dispatch(setIsSearch(true));
       }}
     >
-      <div className="pb-2 flex">
+      <div className="pb-2 flex print:hidden">
         <input
           type="search"
           placeholder="Search here..."

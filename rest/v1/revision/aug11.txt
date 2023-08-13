@@ -11,6 +11,7 @@
 *models    
     - account/Members.php 
     - point-of-sales/PointOfSales.php 
+    - inventory/suppliers/product/SuppliersProducts.php  
     -  
     -  
 

@@ -418,7 +418,7 @@ class PointOfSales
             $sql .= "limit 1 ";
             $query = $this->connection->prepare($sql);
             $query->execute([
-                "suppliers_products_name" => "{$this->orders_search}%",
+                "suppliers_products_name" => "%{$this->orders_search}%",
                 "product_category_name" => "{$this->orders_search}%",
                 "stocks_barcode_id" => $this->orders_search,
             ]);

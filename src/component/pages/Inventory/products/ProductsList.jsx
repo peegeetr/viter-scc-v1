@@ -12,6 +12,7 @@ import TableSpinner from "../../../partials/spinners/TableSpinner";
 import StatusQuantity from "../../../partials/status/StatusQuantity";
 import ModalUpdateProducts from "./ModalUpdateProducts";
 import { getRemaningQuantity } from "./functions-product";
+import { numberWithCommas, pesoSign } from "../../../helpers/functions-general";
 
 const ProductsList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -92,10 +93,12 @@ const ProductsList = () => {
               <th className="min-w-[5rem]">Category</th>
               <th className="min-w-[6rem]">Supplier</th>
               <th className="min-w-[8rem]">Product</th>
+              <th className="min-w-[8rem] text-right">Retail Price</th>
               {/* <th className="min-w-[8rem] text-right">Supplier Price</th>
-              <th className="min-w-[8rem] text-right">SCC Price</th>
               <th className="min-w-[8rem] text-right">Market Price</th> */}
-              <th className="min-w-[8rem] text-center">Remaning Qty</th>
+              <th className="min-w-[8rem] text-center print:hidden">
+                Remaning Qty
+              </th>
               <th className="max-w-[5rem]"></th>
               {/* {(store.credentials.data.role_is_admin === 1 ||
                 store.credentials.data.role_is_developer === 1 ||
@@ -132,8 +135,14 @@ const ProductsList = () => {
                     <td>{item.product_category_name}</td>
                     <td>{item.suppliers_company_name}</td>
                     <td>{item.suppliers_products_name}</td>
+                    <td className="text-right ">
+                      {pesoSign}
+                      {numberWithCommas(
+                        Number(item.suppliers_products_scc_price).toFixed(2)
+                      )}
+                    </td>
 
-                    <td className="text-center">
+                    <td className="text-center print:hidden ">
                       <StatusQuantity
                         text={getRemaningQuantity(
                           item,
