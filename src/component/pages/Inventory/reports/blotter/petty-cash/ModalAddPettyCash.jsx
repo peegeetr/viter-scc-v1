@@ -136,24 +136,13 @@ const ModalAddPettyCash = ({ item }) => {
                         disabled={mutation.isLoading}
                       />
                     </div>
-                    <div className="relative ">
-                      <InputSelect
-                        name="petty_cash_payee_name"
+                    <div className="relative mb-6 mt-5">
+                      <InputText
                         label="Payee"
+                        type="text"
+                        name="petty_cash_payee_name"
                         disabled={mutation.isLoading}
-                      >
-                        <option value="" hidden>
-                          {isLoading ? "Loading..." : "--"}
-                        </option>
-                        <option value="0">All Member</option>
-                        {readAllMemberPTCash?.data.map((mItem, key) => {
-                          return (
-                            <option key={key} value={mItem.members_aid}>
-                              {`${mItem.members_last_name}, ${mItem.members_first_name}`}
-                            </option>
-                          );
-                        })}
-                      </InputSelect>
+                      />
                     </div>
                     <div className="relative mb-6 mt-5">
                       <InputText
