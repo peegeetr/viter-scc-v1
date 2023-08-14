@@ -7,19 +7,19 @@ const SccSalesTotal = ({ result, isLoading }) => {
     <>
       <div className=" grid xl:flex xs:grid-cols-2 items-center ">
         <StatusAmount
-          text="SCC sales pending"
+          text="Pending profit"
           amount={computeSccSales(result).pendingAmount}
           type="pending"
           isLoading={isLoading}
         />
         <StatusAmount
-          text="SCC sales"
+          text="Paid profit"
           amount={computeSccSales(result).finalAmount}
           type="paid"
           isLoading={isLoading}
         />
         <StatusAmount
-          text="Supplier total Amount"
+          text="Supplier Amount"
           amount={computeSccSales(result).totalSupplierPriceAmount}
           type="discount"
           isLoading={isLoading}
