@@ -14,13 +14,15 @@ import { InputText } from "../../../helpers/FormInputs";
 import { queryData } from "../../../helpers/queryData";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
 import {
+  GetFocus,
   numberWithCommas,
   pesoSign,
   removeComma,
 } from "../../../helpers/functions-general";
 
-const ModalPayNow = ({ item, result, isPayAll, setSearch }) => {
+const ModalPayNow = ({ item, result, isPayAll, setSearch, onSearch }) => {
   const { store, dispatch } = React.useContext(StoreContext);
+  GetFocus("searchProduct");
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: (values) =>
@@ -32,8 +34,9 @@ const ModalPayNow = ({ item, result, isPayAll, setSearch }) => {
 
       if (data.success) {
         dispatch(setSuccess(true));
-        {
-          isPayAll && setSearch("scc-000-2023");
+        if (isPayAll) {
+          setSearch("scc-000-2023");
+          onSearch.current.value = "";
         }
         dispatch(setMessage(`Successfuly paid`));
         dispatch(setIsConfirm(false));

@@ -3,9 +3,8 @@ import { setIsModalSearch } from "../../../store/StoreAction";
 import { StoreContext } from "../../../store/StoreContext";
 import { AssociateMemberId } from "../../helpers/functions-general";
 
-const SearchMember = ({ setSearch }) => {
+const SearchMember = ({ setSearch, onSearch }) => {
   const { store, dispatch } = React.useContext(StoreContext);
-  const onSearch = React.useRef("0");
 
   const handleChange = async (e) => {
     if (onSearch.current.value === "") {
