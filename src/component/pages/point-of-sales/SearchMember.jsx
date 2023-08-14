@@ -9,7 +9,7 @@ const SearchMember = ({ setSearch }) => {
 
   const handleChange = async (e) => {
     if (onSearch.current.value === "") {
-      setSearch("merin");
+      setSearch("scc-000-2023");
       dispatch(setIsModalSearch(false));
       return;
     }

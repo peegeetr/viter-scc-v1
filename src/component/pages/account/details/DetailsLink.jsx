@@ -21,7 +21,6 @@ const DetailsLink = () => {
     "memberName" // key
   );
   const handleShow = () => {
-    dispatch(setStartIndex(0));
     dispatch(setIsSearch(false));
   };
 

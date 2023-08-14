@@ -1,0 +1,28 @@
+ 
+*controllers  
+    - inventory/report/net-surplus-distribution/patronage/report-filter-patronage.php
+    -
+    -
+    
+*models    
+    - inventory/report/net-surplus-distribution/ReportCapitalShare.php
+    - 
+    -  
+    -  
+
+*htaccess 
+    - 
+
+*db tables  
+    - 
+    - 
+    -  
+
+
+*core functions 
+    - 
+    -  
+
+*extra
+    - 
+    -  

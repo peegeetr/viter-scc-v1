@@ -71,7 +71,6 @@ const ReportPatronageList = () => {
     member_id: Yup.string().required("Required"),
     year: Yup.string().required("Required"),
   });
-
   return (
     <>
       <Formik
@@ -156,7 +155,10 @@ const ReportPatronageList = () => {
               </th>
               <th className="min-w-[15rem] text-right pr-4">
                 Patronage Refund{" "}
-                {result?.pages[0].data[0].net_surplus_patronage_rate}%
+                {result?.pages[0].data.length > 0
+                  ? result?.pages[0].data[0].net_surplus_patronage_rate
+                  : "0"}
+                %
                 {/* (
                 {getPatronageRate(result?.pages[0].data[0])}) */}
               </th>

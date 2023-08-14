@@ -10,12 +10,11 @@ import {
 import { setIsSearch, setStartIndex } from "../../../../../store/StoreAction";
 
 const ProfileLink = () => {
-  const { store } = React.useContext(StoreContext);
+  const { store, dispatch } = React.useContext(StoreContext);
   const memberid = getUrlParam().get("memberid");
   const urlLink = getUserType(store);
   const handleShow = () => {
     dispatch(setIsSearch(false));
-    dispatch(setStartIndex(0));
   };
   return (
     <>

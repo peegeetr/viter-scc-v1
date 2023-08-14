@@ -41,7 +41,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         if (
             $report_patronage->orders_member_id !== "0"
         ) {
-            $query = checkReadReportCapitalDividendByMemberId($report_patronage);
+            $query = checkReadReportPatronageByYearAndMemberId($report_patronage);
             http_response_code(200);
             getQueriedData($query);
         }

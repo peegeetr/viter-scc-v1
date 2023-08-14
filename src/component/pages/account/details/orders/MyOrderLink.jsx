@@ -15,7 +15,6 @@ const MyOrderLink = () => {
   const urlLink = getUserType(store);
   const handleShow = () => {
     dispatch(setIsSearch(false));
-    dispatch(setStartIndex(0));
   };
   return (
     <>

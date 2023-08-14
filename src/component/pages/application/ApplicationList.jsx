@@ -121,7 +121,7 @@ const ApplicationList = () => {
               <th>#</th>
               <th>Status</th>
               <th className="min-w-[12rem]">Name</th>
-              <th className="min-w-[10rem]">Account no.</th>
+              <th className="min-w-[10rem]">ID no.</th>
               <th className="min-w-[15rem]">Email.</th>
               <th className="min-w-[10rem]">Contact no.</th>
               <th className="max-w-[5rem]">Actions</th>
@@ -159,7 +159,7 @@ const ApplicationList = () => {
                     <td>
                       {`${item.members_last_name}, ${item.members_first_name}`}
                     </td>
-                    <td>{item.members_id}</td>
+                    <td>{item.members_barcode}</td>
                     <td className="break-words">{item.members_email}</td>
                     <td>{item.members_contact_no}</td>
                     <td>

@@ -105,9 +105,11 @@ class ReportCapitalShare
             $sql .= "members.members_last_name, ";
             $sql .= "members.members_first_name ";
             $sql .= "from {$this->tblReportCapitalShare} as capitalShare, ";
+            $sql .= "{$this->tblNetSurplus} as netSurplus, ";
             $sql .= "{$this->tblMembers} as members ";
             $sql .= "where members.members_aid = capitalShare.capital_share_member_id ";
             $sql .= "and YEAR(capitalShare.capital_share_date) = :year ";
+            $sql .= "and netSurplus.net_surplus_year = YEAR(capitalShare.capital_share_date) ";
             $sql .= "group by ";
             $sql .= "capitalShare.capital_share_member_id, ";
             $sql .= "YEAR(capital_share_date) ";
