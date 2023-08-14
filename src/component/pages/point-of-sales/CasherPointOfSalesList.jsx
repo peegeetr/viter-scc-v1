@@ -44,6 +44,7 @@ const CasherPointOfSalesList = () => {
   const [isPayAll, setIsPayAll] = React.useState(false);
   const [search, setSearch] = React.useState("scc-000-2023");
   const { ref, inView } = useInView();
+  const onSearch = React.useRef("0");
   let delId = 0;
   let counter = 1;
   let totalAmount = 0;
@@ -173,7 +174,7 @@ const CasherPointOfSalesList = () => {
       <div className="whitespace-nowrap overflow-auto gap-2 pt-8 pb-5">
         <div className="grid md:grid-cols-2 items-center ">
           <div className="relative md:w-[20rem]">
-            <SearchMember setSearch={setSearch} />
+            <SearchMember setSearch={setSearch} onSearch={onSearch} />
           </div>
           <Formik
             initialValues={initVal}
@@ -368,6 +369,7 @@ const CasherPointOfSalesList = () => {
           result={result?.pages[0].data}
           isPayAll={isPayAll}
           setSearch={setSearch}
+          onSearch={onSearch}
         />
       )}
     </>
