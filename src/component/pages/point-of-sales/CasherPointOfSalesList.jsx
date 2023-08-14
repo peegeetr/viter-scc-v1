@@ -229,7 +229,9 @@ const CasherPointOfSalesList = () => {
       </p>
       <div className="w-full pt-3 pb-20">
         <div className="relative text-center overflow-x-auto z-0">
-          {(status === "loading" || isLoading) && <TableSpinner />}
+          {(status === "loading" || isLoading || isFetching) && (
+            <TableSpinner />
+          )}
           <table>
             <thead>
               <tr>
