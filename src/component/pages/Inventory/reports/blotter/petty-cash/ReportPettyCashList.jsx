@@ -168,6 +168,7 @@ const ReportPettyCashList = ({ setItemEdit }) => {
               <th className="min-w-[10rem] text-right print:min-w-0">
                 balance
               </th>
+              <th className="min-w-[15rem] print:min-w-[15rem]">Remarks</th>
               <th className="max-w-[5rem] print:hidden ">Actions</th>
             </tr>
           </thead>
@@ -216,6 +217,7 @@ const ReportPettyCashList = ({ setItemEdit }) => {
                           Number(item.petty_cash_balance).toFixed(2)
                         )}
                       </td>
+                      <td>{item.petty_cash_remarks}</td>
 
                       <td className=" print:hidden">
                         <div className="flex items-center gap-1">

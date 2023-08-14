@@ -18,6 +18,7 @@ $pettyCash->petty_cash_payee_name = checkIndex($data, "petty_cash_payee_name");
 $pettyCash->petty_cash_in = checkIndex($data, "petty_cash_in");
 $pettyCash->petty_cash_out = checkIndex($data, "petty_cash_out");
 $pettyCash->petty_cash_balance = checkIndex($data, "petty_cash_balance");
+$pettyCash->petty_cash_remarks = checkIndex($data, "petty_cash_remarks");
 $pettyCash->petty_cash_created = date("Y-m-d H:i:s");
 $pettyCash->petty_cash_datetime = date("Y-m-d H:i:s");
 

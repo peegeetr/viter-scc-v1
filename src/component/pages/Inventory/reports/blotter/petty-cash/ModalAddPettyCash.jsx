@@ -71,6 +71,7 @@ const ModalAddPettyCash = ({ item }) => {
     petty_cash_in: item ? item.petty_cash_in : "",
     petty_cash_out: item ? item.petty_cash_out : "",
     petty_cash_balance: item ? item.petty_cash_balance : "",
+    petty_cash_remarks: item ? item.petty_cash_remarks : "",
   };
 
   const yupSchema = Yup.object({
@@ -80,6 +81,7 @@ const ModalAddPettyCash = ({ item }) => {
     petty_cash_in: Yup.string().required("Required"),
     petty_cash_out: Yup.string().required("Required"),
     petty_cash_balance: Yup.string().required("Required"),
+    petty_cash_remarks: Yup.string().required("Required"),
   });
 
   return (
@@ -168,6 +170,15 @@ const ModalAddPettyCash = ({ item }) => {
                         type="text"
                         num="num"
                         name="petty_cash_balance"
+                        disabled={mutation.isLoading}
+                      />
+                    </div>
+                    <div className="relative mb-6 mt-5">
+                      <InputTextArea
+                        label="Remarks"
+                        type="text"
+                        num="num"
+                        name="petty_cash_remarks"
                         disabled={mutation.isLoading}
                       />
                     </div>

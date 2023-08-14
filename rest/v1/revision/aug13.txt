@@ -16,7 +16,7 @@
     - 
 
 *db tables  
-    -> sccv1_blotter_petty_cash.sql { note:petty_cash_payee_name varchar(100) }
+    -> sccv1_blotter_petty_cash.sql { note:petty_cash_remarks varchar(100) }
     - 
     -  
 

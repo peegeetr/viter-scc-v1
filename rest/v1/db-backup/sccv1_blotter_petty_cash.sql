@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 14, 2023 at 03:37 AM
+-- Generation Time: Aug 14, 2023 at 05:00 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -35,6 +35,7 @@ CREATE TABLE `sccv1_blotter_petty_cash` (
   `petty_cash_in` varchar(20) NOT NULL,
   `petty_cash_out` varchar(20) NOT NULL,
   `petty_cash_balance` varchar(20) NOT NULL,
+  `petty_cash_remarks` varchar(100) NOT NULL,
   `petty_cash_created` datetime NOT NULL,
   `petty_cash_datetime` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -43,9 +44,9 @@ CREATE TABLE `sccv1_blotter_petty_cash` (
 -- Dumping data for table `sccv1_blotter_petty_cash`
 --
 
-INSERT INTO `sccv1_blotter_petty_cash` (`petty_cash_aid`, `petty_cash_date`, `petty_cash_voucher_no`, `petty_cash_payee_name`, `petty_cash_in`, `petty_cash_out`, `petty_cash_balance`, `petty_cash_created`, `petty_cash_datetime`) VALUES
-(1, '2023-07-19', 'zzz', '5', '1000', '1000', '0', '2023-07-19 14:50:07', '2023-07-24 14:16:45'),
-(2, '2023-07-24', 'aaaa', '16', '12', '1', '11', '2023-07-24 14:15:57', '2023-07-24 14:15:57');
+INSERT INTO `sccv1_blotter_petty_cash` (`petty_cash_aid`, `petty_cash_date`, `petty_cash_voucher_no`, `petty_cash_payee_name`, `petty_cash_in`, `petty_cash_out`, `petty_cash_balance`, `petty_cash_remarks`, `petty_cash_created`, `petty_cash_datetime`) VALUES
+(1, '2023-07-19', 'zzz', 'Lumabas', '1000', '1000', '0', 'tests', '2023-07-19 14:50:07', '2023-08-14 10:58:33'),
+(2, '2023-07-24', 'aaaa', 'Lumabas', '12', '1', '11', '', '2023-07-24 14:15:57', '2023-07-24 14:15:57');
 
 --
 -- Indexes for dumped tables
@@ -65,7 +66,7 @@ ALTER TABLE `sccv1_blotter_petty_cash`
 -- AUTO_INCREMENT for table `sccv1_blotter_petty_cash`
 --
 ALTER TABLE `sccv1_blotter_petty_cash`
-  MODIFY `petty_cash_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `petty_cash_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
