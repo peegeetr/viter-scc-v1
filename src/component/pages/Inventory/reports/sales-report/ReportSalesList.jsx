@@ -280,7 +280,7 @@ const ReportSalesList = () => {
               <th className="min-w-[6rem] text-right pr-4">Discounted</th>
               <th className="min-w-[7rem] text-right pr-4">Total Amnt.</th>
               <th className="min-w-[6rem] text-right pr-4">Supplier Price</th>
-              <th className="!w-[10rem] text-right pr-4">SCC Sales</th>
+              <th className="!w-[10rem] text-right pr-4">Profit</th>
             </tr>
           </thead>
           <tbody>
