@@ -19,7 +19,7 @@ import {
   removeComma,
 } from "../../../helpers/functions-general";
 
-const ModalPayNow = ({ item, result, isPayAll }) => {
+const ModalPayNow = ({ item, result, isPayAll, setSearch }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const queryClient = useQueryClient();
   const mutation = useMutation({
@@ -32,6 +32,9 @@ const ModalPayNow = ({ item, result, isPayAll }) => {
 
       if (data.success) {
         dispatch(setSuccess(true));
+        {
+          isPayAll && setSearch("scc-000-2023");
+        }
         dispatch(setMessage(`Successfuly paid`));
         dispatch(setIsConfirm(false));
       }

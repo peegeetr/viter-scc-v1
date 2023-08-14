@@ -367,6 +367,7 @@ const CasherPointOfSalesList = () => {
           item={itemEdit}
           result={result?.pages[0].data}
           isPayAll={isPayAll}
+          setSearch={setSearch}
         />
       )}
     </>
