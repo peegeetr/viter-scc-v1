@@ -197,9 +197,7 @@ const ReportPettyCashList = ({ setItemEdit }) => {
                       <td>{formatDate(item.petty_cash_date)}</td>
 
                       <td>{item.petty_cash_voucher_no}</td>
-                      <td>
-                        {`${item.members_last_name}, ${item.members_first_name}`}
-                      </td>
+                      <td>{item.petty_cash_payee_name}</td>
                       <td className="text-right">
                         {pesoSign}{" "}
                         {numberWithCommas(

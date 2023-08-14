@@ -151,7 +151,7 @@ const AccountList = () => {
                     <td>
                       {`${item.members_last_name}, ${item.members_first_name}`}
                     </td>
-                    <td>{item.members_barcode}</td>
+                    <td className="uppercase">{item.members_barcode}</td>
                     <td>{item.members_email}</td>
                     <td>{item.members_contact_no}</td>
 

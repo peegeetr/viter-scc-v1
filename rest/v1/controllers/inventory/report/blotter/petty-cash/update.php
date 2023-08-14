@@ -15,7 +15,7 @@ if (array_key_exists("pettyCashId", $_GET)) {
     $pettyCash->petty_cash_aid = $_GET['pettyCashId'];
     $pettyCash->petty_cash_date = checkIndex($data, "petty_cash_date");
     $pettyCash->petty_cash_voucher_no = checkIndex($data, "petty_cash_voucher_no");
-    $pettyCash->petty_cash_payee_id = checkIndex($data, "petty_cash_payee_id");
+    $pettyCash->petty_cash_payee_name = checkIndex($data, "petty_cash_payee_name");
     $pettyCash->petty_cash_in = checkIndex($data, "petty_cash_in");
     $pettyCash->petty_cash_out = checkIndex($data, "petty_cash_out");
     $pettyCash->petty_cash_balance = checkIndex($data, "petty_cash_balance");
