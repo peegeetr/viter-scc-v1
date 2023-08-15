@@ -907,6 +907,7 @@ class Orders
             $sql .= "and (suppliersProducts.suppliers_products_name like :suppliers_products_name ";
             $sql .= "or stock.stocks_barcode_id like :stocks_barcode_id ";
             $sql .= "or category.product_category_name like :product_category_name) ";
+            $sql .= "group by stock.stocks_product_id ";
             $sql .= "order by suppliersProducts.suppliers_products_name asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
