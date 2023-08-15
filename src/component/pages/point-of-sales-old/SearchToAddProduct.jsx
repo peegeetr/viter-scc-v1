@@ -21,7 +21,7 @@ const SearchToAddProduct = ({
 
   const handleChange = (e) => {
     if (onSearch.current.value === "") {
-      setSearch("0");
+      setSearch("none");
       dispatch(setIsModalSearch(false));
       return;
     }

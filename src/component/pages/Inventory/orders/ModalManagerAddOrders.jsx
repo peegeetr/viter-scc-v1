@@ -40,10 +40,9 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
     item ? item.orders_product_srp : ""
   );
   const [search, setSearch] = React.useState(
-    item ? item.suppliers_products_name : "0"
+    item ? item.suppliers_products_name : "none"
   );
   const onSearch = React.useRef("0");
-  console.log("item", item);
 
   const [isPaid, setIsPaid] = React.useState(item ? item.orders_is_paid : "0");
 
