@@ -41,6 +41,7 @@ class Orders
     public $tblSales;
     public $tblStocks;
     public $tblProductsHistory;
+    public $tblCategory;
 
     public function __construct($db)
     {
@@ -51,6 +52,7 @@ class Orders
         $this->tblSuppliers = "sccv1_suppliers";
         $this->tblSuppliersProducts = "sccv1_suppliers_products";
         $this->tblStocks = "sccv1_stocks";
+        $this->tblCategory = "sccv1_product_category";
         $this->tblProductsHistory = "sccv1_product_history";
     }
 
@@ -869,6 +871,49 @@ class Orders
             $sql .= "order by orders.orders_is_paid, ";
             $sql .= "orders.orders_date desc ";
             $query = $this->connection->query($sql);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    // check Search Product 
+    public function searchProduct()
+    {
+        try {
+            $sql = "select ";
+            $sql .= "suppliersProducts.suppliers_products_aid, ";
+            $sql .= "suppliersProducts.suppliers_products_number, ";
+            $sql .= "suppliersProducts.suppliers_products_name, ";
+            $sql .= "suppliersProducts.suppliers_products_market_price, ";
+            $sql .= "suppliersProducts.suppliers_products_category_id, ";
+            $sql .= "supplier.suppliers_aid, ";
+            $sql .= "supplier.suppliers_company_name, ";
+            $sql .= "productHistory.product_history_price, ";
+            $sql .= "productHistory.product_history_scc_price, ";
+            $sql .= "stock.stocks_aid, ";
+            $sql .= "stock.stocks_barcode_id, ";
+            $sql .= "category.product_category_name ";
+            $sql .= "from ";
+            $sql .= "{$this->tblSuppliersProducts} as suppliersProducts, ";
+            $sql .= "{$this->tblSuppliers} as supplier, ";
+            $sql .= "{$this->tblStocks} as stock, ";
+            $sql .= "{$this->tblProductsHistory} as productHistory, ";
+            $sql .= "{$this->tblCategory} as category ";
+            $sql .= "where category.product_category_aid = suppliersProducts.suppliers_products_category_id ";
+            $sql .= "and suppliersProducts.suppliers_products_suppliers_id = supplier.suppliers_aid ";
+            $sql .= "and stock.stocks_product_id = suppliersProducts.suppliers_products_aid ";
+            $sql .= "and stock.stocks_suplier_price_history_id = productHistory.product_history_aid ";
+            $sql .= "and (suppliersProducts.suppliers_products_name like :suppliers_products_name ";
+            $sql .= "or stock.stocks_barcode_id like :stocks_barcode_id ";
+            $sql .= "or category.product_category_name like :product_category_name) ";
+            $sql .= "order by suppliersProducts.suppliers_products_name asc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "suppliers_products_name" => "%{$this->orders_search}%",
+                "product_category_name" => "{$this->orders_search}%",
+                "stocks_barcode_id" => $this->orders_search,
+            ]);
         } catch (PDOException $ex) {
             $query = false;
         }

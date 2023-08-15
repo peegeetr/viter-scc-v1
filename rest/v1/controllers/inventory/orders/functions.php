@@ -75,3 +75,10 @@ function checkReadAllGroupByProductNumber($object)
     checkQuery($query, "Empty records. (Read All group by product number)");
     return $query;
 }
+// check Search Product 
+function checkSearchProduct($object)
+{
+    $query = $object->searchProduct();
+    checkQuery($query, "Empty records. (search produc)");
+    return $query;
+}

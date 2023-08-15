@@ -125,6 +125,7 @@ RewriteRule ^orders/invoice/page/([0-9]+)$ controllers/inventory/orders/invoice-
 RewriteRule ^orders/invoice/search/([A-Za-z0-9-]+)$ controllers/inventory/orders/invoice-search.php?search=$1 [L]
 RewriteRule ^orders/pending/by-member-id/([0-9]+)$ controllers/inventory/orders/pending-by-member-id.php?memberId=$1 [L]
 RewriteRule ^orders/all-pending$ controllers/inventory/orders/pending-order.php [L]
+RewriteRule ^orders/search-product$ controllers/inventory/orders/search-product.php [L]
    
 #suppliers 
 RewriteRule ^suppliers$ controllers/inventory/suppliers/suppliers.php [L]
@@ -271,3 +272,5 @@ RewriteRule ^patronage/filter-patronage-by-year/([0-9]+)$ controllers/account/de
 RewriteRule ^report-patronage/report-filter-patronage$ controllers/inventory/report/net-surplus-distribution/patronage/report-filter-patronage.php [L] 
 RewriteRule ^report-patronage/report-filter-patronage/([0-9]+)$ controllers/inventory/report/net-surplus-distribution/patronage/report-filter-patronage.php?year=$1 [L] 
 RewriteRule ^report-patronage/all-member-approved$ controllers/inventory/report/net-surplus-distribution/patronage/read-all-member-approved.php [L] 
+
+

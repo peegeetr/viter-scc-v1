@@ -655,41 +655,37 @@ class SuppliersProducts
     {
         try {
             $sql = "select ";
-            $sql .= "supplierProduct.suppliers_products_aid, ";
-            $sql .= "supplierProduct.suppliers_products_number, ";
-            $sql .= "supplierProduct.suppliers_products_name, ";
-            $sql .= "supplierProduct.suppliers_products_scc_price, ";
-            $sql .= "supplierProduct.suppliers_products_price, ";
-            $sql .= "supplierProduct.suppliers_products_market_price, ";
-            $sql .= "supplierProduct.suppliers_products_category_id, ";
-            $sql .= "suppliers.suppliers_aid, ";
-            $sql .= "suppliers.suppliers_company_name, ";
+            $sql .= "suppliersProducts.suppliers_products_aid, ";
+            $sql .= "suppliersProducts.suppliers_products_number, ";
+            $sql .= "suppliersProducts.suppliers_products_name, ";
+            $sql .= "suppliersProducts.suppliers_products_market_price, ";
+            $sql .= "suppliersProducts.suppliers_products_category_id, ";
+            $sql .= "supplier.suppliers_aid, ";
+            $sql .= "supplier.suppliers_company_name, ";
             $sql .= "productHistory.product_history_price, ";
             $sql .= "productHistory.product_history_scc_price, ";
-            $sql .= "stocks.stocks_aid, ";
-            $sql .= "stocks.stocks_barcode_id, ";
+            $sql .= "stock.stocks_aid, ";
+            $sql .= "stock.stocks_barcode_id, ";
             $sql .= "category.product_category_name ";
             $sql .= "from ";
-            $sql .= "{$this->tblStocks} as stocks, ";
-            $sql .= "{$this->tblSuppliers} as suppliers, ";
+            $sql .= "{$this->tblSuppliersProducts} as suppliersProducts, ";
+            $sql .= "{$this->tblSuppliers} as supplier, ";
+            $sql .= "{$this->tblStocks} as stock, ";
             $sql .= "{$this->tblProductsHistory} as productHistory, ";
-            $sql .= "{$this->tblSuppliersProducts} as supplierProduct, ";
             $sql .= "{$this->tblCategory} as category ";
-            $sql .= "where stocks.stocks_product_id = supplierProduct.suppliers_products_aid ";
-            $sql .= "and category.product_category_aid = supplierProduct.suppliers_products_category_id ";
-            $sql .= "and stocks.stocks_suplier_price_history_id = productHistory.product_history_aid ";
-            $sql .= "and suppliers.suppliers_aid = supplierProduct.suppliers_products_suppliers_id ";
-            $sql .= "and (category.product_category_name like :product_category_name ";
-            $sql .= "or stocks.stocks_barcode_id like :stocks_barcode_id ";
-            $sql .= "or supplierProduct.suppliers_products_name like :suppliers_products_name) ";
-            $sql .= "order by stocks.stocks_is_pending desc, ";
-            $sql .= "stocks.stocks_created desc, ";
-            $sql .= "supplierProduct.suppliers_products_name asc ";
+            $sql .= "where category.product_category_aid = suppliersProducts.suppliers_products_category_id ";
+            $sql .= "and suppliersProducts.suppliers_products_suppliers_id = supplier.suppliers_aid ";
+            $sql .= "and stock.stocks_product_id = suppliersProducts.suppliers_products_aid ";
+            $sql .= "and stock.stocks_suplier_price_history_id = productHistory.product_history_aid ";
+            $sql .= "and (suppliersProducts.suppliers_products_name like :suppliers_products_name ";
+            $sql .= "or stock.stocks_barcode_id like :stocks_barcode_id ";
+            $sql .= "or category.product_category_name like :product_category_name) ";
+            $sql .= "order by stock.stocks_aid desc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "suppliers_products_name" => "%{$this->suppliers_products_search}%",
                 "product_category_name" => "{$this->suppliers_products_search}%",
-                "stocks_barcode_id" => "{$this->suppliers_products_search}%",
+                "stocks_barcode_id" => $this->suppliers_products_search,
             ]);
         } catch (PDOException $ex) {
             $query = false;

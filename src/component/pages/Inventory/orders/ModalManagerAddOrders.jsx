@@ -102,12 +102,14 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
 
   // use if not loadmore button undertime
   const { data: ProductList, isLoading } = useQueryData(
-    `/v1/product/search/product`, // filter endpoint
+    `/v1/orders/search-product`, // filter endpoint
     "post", // method
     "ProductList", // key
     { search },
     search
   );
+
+  console.log("123", ProductList);
 
   const initVal = {
     orders_member_id: item ? item.orders_member_id : "",
