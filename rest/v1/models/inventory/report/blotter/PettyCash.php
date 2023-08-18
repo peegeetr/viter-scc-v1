@@ -88,8 +88,9 @@ class PettyCash
             $sql .= "petty_cash_balance ";
             $sql .= "from ";
             $sql .= "{$this->tblPettyCash} ";
-            $sql .= "order by petty_cash_balance asc, ";
-            $sql .= "DATE(petty_cash_date) desc ";
+            $sql .= "order by ";
+            $sql .= "DATE(petty_cash_date) desc, ";
+            $sql .= "petty_cash_balance asc ";
             $query = $this->connection->query($sql);
         } catch (PDOException $ex) {
             $query = false;
@@ -111,8 +112,9 @@ class PettyCash
             $sql .= "petty_cash_balance ";
             $sql .= "from ";
             $sql .= "{$this->tblPettyCash} ";
-            $sql .= "order by petty_cash_balance asc, ";
-            $sql .= "DATE(petty_cash_date) desc ";
+            $sql .= "order by ";
+            $sql .= "DATE(petty_cash_date) desc, ";
+            $sql .= "petty_cash_balance asc ";
             $sql .= "limit :start, ";
             $sql .= ":total ";
             $query = $this->connection->prepare($sql);
@@ -163,8 +165,9 @@ class PettyCash
             $sql .= "{$this->tblPettyCash} ";
             $sql .= "where DATE(ptCash.petty_cash_date) between ";
             $sql .= ":start_date and :end_date ";
-            $sql .= "order by petty_cash_balance asc, ";
-            $sql .= "DATE(petty_cash_date) desc ";
+            $sql .= "order by ";
+            $sql .= "DATE(petty_cash_date) desc, ";
+            $sql .= "petty_cash_balance asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "start_date" => $this->startDate,
@@ -186,8 +189,9 @@ class PettyCash
             $sql .= "or MONTHNAME(petty_cash_date) like :files_month_date ";
             $sql .= "or petty_cash_payee_name like :petty_cash_payee_name ";
             $sql .= "or petty_cash_date like :petty_cash_date) ";
-            $sql .= "order by petty_cash_balance asc, ";
-            $sql .= "DATE(petty_cash_date) desc ";
+            $sql .= "order by ";
+            $sql .= "DATE(petty_cash_date) desc, ";
+            $sql .= "petty_cash_balance asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "petty_cash_voucher_no" => "%{$this->petty_cash_search}%",
