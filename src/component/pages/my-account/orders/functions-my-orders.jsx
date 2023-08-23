@@ -22,7 +22,7 @@ export const getValidationMyOrder = (
     Number(
       item
         ? item.suppliers_products_scc_price
-        : items.suppliers_products_scc_price
+        : items.product_history_price
     );
 
   if (
