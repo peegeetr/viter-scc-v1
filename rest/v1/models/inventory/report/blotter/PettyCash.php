@@ -158,6 +158,7 @@ class PettyCash
             $sql .= "from ";
             $sql .= "{$this->tblPettyCash} "; 
             $sql .= "order by petty_cash_aid desc ";
+            $sql .= "limit 1 ";
             $query = $this->connection->query($sql);
         } catch (PDOException $ex) {
             $query = false;
@@ -180,7 +181,7 @@ class PettyCash
             $sql .= "petty_cash_balance ";
             $sql .= "from ";
             $sql .= "{$this->tblPettyCash} ";
-            $sql .= "where DATE(ptCash.petty_cash_date) between ";
+            $sql .= "where DATE(petty_cash_date) between ";
             $sql .= ":start_date and :end_date ";
             $sql .= "order by ";
             $sql .= "DATE(petty_cash_date) desc, ";

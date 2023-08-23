@@ -17,6 +17,8 @@ import {
 } from "../../../../../helpers/FormInputs";
 import {
   getDateNow,
+  numberWithCommas,
+  pesoSign,
   removeComma,
 } from "../../../../../helpers/functions-general";
 import { queryData } from "../../../../../helpers/queryData";
@@ -62,7 +64,7 @@ const ModalAddPettyCash = ({ item }) => {
     `/v1/report-petty-cash/read-last-balance`, // endpoint
     "post", // method
     "lastBalance"  // key  
-  );
+  ); 
 
   const initVal = {
     petty_cash_date: item ? item.petty_cash_date : getDateNow(),
@@ -71,8 +73,8 @@ const ModalAddPettyCash = ({ item }) => {
     petty_cash_payee_name: item ? item.petty_cash_payee_name : "",
     petty_cash_in: item ? item.petty_cash_in : "",
     petty_cash_out: item ? item.petty_cash_out : "",
-    petty_cash_balance: item ? item.petty_cash_balance : "",
-    petty_cash_remarks: item ? item.petty_cash_remarks : "",
+    petty_cash_balance: item ? item.petty_cash_balance : "", 
+    petty_cash_remarks: item ? item.petty_cash_remarks : "", 
   };
 
   const yupSchema = Yup.object({
@@ -107,17 +109,16 @@ const ModalAddPettyCash = ({ item }) => {
               onSubmit={async (values, { setSubmitting, resetForm }) => {
                 console.log(values); 
                 const petty_cash_in = removeComma(values.petty_cash_in);
-                const petty_cash_out = removeComma(values.petty_cash_out); 
-                const petty_cash_balance = balance(item, values, lastBalance); 
+                const petty_cash_out = removeComma(values.petty_cash_out);  
                 mutation.mutate({
                   ...values,
                   petty_cash_in,
-                  petty_cash_out,
-                  petty_cash_balance,
+                  petty_cash_out, 
                 });
               }}
             >
-              {(props) => {
+              {(props) => { 
+                props.values.petty_cash_balance = balance(item, props.values, lastBalance)
                 return (
                   <Form>
                     <div className="relative my-5">
@@ -162,7 +163,8 @@ const ModalAddPettyCash = ({ item }) => {
                         disabled={mutation.isLoading}
                       />
                     </div>
-                    {item && <div className="relative mb-6 mt-5">
+                    {item ?
+                    <div className="relative mb-6 mt-5">
                       <InputText
                         label="Balance"
                         type="text"
@@ -170,7 +172,7 @@ const ModalAddPettyCash = ({ item }) => {
                         name="petty_cash_balance"
                         disabled={mutation.isLoading}
                       />
-                    </div>  }
+                    </div> :<p className="mb-0">Balance :<span className="font-bold"> {pesoSign} {numberWithCommas(Number(props.values.petty_cash_balance).toFixed(2))}</span></p>  }
                     <div className="relative mb-6 mt-5">
                       <InputTextArea
                         label="Remarks"

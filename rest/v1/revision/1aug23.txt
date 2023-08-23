@@ -6,7 +6,7 @@
     -
     
 *models    
-    - inventory/report/blotter/petty-cash/PettyCash.php 
+    -> inventory/report/blotter/petty-cash/PettyCash.php 
     -  
     -  
 
