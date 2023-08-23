@@ -36,7 +36,7 @@ const ReportPettyCash = () => {
             <div className="flex items-center gap-1 self-baseline print:hidden">
               <button type="button" className="btn-primary" onClick={handleAdd}>
                 <FaPlusCircle />
-                <span>Add</span>
+                <span>Transac</span>
               </button>
             </div>
           )}

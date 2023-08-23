@@ -35,6 +35,7 @@ const ReportPettyCashList = ({ setItemEdit }) => {
   const [page, setPage] = React.useState(1);
   let counter = 1;
   let total = 0;
+  let balance = 0;
   const { ref, inView } = useInView();
   // use if with loadmore button and search bar
   const {
@@ -192,6 +193,7 @@ const ReportPettyCashList = ({ setItemEdit }) => {
               <React.Fragment key={key}>
                 {page.data.map((item, key) => {
                   total += Number(item.petty_cash_balance);
+                  balance = Number(item.petty_cash_balance);
                   return (
                     <tr key={key}>
                       <td> {counter++}.</td>

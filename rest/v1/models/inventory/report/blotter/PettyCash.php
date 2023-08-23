@@ -90,7 +90,7 @@ class PettyCash
             $sql .= "{$this->tblPettyCash} ";
             $sql .= "order by ";
             $sql .= "DATE(petty_cash_date) desc, ";
-            $sql .= "petty_cash_balance asc ";
+            $sql .= "petty_cash_aid desc ";
             $query = $this->connection->query($sql);
         } catch (PDOException $ex) {
             $query = false;
@@ -114,7 +114,7 @@ class PettyCash
             $sql .= "{$this->tblPettyCash} ";
             $sql .= "order by ";
             $sql .= "DATE(petty_cash_date) desc, ";
-            $sql .= "petty_cash_balance asc ";
+            $sql .= "petty_cash_aid desc ";
             $sql .= "limit :start, ";
             $sql .= ":total ";
             $query = $this->connection->prepare($sql);
@@ -148,6 +148,23 @@ class PettyCash
         return $query;
     }
 
+    // read All Member
+    public function readLastBalance()
+    {
+        try {
+            $sql = "select ";
+            $sql .= "petty_cash_aid, ";
+            $sql .= "petty_cash_balance ";
+            $sql .= "from ";
+            $sql .= "{$this->tblPettyCash} "; 
+            $sql .= "order by petty_cash_aid desc ";
+            $query = $this->connection->query($sql);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
     // filter date base on range
     public function filterDateRange()
     {
@@ -167,7 +184,7 @@ class PettyCash
             $sql .= ":start_date and :end_date ";
             $sql .= "order by ";
             $sql .= "DATE(petty_cash_date) desc, ";
-            $sql .= "petty_cash_balance asc ";
+            $sql .= "petty_cash_aid asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "start_date" => $this->startDate,
@@ -191,7 +208,7 @@ class PettyCash
             $sql .= "or petty_cash_date like :petty_cash_date) ";
             $sql .= "order by ";
             $sql .= "DATE(petty_cash_date) desc, ";
-            $sql .= "petty_cash_balance asc ";
+            $sql .= "petty_cash_aid asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "petty_cash_voucher_no" => "%{$this->petty_cash_search}%",

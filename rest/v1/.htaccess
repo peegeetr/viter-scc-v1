@@ -240,6 +240,7 @@ RewriteRule ^report-petty-cash/page/([0-9]+)$ controllers/inventory/report/blott
 RewriteRule ^report-petty-cash/filter-date$ controllers/inventory/report/blotter/petty-cash/filter-date.php [L]
 RewriteRule ^report-petty-cash/search$ controllers/inventory/report/blotter/petty-cash/search.php [L]
 RewriteRule ^report-petty-cash/read-all-member$ controllers/inventory/report/blotter/petty-cash/read-all-member.php [L]
+RewriteRule ^report-petty-cash/read-last-balance$ controllers/inventory/report/blotter/petty-cash/read-last-balance.php [L]
  
 #REPORT BLOTTER OFFICIAL RECEIPT
 RewriteRule ^report-official-receipt$ controllers/inventory/report/blotter/official-receipt/official-receipt.php [L]

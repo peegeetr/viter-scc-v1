@@ -10,18 +10,18 @@ import {
   setSuccess,
 } from "../../../../../../store/StoreAction";
 import { StoreContext } from "../../../../../../store/StoreContext";
+import useQueryData from "../../../../../custom-hooks/useQueryData";
 import {
-  InputSelect,
   InputText,
-  InputTextArea,
+  InputTextArea
 } from "../../../../../helpers/FormInputs";
-import { queryData } from "../../../../../helpers/queryData";
-import ButtonSpinner from "../../../../../partials/spinners/ButtonSpinner";
 import {
   getDateNow,
   removeComma,
 } from "../../../../../helpers/functions-general";
-import useQueryData from "../../../../../custom-hooks/useQueryData";
+import { queryData } from "../../../../../helpers/queryData";
+import ButtonSpinner from "../../../../../partials/spinners/ButtonSpinner"; 
+import { balance } from "./function-petty-cash";
 
 const ModalAddPettyCash = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -58,11 +58,12 @@ const ModalAddPettyCash = ({ item }) => {
   // read-all-member
 
   // use if not loadmore button undertime
-  const { data: readAllMemberPTCash, isLoading } = useQueryData(
-    `/v1/report-petty-cash/read-all-member`, // endpoint
-    "get", // method
-    "readAllMemberPTCash" // key
+  const { data: lastBalance } = useQueryData(
+    `/v1/report-petty-cash/read-last-balance`, // endpoint
+    "post", // method
+    "lastBalance"  // key  
   );
+
   const initVal = {
     petty_cash_date: item ? item.petty_cash_date : getDateNow(),
     petty_cash_voucher_no: item ? item.petty_cash_voucher_no : "",
@@ -79,8 +80,7 @@ const ModalAddPettyCash = ({ item }) => {
     petty_cash_voucher_no: Yup.string().required("Required"),
     petty_cash_payee_name: Yup.string().required("Required"),
     petty_cash_in: Yup.string().required("Required"),
-    petty_cash_out: Yup.string().required("Required"),
-    petty_cash_balance: Yup.string().required("Required"),
+    petty_cash_out: Yup.string().required("Required"), 
     petty_cash_remarks: Yup.string().required("Required"),
   });
 
@@ -90,7 +90,7 @@ const ModalAddPettyCash = ({ item }) => {
         <div className="p-1 w-[350px] rounded-b-2xl">
           <div className="flex justify-between items-center bg-primary p-3 rounded-t-2xl">
             <h3 className="text-white text-sm">
-              {item ? "Update" : "Add"} Petty Cash
+              {item ? "Update" : "Add"} Petty Cash Transaction
             </h3>
             <button
               type="button"
@@ -105,12 +105,10 @@ const ModalAddPettyCash = ({ item }) => {
               initialValues={initVal}
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
-                // console.log(values);
+                console.log(values); 
                 const petty_cash_in = removeComma(values.petty_cash_in);
-                const petty_cash_out = removeComma(values.petty_cash_out);
-                const petty_cash_balance = removeComma(
-                  values.petty_cash_balance
-                );
+                const petty_cash_out = removeComma(values.petty_cash_out); 
+                const petty_cash_balance = balance(item, values, lastBalance); 
                 mutation.mutate({
                   ...values,
                   petty_cash_in,
@@ -164,7 +162,7 @@ const ModalAddPettyCash = ({ item }) => {
                         disabled={mutation.isLoading}
                       />
                     </div>
-                    <div className="relative mb-6 mt-5">
+                    {item && <div className="relative mb-6 mt-5">
                       <InputText
                         label="Balance"
                         type="text"
@@ -172,7 +170,7 @@ const ModalAddPettyCash = ({ item }) => {
                         name="petty_cash_balance"
                         disabled={mutation.isLoading}
                       />
-                    </div>
+                    </div>  }
                     <div className="relative mb-6 mt-5">
                       <InputTextArea
                         label="Remarks"
