@@ -15,6 +15,7 @@ dist-ssr
 # API
 rest/v1/notification/PHPMailer
 rest/v1/jwt
+rest/v1/revision
 
 # Editor directories and files
 .vscode/*
