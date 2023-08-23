@@ -60,7 +60,7 @@ const ModalAddPettyCash = ({ item }) => {
   // read-all-member
 
   // use if not loadmore button undertime
-  const { data: lastBalance } = useQueryData(
+  const { data: lastBalance,isLoading } = useQueryData(
     `/v1/report-petty-cash/read-last-balance`, // endpoint
     "post", // method
     "lastBalance"  // key  
@@ -172,7 +172,11 @@ const ModalAddPettyCash = ({ item }) => {
                         name="petty_cash_balance"
                         disabled={mutation.isLoading}
                       />
-                    </div> :<p className="mb-0">Balance :<span className="font-bold"> {pesoSign} {numberWithCommas(Number(props.values.petty_cash_balance).toFixed(2))}</span></p>  }
+                    </div> :
+                    <p className="mb-0">Balance :
+                    <span className="font-bold"> {pesoSign} {isLoading ? "Loading..."
+                    : numberWithCommas(Number(props.values.petty_cash_balance).toFixed(2))}</span></p>}
+                    
                     <div className="relative mb-6 mt-5">
                       <InputTextArea
                         label="Remarks"
