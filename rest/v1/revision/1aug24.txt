@@ -1,11 +1,12 @@
  
 *controllers   
-    - 
+    - account/details/my-order/ {notes: all files}
     -
     -
     
 *models    
-    -> inventory/orders/Orders.php 
+    -> account/details/MyOrders.php
+    - inventory/orders/Orders.php 
     -  
     -  
 

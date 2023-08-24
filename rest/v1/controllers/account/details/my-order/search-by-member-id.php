@@ -6,12 +6,12 @@ require '../../../../core/header.php';
 require '../../../../core/functions.php';
 require 'functions.php';
 // use needed classes
-require '../../../../models/inventory/orders/Orders.php';
+require '../../../../models/account/details/MyOrders.php'; 
 // check database connection
 $conn = null;
 $conn = checkDbConnection();
 // make instance of classes
-$order = new Orders($conn);
+$order = new MyOrders($conn);
 $response = new Response();
 // // validate api key
 if (isset($_SERVER['HTTP_AUTHORIZATION'])) {

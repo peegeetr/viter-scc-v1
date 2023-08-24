@@ -4,12 +4,12 @@ require '../../../../core/header.php';
 // use needed functions
 require '../../../../core/functions.php';
 // use needed classes
-require '../../../../models/inventory/orders/Orders.php';
+require '../../../../models/account/details/MyOrders.php'; 
 // check database connection
 $conn = null;
 $conn = checkDbConnection();
 // make instance of classes
-$order = new Orders($conn);
+$order = new MyOrders($conn);
 $response = new Response();
 // get payload
 $body = file_get_contents("php://input");
