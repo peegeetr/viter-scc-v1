@@ -147,7 +147,9 @@ export const getValidationOrderAdd = (
   const orders_product_amount =
     Number(orders_product_quantity) *
     Number(
-      item ? item.product_history_scc_price : items.product_history_scc_price
+      item
+        ? item.suppliers_products_scc_price
+        : items.product_history_price
     );
 
   if (Number(sales_discount) > Number(orders_product_amount)) {

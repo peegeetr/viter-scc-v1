@@ -5,7 +5,7 @@
     -
     
 *models    
-    - inventory/orders/Orders.php 
+    -> inventory/orders/Orders.php 
     -  
     -  
 
