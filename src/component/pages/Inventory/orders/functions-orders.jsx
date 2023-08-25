@@ -49,6 +49,7 @@ export const computeRemainingQuantity = (item, values, product) => {
 
 // compute Remaining Quantity
 export const computeFinalAmount = (item) => {
+  console.log("item", item);
   let finalAmount = 0;
   let productAmount = Number(item.orders_product_amount);
   let discountAmount = Number(item.sales_discount);
@@ -147,9 +148,7 @@ export const getValidationOrderAdd = (
   const orders_product_amount =
     Number(orders_product_quantity) *
     Number(
-      item
-        ? item.suppliers_products_scc_price
-        : items.product_history_price
+      item ? item.suppliers_products_scc_price : items.product_history_scc_price
     );
 
   if (Number(sales_discount) > Number(orders_product_amount)) {
