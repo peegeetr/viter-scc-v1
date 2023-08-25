@@ -73,8 +73,9 @@ const ModalViewProductInvoice = ({ item }) => {
                 <p>
                   FWC Training Center
                   <br />
-                  Sitio Subac, Santo Nino San Pablo CIty
-                  <br /> Laguna Region IV-A (CALABARZON)
+                  1118 Alvarez Street, Purok 3, Brgy. San Jose
+                  <br />
+                  San Pablo City, Laguna 4000, Philippines
                   <br /> CDA REG. NO. 9520-100400033760
                   <br /> TIN NO. 620-402-542-00000
                 </p>

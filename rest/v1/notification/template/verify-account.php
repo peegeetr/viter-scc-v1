@@ -123,14 +123,14 @@ function getHtmlVerifyAccount(
             border-top: 1px solid #ddd;
           "
         >
-          <p style="font-size: 10px; line-height: 1.4; opacity: 0.5">
-            &copy; ' . date("Y") . ' All Rights Reserved <br />
-            Sambahayan Consumers Cooperative, Sitio Subac, Santo Nino
-            <br />
-            San Pablo CIty, Laguna Region IV-A (CALABARZON)
-            <br />CDA REG. NO. 9520-100400033760
-            <br />TIN NO. 620-402-542-00000
-          </p>
+          
+    <p style="font-size: 10px; line-height: 1.4; opacity: 0.5">
+    &copy; ' . date("Y") . ' All Rights Reserved <br />
+    Sambahayan Consumers Cooperative, 1118 Alvarez Street, Purok 3, Brgy.
+    San Jose
+    <br />San Pablo City, Laguna 4000, Philippines <br />CDA REG. NO.
+    9520-100400033760 <br />TIN NO. 620-402-542-00000
+  </p>
         </div>
       </div>
     </body> 

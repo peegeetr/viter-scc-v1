@@ -86,8 +86,8 @@ const Header = ({ menu = "" }) => {
           Sambahayan Consumer Cooperative
         </small>
         <small className="flex justify-center text-center pb-2">
-          Sitio Subac, Santo Nino San Pablo CIty, Laguna Region IV-A
-          (CALABARZON)
+          1118 Alvarez Street, Purok 3, Brgy. San Jose, San Pablo City, Laguna
+          4000, Philippines
           <br />
           CDA REG. NO. 9520-100400033760
           <br />

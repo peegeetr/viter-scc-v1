@@ -1,0 +1,30 @@
+ 
+*controllers   
+    - 
+    -
+    -
+    
+*models    
+    - 
+    -  
+    -  
+
+*htaccess 
+    - 
+
+*db tables  
+    - 
+    - 
+    -  
+
+
+*core functions 
+    - 
+    -  
+
+*extra
+    -> notification/template/reset-password.php
+    -> notification/template/verify-account.php
+    -> notification/reset-account.php
+    -> notification/verify-account.php
+    - 
