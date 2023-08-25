@@ -52,11 +52,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
     );
 
     $query = checkReset($user_system);
-    http_response_code(200);
-
     returnSuccess($user_system, "User system", $query);
-    // return 404 error if endpoint not available
-    checkEndpoint();
 }
 
 http_response_code(200);

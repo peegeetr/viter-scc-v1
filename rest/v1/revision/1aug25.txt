@@ -1,6 +1,7 @@
  
 *controllers   
-    - 
+    -> settings/user/other/reset.php
+    -> settings/user/system/reset.php
     -
     -
     
@@ -23,8 +24,8 @@
     -  
 
 *extra
-    -> notification/template/reset-password.php
-    -> notification/template/verify-account.php
-    -> notification/reset-account.php
-    -> notification/verify-account.php
+    - notification/template/reset-password.php
+    - notification/template/verify-account.php
+    - notification/reset-password.php
+    - notification/verify-account.php
     - 

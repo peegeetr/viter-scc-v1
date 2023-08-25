@@ -66,12 +66,9 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         $response->send();
         exit;
     }
-    $query = checkReset($user_other);
-    http_response_code(200);
 
+    $query = checkReset($user_other);
     returnSuccess($user_other, "User other", $query);
-    // return 404 error if endpoint not available
-    checkEndpoint();
 }
 
 http_response_code(200);
