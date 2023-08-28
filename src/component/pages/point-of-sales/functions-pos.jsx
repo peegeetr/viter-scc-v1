@@ -1,4 +1,3 @@
-import { NumberFormatBase } from "react-number-format";
 import { numberWithCommas, removeComma } from "../../helpers/functions-general";
 
 // compute Remaining Quantity

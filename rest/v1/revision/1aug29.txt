@@ -1,0 +1,27 @@
+ 
+*controllers   
+    - 
+    -
+    -
+    
+*models    
+    - inventory/supplier/product/SuppliersProducts.php
+    - inventory/point-of-sales/PointOfSales.php
+    -   
+
+*htaccess 
+    - 
+
+*db tables  
+    - 
+    - 
+    -  
+
+
+*core functions 
+    - 
+    -  
+
+*extra
+    - 
+    - 
