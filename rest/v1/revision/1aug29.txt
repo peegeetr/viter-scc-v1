@@ -5,8 +5,8 @@
     -
     
 *models    
-    - inventory/supplier/product/SuppliersProducts.php
-    - inventory/point-of-sales/PointOfSales.php
+    -> inventory/supplier/product/SuppliersProducts.php
+    -> inventory/point-of-sales/PointOfSales.php
     -   
 
 *htaccess 
@@ -23,5 +23,7 @@
     -  
 
 *extra
+    -> notification/template/reset-password.php
+    -> notification/template/verify-account.php 
     - 
     - 
