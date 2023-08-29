@@ -677,6 +677,7 @@ class SuppliersProducts
             $sql .= "and suppliersProducts.suppliers_products_suppliers_id = supplier.suppliers_aid ";
             $sql .= "and stock.stocks_product_id = suppliersProducts.suppliers_products_aid ";
             $sql .= "and stock.stocks_suplier_price_history_id = productHistory.product_history_aid ";
+            $sql .= "and productHistory.product_history_is_active = 1 ";
             $sql .= "and (suppliersProducts.suppliers_products_name like :suppliers_products_name ";
             $sql .= "or stock.stocks_barcode_id like :stocks_barcode_id ";
             $sql .= "or category.product_category_name like :product_category_name) ";

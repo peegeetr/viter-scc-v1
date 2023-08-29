@@ -24,8 +24,6 @@
     -  
 
 *extra
-    - notification/template/reset-password.php
-    - notification/template/verify-account.php
-    - notification/reset-password.php
-    - notification/verify-account.php
+    -> notification/template/reset-password.php
+    -> notification/template/verify-account.php 
     - 
