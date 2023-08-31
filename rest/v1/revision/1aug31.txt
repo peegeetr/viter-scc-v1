@@ -1,0 +1,31 @@
+ 
+*controllers   
+    - inventory/stocks/create.php 
+    - inventory/stocks/functions.php 
+    - inventory/supplier/product/create.php  
+    - 
+    -
+    -
+    
+*models    
+    - inventory/stocks/Stocks.php 
+    - inventory/supplier/product/ProductsHistory.php 
+    -   
+
+*htaccess 
+    - 
+
+*db tables  
+    - 
+    - 
+    -  
+
+
+*core functions 
+    - 
+    -  
+
+*extra
+    - 
+    - 
+    - 

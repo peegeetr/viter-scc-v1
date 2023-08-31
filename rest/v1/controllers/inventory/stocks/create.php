@@ -56,6 +56,7 @@ checkKeyword($formattedStockId);
 $stocks->stocks_number = $formattedStockId;
 
 $stocks->stocks_barcode_id = checkIndex($data, "stocks_barcode_id");
+isBarcodeExistDifferentProduct($stocks, $stocks->stocks_barcode_id);
 isBarcodeExist($stocks, $stocks->stocks_barcode_id);
 // create
 $query = checkCreate($stocks);

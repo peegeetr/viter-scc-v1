@@ -52,7 +52,34 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
 
         // check if have order is pending 
         checkAssociationInOrderPending($product_history);
+
+        // $stockQty = 0;
+        // $orderQty = 0;
+        // $stock = $product_history->readStockGroupByProduct();
+        // $order = $product_history->readOrderGroupByProduct();
+
+        // // update if first load
+        // if ($stock->rowCount() > 0) {
+        //     $row = $stock->fetch(PDO::FETCH_ASSOC);
+        //     extract($row);
+        //     $stockQty = $stockQuantity;
+        // }
+
+        // // update if first load
+        // if ($order->rowCount() > 0) {
+        //     $row = $order->fetch(PDO::FETCH_ASSOC);
+        //     extract($row);
+        //     $stockQty = $orderQuantity;
+        // }
+
+        // $totalQuantity = ($stockQty - $orderQty);
+
+        // if ($totalQuantity > 0 && $product_history->product_history_is_active == "0") {
+        //     resultError("You cannot archive this price, because you have $totalQuantity qty of this product.");
+        // }
+
         $query = checkActive($product_history);
+
         // update price
         checkUpdateSupplierPrice($product_history);
         http_response_code(200);

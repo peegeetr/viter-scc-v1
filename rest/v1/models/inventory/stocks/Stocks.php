@@ -360,17 +360,41 @@ class Stocks
     }
 
 
-    // check barcode in barcode table
+    // check barcode in stock table
+    // check if barcode is exist in same date
     public function checkBarcode()
+    {
+        try {
+            $sql = "select stocks_barcode_id from ";
+            $sql .= "{$this->tblStocks} ";
+            $sql .= "where stocks_barcode_id = :stocks_barcode_id ";
+            $sql .= "and stocks_date = :stocks_date ";
+            $sql .= "order by stocks_barcode_id desc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "stocks_barcode_id" => $this->stocks_barcode_id,
+                "stocks_date" => $this->stocks_date,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    // check barcode in barcode table
+    // check if barcode is exist in other product
+    public function checkBarcodeDifferentProduct()
     {
         try {
             $sql = "select product_barcode_id from ";
             $sql .= "{$this->tblBarcode} ";
-            $sql .= "where product_barcode_id = :product_barcode_id ";
+            $sql .= "where product_barcode_product_id != :product_barcode_product_id ";
+            $sql .= "and product_barcode_id = :product_barcode_id ";
             $sql .= "order by product_barcode_id desc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "product_barcode_id" => $this->stocks_barcode_id,
+                "product_barcode_product_id" => $this->stocks_product_id,
             ]);
         } catch (PDOException $ex) {
             $query = false;

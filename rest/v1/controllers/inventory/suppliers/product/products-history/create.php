@@ -20,9 +20,36 @@ $product_history->product_history_is_active = 1;
 $product_history->product_history_created = date("Y-m-d H:i:s");
 $product_history->product_history_datetime = date("Y-m-d H:i:s");
 
+$stockQty = 0;
+$orderQty = 0;
+
 // create
 haveActiveById($product_history);
 isProductHistoryExist($product_history);
+
+$stock = $product_history->readStockGroupByProduct();
+$order = $product_history->readOrderGroupByProduct();
+
+// update if first load
+if ($stock->rowCount() > 0) {
+    $row = $stock->fetch(PDO::FETCH_ASSOC);
+    extract($row);
+    $stockQty = $stockQuantity;
+}
+
+// update if first load
+if ($order->rowCount() > 0) {
+    $row = $order->fetch(PDO::FETCH_ASSOC);
+    extract($row);
+    $stockQty = $orderQuantity;
+}
+
+$totalQuantity = ($stockQty - $orderQty);
+
+if ($totalQuantity > 0) {
+    resultError("You cannot add new price, because you have $totalQuantity qty of this product.");
+}
+
 $query = checkCreate($product_history);
 checkUpdateSupplierPrice($product_history);
 

@@ -316,6 +316,47 @@ class ProductsHistory
         return $query;
     }
 
+    // read stock group by product id 
+    public function readStockGroupByProduct()
+    {
+        try {
+            $sql = "select sum(stocks_quantity) as stockQuantity, ";
+            $sql .= "stocks_product_id ";
+            $sql .= "from ";
+            $sql .= "{$this->tblStocks} ";
+            $sql .= "where stocks_product_id = :stocks_product_id ";
+            $sql .= "and stocks_is_pending = 0 ";
+            $sql .= "group by stocks_product_id ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "stocks_product_id" => $this->product_history_product_id,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    // read order group by product id
+    public function readOrderGroupByProduct()
+    {
+        try {
+            $sql = "select sum(orders_product_quantity) as orderQuantity, ";
+            $sql .= "orders_product_id ";
+            $sql .= "from ";
+            $sql .= "{$this->tblOrders} ";
+            $sql .= "where orders_product_id = :orders_product_id ";
+            $sql .= "and orders_is_draft = 0 ";
+            $sql .= "group by orders_product_id ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "orders_product_id" => $this->product_history_product_id,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
 
     // read all in stock
     public function checkAssociation()

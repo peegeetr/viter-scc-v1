@@ -24,6 +24,14 @@ function isBarcodeExist($object, $barcode)
     checkExistence($count, "{$barcode} already exist.");
 }
 
+// check barcode
+function isBarcodeExistDifferentProduct($object, $barcode)
+{
+    $query = $object->checkBarcodeDifferentProduct();
+    $count = $query->rowCount();
+    checkExistence($count, "{$barcode} already exist in other product.");
+}
+
 // check barcode In Stocks 
 function checkReadAllBarcode($object)
 {
