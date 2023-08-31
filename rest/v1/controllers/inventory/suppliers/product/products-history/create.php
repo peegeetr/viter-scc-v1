@@ -41,7 +41,7 @@ if ($stock->rowCount() > 0) {
 if ($order->rowCount() > 0) {
     $row = $order->fetch(PDO::FETCH_ASSOC);
     extract($row);
-    $stockQty = $orderQuantity;
+    $orderQty = $orderQuantity;
 }
 
 $totalQuantity = ($stockQty - $orderQty);

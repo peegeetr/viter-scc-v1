@@ -2,7 +2,7 @@
 *controllers   
     - inventory/stocks/create.php 
     - inventory/stocks/functions.php 
-    - inventory/supplier/product/create.php  
+    -> inventory/supplier/product/products-history/create.php  
     - 
     -
     -
