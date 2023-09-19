@@ -9,6 +9,7 @@ import OtherUserLink from "./users/other/OtherUserLink.jsx";
 import UserLink from "./users/UserLink.jsx";
 import SystemModeLink from "./system-mode/SystemModeLink.jsx";
 import SubscribeCapitalLink from "./subscribe-capital/SubscribeCapitalLink.jsx";
+import PriceMarkupLink from "./price-markup/PriceMarkupLink.jsx";
 
 const SettingsLink = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -38,6 +39,9 @@ const SettingsLink = () => {
           </li>
           <li className="py-1">
             <NetSurplusLink />
+          </li>
+          <li className="py-1">
+            <PriceMarkupLink />
           </li>
         </ul>
         <Footer />

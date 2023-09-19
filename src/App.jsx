@@ -64,6 +64,9 @@ import SystemReportDetailedCapitalShare from "./component/pages/Inventory/report
 import AdminReportDividendCapitalShare from "./component/pages/Inventory/reports/net-surplus-distribution/dividend/links/AdminReportDividendCapitalShare";
 import ManagerReportDividendCapitalShare from "./component/pages/Inventory/reports/net-surplus-distribution/dividend/links/ManagerReportDividendCapitalShare";
 import SystemReportDividendCapitalShare from "./component/pages/Inventory/reports/net-surplus-distribution/dividend/links/SystemReportDividendCapitalShare";
+import AdminReportPatronage from "./component/pages/Inventory/reports/net-surplus-distribution/patronage/links/AdminReportDividendCapitalShare";
+import ManagerReportPatronage from "./component/pages/Inventory/reports/net-surplus-distribution/patronage/links/ManagerReportDividendCapitalShare";
+import SystemReportPatronage from "./component/pages/Inventory/reports/net-surplus-distribution/patronage/links/SystemReportDividendCapitalShare";
 import AdminReportSales from "./component/pages/Inventory/reports/sales-report/links/AdminReportSales";
 import ManagerReportSales from "./component/pages/Inventory/reports/sales-report/links/ManagerReportSales";
 import SystemReportSales from "./component/pages/Inventory/reports/sales-report/links/SystemReportSales";
@@ -162,15 +165,14 @@ import AdminSettingsLink from "./component/pages/settings/links/AdminSettingsLin
 import SystemSettingsLink from "./component/pages/settings/links/SystemSettingsLink";
 import AdminNetSurPlus from "./component/pages/settings/net-surplus/links/AdminNetSurPlus";
 import SystemNetSurPlus from "./component/pages/settings/net-surplus/links/SystemNetSurPlus";
+import SystemPriceMarkup from "./component/pages/settings/price-markup/links/SystemPriceMarkup";
 import AdminSubscribeCapital from "./component/pages/settings/subscribe-capital/links/AdminSubscribeCapital";
 import SystemSubscribeCapital from "./component/pages/settings/subscribe-capital/links/SystemSubscribeCapital";
 import SystemMode from "./component/pages/settings/system-mode/SystemMode";
 import AdminOtherUser from "./component/pages/settings/users/other/links/AdminOtherUser";
 import SystemOtherUser from "./component/pages/settings/users/other/links/SystemOtherUser";
 import { StoreProvider } from "./store/StoreContext";
-import ManagerReportPatronage from "./component/pages/Inventory/reports/net-surplus-distribution/patronage/links/ManagerReportDividendCapitalShare";
-import SystemReportPatronage from "./component/pages/Inventory/reports/net-surplus-distribution/patronage/links/SystemReportDividendCapitalShare";
-import AdminReportPatronage from "./component/pages/Inventory/reports/net-surplus-distribution/patronage/links/AdminReportDividendCapitalShare";
+import AdminPriceMarkup from "./component/pages/settings/price-markup/links/AdminPriceMarkup";
 
 function App() {
   // Create a client
@@ -598,6 +600,14 @@ function App() {
               element={
                 <ProtectedRouteSystem>
                   <SystemSubscribeCapital />
+                </ProtectedRouteSystem>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlSystem}/settings/price-markup`}
+              element={
+                <ProtectedRouteSystem>
+                  <SystemPriceMarkup />
                 </ProtectedRouteSystem>
               }
             />
@@ -1109,6 +1119,14 @@ function App() {
               element={
                 <ProtectedRouteOther>
                   <SystemMode />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/settings/price-markup`}
+              element={
+                <ProtectedRouteOther>
+                  <AdminPriceMarkup />
                 </ProtectedRouteOther>
               }
             />

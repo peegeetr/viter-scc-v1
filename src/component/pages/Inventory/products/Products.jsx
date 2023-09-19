@@ -27,8 +27,7 @@ const Products = () => {
             <AiFillPrinter />
             <span>Print</span>
           </button>
-        </div>
-        {/* <p className="text-center mb-0 text-lg font-bold">Price List</p> */}
+        </div> 
 
         <hr className="print:hidden" />
         <div className="w-full pt-5 pb-20">
