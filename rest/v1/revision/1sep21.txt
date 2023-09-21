@@ -1,0 +1,42 @@
+ 
+*controllers   
+    - inventory/products/update-price.php  
+    - inventory/supplier/product/create.php  
+    - inventory/supplier/product/functions.php  
+    - inventory/supplier/product/read-price-markup.php  
+    - inventory/supplier/product/products-history/active.php  
+    - inventory/supplier/product/products-history/create.php  
+    - settings/price-markup {note: all files}
+    - 
+    -
+    -
+    
+*models    
+    - inventory/orders/Orders.php 
+    - inventory/supplier/product/ProductsHistory.php 
+    - inventory/supplier/product/SuppliersProducts.php 
+    - point-of-sales/PointOfSales.php 
+    -   
+    -   
+
+*htaccess 
+    - #PRICE MARKUP
+    - 
+    - 
+    - 
+
+*db tables  
+    - sccv1_product_history.sql        {note: product_history_retail_price varchar(20)}{note: product_history_retail_price varchar(20)}
+    - sccv1_suppliers_products.sql     {note: suppliers_products_retail_price varchar(20)}
+    - 
+    -  
+
+
+*core functions 
+    - 
+    -  
+
+*extra
+    - 
+    - 
+    -  

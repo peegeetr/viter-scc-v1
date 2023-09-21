@@ -21,13 +21,13 @@ const ModalAddPriceMarkup = ({ item }) => {
   const mutation = useMutation({
     mutationFn: (values) =>
       queryData(
-        item ? `/v1/net-surplus/${item.net_surplus_aid}` : `/v1/net-surplus`,
+        item ? `/v1/price-markup/${item.price_markup_aid}` : `/v1/price-markup`,
         item ? "put" : "post",
         values
       ),
     onSuccess: (data) => {
       // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ["net-surplus"] });
+      queryClient.invalidateQueries({ queryKey: ["price-markup"] });
       // show success box
       if (data.success) {
         dispatch(setIsAdd(false));
@@ -46,48 +46,15 @@ const ModalAddPriceMarkup = ({ item }) => {
   };
 
   const initVal = {
-    net_surplus_year: item ? item.net_surplus_year : yearNow(),
-    net_surplus_year_old: item ? item.net_surplus_year : yearNow(),
-    net_surplus_before_amount: item ? item.net_surplus_before_amount : "",
-    net_surplus_distribution_amount: item
-      ? item.net_surplus_distribution_amount
-      : "",
-    net_surplus_operating_expenses: item
-      ? item.net_surplus_operating_expenses
-      : "",
-    net_surplus_total_income: item ? item.net_surplus_total_income : "",
-    net_surplus_general_reserve: item ? item.net_surplus_general_reserve : "",
-    net_surplus_general_reserve_rate: item
-      ? item.net_surplus_general_reserve_rate
-      : "",
-    net_surplus_educ_training: item ? item.net_surplus_educ_training : "",
-    net_surplus_educ_training_rate: item
-      ? item.net_surplus_educ_training_rate
-      : "",
-    net_surplus_community_dev: item ? item.net_surplus_community_dev : "",
-    net_surplus_community_dev_rate: item
-      ? item.net_surplus_community_dev_rate
-      : "",
-    net_surplus_optional_fund: item ? item.net_surplus_optional_fund : "",
-    net_surplus_optional_fund_rate: item
-      ? item.net_surplus_optional_fund_rate
-      : "",
-    net_surplus_dividend: item ? item.net_surplus_dividend : "",
-    net_surplus_dividend_rate: item ? item.net_surplus_dividend_rate : "",
-    net_surplus_patronage_refund: item ? item.net_surplus_patronage_refund : "",
-    net_surplus_patronage_rate: item ? item.net_surplus_patronage_rate : "",
+    price_markup_retail: item ? item.price_markup_retail : "",
+    price_markup_member: item ? item.price_markup_member : "",
+    price_markup_whole_sale: item ? item.price_markup_whole_sale : "",
   };
 
   const yupSchema = Yup.object({
-    net_surplus_year: Yup.string().required("Required"),
-    net_surplus_total_income: Yup.string().required("Required"),
-    net_surplus_operating_expenses: Yup.string().required("Required"),
-    net_surplus_general_reserve_rate: Yup.string().required("Required"),
-    net_surplus_educ_training_rate: Yup.string().required("Required"),
-    net_surplus_community_dev_rate: Yup.string().required("Required"),
-    net_surplus_optional_fund_rate: Yup.string().required("Required"),
-    net_surplus_dividend_rate: Yup.string().required("Required"),
-    net_surplus_patronage_rate: Yup.string().required("Required"),
+    price_markup_retail: Yup.string().required("Required"),
+    price_markup_member: Yup.string().required("Required"),
+    price_markup_whole_sale: Yup.string().required("Required"),
   });
 
   return (
@@ -119,81 +86,28 @@ const ModalAddPriceMarkup = ({ item }) => {
                   <Form>
                     <div className="relative my-5">
                       <InputText
-                        label="Year"
+                        label="Member Percent"
                         type="text"
-                        name="net_surplus_year"
+                        num="num"
+                        name="price_markup_member"
                         disabled={mutation.isLoading}
                       />
                     </div>
                     <div className="relative my-5">
                       <InputText
-                        label="Total Income"
+                        label="Retail Percent"
                         type="text"
                         num="num"
-                        name="net_surplus_total_income"
+                        name="price_markup_retail"
                         disabled={mutation.isLoading}
                       />
                     </div>
                     <div className="relative my-5">
                       <InputText
-                        label="Less: Operating Expenses"
+                        label="Whole Sale Percent"
                         type="text"
                         num="num"
-                        name="net_surplus_operating_expenses"
-                        disabled={mutation.isLoading}
-                      />
-                    </div>
-                    <div className="relative my-5">
-                      <InputText
-                        label="General Reserve Fund Rate %"
-                        type="text"
-                        num="num"
-                        name="net_surplus_general_reserve_rate"
-                        disabled={mutation.isLoading}
-                      />
-                    </div>
-                    <div className="relative my-5">
-                      <InputText
-                        label="Educ & Training Fund Rate %"
-                        type="text"
-                        num="num"
-                        name="net_surplus_educ_training_rate"
-                        disabled={mutation.isLoading}
-                      />
-                    </div>
-                    <div className="relative my-5">
-                      <InputText
-                        label="Community Development Fund Rate %"
-                        type="text"
-                        num="num"
-                        name="net_surplus_community_dev_rate"
-                        disabled={mutation.isLoading}
-                      />
-                    </div>
-                    <div className="relative my-5">
-                      <InputText
-                        label="Optional Fund Rate %"
-                        type="text"
-                        num="num"
-                        name="net_surplus_optional_fund_rate"
-                        disabled={mutation.isLoading}
-                      />
-                    </div>
-                    <div className="relative my-5">
-                      <InputText
-                        label="Dividend Rate %"
-                        type="text"
-                        num="num"
-                        name="net_surplus_dividend_rate"
-                        disabled={mutation.isLoading}
-                      />
-                    </div>
-                    <div className="relative my-5">
-                      <InputText
-                        label="Patronage Refund Rate %"
-                        type="text"
-                        num="num"
-                        name="net_surplus_patronage_rate"
+                        name="price_markup_whole_sale"
                         disabled={mutation.isLoading}
                       />
                     </div>

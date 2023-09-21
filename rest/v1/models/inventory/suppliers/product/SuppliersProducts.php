@@ -6,7 +6,7 @@ class SuppliersProducts
     public $suppliers_products_number;
     public $suppliers_products_price;
     public $suppliers_products_scc_price;
-    public $suppliers_products_market_price;
+    public $suppliers_products_retail_price;
     public $suppliers_products_category_id;
     public $suppliers_products_suppliers_id;
     public $suppliers_products_created;
@@ -24,6 +24,7 @@ class SuppliersProducts
     public $tblStocks;
     public $tblOrders;
     public $tblProductsHistory;
+    public $tblPriceMarckup;
 
     public function __construct($db)
     {
@@ -34,6 +35,7 @@ class SuppliersProducts
         $this->tblStocks = "sccv1_stocks";
         $this->tblOrders = "sccv1_orders";
         $this->tblProductsHistory = "sccv1_product_history";
+        $this->tblPriceMarckup = "sccv1_settings_price_markup";
     }
 
     // create
@@ -45,6 +47,7 @@ class SuppliersProducts
             $sql .= "suppliers_products_number, ";
             $sql .= "suppliers_products_price, ";
             $sql .= "suppliers_products_scc_price, ";
+            $sql .= "suppliers_products_retail_price, ";
             $sql .= "suppliers_products_category_id, ";
             $sql .= "suppliers_products_suppliers_id, ";
             $sql .= "suppliers_products_created, ";
@@ -53,6 +56,7 @@ class SuppliersProducts
             $sql .= ":suppliers_products_number, ";
             $sql .= ":suppliers_products_price, ";
             $sql .= ":suppliers_products_scc_price, ";
+            $sql .= ":suppliers_products_retail_price, ";
             $sql .= ":suppliers_products_category_id, ";
             $sql .= ":suppliers_products_suppliers_id, ";
             $sql .= ":suppliers_products_created, ";
@@ -63,6 +67,7 @@ class SuppliersProducts
                 "suppliers_products_number" => $this->suppliers_products_number,
                 "suppliers_products_price" => $this->suppliers_products_price,
                 "suppliers_products_scc_price" => $this->suppliers_products_scc_price,
+                "suppliers_products_retail_price" => $this->suppliers_products_retail_price,
                 "suppliers_products_category_id" => $this->suppliers_products_category_id,
                 "suppliers_products_suppliers_id" => $this->suppliers_products_suppliers_id,
                 "suppliers_products_created" => $this->suppliers_products_created,
@@ -85,6 +90,7 @@ class SuppliersProducts
             $sql .= "product_history_date, ";
             $sql .= "product_history_price, ";
             $sql .= "product_history_scc_price, ";
+            $sql .= "product_history_retail_price, ";
             $sql .= "product_history_created, ";
             $sql .= "product_history_datetime ) values ( ";
             $sql .= ":product_history_product_id, ";
@@ -92,6 +98,7 @@ class SuppliersProducts
             $sql .= ":product_history_date, ";
             $sql .= ":product_history_price, ";
             $sql .= ":product_history_scc_price, ";
+            $sql .= ":product_history_retail_price, ";
             $sql .= ":product_history_created, ";
             $sql .= ":product_history_datetime ) ";
             $query = $this->connection->prepare($sql);
@@ -101,6 +108,7 @@ class SuppliersProducts
                 "product_history_date" => $this->suppliers_products_created,
                 "product_history_price" => $this->suppliers_products_price,
                 "product_history_scc_price" => $this->suppliers_products_scc_price,
+                "product_history_retail_price" => $this->suppliers_products_retail_price,
                 "product_history_created" => $this->suppliers_products_created,
                 "product_history_datetime" => $this->suppliers_products_datetime,
             ]);
@@ -121,7 +129,7 @@ class SuppliersProducts
             $sql .= "suppliersProducts.suppliers_products_name, ";
             $sql .= "suppliersProducts.suppliers_products_price, ";
             $sql .= "suppliersProducts.suppliers_products_scc_price, ";
-            $sql .= "suppliersProducts.suppliers_products_market_price, ";
+            $sql .= "suppliersProducts.suppliers_products_retail_price, ";
             $sql .= "suppliersProducts.suppliers_products_category_id, ";
             $sql .= "supplier.suppliers_aid, ";
             $sql .= "supplier.suppliers_company_name, ";
@@ -150,7 +158,7 @@ class SuppliersProducts
             $sql .= "suppliersProducts.suppliers_products_name, ";
             $sql .= "suppliersProducts.suppliers_products_price, ";
             $sql .= "suppliersProducts.suppliers_products_scc_price, ";
-            $sql .= "suppliersProducts.suppliers_products_market_price, ";
+            $sql .= "suppliersProducts.suppliers_products_retail_price, ";
             $sql .= "suppliersProducts.suppliers_products_category_id, ";
             $sql .= "supplier.suppliers_aid, ";
             $sql .= "supplier.suppliers_company_name, ";
@@ -186,7 +194,7 @@ class SuppliersProducts
             $sql .= "suppliersProducts.suppliers_products_name, ";
             $sql .= "suppliersProducts.suppliers_products_price, ";
             $sql .= "suppliersProducts.suppliers_products_scc_price, ";
-            $sql .= "suppliersProducts.suppliers_products_market_price, ";
+            $sql .= "suppliersProducts.suppliers_products_retail_price, ";
             $sql .= "suppliersProducts.suppliers_products_category_id, ";
             $sql .= "supplier.suppliers_aid, ";
             $sql .= "supplier.suppliers_company_name, ";
@@ -407,13 +415,13 @@ class SuppliersProducts
         try {
             $sql = "update {$this->tblSuppliersProducts} set ";
             $sql .= "suppliers_products_scc_price = :suppliers_products_scc_price, ";
-            $sql .= "suppliers_products_market_price = :suppliers_products_market_price, ";
+            $sql .= "suppliers_products_retail_price = :suppliers_products_retail_price, ";
             $sql .= "suppliers_products_datetime = :suppliers_products_datetime ";
             $sql .= "where suppliers_products_aid = :suppliers_products_aid ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "suppliers_products_scc_price" => $this->suppliers_products_scc_price,
-                "suppliers_products_market_price" => $this->suppliers_products_market_price,
+                "suppliers_products_retail_price" => $this->suppliers_products_retail_price,
                 "suppliers_products_datetime" => $this->suppliers_products_datetime,
                 "suppliers_products_aid" => $this->suppliers_products_aid,
             ]);
@@ -439,7 +447,22 @@ class SuppliersProducts
         return $query;
     }
 
-
+    // name
+    public function readActivePriceMarkup()
+    {
+        try {
+            $sql = "select price_markup_retail, ";
+            $sql .= "price_markup_member, ";
+            $sql .= "price_markup_is_active, ";
+            $sql .= "price_markup_aid ";
+            $sql .= "from {$this->tblPriceMarckup} ";
+            $sql .= "where price_markup_is_active = 1 ";
+            $query = $this->connection->query($sql);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
 
     // delete
     public function delete()
@@ -535,7 +558,7 @@ class SuppliersProducts
             $sql .= "suppliersProducts.suppliers_products_name, ";
             $sql .= "suppliersProducts.suppliers_products_price, ";
             $sql .= "suppliersProducts.suppliers_products_scc_price, ";
-            $sql .= "suppliersProducts.suppliers_products_market_price, ";
+            $sql .= "suppliersProducts.suppliers_products_retail_price, ";
             $sql .= "suppliersProducts.suppliers_products_category_id, ";
             $sql .= "supplier.suppliers_aid, ";
             $sql .= "supplier.suppliers_company_name, ";
@@ -658,7 +681,7 @@ class SuppliersProducts
             $sql .= "suppliersProducts.suppliers_products_aid, ";
             $sql .= "suppliersProducts.suppliers_products_number, ";
             $sql .= "suppliersProducts.suppliers_products_name, ";
-            $sql .= "suppliersProducts.suppliers_products_market_price, ";
+            $sql .= "suppliersProducts.suppliers_products_retail_price, ";
             $sql .= "suppliersProducts.suppliers_products_category_id, ";
             $sql .= "supplier.suppliers_aid, ";
             $sql .= "supplier.suppliers_company_name, ";

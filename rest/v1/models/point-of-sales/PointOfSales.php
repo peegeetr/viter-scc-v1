@@ -392,7 +392,7 @@ class PointOfSales
             $sql .= "suppliersProducts.suppliers_products_aid, ";
             $sql .= "suppliersProducts.suppliers_products_number, ";
             $sql .= "suppliersProducts.suppliers_products_name, ";
-            $sql .= "suppliersProducts.suppliers_products_market_price, ";
+            $sql .= "suppliersProducts.suppliers_products_retail_price, ";
             $sql .= "suppliersProducts.suppliers_products_category_id, ";
             $sql .= "supplier.suppliers_aid, ";
             $sql .= "supplier.suppliers_company_name, ";

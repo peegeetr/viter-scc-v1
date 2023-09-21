@@ -14,12 +14,17 @@ import { InputText } from "../../../../../helpers/FormInputs";
 import {
   getDateNow,
   getUrlParam,
-  removeComma,
+  numberWithCommas,
+  pesoSign,
 } from "../../../../../helpers/functions-general";
 import { queryData } from "../../../../../helpers/queryData";
 import ButtonSpinner from "../../../../../partials/spinners/ButtonSpinner";
+import {
+  getHistoryTotalPrice,
+  getHistoryValuePrice,
+} from "./functions-product-history";
 
-const ModalAddSuppliersProductsHistory = () => {
+const ModalAddSuppliersProductsHistory = ({ percent }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const supplierProductId = getUrlParam().get("supplierProductId");
   const queryClient = useQueryClient();
@@ -49,13 +54,13 @@ const ModalAddSuppliersProductsHistory = () => {
     product_history_product_id: supplierProductId,
     product_history_date: getDateNow(),
     product_history_price: "",
-    product_history_scc_price: "",
+    // product_history_scc_price: "",
   };
 
   const yupSchema = Yup.object({
     product_history_date: Yup.string().required("Required"),
     product_history_price: Yup.string().required("Required"),
-    product_history_scc_price: Yup.string().required("Required"),
+    // product_history_scc_price: Yup.string().required("Required"),
   });
 
   return (
@@ -78,16 +83,16 @@ const ModalAddSuppliersProductsHistory = () => {
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
                 // console.log(values);
-                const product_history_price = removeComma(
-                  `${values.product_history_price}`
-                );
-                const product_history_scc_price = removeComma(
-                  `${values.product_history_scc_price}`
-                );
+                const valuePrice = getHistoryValuePrice(values, percent);
+                // const product_history_price = removeComma(
+                //   `${values.product_history_price}`
+                // );
+                // const product_history_scc_price = removeComma(
+                //   `${values.product_history_scc_price}`
+                // );
                 mutation.mutate({
                   ...values,
-                  product_history_price,
-                  product_history_scc_price,
+                  valuePrice,
                 });
               }}
             >
@@ -111,7 +116,31 @@ const ModalAddSuppliersProductsHistory = () => {
                         disabled={mutation.isLoading}
                       />
                     </div>
-                    <div className="relative my-5">
+                    <p className="ml-3 text-primary">
+                      SCC Member Price :
+                      <span className="text-black">
+                        {pesoSign}
+                        {numberWithCommas(
+                          Number(
+                            getHistoryTotalPrice(props.values, percent)
+                              .memberPrice
+                          ).toFixed(2)
+                        )}
+                      </span>
+                    </p>
+                    <p className="ml-3 text-primary">
+                      Retail Price :
+                      <span className="text-black">
+                        {pesoSign}
+                        {numberWithCommas(
+                          Number(
+                            getHistoryTotalPrice(props.values, percent)
+                              .retailPrice
+                          ).toFixed(2)
+                        )}
+                      </span>
+                    </p>
+                    {/* <div className="relative my-5">
                       <InputText
                         label="Product SCC Price"
                         type="text"
@@ -119,7 +148,7 @@ const ModalAddSuppliersProductsHistory = () => {
                         name="product_history_scc_price"
                         disabled={mutation.isLoading}
                       />
-                    </div>
+                    </div> */}
 
                     <div className="flex items-center gap-1 pt-5">
                       <button

@@ -126,10 +126,12 @@ const SupplierProductList = ({ setItemEdit }) => {
                 Supplier Price
               </th>
               <th className="min-w-[10rem] w-[15rem] text-right pr-8">
-                SCC Price
+                SCC Member Price
+              </th>
+              <th className="min-w-[10rem] w-[15rem] text-right pr-8">
+                Retail Price
               </th>
               <th className="min-w-[10rem] ">Product Category</th>
-
               {(store.credentials.data.role_is_admin === 1 ||
                 store.credentials.data.role_is_developer === 1 ||
                 store.credentials.data.role_is_manager === 1) && (
@@ -161,13 +163,19 @@ const SupplierProductList = ({ setItemEdit }) => {
                     <td> {counter++}.</td>
                     <td>{item.suppliers_products_name}</td>
                     <td className=" pr-8 text-right">
-                      {pesoSign}{" "}
+                      {pesoSign}
                       {numberWithCommas(
                         Number(item.suppliers_products_price).toFixed(2)
                       )}
                     </td>
                     <td className=" pr-8 text-right">
-                      {pesoSign}{" "}
+                      {pesoSign}
+                      {numberWithCommas(
+                        Number(item.suppliers_products_scc_price).toFixed(2)
+                      )}
+                    </td>
+                    <td className=" pr-8 text-right">
+                      {pesoSign}
                       {numberWithCommas(
                         Number(item.suppliers_products_scc_price).toFixed(2)
                       )}
@@ -178,7 +186,6 @@ const SupplierProductList = ({ setItemEdit }) => {
                       store.credentials.data.role_is_developer === 1 ||
                       store.credentials.data.role_is_manager === 1) && (
                       <td>
-                        {" "}
                         <div className="flex items-center gap-1">
                           <Link
                             onClick={handleShow}

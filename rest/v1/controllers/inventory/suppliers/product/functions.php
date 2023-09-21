@@ -16,6 +16,14 @@ function checkReadBySupplierId($object)
     return $query;
 }
 
+// Read Active Price Markup
+function checkReadActivePriceMarkup($object)
+{
+    $query = $object->readActivePriceMarkup();
+    checkQuery($query, "Empty records.(Read active price markup)");
+    return $query;
+}
+
 // Read product history by id
 function checkReadBySupplierProductHistoryId($object)
 {

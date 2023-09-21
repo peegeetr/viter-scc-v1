@@ -262,3 +262,16 @@ export const getYearList = () => {
   }
   return list;
 };
+
+export const getPriceMarkup = (priceMarkup) => {
+  let retailPercent = 0;
+  let memberPercent = 0;
+
+  // get the percentage then / 100 to get how much the percent
+  if (priceMarkup?.count > 0) {
+    retailPercent = Number(priceMarkup?.data[0].price_markup_retail) / 100;
+    memberPercent = Number(priceMarkup?.data[0].price_markup_member) / 100;
+  }
+
+  return { retailPercent, memberPercent };
+};

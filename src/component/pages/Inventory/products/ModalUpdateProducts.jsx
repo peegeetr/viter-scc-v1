@@ -48,12 +48,12 @@ const ModalUpdateProducts = ({ item }) => {
 
   const initVal = {
     suppliers_products_scc_price: item.suppliers_products_scc_price,
-    suppliers_products_market_price: item.suppliers_products_market_price,
+    suppliers_products_retail_price: item.suppliers_products_retail_price,
   };
 
   const yupSchema = Yup.object({
     suppliers_products_scc_price: Yup.string().required("Required"),
-    suppliers_products_market_price: Yup.string().required("Required"),
+    suppliers_products_retail_price: Yup.string().required("Required"),
   });
 
   return (
@@ -79,13 +79,13 @@ const ModalUpdateProducts = ({ item }) => {
                 const suppliers_products_scc_price = removeComma(
                   `${values.suppliers_products_scc_price}`
                 );
-                const suppliers_products_market_price = removeComma(
-                  `${values.suppliers_products_market_price}`
+                const suppliers_products_retail_price = removeComma(
+                  `${values.suppliers_products_retail_price}`
                 );
                 mutation.mutate({
                   ...values,
                   suppliers_products_scc_price,
-                  suppliers_products_market_price,
+                  suppliers_products_retail_price,
                 });
               }}
             >
@@ -123,7 +123,7 @@ const ModalUpdateProducts = ({ item }) => {
                         label="Market Price"
                         type="text"
                         num="num"
-                        name="suppliers_products_market_price"
+                        name="suppliers_products_retail_price"
                         disabled={mutation.isLoading}
                       />
                     </div>

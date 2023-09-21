@@ -38,17 +38,17 @@ if ($productLastId->rowCount() == 0) {
     $formattedProductId =  "prod" . "-" . $id;
 }
 
-
-
 //check to see if search keyword in query string is not empty and less than 50 chars
 checkKeyword($formattedProductId);
 
-
 $suppliersProducts->suppliers_products_number = $formattedProductId;
 
+$valPrice = $data["valuePrice"];
+$suppliersProducts->suppliers_products_scc_price = checkIndex($valPrice, "suppliers_products_scc_price");
+$suppliersProducts->suppliers_products_retail_price = checkIndex($valPrice, "suppliers_products_retail_price");
+$suppliersProducts->suppliers_products_price = checkIndex($valPrice, "suppliers_products_price");
+
 $suppliersProducts->suppliers_products_name = checkIndex($data, "suppliers_products_name");
-$suppliersProducts->suppliers_products_price = checkIndex($data, "suppliers_products_price");
-$suppliersProducts->suppliers_products_scc_price = checkIndex($data, "suppliers_products_scc_price");
 $suppliersProducts->suppliers_products_category_id = checkIndex($data, "suppliers_products_category_id");
 $suppliersProducts->suppliers_products_suppliers_id = checkIndex($data, "suppliers_products_suppliers_id");
 $suppliersProducts->suppliers_products_created = date("Y-m-d H:i:s");

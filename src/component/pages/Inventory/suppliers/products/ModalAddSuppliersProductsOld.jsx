@@ -20,9 +20,8 @@ import {
   removeComma,
 } from "../../../../helpers/functions-general";
 import useQueryData from "../../../../custom-hooks/useQueryData";
-import { getTotalPrice, getValuePrice } from "./functions-supplier-product";
 
-const ModalAddSuppliersProducts = ({ item, percent }) => {
+const ModalAddSuppliersProductsOld = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const supplierId = getUrlParam().get("supplierId");
   // console.log(item);
@@ -62,12 +61,11 @@ const ModalAddSuppliersProducts = ({ item, percent }) => {
     "get", // method
     "categoryId" // key
   );
-
   const initVal = {
     suppliers_products_suppliers_id: supplierId,
     suppliers_products_name: item ? item.suppliers_products_name : "",
     suppliers_products_price: item ? item.suppliers_products_price : "",
-
+    suppliers_products_scc_price: item ? item.suppliers_products_scc_price : "",
     suppliers_products_category_id: item
       ? item.suppliers_products_category_id
       : "",
@@ -78,6 +76,7 @@ const ModalAddSuppliersProducts = ({ item, percent }) => {
   const yupSchema = Yup.object({
     suppliers_products_name: Yup.string().required("Required"),
     suppliers_products_price: !item && Yup.string().required("Required"),
+    suppliers_products_scc_price: !item && Yup.string().required("Required"),
     suppliers_products_category_id: Yup.string().required("Required"),
   });
 
@@ -103,12 +102,16 @@ const ModalAddSuppliersProducts = ({ item, percent }) => {
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
                 // console.log(values);
-                // get supplier, member and retail price
-                const valuePrice = getValuePrice(values, percent);
-
+                const suppliers_products_price = removeComma(
+                  `${values.suppliers_products_price}`
+                );
+                const product_history_scc_price = removeComma(
+                  `${values.product_history_scc_price}`
+                );
                 mutation.mutate({
                   ...values,
-                  valuePrice,
+                  suppliers_products_price,
+                  product_history_scc_price,
                 });
               }}
             >
@@ -138,7 +141,7 @@ const ModalAddSuppliersProducts = ({ item, percent }) => {
                               key={key}
                               value={cItem.product_category_aid}
                             >
-                              {`${cItem.product_category_name}`}
+                              {`${cItem.product_category_name} `}
                             </option>
                           );
                         })}
@@ -147,11 +150,22 @@ const ModalAddSuppliersProducts = ({ item, percent }) => {
                     {item ? (
                       <>
                         <p className="ml-3 text-primary">
-                          Supplier Price :
+                          Supplier price :{" "}
                           <span className="text-black">
-                            {pesoSign}
+                            {pesoSign}{" "}
                             {numberWithCommas(
                               Number(item.suppliers_products_price).toFixed(2)
+                            )}
+                          </span>
+                        </p>
+                        <p className="ml-3 text-primary">
+                          SCC price :{" "}
+                          <span className="text-black">
+                            {pesoSign}{" "}
+                            {numberWithCommas(
+                              Number(item.suppliers_products_scc_price).toFixed(
+                                2
+                              )
                             )}
                           </span>
                         </p>
@@ -167,30 +181,17 @@ const ModalAddSuppliersProducts = ({ item, percent }) => {
                             disabled={mutation.isLoading}
                           />
                         </div>
+                        <div className="relative my-5">
+                          <InputText
+                            label="SCC Price"
+                            type="text"
+                            num="num"
+                            name="suppliers_products_scc_price"
+                            disabled={mutation.isLoading}
+                          />
+                        </div>
                       </>
                     )}
-                    <p className="ml-3 text-primary">
-                      SCC Member Price :
-                      <span className="text-black">
-                        {pesoSign}
-                        {numberWithCommas(
-                          Number(
-                            getTotalPrice(props.values, percent).memberPrice
-                          ).toFixed(2)
-                        )}
-                      </span>
-                    </p>
-                    <p className="ml-3 text-primary">
-                      Retail Price :
-                      <span className="text-black">
-                        {pesoSign}
-                        {numberWithCommas(
-                          Number(
-                            getTotalPrice(props.values, percent).retailPrice
-                          ).toFixed(2)
-                        )}
-                      </span>
-                    </p>
 
                     <div className="flex items-center gap-1 pt-5">
                       <button
@@ -226,4 +227,4 @@ const ModalAddSuppliersProducts = ({ item, percent }) => {
   );
 };
 
-export default ModalAddSuppliersProducts;
+export default ModalAddSuppliersProductsOld;

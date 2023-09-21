@@ -145,6 +145,7 @@ RewriteRule ^suppliers-product/page/([0-9]+)$ controllers/inventory/suppliers/pr
 RewriteRule ^suppliers-product/search-by-id/([0-9]+)$ controllers/inventory/suppliers/product/search.php?supplierid=$1 [L]
 RewriteRule ^suppliers-product/search$ controllers/inventory/suppliers/product/search.php [L]
 RewriteRule ^suppliers-product/read-category-id/([0-9]+)$ controllers/inventory/suppliers/product/read-by-category-id.php?categoryid=$1 [L]
+RewriteRule ^suppliers-product/read-price-markup$ controllers/inventory/suppliers/product/read-price-markup.php [L]
 
 #sales 
 RewriteRule ^sales$ controllers/inventory/sales/sales.php [L]
@@ -273,5 +274,11 @@ RewriteRule ^patronage/filter-patronage-by-year/([0-9]+)$ controllers/account/de
 RewriteRule ^report-patronage/report-filter-patronage$ controllers/inventory/report/net-surplus-distribution/patronage/report-filter-patronage.php [L] 
 RewriteRule ^report-patronage/report-filter-patronage/([0-9]+)$ controllers/inventory/report/net-surplus-distribution/patronage/report-filter-patronage.php?year=$1 [L] 
 RewriteRule ^report-patronage/all-member-approved$ controllers/inventory/report/net-surplus-distribution/patronage/read-all-member-approved.php [L] 
+ 
+#PRICE MARKUP
+RewriteRule ^price-markup$ controllers/settings/price-markup/price-markup.php [L]
+RewriteRule ^price-markup/([0-9]+)$ controllers/settings/price-markup/price-markup.php?priceMarkupId=$1 [L]
+RewriteRule ^price-markup/active/([0-9]+)$ controllers/settings/price-markup/active.php?priceMarkupId=$1 [L]
+
 
 

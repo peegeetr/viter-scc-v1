@@ -10,6 +10,8 @@ import SupplierProductList from "./SupplierProductList";
 import { FaPlusCircle } from "react-icons/fa";
 import { setIsAdd } from "../../../../../store/StoreAction";
 import ModalAddSuppliersProducts from "./ModalAddSuppliersProducts";
+import useQueryData from "../../../../custom-hooks/useQueryData";
+import { getPriceMarkup } from "../../../../helpers/functions-general";
 
 const SupplierProduct = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -19,6 +21,17 @@ const SupplierProduct = () => {
     dispatch(setIsAdd(true));
     setItemEdit(null);
   };
+
+  // use if not loadmore button undertime
+  const { data: priceMarkup } = useQueryData(
+    `/v1/suppliers-product/read-price-markup`, // endpoint
+    "get", // method
+    "read-price-markup" // key
+  );
+
+  // get the percentage then / 100 to get how much the percent
+  const getPercent = getPriceMarkup(priceMarkup);
+
   return (
     <>
       <Header />
@@ -47,7 +60,9 @@ const SupplierProduct = () => {
         <Footer />
       </div>
 
-      {store.isAdd && <ModalAddSuppliersProducts item={itemEdit} />}
+      {store.isAdd && (
+        <ModalAddSuppliersProducts item={itemEdit} percent={getPercent} />
+      )}
       {store.success && <ModalSuccess />}
       {store.error && <ModalError />}
     </>

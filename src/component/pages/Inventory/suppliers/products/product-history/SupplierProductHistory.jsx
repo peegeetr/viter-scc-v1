@@ -10,7 +10,10 @@ import SupplierProductHistoryList from "./SupplierProductHistoryList";
 import { FaPlusCircle } from "react-icons/fa";
 import { setIsAdd } from "../../../../../../store/StoreAction";
 import ModalAddSuppliersProductsHistory from "./ModalAddSuppliersProductsHistory";
-import { getUrlParam } from "../../../../../helpers/functions-general";
+import {
+  getPriceMarkup,
+  getUrlParam,
+} from "../../../../../helpers/functions-general";
 import useQueryData from "../../../../../custom-hooks/useQueryData";
 import TableSpinner from "../../../../../partials/spinners/TableSpinner";
 
@@ -32,6 +35,16 @@ const SupplierProductHistory = () => {
   const handleAdd = () => {
     dispatch(setIsAdd(true));
   };
+
+  // use if not loadmore button undertime
+  const { data: priceMarkup } = useQueryData(
+    `/v1/suppliers-product/read-price-markup`, // endpoint
+    "get", // method
+    "read-price-markup" // key
+  );
+
+  // get the percentage then / 100 to get how much the percent
+  const getPercent = getPriceMarkup(priceMarkup);
   return (
     <>
       <Header />
@@ -72,7 +85,7 @@ const SupplierProductHistory = () => {
         <Footer />
       </div>
 
-      {store.isAdd && <ModalAddSuppliersProductsHistory />}
+      {store.isAdd && <ModalAddSuppliersProductsHistory percent={getPercent} />}
       {store.success && <ModalSuccess />}
       {store.error && <ModalError />}
     </>

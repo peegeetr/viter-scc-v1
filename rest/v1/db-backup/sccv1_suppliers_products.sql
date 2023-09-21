@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 08, 2023 at 09:44 AM
+-- Generation Time: Sep 21, 2023 at 04:10 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -33,7 +33,7 @@ CREATE TABLE `sccv1_suppliers_products` (
   `suppliers_products_number` varchar(20) NOT NULL,
   `suppliers_products_price` varchar(50) NOT NULL,
   `suppliers_products_scc_price` varchar(20) NOT NULL,
-  `suppliers_products_market_price` varchar(20) NOT NULL,
+  `suppliers_products_retail_price` varchar(20) NOT NULL,
   `suppliers_products_category_id` varchar(20) NOT NULL,
   `suppliers_products_suppliers_id` varchar(20) NOT NULL,
   `suppliers_products_created` datetime NOT NULL,
@@ -44,15 +44,21 @@ CREATE TABLE `sccv1_suppliers_products` (
 -- Dumping data for table `sccv1_suppliers_products`
 --
 
-INSERT INTO `sccv1_suppliers_products` (`suppliers_products_aid`, `suppliers_products_name`, `suppliers_products_number`, `suppliers_products_price`, `suppliers_products_scc_price`, `suppliers_products_market_price`, `suppliers_products_category_id`, `suppliers_products_suppliers_id`, `suppliers_products_created`, `suppliers_products_datetime`) VALUES
-(5, 'alamang', 'prod-001', '80', '85', '90', '2', '1', '2023-04-24 16:48:33', '2023-05-08 11:54:26'),
-(6, 'egg small', 'prod-002', '190', '195', '200', '1', '2', '2023-04-26 17:05:46', '2023-05-08 12:29:38'),
-(7, 'egg medium', 'prod-003', '205', '210', '215', '1', '2', '2023-04-26 17:05:54', '2023-05-08 12:44:58'),
-(8, 'egg large', 'prod-004', '230', '235', '240', '1', '2', '2023-05-08 11:51:29', '2023-05-08 12:24:04'),
-(9, 'chili garlic paste', 'prod-005', '80', '85', '90', '2', '1', '2023-05-08 11:52:42', '2023-05-08 12:23:41'),
-(10, 'kimchi', 'prod-006', '110', '115', '120', '2', '1', '2023-05-08 11:53:03', '2023-05-08 12:29:52'),
-(11, 'dishwashing liquid', 'prod-007', '30', '35', '40', '3', '1', '2023-05-08 11:53:36', '2023-05-08 12:23:51'),
-(13, 'walis ting-ting', 'prod-008', '25', '', '', '3', '1', '2023-05-08 13:57:31', '2023-05-08 13:57:31');
+INSERT INTO `sccv1_suppliers_products` (`suppliers_products_aid`, `suppliers_products_name`, `suppliers_products_number`, `suppliers_products_price`, `suppliers_products_scc_price`, `suppliers_products_retail_price`, `suppliers_products_category_id`, `suppliers_products_suppliers_id`, `suppliers_products_created`, `suppliers_products_datetime`) VALUES
+(15, 'egg-medium', 'prod-001', '200', '210', '215', '7', '3', '2023-05-23 10:34:03', '2023-07-13 07:13:57'),
+(16, 'egg-large', 'prod-002', '210', '215', '220', '7', '3', '2023-05-23 10:34:20', '2023-07-12 14:23:05'),
+(17, 'soap', 'prod-003', '18', '20', '23', '8', '4', '2023-07-04 06:47:52', '2023-08-31 14:01:55'),
+(18, 'diswashing', 'prod-004', '10', '12', '15', '8', '3', '2023-07-04 06:48:41', '2023-07-12 14:22:38'),
+(19, 'egg xl', 'prod-005', '200', '220', '125', '7', '4', '2023-07-04 10:39:08', '2023-07-13 07:13:28'),
+(20, 'egg medium', 'prod-006', '200', '205', '230', '7', '4', '2023-07-05 09:00:03', '2023-07-13 09:14:05'),
+(21, 'rice rice grain rice jasmine green red blue', 'prod-007', '500', '520', '', '7', '4', '2023-07-05 10:01:58', '2023-07-17 12:03:55'),
+(22, 'rices A', 'prod-008', '100', '105', '', '9', '3', '2023-07-06 13:58:51', '2023-07-12 14:25:59'),
+(23, 'rice B', 'prod-009', '200', '210', '', '9', '3', '2023-07-06 13:59:14', '2023-07-06 13:59:14'),
+(24, 'Rice C', 'prod-010', '150', '155', '', '9', '3', '2023-07-06 13:59:31', '2023-07-12 14:25:14'),
+(25, 'Rice D', 'prod-011', '', '', '', '9', '3', '2023-07-06 13:59:43', '2023-07-13 07:17:53'),
+(26, 'test', 'prod-012', '15', '', '', '9', '4', '2023-07-12 13:28:33', '2023-07-12 14:23:56'),
+(27, 'egg', 'prod-013', '200', '205', '', '7', '4', '2023-07-28 07:50:06', '2023-08-31 14:08:30'),
+(28, 'sample', 'prod-014', '5', '5.4', '5.45', '9', '4', '2023-09-21 09:43:43', '2023-09-21 10:08:37');
 
 --
 -- Indexes for dumped tables
@@ -72,7 +78,7 @@ ALTER TABLE `sccv1_suppliers_products`
 -- AUTO_INCREMENT for table `sccv1_suppliers_products`
 --
 ALTER TABLE `sccv1_suppliers_products`
-  MODIFY `suppliers_products_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `suppliers_products_aid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -25,7 +25,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         // get data
         $suppliersProducts->suppliers_products_aid = $_GET['supplierProductsId'];
         $suppliersProducts->suppliers_products_scc_price = checkIndex($data, "suppliers_products_scc_price");
-        $suppliersProducts->suppliers_products_market_price = checkIndex($data, "suppliers_products_market_price");
+        $suppliersProducts->suppliers_products_retail_price = checkIndex($data, "suppliers_products_retail_price");
         $suppliersProducts->suppliers_products_datetime = date("Y-m-d H:i:s");
 
         //check to see if task id in query string is not empty and is number, if not return json error

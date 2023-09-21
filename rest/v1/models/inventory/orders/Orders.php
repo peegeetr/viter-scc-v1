@@ -197,14 +197,14 @@ class Orders
             $sql .= "from {$this->tblOrders} as orders, ";
             $sql .= "{$this->tblSales} as sales, ";
             $sql .= "{$this->tblMembers} as member, ";
-            $sql .= "{$this->tblSuppliersProducts} as suppliersProducts "; 
+            $sql .= "{$this->tblSuppliersProducts} as suppliersProducts ";
             $sql .= "where orders.orders_product_id = suppliersProducts.suppliers_products_aid ";
             $sql .= "and orders.orders_aid = sales.sales_order_id ";
-            $sql .= "and orders.orders_member_id = member.members_aid "; 
+            $sql .= "and orders.orders_member_id = member.members_aid ";
             $sql .= "and orders.orders_is_draft = '0' ";
             $sql .= "order by orders.orders_is_paid, ";
-            $sql .= "orders.orders_date desc, "; 
-            $sql .= "member.members_last_name, member.members_first_name asc "; 
+            $sql .= "orders.orders_date desc, ";
+            $sql .= "member.members_last_name, member.members_first_name asc ";
             $query = $this->connection->query($sql);
         } catch (PDOException $ex) {
             $query = false;
@@ -246,14 +246,14 @@ class Orders
             $sql .= "from {$this->tblOrders} as orders, ";
             $sql .= "{$this->tblSales} as sales, ";
             $sql .= "{$this->tblMembers} as member, ";
-            $sql .= "{$this->tblSuppliersProducts} as suppliersProducts "; 
+            $sql .= "{$this->tblSuppliersProducts} as suppliersProducts ";
             $sql .= "where orders.orders_product_id = suppliersProducts.suppliers_products_aid ";
             $sql .= "and orders.orders_aid = sales.sales_order_id ";
-            $sql .= "and orders.orders_member_id = member.members_aid "; 
+            $sql .= "and orders.orders_member_id = member.members_aid ";
             $sql .= "and orders.orders_is_draft = '0' ";
             $sql .= "order by orders.orders_is_paid, ";
-            $sql .= "orders.orders_date desc, "; 
-            $sql .= "member.members_last_name, member.members_first_name asc "; 
+            $sql .= "orders.orders_date desc, ";
+            $sql .= "member.members_last_name, member.members_first_name asc ";
             $sql .= "limit :start, ";
             $sql .= ":total ";
             $query = $this->connection->prepare($sql);
@@ -302,7 +302,7 @@ class Orders
             $sql .= "from {$this->tblOrders} as orders, ";
             $sql .= "{$this->tblSales} as sales, ";
             $sql .= "{$this->tblMembers} as member, ";
-            $sql .= "{$this->tblSuppliersProducts} as suppliersProducts "; 
+            $sql .= "{$this->tblSuppliersProducts} as suppliersProducts ";
             $sql .= "where orders.orders_product_id = suppliersProducts.suppliers_products_aid ";
             $sql .= "and orders.orders_aid = sales.sales_order_id ";
             $sql .= "and orders.orders_member_id = member.members_aid ";
@@ -316,8 +316,8 @@ class Orders
             $sql .= "or member.members_first_name like :members_first_name ";
             $sql .= "or suppliersProducts.suppliers_products_name like :suppliers_products_name) ";
             $sql .= "order by orders.orders_is_paid, ";
-            $sql .= "orders.orders_date desc, "; 
-            $sql .= "member.members_last_name, member.members_first_name asc "; 
+            $sql .= "orders.orders_date desc, ";
+            $sql .= "member.members_last_name, member.members_first_name asc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "suppliers_products_name" => "%{$this->orders_search}%",
@@ -893,7 +893,7 @@ class Orders
             $sql .= "suppliersProducts.suppliers_products_aid, ";
             $sql .= "suppliersProducts.suppliers_products_number, ";
             $sql .= "suppliersProducts.suppliers_products_name, ";
-            $sql .= "suppliersProducts.suppliers_products_market_price, ";
+            $sql .= "suppliersProducts.suppliers_products_retail_price, ";
             $sql .= "suppliersProducts.suppliers_products_category_id, ";
             $sql .= "supplier.suppliers_aid, ";
             $sql .= "supplier.suppliers_company_name, ";

@@ -410,7 +410,7 @@ CREATE TABLE `sccv1_suppliers_products` (
   `suppliers_products_number` varchar(20) NOT NULL,
   `suppliers_products_price` varchar(50) NOT NULL,
   `suppliers_products_scc_price` varchar(20) NOT NULL,
-  `suppliers_products_market_price` varchar(20) NOT NULL,
+  `suppliers_products_retail_price` varchar(20) NOT NULL,
   `suppliers_products_category_id` varchar(20) NOT NULL,
   `suppliers_products_suppliers_id` varchar(20) NOT NULL,
   `suppliers_products_created` datetime NOT NULL,
@@ -421,7 +421,7 @@ CREATE TABLE `sccv1_suppliers_products` (
 -- Dumping data for table `sccv1_suppliers_products`
 --
 
-INSERT INTO `sccv1_suppliers_products` (`suppliers_products_aid`, `suppliers_products_name`, `suppliers_products_number`, `suppliers_products_price`, `suppliers_products_scc_price`, `suppliers_products_market_price`, `suppliers_products_category_id`, `suppliers_products_suppliers_id`, `suppliers_products_created`, `suppliers_products_datetime`) VALUES
+INSERT INTO `sccv1_suppliers_products` (`suppliers_products_aid`, `suppliers_products_name`, `suppliers_products_number`, `suppliers_products_price`, `suppliers_products_scc_price`, `suppliers_products_retail_price`, `suppliers_products_category_id`, `suppliers_products_suppliers_id`, `suppliers_products_created`, `suppliers_products_datetime`) VALUES
 (15, 'egg-medium', 'prod-001', '2000', '210', '215', '7', '3', '2023-05-23 10:34:03', '2023-05-23 10:44:31'),
 (16, 'egg-large', 'prod-002', '210', '215', '220', '7', '3', '2023-05-23 10:34:20', '2023-05-23 10:39:03');
 
