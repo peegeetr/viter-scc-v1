@@ -85,13 +85,13 @@ const ProductsViewList = () => {
         <table>
           <thead>
             <tr>
-              <th>#</th>
-              <th className="min-w-[5rem]">Category</th>
-              <th className="min-w-[8rem]">Product</th>
-              <th className="min-w-[8rem] text-right">
+              <th className="print:p-[1px]">#</th>
+              <th className="min-w-[5rem] print:p-[1px]">Category</th>
+              <th className="min-w-[8rem] print:p-[1px]">Product</th>
+              <th className="min-w-[8rem] text-right print:p-[1px]">
                 {isFilter ? "Retail" : "Member"} Price
               </th>
-              <th className="min-w-[8rem] text-center print:hidden">
+              <th className="min-w-[8rem] text-center print:hidden print:p-[1px]">
                 Remaning Qty
               </th>
             </tr>
@@ -115,10 +115,14 @@ const ProductsViewList = () => {
             {readFilterProduct?.data.map((item, key) => {
               return (
                 <tr key={key}>
-                  <td>{counter++}.</td>
+                  <td className="print:p-[1px]">{counter++}.</td>
 
-                  <td>{item.product_category_name}</td>
-                  <td>{item.suppliers_products_name}</td>
+                  <td className="print:p-[1px]">
+                    {item.product_category_name}
+                  </td>
+                  <td className="print:p-[1px]">
+                    {item.suppliers_products_name}
+                  </td>
                   {isFilter ? (
                     <td className="text-right ">
                       {pesoSign}
@@ -127,7 +131,7 @@ const ProductsViewList = () => {
                       )}
                     </td>
                   ) : (
-                    <td className="text-right ">
+                    <td className="text-right print:p-[1px]">
                       {pesoSign}
                       {numberWithCommas(
                         Number(item.suppliers_products_scc_price).toFixed(2)
@@ -135,7 +139,7 @@ const ProductsViewList = () => {
                     </td>
                   )}
 
-                  <td className="text-center print:hidden ">
+                  <td className="text-center print:hidden print:p-[1px]">
                     <StatusQuantity
                       text={getRemaningQuantity(
                         item,
