@@ -1,0 +1,42 @@
+ 
+*controllers   
+    - inventory/orders/create.php   
+    - inventory/suppliers/product/products-history/active.php   
+    - point-of-sales/create.php   
+    - point-of-sales/functions.php   
+    - point-of-sales/read-price-markup.php   
+    - point-of-sales/update-payment.php   
+    - point-of-sales/update.php   
+    - 
+    -
+    -
+    
+*models    
+    - inventory/orders/Orders.php 
+    - inventory/sales/Sales.php 
+    - inventory/supplier/product/ProductsHistory.php 
+    - inventory/supplier/product/SuppliersProducts.php 
+    - point-of-sales/PointOfSales.php 
+    -   
+    -   
+
+*htaccess 
+    - #htaccess {note: All htaccess}
+    - 
+    - 
+    - 
+
+*db tables  
+    - sccv1_settings_price_markup.sql 
+    - 
+    -  
+
+
+*core functions 
+    - 
+    -  
+
+*extra
+    - 
+    - 
+    -  

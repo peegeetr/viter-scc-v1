@@ -170,14 +170,17 @@ const ModalAddSuppliersProducts = ({ item, percent }) => {
                       </>
                     )}
                     <p className="ml-3 text-primary">
-                      SCC Member Price :
+                      Member Price :
                       <span className="text-black">
                         {pesoSign}
                         {numberWithCommas(
                           Number(
                             getTotalPrice(props.values, percent).memberPrice
                           ).toFixed(2)
-                        )}
+                        )}{" "}
+                        {props.values.suppliers_products_price === ""
+                          ? ""
+                          : `(+ ${percent.member}%)`}
                       </span>
                     </p>
                     <p className="ml-3 text-primary">
@@ -188,7 +191,10 @@ const ModalAddSuppliersProducts = ({ item, percent }) => {
                           Number(
                             getTotalPrice(props.values, percent).retailPrice
                           ).toFixed(2)
-                        )}
+                        )}{" "}
+                        {props.values.suppliers_products_price === ""
+                          ? ""
+                          : `(+ ${percent.retail}%)`}
                       </span>
                     </p>
 

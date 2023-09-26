@@ -24,6 +24,7 @@ import {
   AssociateMemberId,
   GetFocus,
   formatDate,
+  notMemberId,
   numberWithCommas,
   pesoSign,
 } from "../../helpers/functions-general";
@@ -51,11 +52,7 @@ const CasherPointOfSalesList = () => {
   GetFocus("searchProduct");
 
   // use if not loadmore button undertime
-  const {
-    data: memberSearch,
-    isLoading,
-    error: errorSearch,
-  } = useQueryData(
+  const { data: memberSearch, isLoading } = useQueryData(
     `/v1/pos/search-member-approved`, // endpoint
     "post", // method
     "search-member-approved",
@@ -171,7 +168,7 @@ const CasherPointOfSalesList = () => {
 
   return (
     <>
-      <div className="whitespace-nowrap overflow-auto gap-2 pt-8 pb-5">
+      <div className="whitespace-nowrap gap-2 pt-8 pb-5">
         <div className="grid md:grid-cols-2 items-center ">
           <div className="relative md:w-[20rem]">
             <SearchMember setSearch={setSearch} onSearch={onSearch} />
@@ -184,6 +181,8 @@ const CasherPointOfSalesList = () => {
               mutation.mutate({
                 ...values,
                 orders_member_id,
+                notMemberId: notMemberId,
+                associateMemberId: AssociateMemberId,
               });
               resetForm();
             }}

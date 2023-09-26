@@ -20,8 +20,10 @@ import {
 import {
   getDateNow,
   numberWithCommas,
+  otherDiscountId,
   pesoSign,
   removeComma,
+  wholeSaleDiscountId,
 } from "../../../helpers/functions-general";
 import { queryData } from "../../../helpers/queryData";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
@@ -30,8 +32,10 @@ import {
   getProductDetails,
   getTotaAmountOrder,
   getValidationOrderAdd,
+  getWholeSaleDiscountOrder,
   modalComputeAmountWithDiscount,
 } from "./functions-orders";
+import { getTotaWithDiscount } from "../../point-of-sales/modal/functions-newpos";
 
 const ModalManagerAddOrders = ({ item, arrKey }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -87,6 +91,13 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
     "get", // method
     "orderGroupProd" // key
   );
+
+  // use if not loadmore button undertime
+  const { data: readPriceMarkup } = useQueryData(
+    `/v1/pos/read-price-markup`, // endpoint
+    "get", // method
+    "readPriceMarkup" // key
+  );
   // use if not loadmore button undertime
   const { data: memberApproved, isLoading: memberApprovedLoading } =
     useQueryData(
@@ -98,6 +109,13 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
   // get employee id
   const handleIsPaid = async (e, props) => {
     setIsPaid(e.target.value);
+  };
+
+  // get employee id
+  const handleResetSearch = async () => {
+    setItems([]);
+    setSearch("");
+    setTotalPrice("");
   };
 
   // use if not loadmore button undertime
@@ -121,6 +139,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
     orders_is_paid: "",
     sales_member_change: "",
     sales_discount: "",
+    orders_is_discounted: "",
     sales_date: getDateNow(),
   };
 
@@ -130,7 +149,6 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
     orders_date: Yup.string().required("Required"),
     sales_receive_amount: isPaid === "1" && Yup.string().required("Required"),
     sales_or: isPaid === "1" && Yup.string().required("Required"),
-    sales_discount: isPaid === "1" && Yup.string().required("Required"),
   });
 
   return (
@@ -172,7 +190,9 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                   dispatch,
                   isPaid,
                   stocksGroupProd,
-                  orderGroupProd
+                  orderGroupProd,
+                  readPriceMarkup,
+                  totalPrice
                 );
                 // new list
                 const list = validation.list;
@@ -183,6 +203,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
 
                 mutation.mutate({
                   ...values,
+                  orders_product_srp: totalPrice,
                   list: list[0],
                   items,
                 });
@@ -205,6 +226,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                         name="orders_member_id"
                         label="Member"
                         disabled={mutation.isLoading || memberApprovedLoading}
+                        onChange={handleResetSearch}
                       >
                         <option value="" hidden>
                           {memberApprovedLoading ? "Loading..." : "--"}
@@ -229,6 +251,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                           setItems={setItems}
                           setTotalPrice={setTotalPrice}
                           result={ProductList}
+                          propsVal={props.values}
                           name="search product"
                         />
                       </div>
@@ -317,15 +340,35 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                                 disabled={mutation.isLoading}
                               />
                             </div>
-                            <div className="relative mt-6 mb-8">
-                              <InputText
-                                label="Discount Amount"
+                            <div className="relative mb-5">
+                              <InputSelect
+                                label="Discount Category"
                                 type="text"
-                                name="sales_discount"
-                                num="num"
+                                name="orders_is_discounted"
                                 disabled={mutation.isLoading}
-                              />
+                              >
+                                <option value="">No Discount</option>
+                                <option value={wholeSaleDiscountId}>
+                                  Whole Sales
+                                </option>
+                                <option value={otherDiscountId}>
+                                  Other Option
+                                </option>
+                              </InputSelect>
                             </div>
+
+                            {props.values.orders_is_discounted ===
+                              otherDiscountId && (
+                              <div className="relative mt-6 mb-8">
+                                <InputText
+                                  label="Discount"
+                                  type="text"
+                                  num="num"
+                                  name="sales_discount"
+                                  disabled={mutation.isLoading}
+                                />
+                              </div>
+                            )}
                             <div className="relative mb-4 ">
                               <InputText
                                 label="Sales invoice number"
@@ -338,18 +381,50 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                         )}
                       </>
                     )}
+                    {!item && Number(props.values.orders_is_paid) === 1 && (
+                      <div className="pl-3 text-primary">
+                        <p className="text-lg">
+                          Amount:
+                          <span className="text-black ml-2">
+                            {pesoSign}{" "}
+                            {Number(totalPrice) === 0
+                              ? "0.00"
+                              : numberWithCommas(
+                                  getTotaAmountOrder(props.values, totalPrice)
+                                )}
+                          </span>
+                        </p>
+                        <p className="text-xl text-primary">
+                          Discount:
+                          <span className="text-black ml-2">
+                            {pesoSign}{" "}
+                            {props.values.orders_is_discounted ===
+                            otherDiscountId
+                              ? Number(props.values.sales_discount).toFixed(2)
+                              : props.values.orders_is_discounted ===
+                                wholeSaleDiscountId
+                              ? getWholeSaleDiscountOrder(
+                                  readPriceMarkup,
+                                  props.values,
+                                  totalPrice
+                                ).toFixed(2)
+                              : "0.00"}
+                          </span>
+                        </p>
+                      </div>
+                    )}
                     <div className="pl-3 text-primary">
                       <p className="text-lg">
                         Total Amount:
                         <span className="text-black ml-2">
-                          {pesoSign}{" "}
-                          {Number(totalPrice) === 0
+                          {pesoSign}
+                          {props.values.orders_product_quantity === "" ||
+                          Number(props.values.orders_product_quantity) === 0
                             ? "0.00"
-                            : numberWithCommas(
-                                modalComputeAmountWithDiscount(
-                                  getTotaAmountOrder(props.values, totalPrice),
-                                  removeComma(props.values.sales_discount)
-                                )
+                            : getTotaWithDiscount(
+                                readPriceMarkup,
+                                props.values,
+                                totalPrice
                               )}
                         </span>
                       </p>
@@ -363,13 +438,13 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                             {Number(props.values.sales_receive_amount) === 0
                               ? "0.00"
                               : Number(
-                                  props.values.sales_receive_amount -
-                                    modalComputeAmountWithDiscount(
-                                      getTotaAmountOrder(
-                                        props.values,
-                                        totalPrice
-                                      ),
-                                      removeComma(props.values.sales_discount)
+                                  removeComma(
+                                    props.values.sales_receive_amount
+                                  ) -
+                                    getTotaWithDiscount(
+                                      readPriceMarkup,
+                                      props.values,
+                                      totalPrice
                                     )
                                 ).toFixed(2)}
                           </span>

@@ -63,7 +63,6 @@ const MemberOrdersList = ({ setItemEdit, memberName, isLoading, menu }) => {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    // queryKey: ["my-order", onSearch, store.isSearch],
     queryKey: ["my-order", onSearch],
     queryFn: async ({ pageParam = 1 }) =>
       await queryDataInfinite(

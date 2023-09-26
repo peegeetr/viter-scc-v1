@@ -61,3 +61,11 @@ function checkSearchMemberApproved($object)
     checkQuery($query, "Empty records.");
     return $query;
 }
+
+// Read Active Price Markup
+function checkReadActivePriceMarkup($object)
+{
+    $query = $object->readActivePriceMarkup();
+    checkQuery($query, "Empty records.(Read active price markup)");
+    return $query;
+}

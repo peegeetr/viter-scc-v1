@@ -164,9 +164,12 @@ const ModalPayNow = ({ item, result, isPayAll, setSearch, onSearch }) => {
                           {Number(props.values.sales_receive_amount) === 0
                             ? "0.00"
                             : numberWithCommas(
-                                Number(
-                                  removeComma(props.values.sales_receive_amount)
-                                ) -
+                                (
+                                  Number(
+                                    removeComma(
+                                      props.values.sales_receive_amount
+                                    )
+                                  ) -
                                   Number(
                                     `${
                                       isPayAll
@@ -174,7 +177,8 @@ const ModalPayNow = ({ item, result, isPayAll, setSearch, onSearch }) => {
                                         : Number(item.orders_product_amount) -
                                           Number(item.sales_discount)
                                     }`
-                                  ).toFixed(2)
+                                  )
+                                ).toFixed(2)
                               )}
                         </span>
                       </p>

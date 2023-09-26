@@ -251,7 +251,7 @@ const ReportStocksList = () => {
               <th className="min-w-[7rem]">Product</th>
               <th className="min-w-[5rem] text-center pr-4">Total qty</th>
               <th className="min-w-[2rem] text-center ">Rem. qty</th>
-              <th className="min-w-[7rem] text-right pr-4">SCC price</th>
+              <th className="min-w-[7rem] text-right pr-4">Member price</th>
               <th className="min-w-[12rem] text-right pr-4">Rem. amnt.</th>
             </tr>
           </thead>

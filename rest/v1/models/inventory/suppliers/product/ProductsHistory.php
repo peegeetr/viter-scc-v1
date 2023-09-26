@@ -360,7 +360,7 @@ class ProductsHistory
             $sql .= "from ";
             $sql .= "{$this->tblOrders} ";
             $sql .= "where orders_product_id = :orders_product_id ";
-            $sql .= "and orders_is_draft = 0 ";
+            $sql .= "and orders_is_paid = 1 ";
             $sql .= "group by orders_product_id ";
             $query = $this->connection->prepare($sql);
             $query->execute([

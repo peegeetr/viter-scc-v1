@@ -1,5 +1,10 @@
 import { NumberFormatBase } from "react-number-format";
-import { numberWithCommas, removeComma } from "../../helpers/functions-general";
+import {
+  AssociateMemberId,
+  notMemberId,
+  numberWithCommas,
+  removeComma,
+} from "../../helpers/functions-general";
 
 // compute Remaining Quantity
 export const getDataPayNow = (result, memberId) => {
@@ -45,4 +50,55 @@ export const getTotaAmountProduct = (values, totalPrice) => {
     );
   }
   return result;
+};
+
+export const getProductPrice = (propsVal, item) => {
+  let price = 0;
+  if (
+    (Number(propsVal.orders_member_id) === notMemberId ||
+      Number(propsVal.orders_member_id) === AssociateMemberId) &&
+    item.suppliers_products_retail_price !== ""
+  ) {
+    price = item.suppliers_products_retail_price;
+  } else {
+    price = item.product_history_scc_price;
+  }
+  return price;
+};
+
+export const getValueDataOldPOS = (
+  values,
+  item,
+  stocksGroupProd,
+  orderGroupProd,
+  dispatch
+) => {
+  let invalidAmount = false;
+  const quantity = removeComma(`${values.orders_product_quantity}`);
+
+  const sales_discount = removeComma(`${values.sales_discount}`);
+
+  const newQty =
+    getRemaningQuantity(item, stocksGroupProd, orderGroupProd) +
+    Number(item.orders_product_quantity) -
+    Number(quantity);
+
+  const qty =
+    getRemaningQuantity(item, stocksGroupProd, orderGroupProd) +
+    Number(item.orders_product_quantity);
+
+  const product_amount = Number(quantity) * Number(item.orders_product_srp);
+
+  if (Number(sales_discount) > product_amount) {
+    dispatch(setError(true));
+    dispatch(setMessage("Invalid Discount Amount"));
+    invalidAmount = true;
+  }
+
+  if (Number(quantity) === 0 || Number(quantity) > qty || newQty <= -1) {
+    dispatch(setError(true));
+    dispatch(setMessage("Insufficient Quantity"));
+    invalidAmount = true;
+  }
+  return { sales_discount, product_amount, quantity, invalidAmount };
 };

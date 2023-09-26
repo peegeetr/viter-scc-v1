@@ -1,5 +1,9 @@
 import React from "react";
+import { MdFilterAlt } from "react-icons/md";
+import { SlArrowRight } from "react-icons/sl";
+import { Link } from "react-router-dom";
 import { StoreContext } from "../../../../store/StoreContext";
+import { getUserType } from "../../../helpers/functions-general";
 import BreadCrumbs from "../../../partials/BreadCrumbs";
 import Footer from "../../../partials/Footer";
 import Header from "../../../partials/Header";
@@ -7,30 +11,31 @@ import Navigation from "../../../partials/Navigation";
 import ModalError from "../../../partials/modals/ModalError";
 import ModalSuccess from "../../../partials/modals/ModalSuccess";
 import ProductsList from "./ProductsList";
-import { AiFillPrinter } from "react-icons/ai";
 
 const Products = () => {
   const { store, dispatch } = React.useContext(StoreContext);
+  const urlLink = getUserType(store);
 
   return (
     <>
       <Header />
-      <Navigation menu="inventory" />{" "}
+      <Navigation menu="inventory" />
       <div className="wrapper">
         <div className="flex items-center justify-between whitespace-nowrap overflow-auto gap-2 ">
           <BreadCrumbs />
-          <button
+
+          <Link
+            to={`${urlLink}/inventory/products/filter`}
             type="button"
             className="btn-primary print:hidden"
-            onClick={() => window.print()}
           >
-            <AiFillPrinter />
-            <span>Print</span>
-          </button>
-        </div> 
+            <span>Price List</span>
+            <SlArrowRight className="inline" />
+          </Link>
+        </div>
 
         <hr className="print:hidden" />
-        <div className="w-full pt-5 pb-20">
+        <div className="w-full pt-5 pb-20 print:pt-0">
           <ProductsList />
         </div>
         <Footer />

@@ -1,8 +1,13 @@
 import { setError, setMessage } from "../../../../store/StoreAction";
 import {
+  AssociateMemberId,
+  notMemberId,
   numberWithCommas,
+  otherDiscountId,
   removeComma,
+  wholeSaleDiscountId,
 } from "../../../helpers/functions-general";
+import { getTotaWithDiscount } from "../../point-of-sales/modal/functions-newpos";
 import { getRemaningQuantity } from "../products/functions-product";
 
 // compute sold
@@ -49,7 +54,6 @@ export const computeRemainingQuantity = (item, values, product) => {
 
 // compute Remaining Quantity
 export const computeFinalAmount = (item) => {
-  console.log("item", item);
   let finalAmount = 0;
   let productAmount = Number(item.orders_product_amount);
   let discountAmount = Number(item.sales_discount);
@@ -134,7 +138,9 @@ export const getValidationOrderAdd = (
   dispatch,
   isPaid,
   stocksGroupProd,
-  orderGroupProd
+  orderGroupProd,
+  readPriceMarkup,
+  totalPrice
 ) => {
   let invalidAmount = false;
   let list = [];
@@ -143,13 +149,34 @@ export const getValidationOrderAdd = (
     `${values.orders_product_quantity}`
   );
   const sales_receive_amount = removeComma(`${values.sales_receive_amount}`);
-  const sales_discount = removeComma(`${values.sales_discount}`);
+  const sales_discount =
+    values.orders_is_discounted === otherDiscountId
+      ? Number(removeComma(values.sales_discount)).toFixed(2)
+      : values.orders_is_discounted === wholeSaleDiscountId
+      ? getWholeSaleDiscountOrder(readPriceMarkup, values, totalPrice).toFixed(
+          2
+        )
+      : 0;
 
-  const orders_product_amount =
-    Number(orders_product_quantity) *
-    Number(
-      item ? item.suppliers_products_scc_price : items.product_history_scc_price
-    );
+  let price = 0;
+
+  if (
+    (Number(values.orders_member_id) === notMemberId ||
+      Number(values.orders_member_id) === AssociateMemberId) &&
+    (item
+      ? item.suppliers_products_retail_price
+      : items.suppliers_products_retail_price !== "")
+  ) {
+    price = item
+      ? item.suppliers_products_retail_price
+      : items.suppliers_products_retail_price;
+  } else {
+    price = item
+      ? item.suppliers_products_scc_price
+      : items.product_history_scc_price;
+  }
+
+  const orders_product_amount = Number(orders_product_quantity) * Number(price);
 
   if (Number(sales_discount) > Number(orders_product_amount)) {
     dispatch(setError(true));
@@ -162,17 +189,11 @@ export const getValidationOrderAdd = (
         item ? item : items,
         stocksGroupProd,
         orderGroupProd
-      ) +
-      Number(item.orders_product_quantity) -
-      Number(orders_product_quantity)
+      ) - Number(orders_product_quantity)
     : getRemaningQuantity(item ? item : items, stocksGroupProd, orderGroupProd);
 
   const qty = item
-    ? getRemaningQuantity(
-        item ? item : items,
-        stocksGroupProd,
-        orderGroupProd
-      ) + Number(item.orders_product_quantity)
+    ? getRemaningQuantity(item ? item : items, stocksGroupProd, orderGroupProd)
     : getRemaningQuantity(item ? item : items, stocksGroupProd, orderGroupProd);
 
   if (
@@ -212,4 +233,29 @@ export const getValidationOrderAdd = (
     list,
     invalidAmount,
   };
+};
+
+export const getWholeSaleDiscountOrder = (readPriceMarkup, val, price) => {
+  let totalAmount = 0;
+  if (
+    val.orders_product_quantity !== "" ||
+    Number(val.orders_product_quantity) !== 0
+  ) {
+    totalAmount =
+      Number(removeComma(val.orders_product_quantity)) * Number(price);
+  }
+
+  let wholeSalePercent = 0;
+  // read Price Markup percent
+  if (readPriceMarkup?.count > 0) {
+    const result = readPriceMarkup?.data.filter(
+      (markupItem) => markupItem.price_markup_is_active === 1
+    );
+    wholeSalePercent =
+      result?.length > 0 ? Number(result[0].price_markup_whole_sale) / 100 : 0;
+  }
+
+  const percent = Number(totalAmount) * Number(wholeSalePercent).toFixed(3);
+
+  return percent;
 };

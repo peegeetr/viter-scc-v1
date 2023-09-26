@@ -173,6 +173,7 @@ import AdminOtherUser from "./component/pages/settings/users/other/links/AdminOt
 import SystemOtherUser from "./component/pages/settings/users/other/links/SystemOtherUser";
 import { StoreProvider } from "./store/StoreContext";
 import AdminPriceMarkup from "./component/pages/settings/price-markup/links/AdminPriceMarkup";
+import AdminProductsView from "./component/pages/Inventory/products/view-to-print/links/AdminProducts";
 
 function App() {
   // Create a client
@@ -942,6 +943,14 @@ function App() {
               element={
                 <ProtectedRouteOther>
                   <AdminProducts />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/inventory/products/filter`}
+              element={
+                <ProtectedRouteOther>
+                  <AdminProductsView />
                 </ProtectedRouteOther>
               }
             />

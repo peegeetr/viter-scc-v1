@@ -431,11 +431,13 @@ class Sales
         return $query;
     }
 
+
     // active
     public function isPaidOrder()
     {
         try {
             $sql = "update {$this->tblOrders} set ";
+            $sql .= "orders_is_discounted = '', ";
             $sql .= "orders_is_paid = :orders_is_paid, ";
             $sql .= "orders_datetime = :orders_datetime ";
             $sql .= "where orders_aid = :orders_aid ";

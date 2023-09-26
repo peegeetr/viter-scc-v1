@@ -144,6 +144,7 @@ const ModalAddMyOrder = ({ item, arrKey }) => {
                 }
                 mutation.mutate({
                   ...values,
+                  orders_product_srp: totalPrice,
                   list: list[0],
                   items,
                 });

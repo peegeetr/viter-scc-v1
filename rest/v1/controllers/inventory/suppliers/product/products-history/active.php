@@ -51,8 +51,8 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         checkId($product_history->product_history_product_id);
         haveActiveNotById($product_history);
 
-        // check if have order is pending 
-        checkAssociationInOrderPending($product_history);
+        // // check if have order is pending 
+        // checkAssociationInOrderPending($product_history);
 
         $stockQty = 0;
         $orderQty = 0;
@@ -70,7 +70,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         if ($order->rowCount() > 0) {
             $row = $order->fetch(PDO::FETCH_ASSOC);
             extract($row);
-            $stockQty = $orderQuantity;
+            $orderQty = $orderQuantity;
         }
 
         $totalQuantity = ($stockQty - $orderQty);

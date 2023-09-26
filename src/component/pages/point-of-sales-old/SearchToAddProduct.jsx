@@ -2,9 +2,14 @@ import React from "react";
 import { FaFolderOpen } from "react-icons/fa";
 import { setIsModalSearch } from "../../../store/StoreAction";
 import { StoreContext } from "../../../store/StoreContext";
-import { numberWithCommas } from "../../helpers/functions-general";
+import {
+  AssociateMemberId,
+  notMemberId,
+  numberWithCommas,
+} from "../../helpers/functions-general";
 import TableSpinner from "../../partials/spinners/TableSpinner";
 import { getRemaningQuantity } from "../Inventory/products/functions-product";
+import { getProductPrice } from "./functions-pos";
 
 const SearchToAddProduct = ({
   stocksGroupProd,
@@ -15,6 +20,7 @@ const SearchToAddProduct = ({
   setItems,
   setTotalPrice,
   result,
+  propsVal = {},
   name,
 }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -31,8 +37,17 @@ const SearchToAddProduct = ({
   };
 
   const handleProductChange = (item) => {
+    // console.log("item", item);
     setItems(item);
-    setTotalPrice(item.product_history_scc_price);
+    if (
+      (Number(propsVal.orders_member_id) === notMemberId ||
+        Number(propsVal.orders_member_id) === AssociateMemberId) &&
+      item.suppliers_products_retail_price !== ""
+    ) {
+      setTotalPrice(item.suppliers_products_retail_price);
+    } else {
+      setTotalPrice(item.product_history_scc_price);
+    }
     dispatch(setIsModalSearch(false));
   };
 
@@ -82,7 +97,7 @@ const SearchToAddProduct = ({
                       )} pcs) - ${item.suppliers_company_name.slice(0, 10)} `}
                       &#8369;{" "}
                       {numberWithCommas(
-                        Number(item.product_history_scc_price).toFixed(2)
+                        Number(getProductPrice(propsVal, item)).toFixed(2)
                       )}
                     </button>
                   );

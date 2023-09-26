@@ -12,7 +12,12 @@ import TableSpinner from "../../../partials/spinners/TableSpinner";
 import StatusQuantity from "../../../partials/status/StatusQuantity";
 import ModalUpdateProducts from "./ModalUpdateProducts";
 import { getRemaningQuantity } from "./functions-product";
-import { numberWithCommas, pesoSign } from "../../../helpers/functions-general";
+import {
+  formatDate,
+  getDateNow,
+  numberWithCommas,
+  pesoSign,
+} from "../../../helpers/functions-general";
 
 const ProductsList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -83,16 +88,20 @@ const ProductsList = () => {
         setOnSearch={setOnSearch}
         onSearch={onSearch}
       />
-
+      <div className="print:block hidden text-center">
+        <h1 className="text-lg">Product List</h1>
+        <p>{formatDate(getDateNow())}</p>
+      </div>
       <div className="text-center overflow-x-auto z-0">
         <table>
           <thead>
             <tr>
               <th>#</th>
-              <th className="min-w-[5rem]">Product #</th>
+              {/* <th className="min-w-[5rem]">Product #</th> */}
               <th className="min-w-[5rem]">Category</th>
               <th className="min-w-[6rem]">Supplier</th>
               <th className="min-w-[8rem]">Product</th>
+              <th className="min-w-[8rem] text-right">Member Price</th>
               <th className="min-w-[8rem] text-right">Retail Price</th>
               {/* <th className="min-w-[8rem] text-right">Supplier Price</th>
               <th className="min-w-[8rem] text-right">Market Price</th> */}
@@ -129,9 +138,9 @@ const ProductsList = () => {
                 {page.data.map((item, key) => (
                   <tr key={key}>
                     <td> {counter++}.</td>
-                    <td className="uppercase">
+                    {/* <td className="uppercase">
                       {item.suppliers_products_number}
-                    </td>
+                    </td> */}
                     <td>{item.product_category_name}</td>
                     <td>{item.suppliers_company_name}</td>
                     <td>{item.suppliers_products_name}</td>
@@ -139,6 +148,12 @@ const ProductsList = () => {
                       {pesoSign}
                       {numberWithCommas(
                         Number(item.suppliers_products_scc_price).toFixed(2)
+                      )}
+                    </td>
+                    <td className="text-right ">
+                      {pesoSign}
+                      {numberWithCommas(
+                        Number(item.suppliers_products_retail_price).toFixed(2)
                       )}
                     </td>
 

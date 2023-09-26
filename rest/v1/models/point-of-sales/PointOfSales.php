@@ -25,6 +25,7 @@ class PointOfSales
     public $sales_or;
     public $sales_date;
     public $sales_discount;
+    public $orders_is_discounted;
 
     public $connection;
     public $lastInsertedId;
@@ -44,6 +45,7 @@ class PointOfSales
     public $tblBarcode;
     public $tblStocks;
     public $tblProductsHistory;
+    public $tblPriceMarckup;
 
     public function __construct($db)
     {
@@ -57,6 +59,7 @@ class PointOfSales
         $this->tblBarcode = "sccv1_product_barcode";
         $this->tblStocks = "sccv1_stocks";
         $this->tblProductsHistory = "sccv1_product_history";
+        $this->tblPriceMarckup = "sccv1_settings_price_markup";
     }
 
     // create
@@ -168,6 +171,7 @@ class PointOfSales
             $sql .= "orders.orders_number, ";
             $sql .= "orders.orders_product_id, ";
             $sql .= "orders.orders_product_quantity, ";
+            $sql .= "orders.orders_is_discounted, ";
             $sql .= "orders.orders_product_amount, ";
             $sql .= "orders.orders_product_srp, ";
             $sql .= "orders.orders_date, ";
@@ -221,6 +225,7 @@ class PointOfSales
             $sql .= "orders.orders_number, ";
             $sql .= "orders.orders_product_id, ";
             $sql .= "orders.orders_product_quantity, ";
+            $sql .= "orders.orders_is_discounted, ";
             $sql .= "orders.orders_product_amount, ";
             $sql .= "orders.orders_product_srp, ";
             $sql .= "orders.orders_date, ";
@@ -270,6 +275,7 @@ class PointOfSales
         try {
             $sql = "update {$this->tblOrders} set ";
             $sql .= "orders_product_quantity = :orders_product_quantity, ";
+            $sql .= "orders_is_discounted = :orders_is_discounted, ";
             $sql .= "orders_product_amount = :orders_product_amount, ";
             $sql .= "orders_remarks = :orders_remarks, ";
             $sql .= "orders_is_paid = :orders_is_paid, ";
@@ -278,6 +284,7 @@ class PointOfSales
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "orders_product_quantity" => $this->orders_product_quantity,
+                "orders_is_discounted" => $this->orders_is_discounted,
                 "orders_product_amount" => $this->orders_product_amount,
                 "orders_remarks" => $this->orders_remarks,
                 "orders_is_paid" => $this->orders_is_paid,
@@ -541,6 +548,24 @@ class PointOfSales
                 "members_last_name" => "{$this->orders_search}%",
                 "name" => "{$this->orders_search}%",
             ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    // name
+    public function readActivePriceMarkup()
+    {
+        try {
+            $sql = "select price_markup_retail, ";
+            $sql .= "price_markup_member, ";
+            $sql .= "price_markup_whole_sale, ";
+            $sql .= "price_markup_is_active, ";
+            $sql .= "price_markup_aid ";
+            $sql .= "from {$this->tblPriceMarckup} ";
+            $sql .= "where price_markup_is_active = 1 ";
+            $query = $this->connection->query($sql);
         } catch (PDOException $ex) {
             $query = false;
         }

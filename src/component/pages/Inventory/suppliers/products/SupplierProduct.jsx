@@ -8,7 +8,11 @@ import ModalSuccess from "../../../../partials/modals/ModalSuccess";
 import ModalError from "../../../../partials/modals/ModalError";
 import SupplierProductList from "./SupplierProductList";
 import { FaPlusCircle } from "react-icons/fa";
-import { setIsAdd } from "../../../../../store/StoreAction";
+import {
+  setError,
+  setIsAdd,
+  setMessage,
+} from "../../../../../store/StoreAction";
 import ModalAddSuppliersProducts from "./ModalAddSuppliersProducts";
 import useQueryData from "../../../../custom-hooks/useQueryData";
 import { getPriceMarkup } from "../../../../helpers/functions-general";
@@ -16,11 +20,6 @@ import { getPriceMarkup } from "../../../../helpers/functions-general";
 const SupplierProduct = () => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [itemEdit, setItemEdit] = React.useState(null);
-
-  const handleAdd = () => {
-    dispatch(setIsAdd(true));
-    setItemEdit(null);
-  };
 
   // use if not loadmore button undertime
   const { data: priceMarkup } = useQueryData(
@@ -32,6 +31,19 @@ const SupplierProduct = () => {
   // get the percentage then / 100 to get how much the percent
   const getPercent = getPriceMarkup(priceMarkup);
 
+  const handleAdd = () => {
+    if (!getPercent.isHaveActive) {
+      dispatch(setError(true));
+      dispatch(
+        setMessage(
+          "You can't add new product. Please active or create a new markup"
+        )
+      );
+      return;
+    }
+    dispatch(setIsAdd(true));
+    setItemEdit(null);
+  };
   return (
     <>
       <Header />

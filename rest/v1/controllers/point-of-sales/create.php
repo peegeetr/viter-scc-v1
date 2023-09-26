@@ -72,6 +72,9 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         checkKeyword($formattedOrderId);
         checkKeyword($formattedSalesId);
 
+        $notMember = checkIndex($data, "notMemberId");
+        $associateMember = checkIndex($data, "associateMemberId");
+
         $pos->orders_number = $formattedOrderId;
         $pos->sales_number = $formattedSalesId;
         $pos->orders_member_id = checkIndex($data, "orders_member_id");
@@ -89,6 +92,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         // Seach to add product
         $pos->orders_search = checkIndex($data, "search");
         $searchToAdd = $pos->searchToAddProduct();
+
         if ($searchToAdd->rowCount() == 0) {
             resultError("Please check if you have product.");
         }
@@ -97,9 +101,17 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
             $searchRow = $searchToAdd->fetch(PDO::FETCH_ASSOC);
             extract($searchRow);
             $pos->orders_product_id = $suppliers_products_aid;
-            $pos->orders_product_srp = $product_history_scc_price;
+            if (((int)$pos->orders_member_id === (int)$notMember ||
+                    (int)$pos->orders_member_id === (int)$associateMember) &&
+                $suppliers_products_retail_price != ""
+            ) {
+                $pos->orders_product_srp = $suppliers_products_retail_price;
+                $pos->orders_product_amount = $suppliers_products_retail_price;
+            } else {
+                $pos->orders_product_srp = $product_history_scc_price;
+                $pos->orders_product_amount = $product_history_scc_price;
+            }
             $pos->orders_suplier_price = $product_history_price;
-            $pos->orders_product_amount = $product_history_scc_price;
             $pos->orders_stocks_id = $stocks_aid;
         }
 

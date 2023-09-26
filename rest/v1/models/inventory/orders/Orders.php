@@ -169,6 +169,7 @@ class Orders
             $sql = "select suppliersProducts.suppliers_products_aid, ";
             $sql .= "suppliersProducts.suppliers_products_scc_price, ";
             $sql .= "suppliersProducts.suppliers_products_price, ";
+            $sql .= "suppliersProducts.suppliers_products_retail_price, ";
             $sql .= "suppliersProducts.suppliers_products_category_id, ";
             $sql .= "suppliersProducts.suppliers_products_name, ";
             $sql .= "orders.orders_aid, ";
@@ -218,6 +219,7 @@ class Orders
             $sql = "select suppliersProducts.suppliers_products_aid, ";
             $sql .= "suppliersProducts.suppliers_products_scc_price, ";
             $sql .= "suppliersProducts.suppliers_products_price, ";
+            $sql .= "suppliersProducts.suppliers_products_retail_price, ";
             $sql .= "suppliersProducts.suppliers_products_category_id, ";
             $sql .= "suppliersProducts.suppliers_products_name, ";
             $sql .= "orders.orders_aid, ";
@@ -274,6 +276,7 @@ class Orders
             $sql = "select suppliersProducts.suppliers_products_aid, ";
             $sql .= "suppliersProducts.suppliers_products_scc_price, ";
             $sql .= "suppliersProducts.suppliers_products_price, ";
+            $sql .= "suppliersProducts.suppliers_products_retail_price, ";
             $sql .= "suppliersProducts.suppliers_products_category_id, ";
             $sql .= "suppliersProducts.suppliers_products_name, ";
             $sql .= "orders.orders_aid, ";
@@ -339,6 +342,7 @@ class Orders
         try {
             $sql = "select suppliers_products_aid, ";
             $sql .= "suppliers_products_name, ";
+            $sql .= "suppliers_products_retail_price, ";
             $sql .= "suppliers_products_scc_price, ";
             $sql .= "suppliers_products_number from ";
             $sql .= "{$this->tblSuppliersProducts} ";
@@ -359,6 +363,7 @@ class Orders
         try {
             $sql = "select suppliersProducts.suppliers_products_aid, ";
             $sql .= "suppliersProducts.suppliers_products_scc_price, ";
+            $sql .= "suppliersProducts.suppliers_products_retail_price, ";
             $sql .= "suppliersProducts.suppliers_products_category_id, ";
             $sql .= "suppliersProducts.suppliers_products_name, ";
             $sql .= "orders.orders_aid, ";
@@ -422,6 +427,7 @@ class Orders
         try {
             $sql = "select suppliersProducts.suppliers_products_aid, ";
             $sql .= "suppliersProducts.suppliers_products_scc_price, ";
+            $sql .= "suppliersProducts.suppliers_products_retail_price, ";
             $sql .= "suppliersProducts.suppliers_products_category_id, ";
             $sql .= "suppliersProducts.suppliers_products_name, ";
             $sql .= "orders.orders_aid, ";
@@ -480,6 +486,7 @@ class Orders
         try {
             $sql = "select suppliersProducts.suppliers_products_aid, ";
             $sql .= "suppliersProducts.suppliers_products_scc_price, ";
+            $sql .= "suppliersProducts.suppliers_products_retail_price, ";
             $sql .= "suppliersProducts.suppliers_products_category_id, ";
             $sql .= "suppliersProducts.suppliers_products_name, ";
             $sql .= "orders.orders_aid, ";
@@ -532,6 +539,7 @@ class Orders
         try {
             $sql = "select suppliersProducts.suppliers_products_aid, ";
             $sql .= "suppliersProducts.suppliers_products_scc_price, ";
+            $sql .= "suppliersProducts.suppliers_products_retail_price, ";
             $sql .= "suppliersProducts.suppliers_products_category_id, ";
             $sql .= "suppliersProducts.suppliers_products_name, ";
             $sql .= "orders.orders_aid, ";
@@ -703,7 +711,7 @@ class Orders
             $sql .= "sum(orders_product_quantity) as orderQuantity, ";
             $sql .= "orders_product_quantity ";
             $sql .= "from {$this->tblOrders} ";
-            $sql .= "where orders_is_draft = 0 ";
+            $sql .= "where orders_is_paid = '1' ";
             $sql .= "group by orders_product_id ";
             $sql .= "order by orders_is_paid, ";
             $sql .= "orders_date desc ";
@@ -812,6 +820,7 @@ class Orders
         try {
             $sql = "select suppliersProducts.suppliers_products_name, ";
             $sql .= "suppliersProducts.suppliers_products_scc_price, ";
+            $sql .= "suppliersProducts.suppliers_products_retail_price, ";
             $sql .= "orders.orders_aid, ";
             $sql .= "orders.orders_number, ";
             $sql .= "orders.orders_product_amount, ";
@@ -862,6 +871,7 @@ class Orders
     {
         try {
             $sql = "select suppliersProducts.suppliers_products_name, ";
+            $sql .= "suppliersProducts.suppliers_products_retail_price, ";
             $sql .= "member.members_last_name, ";
             $sql .= "member.members_first_name, ";
             $sql .= "orders.orders_product_id, ";

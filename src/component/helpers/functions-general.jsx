@@ -21,6 +21,8 @@ export const devNavUrl = "";
 
 export const notMemberId = 32;
 export const AssociateMemberId = 33;
+export const wholeSaleDiscountId = "0";
+export const otherDiscountId = "1";
 export const UrlAdmin = "admin";
 export const UrlManager = "manager";
 export const UrlCasher = "cashier";
@@ -266,12 +268,18 @@ export const getYearList = () => {
 export const getPriceMarkup = (priceMarkup) => {
   let retailPercent = 0;
   let memberPercent = 0;
+  let retail = 0;
+  let member = 0;
+  let isHaveActive = false;
 
   // get the percentage then / 100 to get how much the percent
   if (priceMarkup?.count > 0) {
+    retail = Number(priceMarkup?.data[0].price_markup_retail);
+    member = Number(priceMarkup?.data[0].price_markup_member);
     retailPercent = Number(priceMarkup?.data[0].price_markup_retail) / 100;
     memberPercent = Number(priceMarkup?.data[0].price_markup_member) / 100;
+    isHaveActive = true;
   }
 
-  return { retailPercent, memberPercent };
+  return { retailPercent, memberPercent, isHaveActive, retail, member };
 };

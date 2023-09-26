@@ -20,6 +20,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         // get ordersid from query string
         $pos->orders_aid = $_GET['orderid'];
         $pos->orders_product_quantity = checkIndex($data, "orders_product_quantity");
+        $pos->orders_is_discounted = $data["orders_is_discounted"];
         $pos->orders_product_amount = checkIndex($data, "orders_product_amount");
         $pos->orders_remarks = $data["orders_remarks"];
         $pos->sales_discount = checkIndex($data, "sales_discount");

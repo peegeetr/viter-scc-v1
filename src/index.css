@@ -134,7 +134,7 @@ input[type="text"]:not(:placeholder-shown) ~ label {
     @apply bg-white rounded-l-3xl relative before:absolute before:content-[""] before:h-full before:w-3 before:rounded-tr-2xl before:right-0 before:-bottom-12 before:shadow-[0_-25px_0_0_rgb(255,255,255)] text-primary after:absolute after:content-[""] after:h-full after:w-3 after:rounded-br-2xl after:right-0 after:-top-12 after:shadow-[0_25px_0_0_rgb(255,255,255)];
   }
   span.error-show {
-    @apply text-[11px] absolute right-0 -bottom-5 text-red-500 italic z-0;
+    @apply text-[11px] absolute right-0 -bottom-6 text-red-500 italic z-0;
   }
   input.error-show,
   select.error-show,

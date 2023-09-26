@@ -42,7 +42,7 @@ export const InputText = ({ label, ...props }) => {
 
         <label htmlFor={props.id || props.name}>{label}</label>
         {meta.touched && meta.error ? (
-          <span className="error-show mr-[5px]">{meta.error}</span>
+          <span className="error-show mr-[5px] ">{meta.error}</span>
         ) : null}
       </>
     );
@@ -184,7 +184,9 @@ export const InputSelect = ({ label, onChange, ...props }) => {
     props.name === "year_div" ||
     props.name === "capital_year" ||
     props.name === "posMember" ||
+    props.name === "price_category" ||
     props.name === "stocks_product_id" ||
+    props.name === "orders_member_id" ||
     props.name === "product_supplier_id"
   ) {
     return (

@@ -252,6 +252,7 @@ class SuppliersProducts
             $sql .= "suppliersProducts.suppliers_products_name, ";
             $sql .= "suppliersProducts.suppliers_products_price, ";
             $sql .= "suppliersProducts.suppliers_products_scc_price, ";
+            $sql .= "suppliersProducts.suppliers_products_retail_price, ";
             $sql .= "suppliersProducts.suppliers_products_category_id, ";
             $sql .= "supplier.suppliers_aid, ";
             $sql .= "productHistory.product_history_aid, ";
@@ -289,6 +290,7 @@ class SuppliersProducts
             $sql .= "suppliersProducts.suppliers_products_name, ";
             $sql .= "suppliersProducts.suppliers_products_price, ";
             $sql .= "suppliersProducts.suppliers_products_scc_price, ";
+            $sql .= "suppliersProducts.suppliers_products_retail_price, ";
             $sql .= "suppliersProducts.suppliers_products_category_id, ";
             $sql .= "supplier.suppliers_aid, ";
             $sql .= "supplier.suppliers_company_name, ";
@@ -321,6 +323,7 @@ class SuppliersProducts
             $sql .= "suppliersProducts.suppliers_products_name, ";
             $sql .= "suppliersProducts.suppliers_products_price, ";
             $sql .= "suppliersProducts.suppliers_products_scc_price, ";
+            $sql .= "suppliersProducts.suppliers_products_retail_price, ";
             $sql .= "suppliersProducts.suppliers_products_category_id, ";
             $sql .= "supplier.suppliers_aid, ";
             $sql .= "supplier.suppliers_company_name, ";
@@ -357,6 +360,7 @@ class SuppliersProducts
             $sql .= "suppliersProducts.suppliers_products_name, ";
             $sql .= "suppliersProducts.suppliers_products_price, ";
             $sql .= "suppliersProducts.suppliers_products_scc_price, ";
+            $sql .= "suppliersProducts.suppliers_products_retail_price, ";
             $sql .= "suppliersProducts.suppliers_products_category_id, ";
             $sql .= "supplier.suppliers_aid, ";
             $sql .= "supplier.suppliers_company_name, ";
@@ -593,6 +597,7 @@ class SuppliersProducts
             $sql .= "suppliersProducts.suppliers_products_number, ";
             $sql .= "suppliersProducts.suppliers_products_name, ";
             $sql .= "suppliersProducts.suppliers_products_price, ";
+            $sql .= "suppliersProducts.suppliers_products_retail_price, ";
             $sql .= "suppliersProducts.suppliers_products_category_id, ";
             $sql .= "supplier.suppliers_company_name, ";
             $sql .= "category.product_category_aid, ";
@@ -624,6 +629,7 @@ class SuppliersProducts
             $sql .= "suppliersProducts.suppliers_products_number, ";
             $sql .= "suppliersProducts.suppliers_products_name, ";
             $sql .= "suppliersProducts.suppliers_products_price, ";
+            $sql .= "suppliersProducts.suppliers_products_retail_price, ";
             $sql .= "suppliersProducts.suppliers_products_category_id, ";
             $sql .= "supplier.suppliers_company_name, ";
             $sql .= "category.product_category_name ";
@@ -655,6 +661,7 @@ class SuppliersProducts
             $sql .= "suppliersProducts.suppliers_products_number, ";
             $sql .= "suppliersProducts.suppliers_products_name, ";
             $sql .= "suppliersProducts.suppliers_products_price, ";
+            $sql .= "suppliersProducts.suppliers_products_retail_price, ";
             $sql .= "suppliersProducts.suppliers_products_category_id, ";
             $sql .= "category.product_category_name ";
             $sql .= "from ";

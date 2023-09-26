@@ -2,7 +2,6 @@ import React from "react";
 import { FaPlusCircle } from "react-icons/fa";
 import { setIsAdd, setIsModalSearch } from "../../../../store/StoreAction";
 import { StoreContext } from "../../../../store/StoreContext";
-import { GetFocus, getUserType } from "../../../helpers/functions-general";
 import BreadCrumbs from "../../../partials/BreadCrumbs";
 import Footer from "../../../partials/Footer";
 import Header from "../../../partials/Header";
@@ -15,7 +14,6 @@ import OrdersList from "./OrdersList";
 const Orders = () => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [itemEdit, setItemEdit] = React.useState(null);
-  const urlLink = getUserType(store);
 
   const handleAdd = () => {
     dispatch(setIsModalSearch(false));
@@ -48,7 +46,6 @@ const Orders = () => {
         <Footer />
       </div>
       {store.isAdd && <ModalManagerAddOrders item={itemEdit} arrKey="orders" />}
-      {/* {store.isAdd && <ModalAddOrders item={itemEdit} arrKey="orders" />} */}
       {store.success && <ModalSuccess />}
       {store.error && <ModalError />}
     </>

@@ -24,7 +24,9 @@ import { queryData } from "../../helpers/queryData";
 import ButtonSpinner from "../../partials/spinners/ButtonSpinner";
 import { getRemaningQuantity } from "../Inventory/products/functions-product";
 import SearchToAddProduct from "./SearchToAddProduct";
-import { getTotaAmountPOS } from "./functions-pos";
+import { getTotaAmountPOS, getValueDataOldPOS } from "./functions-pos";
+import { getValidationOrderAdd } from "../Inventory/orders/functions-orders";
+import { getValueData } from "../point-of-sales/modal/functions-newpos";
 
 const ModalAddSearchPOS = ({ item, arrKey, memberId, memberName }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -67,7 +69,7 @@ const ModalAddSearchPOS = ({ item, arrKey, memberId, memberName }) => {
     dispatch(setIsAdd(false));
     dispatch(setIsModalSearch(false));
   };
-
+  console.log("item", item);
   // use if not loadmore button undertime
   const { data: stocksGroupProd } = useQueryData(
     `/v1/stocks/group-by-prod`, // endpoint
@@ -133,71 +135,49 @@ const ModalAddSearchPOS = ({ item, arrKey, memberId, memberName }) => {
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
                 // console.log(values);
+
                 if (!item && items?.suppliers_products_aid === undefined) {
                   dispatch(setError(true));
                   dispatch(setMessage("Please check if you have product."));
                   return;
                 }
-                const orders_product_quantity = removeComma(
-                  `${values.orders_product_quantity}`
+
+                // for validation
+                const validation = getValidationOrderAdd(
+                  values,
+                  item,
+                  items,
+                  dispatch,
+                  0,
+                  stocksGroupProd,
+                  orderGroupProd
                 );
-                const sales_discount = removeComma(`${values.sales_discount}`);
+                // new list
+                const list = validation.list;
 
-                const newQty = item
-                  ? getRemaningQuantity(
-                      item ? item : items,
-                      stocksGroupProd,
-                      orderGroupProd
-                    ) +
-                    Number(item.orders_product_quantity) -
-                    Number(orders_product_quantity)
-                  : getRemaningQuantity(
-                      item ? item : items,
-                      stocksGroupProd,
-                      orderGroupProd
-                    );
-
-                const qty = item
-                  ? getRemaningQuantity(
-                      item ? item : items,
-                      stocksGroupProd,
-                      orderGroupProd
-                    ) + Number(item.orders_product_quantity)
-                  : getRemaningQuantity(
-                      item ? item : items,
-                      stocksGroupProd,
-                      orderGroupProd
-                    );
-
-                const orders_product_amount =
-                  Number(orders_product_quantity) *
-                  Number(
-                    item
-                      ? item.suppliers_products_scc_price
-                      : items.suppliers_products_scc_price
+                const newVal =
+                  item &&
+                  getValueDataOldPOS(
+                    values,
+                    item,
+                    stocksGroupProd,
+                    orderGroupProd,
+                    dispatch
                   );
 
-                if (Number(sales_discount) > orders_product_amount) {
-                  dispatch(setError(true));
-                  dispatch(setMessage("Invalid Discount Amount"));
+                // for validation if invalid amount
+                if (validation.invalidAmount === true || list.length === 0) {
                   return;
                 }
 
-                if (
-                  Number(orders_product_quantity) === 0 ||
-                  Number(orders_product_quantity) > qty ||
-                  newQty <= -1
-                ) {
-                  dispatch(setError(true));
-                  dispatch(setMessage("Insufficient Quantity"));
-                  return;
-                }
                 mutation.mutate({
                   ...values,
+                  orders_product_srp: totalPrice,
+                  list: list[0],
                   items,
-                  sales_discount,
-                  orders_product_amount,
-                  orders_product_quantity,
+                  sales_discount: item && newVal.sales_discount,
+                  orders_product_amount: item && newVal.product_amount,
+                  orders_product_quantity: item && newVal.quantity,
                 });
               }}
             >
@@ -226,6 +206,7 @@ const ModalAddSearchPOS = ({ item, arrKey, memberId, memberName }) => {
                           setItems={setItems}
                           setTotalPrice={setTotalPrice}
                           result={ProductList}
+                          propsVal={props.values}
                           name="search product"
                         />
                       </div>

@@ -8,7 +8,11 @@ import ModalSuccess from "../../../../../partials/modals/ModalSuccess";
 import ModalError from "../../../../../partials/modals/ModalError";
 import SupplierProductHistoryList from "./SupplierProductHistoryList";
 import { FaPlusCircle } from "react-icons/fa";
-import { setIsAdd } from "../../../../../../store/StoreAction";
+import {
+  setError,
+  setIsAdd,
+  setMessage,
+} from "../../../../../../store/StoreAction";
 import ModalAddSuppliersProductsHistory from "./ModalAddSuppliersProductsHistory";
 import {
   getPriceMarkup,
@@ -32,10 +36,6 @@ const SupplierProductHistory = () => {
     supplierProductName?.count > 0 &&
     supplierProductName?.data[0].suppliers_products_name;
 
-  const handleAdd = () => {
-    dispatch(setIsAdd(true));
-  };
-
   // use if not loadmore button undertime
   const { data: priceMarkup } = useQueryData(
     `/v1/suppliers-product/read-price-markup`, // endpoint
@@ -45,6 +45,19 @@ const SupplierProductHistory = () => {
 
   // get the percentage then / 100 to get how much the percent
   const getPercent = getPriceMarkup(priceMarkup);
+
+  const handleAdd = () => {
+    if (!getPercent.isHaveActive) {
+      dispatch(setError(true));
+      dispatch(
+        setMessage(
+          "You can't add new product. Please active or create a new markup"
+        )
+      );
+      return;
+    }
+    dispatch(setIsAdd(true));
+  };
   return (
     <>
       <Header />

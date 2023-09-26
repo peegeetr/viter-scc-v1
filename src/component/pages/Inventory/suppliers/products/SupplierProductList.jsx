@@ -126,7 +126,7 @@ const SupplierProductList = ({ setItemEdit }) => {
                 Supplier Price
               </th>
               <th className="min-w-[10rem] w-[15rem] text-right pr-8">
-                SCC Member Price
+                Member Price
               </th>
               <th className="min-w-[10rem] w-[15rem] text-right pr-8">
                 Retail Price
@@ -177,7 +177,7 @@ const SupplierProductList = ({ setItemEdit }) => {
                     <td className=" pr-8 text-right">
                       {pesoSign}
                       {numberWithCommas(
-                        Number(item.suppliers_products_scc_price).toFixed(2)
+                        Number(item.suppliers_products_retail_price).toFixed(2)
                       )}
                     </td>
                     <td>{item.product_category_name}</td>

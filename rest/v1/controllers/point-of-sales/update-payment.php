@@ -38,7 +38,10 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
 
         $allOrders = $data["result"];
 
+        // check if pay all
         if ($pay_all === "true") {
+            // check if order list have data
+            // check if empty order list 
             if (count($allOrders) === 0) {
                 $error = [];
                 $response->setSuccess(false);
@@ -48,18 +51,21 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
                 $response->send();
                 exit;
             }
+            // if have order list  
             if (count($allOrders) > 0) {
                 for ($d = 0; $d < count($allOrders); $d++) {
                     $pos->orders_aid = $allOrders[$d]["orders_aid"];
-                    $pos->sales_receive_amount = (int)$allOrders[$d]["orders_product_amount"] - (int)$allOrders[$d]["sales_discount"];
+                    $pos->sales_receive_amount = checkIndex($data, "sales_receive_amount");
+                    // $pos->sales_receive_amount = (int)$allOrders[$d]["orders_product_amount"] - (int)$allOrders[$d]["sales_discount"];
                     $query = checkSalesPaymentUpdate($pos);
                     checkIsPaidOrder($pos);
                 }
             }
         }
+        // check if the payment is for only one
         if ($pay_all === "false") {
             $pos->orders_aid = $allOrders["orders_aid"];
-            $pos->sales_receive_amount = (int)$allOrders["orders_product_amount"] - (int)$allOrders["sales_discount"];
+            $pos->sales_receive_amount = checkIndex($data, "sales_receive_amount");
             $query = checkSalesPaymentUpdate($pos);
             checkIsPaidOrder($pos);
         }

@@ -54,13 +54,11 @@ const ModalAddSuppliersProductsHistory = ({ percent }) => {
     product_history_product_id: supplierProductId,
     product_history_date: getDateNow(),
     product_history_price: "",
-    // product_history_scc_price: "",
   };
 
   const yupSchema = Yup.object({
     product_history_date: Yup.string().required("Required"),
     product_history_price: Yup.string().required("Required"),
-    // product_history_scc_price: Yup.string().required("Required"),
   });
 
   return (
@@ -117,7 +115,7 @@ const ModalAddSuppliersProductsHistory = ({ percent }) => {
                       />
                     </div>
                     <p className="ml-3 text-primary">
-                      SCC Member Price :
+                      Member Price :
                       <span className="text-black">
                         {pesoSign}
                         {numberWithCommas(
@@ -125,7 +123,10 @@ const ModalAddSuppliersProductsHistory = ({ percent }) => {
                             getHistoryTotalPrice(props.values, percent)
                               .memberPrice
                           ).toFixed(2)
-                        )}
+                        )}{" "}
+                        {props.values.product_history_price === ""
+                          ? ""
+                          : `(+ ${percent.member}%)`}
                       </span>
                     </p>
                     <p className="ml-3 text-primary">
@@ -137,18 +138,12 @@ const ModalAddSuppliersProductsHistory = ({ percent }) => {
                             getHistoryTotalPrice(props.values, percent)
                               .retailPrice
                           ).toFixed(2)
-                        )}
+                        )}{" "}
+                        {props.values.product_history_price === ""
+                          ? ""
+                          : `(+ ${percent.retail}%)`}
                       </span>
                     </p>
-                    {/* <div className="relative my-5">
-                      <InputText
-                        label="Product SCC Price"
-                        type="text"
-                        num="num"
-                        name="product_history_scc_price"
-                        disabled={mutation.isLoading}
-                      />
-                    </div> */}
 
                     <div className="flex items-center gap-1 pt-5">
                       <button
