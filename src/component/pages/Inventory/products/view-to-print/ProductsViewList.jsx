@@ -124,7 +124,7 @@ const ProductsViewList = () => {
                     {item.suppliers_products_name}
                   </td>
                   {isFilter ? (
-                    <td className="text-right ">
+                    <td className="text-right print:p-[1px]">
                       {pesoSign}
                       {numberWithCommas(
                         Number(item.suppliers_products_retail_price).toFixed(2)
