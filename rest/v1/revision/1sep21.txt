@@ -26,7 +26,7 @@
     - 
 
 *db tables  
-    - sccv1_product_history.sql        {note: product_history_retail_price varchar(20)}{note: product_history_retail_price varchar(20)}
+    - sccv1_product_history.sql        {note: product_history_retail_price varchar(20)} 
     - sccv1_suppliers_products.sql     {note: suppliers_products_retail_price varchar(20)}
     - 
     -  

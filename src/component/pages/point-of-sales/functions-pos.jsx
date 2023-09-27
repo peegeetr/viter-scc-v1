@@ -48,6 +48,7 @@ export const getTotaAmountProduct = (values, totalPrice) => {
 
 export const getTotalAmountPending = (result) => {
   let finalResult = 0;
+  console.log("result", result);
   result?.data.map((item) => {
     finalResult +=
       Number(item.orders_product_amount) - Number(item.sales_discount);

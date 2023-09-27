@@ -28,6 +28,7 @@
 
 *db tables  
     - sccv1_settings_price_markup.sql 
+    -> sccv1_orders.sql {note: orders_is_discounted varchar(20) }
     - 
     -  
 
