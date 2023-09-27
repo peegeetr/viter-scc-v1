@@ -25,6 +25,8 @@ import StatusActive from "../../../partials/status/StatusActive";
 import StatusPending from "../../../partials/status/StatusPending";
 import { computeFinalAmount } from "../orders/functions-orders";
 import SalesTotal from "./SalesTotal";
+import useQueryData from "../../../custom-hooks/useQueryData";
+import { getRemaningQuantity } from "../products/functions-product";
 
 const SalesList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -89,6 +91,19 @@ const SalesList = ({ setItemEdit }) => {
     setData(item);
     setDel(null);
   };
+
+  // use if not loadmore button undertime
+  const { data: stocksGroupProd } = useQueryData(
+    `/v1/stocks/group-by-prod`, // endpoint
+    "get", // method
+    "stocksGroupProd" // key
+  );
+  // use if not loadmore button undertime
+  const { data: orderGroupProd } = useQueryData(
+    `/v1/orders/group-by-prod`, // endpoint
+    "get", // method
+    "orderGroupProd" // key
+  );
   return (
     <>
       <SearchBar
@@ -109,7 +124,7 @@ const SalesList = ({ setItemEdit }) => {
           <thead>
             <tr>
               <th>#</th>
-              <th>Status</th>
+              <th className="min-w-[9rem] w-[5rem]">Status</th>
               <th className="min-w-[8rem]">Name</th>
               <th className="min-w-[5rem]">Sales #</th>
               <th className="min-w-[7rem]">Product</th>
@@ -119,10 +134,7 @@ const SalesList = ({ setItemEdit }) => {
               <th className="min-w-[8rem] pr-4">Remarks</th>
               <th className="min-w-[7rem] text-right pr-4">Received</th>
               <th className="min-w-[6rem]">Pay Date</th>
-
-              {store.credentials.data.role_is_member === 0 && (
-                <th className="max-w-[5rem] text-right">Actions</th>
-              )}
+              <th className="max-w-[5rem] text-right">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -150,7 +162,19 @@ const SalesList = ({ setItemEdit }) => {
                       <td> {counter++}.</td>
                       <td>
                         {item.sales_is_paid === 1 ? (
-                          <StatusActive text="Paid" />
+                          <StatusActive text="paid" />
+                        ) : getRemaningQuantity(
+                            item,
+                            stocksGroupProd,
+                            orderGroupProd
+                          ) <= 0 ? (
+                          <StatusPending text="sold out" />
+                        ) : getRemaningQuantity(
+                            item,
+                            stocksGroupProd,
+                            orderGroupProd
+                          ) < Number(item.orders_product_quantity) ? (
+                          <StatusPending text="insufficient qty" />
                         ) : (
                           <StatusPending />
                         )}
@@ -191,42 +215,41 @@ const SalesList = ({ setItemEdit }) => {
                           : `${formatDate(item.sales_date)}`}
                       </td>
 
-                      {store.credentials.data.role_is_member === 0 && (
-                        <td className="text-right">
-                          {store.credentials.data.role_is_cashier === 0 ? (
-                            item.sales_is_paid === 1 ? (
-                              <button
-                                type="button"
-                                className="btn-action-table tooltip-action-table"
-                                data-tooltip="Void"
-                                onClick={() => handleRestore(item)}
-                              >
-                                <FaEraser />
-                              </button>
-                            ) : (
-                              <button
-                                type="button"
-                                className="btn-action-table tooltip-action-table"
-                                data-tooltip="Accept"
-                                onClick={() => handleEdit(item)}
-                              >
-                                <GiReceiveMoney />
-                              </button>
+                      <td className="text-right">
+                        {item.sales_is_paid === 1 && (
+                          <button
+                            type="button"
+                            className="btn-action-table tooltip-action-table"
+                            data-tooltip="Void"
+                            onClick={() => handleRestore(item)}
+                          >
+                            <FaEraser />
+                          </button>
+                        )}
+
+                        {item.sales_is_paid === 0 &&
+                          Number(
+                            getRemaningQuantity(
+                              item,
+                              stocksGroupProd,
+                              orderGroupProd
                             )
-                          ) : (
-                            item.sales_is_paid === 0 && (
-                              <button
-                                type="button"
-                                className="btn-action-table tooltip-action-table"
-                                data-tooltip="Accept"
-                                onClick={() => handleEdit(item)}
-                              >
-                                <GiReceiveMoney />
-                              </button>
-                            )
+                          ) > 0 &&
+                          getRemaningQuantity(
+                            item,
+                            stocksGroupProd,
+                            orderGroupProd
+                          ) >= Number(item.orders_product_quantity) && (
+                            <button
+                              type="button"
+                              className="btn-action-table tooltip-action-table"
+                              data-tooltip="Accept"
+                              onClick={() => handleEdit(item)}
+                            >
+                              <GiReceiveMoney />
+                            </button>
                           )}
-                        </td>
-                      )}
+                      </td>
                     </tr>
                   );
                 })}

@@ -13,13 +13,11 @@ import {
   setError,
   setIsAdd,
   setIsConfirm,
-  setIsGetFocus,
-  setIsModalSearch,
   setMessage,
 } from "../../../store/StoreAction";
 import { StoreContext } from "../../../store/StoreContext";
 import useQueryData from "../../custom-hooks/useQueryData";
-import { InputSelect, InputText } from "../../helpers/FormInputs";
+import { InputText } from "../../helpers/FormInputs";
 import {
   AssociateMemberId,
   GetFocus,
@@ -34,10 +32,16 @@ import NoData from "../../partials/NoData";
 import ServerError from "../../partials/ServerError";
 import TableSpinner from "../../partials/spinners/TableSpinner";
 import { computeFinalAmount } from "../Inventory/orders/functions-orders";
-import { getDataPayNow, getTotalAmountPending } from "./functions-pos";
+import SearchMember from "./SearchMember";
+import {
+  checkInsufficientQty,
+  getDataPayNow,
+  getTotalAmountPending,
+} from "./functions-pos";
 import ModalEditSearchPOS from "./modal/ModalEditSearchPOS";
 import ModalPayNow from "./modal/ModalPayNow";
-import SearchMember from "./SearchMember";
+import { getRemaningQuantity } from "../Inventory/products/functions-product";
+import StatusPending from "../../partials/status/StatusPending";
 
 const CasherPointOfSalesList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -46,6 +50,7 @@ const CasherPointOfSalesList = () => {
   const [search, setSearch] = React.useState("scc-000-2023");
   const { ref, inView } = useInView();
   const onSearch = React.useRef("0");
+  let isPay = false;
   let delId = 0;
   let counter = 1;
   let totalAmount = 0;
@@ -166,6 +171,18 @@ const CasherPointOfSalesList = () => {
     search: Yup.string().required("Required"),
   });
 
+  // use if not loadmore button undertime
+  const { data: stocksGroupProd } = useQueryData(
+    `/v1/stocks/group-by-prod`, // endpoint
+    "get", // method
+    "stocksGroupProd" // key
+  );
+  // use if not loadmore button undertime
+  const { data: orderGroupProd } = useQueryData(
+    `/v1/orders/group-by-prod`, // endpoint
+    "get", // method
+    "orderGroupProd" // key
+  );
   return (
     <>
       <div className="whitespace-nowrap gap-2 pt-8 pb-5">
@@ -270,6 +287,11 @@ const CasherPointOfSalesList = () => {
               {result?.pages.map((page, key) => (
                 <React.Fragment key={key}>
                   {page.data.map((item, key) => {
+                    // isPay = checkInsufficientQty(
+                    //   item,
+                    //   stocksGroupProd,
+                    //   orderGroupProd
+                    // );
                     totalAmount +=
                       Number(item.orders_product_amount) -
                       Number(item.sales_discount);
@@ -299,7 +321,24 @@ const CasherPointOfSalesList = () => {
                           {pesoSign}{" "}
                           {numberWithCommas(computeFinalAmount(item))}
                         </td>
-                        <td>{item.orders_remarks}</td>
+                        <td>
+                          {getRemaningQuantity(
+                            item,
+                            stocksGroupProd,
+                            orderGroupProd
+                          ) <= 0 ? (
+                            <StatusPending text="sold out" />
+                          ) : (
+                            getRemaningQuantity(
+                              item,
+                              stocksGroupProd,
+                              orderGroupProd
+                            ) < Number(item.orders_product_quantity) && (
+                              <StatusPending text="insufficient qty" />
+                            )
+                          )}{" "}
+                          {item.orders_remarks}
+                        </td>
 
                         {store.credentials.data.role_is_member === 0 && (
                           <td>
@@ -341,9 +380,6 @@ const CasherPointOfSalesList = () => {
             </tbody>
           </table>
         </div>
-        {/* <p className="text-right text-lg pr-8 mt-3 mb-5 font-bold">
-          Total : {pesoSign} {numberWithCommas(totalAmount.toFixed(2))}
-        </p> */}
         <div className="flex justify-end mt-5 ">
           <button
             type="button"

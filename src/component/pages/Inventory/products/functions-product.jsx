@@ -6,19 +6,30 @@ export const getRemaningQuantity = (item, stocksGroupProd, orderGroupProd) => {
   let stockQuantity = 0;
   let orderQuantity = 0;
 
-  stocksGroupProd?.data.map((sqItem) => {
-    // check if leave type aid is equal
-    if (item.suppliers_products_aid === Number(sqItem.stocks_product_id)) {
-      stockQuantity = sqItem.stockQuantity;
-    }
-  });
-  orderGroupProd?.data.map((oqItem) => {
-    // check if leave type aid is equal
-    if (item.suppliers_products_aid === Number(oqItem.orders_product_id)) {
-      orderQuantity = oqItem.orderQuantity;
-    }
-  });
+  // referral source
+  if (stocksGroupProd?.data.length > 0) {
+    const result = stocksGroupProd?.data.filter(
+      (sqItem) =>
+        Number(sqItem.stocks_product_id) === item.suppliers_products_aid
+    );
+    stockQuantity = result?.length > 0 ? `${result[0].stockQuantity}` : "";
+  }
+  // referral source
+  if (orderGroupProd?.data.length > 0) {
+    const result = orderGroupProd?.data.filter(
+      (oqItem) =>
+        Number(oqItem.orders_product_id) === item.suppliers_products_aid
+    );
+    orderQuantity = result?.length > 0 ? `${result[0].orderQuantity}` : "";
+  }
+
   remaingQunatity = Number(stockQuantity) - Number(orderQuantity);
+
+  console.log(
+    "remaingQunatity",
+    remaingQunatity > 0,
+    item.suppliers_products_name
+  );
   return remaingQunatity;
 };
 

@@ -101,7 +101,6 @@ const ModalAddOrders = ({ item, arrKey }) => {
     // sales
     sales_receive_amount: "",
     sales_or: "",
-    orders_is_draft: 0,
     orders_is_paid: 0,
     sales_member_change: 0,
     sales_discount: 0,

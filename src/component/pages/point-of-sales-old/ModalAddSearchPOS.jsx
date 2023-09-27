@@ -18,15 +18,13 @@ import {
   getDateNow,
   numberWithCommas,
   pesoSign,
-  removeComma,
 } from "../../helpers/functions-general";
 import { queryData } from "../../helpers/queryData";
 import ButtonSpinner from "../../partials/spinners/ButtonSpinner";
+import { getValidationOrderAdd } from "../Inventory/orders/functions-orders";
 import { getRemaningQuantity } from "../Inventory/products/functions-product";
 import SearchToAddProduct from "./SearchToAddProduct";
 import { getTotaAmountPOS, getValueDataOldPOS } from "./functions-pos";
-import { getValidationOrderAdd } from "../Inventory/orders/functions-orders";
-import { getValueData } from "../point-of-sales/modal/functions-newpos";
 
 const ModalAddSearchPOS = ({ item, arrKey, memberId, memberName }) => {
   const { store, dispatch } = React.useContext(StoreContext);

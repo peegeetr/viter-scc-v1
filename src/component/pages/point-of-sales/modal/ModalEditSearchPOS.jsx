@@ -27,11 +27,9 @@ import {
 } from "../../../helpers/functions-general";
 import { queryData } from "../../../helpers/queryData";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
-import { getTotaAmountPOS } from "../functions-pos";
 import {
   getTotaWithDiscount,
   getValueData,
-  getWholeSaleDiscount,
   getWholeSaleDiscountView,
 } from "./functions-newpos";
 

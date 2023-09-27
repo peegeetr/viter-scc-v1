@@ -1,4 +1,5 @@
 import { numberWithCommas, removeComma } from "../../helpers/functions-general";
+import { getRemaningQuantity } from "../Inventory/products/functions-product";
 
 // compute Remaining Quantity
 export const getDataPayNow = (result, memberId) => {
@@ -53,4 +54,21 @@ export const getTotalAmountPending = (result) => {
       Number(item.orders_product_amount) - Number(item.sales_discount);
   });
   return finalResult;
+};
+
+export const checkInsufficientQty = (item, stocksGroupProd, orderGroupProd) => {
+  let result = false;
+
+  if (getRemaningQuantity(item, stocksGroupProd, orderGroupProd) <= 0) {
+    result = true;
+  }
+
+  if (
+    getRemaningQuantity(item, stocksGroupProd, orderGroupProd) <
+    Number(item.orders_product_quantity)
+  ) {
+    result = true;
+  }
+
+  return result;
 };

@@ -101,6 +101,7 @@ class Sales
         try {
             $sql = "select suppliersProducts.suppliers_products_name, ";
             $sql .= "suppliersProducts.suppliers_products_scc_price, ";
+            $sql .= "suppliersProducts.suppliers_products_aid, ";
             $sql .= "orders.orders_aid, ";
             $sql .= "orders.orders_product_quantity, ";
             $sql .= "orders.orders_number, ";
@@ -146,6 +147,7 @@ class Sales
         try {
             $sql = "select suppliersProducts.suppliers_products_name, ";
             $sql .= "suppliersProducts.suppliers_products_scc_price, ";
+            $sql .= "suppliersProducts.suppliers_products_aid, ";
             $sql .= "orders.orders_aid, ";
             $sql .= "orders.orders_product_quantity, ";
             $sql .= "orders.orders_number, ";
@@ -198,6 +200,7 @@ class Sales
         try {
             $sql = "select suppliersProducts.suppliers_products_name, ";
             $sql .= "suppliersProducts.suppliers_products_scc_price, ";
+            $sql .= "suppliersProducts.suppliers_products_aid, ";
             $sql .= "orders.orders_aid, ";
             $sql .= "orders.orders_product_quantity, ";
             $sql .= "orders.orders_number, ";

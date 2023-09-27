@@ -219,7 +219,7 @@ const MemberOrdersList = ({ setItemEdit, memberName, isLoading, menu }) => {
               <thead>
                 <tr>
                   <th>#</th>
-                  <th className="w-[3rem]">Status</th>
+                  <th className="min-w-[7rem] w-[9rem]">Status</th>
                   <th className="min-w-[6rem] w-[6rem]">Created</th>
                   <th className="min-w-[6rem] w-[6rem]">Pay Date</th>
                   <th className="min-w-[8rem] w-[15rem]">Product</th>
@@ -263,10 +263,21 @@ const MemberOrdersList = ({ setItemEdit, memberName, isLoading, menu }) => {
                         <tr key={key}>
                           <td> {counter++}.</td>
                           <td>
-                            {item.orders_is_draft === 1 ? (
-                              <StatusInactive text="draft" />
-                            ) : item.sales_is_paid === 1 ? (
-                              <StatusActive text="Paid" />
+                            {/* if paid status */}
+                            {item.sales_is_paid === 1 ? (
+                              <StatusActive text="paid" />
+                            ) : getRemaningQuantity(
+                                item,
+                                stocksGroupProd,
+                                orderGroupProd
+                              ) <= 0 ? (
+                              <StatusPending text="sold out" />
+                            ) : getRemaningQuantity(
+                                item,
+                                stocksGroupProd,
+                                orderGroupProd
+                              ) < Number(item.orders_product_quantity) ? (
+                              <StatusPending text="insufficient qty" />
                             ) : (
                               <StatusPending />
                             )}
@@ -281,17 +292,7 @@ const MemberOrdersList = ({ setItemEdit, memberName, isLoading, menu }) => {
                               ? "N/A"
                               : `${formatDate(item.sales_date)}`}
                           </td>
-                          <td>
-                            {item.suppliers_products_name}
-                            {getRemaningQuantity(
-                              item,
-                              stocksGroupProd,
-                              orderGroupProd
-                            ) === 0 &&
-                              item.orders_is_draft === 1 && (
-                                <StatusPending text="sold out" />
-                              )}
-                          </td>
+                          <td>{item.suppliers_products_name}</td>
                           <td>
                             {item.sales_or === "" ? "N/A" : item.sales_or}
                           </td>
@@ -324,7 +325,7 @@ const MemberOrdersList = ({ setItemEdit, memberName, isLoading, menu }) => {
                           {memberid === null && (
                             <td>
                               <div className="flex justify-end items-center gap-1">
-                                {item.orders_is_draft === 1 &&
+                                {item.sales_is_paid === 0 &&
                                   getRemaningQuantity(
                                     item,
                                     stocksGroupProd,
@@ -339,18 +340,13 @@ const MemberOrdersList = ({ setItemEdit, memberName, isLoading, menu }) => {
                                       >
                                         <FaEdit />
                                       </button>
-
-                                      <button
-                                        type="button"
-                                        className="btn-action-table tooltip-action-table"
-                                        data-tooltip="Submit"
-                                        onClick={() => handlePending(item)}
-                                      >
-                                        <FaCheck />
-                                      </button>
                                     </>
                                   )}
-                                {item.sales_is_paid === 0 && (
+                                {getRemaningQuantity(
+                                  item,
+                                  stocksGroupProd,
+                                  orderGroupProd
+                                ) === 0 && (
                                   <button
                                     type="button"
                                     className="btn-action-table tooltip-action-table"

@@ -91,7 +91,6 @@ const ModalAddMyOrder = ({ item, arrKey }) => {
     orders_member_id: store.credentials.data.members_aid,
     orders_product_quantity: item ? item.orders_product_quantity : "",
     orders_is_paid: item ? item.orders_is_paid : 0,
-    orders_is_draft: item ? item.orders_is_draft : 1,
     orders_remarks: item ? item.orders_remarks : "",
     orders_date: item ? item.orders_date : getDateNow(),
   };

@@ -20,6 +20,8 @@ import StatusActive from "../../../partials/status/StatusActive";
 import StatusPending from "../../../partials/status/StatusPending";
 import OrdersTotal from "./OrdersTotal";
 import { computeFinalAmount } from "./functions-orders";
+import { getRemaningQuantity } from "../products/functions-product";
+import useQueryData from "../../../custom-hooks/useQueryData";
 
 const OrdersList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -80,6 +82,18 @@ const OrdersList = ({ setItemEdit }) => {
     setDel(true);
   };
 
+  // use if not loadmore button undertime
+  const { data: stocksGroupProd } = useQueryData(
+    `/v1/stocks/group-by-prod`, // endpoint
+    "get", // method
+    "stocksGroupProd" // key
+  );
+  // use if not loadmore button undertime
+  const { data: orderGroupProd } = useQueryData(
+    `/v1/orders/group-by-prod`, // endpoint
+    "get", // method
+    "orderGroupProd" // key
+  );
   return (
     <>
       <SearchBar
@@ -141,7 +155,19 @@ const OrdersList = ({ setItemEdit }) => {
                       <td> {counter++}.</td>
                       <td>
                         {item.orders_is_paid === 1 ? (
-                          <StatusActive text="Paid" />
+                          <StatusActive text="paid" />
+                        ) : getRemaningQuantity(
+                            item,
+                            stocksGroupProd,
+                            orderGroupProd
+                          ) <= 0 ? (
+                          <StatusPending text="sold out" />
+                        ) : getRemaningQuantity(
+                            item,
+                            stocksGroupProd,
+                            orderGroupProd
+                          ) < Number(item.orders_product_quantity) ? (
+                          <StatusPending text="insufficient qty" />
                         ) : (
                           <StatusPending />
                         )}
@@ -172,26 +198,49 @@ const OrdersList = ({ setItemEdit }) => {
 
                       {store.credentials.data.role_is_member === 0 && (
                         <td>
-                          {item.orders_is_paid === 0 && (
-                            <div className="flex items-center gap-1">
-                              <button
-                                type="button"
-                                className="btn-action-table tooltip-action-table"
-                                data-tooltip="Edit"
-                                onClick={() => handleEdit(item)}
-                              >
-                                <FaEdit />
-                              </button>
-                              <button
-                                type="button"
-                                className="btn-action-table tooltip-action-table"
-                                data-tooltip="Delete"
-                                onClick={() => handleDelete(item)}
-                              >
-                                <FaTrash />
-                              </button>
-                            </div>
-                          )}
+                          <div className="flex items-center gap-1">
+                            {item.orders_is_paid === 0 &&
+                              getRemaningQuantity(
+                                item,
+                                stocksGroupProd,
+                                orderGroupProd
+                              ) > 0 && (
+                                <>
+                                  <button
+                                    type="button"
+                                    className="btn-action-table tooltip-action-table"
+                                    data-tooltip="Edit"
+                                    onClick={() => handleEdit(item)}
+                                  >
+                                    <FaEdit />
+                                  </button>
+                                  <button
+                                    type="button"
+                                    className="btn-action-table tooltip-action-table"
+                                    data-tooltip="Delete"
+                                    onClick={() => handleDelete(item)}
+                                  >
+                                    <FaTrash />
+                                  </button>
+                                </>
+                              )}
+
+                            {item.orders_is_paid === 0 &&
+                              getRemaningQuantity(
+                                item,
+                                stocksGroupProd,
+                                orderGroupProd
+                              ) <= 0 && (
+                                <button
+                                  type="button"
+                                  className="btn-action-table tooltip-action-table"
+                                  data-tooltip="Delete"
+                                  onClick={() => handleDelete(item)}
+                                >
+                                  <FaTrash />
+                                </button>
+                              )}
+                          </div>
                         </td>
                       )}
                     </tr>

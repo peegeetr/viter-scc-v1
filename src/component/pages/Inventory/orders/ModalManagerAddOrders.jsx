@@ -135,7 +135,6 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
     // sales
     sales_receive_amount: "",
     sales_or: "",
-    orders_is_draft: 0,
     orders_is_paid: "",
     sales_member_change: "",
     sales_discount: "",

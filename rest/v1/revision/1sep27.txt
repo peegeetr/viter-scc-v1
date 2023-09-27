@@ -1,0 +1,32 @@
+ 
+*controllers   
+    - inventory/orders/create.php   
+    - 
+    -
+    -
+    
+*models     
+    - inventory/sales/Sales.php  
+    -   
+    -   
+
+*htaccess 
+    - 
+    - 
+    - 
+    - 
+
+*db tables  
+    - 
+    - 
+    -  
+
+
+*core functions 
+    - 
+    -  
+
+*extra
+    - 
+    - 
+    -   Uploaded 4:20pm
