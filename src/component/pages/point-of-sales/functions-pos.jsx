@@ -57,18 +57,22 @@ export const getTotalAmountPending = (result) => {
 };
 
 export const checkInsufficientQty = (item, stocksGroupProd, orderGroupProd) => {
-  let result = false;
+  let sQty = 0;
+  let oQty = 0;
+  let result = 0;
 
   if (getRemaningQuantity(item, stocksGroupProd, orderGroupProd) <= 0) {
-    result = true;
+    sQty += 1;
   }
 
   if (
     getRemaningQuantity(item, stocksGroupProd, orderGroupProd) <
     Number(item.orders_product_quantity)
   ) {
-    result = true;
+    oQty += 1;
   }
+
+  result = oQty + sQty;
 
   return result;
 };

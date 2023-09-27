@@ -50,7 +50,7 @@ const CasherPointOfSalesList = () => {
   const [search, setSearch] = React.useState("scc-000-2023");
   const { ref, inView } = useInView();
   const onSearch = React.useRef("0");
-  let isPay = false;
+  let isPay = 0;
   let delId = 0;
   let counter = 1;
   let totalAmount = 0;
@@ -287,11 +287,11 @@ const CasherPointOfSalesList = () => {
               {result?.pages.map((page, key) => (
                 <React.Fragment key={key}>
                   {page.data.map((item, key) => {
-                    // isPay = checkInsufficientQty(
-                    //   item,
-                    //   stocksGroupProd,
-                    //   orderGroupProd
-                    // );
+                    isPay = checkInsufficientQty(
+                      item,
+                      stocksGroupProd,
+                      orderGroupProd
+                    );
                     totalAmount +=
                       Number(item.orders_product_amount) -
                       Number(item.sales_discount);
@@ -340,10 +340,15 @@ const CasherPointOfSalesList = () => {
                           {item.orders_remarks}
                         </td>
 
-                        {store.credentials.data.role_is_member === 0 && (
-                          <td>
-                            {item.orders_is_paid === 0 && (
-                              <div className="flex items-center gap-1">
+                        <td>
+                          <div className="flex items-center gap-1">
+                            {/* if the qty morethan qty pending or normal actions */}
+                            {getRemaningQuantity(
+                              item,
+                              stocksGroupProd,
+                              orderGroupProd
+                            ) >= Number(item.orders_product_quantity) && (
+                              <>
                                 <button
                                   type="button"
                                   className="btn-action-table tooltip-action-table"
@@ -368,10 +373,56 @@ const CasherPointOfSalesList = () => {
                                 >
                                   <FaTrash />
                                 </button>
-                              </div>
+                              </>
                             )}
-                          </td>
-                        )}
+                            {/* if have remaning qty is lessthan of the qty pending or insufficient qty */}
+                            {getRemaningQuantity(
+                              item,
+                              stocksGroupProd,
+                              orderGroupProd
+                            ) < Number(item.orders_product_quantity) &&
+                              getRemaningQuantity(
+                                item,
+                                stocksGroupProd,
+                                orderGroupProd
+                              ) !== 0 && (
+                                <>
+                                  <button
+                                    type="button"
+                                    className="btn-action-table tooltip-action-table"
+                                    data-tooltip="Edit"
+                                    onClick={() => handleEdit(item)}
+                                  >
+                                    <FaEdit />
+                                  </button>{" "}
+                                  <button
+                                    type="button"
+                                    className="btn-action-table tooltip-action-table"
+                                    data-tooltip="Delete"
+                                    onClick={() => handleDelete(item)}
+                                  >
+                                    <FaTrash />
+                                  </button>
+                                </>
+                              )}
+
+                            {/* if don't have remaning qty or sold out */}
+                            {getRemaningQuantity(
+                              item,
+                              stocksGroupProd,
+                              orderGroupProd
+                            ) <= 0 && (
+                              <button
+                                type="button"
+                                className="btn-action-table tooltip-action-table"
+                                data-tooltip="Delete"
+                                onClick={() => handleDelete(item)}
+                              >
+                                <FaTrash />
+                              </button>
+                            )}
+                          </div>
+                        </td>
                       </tr>
                     );
                   })}
@@ -380,16 +431,18 @@ const CasherPointOfSalesList = () => {
             </tbody>
           </table>
         </div>
-        <div className="flex justify-end mt-5 ">
-          <button
-            type="button"
-            className="btn-primary mr-8"
-            onClick={handlePayNow}
-          >
-            <GiReceiveMoney />
-            <span>Pay now</span>
-          </button>
-        </div>
+        {isPay < 1 && (
+          <div className="flex justify-end mt-5 ">
+            <button
+              type="button"
+              className="btn-primary mr-8"
+              onClick={handlePayNow}
+            >
+              <GiReceiveMoney />
+              <span>Pay now</span>
+            </button>
+          </div>
+        )}
       </div>
       {store.isAdd && (
         <ModalEditSearchPOS
