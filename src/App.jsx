@@ -174,6 +174,8 @@ import SystemOtherUser from "./component/pages/settings/users/other/links/System
 import { StoreProvider } from "./store/StoreContext";
 import AdminPriceMarkup from "./component/pages/settings/price-markup/links/AdminPriceMarkup";
 import AdminProductsView from "./component/pages/Inventory/products/view-to-print/links/AdminProducts";
+import SystemProductsView from "./component/pages/Inventory/products/view-to-print/links/SystemProducts";
+import ManagerProductsView from "./component/pages/Inventory/products/view-to-print/links/ManagerProducts";
 
 function App() {
   // Create a client
@@ -401,6 +403,14 @@ function App() {
               element={
                 <ProtectedRouteSystem>
                   <SystemProducts />
+                </ProtectedRouteSystem>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlSystem}/inventory/products/filter`}
+              element={
+                <ProtectedRouteSystem>
+                  <SystemProductsView />
                 </ProtectedRouteSystem>
               }
             />
@@ -1387,6 +1397,14 @@ function App() {
               element={
                 <ProtectedRouteOther>
                   <ManagerProducts />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlManager}/inventory/products/filter`}
+              element={
+                <ProtectedRouteOther>
+                  <ManagerProductsView />
                 </ProtectedRouteOther>
               }
             />
