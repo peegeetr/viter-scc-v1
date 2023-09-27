@@ -209,10 +209,7 @@ export const getValidationOrderAdd = (
     !item &&
     isPaid === "1" &&
     Number(sales_receive_amount) <
-      modalComputeAmountWithDiscount(
-        orders_product_amount,
-        values.sales_discount
-      )
+      modalComputeAmountWithDiscount(orders_product_amount, sales_discount)
   ) {
     dispatch(setError(true));
     dispatch(setMessage("Insufficient amount"));
