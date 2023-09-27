@@ -166,8 +166,6 @@ const CasherPointOfSalesList = () => {
     search: Yup.string().required("Required"),
   });
 
-  console.log("result1", result);
-
   return (
     <>
       <div className="whitespace-nowrap gap-2 pt-8 pb-5">

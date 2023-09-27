@@ -85,15 +85,17 @@ const ModalPayNow = ({ item, result, isPayAll, setSearch, onSearch }) => {
                 const sales_receive_amount = removeComma(
                   `${values.sales_receive_amount}`
                 );
-                if (
-                  Number(sales_receive_amount) <
-                  (Number(item.totalAmount) ||
-                    Number(item.orders_product_amount))
-                ) {
+                const totalPrice = isPayAll
+                  ? Number(item.totalAmount)
+                  : Number(item.orders_product_amount) -
+                    Number(sales_receive_amount);
+
+                if (Number(sales_receive_amount) < totalPrice) {
                   dispatch(setError(true));
                   dispatch(setMessage("Insufficient amount"));
                   return;
                 }
+
                 mutation.mutate({
                   ...values,
                   result: isPayAll ? result : item,

@@ -159,7 +159,7 @@ const ModalEditSearchPOS = ({ item, arrKey }) => {
                       </span>
                     </p>
                     <p className="mb-0 font-light text-lg text-primary capitalize">
-                      Product :
+                      Product :{" "}
                       <span className="font-bold">
                         {item.suppliers_products_name} ({pesoSign}
                         {`${numberWithCommas(
