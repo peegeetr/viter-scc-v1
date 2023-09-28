@@ -13,11 +13,14 @@ const PointOfSales = () => {
 
   return (
     <>
-      <Header />
+      <div className="print:hidden">
+        <Header />
+      </div>
       <Navigation menu="inventory" />
       <div className="wrapper">
         <BreadCrumbs />
-        <hr className="print:hidden" /> <CasherPointOfSalesList />
+        <hr className="print:hidden" />
+        <CasherPointOfSalesList />
         <Footer />
       </div>
       {store.success && <ModalSuccess />}

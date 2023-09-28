@@ -22,7 +22,7 @@ const Header = ({ menu = "" }) => {
     store.credentials.data.role_is_developer === 1
       ? store.credentials.data.user_system_name.split(" ")[0]
       : store.credentials.data.members_first_name;
-
+  console.log("menu", menu);
   return (
     <>
       <div className="fixed z-30 bg-primary w-full flex justify-between items-center h-16 px-3 border-solid border-b-2 border-primary print:hidden">
@@ -78,7 +78,7 @@ const Header = ({ menu = "" }) => {
         </div>
       </div>
       {/* if print */}
-      <div className="pt-4 bg-white h-22 border-solid border-b-[1px] border-secondary hidden print:block">
+      <div className="pt-4 bg-white h-22 border-solid border-b-[1px] border-secondary hidden print:block ">
         <span className="flex justify-center pb-2">
           <Logo />
         </span>
