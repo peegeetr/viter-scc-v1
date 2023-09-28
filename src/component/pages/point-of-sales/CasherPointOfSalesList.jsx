@@ -43,6 +43,7 @@ import ModalPayNow from "./modal/ModalPayNow";
 import { getRemaningQuantity } from "../Inventory/products/functions-product";
 import StatusPending from "../../partials/status/StatusPending";
 import CasherPointOfSalesListPrint from "./CasherPointOfSalesListPrint";
+import { AiFillPrinter } from "react-icons/ai";
 
 const CasherPointOfSalesList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -439,11 +440,19 @@ const CasherPointOfSalesList = () => {
             <div className="flex justify-end mt-5 ">
               <button
                 type="button"
-                className="btn-primary mr-8"
+                className="btn-primary mr-4"
                 onClick={handlePayNow}
               >
                 <GiReceiveMoney />
                 <span>Pay now</span>
+              </button>
+              <button
+                type="button"
+                className="btn-primary print:hidden"
+                onClick={() => window.print()}
+              >
+                <AiFillPrinter />
+                <span>Print</span>
               </button>
             </div>
           )}
