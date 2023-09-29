@@ -5,6 +5,7 @@ import {
   numberWithCommas,
 } from "../../helpers/functions-general";
 import { computeFinalAmount } from "../Inventory/orders/functions-orders";
+import { getProducUnit } from "./functions-pos";
 
 const CasherPointOfSalesListPrint = ({ memberName, result }) => {
   let discount = 0;
@@ -40,7 +41,7 @@ const CasherPointOfSalesListPrint = ({ memberName, result }) => {
                       {item.orders_product_quantity}
                     </p>
                     <p className="text-[13px] leading-[17.5px] text-center mb-0 ">
-                      pcs
+                      {getProducUnit(item)}
                     </p>
                     <p className="text-[13px] leading-[17.5px] mb-0 ml-[3px]">
                       {item.suppliers_products_name}

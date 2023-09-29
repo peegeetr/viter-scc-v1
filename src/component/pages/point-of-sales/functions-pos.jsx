@@ -1,4 +1,8 @@
-import { numberWithCommas, removeComma } from "../../helpers/functions-general";
+import {
+  categoryRiceId,
+  numberWithCommas,
+  removeComma,
+} from "../../helpers/functions-general";
 import { getRemaningQuantity } from "../Inventory/products/functions-product";
 
 // compute Remaining Quantity
@@ -54,6 +58,16 @@ export const getTotalAmountPending = (result) => {
       Number(item.orders_product_amount) - Number(item.sales_discount);
   });
   return finalResult;
+};
+
+export const getProducUnit = (item) => {
+  let result = "pcs";
+
+  if (Number(item.suppliers_products_category_id) === categoryRiceId) {
+    result = "kg";
+  }
+
+  return result;
 };
 
 export const checkInsufficientQty = (item, stocksGroupProd, orderGroupProd) => {

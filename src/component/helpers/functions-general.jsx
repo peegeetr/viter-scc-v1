@@ -21,6 +21,7 @@ export const devNavUrl = "";
 
 export const notMemberId = 32;
 export const AssociateMemberId = 33;
+export const categoryRiceId = 9;
 export const wholeSaleDiscountId = "0";
 export const otherDiscountId = "1";
 export const UrlAdmin = "admin";
