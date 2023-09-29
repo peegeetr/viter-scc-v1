@@ -10,21 +10,17 @@ import {
   setSuccess,
 } from "../../../../store/StoreAction";
 import { StoreContext } from "../../../../store/StoreContext";
-import { InputSelect, InputText } from "../../../helpers/FormInputs";
+import { InputText } from "../../../helpers/FormInputs";
 import { queryData } from "../../../helpers/queryData";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
 import {
   numberWithCommas,
-  otherDiscountId,
   pesoSign,
   removeComma,
-  wholeSaleDiscountId,
 } from "../../../helpers/functions-general";
 import { modalComputeAmountWithDiscount } from "../orders/functions-orders";
-import useQueryData from "../../../custom-hooks/useQueryData";
-import { getWholeSaleDiscountInSale } from "./functions-sales";
 
-const ModalUpdateSales = ({ item }) => {
+const ModalUpdateSalesOld = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [isAmount, setIsAmount] = React.useState(false);
   const queryClient = useQueryClient();
@@ -52,24 +48,18 @@ const ModalUpdateSales = ({ item }) => {
   const handleClose = () => {
     dispatch(setIsConfirm(false));
   };
-  // use if not loadmore button undertime
-  const { data: readPriceMarkup } = useQueryData(
-    `/v1/pos/read-price-markup`, // endpoint
-    "get", // method
-    "readPriceMarkup" // key
-  );
   const initVal = {
     sales_or: item.sales_or,
     sales_receive_amount: item.sales_receive_amount,
     sales_member_change: "",
     sales_order_id: item.sales_order_id,
     sales_discount: "",
-    orders_is_discounted: "",
   };
 
   const yupSchema = Yup.object({
     sales_or: Yup.string().required("Required"),
     sales_receive_amount: Yup.string().required("Required"),
+    sales_discount: Yup.string().required("Required"),
   });
 
   return (
@@ -96,18 +86,13 @@ const ModalUpdateSales = ({ item }) => {
                 const sales_receive_amount = removeComma(
                   `${values.sales_receive_amount}`
                 );
-                const sales_discount =
-                  values.orders_is_discounted === wholeSaleDiscountId
-                    ? getWholeSaleDiscountInSale(readPriceMarkup, item).toFixed(
-                        2
-                      )
-                    : Number(removeComma(values.sales_discount)).toFixed(2);
+                const sales_discount = removeComma(`${values.sales_discount}`);
                 if (
                   Number(sales_receive_amount) <
                   Number(
                     modalComputeAmountWithDiscount(
                       item.orders_product_amount,
-                      sales_discount
+                      values.sales_discount
                     )
                   )
                 ) {
@@ -127,14 +112,7 @@ const ModalUpdateSales = ({ item }) => {
                   Number(removeComma(props.values.sales_receive_amount)) -
                   modalComputeAmountWithDiscount(
                     item.orders_product_amount,
-                    props.values.orders_is_discounted === wholeSaleDiscountId
-                      ? getWholeSaleDiscountInSale(
-                          readPriceMarkup,
-                          item
-                        ).toFixed(2)
-                      : Number(
-                          removeComma(props.values.sales_discount)
-                        ).toFixed(2)
+                    removeComma(props.values.sales_discount)
                   );
                 return (
                   <Form>
@@ -151,20 +129,13 @@ const ModalUpdateSales = ({ item }) => {
                           {item.suppliers_products_name}
                         </span>
                       </p>
-
                       <p className="mb-0 text-lg">
                         Discount Amount:
                         <span className="text-black ml-2">
                           {pesoSign}{" "}
-                          {props.values.orders_is_discounted === otherDiscountId
-                            ? Number(props.values.sales_discount).toFixed(2)
-                            : props.values.orders_is_discounted ===
-                              wholeSaleDiscountId
-                            ? getWholeSaleDiscountInSale(
-                                readPriceMarkup,
-                                item
-                              ).toFixed(2)
-                            : "0.00"}
+                          {Number(
+                            removeComma(props.values.sales_discount)
+                          ).toFixed(2)}
                         </span>
                       </p>
 
@@ -175,15 +146,7 @@ const ModalUpdateSales = ({ item }) => {
                           {numberWithCommas(
                             modalComputeAmountWithDiscount(
                               item.orders_product_amount,
-                              props.values.orders_is_discounted ===
-                                wholeSaleDiscountId
-                                ? getWholeSaleDiscountInSale(
-                                    readPriceMarkup,
-                                    item
-                                  ).toFixed(2)
-                                : Number(
-                                    removeComma(props.values.sales_discount)
-                                  ).toFixed(2)
+                              removeComma(props.values.sales_discount)
                             )
                           )}
                         </span>
@@ -213,29 +176,14 @@ const ModalUpdateSales = ({ item }) => {
                       />
                     </div>
                     <div className="relative mb-5">
-                      <InputSelect
-                        label="Discount Category"
+                      <InputText
+                        label="Discount Amount"
                         type="text"
-                        name="orders_is_discounted"
+                        name="sales_discount"
+                        num="num"
                         disabled={mutation.isLoading}
-                      >
-                        <option value="">No Discount</option>
-                        <option value={wholeSaleDiscountId}>Whole Sales</option>
-                        <option value={otherDiscountId}>Other Option</option>
-                      </InputSelect>
+                      />
                     </div>
-
-                    {props.values.orders_is_discounted === otherDiscountId && (
-                      <div className="relative my-5">
-                        <InputText
-                          label="Discount"
-                          type="text"
-                          num="num"
-                          name="sales_discount"
-                          disabled={mutation.isLoading}
-                        />
-                      </div>
-                    )}
                     <div className="relative mb-4 ">
                       <InputText
                         label="Sales invoice number"
@@ -272,4 +220,4 @@ const ModalUpdateSales = ({ item }) => {
   );
 };
 
-export default ModalUpdateSales;
+export default ModalUpdateSalesOld;

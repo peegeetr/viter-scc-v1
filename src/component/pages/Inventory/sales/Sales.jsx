@@ -5,10 +5,11 @@ import Footer from "../../../partials/Footer";
 import Header from "../../../partials/Header";
 import Navigation from "../../../partials/Navigation";
 import ModalSuccess from "../../../partials/modals/ModalSuccess";
-import ModalUpdateSales from "./ModalUpdateSales";
+import ModalUpdateSales from "./ModalUpdateSalesOld";
 import SalesList from "./SalesList";
 import ModalViewSales from "./ModalViewSales";
 import ModalError from "../../../partials/modals/ModalError";
+import ModalUpdateSalesNew from "./ModalUpdateSales";
 
 const Sales = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -29,7 +30,7 @@ const Sales = () => {
         </div>
         <Footer />
       </div>
-      {store.isConfirm && <ModalUpdateSales item={itemEdit} />}
+      {store.isConfirm && <ModalUpdateSalesNew item={itemEdit} />}
       {store.isAdd && <ModalViewSales item={itemEdit} />}
       {store.success && <ModalSuccess />}
       {store.error && <ModalError />}

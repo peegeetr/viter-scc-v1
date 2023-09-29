@@ -1,3 +1,5 @@
+import { removeComma } from "../../../helpers/functions-general";
+
 // compute Remaining Quantity
 export const computeSalesTotalAmount = (result) => {
   let totaldiscount = 0;
@@ -40,4 +42,22 @@ export const computeSalesTotalAmount = (result) => {
     finalDiscount,
     finalReceivedAmount,
   };
+};
+
+export const getWholeSaleDiscountInSale = (readPriceMarkup, item) => {
+  let totalAmount = Number(item.orders_product_amount);
+
+  let wholeSalePercent = 0;
+  // read Price Markup percent
+  if (readPriceMarkup?.count > 0) {
+    const result = readPriceMarkup?.data.filter(
+      (markupItem) => markupItem.price_markup_is_active === 1
+    );
+    wholeSalePercent =
+      result?.length > 0 ? Number(result[0].price_markup_whole_sale) / 100 : 0;
+  }
+
+  const percent = Number(totalAmount) * Number(wholeSalePercent).toFixed(3);
+
+  return percent;
 };
