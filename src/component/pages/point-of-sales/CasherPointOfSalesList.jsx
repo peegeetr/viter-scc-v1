@@ -22,6 +22,7 @@ import {
   AssociateMemberId,
   GetFocus,
   formatDate,
+  getDateNow,
   notMemberId,
   numberWithCommas,
   pesoSign,
@@ -50,7 +51,6 @@ const CasherPointOfSalesList = () => {
   const [itemEdit, setItemEdit] = React.useState(null);
   const [isPayAll, setIsPayAll] = React.useState(false);
   const [search, setSearch] = React.useState("scc-000-2023");
-  const { ref, inView } = useInView();
   const onSearch = React.useRef("0");
   let isPay = 0;
   let delId = 0;
@@ -98,13 +98,6 @@ const CasherPointOfSalesList = () => {
     // refetchOnWindowFocus: false,
     cacheTime: 200,
   });
-
-  React.useEffect(() => {
-    if (inView) {
-      setPage((prev) => prev + 1);
-      fetchNextPage();
-    }
-  }, [inView]);
 
   const queryClient = useQueryClient();
   const mutation = useMutation({
@@ -188,6 +181,7 @@ const CasherPointOfSalesList = () => {
   return (
     <>
       <CasherPointOfSalesListPrint memberName={memberName} result={result} />
+
       <div className="print:hidden">
         <div className="whitespace-nowrap gap-2 pt-8 pb-5 ">
           <div className="grid md:grid-cols-2 items-center ">

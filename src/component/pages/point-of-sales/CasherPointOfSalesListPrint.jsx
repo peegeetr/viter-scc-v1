@@ -13,7 +13,7 @@ const CasherPointOfSalesListPrint = ({ memberName, result }) => {
   return (
     <>
       <div className="hidden print:block">
-        <p className="flex items-center justify-between mt-[8rem] mb-[6.5rem]">
+        <p className="flex items-center justify-between mt-[8rem] mb-[6.5rem] ">
           <span className="text-[13px] mb-0 pl-[6.2rem] font-bold">
             {" "}
             {memberName}
@@ -22,7 +22,7 @@ const CasherPointOfSalesListPrint = ({ memberName, result }) => {
             {formatDate(getDateNow())}
           </span>
         </p>
-        <div className="font-semibold h-[17.5rem] mr-[2.4rem]">
+        <div className="font-semibold h-[17.5rem] mr-[2.4rem] mb-[2px]">
           {result?.pages.map((page, key) => (
             <React.Fragment key={key}>
               {page.data.map((item, key) => {
@@ -34,7 +34,7 @@ const CasherPointOfSalesListPrint = ({ memberName, result }) => {
                 return (
                   <div
                     key={key}
-                    className="grid grid-cols-[3rem,3rem,1fr,5rem,3.5rem] gap-2 items-center "
+                    className="grid grid-cols-[3rem,3rem,1fr,5rem,3.7rem] gap-2 items-center "
                   >
                     <p className="text-[13px] leading-[17.5px] text-right mb-0">
                       {item.orders_product_quantity}
