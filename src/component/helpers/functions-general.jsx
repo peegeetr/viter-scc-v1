@@ -9,7 +9,7 @@ import { setIsAdd } from "../../store/StoreAction.jsx";
 export const urlScc = "https://dev.sambahayancoop.com";
 export const urlSccImg = "https://dev.sambahayancoop.com/img";
 
-// // cy url
+// // // cy url
 // export const urlSccImg = "http://localhost/projects/viter-scc-v1/public/img";
 // export const urlScc = "http://localhost/projects/viter-scc-v1";
 
