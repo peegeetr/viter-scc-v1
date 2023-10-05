@@ -96,18 +96,18 @@ const SalesList = ({ setItemEdit }) => {
   const { data: stocksGroupProd } = useQueryData(
     `/v1/stocks/group-by-prod`, // endpoint
     "get", // method
-    "stocksGroupProd", // key]
+    "stocksGroupProd", // key
     {},
-    "sales"
+    isFetching
   );
 
   // use if not loadmore button undertime
   const { data: orderGroupProd } = useQueryData(
     `/v1/orders/group-by-prod`, // endpoint
     "get", // method
-    "orderGroupProd", // key]
+    "orderGroupProd", // key
     {},
-    "sales"
+    isFetching
   );
 
   return (
