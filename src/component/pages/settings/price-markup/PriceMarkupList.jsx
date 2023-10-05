@@ -36,8 +36,6 @@ const PriceMarkupList = ({ setItemEdit }) => {
     "price-markup" // key
   );
 
-  console.log("priceMarkup", priceMarkup);
-
   const handleEdit = (item) => {
     dispatch(setIsAdd(true));
     setItemEdit(item);

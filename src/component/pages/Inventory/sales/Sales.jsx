@@ -4,12 +4,11 @@ import BreadCrumbs from "../../../partials/BreadCrumbs";
 import Footer from "../../../partials/Footer";
 import Header from "../../../partials/Header";
 import Navigation from "../../../partials/Navigation";
-import ModalSuccess from "../../../partials/modals/ModalSuccess";
-import ModalUpdateSales from "./ModalUpdateSalesOld";
-import SalesList from "./SalesList";
-import ModalViewSales from "./ModalViewSales";
 import ModalError from "../../../partials/modals/ModalError";
+import ModalSuccess from "../../../partials/modals/ModalSuccess";
 import ModalUpdateSalesNew from "./ModalUpdateSales";
+import ModalViewSales from "./ModalViewSales";
+import SalesList from "./SalesList";
 
 const Sales = () => {
   const { store, dispatch } = React.useContext(StoreContext);

@@ -103,8 +103,8 @@ const ProductsList = () => {
               <th className="min-w-[8rem]">Product</th>
               <th className="min-w-[8rem] text-right">Member Price</th>
               <th className="min-w-[8rem] text-right">Retail Price</th>
-              {/* <th className="min-w-[8rem] text-right">Supplier Price</th>
-              <th className="min-w-[8rem] text-right">Market Price</th> */}
+              <th className="min-w-[8rem] text-right">Wholesales Member</th>
+              <th className="min-w-[8rem] text-right">Wholesales Retail</th>
               <th className="min-w-[8rem] text-center print:hidden">
                 Remaning Qty
               </th>
@@ -154,6 +154,20 @@ const ProductsList = () => {
                       {pesoSign}
                       {numberWithCommas(
                         Number(item.suppliers_products_retail_price).toFixed(2)
+                      )}
+                    </td>
+                    <td className="text-right ">
+                      {pesoSign}
+                      {numberWithCommas(
+                        Number(item.suppliers_products_ws_scc_price).toFixed(2)
+                      )}
+                    </td>
+                    <td className="text-right ">
+                      {pesoSign}
+                      {numberWithCommas(
+                        Number(item.suppliers_products_ws_retail_price).toFixed(
+                          2
+                        )
                       )}
                     </td>
 

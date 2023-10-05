@@ -23,6 +23,7 @@ const ModalDeleteRestore = ({
   arrKey,
 }) => {
   const { dispatch } = React.useContext(StoreContext);
+
   const queryClient = useQueryClient();
 
   const mutation = useMutation({

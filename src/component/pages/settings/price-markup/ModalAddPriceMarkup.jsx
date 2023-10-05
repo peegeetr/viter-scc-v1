@@ -11,7 +11,6 @@ import {
 } from "../../../../store/StoreAction";
 import { StoreContext } from "../../../../store/StoreContext";
 import { InputText } from "../../../helpers/FormInputs";
-import { yearNow } from "../../../helpers/functions-general";
 import { queryData } from "../../../helpers/queryData";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
 const ModalAddPriceMarkup = ({ item }) => {
@@ -110,19 +109,19 @@ const ModalAddPriceMarkup = ({ item }) => {
                     </div>
                     <div className="relative my-5">
                       <InputText
-                        label="Whole Sale Retail %"
+                        label="Whole Sale Member %"
                         type="text"
                         number="number"
-                        name="price_markup_retail_whole_sale"
+                        name="price_markup_member_whole_sale"
                         disabled={mutation.isLoading}
                       />
                     </div>
                     <div className="relative my-5">
                       <InputText
-                        label="Whole Sale Member %"
+                        label="Whole Sale Retail %"
                         type="text"
                         number="number"
-                        name="price_markup_member_whole_sale"
+                        name="price_markup_retail_whole_sale"
                         disabled={mutation.isLoading}
                       />
                     </div>

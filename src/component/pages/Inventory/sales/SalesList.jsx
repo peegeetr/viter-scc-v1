@@ -9,6 +9,7 @@ import {
   setIsRestore,
 } from "../../../../store/StoreAction";
 import { StoreContext } from "../../../../store/StoreContext";
+import useQueryData from "../../../custom-hooks/useQueryData";
 import {
   formatDate,
   numberWithCommas,
@@ -24,9 +25,8 @@ import TableSpinner from "../../../partials/spinners/TableSpinner";
 import StatusActive from "../../../partials/status/StatusActive";
 import StatusPending from "../../../partials/status/StatusPending";
 import { computeFinalAmount } from "../orders/functions-orders";
-import SalesTotal from "./SalesTotal";
-import useQueryData from "../../../custom-hooks/useQueryData";
 import { getRemaningQuantity } from "../products/functions-product";
+import SalesTotal from "./SalesTotal";
 
 const SalesList = ({ setItemEdit }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -93,23 +93,22 @@ const SalesList = ({ setItemEdit }) => {
   };
 
   // use if not loadmore button undertime
-  const { data: stocksGroupProd } = useQueryData(
-    `/v1/stocks/group-by-prod`, // endpoint
-    "get", // method
-    "stocksGroupProd", // key
-    {},
-    isFetching
-  );
-
-  // use if not loadmore button undertime
   const { data: orderGroupProd } = useQueryData(
     `/v1/orders/group-by-prod`, // endpoint
     "get", // method
     "orderGroupProd", // key
     {},
-    isFetching
+    store.success
   );
 
+  // use if not loadmore button undertime
+  const { data: stocksGroupProd } = useQueryData(
+    `/v1/stocks/group-by-prod`, // endpoint
+    "get", // method
+    "stocksGroupProd", // key
+    {},
+    store.success
+  );
   return (
     <>
       <SearchBar
@@ -288,6 +287,7 @@ const SalesList = ({ setItemEdit }) => {
               : "Are you sure you want to void "
           }
           item={`${dataItem.suppliers_products_name} of ${dataItem.members_last_name}, ${dataItem.members_first_name}`}
+          dataItem={dataItem}
           orderId={`${dataItem.orders_aid}`}
           arrKey="sales"
         />

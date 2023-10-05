@@ -19,11 +19,6 @@ const SalesTotal = ({ result, isLoading }) => {
           type="paid"
           isLoading={isLoading}
         />
-        {/* <StatusAmount
-          text="received"
-          amount={computeSalesTotalAmount(result).finalReceivedAmount}
-          type="received"
-        /> */}
         <StatusAmount
           text="total"
           amount={computeSalesTotalAmount(result).finalAmount}
@@ -37,11 +32,6 @@ const SalesTotal = ({ result, isLoading }) => {
           type="discount"
           isLoading={isLoading}
         />
-        {/* <StatusAmount
-          text="qty"
-          amount={computeSalesTotalAmount(result).totalOty}
-          type="qty"
-        /> */}
       </div>
     </>
   );
