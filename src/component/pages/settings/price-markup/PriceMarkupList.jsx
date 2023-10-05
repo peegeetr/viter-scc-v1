@@ -70,9 +70,10 @@ const PriceMarkupList = ({ setItemEdit }) => {
             <tr>
               <th>#</th>
               <th>Status</th>
-              <th className="min-w-[10rem]">Member Percent</th>
-              <th className="min-w-[10rem]">Retail Percent</th>
-              <th className="min-w-[10rem]">Whole Sale Percent</th>
+              <th className="min-w-[10rem]">Member %</th>
+              <th className="min-w-[10rem]">Retail %</th>
+              <th className="min-w-[10rem]">Whole Sale Member %</th>
+              <th className="min-w-[10rem]">Whole Sale Retail %</th>
               <th className="min-w-[10rem]">Date Created</th>
               <th className="max-w-[5rem]">Actions</th>
             </tr>
@@ -107,7 +108,8 @@ const PriceMarkupList = ({ setItemEdit }) => {
                   </td>
                   <td>{item.price_markup_member}%</td>
                   <td>{item.price_markup_retail}%</td>
-                  <td>{item.price_markup_whole_sale}%</td>
+                  <td>{item.price_markup_member_whole_sale}%</td>
+                  <td>{item.price_markup_retail_whole_sale}%</td>
                   <td>{formatDate(item.price_markup_created_at)}</td>
                   <td>
                     <div className="flex items-center gap-2">
@@ -165,7 +167,7 @@ const PriceMarkupList = ({ setItemEdit }) => {
           isDel={isDel}
           mysqlApiArchive={`/v1/price-markup/active/${id}`}
           msg={"Are you sure you want to archive this role"}
-          item={`${dataItem.price_markup_retail}%, ${dataItem.price_markup_member}%, ${dataItem.price_markup_whole_sale}%`}
+          item={`${dataItem.price_markup_retail}%, ${dataItem.price_markup_member}%, ${dataItem.price_markup_retail_whole_sale}%`}
           arrKey="price-markup"
         />
       )}
@@ -181,7 +183,7 @@ const PriceMarkupList = ({ setItemEdit }) => {
               ? "Are you sure you want to delete this role"
               : "Are you sure you want to restore this role"
           }
-          item={`${dataItem.price_markup_retail}%, ${dataItem.price_markup_member}%, ${dataItem.price_markup_whole_sale}%`}
+          item={`${dataItem.price_markup_retail}%, ${dataItem.price_markup_member}%, ${dataItem.price_markup_retail_whole_sale}%`}
           arrKey="price-markup"
         />
       )}

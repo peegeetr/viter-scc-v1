@@ -10,7 +10,7 @@ import {
   setSuccess,
 } from "../../../../../../store/StoreAction";
 import { StoreContext } from "../../../../../../store/StoreContext";
-import { InputText } from "../../../../../helpers/FormInputs";
+import { InputSelect, InputText } from "../../../../../helpers/FormInputs";
 import {
   getDateNow,
   getUrlParam,
@@ -26,6 +26,7 @@ import {
 
 const ModalAddSuppliersProductsHistory = ({ percent }) => {
   const { store, dispatch } = React.useContext(StoreContext);
+  const [isPercent, setPercent] = React.useState("");
   const supplierProductId = getUrlParam().get("supplierProductId");
   const queryClient = useQueryClient();
   const mutation = useMutation({
@@ -49,16 +50,34 @@ const ModalAddSuppliersProductsHistory = ({ percent }) => {
   const handleClose = () => {
     dispatch(setIsAdd(false));
   };
+  const handlePercent = async (e, props) => {
+    // get employee id
+    setPercent(e.target.value);
+  };
 
   const initVal = {
     product_history_product_id: supplierProductId,
     product_history_date: getDateNow(),
     product_history_price: "",
+    suppliers_products_is_other_percent: "0",
+
+    suppliers_products_member_percent: "0",
+    suppliers_products_retail_percent: "0",
+    suppliers_products_ws_member_percent: "0",
+    suppliers_products_ws_retail_percent: "0",
   };
 
   const yupSchema = Yup.object({
     product_history_date: Yup.string().required("Required"),
     product_history_price: Yup.string().required("Required"),
+    suppliers_products_member_percent:
+      isPercent === "1" && Yup.string().required("Required"),
+    suppliers_products_retail_percent:
+      isPercent === "1" && Yup.string().required("Required"),
+    suppliers_products_ws_member_percent:
+      isPercent === "1" && Yup.string().required("Required"),
+    suppliers_products_ws_retail_percent:
+      isPercent === "1" && Yup.string().required("Required"),
   });
 
   return (
@@ -82,12 +101,7 @@ const ModalAddSuppliersProductsHistory = ({ percent }) => {
               onSubmit={async (values, { setSubmitting, resetForm }) => {
                 // console.log(values);
                 const valuePrice = getHistoryValuePrice(values, percent);
-                // const product_history_price = removeComma(
-                //   `${values.product_history_price}`
-                // );
-                // const product_history_scc_price = removeComma(
-                //   `${values.product_history_scc_price}`
-                // );
+
                 mutation.mutate({
                   ...values,
                   valuePrice,
@@ -113,7 +127,59 @@ const ModalAddSuppliersProductsHistory = ({ percent }) => {
                         name="product_history_price"
                         disabled={mutation.isLoading}
                       />
+                    </div>{" "}
+                    <div className="relative my-5">
+                      <InputSelect
+                        label="Percentage"
+                        onChange={handlePercent}
+                        name="suppliers_products_is_other_percent"
+                        disabled={mutation.isLoading}
+                      >
+                        <option value="0">Default percent</option>
+                        <option value="1">Other</option>
+                      </InputSelect>
                     </div>
+                    {props.values.suppliers_products_is_other_percent ===
+                      "1" && (
+                      <>
+                        <div className="relative my-5">
+                          <InputText
+                            label="Member %"
+                            type="text"
+                            number="number"
+                            name="suppliers_products_member_percent"
+                            disabled={mutation.isLoading}
+                          />
+                        </div>
+                        <div className="relative my-5">
+                          <InputText
+                            label="Retail %"
+                            type="text"
+                            number="number"
+                            name="suppliers_products_retail_percent"
+                            disabled={mutation.isLoading}
+                          />
+                        </div>
+                        <div className="relative my-5">
+                          <InputText
+                            label="Whole Sale Member %"
+                            type="text"
+                            number="number"
+                            name="suppliers_products_ws_member_percent"
+                            disabled={mutation.isLoading}
+                          />
+                        </div>
+                        <div className="relative my-5">
+                          <InputText
+                            label="Whole Sale Retail %"
+                            type="text"
+                            number="number"
+                            name="suppliers_products_ws_retail_percent"
+                            disabled={mutation.isLoading}
+                          />
+                        </div>
+                      </>
+                    )}
                     <p className="ml-3 text-primary">
                       Member Price :
                       <span className="text-black">
@@ -121,12 +187,17 @@ const ModalAddSuppliersProductsHistory = ({ percent }) => {
                         {numberWithCommas(
                           Number(
                             getHistoryTotalPrice(props.values, percent)
-                              .memberPrice
+                              .memberPriceTotal
                           ).toFixed(2)
                         )}{" "}
-                        {props.values.product_history_price === ""
+                        {props.values.suppliers_products_price === ""
                           ? ""
-                          : `(+ ${percent.member}%)`}
+                          : `(+ ${
+                              props.values
+                                .suppliers_products_is_other_percent === "1"
+                                ? props.values.suppliers_products_member_percent
+                                : percent.member
+                            }%)`}
                       </span>
                     </p>
                     <p className="ml-3 text-primary">
@@ -136,15 +207,61 @@ const ModalAddSuppliersProductsHistory = ({ percent }) => {
                         {numberWithCommas(
                           Number(
                             getHistoryTotalPrice(props.values, percent)
-                              .retailPrice
+                              .retailPriceTotal
                           ).toFixed(2)
                         )}{" "}
-                        {props.values.product_history_price === ""
+                        {props.values.suppliers_products_price === ""
                           ? ""
-                          : `(+ ${percent.retail}%)`}
+                          : `(+ ${
+                              props.values
+                                .suppliers_products_is_other_percent === "1"
+                                ? props.values.suppliers_products_retail_percent
+                                : percent.retail
+                            }%)`}
                       </span>
                     </p>
-
+                    <p className="ml-3 text-primary">
+                      Whole Sale Retail Price :
+                      <span className="text-black">
+                        {pesoSign}
+                        {numberWithCommas(
+                          Number(
+                            getHistoryTotalPrice(props.values, percent)
+                              .retailWsPriceTotal
+                          ).toFixed(2)
+                        )}{" "}
+                        {props.values.suppliers_products_price === ""
+                          ? ""
+                          : `(+ ${
+                              props.values
+                                .suppliers_products_is_other_percent === "1"
+                                ? props.values
+                                    .suppliers_products_ws_retail_percent
+                                : percent.retailWs
+                            }%)`}
+                      </span>
+                    </p>
+                    <p className="ml-3 text-primary">
+                      Whole Sale Member Price :
+                      <span className="text-black">
+                        {pesoSign}
+                        {numberWithCommas(
+                          Number(
+                            getHistoryTotalPrice(props.values, percent)
+                              .memberWsPriceTotal
+                          ).toFixed(2)
+                        )}{" "}
+                        {props.values.suppliers_products_price === ""
+                          ? ""
+                          : `(+ ${
+                              props.values
+                                .suppliers_products_is_other_percent === "1"
+                                ? props.values
+                                    .suppliers_products_ws_member_percent
+                                : percent.memberWs
+                            }%)`}
+                      </span>
+                    </p>
                     <div className="flex items-center gap-1 pt-5">
                       <button
                         type="submit"

@@ -22,11 +22,15 @@ if (array_key_exists("salesid", $_GET)) {
     $sales->sales_date = date("Y-m-d H:i:s");
     $sales->sales_datetime = date("Y-m-d H:i:s");
 
+    $sales->orders_product_srp = checkIndex($data, "orders_product_srp");
+    $sales->orders_is_discounted = checkIndex($data, "orders_is_discounted");
+    $sales->orders_product_amount = checkIndex($data, "orders_product_amount");
+
     //check to see if task id in query string is not empty and is number, if not return json error
     checkId($sales->sales_aid);
     // update 
     $query = checkUpdate($sales);
-    checkIsPaidOrder($sales);
+    checkUpdateOrder($sales);
     returnSuccess($sales, "Sales", $query);
 }
 

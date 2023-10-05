@@ -7,9 +7,16 @@ class ProductsHistory
     public $product_history_price;
     public $product_history_scc_price;
     public $product_history_retail_price;
+    public $product_history_ws_retail_price;
+    public $product_history_ws_member_price;
     public $product_history_date;
     public $product_history_created;
     public $product_history_datetime;
+
+    public $suppliers_products_member_percent;
+    public $suppliers_products_retail_percent;
+    public $suppliers_products_ws_member_percent;
+    public $suppliers_products_ws_retail_percent;
 
     public $connection;
     public $lastInsertedId;
@@ -44,6 +51,8 @@ class ProductsHistory
             $sql .= "product_history_price, ";
             $sql .= "product_history_scc_price, ";
             $sql .= "product_history_retail_price, ";
+            $sql .= "product_history_ws_retail_price, ";
+            $sql .= "product_history_ws_member_price, ";
             $sql .= "product_history_created, ";
             $sql .= "product_history_datetime ) values ( ";
             $sql .= ":product_history_product_id, ";
@@ -52,6 +61,8 @@ class ProductsHistory
             $sql .= ":product_history_price, ";
             $sql .= ":product_history_scc_price, ";
             $sql .= ":product_history_retail_price, ";
+            $sql .= ":product_history_ws_retail_price, ";
+            $sql .= ":product_history_ws_member_price, ";
             $sql .= ":product_history_created, ";
             $sql .= ":product_history_datetime ) ";
             $query = $this->connection->prepare($sql);
@@ -62,6 +73,8 @@ class ProductsHistory
                 "product_history_price" => $this->product_history_price,
                 "product_history_scc_price" => $this->product_history_scc_price,
                 "product_history_retail_price" => $this->product_history_retail_price,
+                "product_history_ws_retail_price" => $this->product_history_ws_retail_price,
+                "product_history_ws_member_price" => $this->product_history_ws_member_price,
                 "product_history_created" => $this->product_history_created,
                 "product_history_datetime" => $this->product_history_datetime,
             ]);
@@ -88,7 +101,9 @@ class ProductsHistory
             $sql .= "productsHistory.product_history_product_id, ";
             $sql .= "productsHistory.product_history_scc_price, ";
             $sql .= "productsHistory.product_history_retail_price, ";
-            $sql .= "productsHistory.product_history_price ";
+            $sql .= "productsHistory.product_history_price, ";
+            $sql .= "productsHistory.product_history_ws_retail_price, ";
+            $sql .= "productsHistory.product_history_ws_member_price ";
             $sql .= "from ";
             $sql .= "{$this->tblProductsHistory} as productsHistory, ";
             $sql .= "{$this->tblSuppliersProducts} as suppliersProducts ";
@@ -117,7 +132,9 @@ class ProductsHistory
             $sql .= "productsHistory.product_history_product_id, ";
             $sql .= "productsHistory.product_history_scc_price, ";
             $sql .= "productsHistory.product_history_retail_price, ";
-            $sql .= "productsHistory.product_history_price ";
+            $sql .= "productsHistory.product_history_price, ";
+            $sql .= "productsHistory.product_history_ws_retail_price, ";
+            $sql .= "productsHistory.product_history_ws_member_price ";
             $sql .= "from ";
             $sql .= "{$this->tblProductsHistory} as productsHistory, ";
             $sql .= "{$this->tblSuppliersProducts} as suppliersProducts ";
@@ -151,6 +168,8 @@ class ProductsHistory
             $sql .= "productsHistory.product_history_price, ";
             $sql .= "productsHistory.product_history_scc_price, ";
             $sql .= "productsHistory.product_history_retail_price, ";
+            $sql .= "productsHistory.product_history_ws_retail_price, ";
+            $sql .= "productsHistory.product_history_ws_member_price, ";
             $sql .= "productsHistory.product_history_date ";
             $sql .= "from ";
             $sql .= "{$this->tblProductsHistory} as productsHistory, ";
@@ -158,7 +177,8 @@ class ProductsHistory
             $sql .= "where productsHistory.product_history_product_id = :product_history_product_id ";
             $sql .= "and productsHistory.product_history_product_id = suppliersProducts.suppliers_products_aid ";
             $sql .= "order by productsHistory.product_history_is_active desc, ";
-            $sql .= "productsHistory.product_history_date desc ";
+            $sql .= "productsHistory.product_history_date desc, ";
+            $sql .= "productsHistory.product_history_aid desc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "product_history_product_id" => $this->product_history_product_id,
@@ -181,6 +201,8 @@ class ProductsHistory
             $sql .= "productsHistory.product_history_price, ";
             $sql .= "productsHistory.product_history_scc_price, ";
             $sql .= "productsHistory.product_history_retail_price, ";
+            $sql .= "productsHistory.product_history_ws_retail_price, ";
+            $sql .= "productsHistory.product_history_ws_member_price, ";
             $sql .= "productsHistory.product_history_date ";
             $sql .= "from ";
             $sql .= "{$this->tblProductsHistory} as productsHistory, ";
@@ -188,7 +210,8 @@ class ProductsHistory
             $sql .= "where productsHistory.product_history_product_id = :product_history_product_id ";
             $sql .= "and productsHistory.product_history_product_id = suppliersProducts.suppliers_products_aid ";
             $sql .= "order by productsHistory.product_history_is_active desc, ";
-            $sql .= "productsHistory.product_history_date desc ";
+            $sql .= "productsHistory.product_history_date desc, ";
+            $sql .= "productsHistory.product_history_aid desc ";
             $sql .= "limit :start, ";
             $sql .= ":total ";
             $query = $this->connection->prepare($sql);
@@ -216,6 +239,8 @@ class ProductsHistory
             $sql .= "productsHistory.product_history_price, ";
             $sql .= "productsHistory.product_history_scc_price, ";
             $sql .= "productsHistory.product_history_retail_price, ";
+            $sql .= "productsHistory.product_history_ws_retail_price, ";
+            $sql .= "productsHistory.product_history_ws_member_price, ";
             $sql .= "productsHistory.product_history_date ";
             $sql .= "from ";
             $sql .= "{$this->tblProductsHistory} as productsHistory, ";
@@ -226,7 +251,8 @@ class ProductsHistory
             $sql .= "or productsHistory.product_history_date like :product_history_date ";
             $sql .= "or MONTHNAME(productsHistory.product_history_date) like :month) ";
             $sql .= "order by productsHistory.product_history_is_active desc, ";
-            $sql .= "productsHistory.product_history_date desc ";
+            $sql .= "productsHistory.product_history_date desc, ";
+            $sql .= "productsHistory.product_history_aid desc ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "product_history_product_id" => $this->product_history_product_id,
@@ -272,6 +298,12 @@ class ProductsHistory
             $sql .= "suppliers_products_price = :suppliers_products_price, ";
             $sql .= "suppliers_products_scc_price = :suppliers_products_scc_price, ";
             $sql .= "suppliers_products_retail_price = :suppliers_products_retail_price, ";
+            $sql .= "suppliers_products_ws_retail_price	= :suppliers_products_ws_retail_price, ";
+            $sql .= "suppliers_products_ws_scc_price = :suppliers_products_ws_scc_price, ";
+            $sql .= "suppliers_products_member_percent = :suppliers_products_member_percent, ";
+            $sql .= "suppliers_products_retail_percent = :suppliers_products_retail_percent, ";
+            $sql .= "suppliers_products_ws_member_percent = :suppliers_products_ws_member_percent, ";
+            $sql .= "suppliers_products_ws_retail_percent = :suppliers_products_ws_retail_percent, ";
             $sql .= "suppliers_products_datetime = :suppliers_products_datetime ";
             $sql .= "where suppliers_products_aid = :suppliers_products_aid ";
             $query = $this->connection->prepare($sql);
@@ -279,6 +311,40 @@ class ProductsHistory
                 "suppliers_products_price" => $this->product_history_price,
                 "suppliers_products_scc_price" => $this->product_history_scc_price,
                 "suppliers_products_retail_price" => $this->product_history_retail_price,
+                "suppliers_products_ws_retail_price" => $this->product_history_ws_retail_price,
+                "suppliers_products_ws_scc_price" => $this->product_history_ws_member_price,
+                "suppliers_products_member_percent" => $this->suppliers_products_member_percent,
+                "suppliers_products_retail_percent" => $this->suppliers_products_retail_percent,
+                "suppliers_products_ws_member_percent" => $this->suppliers_products_ws_member_percent,
+                "suppliers_products_ws_retail_percent" => $this->suppliers_products_ws_retail_percent,
+                "suppliers_products_datetime" => $this->product_history_datetime,
+                "suppliers_products_aid" => $this->product_history_product_id,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    // update
+    public function updateSupplierPriceStatus()
+    {
+        try {
+            $sql = "update {$this->tblSuppliersProducts} set ";
+            $sql .= "suppliers_products_price = :suppliers_products_price, ";
+            $sql .= "suppliers_products_scc_price = :suppliers_products_scc_price, ";
+            $sql .= "suppliers_products_retail_price = :suppliers_products_retail_price, ";
+            $sql .= "suppliers_products_ws_retail_price	= :suppliers_products_ws_retail_price, ";
+            $sql .= "suppliers_products_ws_scc_price = :suppliers_products_ws_scc_price, ";
+            $sql .= "suppliers_products_datetime = :suppliers_products_datetime ";
+            $sql .= "where suppliers_products_aid = :suppliers_products_aid ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "suppliers_products_price" => $this->product_history_price,
+                "suppliers_products_scc_price" => $this->product_history_scc_price,
+                "suppliers_products_retail_price" => $this->product_history_retail_price,
+                "suppliers_products_ws_retail_price" => $this->product_history_ws_retail_price,
+                "suppliers_products_ws_scc_price" => $this->product_history_ws_member_price,
                 "suppliers_products_datetime" => $this->product_history_datetime,
                 "suppliers_products_aid" => $this->product_history_product_id,
             ]);

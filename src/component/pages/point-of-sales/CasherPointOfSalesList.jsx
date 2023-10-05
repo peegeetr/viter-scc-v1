@@ -26,6 +26,7 @@ import {
   notMemberId,
   numberWithCommas,
   pesoSign,
+  wholeSaleDiscountId,
 } from "../../helpers/functions-general";
 import { queryData } from "../../helpers/queryData";
 import { queryDataInfinite } from "../../helpers/queryDataInfinite";
@@ -311,9 +312,16 @@ const CasherPointOfSalesList = () => {
                             )}
                           </td>
                           <td className="text-right">
-                            {pesoSign}
-                            {numberWithCommas(
-                              Number(item.sales_discount).toFixed(2)
+                            {item.orders_is_discounted ===
+                            wholeSaleDiscountId ? (
+                              "Wholesale"
+                            ) : (
+                              <>
+                                {pesoSign}
+                                {numberWithCommas(
+                                  Number(item.sales_discount).toFixed(2)
+                                )}
+                              </>
                             )}
                           </td>
                           <td className="text-right pr-4">

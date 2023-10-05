@@ -48,13 +48,19 @@ const ModalAddPriceMarkup = ({ item }) => {
   const initVal = {
     price_markup_retail: item ? item.price_markup_retail : "",
     price_markup_member: item ? item.price_markup_member : "",
-    price_markup_whole_sale: item ? item.price_markup_whole_sale : "",
+    price_markup_retail_whole_sale: item
+      ? item.price_markup_retail_whole_sale
+      : "",
+    price_markup_member_whole_sale: item
+      ? item.price_markup_member_whole_sale
+      : "",
   };
 
   const yupSchema = Yup.object({
     price_markup_retail: Yup.string().required("Required"),
     price_markup_member: Yup.string().required("Required"),
-    price_markup_whole_sale: Yup.string().required("Required"),
+    price_markup_retail_whole_sale: Yup.string().required("Required"),
+    price_markup_member_whole_sale: Yup.string().required("Required"),
   });
 
   return (
@@ -86,28 +92,37 @@ const ModalAddPriceMarkup = ({ item }) => {
                   <Form>
                     <div className="relative my-5">
                       <InputText
-                        label="Member Percent"
+                        label="Member %"
                         type="text"
-                        num="num"
+                        number="number"
                         name="price_markup_member"
                         disabled={mutation.isLoading}
                       />
                     </div>
                     <div className="relative my-5">
                       <InputText
-                        label="Retail Percent"
+                        label="Retail %"
                         type="text"
-                        num="num"
+                        number="number"
                         name="price_markup_retail"
                         disabled={mutation.isLoading}
                       />
                     </div>
                     <div className="relative my-5">
                       <InputText
-                        label="Whole Sale Percent"
+                        label="Whole Sale Retail %"
                         type="text"
-                        num="num"
-                        name="price_markup_whole_sale"
+                        number="number"
+                        name="price_markup_retail_whole_sale"
+                        disabled={mutation.isLoading}
+                      />
+                    </div>
+                    <div className="relative my-5">
+                      <InputText
+                        label="Whole Sale Member %"
+                        type="text"
+                        number="number"
+                        name="price_markup_member_whole_sale"
                         disabled={mutation.isLoading}
                       />
                     </div>

@@ -77,6 +77,8 @@ $order->sales_number = $formattedSalesId;
 $order->orders_member_id = checkIndex($data, "orders_member_id");
 $order->orders_product_quantity = checkIndex($allList, "orders_product_quantity");
 $order->orders_product_amount = checkIndex($allList, "orders_product_amount");
+$order->orders_product_srp = checkIndex($allList, "orders_product_srp");
+$order->orders_is_discounted = $data["orders_is_discounted"];
 $order->orders_date = checkIndex($data, "orders_date");
 $order->orders_is_paid = checkIndex($data, "orders_is_paid");
 $order->orders_is_draft = 0;
@@ -94,7 +96,6 @@ if (count($allItem) === 0) {
 }
 if (count($allItem) > 0) {
     $order->orders_product_id = checkIndex($allItem, "suppliers_products_aid");
-    $order->orders_product_srp = checkIndex($data, "orders_product_srp");
     $order->orders_suplier_price = checkIndex($allItem, "product_history_price");
     $order->orders_stocks_id = checkIndex($allItem, "stocks_aid");
 }

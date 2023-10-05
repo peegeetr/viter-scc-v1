@@ -269,18 +269,40 @@ export const getYearList = () => {
 export const getPriceMarkup = (priceMarkup) => {
   let retailPercent = 0;
   let memberPercent = 0;
+  let retailWsPercent = 0;
+  let memberWsPercent = 0;
   let retail = 0;
   let member = 0;
+  let retailWs = 0;
+  let memberWs = 0;
   let isHaveActive = false;
+
+  // price_markup_retail_whole_sale
+  // price_markup_member_whole_sale
 
   // get the percentage then / 100 to get how much the percent
   if (priceMarkup?.count > 0) {
     retail = Number(priceMarkup?.data[0].price_markup_retail);
     member = Number(priceMarkup?.data[0].price_markup_member);
-    retailPercent = Number(priceMarkup?.data[0].price_markup_retail) / 100;
-    memberPercent = Number(priceMarkup?.data[0].price_markup_member) / 100;
+    retailWs = Number(priceMarkup?.data[0].price_markup_retail_whole_sale);
+    memberWs = Number(priceMarkup?.data[0].price_markup_member_whole_sale);
+
+    retailPercent = retail / 100;
+    memberPercent = member / 100;
+    retailWsPercent = retailWs / 100;
+    memberWsPercent = memberWs / 100;
     isHaveActive = true;
   }
 
-  return { retailPercent, memberPercent, isHaveActive, retail, member };
+  return {
+    retailPercent,
+    memberPercent,
+    retailWsPercent,
+    memberWsPercent,
+    isHaveActive,
+    retail,
+    member,
+    retailWs,
+    memberWs,
+  };
 };

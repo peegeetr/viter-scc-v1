@@ -46,6 +46,14 @@ function checkUpdateSupplierPrice($object)
     return $query;
 }
 
+// Update supplier price
+function checkUpdateSupplierPriceStatus($object)
+{
+    $query = $object->updateSupplierPriceStatus();
+    checkQuery($query, "There's a problem processing your request. (update)");
+    return $query;
+}
+
 // check association
 function checkAssociationInOrderPending($object)
 {

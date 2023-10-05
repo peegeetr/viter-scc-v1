@@ -5,7 +5,8 @@ class PriceMarkup
     public $price_markup_is_active;
     public $price_markup_retail;
     public $price_markup_member;
-    public $price_markup_whole_sale;
+    public $price_markup_retail_whole_sale;
+    public $price_markup_member_whole_sale;
     public $price_markup_created_at;
     public $price_markup_updated_at;
 
@@ -26,13 +27,15 @@ class PriceMarkup
             $sql = "insert into {$this->tblPriceMarkup} ";
             $sql .= "( price_markup_retail, ";
             $sql .= "price_markup_member, ";
-            $sql .= "price_markup_whole_sale, ";
+            $sql .= "price_markup_retail_whole_sale, ";
+            $sql .= "price_markup_member_whole_sale, ";
             $sql .= "price_markup_is_active, ";
             $sql .= "price_markup_created_at, ";
             $sql .= "price_markup_updated_at ) values ( ";
             $sql .= ":price_markup_retail, ";
             $sql .= ":price_markup_member, ";
-            $sql .= ":price_markup_whole_sale, ";
+            $sql .= ":price_markup_retail_whole_sale, ";
+            $sql .= ":price_markup_member_whole_sale, ";
             $sql .= ":price_markup_is_active, ";
             $sql .= ":price_markup_created_at, ";
             $sql .= ":price_markup_updated_at ) ";
@@ -40,7 +43,8 @@ class PriceMarkup
             $query->execute([
                 "price_markup_retail" => $this->price_markup_retail,
                 "price_markup_member" => $this->price_markup_member,
-                "price_markup_whole_sale" => $this->price_markup_whole_sale,
+                "price_markup_retail_whole_sale" => $this->price_markup_retail_whole_sale,
+                "price_markup_member_whole_sale" => $this->price_markup_member_whole_sale,
                 "price_markup_is_active" => $this->price_markup_is_active,
                 "price_markup_created_at" => $this->price_markup_created_at,
                 "price_markup_updated_at" => $this->price_markup_updated_at,
@@ -61,7 +65,8 @@ class PriceMarkup
             $sql .= "price_markup_is_active, ";
             $sql .= "price_markup_retail, ";
             $sql .= "price_markup_member, ";
-            $sql .= "price_markup_whole_sale, ";
+            $sql .= "price_markup_retail_whole_sale, ";
+            $sql .= "price_markup_member_whole_sale, ";
             $sql .= "price_markup_created_at ";
             $sql .= "from {$this->tblPriceMarkup} ";
             $sql .= "order by price_markup_is_active desc ";
@@ -81,7 +86,8 @@ class PriceMarkup
             $sql .= "price_markup_is_active, ";
             $sql .= "price_markup_retail, ";
             $sql .= "price_markup_member, ";
-            $sql .= "price_markup_whole_sale, ";
+            $sql .= "price_markup_retail_whole_sale, ";
+            $sql .= "price_markup_member_whole_sale, ";
             $sql .= "price_markup_created_at ";
             $sql .= "from {$this->tblPriceMarkup} ";
             $sql .= "where price_markup_aid = :price_markup_aid ";
@@ -103,14 +109,16 @@ class PriceMarkup
             $sql = "update {$this->tblPriceMarkup} set ";
             $sql .= "price_markup_retail = :price_markup_retail, ";
             $sql .= "price_markup_member = :price_markup_member, ";
-            $sql .= "price_markup_whole_sale = :price_markup_whole_sale, ";
+            $sql .= "price_markup_retail_whole_sale = :price_markup_retail_whole_sale, ";
+            $sql .= "price_markup_member_whole_sale = :price_markup_member_whole_sale, ";
             $sql .= "price_markup_updated_at = :price_markup_updated_at ";
             $sql .= "where price_markup_aid  = :price_markup_aid ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "price_markup_retail" => $this->price_markup_retail,
                 "price_markup_member" => $this->price_markup_member,
-                "price_markup_whole_sale" => $this->price_markup_whole_sale,
+                "price_markup_retail_whole_sale" => $this->price_markup_retail_whole_sale,
+                "price_markup_member_whole_sale" => $this->price_markup_member_whole_sale,
                 "price_markup_updated_at" => $this->price_markup_updated_at,
                 "price_markup_aid" => $this->price_markup_aid,
             ]);
@@ -163,7 +171,8 @@ class PriceMarkup
             $sql .= "price_markup_is_active, ";
             $sql .= "price_markup_retail, ";
             $sql .= "price_markup_member, ";
-            $sql .= "price_markup_whole_sale ";
+            $sql .= "price_markup_retail_whole_sale, ";
+            $sql .= "price_markup_member_whole_sale ";
             $sql .= "from {$this->tblPriceMarkup} ";
             $sql .= "where price_markup_is_active = 1 ";
             $query = $this->connection->query($sql);

@@ -19,23 +19,21 @@ import {
 } from "../../../helpers/FormInputs";
 import {
   getDateNow,
-  numberWithCommas,
   otherDiscountId,
   pesoSign,
-  removeComma,
   wholeSaleDiscountId,
 } from "../../../helpers/functions-general";
 import { queryData } from "../../../helpers/queryData";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
-import SearchToAddProduct from "../../point-of-sales-old/SearchToAddProduct";
 import {
-  getProductDetails,
-  getTotaAmountOrder,
+  getChange,
+  getInventoryOrderDiscount,
+  getInventoryWholeSales,
+  getSelectedProduct,
   getValidationOrderAdd,
-  getWholeSaleDiscountOrder,
-  modalComputeAmountWithDiscount,
+  showWholeSaleInOrder,
 } from "./functions-orders";
-import { getTotaWithDiscount } from "../../point-of-sales/modal/functions-newpos";
+import OrderSearchToAddProduct from "./search/OrderSearchToAddProduct";
 
 const ModalManagerAddOrders = ({ item, arrKey }) => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -91,13 +89,6 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
     "get", // method
     "orderGroupProd" // key
   );
-
-  // use if not loadmore button undertime
-  const { data: readPriceMarkup } = useQueryData(
-    `/v1/pos/read-price-markup`, // endpoint
-    "get", // method
-    "readPriceMarkup" // key
-  );
   // use if not loadmore button undertime
   const { data: memberApproved, isLoading: memberApprovedLoading } =
     useQueryData(
@@ -113,9 +104,9 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
 
   // get employee id
   const handleResetSearch = async () => {
-    setItems([]);
-    setSearch("");
-    setTotalPrice("");
+    setItems(item ? items : []);
+    setSearch(item ? item.suppliers_products_name : "");
+    setTotalPrice(item ? item.orders_product_srp : "");
   };
 
   // use if not loadmore button undertime
@@ -189,9 +180,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                   dispatch,
                   isPaid,
                   stocksGroupProd,
-                  orderGroupProd,
-                  readPriceMarkup,
-                  totalPrice
+                  orderGroupProd
                 );
                 // new list
                 const list = validation.list;
@@ -241,7 +230,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                     </div>
                     {!item && (
                       <div className="relative mt-5">
-                        <SearchToAddProduct
+                        <OrderSearchToAddProduct
                           stocksGroupProd={stocksGroupProd}
                           orderGroupProd={orderGroupProd}
                           setSearch={setSearch}
@@ -256,35 +245,27 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                       </div>
                     )}
                     <p className="m-0 font-light mt-4 ml-3 text-primary">
-                      Product :
+                      Product :{" "}
                       <span className="font-bold break-words">
-                        {item ? (
-                          <>
-                            {` ${getProductDetails(
+                        {
+                          getSelectedProduct(
+                            item,
+                            stocksGroupProd,
+                            orderGroupProd,
+                            totalPrice,
+                            items
+                          ).productDetails
+                        }
+                        {pesoSign}
+                        {item
+                          ? getInventoryWholeSales(props.values, item)
+                          : getSelectedProduct(
                               item,
                               stocksGroupProd,
-                              orderGroupProd
-                            )} `}
-                            {pesoSign}
-                            {` ${numberWithCommas(
-                              Number(totalPrice).toFixed(2)
-                            )}`}
-                          </>
-                        ) : items.suppliers_products_name === undefined ? (
-                          "--"
-                        ) : (
-                          <>
-                            {` ${getProductDetails(
-                              items,
-                              stocksGroupProd,
-                              orderGroupProd
-                            )} `}
-                            {pesoSign}
-                            {` ${numberWithCommas(
-                              Number(totalPrice).toFixed(2)
-                            )}`}
-                          </>
-                        )}
+                              orderGroupProd,
+                              totalPrice,
+                              items
+                            ).result}
                       </span>
                     </p>
 
@@ -347,9 +328,12 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                                 disabled={mutation.isLoading}
                               >
                                 <option value="">No Discount</option>
-                                <option value={wholeSaleDiscountId}>
-                                  Whole Sales
-                                </option>
+
+                                {showWholeSaleInOrder(item, items) && (
+                                  <option value={wholeSaleDiscountId}>
+                                    Whole Sales
+                                  </option>
+                                )}
                                 <option value={otherDiscountId}>
                                   Other Option
                                 </option>
@@ -386,28 +370,18 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                           Amount:
                           <span className="text-black ml-2">
                             {pesoSign}{" "}
-                            {Number(totalPrice) === 0
-                              ? "0.00"
-                              : numberWithCommas(
-                                  getTotaAmountOrder(props.values, totalPrice)
-                                )}
+                            {Number(
+                              getInventoryWholeSales(props.values, items)
+                            ).toFixed(2)}
                           </span>
                         </p>
                         <p className="text-xl text-primary">
                           Discount:
                           <span className="text-black ml-2">
                             {pesoSign}{" "}
-                            {props.values.orders_is_discounted ===
-                            otherDiscountId
-                              ? Number(props.values.sales_discount).toFixed(2)
-                              : props.values.orders_is_discounted ===
-                                wholeSaleDiscountId
-                              ? getWholeSaleDiscountOrder(
-                                  readPriceMarkup,
-                                  props.values,
-                                  totalPrice
-                                ).toFixed(2)
-                              : "0.00"}
+                            {Number(
+                              getInventoryOrderDiscount(props.values)
+                            ).toFixed(2)}
                           </span>
                         </p>
                       </div>
@@ -417,14 +391,14 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                         Total Amount:
                         <span className="text-black ml-2">
                           {pesoSign}
-                          {props.values.orders_product_quantity === "" ||
-                          Number(props.values.orders_product_quantity) === 0
-                            ? "0.00"
-                            : getTotaWithDiscount(
-                                readPriceMarkup,
-                                props.values,
-                                totalPrice
-                              )}
+                          {Number(
+                            item
+                              ? getInventoryWholeSales(props.values, item)
+                              : getInventoryWholeSales(props.values, items) -
+                                  getInventoryOrderDiscount(
+                                    props.values
+                                  ).toFixed(2)
+                          ).toFixed(2)}
                         </span>
                       </p>
                     </div>
@@ -434,18 +408,13 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                           Change:
                           <span className="text-black ml-2">
                             {pesoSign}{" "}
-                            {Number(props.values.sales_receive_amount) === 0
-                              ? "0.00"
-                              : Number(
-                                  removeComma(
-                                    props.values.sales_receive_amount
-                                  ) -
-                                    getTotaWithDiscount(
-                                      readPriceMarkup,
-                                      props.values,
-                                      totalPrice
-                                    )
-                                ).toFixed(2)}
+                            {Number(
+                              getChange(
+                                getInventoryWholeSales(props.values, items),
+                                getInventoryOrderDiscount(props.values),
+                                props.values.sales_receive_amount
+                              )
+                            ).toFixed(2)}
                           </span>
                         </p>
                       </div>

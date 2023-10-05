@@ -9,6 +9,7 @@ class Orders
     public $orders_product_id;
     public $orders_stocks_id;
     public $orders_product_quantity;
+    public $orders_is_discounted;
     public $orders_product_amount;
     public $orders_product_srp;
     public $orders_suplier_price;
@@ -69,6 +70,7 @@ class Orders
             $sql .= "orders_product_quantity, ";
             $sql .= "orders_product_amount, ";
             $sql .= "orders_product_srp, ";
+            $sql .= "orders_is_discounted, ";
             $sql .= "orders_date, ";
             $sql .= "orders_stocks_id, ";
             $sql .= "orders_suplier_price, ";
@@ -83,6 +85,7 @@ class Orders
             $sql .= ":orders_product_quantity, ";
             $sql .= ":orders_product_amount, ";
             $sql .= ":orders_product_srp, ";
+            $sql .= ":orders_is_discounted, ";
             $sql .= ":orders_date, ";
             $sql .= ":orders_stocks_id, ";
             $sql .= ":orders_suplier_price, ";
@@ -99,6 +102,7 @@ class Orders
                 "orders_product_quantity" => $this->orders_product_quantity,
                 "orders_product_amount" => $this->orders_product_amount,
                 "orders_product_srp" => $this->orders_product_srp,
+                "orders_is_discounted" => $this->orders_is_discounted,
                 "orders_suplier_price" => $this->orders_suplier_price,
                 "orders_date" => $this->orders_date,
                 "orders_stocks_id" => $this->orders_stocks_id,
@@ -596,6 +600,7 @@ class Orders
         try {
             $sql = "update {$this->tblOrders} set ";
             $sql .= "orders_product_quantity = :orders_product_quantity, ";
+            $sql .= "orders_product_srp = :orders_product_srp, ";
             $sql .= "orders_member_id = :orders_member_id, ";
             $sql .= "orders_product_amount = :orders_product_amount, ";
             $sql .= "orders_date = :orders_date, ";
@@ -606,6 +611,7 @@ class Orders
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "orders_product_quantity" => $this->orders_product_quantity,
+                "orders_product_srp" => $this->orders_product_srp,
                 "orders_member_id" => $this->orders_member_id,
                 "orders_product_amount" => $this->orders_product_amount,
                 "orders_date" => $this->orders_date,

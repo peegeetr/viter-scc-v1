@@ -16,7 +16,8 @@ if (array_key_exists("priceMarkupId", $_GET)) {
     $price_markup->price_markup_aid = $_GET['priceMarkupId'];
     $price_markup->price_markup_retail = checkIndex($data, "price_markup_retail");
     $price_markup->price_markup_member = checkIndex($data, "price_markup_member");
-    $price_markup->price_markup_whole_sale = checkIndex($data, "price_markup_whole_sale");
+    $price_markup->price_markup_retail_whole_sale = checkIndex($data, "price_markup_retail_whole_sale");
+    $price_markup->price_markup_member_whole_sale = checkIndex($data, "price_markup_member_whole_sale");
     $price_markup->price_markup_updated_at = date("Y-m-d H:i:s");
     //check to see if task id in query string is not empty and is number, if not return json error
     checkId($price_markup->price_markup_aid);

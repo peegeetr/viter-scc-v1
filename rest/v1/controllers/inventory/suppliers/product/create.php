@@ -47,7 +47,14 @@ $valPrice = $data["valuePrice"];
 $suppliersProducts->suppliers_products_scc_price = checkIndex($valPrice, "suppliers_products_scc_price");
 $suppliersProducts->suppliers_products_retail_price = checkIndex($valPrice, "suppliers_products_retail_price");
 $suppliersProducts->suppliers_products_price = checkIndex($valPrice, "suppliers_products_price");
+$suppliersProducts->suppliers_products_ws_retail_price = checkIndex($valPrice, "suppliers_products_ws_retail_price");
+$suppliersProducts->suppliers_products_ws_scc_price = checkIndex($valPrice, "suppliers_products_ws_scc_price");
+$suppliersProducts->suppliers_products_member_percent = checkIndex($valPrice, "suppliers_products_member_percent");
+$suppliersProducts->suppliers_products_retail_percent = checkIndex($valPrice, "suppliers_products_retail_percent");
+$suppliersProducts->suppliers_products_ws_member_percent = checkIndex($valPrice, "suppliers_products_ws_member_percent");
+$suppliersProducts->suppliers_products_ws_retail_percent = checkIndex($valPrice, "suppliers_products_ws_retail_percent");
 
+$suppliersProducts->suppliers_products_is_other_percent = checkIndex($data, "suppliers_products_is_other_percent");
 $suppliersProducts->suppliers_products_name = checkIndex($data, "suppliers_products_name");
 $suppliersProducts->suppliers_products_category_id = checkIndex($data, "suppliers_products_category_id");
 $suppliersProducts->suppliers_products_suppliers_id = checkIndex($data, "suppliers_products_suppliers_id");

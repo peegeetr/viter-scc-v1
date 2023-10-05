@@ -1,5 +1,7 @@
 import { setError, setMessage } from "../../../../store/StoreAction";
 import {
+  AssociateMemberId,
+  notMemberId,
   numberWithCommas,
   otherDiscountId,
   removeComma,
@@ -32,6 +34,145 @@ export const getTotaWithDiscount = (readPriceMarkup, values, totalPrice) => {
   return result;
 };
 
+export const showWholeSale = (item) => {
+  let result = false;
+  if (
+    item.suppliers_products_ws_retail_price !== "" ||
+    item.suppliers_products_ws_scc_price !== ""
+  ) {
+    result = true;
+    return result;
+  }
+};
+
+export const getDiscount = (values) => {
+  let discount = 0;
+
+  if (values.orders_is_discounted === otherDiscountId) {
+    discount = Number(removeComma(values.sales_discount));
+  }
+  return discount;
+};
+
+export const getWholeSale = (values, item) => {
+  let amount = 0;
+  let isTrueAmount = false;
+
+  // non member
+  if (
+    values.orders_is_discounted !== wholeSaleDiscountId &&
+    (Number(item.orders_member_id) === notMemberId ||
+      Number(item.orders_member_id) === AssociateMemberId)
+  ) {
+    const retailPrice =
+      item.suppliers_products_retail_price === ""
+        ? item.suppliers_products_scc_price
+        : item.suppliers_products_retail_price;
+
+    amount = Number(retailPrice) * Number(values.orders_product_quantity);
+    isTrueAmount = true;
+  }
+
+  // member
+  if (
+    !isTrueAmount &&
+    values.orders_is_discounted !== wholeSaleDiscountId &&
+    (Number(item.orders_member_id) !== notMemberId ||
+      Number(item.orders_member_id) !== AssociateMemberId)
+  ) {
+    amount =
+      Number(item.suppliers_products_scc_price) *
+      Number(values.orders_product_quantity);
+    isTrueAmount = true;
+  }
+
+  // non member whole sale
+  if (
+    !isTrueAmount &&
+    values.orders_is_discounted === wholeSaleDiscountId &&
+    (Number(item.orders_member_id) === notMemberId ||
+      Number(item.orders_member_id) === AssociateMemberId)
+  ) {
+    const retailWsPrice = item.suppliers_products_ws_retail_price;
+
+    amount = Number(retailWsPrice) * Number(values.orders_product_quantity);
+    isTrueAmount = true;
+  }
+
+  // member whole sale
+  if (
+    !isTrueAmount &&
+    values.orders_is_discounted === wholeSaleDiscountId &&
+    (Number(item.orders_member_id) !== notMemberId ||
+      Number(item.orders_member_id) !== AssociateMemberId)
+  ) {
+    const memberWsPrice = item.suppliers_products_ws_scc_price;
+    amount = Number(memberWsPrice) * Number(values.orders_product_quantity);
+  }
+
+  return amount;
+};
+
+export const getOrderSrpPrice = (values, item) => {
+  let price = Number(item.orders_product_srp);
+  let isTrueAmount = false;
+
+  // non member
+  if (
+    values.orders_is_discounted !== wholeSaleDiscountId &&
+    (Number(item.orders_member_id) === notMemberId ||
+      Number(item.orders_member_id) === AssociateMemberId)
+  ) {
+    price =
+      item.suppliers_products_retail_price === ""
+        ? item.suppliers_products_scc_price
+        : item.suppliers_products_retail_price;
+
+    isTrueAmount = true;
+  }
+
+  // member
+  if (
+    !isTrueAmount &&
+    values.orders_is_discounted !== wholeSaleDiscountId &&
+    (Number(item.orders_member_id) !== notMemberId ||
+      Number(item.orders_member_id) !== AssociateMemberId)
+  ) {
+    price = Number(item.suppliers_products_scc_price);
+    isTrueAmount = true;
+  }
+
+  // non member whole sale
+  if (
+    !isTrueAmount &&
+    values.orders_is_discounted === wholeSaleDiscountId &&
+    (Number(item.orders_member_id) === notMemberId ||
+      Number(item.orders_member_id) === AssociateMemberId)
+  ) {
+    price =
+      item.suppliers_products_ws_retail_price === ""
+        ? item.suppliers_products_scc_price
+        : item.suppliers_products_ws_retail_price;
+
+    isTrueAmount = true;
+  }
+
+  // member whole sale
+  if (
+    !isTrueAmount &&
+    values.orders_is_discounted === wholeSaleDiscountId &&
+    (Number(item.orders_member_id) !== notMemberId ||
+      Number(item.orders_member_id) !== AssociateMemberId)
+  ) {
+    price =
+      item.suppliers_products_ws_scc_price === ""
+        ? item.suppliers_products_scc_price
+        : item.suppliers_products_ws_scc_price;
+  }
+
+  return price;
+};
+
 export const getWholeSaleDiscountView = (readPriceMarkup, val, item) => {
   let totalAmount = 0;
   if (
@@ -50,7 +191,9 @@ export const getWholeSaleDiscountView = (readPriceMarkup, val, item) => {
       (markupItem) => markupItem.price_markup_is_active === 1
     );
     wholeSalePercent =
-      result?.length > 0 ? Number(result[0].price_markup_whole_sale) / 100 : 0;
+      result?.length > 0
+        ? Number(result[0].price_markup_retail_whole_sale) / 100
+        : 0;
   }
 
   const percent = Number(totalAmount) * Number(wholeSalePercent).toFixed(3);
@@ -66,7 +209,9 @@ export const getWholeSaleDiscount = (readPriceMarkup, productAmount) => {
       (markupItem) => markupItem.price_markup_is_active === 1
     );
     wholeSalePercent =
-      result?.length > 0 ? Number(result[0].price_markup_whole_sale) / 100 : 0;
+      result?.length > 0
+        ? Number(result[0].price_markup_retail_whole_sale) / 100
+        : 0;
   }
 
   const percent = Number(productAmount) * Number(wholeSalePercent).toFixed(3);
@@ -79,7 +224,6 @@ export const getValueData = (
   item,
   stocksGroupProd,
   orderGroupProd,
-  readPriceMarkup,
   dispatch
 ) => {
   let invalidAmount = false;
@@ -91,7 +235,7 @@ export const getValueData = (
   }
 
   if (values.orders_is_discounted === otherDiscountId) {
-    sales_discount = removeComma(`${Number(values.sales_discount)}`);
+    sales_discount = removeComma(`${values.sales_discount}`);
   }
 
   const newQty =
@@ -103,13 +247,8 @@ export const getValueData = (
     getRemaningQuantity(item, stocksGroupProd, orderGroupProd) +
     Number(item.orders_product_quantity);
 
-  const product_amount = Number(quantity) * Number(item.orders_product_srp);
-
-  if (values.orders_is_discounted === wholeSaleDiscountId) {
-    sales_discount = Number(
-      getWholeSaleDiscount(readPriceMarkup, product_amount)
-    );
-  }
+  const product_srp = getOrderSrpPrice(values, item);
+  const product_amount = getWholeSale(values, item);
 
   if (Number(sales_discount) > product_amount) {
     dispatch(setError(true));
@@ -122,5 +261,11 @@ export const getValueData = (
     dispatch(setMessage("Insufficient Quantity"));
     invalidAmount = true;
   }
-  return { sales_discount, product_amount, quantity, invalidAmount };
+  return {
+    sales_discount,
+    product_amount,
+    product_srp,
+    quantity,
+    invalidAmount,
+  };
 };

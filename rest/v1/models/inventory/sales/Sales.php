@@ -19,6 +19,9 @@ class Sales
     public $suppliers_products_suppliers_id;
     public $suppliers_products_category_id;
     public $orders_product_id;
+    public $orders_product_srp;
+    public $orders_product_amount;
+    public $orders_is_discounted;
 
     public $connection;
     public $lastInsertedId;
@@ -100,14 +103,20 @@ class Sales
     {
         try {
             $sql = "select suppliersProducts.suppliers_products_name, ";
+            $sql .= "suppliersProducts.suppliers_products_price, ";
             $sql .= "suppliersProducts.suppliers_products_scc_price, ";
+            $sql .= "suppliersProducts.suppliers_products_retail_price, ";
+            $sql .= "suppliersProducts.suppliers_products_ws_retail_price, ";
+            $sql .= "suppliersProducts.suppliers_products_ws_scc_price, ";
             $sql .= "suppliersProducts.suppliers_products_aid, ";
             $sql .= "orders.orders_aid, ";
+            $sql .= "orders.orders_member_id, ";
             $sql .= "orders.orders_product_quantity, ";
             $sql .= "orders.orders_number, ";
             $sql .= "orders.orders_remarks, ";
             $sql .= "orders.orders_product_amount, ";
             $sql .= "orders.orders_product_srp, ";
+            $sql .= "orders.orders_is_discounted, ";
             $sql .= "orders.orders_suplier_price, ";
             $sql .= "orders.orders_date, ";
             $sql .= "member.members_last_name, ";
@@ -146,14 +155,20 @@ class Sales
     {
         try {
             $sql = "select suppliersProducts.suppliers_products_name, ";
+            $sql .= "suppliersProducts.suppliers_products_price, ";
             $sql .= "suppliersProducts.suppliers_products_scc_price, ";
+            $sql .= "suppliersProducts.suppliers_products_retail_price, ";
+            $sql .= "suppliersProducts.suppliers_products_ws_retail_price, ";
+            $sql .= "suppliersProducts.suppliers_products_ws_scc_price, ";
             $sql .= "suppliersProducts.suppliers_products_aid, ";
             $sql .= "orders.orders_aid, ";
+            $sql .= "orders.orders_member_id, ";
             $sql .= "orders.orders_product_quantity, ";
             $sql .= "orders.orders_number, ";
             $sql .= "orders.orders_remarks, ";
             $sql .= "orders.orders_product_amount, ";
             $sql .= "orders.orders_product_srp, ";
+            $sql .= "orders.orders_is_discounted, ";
             $sql .= "orders.orders_suplier_price, ";
             $sql .= "orders.orders_date, ";
             $sql .= "member.members_last_name, ";
@@ -199,14 +214,20 @@ class Sales
     {
         try {
             $sql = "select suppliersProducts.suppliers_products_name, ";
+            $sql .= "suppliersProducts.suppliers_products_price, ";
             $sql .= "suppliersProducts.suppliers_products_scc_price, ";
+            $sql .= "suppliersProducts.suppliers_products_retail_price, ";
+            $sql .= "suppliersProducts.suppliers_products_ws_retail_price, ";
+            $sql .= "suppliersProducts.suppliers_products_ws_scc_price, ";
             $sql .= "suppliersProducts.suppliers_products_aid, ";
             $sql .= "orders.orders_aid, ";
+            $sql .= "orders.orders_member_id, ";
             $sql .= "orders.orders_product_quantity, ";
             $sql .= "orders.orders_number, ";
             $sql .= "orders.orders_remarks, ";
             $sql .= "orders.orders_product_amount, ";
             $sql .= "orders.orders_product_srp, ";
+            $sql .= "orders.orders_is_discounted, ";
             $sql .= "orders.orders_suplier_price, ";
             $sql .= "orders.orders_date, ";
             $sql .= "member.members_last_name, ";
@@ -272,10 +293,18 @@ class Sales
     {
         try {
             $sql = "select suppliersProducts.suppliers_products_name, ";
+            $sql .= "suppliersProducts.suppliers_products_price, ";
+            $sql .= "suppliersProducts.suppliers_products_scc_price, ";
+            $sql .= "suppliersProducts.suppliers_products_retail_price, ";
+            $sql .= "suppliersProducts.suppliers_products_ws_retail_price, ";
+            $sql .= "suppliersProducts.suppliers_products_ws_scc_price, ";
+            $sql .= "suppliersProducts.suppliers_products_aid, ";
             $sql .= "orders.orders_aid, ";
+            $sql .= "orders.orders_member_id, ";
             $sql .= "orders.orders_number, ";
             $sql .= "orders.orders_product_amount, ";
             $sql .= "orders.orders_product_srp, ";
+            $sql .= "orders.orders_is_discounted, ";
             $sql .= "orders.orders_suplier_price, ";
             $sql .= "orders.orders_date, ";
             $sql .= "member.members_last_name, ";
@@ -318,10 +347,18 @@ class Sales
     {
         try {
             $sql = "select suppliersProducts.suppliers_products_name, ";
+            $sql .= "suppliersProducts.suppliers_products_price, ";
+            $sql .= "suppliersProducts.suppliers_products_scc_price, ";
+            $sql .= "suppliersProducts.suppliers_products_retail_price, ";
+            $sql .= "suppliersProducts.suppliers_products_ws_retail_price, ";
+            $sql .= "suppliersProducts.suppliers_products_ws_scc_price, ";
+            $sql .= "suppliersProducts.suppliers_products_aid, ";
             $sql .= "orders.orders_aid, ";
+            $sql .= "orders.orders_member_id, ";
             $sql .= "orders.orders_number, ";
             $sql .= "orders.orders_product_amount, ";
             $sql .= "orders.orders_product_srp, ";
+            $sql .= "orders.orders_is_discounted, ";
             $sql .= "orders.orders_suplier_price, ";
             $sql .= "orders.orders_date, ";
             $sql .= "member.members_last_name, ";
@@ -456,6 +493,32 @@ class Sales
         return $query;
     }
 
+    // active
+    public function updateOrder()
+    {
+        try {
+            $sql = "update {$this->tblOrders} set ";
+            $sql .= "orders_is_discounted = :orders_is_discounted, ";
+            $sql .= "orders_product_srp = :orders_product_srp, ";
+            $sql .= "orders_product_amount = :orders_product_amount, ";
+            $sql .= "orders_is_paid = :orders_is_paid, ";
+            $sql .= "orders_datetime = :orders_datetime ";
+            $sql .= "where orders_aid = :orders_aid ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "orders_is_discounted" => $this->orders_is_discounted,
+                "orders_product_srp" => $this->orders_product_srp,
+                "orders_product_amount" => $this->orders_product_amount,
+                "orders_is_paid" => $this->sales_is_paid,
+                "orders_datetime" => $this->sales_datetime,
+                "orders_aid" => $this->sales_order_id,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
     // read all 
     public function readLastSalesId()
     {
@@ -476,6 +539,7 @@ class Sales
         try {
             $sql = "select orders.orders_product_amount, ";
             $sql .= "orders.orders_is_paid, ";
+            $sql .= "orders.orders_member_id, ";
             $sql .= "orders.orders_product_srp, ";
             $sql .= "orders.orders_suplier_price, ";
             $sql .= "orders.orders_date, ";
@@ -512,6 +576,7 @@ class Sales
         try {
             $sql = "select orders.orders_product_amount, ";
             $sql .= "orders.orders_is_paid, ";
+            $sql .= "orders.orders_member_id, ";
             $sql .= "orders.orders_product_srp, ";
             $sql .= "orders.orders_suplier_price, ";
             $sql .= "orders.orders_date, ";
@@ -545,6 +610,7 @@ class Sales
     {
         try {
             $sql = "select sum(orders.orders_product_amount) as totalAmount, ";
+            $sql .= "orders.orders_member_id, ";
             $sql .= "sum(sales.sales_discount) as totalDiscount, ";
             $sql .= "member.members_picture, ";
             $sql .= "member.members_aid, ";
@@ -580,6 +646,7 @@ class Sales
     {
         try {
             $sql = "select sum(orders.orders_product_amount) as totalAmount, ";
+            $sql .= "orders.orders_member_id, ";
             $sql .= "sum(sales.sales_discount) as totalDiscount, ";
             $sql .= "member.members_picture, ";
             $sql .= "member.members_aid, ";

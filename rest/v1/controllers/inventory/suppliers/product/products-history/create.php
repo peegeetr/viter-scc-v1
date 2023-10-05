@@ -18,9 +18,16 @@ $product_history->product_history_date = checkIndex($data, "product_history_date
 $product_history->product_history_price = checkIndex($valPrice, "product_history_price");
 $product_history->product_history_scc_price = checkIndex($valPrice, "product_history_scc_price");
 $product_history->product_history_retail_price = checkIndex($valPrice, "product_history_retail_price");
+$product_history->product_history_ws_retail_price = checkIndex($valPrice, "product_history_ws_retail_price");
+$product_history->product_history_ws_member_price = checkIndex($valPrice, "product_history_ws_member_price");
 $product_history->product_history_is_active = 1;
 $product_history->product_history_created = date("Y-m-d H:i:s");
 $product_history->product_history_datetime = date("Y-m-d H:i:s");
+
+$product_history->suppliers_products_member_percent = checkIndex($valPrice, "suppliers_products_member_percent");
+$product_history->suppliers_products_retail_percent = checkIndex($valPrice, "suppliers_products_retail_percent");
+$product_history->suppliers_products_ws_member_percent = checkIndex($valPrice, "suppliers_products_ws_member_percent");
+$product_history->suppliers_products_ws_retail_percent = checkIndex($valPrice, "suppliers_products_ws_retail_percent");
 
 $stockQty = 0;
 $orderQty = 0;

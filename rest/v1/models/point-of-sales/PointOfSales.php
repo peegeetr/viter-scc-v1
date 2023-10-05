@@ -162,6 +162,9 @@ class PointOfSales
         try {
             $sql = "select suppliersProducts.suppliers_products_aid, ";
             $sql .= "suppliersProducts.suppliers_products_scc_price, ";
+            $sql .= "suppliersProducts.suppliers_products_retail_price, ";
+            $sql .= "suppliersProducts.suppliers_products_ws_retail_price, ";
+            $sql .= "suppliersProducts.suppliers_products_ws_scc_price, ";
             $sql .= "suppliersProducts.suppliers_products_price, ";
             $sql .= "suppliersProducts.suppliers_products_category_id, ";
             $sql .= "suppliersProducts.suppliers_products_name, ";
@@ -216,6 +219,9 @@ class PointOfSales
         try {
             $sql = "select suppliersProducts.suppliers_products_aid, ";
             $sql .= "suppliersProducts.suppliers_products_scc_price, ";
+            $sql .= "suppliersProducts.suppliers_products_retail_price, ";
+            $sql .= "suppliersProducts.suppliers_products_ws_retail_price, ";
+            $sql .= "suppliersProducts.suppliers_products_ws_scc_price, ";
             $sql .= "suppliersProducts.suppliers_products_price, ";
             $sql .= "suppliersProducts.suppliers_products_category_id, ";
             $sql .= "suppliersProducts.suppliers_products_name, ";
@@ -277,6 +283,7 @@ class PointOfSales
             $sql .= "orders_product_quantity = :orders_product_quantity, ";
             $sql .= "orders_is_discounted = :orders_is_discounted, ";
             $sql .= "orders_product_amount = :orders_product_amount, ";
+            $sql .= "orders_product_srp = :orders_product_srp, ";
             $sql .= "orders_remarks = :orders_remarks, ";
             $sql .= "orders_is_paid = :orders_is_paid, ";
             $sql .= "orders_datetime = :orders_datetime ";
@@ -286,6 +293,7 @@ class PointOfSales
                 "orders_product_quantity" => $this->orders_product_quantity,
                 "orders_is_discounted" => $this->orders_is_discounted,
                 "orders_product_amount" => $this->orders_product_amount,
+                "orders_product_srp" => $this->orders_product_srp,
                 "orders_remarks" => $this->orders_remarks,
                 "orders_is_paid" => $this->orders_is_paid,
                 "orders_datetime" => $this->orders_datetime,
@@ -399,6 +407,9 @@ class PointOfSales
             $sql .= "suppliersProducts.suppliers_products_aid, ";
             $sql .= "suppliersProducts.suppliers_products_number, ";
             $sql .= "suppliersProducts.suppliers_products_name, ";
+            $sql .= "suppliersProducts.suppliers_products_scc_price, ";
+            $sql .= "suppliersProducts.suppliers_products_ws_retail_price, ";
+            $sql .= "suppliersProducts.suppliers_products_ws_scc_price, ";
             $sql .= "suppliersProducts.suppliers_products_retail_price, ";
             $sql .= "suppliersProducts.suppliers_products_category_id, ";
             $sql .= "supplier.suppliers_aid, ";
@@ -560,7 +571,8 @@ class PointOfSales
         try {
             $sql = "select price_markup_retail, ";
             $sql .= "price_markup_member, ";
-            $sql .= "price_markup_whole_sale, ";
+            $sql .= "price_markup_retail_whole_sale, ";
+            $sql .= "price_markup_member_whole_sale, ";
             $sql .= "price_markup_is_active, ";
             $sql .= "price_markup_aid ";
             $sql .= "from {$this->tblPriceMarckup} ";

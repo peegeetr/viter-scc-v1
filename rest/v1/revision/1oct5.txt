@@ -1,0 +1,61 @@
+ 
+*controllers   
+    - inventory/orders/create.php
+    - inventory/orders/update.php
+    - inventory/sales/functions.php
+    - inventory/sales/update.php
+    - inventory/supplier/product/create.php
+    - inventory/supplier/product/product-history/create.php
+    - inventory/supplier/product/product-history/active.php
+    - inventory/supplier/product/product-history/functions.php
+    - point-of-sales/update.php
+    - setting/price-markup/create.php
+    - setting/price-markup/update.php
+    - 
+    -
+    -
+    
+*models 
+    - inventory/orders/Orders.php   
+    - inventory/sales/Sales.php   
+    - inventory/supplier/product/ProductHistory.php
+    - inventory/supplier/product/SupplierProduct.php
+    - point-of-sales/PointOfSales.php
+    - setting/price-markup/PriceMarkup.php
+    - 
+    -   
+    -   
+
+*htaccess 
+    - 
+    - 
+    - 
+    - 
+
+*db tables  
+    - sccv1_settings_price_markup.sql        {note: price_markup_member_whole_sale varchar(20)} 
+
+    - sccv1_product_history.sql 
+        {note: product_history_retail_price,
+         product_history_ws_retail_price,
+         product_history_ws_member_price varchar(20)}
+
+    - sccv1_suppliers_products.sql     
+        {note: suppliers_products_ws_retail_price,
+      suppliers_products_ws_scc_price,
+      suppliers_products_retail_percent,
+      suppliers_products_member_percent,
+      suppliers_products_ws_member_percent,
+      suppliers_products_ws_retail_percent varchar(20)}
+    - 
+    -  
+
+
+*core functions 
+    - 
+    -  
+
+*extra
+    - 
+    - 
+    - 

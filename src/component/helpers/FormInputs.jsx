@@ -187,6 +187,7 @@ export const InputSelect = ({ label, onChange, ...props }) => {
     props.name === "price_category" ||
     props.name === "stocks_product_id" ||
     props.name === "orders_member_id" ||
+    props.name === "suppliers_products_is_other_percent" ||
     props.name === "product_supplier_id"
   ) {
     return (

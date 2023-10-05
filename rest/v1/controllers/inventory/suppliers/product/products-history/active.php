@@ -38,6 +38,8 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
             $product_history->product_history_price = $allItem["product_history_price"];
             $product_history->product_history_scc_price = $allItem["product_history_scc_price"];
             $product_history->product_history_retail_price = $allItem["product_history_retail_price"];
+            $product_history->product_history_ws_retail_price = $allItem["product_history_ws_retail_price"];
+            $product_history->product_history_ws_member_price = $allItem["product_history_ws_member_price"];
         }
         checkKeyword($product_history->product_history_price);
         checkKeyword($product_history->product_history_scc_price);
@@ -46,6 +48,9 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         if ($product_history->product_history_is_active === "0") {
             $product_history->product_history_price = "";
             $product_history->product_history_scc_price = "";
+            $product_history->product_history_retail_price = "";
+            $product_history->product_history_ws_retail_price = "";
+            $product_history->product_history_ws_member_price = "";
         }
         //check to see if task id in query string is not empty and is number, if not return json error
         checkId($product_history->product_history_product_id);
@@ -82,7 +87,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         $query = checkActive($product_history);
 
         // update price
-        checkUpdateSupplierPrice($product_history);
+        checkUpdateSupplierPriceStatus($product_history);
         http_response_code(200);
         returnSuccess($product_history, "product history", $query);
     }

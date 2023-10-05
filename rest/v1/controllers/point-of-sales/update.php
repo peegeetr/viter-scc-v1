@@ -22,6 +22,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         $pos->orders_product_quantity = checkIndex($data, "orders_product_quantity");
         $pos->orders_is_discounted = $data["orders_is_discounted"];
         $pos->orders_product_amount = checkIndex($data, "orders_product_amount");
+        $pos->orders_product_srp = checkIndex($data, "orders_product_srp");
         $pos->orders_remarks = $data["orders_remarks"];
         $pos->sales_discount = checkIndex($data, "sales_discount");
         $pos->orders_is_paid = 0;

@@ -18,6 +18,7 @@ if (array_key_exists("orderid", $_GET)) {
     $order->orders_member_id = checkIndex($data, "orders_member_id");
     $order->orders_product_quantity = checkIndex($allList, "orders_product_quantity");
     $order->orders_product_amount = checkIndex($allList, "orders_product_amount");
+    $order->orders_product_srp = checkIndex($allList, "orders_product_srp");
     $order->orders_date = checkIndex($data, "orders_date");
     $order->orders_remarks = $data["orders_remarks"];
     $order->orders_is_paid = 0;

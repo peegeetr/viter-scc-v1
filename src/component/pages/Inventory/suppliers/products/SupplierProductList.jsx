@@ -131,6 +131,12 @@ const SupplierProductList = ({ setItemEdit }) => {
               <th className="min-w-[10rem] w-[15rem] text-right pr-8">
                 Retail Price
               </th>
+              <th className="min-w-[10rem] w-[15rem] text-right pr-8">
+                Member Wholesale Price
+              </th>
+              <th className="min-w-[10rem] w-[15rem] text-right pr-8">
+                Retail Wholesale Price
+              </th>
               <th className="min-w-[10rem] ">Product Category</th>
               {(store.credentials.data.role_is_admin === 1 ||
                 store.credentials.data.role_is_developer === 1 ||
@@ -172,13 +178,31 @@ const SupplierProductList = ({ setItemEdit }) => {
                       {pesoSign}
                       {numberWithCommas(
                         Number(item.suppliers_products_scc_price).toFixed(2)
-                      )}
+                      )}{" "}
+                      ({Number(item.suppliers_products_member_percent)}%)
                     </td>
                     <td className=" pr-8 text-right">
                       {pesoSign}
                       {numberWithCommas(
                         Number(item.suppliers_products_retail_price).toFixed(2)
-                      )}
+                      )}{" "}
+                      ({Number(item.suppliers_products_retail_percent)}%)
+                    </td>
+                    <td className=" pr-8 text-right">
+                      {pesoSign}
+                      {numberWithCommas(
+                        Number(item.suppliers_products_ws_scc_price).toFixed(2)
+                      )}{" "}
+                      ({Number(item.suppliers_products_ws_member_percent)}%)
+                    </td>
+                    <td className=" pr-8 text-right">
+                      {pesoSign}
+                      {numberWithCommas(
+                        Number(item.suppliers_products_ws_retail_price).toFixed(
+                          2
+                        )
+                      )}{" "}
+                      ({Number(item.suppliers_products_ws_retail_percent)}%)
                     </td>
                     <td>{item.product_category_name}</td>
 

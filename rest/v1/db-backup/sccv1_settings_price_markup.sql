@@ -32,7 +32,7 @@ CREATE TABLE `sccv1_settings_price_markup` (
   `price_markup_is_active` tinyint(1) NOT NULL,
   `price_markup_retail` varchar(20) NOT NULL,
   `price_markup_member` varchar(20) NOT NULL,
-  `price_markup_whole_sale` varchar(20) NOT NULL,
+  `price_markup_retail_whole_sale` varchar(20) NOT NULL,
   `price_markup_created_at` datetime NOT NULL,
   `price_markup_updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -41,7 +41,7 @@ CREATE TABLE `sccv1_settings_price_markup` (
 -- Dumping data for table `sccv1_settings_price_markup`
 --
 
-INSERT INTO `sccv1_settings_price_markup` (`price_markup_aid`, `price_markup_is_active`, `price_markup_retail`, `price_markup_member`, `price_markup_whole_sale`, `price_markup_created_at`, `price_markup_updated_at`) VALUES
+INSERT INTO `sccv1_settings_price_markup` (`price_markup_aid`, `price_markup_is_active`, `price_markup_retail`, `price_markup_member`, `price_markup_retail_whole_sale`, `price_markup_created_at`, `price_markup_updated_at`) VALUES
 (2, 1, '9', '8', '7.5', '2023-09-19 12:53:09', '2023-09-26 15:27:39'),
 (4, 0, '34', '34', '3', '2023-09-19 13:47:38', '2023-09-20 07:01:58'),
 (5, 0, '10', '9', '8', '2023-09-26 14:58:37', '2023-09-26 15:18:58');

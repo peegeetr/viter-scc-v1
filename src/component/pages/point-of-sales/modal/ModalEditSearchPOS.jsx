@@ -18,19 +18,26 @@ import {
   InputTextArea,
 } from "../../../helpers/FormInputs";
 import {
+  AssociateMemberId,
   formatDate,
   getDateNow,
+  notMemberId,
   numberWithCommas,
   otherDiscountId,
   pesoSign,
+  removeComma,
   wholeSaleDiscountId,
 } from "../../../helpers/functions-general";
 import { queryData } from "../../../helpers/queryData";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
 import {
+  getDiscount,
+  getOrderSrpPrice,
   getTotaWithDiscount,
   getValueData,
+  getWholeSale,
   getWholeSaleDiscountView,
+  showWholeSale,
 } from "./functions-newpos";
 
 const ModalEditSearchPOS = ({ item, arrKey }) => {
@@ -99,6 +106,7 @@ const ModalEditSearchPOS = ({ item, arrKey }) => {
   const yupSchema = Yup.object({
     orders_product_quantity: Yup.string().required("Required"),
   });
+
   return (
     <>
       <div className="fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center bg-dark bg-opacity-50 z-50">
@@ -119,6 +127,7 @@ const ModalEditSearchPOS = ({ item, arrKey }) => {
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
                 // console.log(values);
+
                 const newVal = getValueData(
                   values,
                   item,
@@ -135,6 +144,7 @@ const ModalEditSearchPOS = ({ item, arrKey }) => {
                   ...values,
                   sales_discount: newVal.sales_discount,
                   orders_product_amount: newVal.product_amount,
+                  orders_product_srp: newVal.product_srp,
                   orders_product_quantity: newVal.quantity,
                 });
               }}
@@ -160,9 +170,9 @@ const ModalEditSearchPOS = ({ item, arrKey }) => {
                       Product :{" "}
                       <span className="font-bold">
                         {item.suppliers_products_name} ({pesoSign}
-                        {`${numberWithCommas(
-                          Number(item.orders_product_srp).toFixed(2)
-                        )}`}{" "}
+                        {Number(getOrderSrpPrice(props.values, item)).toFixed(
+                          2
+                        )}
                         )
                       </span>
                     </p>
@@ -170,30 +180,16 @@ const ModalEditSearchPOS = ({ item, arrKey }) => {
                       Total Amount:
                       <span className="text-black ml-2">
                         {pesoSign}
-                        {props.values.orders_product_quantity === "" ||
-                        Number(props.values.orders_product_quantity) === 0
-                          ? "0.00"
-                          : getTotaWithDiscount(
-                              readPriceMarkup,
-                              props.values,
-                              item.orders_product_srp
-                            )}
+                        {Number(
+                          getWholeSale(props.values, item).toFixed(2) -
+                            getDiscount(props.values).toFixed(2)
+                        ).toFixed(2)}
                       </span>
                     </p>
                     <p className="text-xl text-primary">
                       Discount:
                       <span className="text-black ml-2">
-                        {pesoSign}{" "}
-                        {props.values.orders_is_discounted === otherDiscountId
-                          ? Number(props.values.sales_discount).toFixed(2)
-                          : props.values.orders_is_discounted ===
-                            wholeSaleDiscountId
-                          ? getWholeSaleDiscountView(
-                              readPriceMarkup,
-                              props.values,
-                              item
-                            ).toFixed(2)
-                          : "0.00"}
+                        {pesoSign} {getDiscount(props.values).toFixed(2)}
                       </span>
                     </p>
                     <div className="relative my-5 text-2xl">
@@ -214,7 +210,12 @@ const ModalEditSearchPOS = ({ item, arrKey }) => {
                         disabled={mutation.isLoading}
                       >
                         <option value="">No Discount</option>
-                        <option value={wholeSaleDiscountId}>Whole Sales</option>
+                        {showWholeSale(item) && (
+                          <option value={wholeSaleDiscountId}>
+                            Whole Sales
+                          </option>
+                        )}
+
                         <option value={otherDiscountId}>Other Option</option>
                       </InputSelect>
                     </div>

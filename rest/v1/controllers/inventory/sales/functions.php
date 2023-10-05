@@ -23,3 +23,11 @@ function checkIsPaidOrder($object)
     checkQuery($query, "There's a problem processing your request. (sales is pending)");
     return $query;
 }
+
+// update order 
+function checkUpdateOrder($object)
+{
+    $query = $object->updateOrder();
+    checkQuery($query, "There's a problem processing your request. (update order)");
+    return $query;
+}
