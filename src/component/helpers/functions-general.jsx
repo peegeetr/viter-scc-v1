@@ -1,7 +1,7 @@
 import React from "react";
 import { setIsAdd } from "../../store/StoreAction.jsx";
 
-// // // Online URL Prod
+// // Online URL Prod
 export const urlScc = "https://app.sambahayancoop.com";
 export const urlSccImg = "https://app.sambahayancoop.com/img";
 

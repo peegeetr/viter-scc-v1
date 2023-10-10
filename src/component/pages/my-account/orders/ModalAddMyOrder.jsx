@@ -16,12 +16,10 @@ import {
   getDateNow,
   numberWithCommas,
   pesoSign,
-  removeComma,
 } from "../../../helpers/functions-general";
 import { queryData } from "../../../helpers/queryData";
 import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
 import { getProductDetails } from "../../Inventory/orders/functions-orders";
-import { getRemaningQuantity } from "../../Inventory/products/functions-product";
 import SearchToAddProduct from "../../point-of-sales-old/SearchToAddProduct";
 import { getTotaAmountProduct } from "../../point-of-sales/functions-pos";
 import { getValidationMyOrder } from "./functions-my-orders";
