@@ -41,6 +41,7 @@ export const getValidationMyOrder = (
     invalidAmount = true;
   }
   list.push({
+    orders_product_srp: items.product_history_scc_price,
     orders_product_amount: orders_product_amount,
     orders_product_quantity: orders_product_quantity,
   });
