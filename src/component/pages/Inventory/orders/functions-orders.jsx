@@ -207,6 +207,8 @@ export const getValidationOrderAdd = (
     orders_product_srp: price,
   });
 
+  console.log("price", price);
+
   return {
     list,
     invalidAmount,
@@ -346,9 +348,7 @@ export const getInventoryOrderPrice = (values, item) => {
     (Number(values.orders_member_id) !== notMemberId ||
       Number(values.orders_member_id) !== AssociateMemberId)
   ) {
-    price =
-      Number(item.suppliers_products_scc_price) *
-      Number(values.orders_product_quantity);
+    price = Number(item.suppliers_products_scc_price);
     isTrueAmount = true;
   }
 

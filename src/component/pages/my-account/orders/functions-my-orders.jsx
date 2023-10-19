@@ -19,9 +19,11 @@ export const getValidationMyOrder = (
 
   const orders_product_amount =
     Number(orders_product_quantity) *
-    Number(
-      item ? item.suppliers_products_scc_price : items.product_history_scc_price
-    );
+    Number(item ? item.orders_product_srp : items.product_history_scc_price);
+
+  const price = Number(
+    item ? item.orders_product_srp : items.product_history_scc_price
+  );
 
   if (
     Number(orders_product_quantity) >
@@ -41,7 +43,7 @@ export const getValidationMyOrder = (
     invalidAmount = true;
   }
   list.push({
-    orders_product_srp: items.product_history_scc_price,
+    orders_product_srp: price,
     orders_product_amount: orders_product_amount,
     orders_product_quantity: orders_product_quantity,
   });
