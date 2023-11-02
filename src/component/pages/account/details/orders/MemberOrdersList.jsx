@@ -340,22 +340,16 @@ const MemberOrdersList = ({ setItemEdit, memberName, isLoading, menu }) => {
                                       >
                                         <FaEdit />
                                       </button>
+                                      <button
+                                        type="button"
+                                        className="btn-action-table tooltip-action-table"
+                                        data-tooltip="Cancel"
+                                        onClick={() => handleDelete(item)}
+                                      >
+                                        <ImCross />
+                                      </button>
                                     </>
                                   )}
-                                {getRemaningQuantity(
-                                  item,
-                                  stocksGroupProd,
-                                  orderGroupProd
-                                ) === 0 && (
-                                  <button
-                                    type="button"
-                                    className="btn-action-table tooltip-action-table"
-                                    data-tooltip="Cancel"
-                                    onClick={() => handleDelete(item)}
-                                  >
-                                    <ImCross />
-                                  </button>
-                                )}
                               </div>
                             </td>
                           )}
