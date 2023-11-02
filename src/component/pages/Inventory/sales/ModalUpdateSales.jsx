@@ -12,8 +12,10 @@ import {
 import { StoreContext } from "../../../../store/StoreContext";
 import { InputSelect, InputText } from "../../../helpers/FormInputs";
 import {
+  numberWithCommas,
   otherDiscountId,
   pesoSign,
+  removeComma,
   wholeSaleDiscountId,
 } from "../../../helpers/functions-general";
 import { queryData } from "../../../helpers/queryData";
@@ -141,26 +143,32 @@ const ModalUpdateSales = ({ item }) => {
                         Total Amount:
                         <span className="text-black ml-2">
                           {pesoSign}{" "}
-                          {Number(
-                            getInventorySalesWholesales(
-                              props.values,
-                              item
-                            ).toFixed(2) -
-                              getInventorySalesDiscount(props.values).toFixed(2)
-                          ).toFixed(2)}
+                          {numberWithCommas(
+                            Number(
+                              getInventorySalesWholesales(
+                                props.values,
+                                item
+                              ).toFixed(2) -
+                                getInventorySalesDiscount(props.values).toFixed(
+                                  2
+                                )
+                            ).toFixed(2)
+                          )}
                         </span>
                       </p>
                       <p className="text-lg">
                         Change:
                         <span className="text-black ml-2">
                           {pesoSign}{" "}
-                          {Number(
-                            getSalesChange(
-                              getInventorySalesWholesales(props.values, item),
-                              getInventorySalesDiscount(props.values),
-                              props.values.sales_receive_amount
-                            )
-                          ).toFixed(2)}
+                          {numberWithCommas(
+                            Number(
+                              getSalesChange(
+                                getInventorySalesWholesales(props.values, item),
+                                getInventorySalesDiscount(props.values),
+                                removeComma(props.values.sales_receive_amount)
+                              )
+                            ).toFixed(2)
+                          )}
                         </span>
                       </p>
                     </div>
