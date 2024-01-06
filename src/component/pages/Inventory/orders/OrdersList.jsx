@@ -81,18 +81,13 @@ const OrdersList = ({ setItemEdit }) => {
     setData(item);
     setDel(true);
   };
-
+ 
+  
   // use if not loadmore button undertime
-  const { data: stocksGroupProd } = useQueryData(
-    `/v1/stocks/group-by-prod`, // endpoint
+  const { data: remainingQuantity } = useQueryData(
+    `/v1/product/remaining-quantity`, // endpoint
     "get", // method
-    "stocksGroupProd" // key
-  );
-  // use if not loadmore button undertime
-  const { data: orderGroupProd } = useQueryData(
-    `/v1/orders/group-by-prod`, // endpoint
-    "get", // method
-    "orderGroupProd" // key
+    "remaining-quantity" // key
   );
   return (
     <>
@@ -156,18 +151,6 @@ const OrdersList = ({ setItemEdit }) => {
                       <td>
                         {item.orders_is_paid === 1 ? (
                           <StatusActive text="paid" />
-                        ) : getRemaningQuantity(
-                            item,
-                            stocksGroupProd,
-                            orderGroupProd
-                          ) <= 0 ? (
-                          <StatusPending text="sold out" />
-                        ) : getRemaningQuantity(
-                            item,
-                            stocksGroupProd,
-                            orderGroupProd
-                          ) < Number(item.orders_product_quantity) ? (
-                          <StatusPending text="insufficient qty" />
                         ) : (
                           <StatusPending />
                         )}
@@ -199,12 +182,7 @@ const OrdersList = ({ setItemEdit }) => {
                       {store.credentials.data.role_is_member === 0 && (
                         <td>
                           <div className="flex items-center gap-1">
-                            {item.orders_is_paid === 0 &&
-                              getRemaningQuantity(
-                                item,
-                                stocksGroupProd,
-                                orderGroupProd
-                              ) > 0 && (
+                            {item.orders_is_paid === 0 && (
                                 <>
                                   <button
                                     type="button"
@@ -224,22 +202,7 @@ const OrdersList = ({ setItemEdit }) => {
                                   </button>
                                 </>
                               )}
-
-                            {item.orders_is_paid === 0 &&
-                              getRemaningQuantity(
-                                item,
-                                stocksGroupProd,
-                                orderGroupProd
-                              ) <= 0 && (
-                                <button
-                                  type="button"
-                                  className="btn-action-table tooltip-action-table"
-                                  data-tooltip="Delete"
-                                  onClick={() => handleDelete(item)}
-                                >
-                                  <FaTrash />
-                                </button>
-                              )}
+ 
                           </div>
                         </td>
                       )}

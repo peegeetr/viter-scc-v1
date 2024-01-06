@@ -64,19 +64,14 @@ const ProductsList = () => {
       fetchNextPage();
     }
   }, [inView]);
-
+ 
   // use if not loadmore button undertime
-  const { data: stocksGroupProd } = useQueryData(
-    `/v1/stocks/group-by-prod`, // endpoint
+  const { data: remainingQuantity } = useQueryData(
+    `/v1/product/remaining-quantity`, // endpoint
     "get", // method
-    "stocksGroupProd" // key
+    "remaining-quantity" // key
   );
-  // use if not loadmore button undertime
-  const { data: orderGroupProd } = useQueryData(
-    `/v1/orders/group-by-prod`, // endpoint
-    "get", // method
-    "orderGroupProd" // key
-  );
+ 
   return (
     <>
       <SearchBar
@@ -174,10 +169,13 @@ const ProductsList = () => {
                     <td className="text-center print:hidden ">
                       <StatusQuantity
                         text={getRemaningQuantity(
-                          item,
-                          stocksGroupProd,
-                          orderGroupProd
+                          item,remainingQuantity
                         )}
+                        // text={getRemaningQuantity(
+                        //   item,
+                        //   stocksGroupProd,
+                        //   orderGroupProd
+                        // )}
                       />
                     </td>
                     <td></td>

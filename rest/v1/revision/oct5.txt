@@ -39,7 +39,7 @@
          product_history_ws_retail_price,
          product_history_ws_member_price varchar(20)}
  
-    -> sccv1_settings_price_markup.sql  {note:  price_markup_retail_whole_sale varchar(20)} 
+    -> sccv1_settings_price_markup.sql  {note: price_markup_retail_whole_sale varchar(20)} 
     -> sccv1_suppliers_products.sql     {note: suppliers_products_is_other_percent varchar(20)}
     - 
     -   

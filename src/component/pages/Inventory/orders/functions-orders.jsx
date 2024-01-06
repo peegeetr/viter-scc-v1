@@ -7,7 +7,6 @@ import {
   removeComma,
   wholeSaleDiscountId,
 } from "../../../helpers/functions-general";
-import { getTotaWithDiscount } from "../../point-of-sales/modal/functions-newpos";
 import { getRemaningQuantity } from "../products/functions-product";
 
 // compute sold
@@ -63,10 +62,10 @@ export const computeFinalAmount = (item) => {
 };
 
 // compute Remaining Quantity
-export const getProductDetails = (item, stocksGroupProd, orderGroupProd) => {
+export const getProductDetails = (item, remainingQuantity) => {
   let finalResult = "";
   let result = item.suppliers_products_name;
-  let remaining = getRemaningQuantity(item, stocksGroupProd, orderGroupProd);
+  let remaining = getRemaningQuantity(item, remainingQuantity);
 
   finalResult = `${result} (${remaining} pcs) `;
 
@@ -136,9 +135,8 @@ export const getValidationOrderAdd = (
   item,
   items,
   dispatch,
-  isPaid,
-  stocksGroupProd,
-  orderGroupProd
+  isPaid,remainingQuantity
+  
 ) => {
   let invalidAmount = false;
   let list = [];
@@ -164,14 +162,13 @@ export const getValidationOrderAdd = (
   const newQty = item
     ? getRemaningQuantity(
         item ? item : items,
-        stocksGroupProd,
-        orderGroupProd
+        remainingQuantity
       ) - Number(orders_product_quantity)
-    : getRemaningQuantity(item ? item : items, stocksGroupProd, orderGroupProd);
+    : getRemaningQuantity(item ? item : items, remainingQuantity);
 
   const qty = item
-    ? getRemaningQuantity(item ? item : items, stocksGroupProd, orderGroupProd)
-    : getRemaningQuantity(item ? item : items, stocksGroupProd, orderGroupProd);
+    ? getRemaningQuantity(item ? item : items, remainingQuantity)
+    : getRemaningQuantity(item ? item : items, remainingQuantity);
 
   if (
     Number(orders_product_quantity) === 0 ||
@@ -243,21 +240,19 @@ export const getWholeSaleDiscountOrder = (readPriceMarkup, val, price) => {
 };
 
 export const getSelectedProduct = (
-  item,
-  stocksGroupProd,
-  orderGroupProd,
+  item,remainingQuantity,
   totalPrice,
   items
 ) => {
   let productDetails = "--";
   let result = "";
   if (item) {
-    productDetails = getProductDetails(item, stocksGroupProd, orderGroupProd);
+    productDetails = getProductDetails(item, remainingQuantity);
     result = numberWithCommas(Number(totalPrice).toFixed(2));
   }
 
   if (!item && items.suppliers_products_name !== undefined) {
-    productDetails = getProductDetails(items, stocksGroupProd, orderGroupProd);
+    productDetails = getProductDetails(items, remainingQuantity);
     result = numberWithCommas(Number(totalPrice).toFixed(2));
   }
 

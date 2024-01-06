@@ -7,9 +7,7 @@ export const getValidationMyOrder = (
   values,
   item,
   items,
-  dispatch,
-  stocksGroupProd,
-  orderGroupProd
+  dispatch,remainingQuantity
 ) => {
   let invalidAmount = false;
   let list = [];
@@ -29,13 +27,11 @@ export const getValidationMyOrder = (
     Number(orders_product_quantity) >
       getRemaningQuantity(
         item ? item : items,
-        stocksGroupProd,
-        orderGroupProd
+        remainingQuantity
       ) ||
     getRemaningQuantity(
       item ? item : items,
-      stocksGroupProd,
-      orderGroupProd
+      remainingQuantity
     ) === 0
   ) {
     dispatch(setError(true));

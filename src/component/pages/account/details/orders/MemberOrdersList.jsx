@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { Form, Formik } from "formik";
 import React from "react";
-import { FaCheck, FaEdit } from "react-icons/fa";
+import { FaEdit } from "react-icons/fa";
 import { ImCross } from "react-icons/im";
 import { MdFilterAlt } from "react-icons/md";
 import { useInView } from "react-intersection-observer";
@@ -32,7 +32,6 @@ import ModalDeleteRestore from "../../../../partials/modals/ModalDeleteRestore";
 import ButtonSpinner from "../../../../partials/spinners/ButtonSpinner";
 import TableSpinner from "../../../../partials/spinners/TableSpinner";
 import StatusActive from "../../../../partials/status/StatusActive";
-import StatusInactive from "../../../../partials/status/StatusInactive";
 import StatusPending from "../../../../partials/status/StatusPending";
 import { getRemaningQuantity } from "../../../Inventory/products/functions-product";
 import MemberTotalAmountOrders from "./MemberTotalAmountOrders";
@@ -89,18 +88,12 @@ const MemberOrdersList = ({ setItemEdit, memberName, isLoading, menu }) => {
       fetchNextPage();
     }
   }, [inView]);
-
+ 
   // use if not loadmore button undertime
-  const { data: stocksGroupProd } = useQueryData(
-    `/v1/stocks/group-by-prod`, // endpoint
+  const { data: remainingQuantity } = useQueryData(
+    `/v1/product/remaining-quantity`, // endpoint
     "get", // method
-    "stocksGroupProd" // key
-  );
-  // use if not loadmore button undertime
-  const { data: orderGroupProd } = useQueryData(
-    `/v1/orders/group-by-prod`, // endpoint
-    "get", // method
-    "orderGroupProd" // key
+    "remaining-quantity" // key
   );
   const handleEdit = (item) => {
     dispatch(setIsAdd(true));
@@ -113,10 +106,10 @@ const MemberOrdersList = ({ setItemEdit, memberName, isLoading, menu }) => {
     setDel(true);
   };
   const handlePending = (item) => {
-    // console.log(getRemaningQuantity(item, stocksGroupProd, orderGroupProd));
+    // console.log(getRemaningQuantity(item, remainingQuantity));
     if (
-      getRemaningQuantity(item, stocksGroupProd, orderGroupProd) === 0 ||
-      getRemaningQuantity(item, stocksGroupProd, orderGroupProd) <
+      getRemaningQuantity(item, remainingQuantity) === 0 ||
+      getRemaningQuantity(item, remainingQuantity) <
         item.orders_product_quantity
     ) {
       dispatch(setError(true));
@@ -268,14 +261,12 @@ const MemberOrdersList = ({ setItemEdit, memberName, isLoading, menu }) => {
                               <StatusActive text="paid" />
                             ) : getRemaningQuantity(
                                 item,
-                                stocksGroupProd,
-                                orderGroupProd
+                                remainingQuantity
                               ) <= 0 ? (
                               <StatusPending text="sold out" />
                             ) : getRemaningQuantity(
                                 item,
-                                stocksGroupProd,
-                                orderGroupProd
+                                remainingQuantity
                               ) < Number(item.orders_product_quantity) ? (
                               <StatusPending text="insufficient qty" />
                             ) : (
@@ -327,9 +318,7 @@ const MemberOrdersList = ({ setItemEdit, memberName, isLoading, menu }) => {
                               <div className="flex justify-end items-center gap-1">
                                 {item.sales_is_paid === 0 &&
                                   getRemaningQuantity(
-                                    item,
-                                    stocksGroupProd,
-                                    orderGroupProd
+                                    item,remainingQuantity
                                   ) > 0 && (
                                     <>
                                       <button

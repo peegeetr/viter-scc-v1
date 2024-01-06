@@ -70,17 +70,17 @@ export const getProducUnit = (item) => {
   return result;
 };
 
-export const checkInsufficientQty = (item, stocksGroupProd, orderGroupProd) => {
+export const checkInsufficientQty = (item, remainingQuantity) => {
   let sQty = 0;
   let oQty = 0;
   let result = 0;
 
-  if (getRemaningQuantity(item, stocksGroupProd, orderGroupProd) <= 0) {
+  if (getRemaningQuantity(item, remainingQuantity) <= 0) {
     sQty += 1;
   }
 
   if (
-    getRemaningQuantity(item, stocksGroupProd, orderGroupProd) <
+    getRemaningQuantity(item, remainingQuantity) <
     Number(item.orders_product_quantity)
   ) {
     oQty += 1;

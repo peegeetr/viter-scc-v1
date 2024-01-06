@@ -17,11 +17,11 @@ function checkCreateBarcode($object)
 }
 
 // check barcode
-function isBarcodeExist($object, $barcode)
+function isBarcodeExist($object)
 {
     $query = $object->checkBarcode();
     $count = $query->rowCount();
-    checkExistence($count, "{$barcode} already exist.");
+    checkExistence($count, "Please change the date to add this stock");
 }
 
 // check barcode

@@ -19,20 +19,7 @@ const ProductsViewList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [isFilter, setIsFilter] = React.useState(false);
   let counter = 1;
-
-  // use if not loadmore button undertime
-  const { data: stocksGroupProd } = useQueryData(
-    `/v1/stocks/group-by-prod`, // endpoint
-    "get", // method
-    "stocksGroupProd" // key
-  );
-
-  // use if not loadmore button undertime
-  const { data: orderGroupProd } = useQueryData(
-    `/v1/orders/group-by-prod`, // endpoint
-    "get", // method
-    "orderGroupProd" // key
-  );
+ 
 
   // use if not loadmore button undertime
   const {
@@ -143,8 +130,7 @@ const ProductsViewList = () => {
                     <StatusQuantity
                       text={getRemaningQuantity(
                         item,
-                        stocksGroupProd,
-                        orderGroupProd
+                        remainingQuantity
                       )}
                     />
                   </td>

@@ -66,21 +66,13 @@ const ModalAddSearchPOS = ({ item, arrKey, memberId, memberName }) => {
   const handleClose = () => {
     dispatch(setIsAdd(false));
     dispatch(setIsModalSearch(false));
-  };
-  console.log("item", item);
+  }; 
   // use if not loadmore button undertime
-  const { data: stocksGroupProd } = useQueryData(
-    `/v1/stocks/group-by-prod`, // endpoint
+  const { data: remainingQuantity } = useQueryData(
+    `/v1/product/remaining-quantity`, // endpoint
     "get", // method
-    "stocksGroupProd" // key
+    "remaining-quantity" // key
   );
-  // use if not loadmore button undertime
-  const { data: orderGroupProd } = useQueryData(
-    `/v1/orders/group-by-prod`, // endpoint
-    "get", // method
-    "orderGroupProd" // key
-  );
-
   // use if not loadmore button undertime
   const { data: ProductList, isLoading } = useQueryData(
     `/v1/product/search/product`, // filter endpoint
@@ -146,9 +138,7 @@ const ModalAddSearchPOS = ({ item, arrKey, memberId, memberName }) => {
                   item,
                   items,
                   dispatch,
-                  0,
-                  stocksGroupProd,
-                  orderGroupProd
+                  0,remainingQuantity
                 );
                 // new list
                 const list = validation.list;
@@ -158,8 +148,7 @@ const ModalAddSearchPOS = ({ item, arrKey, memberId, memberName }) => {
                   getValueDataOldPOS(
                     values,
                     item,
-                    stocksGroupProd,
-                    orderGroupProd,
+                    remainingQuantity,
                     dispatch
                   );
 
@@ -196,8 +185,7 @@ const ModalAddSearchPOS = ({ item, arrKey, memberId, memberName }) => {
                     {!item && (
                       <div className="relative mt-10 mb-5 text-2xl">
                         <SearchToAddProduct
-                          stocksGroupProd={stocksGroupProd}
-                          orderGroupProd={orderGroupProd}
+                          remainingQuantity={remainingQuantity} 
                           setSearch={setSearch}
                           onSearch={onSearch}
                           isLoading={isLoading}
@@ -223,8 +211,7 @@ const ModalAddSearchPOS = ({ item, arrKey, memberId, memberName }) => {
                               : items.suppliers_products_name}
                             {` (${getRemaningQuantity(
                               item ? item : items,
-                              stocksGroupProd,
-                              orderGroupProd
+                              remainingQuantity
                             )} pcs) `}
                             {pesoSign}{" "}
                             {`${numberWithCommas(

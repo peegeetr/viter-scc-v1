@@ -93,22 +93,11 @@ const SalesList = ({ setItemEdit }) => {
   };
 
   // use if not loadmore button undertime
-  const { data: orderGroupProd } = useQueryData(
-    `/v1/orders/group-by-prod`, // endpoint
+  const { data: remainingQuantity } = useQueryData(
+    `/v1/product/remaining-quantity`, // endpoint
     "get", // method
-    "orderGroupProd", // key
-    {},
-    store.success
-  );
-
-  // use if not loadmore button undertime
-  const { data: stocksGroupProd } = useQueryData(
-    `/v1/stocks/group-by-prod`, // endpoint
-    "get", // method
-    "stocksGroupProd", // key
-    {},
-    store.success
-  );
+    "remaining-quantity" // key
+  ); 
   return (
     <>
       <SearchBar
@@ -168,18 +157,6 @@ const SalesList = ({ setItemEdit }) => {
                       <td>
                         {item.sales_is_paid === 1 ? (
                           <StatusActive text="paid" />
-                        ) : getRemaningQuantity(
-                            item,
-                            stocksGroupProd,
-                            orderGroupProd
-                          ) <= 0 ? (
-                          <StatusPending text="sold out" />
-                        ) : getRemaningQuantity(
-                            item,
-                            stocksGroupProd,
-                            orderGroupProd
-                          ) < Number(item.orders_product_quantity) ? (
-                          <StatusPending text="insufficient qty" />
                         ) : (
                           <StatusPending />
                         )}
@@ -233,18 +210,7 @@ const SalesList = ({ setItemEdit }) => {
                         )}
 
                         {item.sales_is_paid === 0 &&
-                          Number(
-                            getRemaningQuantity(
-                              item,
-                              stocksGroupProd,
-                              orderGroupProd
-                            )
-                          ) > 0 &&
-                          getRemaningQuantity(
-                            item,
-                            stocksGroupProd,
-                            orderGroupProd
-                          ) >= Number(item.orders_product_quantity) && (
+                           (
                             <button
                               type="button"
                               className="btn-action-table tooltip-action-table"

@@ -47,17 +47,14 @@ if ($stocksLastId->rowCount() == 0) {
     $formattedStockId =  "stc" . "-" . $id;
 }
 
-
-
 //check to see if search keyword in query string is not empty and less than 50 chars
 checkKeyword($formattedStockId);
-
 
 $stocks->stocks_number = $formattedStockId;
 
 $stocks->stocks_barcode_id = checkIndex($data, "stocks_barcode_id");
-isBarcodeExistDifferentProduct($stocks, $stocks->stocks_barcode_id);
-isBarcodeExist($stocks, $stocks->stocks_barcode_id);
+// isBarcodeExistDifferentProduct($stocks, $stocks->stocks_barcode_id);
+isBarcodeExist($stocks);
 // create
 $query = checkCreate($stocks);
 checkCreateBarcode($stocks);

@@ -91,6 +91,7 @@ RewriteRule ^file/search$ controllers/files/search.php [L]
 RewriteRule ^product/page/([0-9]+)$ controllers/inventory/products/page.php?start=$1 [L]
 RewriteRule ^product/([0-9]+)$ controllers/inventory/products/update-price.php?supplierProductsId=$1 [L]  
 RewriteRule ^product/search/product$ controllers/inventory/products/search-product.php [L]
+RewriteRule ^product/remaining-quantity$ controllers/inventory/products/remaining-quantity.php [L]
 
 #stocks
 RewriteRule ^stocks$ controllers/inventory/stocks/stocks.php [L]

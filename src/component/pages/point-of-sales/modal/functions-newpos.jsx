@@ -221,9 +221,7 @@ export const getWholeSaleDiscount = (readPriceMarkup, productAmount) => {
 
 export const getValueData = (
   values,
-  item,
-  stocksGroupProd,
-  orderGroupProd,
+  item,remainingQuantity,
   dispatch
 ) => {
   let invalidAmount = false;
@@ -239,12 +237,12 @@ export const getValueData = (
   }
 
   const newQty =
-    getRemaningQuantity(item, stocksGroupProd, orderGroupProd) +
+    getRemaningQuantity(item, remainingQuantity) +
     Number(item.orders_product_quantity) -
     Number(quantity);
 
   const qty =
-    getRemaningQuantity(item, stocksGroupProd, orderGroupProd) +
+    getRemaningQuantity(item, remainingQuantity) +
     Number(item.orders_product_quantity);
 
   const product_srp = getOrderSrpPrice(values, item);

@@ -14,8 +14,7 @@ import {
 } from "./function-search";
 
 const OrderSearchToAddProduct = ({
-  stocksGroupProd,
-  orderGroupProd,
+  remainingQuantity,
   setSearch,
   onSearch,
   isLoading,
@@ -95,9 +94,7 @@ const OrderSearchToAddProduct = ({
                       {`${
                         item.suppliers_products_name
                       }  (${getOrderRemaningQuantity(
-                        item,
-                        stocksGroupProd,
-                        orderGroupProd
+                        item,remainingQuantity
                       )} pcs) - ${item.suppliers_company_name.slice(0, 10)} `}
                       &#8369;{" "}
                       {numberWithCommas(

@@ -76,18 +76,12 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
     dispatch(setIsModalSearch(false));
     dispatch(setIsAdd(false));
   };
-
+ 
   // use if not loadmore button undertime
-  const { data: stocksGroupProd } = useQueryData(
-    `/v1/stocks/group-by-prod`, // endpoint
+  const { data: remainingQuantity } = useQueryData(
+    `/v1/product/remaining-quantity`, // endpoint
     "get", // method
-    "stocksGroupProd" // key
-  );
-  // use if not loadmore button undertime
-  const { data: orderGroupProd } = useQueryData(
-    `/v1/orders/group-by-prod`, // endpoint
-    "get", // method
-    "orderGroupProd" // key
+    "remaining-quantity" // key
   );
   // use if not loadmore button undertime
   const { data: memberApproved, isLoading: memberApprovedLoading } =
@@ -178,9 +172,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                   item,
                   items,
                   dispatch,
-                  isPaid,
-                  stocksGroupProd,
-                  orderGroupProd
+                  isPaid,remainingQuantity
                 );
                 // new list
                 const list = validation.list;
@@ -231,8 +223,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                     {!item && (
                       <div className="relative mt-5">
                         <OrderSearchToAddProduct
-                          stocksGroupProd={stocksGroupProd}
-                          orderGroupProd={orderGroupProd}
+                          remainingQuantity={remainingQuantity} 
                           setSearch={setSearch}
                           onSearch={onSearch}
                           isLoading={isLoading}
@@ -250,8 +241,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                         {
                           getSelectedProduct(
                             item,
-                            stocksGroupProd,
-                            orderGroupProd,
+                            remainingQuantity, 
                             totalPrice,
                             items
                           ).productDetails
@@ -261,8 +251,7 @@ const ModalManagerAddOrders = ({ item, arrKey }) => {
                           ? getInventoryWholeSales(props.values, item)
                           : getSelectedProduct(
                               item,
-                              stocksGroupProd,
-                              orderGroupProd,
+                              remainingQuantity, 
                               totalPrice,
                               items
                             ).result}

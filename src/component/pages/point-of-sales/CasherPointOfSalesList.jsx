@@ -162,23 +162,17 @@ const CasherPointOfSalesList = () => {
     posMember: "",
     search: "",
   };
-
+console.log("123",result?.pages[0].data.length)
   const yupSchema = Yup.object({
     search: Yup.string().required("Required"),
   });
 
   // use if not loadmore button undertime
-  const { data: stocksGroupProd } = useQueryData(
-    `/v1/stocks/group-by-prod`, // endpoint
+  const { data: remainingQuantity } = useQueryData(
+    `/v1/product/remaining-quantity`, // endpoint
     "get", // method
-    "stocksGroupProd" // key
-  );
-  // use if not loadmore button undertime
-  const { data: orderGroupProd } = useQueryData(
-    `/v1/orders/group-by-prod`, // endpoint
-    "get", // method
-    "orderGroupProd" // key
-  );
+    "remaining-quantity" // key
+  );  
   return (
     <>
       <CasherPointOfSalesListPrint memberName={memberName} result={result} />
@@ -288,9 +282,7 @@ const CasherPointOfSalesList = () => {
                   <React.Fragment key={key}>
                     {page.data.map((item, key) => {
                       isPay = checkInsufficientQty(
-                        item,
-                        stocksGroupProd,
-                        orderGroupProd
+                        item,remainingQuantity
                       );
                       totalAmount +=
                         Number(item.orders_product_amount) -
@@ -329,33 +321,17 @@ const CasherPointOfSalesList = () => {
                             {numberWithCommas(computeFinalAmount(item))}
                           </td>
                           <td>
-                            {getRemaningQuantity(
-                              item,
-                              stocksGroupProd,
-                              orderGroupProd
-                            ) <= 0 ? (
-                              <StatusPending text="sold out" />
-                            ) : (
-                              getRemaningQuantity(
-                                item,
-                                stocksGroupProd,
-                                orderGroupProd
-                              ) < Number(item.orders_product_quantity) && (
-                                <StatusPending text="insufficient qty" />
-                              )
-                            )}{" "}
+                            
                             {item.orders_remarks}
                           </td>
 
                           <td>
                             <div className="flex items-center gap-1">
                               {/* if the qty morethan qty pending or normal actions */}
-                              {getRemaningQuantity(
-                                item,
-                                stocksGroupProd,
-                                orderGroupProd
+                              {/* {getRemaningQuantity(
+                                item,remainingQuantity
                               ) >= Number(item.orders_product_quantity) && (
-                                <>
+                                <> */}
                                   <button
                                     type="button"
                                     className="btn-action-table tooltip-action-table"
@@ -380,18 +356,14 @@ const CasherPointOfSalesList = () => {
                                   >
                                     <FaTrash />
                                   </button>
-                                </>
-                              )}
+                                {/* </>
+                              )} */}
                               {/* if have remaning qty is lessthan of the qty pending or insufficient qty */}
-                              {getRemaningQuantity(
-                                item,
-                                stocksGroupProd,
-                                orderGroupProd
+                              {/* {getRemaningQuantity(
+                                item,remainingQuantity
                               ) < Number(item.orders_product_quantity) &&
                                 getRemaningQuantity(
-                                  item,
-                                  stocksGroupProd,
-                                  orderGroupProd
+                                  item,remainingQuantity
                                 ) !== 0 && (
                                   <>
                                     <button
@@ -411,13 +383,11 @@ const CasherPointOfSalesList = () => {
                                       <FaTrash />
                                     </button>
                                   </>
-                                )}
+                                )} */}
 
                               {/* if don't have remaning qty or sold out */}
-                              {getRemaningQuantity(
-                                item,
-                                stocksGroupProd,
-                                orderGroupProd
+                              {/* {getRemaningQuantity(
+                                item,remainingQuantity
                               ) <= 0 && (
                                 <button
                                   type="button"
@@ -427,7 +397,7 @@ const CasherPointOfSalesList = () => {
                                 >
                                   <FaTrash />
                                 </button>
-                              )}
+                              )} */}
                             </div>
                           </td>
                         </tr>
@@ -438,7 +408,7 @@ const CasherPointOfSalesList = () => {
               </tbody>
             </table>
           </div>
-          {isPay < 1 && (
+          {result?.pages[0].data.length > 0 && (
             <div className="flex justify-end mt-5 ">
               <button
                 type="button"

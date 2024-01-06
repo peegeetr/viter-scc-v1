@@ -68,9 +68,7 @@ export const getProductPrice = (propsVal, item) => {
 
 export const getValueDataOldPOS = (
   values,
-  item,
-  stocksGroupProd,
-  orderGroupProd,
+  item,remainingQuantity,
   dispatch
 ) => {
   let invalidAmount = false;
@@ -79,14 +77,14 @@ export const getValueDataOldPOS = (
   const sales_discount = removeComma(`${values.sales_discount}`);
 
   const newQty =
-    getRemaningQuantity(item, stocksGroupProd, orderGroupProd) +
+    getRemaningQuantity(item, remainingQuantity) +
     Number(item.orders_product_quantity) -
     Number(quantity);
 
   const qty =
-    getRemaningQuantity(item, stocksGroupProd, orderGroupProd) +
+    getRemaningQuantity(item, remainingQuantity) +
     Number(item.orders_product_quantity);
-
+    
   const product_amount = Number(quantity) * Number(item.orders_product_srp);
 
   if (Number(sales_discount) > product_amount) {

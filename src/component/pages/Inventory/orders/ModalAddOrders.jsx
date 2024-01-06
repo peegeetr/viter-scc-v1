@@ -64,18 +64,12 @@ const ModalAddOrders = ({ item, arrKey }) => {
   const handleClose = () => {
     dispatch(setIsAdd(false));
   };
-
+ 
   // use if not loadmore button undertime
-  const { data: stocksGroupProd } = useQueryData(
-    `/v1/stocks/group-by-prod`, // endpoint
+  const { data: remainingQuantity } = useQueryData(
+    `/v1/product/remaining-quantity`, // endpoint
     "get", // method
-    "stocksGroupProd" // key
-  );
-  // use if not loadmore button undertime
-  const { data: orderGroupProd } = useQueryData(
-    `/v1/orders/group-by-prod`, // endpoint
-    "get", // method
-    "orderGroupProd" // key
+    "remaining-quantity" // key
   );
   // use if not loadmore button undertime
   const { data: memberApproved, isLoading: memberApprovedLoading } =
@@ -145,9 +139,7 @@ const ModalAddOrders = ({ item, arrKey }) => {
                   values,
                   item,
                   items,
-                  dispatch,
-                  stocksGroupProd,
-                  orderGroupProd
+                  dispatch,remainingQuantity
                 );
                 // new list
                 const list = validation.list;
@@ -194,8 +186,7 @@ const ModalAddOrders = ({ item, arrKey }) => {
                     {!item && (
                       <div className="relative mt-5">
                         <SearchToAddProduct
-                          stocksGroupProd={stocksGroupProd}
-                          orderGroupProd={orderGroupProd}
+                          remainingQuantity={remainingQuantity} 
                           setSearch={setSearch}
                           onSearch={onSearch}
                           isLoading={isLoading}
@@ -213,8 +204,7 @@ const ModalAddOrders = ({ item, arrKey }) => {
                           <>
                             {` ${getProductDetails(
                               item,
-                              stocksGroupProd,
-                              orderGroupProd
+                              remainingQuantity
                             )} `}
                             {pesoSign}
                             {` ${numberWithCommas(
@@ -226,9 +216,7 @@ const ModalAddOrders = ({ item, arrKey }) => {
                         ) : (
                           <>
                             {` ${getProductDetails(
-                              items,
-                              stocksGroupProd,
-                              orderGroupProd
+                              items,remainingQuantity
                             )} `}
                             {pesoSign}
                             {` ${numberWithCommas(

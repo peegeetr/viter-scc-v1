@@ -68,19 +68,7 @@ const ModalEditSearchPOS = ({ item, arrKey }) => {
     dispatch(setIsAdd(false));
     dispatch(setIsModalSearch(false));
   };
-
-  // use if not loadmore button undertime
-  const { data: stocksGroupProd } = useQueryData(
-    `/v1/stocks/group-by-prod`, // endpoint
-    "get", // method
-    "stocksGroupProd" // key
-  );
-  // use if not loadmore button undertime
-  const { data: orderGroupProd } = useQueryData(
-    `/v1/orders/group-by-prod`, // endpoint
-    "get", // method
-    "orderGroupProd" // key
-  );
+ 
   // use if not loadmore button undertime
   const { data: readPriceMarkup } = useQueryData(
     `/v1/pos/read-price-markup`, // endpoint
@@ -130,9 +118,7 @@ const ModalEditSearchPOS = ({ item, arrKey }) => {
 
                 const newVal = getValueData(
                   values,
-                  item,
-                  stocksGroupProd,
-                  orderGroupProd,
+                  item,remainingQuantity,
                   readPriceMarkup,
                   dispatch
                 );

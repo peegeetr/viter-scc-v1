@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 26, 2023 at 09:55 AM
--- Server version: 10.4.22-MariaDB
--- PHP Version: 8.1.2
+-- Generation Time: Jan 06, 2024 at 10:09 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -33,18 +33,19 @@ CREATE TABLE `sccv1_settings_price_markup` (
   `price_markup_retail` varchar(20) NOT NULL,
   `price_markup_member` varchar(20) NOT NULL,
   `price_markup_retail_whole_sale` varchar(20) NOT NULL,
+  `price_markup_member_whole_sale` varchar(20) NOT NULL,
   `price_markup_created_at` datetime NOT NULL,
   `price_markup_updated_at` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `sccv1_settings_price_markup`
 --
 
-INSERT INTO `sccv1_settings_price_markup` (`price_markup_aid`, `price_markup_is_active`, `price_markup_retail`, `price_markup_member`, `price_markup_retail_whole_sale`, `price_markup_created_at`, `price_markup_updated_at`) VALUES
-(2, 1, '9', '8', '7.5', '2023-09-19 12:53:09', '2023-09-26 15:27:39'),
-(4, 0, '34', '34', '3', '2023-09-19 13:47:38', '2023-09-20 07:01:58'),
-(5, 0, '10', '9', '8', '2023-09-26 14:58:37', '2023-09-26 15:18:58');
+INSERT INTO `sccv1_settings_price_markup` (`price_markup_aid`, `price_markup_is_active`, `price_markup_retail`, `price_markup_member`, `price_markup_retail_whole_sale`, `price_markup_member_whole_sale`, `price_markup_created_at`, `price_markup_updated_at`) VALUES
+(2, 1, '9', '8', '7.5', '', '2023-09-19 12:53:09', '2023-09-26 15:27:39'),
+(4, 0, '34', '34', '3', '', '2023-09-19 13:47:38', '2023-09-20 07:01:58'),
+(5, 0, '10', '9', '8', '', '2023-09-26 14:58:37', '2023-09-26 15:18:58');
 
 --
 -- Indexes for dumped tables

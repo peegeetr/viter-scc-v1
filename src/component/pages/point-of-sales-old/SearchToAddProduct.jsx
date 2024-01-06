@@ -12,8 +12,7 @@ import { getRemaningQuantity } from "../Inventory/products/functions-product";
 import { getProductPrice } from "./functions-pos";
 
 const SearchToAddProduct = ({
-  stocksGroupProd,
-  orderGroupProd,
+  remainingQuantity,
   setSearch,
   onSearch,
   isLoading,
@@ -91,9 +90,7 @@ const SearchToAddProduct = ({
                       type="button"
                     >
                       {`${item.suppliers_products_name}  (${getRemaningQuantity(
-                        item,
-                        stocksGroupProd,
-                        orderGroupProd
+                        item,remainingQuantity
                       )} pcs) - ${item.suppliers_company_name.slice(0, 10)} `}
                       &#8369;{" "}
                       {numberWithCommas(
