@@ -19,8 +19,13 @@ const ProductsViewList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [isFilter, setIsFilter] = React.useState(false);
   let counter = 1;
- 
 
+  // use if not loadmore button undertime
+  const { data: remainingQuantity } = useQueryData(
+    `/v1/product/remaining-quantity`, // endpoint
+    "get", // method
+    "remaining-quantity" // key
+  );
   // use if not loadmore button undertime
   const {
     isLoading,
@@ -128,10 +133,7 @@ const ProductsViewList = () => {
 
                   <td className="text-center print:hidden print:p-[1px]">
                     <StatusQuantity
-                      text={getRemaningQuantity(
-                        item,
-                        remainingQuantity
-                      )}
+                      text={getRemaningQuantity(item, remainingQuantity)}
                     />
                   </td>
                 </tr>
