@@ -5,9 +5,9 @@ import {
 } from "@tanstack/react-query";
 import { Form, Formik } from "formik";
 import React from "react";
+import { AiFillPrinter } from "react-icons/ai";
 import { FaEdit, FaSearch, FaTrash } from "react-icons/fa";
 import { GiReceiveMoney } from "react-icons/gi";
-import { useInView } from "react-intersection-observer";
 import * as Yup from "yup";
 import {
   setError,
@@ -17,12 +17,10 @@ import {
 } from "../../../store/StoreAction";
 import { StoreContext } from "../../../store/StoreContext";
 import useQueryData from "../../custom-hooks/useQueryData";
-import { InputText } from "../../helpers/FormInputs";
 import {
   AssociateMemberId,
   GetFocus,
   formatDate,
-  getDateNow,
   notMemberId,
   numberWithCommas,
   pesoSign,
@@ -32,21 +30,14 @@ import { queryData } from "../../helpers/queryData";
 import { queryDataInfinite } from "../../helpers/queryDataInfinite";
 import NoData from "../../partials/NoData";
 import ServerError from "../../partials/ServerError";
+import ButtonSpinner from "../../partials/spinners/ButtonSpinner";
 import TableSpinner from "../../partials/spinners/TableSpinner";
 import { computeFinalAmount } from "../Inventory/orders/functions-orders";
+import CasherPointOfSalesListPrint from "./CasherPointOfSalesListPrint";
 import SearchMember from "./SearchMember";
-import {
-  checkInsufficientQty,
-  getDataPayNow,
-  getTotalAmountPending,
-} from "./functions-pos";
+import { getDataPayNow, getTotalAmountPending } from "./functions-pos";
 import ModalEditSearchPOS from "./modal/ModalEditSearchPOS";
 import ModalPayNow from "./modal/ModalPayNow";
-import { getRemaningQuantity } from "../Inventory/products/functions-product";
-import StatusPending from "../../partials/status/StatusPending";
-import CasherPointOfSalesListPrint from "./CasherPointOfSalesListPrint";
-import { AiFillPrinter } from "react-icons/ai";
-import SearchToAddProduct from "../point-of-sales-old/SearchToAddProduct";
 import SearchAddProduct from "./search/SearchAddProduct";
 
 const CasherPointOfSalesList = () => {
@@ -55,19 +46,18 @@ const CasherPointOfSalesList = () => {
   const [isPayAll, setIsPayAll] = React.useState(false);
   const [search, setSearch] = React.useState("scc-000-2023");
 
-  // search Client
-  const [loadingClient, setLoadingClient] = React.useState(false);
-  const [isSearchClient, setIsSearchClient] = React.useState(false);
-  const [searchClient, setSearchClient] = React.useState("");
-  const [dataClient, setDataClient] = React.useState([]);
-  const [newDataList, setNewDataList] = React.useState(null);
+  // search Product
+  const [loadingProduct, setLoadingProduct] = React.useState(false);
+  const [isSearchProduct, setIsSearchProduct] = React.useState(false);
+  const [searchProduct, setSearchProduct] = React.useState("");
+  const [dataClient, setDataProduct] = React.useState([]);
+  const [productBarcode, setProductBarcode] = React.useState("");
 
   const onSearch = React.useRef("0");
-  let isPay = 0;
   let delId = 0;
   let counter = 1;
   let totalAmount = 0;
-  GetFocus("searchProduct");
+  GetFocus("searchNewProduct");
 
   // use if not loadmore button undertime
   const { data: memberSearch, isLoading } = useQueryData(
@@ -124,6 +114,12 @@ const CasherPointOfSalesList = () => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ["pos-order"] });
       // show success box
+      setLoadingProduct(false);
+      setIsSearchProduct(false);
+      setSearchProduct("");
+      setDataProduct([]);
+      setProductBarcode("");
+
       if (data.success) {
         delId = 0;
       }
@@ -177,13 +173,6 @@ const CasherPointOfSalesList = () => {
     search: Yup.string().required("Required"),
   });
 
-  // use if not loadmore button undertime
-  const { data: remainingQuantity } = useQueryData(
-    `/v1/product/remaining-quantity`, // endpoint
-    "get", // method
-    "remaining-quantity" // key
-  );
-
   return (
     <>
       <CasherPointOfSalesListPrint memberName={memberName} result={result} />
@@ -199,11 +188,16 @@ const CasherPointOfSalesList = () => {
               validationSchema={yupSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
                 const orders_member_id = memberId;
+
+                const newValSearch =
+                  productBarcode === "" ? values.search : productBarcode;
+
                 mutation.mutate({
                   ...values,
                   orders_member_id,
                   notMemberId: notMemberId,
                   associateMemberId: AssociateMemberId,
+                  search: newValSearch,
                 });
                 resetForm();
               }}
@@ -213,32 +207,22 @@ const CasherPointOfSalesList = () => {
                 return (
                   <Form>
                     <div className="relative md:mt-0 mt-5 ">
-                      <div className="form__wrap ">
+                      <div className="flex justify-end">
                         <SearchAddProduct
-                          label="Client"
+                          label="Search to add product"
                           name="search"
                           disabled={mutation.isLoading}
-                          endpoint={`/v1/admin-individual-client/search-client-by-individual-entities`}
-                          setSearch={setSearchClient}
-                          setIsSearch={setIsSearchClient}
-                          handleSearchModal={handleSearchModal}
-                          setLoading={setLoadingClient}
-                          setData={setDataClient}
-                          search={searchClient}
-                          isSearch={isSearchClient}
-                          loading={loadingClient}
+                          endpoint={`/v1/pos/search-product`}
+                          setSearch={setSearchProduct}
+                          setIsSearch={setIsSearchProduct}
+                          setLoading={setLoadingProduct}
+                          setData={setDataProduct}
+                          search={searchProduct}
+                          isSearch={isSearchProduct}
+                          loading={loadingProduct}
                           data={dataClient}
-                          setNewDataList={setNewDataList}
-                        />
-                      </div>
-                      <div className="flex justify-end">
-                        <InputText
-                          label="Search to add product"
-                          type="search"
-                          name="search"
-                          search="search"
-                          id="searchProduct"
-                          autoComplete="off"
+                          setProductBarcode={setProductBarcode}
+                          id="searchNewProduct"
                         />
 
                         <button
@@ -246,7 +230,11 @@ const CasherPointOfSalesList = () => {
                           disabled={mutation.isLoading}
                           className="btn-action-table rounded-tl-none rounded-bl-none border-l-0 bg-primary text-white border-primary"
                         >
-                          <FaSearch />
+                          {mutation.isLoading || loadingProduct ? (
+                            <ButtonSpinner color="stroke-primary" />
+                          ) : (
+                            <FaSearch />
+                          )}
                         </button>
                       </div>
                     </div>
@@ -311,7 +299,6 @@ const CasherPointOfSalesList = () => {
                 {result?.pages.map((page, key) => (
                   <React.Fragment key={key}>
                     {page.data.map((item, key) => {
-                      isPay = checkInsufficientQty(item, remainingQuantity);
                       totalAmount +=
                         Number(item.orders_product_amount) -
                         Number(item.sales_discount);

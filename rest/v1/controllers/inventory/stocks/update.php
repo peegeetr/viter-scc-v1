@@ -26,6 +26,7 @@ if (array_key_exists("stockid", $_GET)) {
     //check to see if task id in query string is not empty and is number, if not return json error
     checkId($stocks->stocks_aid);
     if ($stocks_barcode_id_old === "") {
+        $stocks->stocks_barcode_id = $data["stocks_barcode_id"] . $stocks->stocks_product_id;
         isBarcodeExist($stocks, $stocks->stocks_barcode_id);
         $stocks->lastInsertedId = $stocks->stocks_aid;
         checkCreateBarcode($stocks);
@@ -33,7 +34,12 @@ if (array_key_exists("stockid", $_GET)) {
         returnSuccess($stocks, "stocks", $query);
     }
 
+    if ($stocks->stocks_barcode_id != $stocks_barcode_id_old) {
+        $stocks->stocks_barcode_id = $data["stocks_barcode_id"] . $stocks->stocks_product_id;
+    }
+
     compareBarcode($stocks, $stocks_barcode_id_old, $stocks->stocks_barcode_id);
+
     checkUpdateBarcode($stocks);
     $query = checkUpdate($stocks);
     returnSuccess($stocks, "stocks", $query);

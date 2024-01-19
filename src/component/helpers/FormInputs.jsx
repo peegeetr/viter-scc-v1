@@ -231,6 +231,35 @@ export const InputSelect = ({ label, onChange, ...props }) => {
   );
 };
 
+export const InputSearch = ({ label, onChange, ...props }) => {
+  const [field, meta] = useField(props);
+
+  return (
+    <>
+      <label
+        htmlFor={props.id || props.name}
+        className={meta.touched && meta.error ? "custom error-show" : "custom"}
+      >
+        {label}
+      </label>
+      <input
+        {...field}
+        {...props}
+        className={`${
+          meta.touched && meta.error ? "error-show" : null
+        } !rounded-br-none !rounded-tr-none mb-0 `}
+        autoComplete="off"
+        onChange={(e) => {
+          onChange(e);
+          field.onChange(e);
+        }}
+      />
+      {meta.touched && meta.error ? (
+        <span className="error-show">{meta.error}</span>
+      ) : null}
+    </>
+  );
+};
 export const InputFileUpload = ({ label, ...props }) => {
   const [field, meta] = useField(props);
   return (

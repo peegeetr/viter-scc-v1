@@ -821,7 +821,7 @@ class SuppliersProducts
             $query->execute([
                 "suppliers_products_name" => "%{$this->suppliers_products_search}%",
                 "product_category_name" => "{$this->suppliers_products_search}%",
-                "stocks_barcode_id" => $this->suppliers_products_search,
+                "stocks_barcode_id" => "{$this->suppliers_products_search}%",
             ]);
         } catch (PDOException $ex) {
             $query = false;

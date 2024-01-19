@@ -181,6 +181,7 @@ RewriteRule ^pos/search-to-add-product$ controllers/point-of-sales/search-to-add
 RewriteRule ^pos/read-member-approved$ controllers/point-of-sales/read-member-approved.php [L]  
 RewriteRule ^pos/search-member-approved$ controllers/point-of-sales/search-member-approved.php [L]  
 RewriteRule ^pos/read-price-markup$ controllers/point-of-sales/read-price-markup.php [L]  
+RewriteRule ^pos/search-product$ controllers/point-of-sales/search-product.php [L]  
  
 #SUBSCRIBE CAPITAL
 RewriteRule ^subscribe-capital$ controllers/settings/subscribe-capital/subscribe-capital.php [L]

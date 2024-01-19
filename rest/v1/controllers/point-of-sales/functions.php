@@ -45,6 +45,13 @@ function checksearchToAddProduct($object)
     checkQuery($query, "There's a problem processing your request. (search to add product)");
     return $query;
 }
+// search to add product 
+function checkSearchProduct($object)
+{
+    $query = $object->searchProduct();
+    checkQuery($query, "There's a problem processing your request. (search to add product)");
+    return $query;
+}
 
 // Read all
 function checkReadAllMemberApproved($object)

@@ -1,7 +1,12 @@
-import { queryData } from "@/component/helpers/queryData";
-import NoData from "@/component/partials/NoData";
-import ButtonSpinner from "@/component/partials/spinners/ButtonSpinner";
-import TableSpinner from "@/component/partials/spinners/TableSpinner";
+import React from "react";
+import { setError, setMessage } from "../../../../store/StoreAction";
+import { StoreContext } from "../../../../store/StoreContext";
+import useQueryData from "../../../custom-hooks/useQueryData";
+import { InputSearch } from "../../../helpers/FormInputs";
+import { queryData } from "../../../helpers/queryData";
+import NoData from "../../../partials/NoData";
+import TableSpinner from "../../../partials/spinners/TableSpinner";
+import { getRemaningQuantity } from "../../Inventory/products/functions-product";
 
 const SearchAddProduct = ({
   label,
@@ -10,16 +15,16 @@ const SearchAddProduct = ({
   endpoint,
   setSearch,
   setIsSearch,
-  handleSearchModal,
   setLoading,
   setData,
   search,
   isSearch,
   loading,
   data,
-  setNewDataList,
+  setProductBarcode,
+  id,
 }) => {
-  // const yearDue = getUrlParam().get("yearDue");
+  const { dispatch } = React.useContext(StoreContext);
   const handleSearch = async (
     e,
     setSearch,
@@ -27,12 +32,12 @@ const SearchAddProduct = ({
     setLoading,
     endpoint,
     setData,
-    setNewDataList,
+    setProductBarcode,
     value
   ) => {
     if (e.target.value.trim() === "") {
       setSearch("");
-      setNewDataList([]);
+      setProductBarcode("");
       setIsSearch(false);
       return;
     }
@@ -42,7 +47,6 @@ const SearchAddProduct = ({
 
     const data = await queryData(endpoint, "post", {
       search: value,
-      yeardueId: yearDue,
     });
 
     // console.log(data);
@@ -67,17 +71,48 @@ const SearchAddProduct = ({
     }
   };
 
-  const handleClick = (item, setSearch, setIsSearch, setNewDataList) => {
-    setSearch(`${item.client_id} - (${item.client_entities_id})`);
-    setIsSearch(false);
-    setNewDataList(item);
+  const handleClick = (item, setSearch, setIsSearch, setProductBarcode) => {
+    if (getRemaningQuantity(item, remainingQuantity) <= 0) {
+      setSearch("");
+      setIsSearch(false);
+      setProductBarcode("");
+
+      dispatch(setError(true));
+      dispatch(
+        setMessage(
+          `Insufficient Quantity ${
+            item.suppliers_products_name
+          } is ${getRemaningQuantity(item, remainingQuantity)} qty.`
+        )
+      );
+    }
+    if (getRemaningQuantity(item, remainingQuantity) > 0) {
+      setSearch(
+        `${item.suppliers_products_name} - (${getRemaningQuantity(
+          item,
+          remainingQuantity
+        )} qty)`
+      );
+      setIsSearch(false);
+      setProductBarcode(item.stocks_barcode_id);
+    }
   };
+
+  // use if not loadmore button undertime
+  const { data: remainingQuantity } = useQueryData(
+    `/v1/product/remaining-quantity`, // endpoint
+    "get", // method
+    "remaining-quantity", // key
+    {},
+    isSearch
+  );
 
   return (
     <>
       <InputSearch
         label={label}
-        type="text"
+        type="search"
+        id={id}
         disabled={disabled}
         name={name}
         onChange={(e) =>
@@ -88,40 +123,46 @@ const SearchAddProduct = ({
             setLoading,
             endpoint,
             setData,
-            setNewDataList,
+            setProductBarcode,
             e.target.value
           )
         }
         value={search}
         placeholder="Search..."
-        onClick={() => handleSearchModal()}
       />
 
-      {isSearch && loading && (
-        <span className="absolute top-1/2 right-0 -translate-x-1/2 mr-2">
-          <ButtonSpinner color="stroke-primary" />
-        </span>
-      )}
-
       {isSearch && (
-        <ul className="absolute z-50 max-h-32 overflow-y-auto top-16 w-full bg-white shadow-3xl rounded-md h-[30rem] border border-t-0">
+        <ul className="absolute z-50 max-h-32 overflow-y-auto top-[2.5rem] w-full bg-white shadow-3xl rounded-md h-[30rem] border border-t-0">
           {loading ? (
             <li className=" p-2 w-full text-center bg-white focus:bg-gray-200 border-b border-white">
               <TableSpinner />
             </li>
           ) : data.length > 0 ? (
-            data.map((item, key) => (
-              <button
-                type="button"
-                className="text-left pl-2 py-[1px] w-full bg-white hover:bg-gray-200 focus:bg-gray-200 cursor-pointer duration-200"
-                key={key}
-                onClick={() =>
-                  handleClick(item, setSearch, setIsSearch, setNewDataList)
-                }
-              >
-                {`${item.client_id} - (${item.client_entities_id})`}
-              </button>
-            ))
+            data.map((item, key) => {
+              return (
+                // getRemaningQuantity(item, remainingQuantity) !== "0" && (
+                <li key={key}>
+                  <button
+                    type="button"
+                    className="text-left pl-2 py-[1px] w-full bg-white hover:bg-gray-200 focus:bg-gray-200 cursor-pointer duration-200"
+                    onClick={() =>
+                      handleClick(
+                        item,
+                        setSearch,
+                        setIsSearch,
+                        setProductBarcode
+                      )
+                    }
+                  >
+                    {`${item.suppliers_products_name} - (${getRemaningQuantity(
+                      item,
+                      remainingQuantity
+                    )} qty)`}
+                  </button>
+                </li>
+                // )
+              );
+            })
           ) : (
             <li className="pt-1 w-full text-center bg-white focus:bg-gray-200 border-b border-white">
               <NoData />
