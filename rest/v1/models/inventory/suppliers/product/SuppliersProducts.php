@@ -19,6 +19,8 @@ class SuppliersProducts
     public $suppliers_products_created;
     public $suppliers_products_datetime;
 
+    public $product_id;
+
     public $connection;
     public $lastInsertedId;
     public $suppliers_products_start;
@@ -826,7 +828,33 @@ class SuppliersProducts
         }
         return $query;
     }
-    
+
+    // read all pending
+    public function readAllOrderGroupByProduct()
+    {
+        try {
+            $sql = "select ";
+            $sql .= "orders_aid, ";
+            $sql .= "orders_product_id, ";
+            $sql .= "orders_is_draft, ";
+            $sql .= "count(orders_product_id) as count, ";
+            $sql .= "sum(orders_product_quantity) as orderQuantity, ";
+            $sql .= "orders_product_quantity ";
+            $sql .= "from {$this->tblOrders} ";
+            $sql .= "where orders_product_id = :orders_product_id ";
+            $sql .= "and orders_is_draft = '0' ";
+            $sql .= "group by orders_product_id ";
+            $sql .= "order by orders_product_id asc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "orders_product_id" => $this->product_id,
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
     // read all pending
     public function readAllOrderGroupByProductId()
     {
@@ -839,16 +867,16 @@ class SuppliersProducts
             $sql .= "sum(orders_product_quantity) as orderQuantity, ";
             $sql .= "orders_product_quantity ";
             $sql .= "from {$this->tblOrders} ";
-            $sql .= "where orders_is_draft = '0' "; 
+            $sql .= "where orders_is_draft = '0' ";
             $sql .= "group by orders_product_id ";
-            $sql .= "order by orders_product_id asc "; 
+            $sql .= "order by orders_product_id asc ";
             $query = $this->connection->query($sql);
         } catch (PDOException $ex) {
             $query = false;
         }
         return $query;
     }
-    
+
     // Read by product id
     public function readAllStockGroupByProductId()
     {
@@ -865,6 +893,32 @@ class SuppliersProducts
             $sql .= "group by stocks_product_id ";
             $sql .= "order by stocks_product_id asc ";
             $query = $this->connection->query($sql);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
+    // Read by product id
+    public function readAllStockGroupByProduct()
+    {
+        try {
+            $sql = "select ";
+            $sql .= "stocks_quantity, ";
+            $sql .= "stocks_aid, ";
+            $sql .= "stocks_product_id, ";
+            $sql .= "sum(stocks_quantity) as stockQuantity, ";
+            $sql .= "count(stocks_product_id) as count ";
+            $sql .= "from ";
+            $sql .= "{$this->tblStocks} ";
+            $sql .= "where orders_product_id = :orders_product_id ";
+            $sql .= "and stocks_is_pending = '0' ";
+            $sql .= "group by stocks_product_id ";
+            $sql .= "order by stocks_product_id asc ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "orders_product_id" => $this->product_id,
+            ]);
         } catch (PDOException $ex) {
             $query = false;
         }

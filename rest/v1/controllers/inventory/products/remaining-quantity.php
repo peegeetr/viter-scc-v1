@@ -28,7 +28,6 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         $stocks_product_id = 0;
         $stockProductCount = 0;
 
-        $orderProduct = $suppliersProducts->readAllOrderGroupByProductId();
         $stockProduct = $suppliersProducts->readAllStockGroupByProductId();
 
         if ($stockProduct->rowCount() > 0) {
@@ -36,31 +35,21 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
             extract($stockRow);
 
 
-            // if dont have any order
-            if ($orderProduct->rowCount() == 0) {
-                for ($s = 0; $s < count($stockRow); $s++) {
-                    $stockQuantity = $stockRow[$s]["stockQuantity"];
-                    $stocks_product_id = $stockRow[$s]["stocks_product_id"];
-                    $stockProductCount = $stockRow[$s]["count"];
+            for ($s = 0; $s < count($stockRow); $s++) {
+                $stockQuantity = $stockRow[$s]["stockQuantity"];
+                $stocks_product_id = $stockRow[$s]["stocks_product_id"];
+                $stockProductCount = $stockRow[$s]["count"];
 
-                    // get total quantity 
-                    $totalQty = $stockQuantity - $orderQuantity;
-                    $data[] =  array(
-                        "orders_product_id" => $stocks_product_id, "stocks_product_id" => $stocks_product_id,
-                        "orderQuantity" => $orderQuantity, "stockQuantity" => $stockQuantity, "totalQty" => $totalQty,
-                        "orderProductCount" => $orderProductCount, "stockProductCount" => $stockProductCount
-                    );
+                $suppliersProducts->product_id = $stockRow[$s]["stocks_product_id"];
 
-                    array_push($data);
-                }
-            }
+                $orderProduct = $suppliersProducts->readAllOrderGroupByProduct();
 
-            // if have any order
-            if ($orderProduct->rowCount() > 0) {
-                $orderRow = $orderProduct->fetchAll();
-                extract($orderRow);
 
-                for ($s = 0; $s < count($stockRow); $s++) {
+                // if have any order
+                if ($orderProduct->rowCount() > 0) {
+                    $orderRow = $orderProduct->fetchAll();
+                    extract($orderRow);
+
                     for ($o = 0; $o < count($orderRow); $o++) {
                         $stockQuantity = $stockRow[$s]["stockQuantity"];
                         $stocks_product_id = $stockRow[$s]["stocks_product_id"];
@@ -73,21 +62,28 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
                         // get total quantity
                         if ($stocks_product_id == $orders_product_id) {
                             $totalQty = $stockQuantity - $orderQuantity;
-                            $data[] =  array("orders_product_id" => $orders_product_id, "stocks_product_id" => $stocks_product_id, "orderQuantity" => $orderQuantity, "stockQuantity" => $stockQuantity, "totalQty" => $totalQty, "orderProductCount" => $orderProductCount, "stockProductCount" => $stockProductCount);
-
-                            array_push($data);
-                        }
-                        // if stock product id is not exist in order
-                        // get total quantity
-                        if ($stocks_product_id != $orders_product_id) {
-                            $orderQuantity = 0;
-                            $orderProductCount = 0;
-                            $totalQty = $stockQuantity - $orderQuantity;
-                            $data[] =  array("orders_product_id" => $stocks_product_id, "stocks_product_id" => $stocks_product_id, "orderQuantity" => $orderQuantity, "stockQuantity" => $stockQuantity, "totalQty" => $totalQty, "orderProductCount" => $orderProductCount, "stockProductCount" => $stockProductCount);
+                            $data[] =  array(
+                                "orders_product_id" => $orders_product_id, "stocks_product_id" => $stocks_product_id,
+                                "orderQuantity" => $orderQuantity, "stockQuantity" => $stockQuantity, "totalQty" => $totalQty,
+                                "orderProductCount" => $orderProductCount, "stockProductCount" => $stockProductCount
+                            );
 
                             array_push($data);
                         }
                     }
+                }
+
+                // if dont have any order
+                if ($orderProduct->rowCount() == 0) {
+                    // get total quantity 
+                    $totalQty = $stockQuantity - $orderQuantity;
+                    $data[] =  array(
+                        "orders_product_id" => $stocks_product_id, "stocks_product_id" => $stocks_product_id,
+                        "orderQuantity" => $orderQuantity, "stockQuantity" => $stockQuantity, "totalQty" => $totalQty,
+                        "orderProductCount" => $orderProductCount, "stockProductCount" => $stockProductCount
+                    );
+
+                    array_push($data);
                 }
             }
         }

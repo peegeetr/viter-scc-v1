@@ -46,12 +46,22 @@ import { getRemaningQuantity } from "../Inventory/products/functions-product";
 import StatusPending from "../../partials/status/StatusPending";
 import CasherPointOfSalesListPrint from "./CasherPointOfSalesListPrint";
 import { AiFillPrinter } from "react-icons/ai";
+import SearchToAddProduct from "../point-of-sales-old/SearchToAddProduct";
+import SearchAddProduct from "./search/SearchAddProduct";
 
 const CasherPointOfSalesList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [itemEdit, setItemEdit] = React.useState(null);
   const [isPayAll, setIsPayAll] = React.useState(false);
   const [search, setSearch] = React.useState("scc-000-2023");
+
+  // search Client
+  const [loadingClient, setLoadingClient] = React.useState(false);
+  const [isSearchClient, setIsSearchClient] = React.useState(false);
+  const [searchClient, setSearchClient] = React.useState("");
+  const [dataClient, setDataClient] = React.useState([]);
+  const [newDataList, setNewDataList] = React.useState(null);
+
   const onSearch = React.useRef("0");
   let isPay = 0;
   let delId = 0;
@@ -162,7 +172,7 @@ const CasherPointOfSalesList = () => {
     posMember: "",
     search: "",
   };
-console.log("123",result?.pages[0].data.length)
+
   const yupSchema = Yup.object({
     search: Yup.string().required("Required"),
   });
@@ -172,7 +182,8 @@ console.log("123",result?.pages[0].data.length)
     `/v1/product/remaining-quantity`, // endpoint
     "get", // method
     "remaining-quantity" // key
-  );  
+  );
+
   return (
     <>
       <CasherPointOfSalesListPrint memberName={memberName} result={result} />
@@ -202,6 +213,24 @@ console.log("123",result?.pages[0].data.length)
                 return (
                   <Form>
                     <div className="relative md:mt-0 mt-5 ">
+                      <div className="form__wrap ">
+                        <SearchAddProduct
+                          label="Client"
+                          name="search"
+                          disabled={mutation.isLoading}
+                          endpoint={`/v1/admin-individual-client/search-client-by-individual-entities`}
+                          setSearch={setSearchClient}
+                          setIsSearch={setIsSearchClient}
+                          handleSearchModal={handleSearchModal}
+                          setLoading={setLoadingClient}
+                          setData={setDataClient}
+                          search={searchClient}
+                          isSearch={isSearchClient}
+                          loading={loadingClient}
+                          data={dataClient}
+                          setNewDataList={setNewDataList}
+                        />
+                      </div>
                       <div className="flex justify-end">
                         <InputText
                           label="Search to add product"
@@ -211,6 +240,7 @@ console.log("123",result?.pages[0].data.length)
                           id="searchProduct"
                           autoComplete="off"
                         />
+
                         <button
                           type="submit"
                           disabled={mutation.isLoading}
@@ -281,9 +311,7 @@ console.log("123",result?.pages[0].data.length)
                 {result?.pages.map((page, key) => (
                   <React.Fragment key={key}>
                     {page.data.map((item, key) => {
-                      isPay = checkInsufficientQty(
-                        item,remainingQuantity
-                      );
+                      isPay = checkInsufficientQty(item, remainingQuantity);
                       totalAmount +=
                         Number(item.orders_product_amount) -
                         Number(item.sales_discount);
@@ -320,10 +348,7 @@ console.log("123",result?.pages[0].data.length)
                             {pesoSign}{" "}
                             {numberWithCommas(computeFinalAmount(item))}
                           </td>
-                          <td>
-                            
-                            {item.orders_remarks}
-                          </td>
+                          <td>{item.orders_remarks}</td>
 
                           <td>
                             <div className="flex items-center gap-1">
@@ -332,31 +357,31 @@ console.log("123",result?.pages[0].data.length)
                                 item,remainingQuantity
                               ) >= Number(item.orders_product_quantity) && (
                                 <> */}
-                                  <button
-                                    type="button"
-                                    className="btn-action-table tooltip-action-table"
-                                    data-tooltip="Accept"
-                                    onClick={() => handlePay(item)}
-                                  >
-                                    <GiReceiveMoney />
-                                  </button>
-                                  <button
-                                    type="button"
-                                    className="btn-action-table tooltip-action-table"
-                                    data-tooltip="Edit"
-                                    onClick={() => handleEdit(item)}
-                                  >
-                                    <FaEdit />
-                                  </button>
-                                  <button
-                                    type="button"
-                                    className="btn-action-table tooltip-action-table"
-                                    data-tooltip="Delete"
-                                    onClick={() => handleDelete(item)}
-                                  >
-                                    <FaTrash />
-                                  </button>
-                                {/* </>
+                              <button
+                                type="button"
+                                className="btn-action-table tooltip-action-table"
+                                data-tooltip="Accept"
+                                onClick={() => handlePay(item)}
+                              >
+                                <GiReceiveMoney />
+                              </button>
+                              <button
+                                type="button"
+                                className="btn-action-table tooltip-action-table"
+                                data-tooltip="Edit"
+                                onClick={() => handleEdit(item)}
+                              >
+                                <FaEdit />
+                              </button>
+                              <button
+                                type="button"
+                                className="btn-action-table tooltip-action-table"
+                                data-tooltip="Delete"
+                                onClick={() => handleDelete(item)}
+                              >
+                                <FaTrash />
+                              </button>
+                              {/* </>
                               )} */}
                               {/* if have remaning qty is lessthan of the qty pending or insufficient qty */}
                               {/* {getRemaningQuantity(
