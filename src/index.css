@@ -212,10 +212,11 @@ input[type="text"]:not(:placeholder-shown) ~ label {
   }
 }
 @media print {
-  @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+  /* @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap"); */
 
   body {
-    font-family: "Arial", "Poppins", sans-serif;
+    font-family: Arial;
+    /* font-family: Arial, "Poppins", sans-serif; */
     print-color-adjust: exact;
   }
 
