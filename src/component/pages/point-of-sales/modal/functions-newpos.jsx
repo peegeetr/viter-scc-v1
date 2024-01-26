@@ -54,6 +54,32 @@ export const getDiscount = (values) => {
   return discount;
 };
 
+export const getChange = (values, item, isPayAll) => {
+  let changeTotal = 0;
+
+  if (!isPayAll) {
+    changeTotal = numberWithCommas(
+      (
+        Number(removeComma(values.sales_receive_amount)) -
+        Number(
+          Number(item.orders_product_amount) - Number(item.sales_discount)
+        ).toFixed(2)
+      ).toFixed(2)
+    );
+  }
+
+  if (isPayAll) {
+    changeTotal = numberWithCommas(
+      (
+        Number(removeComma(values.sales_receive_amount)) -
+        Number(item.totalAmount).toFixed(2)
+      ).toFixed(2)
+    );
+  }
+
+  return changeTotal;
+};
+
 export const getWholeSale = (values, item) => {
   let amount = 0;
   let isTrueAmount = false;
@@ -219,11 +245,7 @@ export const getWholeSaleDiscount = (readPriceMarkup, productAmount) => {
   return percent;
 };
 
-export const getValueData = (
-  values,
-  item,remainingQuantity,
-  dispatch
-) => {
+export const getValueData = (values, item, remainingQuantity, dispatch) => {
   let invalidAmount = false;
   let sales_discount = 0;
   const quantity = removeComma(`${values.orders_product_quantity}`);

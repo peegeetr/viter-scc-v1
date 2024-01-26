@@ -25,7 +25,6 @@ import TableSpinner from "../../../partials/spinners/TableSpinner";
 import StatusActive from "../../../partials/status/StatusActive";
 import StatusPending from "../../../partials/status/StatusPending";
 import { computeFinalAmount } from "../orders/functions-orders";
-import { getRemaningQuantity } from "../products/functions-product";
 import SalesTotal from "./SalesTotal";
 
 const SalesList = ({ setItemEdit }) => {
@@ -92,12 +91,6 @@ const SalesList = ({ setItemEdit }) => {
     setDel(null);
   };
 
-  // use if not loadmore button undertime
-  const { data: remainingQuantity } = useQueryData(
-    `/v1/product/remaining-quantity`, // endpoint
-    "get", // method
-    "remaining-quantity" // key
-  ); 
   return (
     <>
       <SearchBar
@@ -209,17 +202,16 @@ const SalesList = ({ setItemEdit }) => {
                           </button>
                         )}
 
-                        {item.sales_is_paid === 0 &&
-                           (
-                            <button
-                              type="button"
-                              className="btn-action-table tooltip-action-table"
-                              data-tooltip="Accept"
-                              onClick={() => handleEdit(item)}
-                            >
-                              <GiReceiveMoney />
-                            </button>
-                          )}
+                        {item.sales_is_paid === 0 && (
+                          <button
+                            type="button"
+                            className="btn-action-table tooltip-action-table"
+                            data-tooltip="Accept"
+                            onClick={() => handleEdit(item)}
+                          >
+                            <GiReceiveMoney />
+                          </button>
+                        )}
                       </td>
                     </tr>
                   );

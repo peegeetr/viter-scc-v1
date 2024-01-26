@@ -23,7 +23,8 @@ export const computeSalesTotalAmount = (result) => {
   result?.pages.map((page) =>
     page?.data.map((item) => {
       if (item.sales_is_paid === 0) {
-        totalPending += Number(item.orders_product_amount);
+        totalPending +=
+          Number(item.orders_product_amount) - Number(item.sales_discount);
       }
       if (item.sales_is_paid === 1) {
         totalPaid = Number(item.orders_product_amount);
@@ -38,6 +39,7 @@ export const computeSalesTotalAmount = (result) => {
       finalDiscount += Number(item.sales_discount);
     })
   );
+
   finalAmount = finalPaidAmount + totalPending;
   finalReceivedAmount = totalReceived - totalChange;
 
@@ -223,7 +225,7 @@ export const getSalesChange = (price, discout, recieve) => {
   let result = 0;
 
   if (recieve !== "") {
-    result = Number(recieve) - Number(price) - Number(discout);
+    result = Number(price) - Number(recieve) - Number(discout);
   }
   return result;
 };
@@ -248,10 +250,9 @@ export const getValidationSales = (values, item, dispatch) => {
     )
   ).toFixed(2);
 
-  if (
-    Number(sales_receive_amount) <
-    Number(orders_product_amount) - Number(sales_discount)
-  ) {
+  const totalVal = Number(orders_product_amount) - Number(sales_discount);
+
+  if (Number(sales_receive_amount) < Number(totalVal.toFixed(2))) {
     dispatch(setError(true));
     dispatch(setMessage("Insufficient amount"));
     invalidAmount = true;

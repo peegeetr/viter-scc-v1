@@ -31,6 +31,7 @@ import { computeFinalAmount } from "../Inventory/orders/functions-orders";
 import ModalAddSearchPOS from "./ModalAddSearchPOS";
 import ModalPayNow from "./ModalPayNow";
 import { getDataPayNow } from "./functions-pos";
+import { AiFillPrinter } from "react-icons/ai";
 
 const CasherPointOfSalesListOld = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -315,16 +316,18 @@ const CasherPointOfSalesListOld = () => {
         <p className="text-right text-lg pr-8 mt-3 mb-5 font-bold">
           Total : {pesoSign} {numberWithCommas(totalAmount.toFixed(2))}
         </p>
-        <div className="flex justify-end">
-          <button
-            type="button"
-            className="btn-primary mr-8"
-            onClick={handlePayNow}
-          >
-            <GiReceiveMoney />
-            <span>Pay now</span>
-          </button>
-        </div>
+        {result?.pages[0].data.length > 0 && (
+          <div className="flex justify-end mt-5 ">
+            <button
+              type="button"
+              className="btn-primary print:hidden"
+              onClick={() => window.print()}
+            >
+              <AiFillPrinter />
+              <span>Print</span>
+            </button>
+          </div>
+        )}
       </div>
       {store.isAdd && (
         <ModalAddSearchPOS

@@ -7,9 +7,16 @@ import Navigation from "../../../partials/Navigation";
 import ModalError from "../../../partials/modals/ModalError";
 import ModalSuccess from "../../../partials/modals/ModalSuccess";
 import CasherPointOfSalesList from "../../point-of-sales/CasherPointOfSalesList";
+import { AiFillPrinter } from "react-icons/ai";
 
 const PointOfSales = () => {
   const { store, dispatch } = React.useContext(StoreContext);
+  const [isGeneralPrint, setIsGeneralPrint] = React.useState(false);
+
+  const handlePrint = () => {
+    setIsGeneralPrint(false);
+    window.print();
+  };
 
   return (
     <>

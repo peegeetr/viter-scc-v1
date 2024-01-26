@@ -7,6 +7,9 @@ export const computeSccSales = (result) => {
   let totalSupplierAmount = 0;
   let finalAmount = 0;
   let pendingAmount = 0;
+  let totalProfit = 0;
+  let pendingNegativeAmount = 0;
+  let finalNegativeAmount = 0;
 
   // supplier
   let totalSupplierPriceAmount = 0;
@@ -20,14 +23,25 @@ export const computeSccSales = (result) => {
       // supplier price * quantity
       totalSupplierAmount = supplierPrice * totalOty;
 
+      let psAmount =
+        Number(item.orders_product_amount) - Number(item.sales_discount);
+
+      totalProfit += psAmount - totalSupplierAmount;
+
       // if is paid
       if (item.sales_is_paid === 1) {
         // amount - discount
         sccPriceAmount =
           Number(item.orders_product_amount) - Number(item.sales_discount);
 
-        if (sccPriceAmount !== 0 || sccPricePendingAmount > 0) {
-          finalAmount += sccPriceAmount - totalSupplierAmount;
+        if (sccPriceAmount !== 0) {
+          let fAmount = sccPriceAmount - totalSupplierAmount;
+          if (fAmount > 0) {
+            finalAmount += sccPriceAmount - totalSupplierAmount;
+          }
+          if (fAmount <= 0) {
+            finalNegativeAmount += fAmount;
+          }
         }
       }
 
@@ -36,8 +50,15 @@ export const computeSccSales = (result) => {
         // amount - discount
         sccPricePendingAmount =
           Number(item.orders_product_amount) - Number(item.sales_discount);
-        if (sccPricePendingAmount !== 0 || sccPricePendingAmount > 0) {
-          pendingAmount += sccPricePendingAmount - totalSupplierAmount;
+
+        if (sccPricePendingAmount !== 0) {
+          let pAmount = sccPricePendingAmount - totalSupplierAmount;
+          if (pAmount > 0) {
+            pendingAmount += pAmount;
+          }
+          if (pAmount <= 0) {
+            pendingNegativeAmount += pAmount;
+          }
         }
       }
 
@@ -46,11 +67,15 @@ export const computeSccSales = (result) => {
       totalSupplierPriceAmount += totalOty * supplierPrice;
     })
   );
+
   return {
     finalAmount,
     totalSupplierAmount,
     pendingAmount,
     totalSupplierPriceAmount,
+    totalProfit,
+    pendingNegativeAmount,
+    finalNegativeAmount,
   };
 };
 

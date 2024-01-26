@@ -19,10 +19,10 @@ import {
   pesoSign,
   removeComma,
 } from "../../../helpers/functions-general";
+import { getChange } from "./functions-newpos";
 
 const ModalPayNow = ({ item, result, isPayAll, setSearch, onSearch }) => {
   const { store, dispatch } = React.useContext(StoreContext);
-  GetFocus("searchProduct");
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: (values) =>
@@ -90,7 +90,7 @@ const ModalPayNow = ({ item, result, isPayAll, setSearch, onSearch }) => {
                   : Number(item.orders_product_amount) -
                     Number(sales_receive_amount);
 
-                if (Number(sales_receive_amount) < totalPrice) {
+                if (Number(sales_receive_amount) < totalPrice.toFixed(2)) {
                   dispatch(setError(true));
                   dispatch(setMessage("Insufficient amount"));
                   return;
@@ -165,23 +165,7 @@ const ModalPayNow = ({ item, result, isPayAll, setSearch, onSearch }) => {
                           {pesoSign}{" "}
                           {Number(props.values.sales_receive_amount) === 0
                             ? "0.00"
-                            : numberWithCommas(
-                                (
-                                  Number(
-                                    removeComma(
-                                      props.values.sales_receive_amount
-                                    )
-                                  ) -
-                                  Number(
-                                    `${
-                                      isPayAll
-                                        ? item.totalAmount
-                                        : Number(item.orders_product_amount) -
-                                          Number(item.sales_discount)
-                                    }`
-                                  )
-                                ).toFixed(2)
-                              )}
+                            : getChange(props.values, item, isPayAll)}
                         </span>
                       </p>
                     </div>

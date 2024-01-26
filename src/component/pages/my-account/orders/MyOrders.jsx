@@ -11,6 +11,7 @@ import MemberOrdersList from "../../account/details/orders/MemberOrdersList";
 import { FaShoppingCart } from "react-icons/fa";
 import ModalAddMyOrder from "./ModalAddMyOrder";
 import useQueryData from "../../../custom-hooks/useQueryData";
+import { AiFillPrinter } from "react-icons/ai";
 
 const MyOrders = () => {
   const { store, dispatch } = React.useContext(StoreContext);
@@ -37,6 +38,14 @@ const MyOrders = () => {
             <button type="button" className="btn-primary" onClick={handleAdd}>
               <FaShoppingCart />
               <span className="hidden xs:block">Order now</span>
+            </button>
+            <button
+              type="button"
+              className="btn-primary"
+              onClick={() => window.print()}
+            >
+              <AiFillPrinter />
+              <span className="hidden xs:block">Print</span>
             </button>
           </div>
         </div>

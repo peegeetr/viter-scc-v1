@@ -229,6 +229,14 @@ RewriteRule ^report-capital/read-all-member-total/([0-9]+)$ controllers/inventor
 RewriteRule ^report-capital/filter/dividend/([0-9]+)$ controllers/inventory/report/net-surplus-distribution/capital-report/report-filter-capital-dividend.php?year=$1 [L] 
 RewriteRule ^report-capital/filter/detailed/([0-9]+)$ controllers/inventory/report/net-surplus-distribution/capital-report/report-filter-capital-detailed.php?year=$1  [L] 
 RewriteRule ^report-capital/all-member-approved$ controllers/inventory/report/net-surplus-distribution/capital-report/read-all-member-approved.php [L] 
+
+#REPORT TRANSACTIONS
+RewriteRule ^report-transactions/page/([0-9]+)$ controllers/inventory/report/transaction/page-report-all-order-by-date.php?start=$1 [L] 
+RewriteRule ^report-transactions/read-all-order-by-product$ controllers/inventory/report/transaction/read-all-order-by-product.php [L] 
+RewriteRule ^report-transactions/read-filter$ controllers/inventory/report/transaction/read-filter.php [L] 
+
+#REPORT TRANSACTIONS
+RewriteRule ^report-transactions-view/read-by-type$ controllers/inventory/report/transaction/view/read-by-transaction-type.php [L] 
    
 #REPORT STOCKS
 RewriteRule ^report-stock/filter$ controllers/inventory/report/stocks-report/report-filter-stocks.php [L] 

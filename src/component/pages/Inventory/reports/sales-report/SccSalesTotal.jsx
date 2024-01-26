@@ -9,18 +9,26 @@ const SccSalesTotal = ({ result, isLoading }) => {
         <StatusAmount
           text="Pending profit"
           amount={computeSccSales(result).pendingAmount}
+          other={computeSccSales(result).pendingNegativeAmount}
           type="pending"
           isLoading={isLoading}
         />
         <StatusAmount
           text="Paid profit"
           amount={computeSccSales(result).finalAmount}
+          other={computeSccSales(result).finalNegativeAmount}
           type="paid"
           isLoading={isLoading}
         />
         <StatusAmount
           text="Supplier Amount"
           amount={computeSccSales(result).totalSupplierPriceAmount}
+          type="discount"
+          isLoading={isLoading}
+        />
+        <StatusAmount
+          text="Total profit"
+          amount={computeSccSales(result).totalProfit}
           type="discount"
           isLoading={isLoading}
         />

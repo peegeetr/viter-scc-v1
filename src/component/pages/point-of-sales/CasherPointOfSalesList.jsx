@@ -21,6 +21,7 @@ import {
   AssociateMemberId,
   GetFocus,
   formatDate,
+  getUserType,
   notMemberId,
   numberWithCommas,
   pesoSign,
@@ -39,25 +40,27 @@ import { getDataPayNow, getTotalAmountPending } from "./functions-pos";
 import ModalEditSearchPOS from "./modal/ModalEditSearchPOS";
 import ModalPayNow from "./modal/ModalPayNow";
 import SearchAddProduct from "./search/SearchAddProduct";
+import { Link } from "react-router-dom";
 
 const CasherPointOfSalesList = () => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [itemEdit, setItemEdit] = React.useState(null);
   const [isPayAll, setIsPayAll] = React.useState(false);
   const [search, setSearch] = React.useState("scc-000-2023");
+  const [isReceipt, setIsReceipt] = React.useState(false);
 
   // search Product
   const [loadingProduct, setLoadingProduct] = React.useState(false);
   const [isSearchProduct, setIsSearchProduct] = React.useState(false);
-  const [searchProduct, setSearchProduct] = React.useState("");
+  const [searchNewProduct, setSearchNewProduct] = React.useState("");
   const [dataClient, setDataProduct] = React.useState([]);
   const [productBarcode, setProductBarcode] = React.useState("");
+  const urlLink = getUserType(store);
 
   const onSearch = React.useRef("0");
   let delId = 0;
   let counter = 1;
   let totalAmount = 0;
-  GetFocus("searchNewProduct");
 
   // use if not loadmore button undertime
   const { data: memberSearch, isLoading } = useQueryData(
@@ -116,7 +119,7 @@ const CasherPointOfSalesList = () => {
       // show success box
       setLoadingProduct(false);
       setIsSearchProduct(false);
-      setSearchProduct("");
+      setSearchNewProduct("");
       setDataProduct([]);
       setProductBarcode("");
 
@@ -173,6 +176,8 @@ const CasherPointOfSalesList = () => {
     search: Yup.string().required("Required"),
   });
 
+  GetFocus("searchProduct");
+
   return (
     <>
       <CasherPointOfSalesListPrint memberName={memberName} result={result} />
@@ -213,16 +218,15 @@ const CasherPointOfSalesList = () => {
                           name="search"
                           disabled={mutation.isLoading}
                           endpoint={`/v1/pos/search-product`}
-                          setSearch={setSearchProduct}
+                          setSearch={setSearchNewProduct}
                           setIsSearch={setIsSearchProduct}
                           setLoading={setLoadingProduct}
                           setData={setDataProduct}
-                          search={searchProduct}
+                          search={searchNewProduct}
                           isSearch={isSearchProduct}
                           loading={loadingProduct}
                           data={dataClient}
                           setProductBarcode={setProductBarcode}
-                          id="searchNewProduct"
                         />
 
                         <button
@@ -243,21 +247,34 @@ const CasherPointOfSalesList = () => {
               }}
             </Formik>
           </div>
-        </div>{" "}
-        <p className="text-lg mb-0 pr-8 font-bold">
-          Sold to :{" "}
-          {status === "loading" || isLoading ? "Loading..." : memberName}
-        </p>
-        <p className="text-lg mb-0 pr-8 font-bold">
-          Total : {pesoSign}{" "}
-          {status === "loading" || isLoading
-            ? "Loading..."
-            : numberWithCommas(
-                getTotalAmountPending(result?.pages[0]).toFixed(2)
-              )}
-        </p>
-        <div className="w-full pt-3 pb-20">
-          <div className="relative text-center overflow-x-auto z-0">
+        </div>
+        <div className="flex justify-between">
+          <ul>
+            <li className="text-lg mb-0 pr-8 font-bold">
+              Sold to :{" "}
+              {status === "loading" || isLoading ? "Loading..." : memberName}
+            </li>
+            <li className="text-lg mb-0 pr-8 font-bold">
+              Total : {pesoSign}{" "}
+              {status === "loading" || isLoading
+                ? "Loading..."
+                : numberWithCommas(
+                    getTotalAmountPending(result?.pages[0]).toFixed(2)
+                  )}
+            </li>
+          </ul>
+          {result?.pages[0].data.length > 0 && (
+            <Link
+              to={`${urlLink}/inventory/pos/invoice?memberId=${memberId}`}
+              type="button"
+              className="underline cursor-pointer text-blue-500 print:hidden my-5"
+            >
+              <span>View Invoice</span>
+            </Link>
+          )}
+        </div>
+        <div className="w-full pb-20">
+          <div className="relative text-center overflow-x-auto z-0 ">
             {(status === "loading" || isLoading || isFetching) && (
               <TableSpinner />
             )}
@@ -368,48 +385,6 @@ const CasherPointOfSalesList = () => {
                               >
                                 <FaTrash />
                               </button>
-                              {/* </>
-                              )} */}
-                              {/* if have remaning qty is lessthan of the qty pending or insufficient qty */}
-                              {/* {getRemaningQuantity(
-                                item,remainingQuantity
-                              ) < Number(item.orders_product_quantity) &&
-                                getRemaningQuantity(
-                                  item,remainingQuantity
-                                ) !== 0 && (
-                                  <>
-                                    <button
-                                      type="button"
-                                      className="btn-action-table tooltip-action-table"
-                                      data-tooltip="Edit"
-                                      onClick={() => handleEdit(item)}
-                                    >
-                                      <FaEdit />
-                                    </button>{" "}
-                                    <button
-                                      type="button"
-                                      className="btn-action-table tooltip-action-table"
-                                      data-tooltip="Delete"
-                                      onClick={() => handleDelete(item)}
-                                    >
-                                      <FaTrash />
-                                    </button>
-                                  </>
-                                )} */}
-
-                              {/* if don't have remaning qty or sold out */}
-                              {/* {getRemaningQuantity(
-                                item,remainingQuantity
-                              ) <= 0 && (
-                                <button
-                                  type="button"
-                                  className="btn-action-table tooltip-action-table"
-                                  data-tooltip="Delete"
-                                  onClick={() => handleDelete(item)}
-                                >
-                                  <FaTrash />
-                                </button>
-                              )} */}
                             </div>
                           </td>
                         </tr>
@@ -421,24 +396,26 @@ const CasherPointOfSalesList = () => {
             </table>
           </div>
           {result?.pages[0].data.length > 0 && (
-            <div className="flex justify-end mt-5 ">
-              <button
-                type="button"
-                className="btn-primary mr-4"
-                onClick={handlePayNow}
-              >
-                <GiReceiveMoney />
-                <span>Pay now</span>
-              </button>
-              <button
-                type="button"
-                className="btn-primary print:hidden"
-                onClick={() => window.print()}
-              >
-                <AiFillPrinter />
-                <span>Print</span>
-              </button>
-            </div>
+            <>
+              <div className="flex justify-end gap-5 mt-5">
+                <button
+                  type="button"
+                  className="btn-primary "
+                  onClick={handlePayNow}
+                >
+                  <GiReceiveMoney />
+                  <span>Pay now</span>
+                </button>
+                <button
+                  type="button"
+                  className="btn-primary print:hidden"
+                  onClick={() => window.print()}
+                >
+                  <AiFillPrinter />
+                  <span>Print Receipt</span>
+                </button>
+              </div>
+            </>
           )}
         </div>
       </div>

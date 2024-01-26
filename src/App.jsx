@@ -42,6 +42,9 @@ import SystemPointOfSales from "./component/pages/Inventory/point-of-sales/links
 import AdminProducts from "./component/pages/Inventory/products/links/AdminProducts";
 import ManagerProducts from "./component/pages/Inventory/products/links/ManagerProducts";
 import SystemProducts from "./component/pages/Inventory/products/links/SystemProducts";
+import AdminProductsView from "./component/pages/Inventory/products/view-to-print/links/AdminProducts";
+import ManagerProductsView from "./component/pages/Inventory/products/view-to-print/links/ManagerProducts";
+import SystemProductsView from "./component/pages/Inventory/products/view-to-print/links/SystemProducts";
 import AdminReportBlotter from "./component/pages/Inventory/reports/blotter/links/AdminReportBlotter";
 import ManagerReportBlotter from "./component/pages/Inventory/reports/blotter/links/ManagerReportBlotter";
 import SystemReportBlotter from "./component/pages/Inventory/reports/blotter/links/SystemReportBlotter";
@@ -76,6 +79,10 @@ import SystemReportStocks from "./component/pages/Inventory/reports/stocks-repor
 import AdminTopSeller from "./component/pages/Inventory/reports/top-seller/links/AdminTopSeller";
 import ManagerTopSeller from "./component/pages/Inventory/reports/top-seller/links/ManagerTopSeller";
 import SystemTopSeller from "./component/pages/Inventory/reports/top-seller/links/SystemTopSeller";
+import AdminTransaction from "./component/pages/Inventory/reports/transactions/links/AdminTransaction";
+import ManagerTransaction from "./component/pages/Inventory/reports/transactions/links/ManagerTransaction";
+import SystemTransaction from "./component/pages/Inventory/reports/transactions/links/SystemTransaction";
+import SystemTransactionView from "./component/pages/Inventory/reports/transactions/transaction-view/links/SystemTransactionView";
 import AdminSales from "./component/pages/Inventory/sales/links/AdminSales";
 import ManagerSales from "./component/pages/Inventory/sales/links/ManagerSales";
 import SystemSales from "./component/pages/Inventory/sales/links/SystemSales";
@@ -161,10 +168,12 @@ import ManagerMySavings from "./component/pages/my-account/savings/links/Manager
 import MemberMySavings from "./component/pages/my-account/savings/links/MemberMySavings";
 import CasherPointOfSalesOld from "./component/pages/point-of-sales-old/CasherPointOfSalesOld";
 import CasherPointOfSales from "./component/pages/point-of-sales/CasherPointOfSales";
+import PosInvoice from "./component/pages/point-of-sales/invoice/PosInvoice";
 import AdminSettingsLink from "./component/pages/settings/links/AdminSettingsLink";
 import SystemSettingsLink from "./component/pages/settings/links/SystemSettingsLink";
 import AdminNetSurPlus from "./component/pages/settings/net-surplus/links/AdminNetSurPlus";
 import SystemNetSurPlus from "./component/pages/settings/net-surplus/links/SystemNetSurPlus";
+import AdminPriceMarkup from "./component/pages/settings/price-markup/links/AdminPriceMarkup";
 import SystemPriceMarkup from "./component/pages/settings/price-markup/links/SystemPriceMarkup";
 import AdminSubscribeCapital from "./component/pages/settings/subscribe-capital/links/AdminSubscribeCapital";
 import SystemSubscribeCapital from "./component/pages/settings/subscribe-capital/links/SystemSubscribeCapital";
@@ -172,10 +181,8 @@ import SystemMode from "./component/pages/settings/system-mode/SystemMode";
 import AdminOtherUser from "./component/pages/settings/users/other/links/AdminOtherUser";
 import SystemOtherUser from "./component/pages/settings/users/other/links/SystemOtherUser";
 import { StoreProvider } from "./store/StoreContext";
-import AdminPriceMarkup from "./component/pages/settings/price-markup/links/AdminPriceMarkup";
-import AdminProductsView from "./component/pages/Inventory/products/view-to-print/links/AdminProducts";
-import SystemProductsView from "./component/pages/Inventory/products/view-to-print/links/SystemProducts";
-import ManagerProductsView from "./component/pages/Inventory/products/view-to-print/links/ManagerProducts";
+import AdminTransactionView from "./component/pages/Inventory/reports/transactions/transaction-view/links/AdminTransactionView";
+import ManagerTransactionView from "./component/pages/Inventory/reports/transactions/transaction-view/links/ManagerTransactionView";
 
 function App() {
   // Create a client
@@ -399,6 +406,14 @@ function App() {
               }
             />
             <Route
+              path={`${devNavUrl}/${UrlSystem}/inventory/invoice/member`}
+              element={
+                <ProtectedRouteSystem>
+                  <PosInvoice />
+                </ProtectedRouteSystem>
+              }
+            />
+            <Route
               path={`${devNavUrl}/${UrlSystem}/inventory/products`}
               element={
                 <ProtectedRouteSystem>
@@ -435,6 +450,22 @@ function App() {
               element={
                 <ProtectedRouteSystem>
                   <SystemTopSeller />
+                </ProtectedRouteSystem>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlSystem}/inventory/reports/transactions`}
+              element={
+                <ProtectedRouteSystem>
+                  <SystemTransaction />
+                </ProtectedRouteSystem>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlSystem}/inventory/reports/transactions/view`}
+              element={
+                <ProtectedRouteSystem>
+                  <SystemTransactionView />
                 </ProtectedRouteSystem>
               }
             />
@@ -685,6 +716,7 @@ function App() {
                 </ProtectedRouteOther>
               }
             />
+
             <Route
               path={`${devNavUrl}/${UrlMember}/details/patronage`}
               element={
@@ -908,6 +940,15 @@ function App() {
                 </ProtectedRouteOther>
               }
             />
+
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/inventory/pos/invoice`}
+              element={
+                <ProtectedRouteOther>
+                  <PosInvoice />
+                </ProtectedRouteOther>
+              }
+            />
             <Route
               path={`${devNavUrl}/${UrlAdmin}/inventory/pos-old-version`}
               element={
@@ -985,6 +1026,22 @@ function App() {
               element={
                 <ProtectedRouteOther>
                   <AdminTopSeller />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/inventory/reports/transactions`}
+              element={
+                <ProtectedRouteOther>
+                  <AdminTransaction />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlAdmin}/inventory/reports/transactions/view`}
+              element={
+                <ProtectedRouteOther>
+                  <AdminTransactionView />
                 </ProtectedRouteOther>
               }
             />
@@ -1429,6 +1486,22 @@ function App() {
               element={
                 <ProtectedRouteOther>
                   <ManagerTopSeller />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlManager}/inventory/reports/transactions`}
+              element={
+                <ProtectedRouteOther>
+                  <ManagerTransaction />
+                </ProtectedRouteOther>
+              }
+            />
+            <Route
+              path={`${devNavUrl}/${UrlManager}/inventory/reports/transactions/view`}
+              element={
+                <ProtectedRouteOther>
+                  <ManagerTransactionView />
                 </ProtectedRouteOther>
               }
             />

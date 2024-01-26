@@ -12,7 +12,7 @@ import {
 } from "../../../../../helpers/functions-general";
 import ModalDeleteRestoreCapital from "../../../../../partials/modals/ModalDeleteRetoreCapital";
 
-const ModalViewCapitalShare = ({ item, isLastId }) => {
+const ModalViewCapitalShare = ({ item, isLastId, isMember = "" }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [isDel, setDel] = React.useState(false);
 
@@ -66,19 +66,23 @@ const ModalViewCapitalShare = ({ item, isLastId }) => {
               <p>Official Receipt : </p>
               <p>{item.capital_share_or}</p>
             </div>
-            {(store.credentials.data.role_is_developer === 1 ||
-              (isLastId === item.capital_share_aid &&
-                store.credentials.data.role_is_admin === 1)) && (
-              <div className="flex justify-end items-center gap-1 pt-3">
-                <button
-                  type="button"
-                  className="btn-action-table tooltip-action-table"
-                  data-tooltip="Delete"
-                  onClick={() => handleDelete(item)}
-                >
-                  <FaTrash />
-                </button>
-              </div>
+            {isMember === "" && (
+              <>
+                {(store.credentials.data.role_is_developer === 1 ||
+                  (isLastId === item.capital_share_aid &&
+                    store.credentials.data.role_is_admin === 1)) && (
+                  <div className="flex justify-end items-center gap-1 pt-3">
+                    <button
+                      type="button"
+                      className="btn-action-table tooltip-action-table"
+                      data-tooltip="Delete"
+                      onClick={() => handleDelete(item)}
+                    >
+                      <FaTrash />
+                    </button>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>

@@ -2,7 +2,6 @@ import React from "react";
 import { StoreContext } from "../../../../../../store/StoreContext";
 import useQueryData from "../../../../../custom-hooks/useQueryData";
 import {
-  getUrlParam,
   numberWithCommas,
   pesoSign,
 } from "../../../../../helpers/functions-general";
@@ -11,7 +10,6 @@ import { getMonth } from "../../report-function";
 
 const ReportDetailedCapitalShareBody = ({ item }) => {
   const { store, dispatch } = React.useContext(StoreContext);
-  const memberid = getUrlParam().get("memberid");
 
   // use if not loadmore button undertime
   const { data: capitalByIdAndYear, isLoading } = useQueryData(

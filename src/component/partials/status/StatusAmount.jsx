@@ -4,6 +4,7 @@ import { numberWithCommas, pesoSign } from "../../helpers/functions-general";
 const StatusAmount = ({
   text = "",
   amount = 0,
+  other = "0",
   type = "",
   isLoading = false,
   qty = "",
@@ -35,7 +36,9 @@ const StatusAmount = ({
                 `${numberWithCommas(amount)}`
               ) : (
                 <>
-                  {pesoSign} {numberWithCommas(amount.toFixed(2))}
+                  {pesoSign} {numberWithCommas(Number(amount).toFixed(3))}
+                  {other !== "0" &&
+                    `(${numberWithCommas(Number(other).toFixed(3))})`}
                   {qty !== "" && (
                     <span className="text-gray-600">{` ${qty}`}</span>
                   )}

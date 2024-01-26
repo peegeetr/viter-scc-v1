@@ -18,14 +18,10 @@ import {
   InputTextArea,
 } from "../../../helpers/FormInputs";
 import {
-  AssociateMemberId,
   formatDate,
   getDateNow,
-  notMemberId,
-  numberWithCommas,
   otherDiscountId,
   pesoSign,
-  removeComma,
   wholeSaleDiscountId,
 } from "../../../helpers/functions-general";
 import { queryData } from "../../../helpers/queryData";
@@ -33,10 +29,8 @@ import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
 import {
   getDiscount,
   getOrderSrpPrice,
-  getTotaWithDiscount,
   getValueData,
   getWholeSale,
-  getWholeSaleDiscountView,
   showWholeSale,
 } from "./functions-newpos";
 
@@ -68,7 +62,13 @@ const ModalEditSearchPOS = ({ item, arrKey }) => {
     dispatch(setIsAdd(false));
     dispatch(setIsModalSearch(false));
   };
- 
+
+  // use if not loadmore button undertime
+  const { data: remainingQuantity } = useQueryData(
+    `/v1/product/remaining-quantity`, // endpoint
+    "get", // method
+    "remaining-quantity" // key
+  );
   // use if not loadmore button undertime
   const { data: readPriceMarkup } = useQueryData(
     `/v1/pos/read-price-markup`, // endpoint
@@ -118,8 +118,8 @@ const ModalEditSearchPOS = ({ item, arrKey }) => {
 
                 const newVal = getValueData(
                   values,
-                  item,remainingQuantity,
-                  readPriceMarkup,
+                  item,
+                  remainingQuantity,
                   dispatch
                 );
                 // for validation if invalid amount

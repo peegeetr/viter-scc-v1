@@ -2,18 +2,18 @@ import { setError, setMessage } from "../../../../store/StoreAction";
 
 // get beenifits leave
 export const getRemaningQuantity = (item, remainingQuantity) => {
-  let remaingQunatity = 0; 
+  let remaingQunatity = 0;
   if (remainingQuantity?.data.length > 0) {
     const result = remainingQuantity?.data.filter(
       (qItem) =>
         Number(qItem.stocks_product_id) === Number(item.suppliers_products_aid)
     );
-    remaingQunatity = result?.length > 0 ? `${result[0].totalQty}` : "0";
-  } 
+    remaingQunatity = result?.length > 0 ? Number(result[0].totalQty) : 0;
+  }
 
   return remaingQunatity;
 };
- 
+
 // export const getRemaningQuantity = (item, remainingQuantity) => {
 //   let remaingQunatity = 0;
 //   let stockQuantity = 0;

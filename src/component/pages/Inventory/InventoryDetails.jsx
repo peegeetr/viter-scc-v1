@@ -50,9 +50,9 @@ const InventoryDetails = () => {
           <li className="py-1">
             <PointOfSalesLink />
           </li>
-          <li className="py-1">
+          {/* <li className="py-1">
             <PointOfSalesLinkOld />
-          </li>
+          </li> */}
           <li className="py-1">
             <ReportsLink />
           </li>

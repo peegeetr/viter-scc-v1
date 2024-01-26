@@ -22,7 +22,6 @@ const SearchAddProduct = ({
   loading,
   data,
   setProductBarcode,
-  id,
 }) => {
   const { dispatch } = React.useContext(StoreContext);
   const handleSearch = async (
@@ -112,7 +111,7 @@ const SearchAddProduct = ({
       <InputSearch
         label={label}
         type="search"
-        id={id}
+        id="searchProduct"
         disabled={disabled}
         name={name}
         onChange={(e) =>

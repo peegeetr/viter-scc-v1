@@ -7,7 +7,7 @@ import Logo from "../svg/Logo.jsx";
 import ModalLogout from "./modals/ModalLogout.jsx";
 import { devBaseImgUrl } from "../helpers/functions-general";
 
-const Header = ({ menu = "" }) => {
+const Header = ({ menu = "", isPrintHeader = "" }) => {
   const { store, dispatch } = React.useContext(StoreContext);
 
   const handleShow = () => {
@@ -77,22 +77,24 @@ const Header = ({ menu = "" }) => {
         </div>
       </div>
       {/* if print */}
-      <div className="pt-4 bg-white h-22 border-solid border-b-[1px] border-secondary hidden print:block ">
-        <span className="flex justify-center pb-2">
-          <Logo />
-        </span>
-        <small className="flex justify-center text-center ">
-          Sambahayan Consumer Cooperative
-        </small>
-        <small className="flex justify-center text-center pb-2">
-          1118 Alvarez Street, Purok 3, Brgy. San Jose, San Pablo City, Laguna
-          4000, Philippines
-          <br />
-          CDA REG. NO. 9520-100400033760
-          <br />
-          TIN NO. 620-402-542-00000
-        </small>
-      </div>
+      {isPrintHeader === "" && (
+        <div className="pt-4 bg-white h-22 border-solid border-b-[1px] border-secondary hidden print:block ">
+          <span className="flex justify-center pb-2">
+            <Logo />
+          </span>
+          <small className="flex justify-center text-center ">
+            Sambahayan Consumer Cooperative
+          </small>
+          <small className="flex justify-center text-center pb-2">
+            1118 Alvarez Street, Purok 3, Brgy. San Jose, San Pablo City, Laguna
+            4000, Philippines
+            <br />
+            CDA REG. NO. 9520-100400033760
+            <br />
+            TIN NO. 620-402-542-00000
+          </small>
+        </div>
+      )}
 
       {store.isLogout && <ModalLogout />}
     </>

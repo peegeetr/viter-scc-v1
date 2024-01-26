@@ -1,0 +1,45 @@
+ 
+*controllers   
+    - inventory/report/transaction
+    - inventory/products/remaining-quantity.php
+    - inventory/stocks/create.php
+    - inventory/stocks/functions.php
+    - inventory/stocks/create.php
+    - inventory/stocks/update.php
+    - point-of-sales/create.php
+    - point-of-sales/functions.php
+    - point-of-sales/search-product.php
+    - 
+    - 
+    -
+    -
+    
+*models  
+    - inventory/report/transaction
+    - inventory/orders/Orders.php
+    - inventory/suppliers/product/SuppliersProducts.php
+    - point-of-sales/PointOfSales.php
+    - inventory/suppliers/product/SuppliersProducts.php
+    -   
+    - 
+    -   
+    -   
+
+*htaccess 
+    - htaccess
+    - 
+    - 
+
+*db tables  
+    - sccv1_settings_price_markup.sql {note: price_markup_member_whole_sale varchar(20)}  
+    - 
+    -   
+
+*core functions 
+    - 
+    -  
+
+*extra
+    -  
+    - 
+    -  

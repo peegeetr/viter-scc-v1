@@ -18,11 +18,14 @@ const TransactionCapitalShareBody = ({
 }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const memberid = getUrlParam().get("memberid");
+
   let lastCount = 0;
 
   // use if not loadmore button undertime
   const { data: capitalByIdAndYear, isLoading } = useQueryData(
-    `/v1/capital-share/read-by-id-and-year/${memberid}/${item.year}`, // endpoint
+    `/v1/capital-share/read-by-id-and-year/${
+      memberid !== null ? memberid : store.credentials.data.members_aid
+    }/${item.year}`, // endpoint
     "get", // method
     "capital-share", // key
     {}, // fb

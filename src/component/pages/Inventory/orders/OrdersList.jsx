@@ -81,14 +81,7 @@ const OrdersList = ({ setItemEdit }) => {
     setData(item);
     setDel(true);
   };
- 
-  
-  // use if not loadmore button undertime
-  const { data: remainingQuantity } = useQueryData(
-    `/v1/product/remaining-quantity`, // endpoint
-    "get", // method
-    "remaining-quantity" // key
-  );
+
   return (
     <>
       <SearchBar
@@ -183,7 +176,8 @@ const OrdersList = ({ setItemEdit }) => {
                         <td>
                           <div className="flex items-center gap-1">
                             {item.orders_is_paid === 0 && (
-                                <>
+                              <>
+                                <div>
                                   <button
                                     type="button"
                                     className="btn-action-table tooltip-action-table"
@@ -200,9 +194,9 @@ const OrdersList = ({ setItemEdit }) => {
                                   >
                                     <FaTrash />
                                   </button>
-                                </>
-                              )}
- 
+                                </div>
+                              </>
+                            )}
                           </div>
                         </td>
                       )}

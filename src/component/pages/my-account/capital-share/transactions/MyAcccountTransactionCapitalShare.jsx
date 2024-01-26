@@ -9,10 +9,12 @@ import ModalError from "../../../../partials/modals/ModalError";
 import ModalSuccess from "../../../../partials/modals/ModalSuccess";
 import { checkCapitalShare } from "../../../account/details/capital-share/functions-capital-share";
 import TransactionCapitalShareList from "../../../account/details/capital-share/transactions/TransactionCapitalShareList";
+import ModalViewCapitalShare from "../../../account/details/capital-share/transactions/ModalViewCapitalShare";
 
 const MyAcccountTransactionCapitalShare = () => {
   const { store, dispatch } = React.useContext(StoreContext);
   const [itemEdit, setItemEdit] = React.useState(null);
+  const [isLastId, setIsLastId] = React.useState(0);
 
   // use if not loadmore button undertime read-capital-total
   const { data: memberName, isLoading } = useQueryData(
@@ -50,6 +52,7 @@ const MyAcccountTransactionCapitalShare = () => {
             memberName={memberName}
             isLoading={isLoading}
             menu="myaccount"
+            setIsLastId={setIsLastId}
           />
         </div>
         <Footer />
@@ -57,6 +60,13 @@ const MyAcccountTransactionCapitalShare = () => {
 
       {store.success && <ModalSuccess />}
       {store.error && <ModalError />}
+      {store.isConfirm && (
+        <ModalViewCapitalShare
+          item={itemEdit}
+          isLastId={isLastId}
+          isMember="yes"
+        />
+      )}
     </>
   );
 };

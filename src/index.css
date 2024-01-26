@@ -210,6 +210,10 @@ input[type="text"]:not(:placeholder-shown) ~ label {
   .loader .circle {
     @apply w-[4px] h-[4px] rounded-full absolute top-[11px] left-[10px] bg-primary;
   }
+
+  .ulternate-color-table tr:nth-child(odd) {
+    @apply bg-gray-100 rounded;
+  }
 }
 @media print {
   /* @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap"); */
