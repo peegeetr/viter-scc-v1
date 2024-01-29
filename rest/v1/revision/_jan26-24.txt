@@ -1,6 +1,6 @@
  
 *controllers   
-    - inventory/report/transaction
+    - inventory/report/transaction {note: all files}
     - inventory/products/remaining-quantity.php
     - inventory/stocks/create.php
     - inventory/stocks/functions.php
@@ -15,7 +15,7 @@
     -
     
 *models  
-    - inventory/report/transaction
+    - inventory/report/transaction {note: all files}
     - inventory/orders/Orders.php
     - inventory/suppliers/product/SuppliersProducts.php
     - point-of-sales/PointOfSales.php
