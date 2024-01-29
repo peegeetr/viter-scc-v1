@@ -68,7 +68,7 @@ const PosInvoice = () => {
 
         <hr className="print:hidden" />
         <div className="w-full print:my-0 my-5 ">
-          <PosInvoiceList result={result} />
+          <PosInvoiceList result={result} isLoading={isLoading} error={error} />
         </div>
         <Footer />
       </div>
