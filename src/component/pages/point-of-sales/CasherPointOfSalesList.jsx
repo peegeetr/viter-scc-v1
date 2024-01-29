@@ -60,7 +60,6 @@ const CasherPointOfSalesList = () => {
   const onSearch = React.useRef("0");
   let delId = 0;
   let counter = 1;
-  let totalAmount = 0;
 
   // use if not loadmore button undertime
   const { data: memberSearch, isLoading } = useQueryData(
@@ -316,9 +315,6 @@ const CasherPointOfSalesList = () => {
                 {result?.pages.map((page, key) => (
                   <React.Fragment key={key}>
                     {page.data.map((item, key) => {
-                      totalAmount +=
-                        Number(item.orders_product_amount) -
-                        Number(item.sales_discount);
                       return (
                         <tr key={key}>
                           <td> {counter++}.</td>

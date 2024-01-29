@@ -10,11 +10,16 @@ import {
 } from "../../../helpers/functions-general";
 import SccLogo from "../../../svg/SccLogo";
 import { getTotalDataInvoice } from "../functions-pos";
+import ServerError from "../../../partials/ServerError";
+import NoData from "../../../partials/NoData";
+import TableSpinner from "../../../partials/spinners/TableSpinner";
 
-const PosInvoiceList = ({ result }) => {
+const PosInvoiceList = ({ isLoading, error, result }) => {
   const { store, dispatch } = React.useContext(StoreContext);
   const memberId = getUrlParam().get("memberId");
   let counter = 1;
+
+  console.log("result", result);
 
   let memberName =
     result?.count > 0
@@ -78,6 +83,21 @@ const PosInvoiceList = ({ result }) => {
               </tr>
             </thead>
             <tbody className="ulternate-color-table">
+              {(isLoading || result?.data.length === 0) && (
+                <tr className="text-center relative">
+                  <td colSpan="100%" className="p-10">
+                    {isLoading && <TableSpinner />}
+                    <NoData />
+                  </td>
+                </tr>
+              )}
+              {error && (
+                <tr className="text-center ">
+                  <td colSpan="100%" className="p-10">
+                    <ServerError />
+                  </td>
+                </tr>
+              )}
               {result?.data.map((item, key) => (
                 <tr key={key} className="border-white ">
                   <td className="text-[14px]">{counter++}.</td>
