@@ -1,6 +1,6 @@
 import React from "react";
 import { FaCheck, FaTimesCircle } from "react-icons/fa";
-import { setStartIndex, setSuccess } from "../../../store/StoreAction";
+import { setSuccess } from "../../../store/StoreAction";
 import { StoreContext } from "../../../store/StoreContext";
 import { GetFocus } from "../../helpers/functions-general";
 
@@ -15,8 +15,7 @@ const ModalSuccess = () => {
     <>
       <div
         className={`fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center bg-dark bg-opacity-50 z-50 show`}
-      >
-        {" "}
+      > 
         <div className="p-1 w-[350px] rounded-b-2xl">
           <div className="flex justify-end items-center bg-white p-3 pb-0 rounded-t-2xl">
             <button

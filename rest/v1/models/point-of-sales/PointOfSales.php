@@ -479,13 +479,15 @@ class PointOfSales
             $sql .= "and stock.stocks_suplier_price_history_id = productHistory.product_history_aid ";
             $sql .= "and productHistory.product_history_is_active = 1 ";
             $sql .= "and (suppliersProducts.suppliers_products_name like :suppliers_products_name ";
-            $sql .= "or stock.stocks_barcode_id like :stocks_barcode_id) ";
+            $sql .= "or stock.stocks_barcode_id like :stocks_barcode_id ";
+            $sql .= "or stock.stocks_barcode_id like :barcode_id) ";
             $sql .= "order by stock.stocks_aid desc ";
             $sql .= "limit 1 ";
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "suppliers_products_name" => "%{$this->orders_search}%",
-                "stocks_barcode_id" => "{$this->orders_search}%",
+                "stocks_barcode_id" => "%{$this->orders_search}",
+                "barcode_id" => "{$this->orders_search}%",
             ]);
         } catch (PDOException $ex) {
             $query = false;

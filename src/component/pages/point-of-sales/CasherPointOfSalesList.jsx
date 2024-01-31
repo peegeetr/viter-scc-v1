@@ -175,6 +175,13 @@ const CasherPointOfSalesList = () => {
     search: Yup.string().required("Required"),
   });
 
+  // use if not loadmore button undertime
+  const { data: remainingQuantity } = useQueryData(
+    `/v1/product/remaining-quantity`, // endpoint
+    "get", // method
+    "remaining-quantity" // key
+  );
+
   GetFocus("searchProduct");
 
   return (
@@ -194,7 +201,7 @@ const CasherPointOfSalesList = () => {
                 const orders_member_id = memberId;
 
                 const newValSearch =
-                  productBarcode === "" ? values.search : productBarcode;
+                  productBarcode !== "" ?productBarcode: values.search;
 
                 mutation.mutate({
                   ...values,
@@ -215,7 +222,6 @@ const CasherPointOfSalesList = () => {
                         <SearchAddProduct
                           label="Search to add product"
                           name="search"
-                          disabled={mutation.isLoading}
                           endpoint={`/v1/pos/search-product`}
                           setSearch={setSearchNewProduct}
                           setIsSearch={setIsSearchProduct}
@@ -420,6 +426,7 @@ const CasherPointOfSalesList = () => {
           item={itemEdit}
           arrKey="pos-order"
           memberName={memberName}
+          remainingQuantity={remainingQuantity}
         />
       )}
       {store.isConfirm && (

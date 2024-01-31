@@ -11,7 +11,6 @@ import { getRemaningQuantity } from "../../Inventory/products/functions-product"
 const SearchAddProduct = ({
   label,
   name,
-  disabled,
   endpoint,
   setSearch,
   setIsSearch,
@@ -93,7 +92,7 @@ const SearchAddProduct = ({
         )} qty)`
       );
       setIsSearch(false);
-      setProductBarcode(item.stocks_barcode_id);
+      setProductBarcode(item.stocks_barcode_id); 
     }
   };
 
@@ -112,7 +111,6 @@ const SearchAddProduct = ({
         label={label}
         type="search"
         id="searchProduct"
-        disabled={disabled}
         name={name}
         onChange={(e) =>
           handleSearch(
@@ -139,7 +137,6 @@ const SearchAddProduct = ({
           ) : data.length > 0 ? (
             data.map((item, key) => {
               return (
-                // getRemaningQuantity(item, remainingQuantity) !== "0" && (
                 <li key={key}>
                   <button
                     type="button"
@@ -159,7 +156,6 @@ const SearchAddProduct = ({
                     )} qty)`}
                   </button>
                 </li>
-                // )
               );
             })
           ) : (
@@ -168,7 +164,7 @@ const SearchAddProduct = ({
             </li>
           )}
         </ul>
-      )}
+      )} 
     </>
   );
 };

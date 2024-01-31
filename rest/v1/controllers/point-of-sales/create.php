@@ -91,6 +91,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         }
         // Seach to add product
         $pos->orders_search = checkIndex($data, "search");
+        
         $searchToAdd = $pos->searchProductAddToPOS();
 
         if ($searchToAdd->rowCount() == 0) {

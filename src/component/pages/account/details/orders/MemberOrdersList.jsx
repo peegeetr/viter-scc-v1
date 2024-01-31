@@ -90,10 +90,19 @@ const MemberOrdersList = ({ setItemEdit, memberName, isLoading, menu }) => {
   }, [inView]);
  
   // use if not loadmore button undertime
-  const { data: remainingQuantity } = useQueryData(
+  const {isLoading:loadingRemainingQty, data: remainingQuantity } = useQueryData(
     `/v1/product/remaining-quantity`, // endpoint
     "get", // method
     "remaining-quantity" // key
+  );
+ 
+  // use if not loadmore button undertime
+  const {data: readAll } = useQueryData(
+    `/v1/my-order/read-order-by-member-id`, // endpoint
+    "post", // method
+    "remaining-quantity", // key
+    {membersId:empid},
+    empid,isFetching
   );
   const handleEdit = (item) => {
     dispatch(setIsAdd(true));
@@ -105,22 +114,7 @@ const MemberOrdersList = ({ setItemEdit, memberName, isLoading, menu }) => {
     setData(item);
     setDel(true);
   };
-  const handlePending = (item) => {
-    // console.log(getRemaningQuantity(item, remainingQuantity));
-    if (
-      getRemaningQuantity(item, remainingQuantity) === 0 ||
-      getRemaningQuantity(item, remainingQuantity) <
-        item.orders_product_quantity
-    ) {
-      dispatch(setError(true));
-      dispatch(setMessage("Insufficient Quantity"));
-      return;
-    }
-    dispatch(setIsConfirm(true));
-    setId(item.orders_aid);
-    setData(item);
-    setDel(false);
-  };
+  
   const initVal = {
     start_date: getDateNow(),
     end_date: getDateNow(),
@@ -200,7 +194,7 @@ const MemberOrdersList = ({ setItemEdit, memberName, isLoading, menu }) => {
 
           {/* compution of total amount */}
           <MemberTotalAmountOrders
-            result={result}
+            result={readAll}
             isLoading={status === "loading"}
           />
 
@@ -257,7 +251,8 @@ const MemberOrdersList = ({ setItemEdit, memberName, isLoading, menu }) => {
                           <td> {counter++}.</td>
                           <td>
                             {/* if paid status */}
-                            {item.sales_is_paid === 1 ? (
+                            {loadingRemainingQty?"Loading...":
+                            item.sales_is_paid === 1 ? (
                               <StatusActive text="paid" />
                             ) : getRemaningQuantity(
                                 item,
@@ -316,10 +311,7 @@ const MemberOrdersList = ({ setItemEdit, memberName, isLoading, menu }) => {
                           {memberid === null && (
                             <td>
                               <div className="flex justify-end items-center gap-1">
-                                {item.sales_is_paid === 0 &&
-                                  getRemaningQuantity(
-                                    item,remainingQuantity
-                                  ) > 0 && (
+                                {item.sales_is_paid === 0&& (
                                     <>
                                       <button
                                         type="button"

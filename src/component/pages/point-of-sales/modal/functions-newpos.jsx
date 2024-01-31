@@ -289,3 +289,11 @@ export const getValueData = (values, item, remainingQuantity, dispatch) => {
     invalidAmount,
   };
 };
+
+
+
+export const getTotalQty = (item, remainingQuantity, values) => {
+  const qty=Number(getRemaningQuantity(item, remainingQuantity)+Number(item.orders_product_quantity))- Number(values.orders_product_quantity)
+  return qty;
+
+}

@@ -1,0 +1,32 @@
+ 
+*controllers   
+    - inventory/products/remaining-quantity.php
+    - point-of-sales/create.php
+    - account/details/my-order/read-order-by-member-id.php
+    -
+    
+*models  
+    - point-of-sales/PointOfSales.php
+    -   
+    - 
+    -   
+    -   
+
+*htaccess 
+    - 
+    - 
+    - 
+
+*db tables  
+    -  
+    - 
+    -   
+
+*core functions 
+    - 
+    -  
+
+*extra
+    -  
+    - 
+    - 

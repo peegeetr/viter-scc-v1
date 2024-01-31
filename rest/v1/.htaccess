@@ -160,6 +160,7 @@ RewriteRule ^member/upload/photo$ core/upload-photo.php [L]
 
 #my-order
 RewriteRule ^my-order/page/by-member-id/([0-9]+)/([0-9]+)$ controllers/account/details/my-order/page-by-member-id.php?start=$1&membersid=$2 [L]
+RewriteRule ^my-order/read-order-by-member-id$ controllers/account/details/my-order/read-order-by-member-id.php [L]
 RewriteRule ^my-order/active/([0-9]+)$ controllers/account/details/my-order/active.php?orderid=$1 [L]
 RewriteRule ^my-order/search/by-member-id/([A-Za-z0-9-]+)/([0-9]+)$ controllers/account/details/my-order/search-by-member-id.php?search=$1&membersid=$2 [L]
 RewriteRule ^my-order/filter/by-member-id/([0-9]+)$ controllers/account/details/my-order/filter-by-member-id.php?membersid=$1 [L]

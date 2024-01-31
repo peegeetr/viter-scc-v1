@@ -29,12 +29,14 @@ import ButtonSpinner from "../../../partials/spinners/ButtonSpinner";
 import {
   getDiscount,
   getOrderSrpPrice,
+  getTotalQty,
   getValueData,
   getWholeSale,
   showWholeSale,
 } from "./functions-newpos";
+import { getRemaningQuantity } from "../../Inventory/products/functions-product";
 
-const ModalEditSearchPOS = ({ item, arrKey }) => {
+const ModalEditSearchPOS = ({ item, arrKey,remainingQuantity }) => {
   const { store, dispatch } = React.useContext(StoreContext);
 
   const queryClient = useQueryClient();
@@ -62,19 +64,6 @@ const ModalEditSearchPOS = ({ item, arrKey }) => {
     dispatch(setIsAdd(false));
     dispatch(setIsModalSearch(false));
   };
-
-  // use if not loadmore button undertime
-  const { data: remainingQuantity } = useQueryData(
-    `/v1/product/remaining-quantity`, // endpoint
-    "get", // method
-    "remaining-quantity" // key
-  );
-  // use if not loadmore button undertime
-  const { data: readPriceMarkup } = useQueryData(
-    `/v1/pos/read-price-markup`, // endpoint
-    "get", // method
-    "readPriceMarkup" // key
-  );
 
   const initVal = {
     orders_member_id: item.orders_member_id,
@@ -155,11 +144,9 @@ const ModalEditSearchPOS = ({ item, arrKey }) => {
                     <p className="mb-0 font-light text-lg text-primary capitalize">
                       Product :{" "}
                       <span className="font-bold">
-                        {item.suppliers_products_name} ({pesoSign}
-                        {Number(getOrderSrpPrice(props.values, item)).toFixed(
+                        {item.suppliers_products_name} ({pesoSign}{Number(getOrderSrpPrice(props.values, item)).toFixed(
                           2
-                        )}
-                        )
+                        )}) ({getTotalQty(item, remainingQuantity,props.values)}qty)
                       </span>
                     </p>
                     <p className="mb-0 text-xl text-primary">

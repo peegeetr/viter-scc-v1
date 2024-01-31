@@ -69,7 +69,8 @@ const ProductsList = () => {
   const { data: remainingQuantity } = useQueryData(
     `/v1/product/remaining-quantity`, // endpoint
     "get", // method
-    "remaining-quantity" // key
+    "remaining-quantity", // key
+    {},isFetching
   );
  
   return (
@@ -171,11 +172,6 @@ const ProductsList = () => {
                         text={getRemaningQuantity(
                           item,remainingQuantity
                         )}
-                        // text={getRemaningQuantity(
-                        //   item,
-                        //   stocksGroupProd,
-                        //   orderGroupProd
-                        // )}
                       />
                     </td>
                     <td></td>

@@ -50,8 +50,7 @@ export const computeTotalAmount = (result) => {
   let totalAmount = 0;
   let finalPaidAmount = 0;
   let finalAmount = 0;
-  result?.pages.map((page) =>
-    page?.data.map((item) => {
+  result?.data.map((item) => {
       if (item.sales_is_paid === 1) {
         totalPaid += Number(item.orders_product_amount);
       }
@@ -67,7 +66,7 @@ export const computeTotalAmount = (result) => {
       finalPaidAmount = totalPaid - totalDiscount;
       finalAmount = totalAmount - totalDiscount;
     })
-  );
+  ;
 
   return {
     finalPaidAmount,

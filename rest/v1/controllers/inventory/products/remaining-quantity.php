@@ -51,6 +51,7 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
                     extract($orderRow);
 
                     for ($o = 0; $o < count($orderRow); $o++) {
+                        
                         $stockQuantity = $stockRow[$s]["stockQuantity"];
                         $stocks_product_id = $stockRow[$s]["stocks_product_id"];
                         $stockProductCount = $stockRow[$s]["count"];
@@ -75,6 +76,8 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
 
                 // if dont have any order
                 if ($orderProduct->rowCount() == 0) {
+                    
+        $orderQuantity = 0;
                     // get total quantity 
                     $totalQty = $stockQuantity - $orderQuantity;
                     $data[] =  array(
