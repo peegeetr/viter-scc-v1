@@ -216,9 +216,8 @@ input[type="text"]:not(:placeholder-shown) ~ label {
   }
 }
 @media print {
-
   body {
-    /* font-family: "Arial", sans-serif; */
+    font-family: "Courier New", serif;
     print-color-adjust: exact;
   }
 
