@@ -47,31 +47,54 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
 
                 // if have any order
                 if ($orderProduct->rowCount() > 0) {
-                    $orderRow = $orderProduct->fetchAll();
+
+                    $orderRow = $orderProduct->fetch(PDO::FETCH_ASSOC);
                     extract($orderRow);
 
-                    for ($o = 0; $o < count($orderRow); $o++) {
+                    $orderQuantity =  $orderQuantity;
+                    $orders_product_id =  $orders_product_id;
+                    $orderProductCount =  $count;
 
-                        $stockQuantity = $stockRow[$s]["stockQuantity"];
-                        $stocks_product_id = $stockRow[$s]["stocks_product_id"];
-                        $stockProductCount = $stockRow[$s]["count"];
-                        $orderQuantity = $orderRow[$o]["orderQuantity"];
-                        $orders_product_id = $orderRow[$o]["orders_product_id"];
-                        $orderProductCount = $orderRow[$o]["count"];
 
-                        // if stock and order have same product ID
-                        // get total quantity
-                        if ($stocks_product_id == $orders_product_id) {
-                            $totalQty = $stockQuantity - $orderQuantity;
-                            $data[] =  array(
-                                "orders_product_id" => $orders_product_id, "stocks_product_id" => $stocks_product_id,
-                                "orderQuantity" => $orderQuantity, "stockQuantity" => $stockQuantity, "totalQty" => $totalQty,
-                                "orderProductCount" => $orderProductCount, "stockProductCount" => $stockProductCount
-                            );
+                    $stockQuantity = $stockRow[$s]["stockQuantity"];
+                    $stocks_product_id = $stockRow[$s]["stocks_product_id"];
+                    $stockProductCount = $stockRow[$s]["count"];
 
-                            array_push($data);
-                        }
+                    // if stock and order have same product ID
+                    // get total quantity
+                    if ($stocks_product_id == $orders_product_id) {
+                        $totalQty = $stockQuantity - $orderQuantity;
+                        $data[] =  array(
+                            "orders_product_id" => $orders_product_id, "stocks_product_id" => $stocks_product_id,
+                            "orderQuantity" => $orderQuantity, "stockQuantity" => $stockQuantity, "totalQty" => $totalQty,
+                            "orderProductCount" => $orderProductCount, "stockProductCount" => $stockProductCount
+                        );
+
+                        array_push($data);
                     }
+                    // }
+                    // for ($o = 0; $o < count($orderRow); $o++) {
+
+                    //     $stockQuantity = $stockRow[$s]["stockQuantity"];
+                    //     $stocks_product_id = $stockRow[$s]["stocks_product_id"];
+                    //     $stockProductCount = $stockRow[$s]["count"];
+                    //     $orderQuantity = $orderRow[$o]["orderQuantity"];
+                    //     $orders_product_id = $orderRow[$o]["orders_product_id"];
+                    //     $orderProductCount = $orderRow[$o]["count"];
+
+                    //     // if stock and order have same product ID
+                    //     // get total quantity
+                    //     if ($stocks_product_id == $orders_product_id) {
+                    //         $totalQty = $stockQuantity - $orderQuantity;
+                    //         $data[] =  array(
+                    //             "orders_product_id" => $orders_product_id, "stocks_product_id" => $stocks_product_id,
+                    //             "orderQuantity" => $orderQuantity, "stockQuantity" => $stockQuantity, "totalQty" => $totalQty,
+                    //             "orderProductCount" => $orderProductCount, "stockProductCount" => $stockProductCount
+                    //         );
+
+                    //         array_push($data);
+                    //     }
+                    // }
                 }
 
                 // if dont have any order

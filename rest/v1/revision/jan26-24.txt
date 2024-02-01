@@ -9,7 +9,7 @@
     - point-of-sales/create.php
     - point-of-sales/functions.php
     - point-of-sales/search-product.php
-    - 
+    - rest/v1/controllers/inventory/products/remaining-quantity.php
     - 
     -
     -

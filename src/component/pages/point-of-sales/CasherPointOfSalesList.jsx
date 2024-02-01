@@ -176,11 +176,14 @@ const CasherPointOfSalesList = () => {
   });
 
   // use if not loadmore button undertime
-  const { data: remainingQuantity } = useQueryData(
-    `/v1/product/remaining-quantity`, // endpoint
-    "get", // method
-    "remaining-quantity" // key
-  );
+  const { isLoading: remainingQtyLoading, data: remainingQuantity } =
+    useQueryData(
+      `/v1/product/remaining-quantity`, // endpoint
+      "get", // method
+      "remaining-quantity", // key
+      {},
+      isFetching
+    );
 
   GetFocus("searchProduct");
 
@@ -201,7 +204,7 @@ const CasherPointOfSalesList = () => {
                 const orders_member_id = memberId;
 
                 const newValSearch =
-                  productBarcode !== "" ?productBarcode: values.search;
+                  productBarcode !== "" ? productBarcode : values.search;
 
                 mutation.mutate({
                   ...values,
@@ -232,6 +235,7 @@ const CasherPointOfSalesList = () => {
                           loading={loadingProduct}
                           data={dataClient}
                           setProductBarcode={setProductBarcode}
+                          remainingQtyLoading={remainingQtyLoading}
                         />
 
                         <button

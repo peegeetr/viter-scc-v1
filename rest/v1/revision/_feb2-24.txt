@@ -1,0 +1,31 @@
+ 
+*controllers    
+    - inventory/products/remaining-quantity.php
+    - 
+    -
+    -
+    
+*models  
+    - 
+    -   
+    - 
+    -   
+    -   
+
+*htaccess 
+    - 
+    - 
+    - 
+
+*db tables  
+    -  
+    - 
+    -   
+
+*core functions 
+    - 
+    -  
+
+*extra
+    -  
+    -  

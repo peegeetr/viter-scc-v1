@@ -64,15 +64,17 @@ const ProductsList = () => {
       fetchNextPage();
     }
   }, [inView]);
- 
+
   // use if not loadmore button undertime
-  const { data: remainingQuantity } = useQueryData(
-    `/v1/product/remaining-quantity`, // endpoint
-    "get", // method
-    "remaining-quantity", // key
-    {},isFetching
-  );
- 
+  const { isLoading: remainingQtyLoading, data: remainingQuantity } =
+    useQueryData(
+      `/v1/product/remaining-quantity`, // endpoint
+      "get", // method
+      "remaining-quantity" // key
+    );
+
+  console.log("remainingQtyLoading", remainingQtyLoading);
+
   return (
     <>
       <SearchBar
@@ -169,9 +171,11 @@ const ProductsList = () => {
 
                     <td className="text-center print:hidden ">
                       <StatusQuantity
-                        text={getRemaningQuantity(
-                          item,remainingQuantity
-                        )}
+                        text={
+                          !remainingQtyLoading
+                            ? getRemaningQuantity(item, remainingQuantity)
+                            : "loading"
+                        }
                       />
                     </td>
                     <td></td>

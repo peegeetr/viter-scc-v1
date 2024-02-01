@@ -21,6 +21,7 @@ const SearchAddProduct = ({
   loading,
   data,
   setProductBarcode,
+  remainingQtyLoading,
 }) => {
   const { dispatch } = React.useContext(StoreContext);
   const handleSearch = async (
@@ -92,7 +93,7 @@ const SearchAddProduct = ({
         )} qty)`
       );
       setIsSearch(false);
-      setProductBarcode(item.stocks_barcode_id); 
+      setProductBarcode(item.stocks_barcode_id);
     }
   };
 
@@ -150,10 +151,11 @@ const SearchAddProduct = ({
                       )
                     }
                   >
-                    {`${item.suppliers_products_name} - (${getRemaningQuantity(
-                      item,
-                      remainingQuantity
-                    )} qty)`}
+                    {`${item.suppliers_products_name} - (${
+                      remainingQtyLoading
+                        ? "Loading..."
+                        : getRemaningQuantity(item, remainingQuantity)
+                    } qty)`}
                   </button>
                 </li>
               );
@@ -164,7 +166,7 @@ const SearchAddProduct = ({
             </li>
           )}
         </ul>
-      )} 
+      )}
     </>
   );
 };
