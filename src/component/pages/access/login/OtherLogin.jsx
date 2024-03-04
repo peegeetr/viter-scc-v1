@@ -29,7 +29,7 @@ const OtherLogin = () => {
 
   // use if not loadmore button undertime
   const { isLoading, data: isOnSystemMode } = useQueryData(
-    `/v1/system-maintenance/maintenance`, // endpoint
+    -`/v1/system-maintenance/maintenance`, // endpoint
     "get", // method
     "isOnSystemMode" // key
   );

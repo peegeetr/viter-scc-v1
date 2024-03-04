@@ -62,13 +62,15 @@ const ModalAddMyOrder = ({ item, arrKey }) => {
   const handleClose = () => {
     dispatch(setIsAdd(false));
   };
- 
+
   // use if not loadmore button undertime
   const { data: remainingQuantity } = useQueryData(
     `/v1/product/remaining-quantity`, // endpoint
     "get", // method
     "remaining-quantity" // key
   );
+
+  console.log("remainingQuantity", remainingQuantity);
   // use if not loadmore button undertime
   const { data: ProductList, isLoading } = useQueryData(
     `/v1/product/search/product`, // filter endpoint
@@ -123,7 +125,8 @@ const ModalAddMyOrder = ({ item, arrKey }) => {
                   values,
                   item,
                   items,
-                  dispatch,remainingQuantity
+                  dispatch,
+                  remainingQuantity
                 );
                 // new list
                 const list = validation.list;
@@ -153,7 +156,7 @@ const ModalAddMyOrder = ({ item, arrKey }) => {
                     {!item && (
                       <div className="relative mb-5">
                         <SearchToAddProduct
-                          remainingQuantity={remainingQuantity} 
+                          remainingQuantity={remainingQuantity}
                           setSearch={setSearch}
                           onSearch={onSearch}
                           isLoading={isLoading}
@@ -169,9 +172,7 @@ const ModalAddMyOrder = ({ item, arrKey }) => {
                       <span className="font-bold break-words">
                         {item ? (
                           <>
-                            {` ${getProductDetails(
-                              item,remainingQuantity
-                            )} `}
+                            {` ${getProductDetails(item, remainingQuantity)} `}
                             {pesoSign}
                             {` ${numberWithCommas(
                               Number(totalPrice).toFixed(2)
@@ -181,9 +182,7 @@ const ModalAddMyOrder = ({ item, arrKey }) => {
                           "--"
                         ) : (
                           <>
-                            {` ${getProductDetails(
-                              items,remainingQuantity
-                            )} `}
+                            {` ${getProductDetails(items, remainingQuantity)} `}
                             {pesoSign}
                             {` ${numberWithCommas(
                               Number(totalPrice).toFixed(2)

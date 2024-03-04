@@ -1,7 +1,7 @@
  
 *controllers    
     - inventory/products/remaining-quantity.php
-    - 
+    - inventory/stocks/create.php
     -
     -
     
