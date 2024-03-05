@@ -57,6 +57,8 @@ $stocks->stocks_barcode_id = checkIndex($data, "stocks_barcode_id");
 if ($stocks->stocks_barcode_id != "") {
     $stocks->stocks_barcode_id = $data["stocks_barcode_id"] . $stocks->stocks_product_id;
 }
+
+
 // isBarcodeExistDifferentProduct($stocks, $stocks->stocks_barcode_id);
 isBarcodeExist($stocks);
 // create
