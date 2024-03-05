@@ -28,4 +28,5 @@
 
 *extra
     -  
-    -  
+    - Uploaded inventory/products/remaining-quantity.php only.
+    - Not sure for inventory/stocks/create.php because date update not change.
